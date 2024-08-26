@@ -34,7 +34,7 @@ const BerandaPage = () => {
           <CardBerita />
         </div>
         <div className="flex justify-center mt-10">
-          <Link href="" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-xl">
+          <Link href="/berita" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-xl">
             Lihat semua berita
             <ShareBerita />
           </Link>
@@ -59,7 +59,7 @@ const BerandaPage = () => {
           <CardGaleri />
         </div>
         <div className="flex justify-center mt-10">
-          <Link href="" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-xl">
+          <Link href="/galeri" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-xl">
             Lihat selengkapnya
             <ShareBerita />
           </Link>

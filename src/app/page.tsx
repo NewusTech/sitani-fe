@@ -1,9 +1,12 @@
-import { Button } from "@/components/ui/button"
+import LayoutLanding from "@/components/landing-page/LayoutLanding"
+import BerandaPage from "./(landing-page)/beranda/page"
 
 export default function Home() {
   return (
     <div>
-      <Button variant="outline">Click me</Button>
+      <LayoutLanding>
+        <BerandaPage />
+      </LayoutLanding>
     </div>
   )
 }
