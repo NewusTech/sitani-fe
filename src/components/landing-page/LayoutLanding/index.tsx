@@ -41,7 +41,7 @@ const LayoutLanding = (props: LayoutLandingProps) => {
                         </div>
                     </div>
                     <div className="menu flex items-center gap-5">
-                        <Menu link="/beranda">Beranda</Menu>
+                        <Menu link={"/"}>Beranda</Menu>
                         <Menu link="/berita">Berita</Menu>
                         <Menu link="/galeri">Galeri</Menu>
                         <Menu link="#">Data</Menu>
