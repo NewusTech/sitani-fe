@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface LayoutProps {
     children: React.ReactNode
@@ -27,9 +27,30 @@ const Menu = (props: MenuProps) => {
 }
 
 const Layout = (props: LayoutProps) => {
+    const pathname = usePathname();
+    const [scrolled, setScrolled] = useState<boolean>(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50); 
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const colorMap: Record<string, string> = {
+        '/beranda': 'bg-primary-600',
+        '/berita': 'bg-white',
+        '/galeri': 'bg-white',
+        '/login': 'bg-primary-900',
+    };
+
+    const navBgColor = scrolled ? 'bg-primary-600' : (colorMap[pathname] || 'bg-primary-600');
     return (
         <div>
-            <nav className='bg-primary-600 py-5 fixed top-0 w-full z-50'>
+            <nav className={`py-5 fixed top-0 w-full z-50 ${navBgColor} transition-colors duration-300`}>
                 <div className="wrap flex justify-between items-center container mx-auto">
                     <div className="left flex items-center gap-2">
                         <div className="logo">
