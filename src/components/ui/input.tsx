@@ -1,5 +1,9 @@
+"use client"
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import EyeClose from "../../../public/icons/EyeClose";
+import EyeOpen from "../../../public/icons/EyeOpen";
 
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -20,7 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type === "password" && showPassword ? "text" : type}
           className={cn(
-            "flex h-10 w-full rounded-full border border-slate-200 bg-white px-4 py-6 text-md ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-none focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50",
+            "flex h-10 w-full rounded-full border border-primary bg-white px-4 py-6 text-md ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-none focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50",
             leftIcon ? "pl-11" : "", // Tambahkan padding kiri jika ada ikon
             type === "password" ? "pr-10" : "", // Tambahkan padding kanan jika tipe password
             className
@@ -33,7 +37,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className="absolute right-3 cursor-pointer"
             onClick={toggleShowPassword}
           >
-            {showPassword ? "close" : "open"}
+            {showPassword ? <EyeClose /> : <EyeOpen />}
           </span>
         )}
       </div>
