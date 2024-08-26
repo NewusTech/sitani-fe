@@ -42,8 +42,8 @@ const Layout = (props: LayoutProps) => {
                     </div>
                     <div className="menu flex items-center gap-5">
                         <Menu link="/beranda">Beranda</Menu>
-                        <Menu link="/galeri">Galeri</Menu>
                         <Menu link="/berita">Berita</Menu>
+                        <Menu link="/galeri">Galeri</Menu>
                         <Menu link="#">Data</Menu>
                         <Link href="/login" className='text-xl p-2 px-10 rounded-full bg-primary text-white'> Login</Link>
                     </div>
