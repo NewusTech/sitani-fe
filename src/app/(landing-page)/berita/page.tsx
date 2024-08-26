@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import Link from 'next/link';
 import React from 'react'
+import SearchIcon from '../../../../public/icons/SearchIcon';
 
 const BeritaPage = () => {
     return (
@@ -16,7 +17,11 @@ const BeritaPage = () => {
                             <div className="div">Berita terkait Dinas Ketahanan Pangan, Tanamaan Pangan dan Holtikultura</div>
                         </div>
                         <div className="searc">
-                            <Input placeholder="Cari" className='w-[370px] border border-primary' />
+                            <Input
+                                placeholder="Cari"
+                                className='w-[370px] border border-primary'
+                                rightIcon={<SearchIcon />}
+                            />
                         </div>
                     </div>
                     {/* card */}

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import React from 'react'
 import ShareBerita from '../../../../public/icons/ShareBerita'
 import CardGaleri from '@/components/landing-page/card-galeri'
+import SearchIcon from '../../../../public/icons/SearchIcon'
 
 const BerandaPage = () => {
   return (
@@ -23,7 +24,11 @@ const BerandaPage = () => {
           <div className="text-primary font-semibold text-3xl flex-shrink-0">Berita Terkini</div>
           <div className="garis h-[3px] w-full bg-secondary"></div>
           <div className="searc">
-            <Input placeholder="Cari Berita" className='w-[300px] border border-primary' />
+            <Input
+              placeholder="Cari Berita"
+              className='w-[300px] border border-primary'
+              rightIcon={<SearchIcon />}
+            />
           </div>
         </div>
         {/* card */}
