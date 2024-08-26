@@ -6,7 +6,6 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "SITANI | Lampung Timur",
   description: "Sistem Informasi Data Pertanian Lampung Timur",
-  
 };
 
 export default function RootLayout({
@@ -16,6 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/assets/images/logo.png" />
+      </head>
       <body>{children}</body>
     </html>
   );
