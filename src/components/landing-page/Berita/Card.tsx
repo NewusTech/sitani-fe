@@ -15,21 +15,21 @@ const CardBerita = (props: CardBeritaPageProps) => {
     return (
         <>
             <Link href={props.link || "berita/detail-berita"} className="rounded-xl bg-primary-600 p-4 flex gap-4">
-                <div className="flex items-center justify-center rounded overflow-hidden">
+                <div className="flex items-center justify-center rounded overflow-hidden w-full h-full lg:w-1/2 lg:h-full">
                     <Image
                         src={props.image || "/assets/images/cardBeritaPage.png"}
                         alt="logo"
                         width={300}
                         height={300}
                         unoptimized
-                        className="object-cover"
+                        className='object-cover'
                     />
                 </div>
-                <div className="flex flex-col gap-4 w-full">
-                    <div className="mt-4 text-[#2C2C2C] text-[12px]">
+                <div className="flex flex-col gap-1 lg:gap-4 w-full">
+                    <div className="mt-0 lg:mt-4 text-[#2C2C2C] text-[12px]">
                         {props.date || "January 13, 2024"}
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex lg:gap-2">
                         <div className="text-[#2C2C2C] text-[20px] font-semibold">
                             {props.title || "Lorem Ipsum Dolor Amet Amit Amon Amin"}
                         </div>
