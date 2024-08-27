@@ -34,7 +34,7 @@ const dummyBerita = [
 const BeritaTerkini = () => {
   return (
     <div className="berita container mx-auto md:py-[60px] py-[40px]">
-      <div className="header items-center flex flex-col gap-5">
+      <div className="header items-center flex flex-col md:flex-row gap-5">
         <div className="text-primary font-semibold text-2xl md:text-3xl flex-shrink-0">Berita Terkini</div>
         <div className="garis h-[3px] w-full bg-secondary"></div>
         <div className="search w-full">

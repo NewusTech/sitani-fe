@@ -16,7 +16,7 @@ interface MenuProps {
 
 const MenuItem = ({ link, icon, name }: MenuProps) => {
   const pathname = usePathname();
-  const isActive = pathname === link;
+  const isActive = (pathname === link);
 
   return (
     <Link href={link}>
@@ -37,7 +37,7 @@ const NavMobile = () => {
           <MenuItem link="/beranda" icon={<BerandaIcon />} name="Beranda" />
           <MenuItem link="/berita" icon={<BeritaIcon />} name="Berita" />
           <MenuItem link="/galeri" icon={<GaleriIcon />} name="Galeri" />
-          <MenuItem link="/lainnya" icon={<MoreIcon />} name="Lainnya" />
+          <MenuItem link="#" icon={<MoreIcon />} name="Lainnya" />
         </div>
     </div>
   );
