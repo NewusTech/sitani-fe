@@ -15,6 +15,8 @@ const buttonVariants = cva(
           "bg-danger text-slate-50 hover:bg-danger/90",
         outline:
           "border border-[#656565] bg-white hover:bg-slate-100 hover:text-slate-900",
+        outlinePrimary:
+          "border border-primary bg-white hover:bg-slate-100 hover:text-slate-900",
         secondary:
           "bg-secondary text-white hover:bg-secondary/90",
         ghost: "hover:bg-slate-100 hover:text-slate-900 ",

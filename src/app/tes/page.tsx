@@ -1,13 +1,13 @@
-import { Input } from "@/components/ui/input";
-import SearchIcon from "../../../public/icons/SearchIcon";
-import NavMobile from "@/components/landing-page/NavMobile";
+import React from 'react'
 
-const HomePage: React.FC = () => {
+interface LayoutProps {
+  name: string;
+}
+
+const Layout = (props: LayoutProps) => {
   return (
-    <div className="h-screen w-full bg-red-500">
-      <NavMobile />
-    </div>
-  );
-};
+    <div>{props.name}</div>
+  )
+}
 
-export default HomePage;
+export default Layout
