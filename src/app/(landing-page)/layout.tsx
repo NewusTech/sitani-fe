@@ -1,6 +1,8 @@
 'use client'
 
 import NavMobile from '@/components/landing-page/NavMobile';
+import { NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuTrigger, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
+import { NavigationMenu, NavigationMenuList } from '@radix-ui/react-navigation-menu';
 import Image from 'next/image'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -77,7 +79,28 @@ const Layout = (props: LayoutProps) => {
                         <Menu link="/beranda">Beranda</Menu>
                         <Menu link="/berita">Berita</Menu>
                         <Menu link="/galeri">Galeri</Menu>
-                        <Menu link="#">Data</Menu>
+                        {/* <Menu link="#">Data</Menu> */}
+                        <Menu link="#">
+                            <NavigationMenu>
+                                <NavigationMenuList>
+                                    <NavigationMenuItem>
+                                        <NavigationMenuTrigger>Data</NavigationMenuTrigger>
+                                        <NavigationMenuContent className='mt-10'>
+                                            <Link href="/docs" legacyBehavior passHref>
+                                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                                    Link1
+                                                </NavigationMenuLink>
+                                            </Link>
+                                            <Link href="/docs" legacyBehavior passHref>
+                                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                                    Link2
+                                                </NavigationMenuLink>
+                                            </Link>
+                                        </NavigationMenuContent>
+                                    </NavigationMenuItem>
+                                </NavigationMenuList>
+                            </NavigationMenu>
+                        </Menu>
                         <Link href="/login" className='text-xl p-2 px-10 rounded-full bg-primary text-white'> Login</Link>
                     </div>
                 </div>

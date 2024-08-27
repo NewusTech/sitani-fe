@@ -41,7 +41,7 @@ const BeritaLayout = () => {
         <div>
             <div className='w-full min-h-screen mt-0 lg:mt-28'>
                 {/* berita terkini */}
-                <div className="berita container mx-auto py-7 md:py-[30px] lg:py-[60px] ">
+                <div className="berita container py-7 md:py-[30px] lg:py-[60px] ">
                     <div className="header items-center lg:flex gap-5 justify-between">
                         <div className="div">
                             <div className="text-primary font-semibold text-3xl flex-shrink-0">Berita</div>
@@ -69,8 +69,8 @@ const BeritaLayout = () => {
                         ))}
                     </div>
                     {/* pagination */}
-                    <div className="pagination flex justify-end lg:mt-0 mb-20 lg:mb-0">
-                        <Pagination className='justify-end'>
+                    <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
+                        <Pagination className='md:justify-end'>
                             <PaginationContent>
                                 <PaginationItem>
                                     <PaginationPrevious href="#" />
