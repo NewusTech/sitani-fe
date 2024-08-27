@@ -38,7 +38,7 @@ const dummyGaleri = [
 
 const GaleriLanding = () => {
     return (
-        <div className='md:pt-[130px] pt-[30px] container mx-auto px-3 md:px-0'>
+        <div className='md:pt-[130px] pt-[30px] container mx-auto md:px-0'>
             <div className="galeri md:py-[60px]">
                 {/* header */}
                 <div className="header items-center flex gap-8 ">
