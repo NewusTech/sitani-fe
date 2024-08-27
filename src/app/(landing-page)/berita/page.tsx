@@ -5,6 +5,33 @@ import Link from 'next/link';
 import React from 'react'
 import SearchIcon from '../../../../public/icons/SearchIcon';
 
+const dummyBerita = [
+    {
+        image: '/assets/images/cardBeritaPage.png',
+        date: 'January 13, 2024',
+        title: 'Lorem Ipsum Dolor Amet Amit Amon Amin',
+        desc: 'Lörem ipsum astrobel sar direlig. Kronde est konfoni med kelig. Terabel pov astrobel ?',
+    },
+    {
+        image: '/assets/images/cardBeritaPage.png',
+        date: 'January 13, 2024',
+        title: 'Lorem Ipsum Dolor Amet Amit Amon Amin',
+        desc: 'Lörem ipsum astrobel sar direlig. Kronde est konfoni med kelig. Terabel pov astrobel ?',
+    },
+    {
+        image: '/assets/images/cardBeritaPage.png',
+        date: 'January 13, 2024',
+        title: 'Lorem Ipsum Dolor Amet Amit Amon Amin',
+        desc: 'Lörem ipsum astrobel sar direlig. Kronde est konfoni med kelig. Terabel pov astrobel ?',
+    },
+    {
+        image: '/assets/images/cardBeritaPage.png',
+        date: 'January 13, 2024',
+        title: 'Lorem Ipsum Dolor Amet Amit Amon Amin',
+        desc: 'Lörem ipsum astrobel sar direlig. Kronde est konfoni med kelig. Terabel pov astrobel ?',
+    },
+]
+
 const BeritaPage = () => {
     return (
         <div>
@@ -26,12 +53,15 @@ const BeritaPage = () => {
                     </div>
                     {/* card */}
                     <div className="berita mt-[60px] grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <CardBeritaPage />
-                        <CardBeritaPage />
-                        <CardBeritaPage />
-                        <CardBeritaPage />
-                        <CardBeritaPage />
-                        <CardBeritaPage />
+                        {dummyBerita.map((berita, index) => (
+                            <CardBeritaPage
+                                key={index}
+                                title={berita.title}
+                                desc={berita.desc}
+                                date={berita.date}
+                                image={berita.image}
+                            />
+                        ))}
                     </div>
                     <Link href="" className="selengkapnya">
                     </Link>
