@@ -16,7 +16,7 @@ interface MenuProps {
 
 const MenuItem = ({ link, icon, name }: MenuProps) => {
   const pathname = usePathname();
-  const isActive = (pathname === link);
+  const isActive = (pathname === link) || (link === '/beranda' && pathname === '/');
 
   return (
     <Link href={link}>
