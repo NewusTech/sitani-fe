@@ -1,17 +1,19 @@
 import Image from 'next/image'
 import React from 'react'
 import ArrowBeritaPage from '../../../../../public/icons/ArrowBeritaPage'
+import Link from 'next/link'
 
 interface CardProps {
     image?: string
     date?: string
     title?: string
     desc?: string
+    link?: string
 }
 
 const CardBerita = (props: CardProps) => {
     return (
-        <div className="card rounded-xl bg-primary-600 p-4 pb-8">
+        <Link href={props.link || "/berita/detail-berita"} className="card rounded-xl bg-primary-600 p-4 pb-8">
             <div className="image rounded overflow-hidden h-[240px] w-full">
                 <Image src={props.image || "../../assets/images/cardberita.png"} alt="logo" width={300} height={300} unoptimized className='w-full h-full object-cover' />
             </div>
@@ -31,7 +33,7 @@ const CardBerita = (props: CardProps) => {
                     {props.desc || "Deskripsi"}
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
 

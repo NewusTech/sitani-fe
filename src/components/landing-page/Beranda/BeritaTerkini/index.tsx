@@ -10,19 +10,24 @@ const dummyBerita = [
     title: 'Lorem Ipsum Dolor Amet Amit Amon Amin',
     date : 'January 13, 2024',
     desc: 'Lörem ipsum astrobel sar direlig. Kronde est konfoni med kelig. Terabel pov astrobel ?',
-    image: '/assets/images/cardberita.png'
+    image: '/assets/images/cardberita.png',
+    link: '/berita/detail-berita'
   },
   {
     title: 'Lorem Ipsum Dolor Amet Amit Amon Amin',
     date : 'January 13, 2024',
     desc: 'Lörem ipsum astrobel sar direlig. Kronde est konfoni med kelig. Terabel pov astrobel ?',
-    image: '/assets/images/cardberita.png'
+    image: '/assets/images/cardberita.png',
+    link: '/berita/detail-berita'
+
   },
   {
     title: 'Lorem Ipsum Dolor Amet Amit Amon Amin',
     date : 'January 13, 2024',
     desc: 'Lörem ipsum astrobel sar direlig. Kronde est konfoni med kelig. Terabel pov astrobel ?',
-    image: '/assets/images/cardberita.png'
+    image: '/assets/images/cardberita.png',
+    link: '/berita/detail-berita'
+
   }
 ]
 
@@ -48,6 +53,7 @@ const BeritaTerkini = () => {
             title={berita.title}
             desc={berita.desc}
             date={berita.date}
+            link={berita.link}
             image={berita.image}
           />
         ))}
