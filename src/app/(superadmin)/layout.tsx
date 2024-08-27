@@ -69,28 +69,11 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                         <div className="head text-base ">Super Admin</div>
                     </div>
                 </div>
-                <div className="wrap-nav flex bg-red flex-col gap-2 h-[73%] justify-between">
+                <div className="wrap-nav flex bg-red flex-col gap-2 h-[73%]">
                     <div className="wrap flex flex-col gap-1">
                         {/* dash */}
                         <Menu icons="icon" link="/admin/cms/beranda">Beranda</Menu>
                         {/* produk */}
-                        <div className={`nav flex flex-col items-end gap-1 `}>
-                            <button onClick={handleProduk} className="button flex justify-between items-center rounded-[8px] py-[10px] px-[10px]  w-full">
-                                <div className="wrap flex gap-4">
-                                    <div className="icon">
-                                        Icon
-                                    </div>
-                                    <div className={`nama text-[18px]`}>Produk</div>
-                                </div>
-                                arroww
-                            </button>
-                            {/*  */}
-                            <div className={`sub flex flex-col transition-all duration-200 gap-1 ${produk ? "block" : "hidden"}`}>
-                                <Menu icons="icon" link="/admin/cms/kategori">Kategori</Menu>
-                                {/*  */}
-                                <Menu icons="icon" link="/admin/cms/unit">Unit</Menu>
-                            </div>
-                        </div>
                         {/* transaksi */}
                         <Menu icons="icon" link="/admin/cms/transaksi">Transaksi</Menu>
                         {/* Laporan */}
@@ -99,13 +82,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                         <Menu icons="icon" link="/admin/cms/kelola-kasir">Kelola Kasir</Menu>
                         {/* pelaporan */}
                     </div>
-                    <div className="wrap flex flex-col gap-1">
-                        <Menu icons="icon" link="/admin/cms/pelaporan">Pelaporan</Menu>
-                        {/* Pengaturan */}
-                        <Menu icons="icon" link="/admin/cms/pengaturan">Pengaturan</Menu>
-                        {/* Keluar */}
-                        <Menu icons="icon" link="/admin/login">Keluar</Menu>
-                    </div>
+                    
                 </div>
             </div>
             {/* KONTEN */}
