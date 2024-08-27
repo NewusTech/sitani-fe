@@ -26,20 +26,20 @@ const dummyGaleri = [
 
 const GaleriLanding = () => {
   return (
-    <div className="berita container mx-auto py-[40px] pb-[100px]">
-        <div className="header items-center flex gap-8">
+    <div className="berita container mx-auto py-[40px] md:pb-[100px] pb-[130px]">
+        <div className="header items-center flex gap-5 md:gap-8">
           <div className="garis h-[3px] w-full bg-secondary"></div>
           <div className="text-primary font-semibold text-3xl flex-shrink-0">Galeri</div>
           <div className="garis h-[3px] w-full bg-secondary"></div>
         </div>
         {/* card */}
-        <div className="berita mt-[60px] grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="berita md:mt-[60px] mt-[30px] grid grid-cols-1 md:grid-cols-3 gap-4">
             {dummyGaleri.map((berita, index) => (
               <CardGaleri key={index} image={berita.image} />
             ))}
         </div>
-        <div className="flex justify-center mt-10">
-          <Link href="/galeri" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-xl">
+        <div className="flex justify-center  mt-5 md:mt-10">
+          <Link href="/galeri" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-lg md:text-xl">
             Lihat selengkapnya
             <ShareBeritaIcon />
           </Link>

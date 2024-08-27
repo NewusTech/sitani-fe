@@ -38,20 +38,20 @@ const dummyArtikel =
 
 const DetailBeritaPage = () => {
   return (
-    <div className="detail pt-[160px] pb-[30px] container mx-auto px-0">
+    <div className="detail md:pt-[160px] pt-[20px] pb-[30px] container mx-auto px-3 md:px-0">
       {/* artikel */}
       <Artikel title={dummyArtikel.title} desc={dummyArtikel.desc} image={dummyArtikel.image} date={dummyArtikel.date}/>
       {/* artikel */}
 
       {/* header */}
-      <div className="header items-center flex gap-8 mb-[30px] mt-[50px]">
-        <div className="text-primary font-semibold text-3xl flex-shrink-0">Berita Lainnya</div>
+      <div className="header items-center flex flex-col gap-3 md:gap-8 mb-[30px] mt-[50px]">
+        <div className="text-primary font-semibold text-2xl md:text-3xl flex-shrink-0">Berita Lainnya</div>
         <div className="garis h-[3px] w-full bg-secondary"></div>
       </div>
       {/* header */}
 
       {/* card */}
-      <div className="berita grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+      <div className="berita grid grid-cols-1 md:grid-cols-3 gap-4 mb-[90px] md:mb-5">
         {dummyBerita.map((berita, index) => (
           <CardBerita 
             key={index}

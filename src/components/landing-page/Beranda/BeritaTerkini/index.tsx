@@ -33,20 +33,20 @@ const dummyBerita = [
 
 const BeritaTerkini = () => {
   return (
-    <div className="berita container mx-auto py-[60px]">
-      <div className="header items-center flex gap-5">
-        <div className="text-primary font-semibold text-3xl flex-shrink-0">Berita Terkini</div>
+    <div className="berita container mx-auto md:py-[60px] py-[40px]">
+      <div className="header items-center flex flex-col gap-5">
+        <div className="text-primary font-semibold text-2xl md:text-3xl flex-shrink-0">Berita Terkini</div>
         <div className="garis h-[3px] w-full bg-secondary"></div>
-        <div className="searc">
+        <div className="search w-full">
           <Input
             placeholder="Cari Berita"
-            className='w-[300px] border border-primary'
+            className='w-full md:min-w-[300px] border border-primary'
             rightIcon={<SearchIcon />}
           />
         </div>
       </div>
       {/* card */}
-      <div className="berita mt-[50px] grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="berita mt-[25px] md:mt-[50px] grid grid-cols-1 md:grid-cols-3 gap-4">
         {dummyBerita.map((berita, index) => (
           <CardBerita 
             key={index}
@@ -58,8 +58,8 @@ const BeritaTerkini = () => {
           />
         ))}
       </div>
-      <div className="flex justify-center mt-10">
-        <Link href="/berita" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-xl">
+      <div className="flex justify-center mt-5 md:mt-10">
+        <Link href="/berita" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-lg md:text-xl">
           Lihat semua berita
           <ShareBeritaIcon />
         </Link>

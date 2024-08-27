@@ -48,7 +48,7 @@ const Layout = (props: LayoutProps) => {
         '/login': 'bg-primary-900',
     };
 
-    const navBgColor = scrolled ? 'bg-primary-600' : (colorMap[pathname] || 'bg-primary-600');
+    const navBgColor = scrolled ? 'bg-primary-600/60' : (colorMap[pathname] || 'bg-primary-600');
     return (
         <div>
             <div className="nav mobile md:hidden bg-primary-600">

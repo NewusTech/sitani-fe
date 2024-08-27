@@ -38,8 +38,8 @@ const dummyGaleri = [
 
 const GaleriLanding = () => {
     return (
-        <div className='pt-[130px] container mx-auto px-0'>
-            <div className="galeri py-[60px]">
+        <div className='md:pt-[130px] pt-[30px] container mx-auto px-3 md:px-0'>
+            <div className="galeri md:py-[60px]">
                 {/* header */}
                 <div className="header items-center flex gap-8 ">
                     <div className="text-primary font-semibold text-3xl flex-shrink-0">Galeri</div>
@@ -47,7 +47,7 @@ const GaleriLanding = () => {
                 </div>
                 {/* header */}
                 {/* Card */}
-                <div className="wrap-card grid grid-cols-1 md:grid-cols-3 gap-4 py-[30px]">
+                <div className="wrap-card grid grid-cols-1 md:grid-cols-3 gap-4 md:py-[30px] py-[20px]">
                     {dummyGaleri.map((galeri, index) => (
                         <CardGaleriPage key={index} image={galeri.image} deskripsi={galeri.deskripsi} />
                     ))}
@@ -55,8 +55,8 @@ const GaleriLanding = () => {
                 {/* Card */}
 
                 {/* pagination */}
-                <div className="pagination flex justify-end">
-                    <Pagination className='justify-end'>
+                <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
+                    <Pagination className='md:justify-end'>
                         <PaginationContent>
                             <PaginationItem>
                                 <PaginationPrevious href="#" />
