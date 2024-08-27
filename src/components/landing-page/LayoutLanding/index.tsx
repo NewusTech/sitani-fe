@@ -5,6 +5,19 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuIndicator,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+    navigationMenuTriggerStyle,
+    NavigationMenuViewport,
+} from "@/components/ui/navigation-menu"
+
+
 interface LayoutLandingProps {
     children: React.ReactNode
 }
@@ -44,7 +57,28 @@ const LayoutLanding = (props: LayoutLandingProps) => {
                         <Menu link={"/"}>Beranda</Menu>
                         <Menu link="/berita">Berita</Menu>
                         <Menu link="/galeri">Galeri</Menu>
-                        <Menu link="#">Data</Menu>
+                        <Menu link="#">
+                            <NavigationMenu>
+                                <NavigationMenuList>
+                                    <NavigationMenuItem>
+                                        <NavigationMenuTrigger>Data</NavigationMenuTrigger>
+                                        <NavigationMenuContent>
+                                            <Link href="/docs" legacyBehavior passHref>
+                                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                                    Link1
+                                                </NavigationMenuLink>
+                                            </Link>
+                                            <Link href="/docs" legacyBehavior passHref>
+                                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                                    Link2
+                                                </NavigationMenuLink>
+                                            </Link>
+                                        </NavigationMenuContent>
+                                    </NavigationMenuItem>
+                                </NavigationMenuList>
+                            </NavigationMenu>
+                        </Menu>
+
                         <Link href="/login" className='text-xl p-2 px-10 rounded-full bg-primary text-white'> Login</Link>
                     </div>
                 </div>
