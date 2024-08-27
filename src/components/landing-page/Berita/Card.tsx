@@ -1,18 +1,20 @@
 import Image from 'next/image'
 import React from 'react'
 import ArrowBeritaPage from '../../../../public/icons/ArrowBeritaPage'
+import Link from 'next/link'
 
 interface CardBeritaPageProps {
     image?: string
     date?: string
     title?: string
     desc?: string
+    link?: string
 }
 
-const CardBeritaPage = (props: CardBeritaPageProps) => {
+const CardBerita = (props: CardBeritaPageProps) => {
     return (
         <>
-            <div className="rounded-xl bg-primary-600 p-4 flex gap-4">
+            <Link href={props.link || "berita/detail-berita"} className="rounded-xl bg-primary-600 p-4 flex gap-4">
                 <div className="flex items-center justify-center rounded overflow-hidden">
                     <Image
                         src={props.image || "/assets/images/cardBeritaPage.png"}
@@ -37,9 +39,9 @@ const CardBeritaPage = (props: CardBeritaPageProps) => {
                         {props.desc || "Lörem ipsum astrobel sar direlig. Kronde est konfoni med kelig. Terabel pov astrobel ?"}
                     </div>
                 </div>
-            </div>
+            </Link>
         </>
     )
 }
 
-export default CardBeritaPage
+export default CardBerita
