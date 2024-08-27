@@ -56,7 +56,7 @@ const BeritaLayout = () => {
                         </div>
                     </div>
                     {/* card */}
-                    <div className="berita mt-5 lg:mt-[60px] grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="berita grid grid-cols-1 md:grid-cols-2 gap-4 md:py-[30px] py-[20px]">
                         {dummyBerita.map((berita, index) => (
                             <CardBerita
                                 key={index}
@@ -69,7 +69,7 @@ const BeritaLayout = () => {
                         ))}
                     </div>
                     {/* pagination */}
-                    <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
+                    <div className="pagination md:mb-[0px] mb-[90px] flex md:justify-end justify-center">
                         <Pagination className='md:justify-end'>
                             <PaginationContent>
                                 <PaginationItem>

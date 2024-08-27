@@ -101,7 +101,7 @@ const Layout = (props: LayoutProps) => {
                                 </NavigationMenuList>
                             </NavigationMenu>
                         </Menu>
-                        <Link href="/login" className='text-xl p-2 px-10 rounded-full bg-primary text-white'> Login</Link>
+                        <Link href="/login" className='text-xl p-2 px-10 rounded-full bg-primary text-white'>Login</Link>
                     </div>
                 </div>
             </nav>
