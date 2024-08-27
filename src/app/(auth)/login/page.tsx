@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
@@ -6,7 +8,38 @@ import Emailicon from '../../../../public/icons/EmailIcon';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import HelperError from '@/components/ui/HelperError';
+
+const formSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "Email wajib diisi" })
+    .email({ message: "Alamat email tidak valid" }),
+  password: z
+    .string()
+    .min(6, { message: "Password wajib diisi minimal harus 6 karakter" }),
+});
+
+type FormSchemaType = z.infer<typeof formSchema>;
+
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormSchemaType>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit = (data: FormSchemaType) => {
+    console.log(data);
+    reset();
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="grid flex-1 grid-cols-1 lg:grid-cols-[60%_minmax(40%,_1fr)]">
@@ -22,7 +55,7 @@ const Login = () => {
         </div>
 
         {/* Login Form Section */}
-        <form className="flex items-center justify-center">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-center">
           <div className="w-full">
             <div className="m-5 p-5 md:border-none lg:border-none border-dashed border-2 border-primary rounded-lg">
               <h1 className="text-2xl mb-10 text-primary font-bold text-left">
@@ -36,7 +69,12 @@ const Login = () => {
                   leftIcon={<Emailicon />}
                   type="email"
                   placeholder="Email / NIP"
+                  {...register('email')}
+                  className={`${errors.email ? 'border-red-500' : ''}`}
                 />
+                {errors.email && (
+                  <HelperError>{errors.email.message}</HelperError>
+                )}
               </div>
 
               <div className="flex flex-col">
@@ -44,7 +82,12 @@ const Login = () => {
                 <Input
                   type="password"
                   placeholder="Kata Sandi"
+                  {...register('password')}
+                  className={`${errors.password ? 'border-red-500' : ''}`}
                 />
+                {errors.password && (
+                  <HelperError>{errors.password.message}</HelperError>
+                )}
               </div>
 
               <div className="text-left underline mt-2">
