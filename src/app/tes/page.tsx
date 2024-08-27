@@ -4,7 +4,7 @@ import NavMobile from "@/components/landing-page/NavMobile";
 
 const HomePage: React.FC = () => {
   return (
-    <div className="">
+    <div className="h-screen w-full bg-red-500">
       <NavMobile />
     </div>
   );

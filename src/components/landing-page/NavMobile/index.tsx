@@ -32,15 +32,13 @@ const MenuItem = ({ link, icon, name }: MenuProps) => {
 
 const NavMobile = () => {
   return (
-    <div className='relative'>
-      <div className="nav bg-white shadow-slate-900 shadow-2xl w-full h-[80px] fixed bottom-0">
-        <div className="wrap-menu flex justify-evenly h-full">
+      <div className="nav bg-white shadow-slate-900 shadow-2xl md:hidden w-full h-[80px] fixed bottom-0">
+        <div className="wrap-menu flex justify-evenly h-full ">
           <MenuItem link="/beranda" icon={<BerandaIcon />} name="Beranda" />
           <MenuItem link="/berita" icon={<BeritaIcon />} name="Berita" />
           <MenuItem link="/galeri" icon={<GaleriIcon />} name="Galeri" />
           <MenuItem link="/lainnya" icon={<MoreIcon />} name="Lainnya" />
         </div>
-      </div>
     </div>
   );
 };
