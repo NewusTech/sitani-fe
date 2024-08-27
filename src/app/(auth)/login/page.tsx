@@ -24,7 +24,7 @@ const Login = () => {
         {/* Login Form Section */}
         <form className="flex items-center justify-center">
           <div className="w-full">
-            <div className="m-14">
+            <div className="m-5 p-5 md:border-none lg:border-none border-dashed border-2 border-primary rounded-lg">
               <h1 className="text-2xl mb-10 text-primary font-bold text-left">
                 Silahkan Masuk
               </h1>
