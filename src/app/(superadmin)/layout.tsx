@@ -4,6 +4,15 @@ import Image from 'next/image';
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react'
+import Dashboard from '../../../public/icons/Dashboard';
+
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+
 
 interface LayoutAdminProps {
     children: React.ReactNode;
@@ -21,11 +30,11 @@ const Menu = (props: MenuProps) => {
     const pathname = usePathname();
 
     return (
-        <Link href={props.link} className={`nav flex items-center gap-4 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith(props.link) ? "bg-primary text-white" : "bg-white text-[#334155]"}`}>
+        <Link href={props.link} className={`nav flex items-center gap-4 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith(props.link) ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
             <div className="icon">
                 {props.icons}
             </div>
-            <div className={`nama text-[18px] ${pathname.startsWith(props.link) ? "text-white" : "text-black"}`}>{props.children}</div>
+            <div className={`nama text-[18px] ${pathname.startsWith(props.link) ? "text-white" : "text-primary"}`}>{props.children}</div>
         </Link>
     )
 }
@@ -71,18 +80,80 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
                 <div className="wrap-nav flex bg-red flex-col gap-2 h-[73%]">
                     <div className="wrap flex flex-col gap-1">
-                        {/* dash */}
-                        <Menu icons="icon" link="/admin/cms/beranda">Beranda</Menu>
-                        {/* produk */}
-                        {/* transaksi */}
-                        <Menu icons="icon" link="/admin/cms/transaksi">Transaksi</Menu>
-                        {/* Laporan */}
-                        <Menu icons="icon" link="/admin/cms/laporan">Laporan</Menu>
-                        {/* Kasir */}
-                        <Menu icons="icon" link="/admin/cms/kelola-kasir">Kelola Kasir</Menu>
-                        {/* pelaporan */}
+                        <Menu icons={<Dashboard />} link="/kepegawaian">Dashboard</Menu>
+                        <div className='h-[73%] overflow-auto'>
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className='text-left'>
+                                        Ketahanan Pangan
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <Menu link="/admin/cms/laporan">
+                                            <span className='text-sm'>Sub Bab1</span></Menu>
+                                        <Menu link="/admin/cms/laporan">
+                                            <span className='text-sm'>Sub Bab2</span></Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className='text-left'>
+                                        Tanaman Pangan dan Holtikulturan
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className='text-left'>
+                                        Penyuluhan
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className='text-left'>
+                                        PSP
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className='text-left'>
+                                        Kepegawaian
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className='text-left'>
+                                        Data Master
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                        </div>
+                        {/* <Menu icons="icon" link="/admin/cms/kelola-kasir">Kelola Kasir</Menu> */}
                     </div>
-                    
+
                 </div>
             </div>
             {/* KONTEN */}
