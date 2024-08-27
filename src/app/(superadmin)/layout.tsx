@@ -68,7 +68,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
             </div>
             {/* sidebar */}
-            <div className={`sidebar bg-[#F6F6F6] pt-[70px] lg:pt-0 z-[1] lg:z-20 lg:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"} box-border lg:w-[250px] lg:shadow-none shadow-lg w-[70%] px-[30px] bg-whie transition-all duration-300 lg:left-0 `}>
+            <div className={`sidebar bg-[#F6F6F6] overflow-auto pt-[70px] lg:pt-0 z-[1] lg:z-20 lg:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"} box-border lg:w-[250px] lg:shadow-none shadow-lg w-[70%] px-[30px] bg-whie transition-all duration-300 lg:left-0 `}>
                 <div className="LOGO flex my-10 gap-2 items-center ">
                     <div className="logo flex-shrink-0 ">
                         <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[50px]' />
@@ -78,7 +78,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                         <div className="head text-base ">Super Admin</div>
                     </div>
                 </div>
-                <div className="wrap-nav flex bg-red flex-col gap-2 h-[73%]">
+                <div className="wrap-nav flex bg-red flex-col gap-2">
                     <div className="wrap flex flex-col gap-1">
                         <Menu icons={<Dashboard />} link="/kepegawaian">Dashboard</Menu>
                         <div className='h-[73%] overflow-auto'>
@@ -88,10 +88,15 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Ketahanan Pangan
                                     </AccordionTrigger>
                                     <AccordionContent>
-                                        <Menu link="/admin/cms/laporan">
-                                            <span className='text-sm'>Sub Bab1</span></Menu>
-                                        <Menu link="/admin/cms/laporan">
-                                            <span className='text-sm'>Sub Bab2</span></Menu>
+                                        <Menu link="/data-pegawai">
+                                            <span className='text-sm'>Data Pegawai</span>
+                                        </Menu>
+                                        <Menu link="/tambah-pegawai">
+                                            <span className='text-sm'>Tambah Pegawai</span>
+                                        </Menu>
+                                        <Menu link="/data-pensiun">
+                                            <span className='text-sm'>Data Pensiun</span>
+                                        </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
