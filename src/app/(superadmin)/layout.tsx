@@ -55,15 +55,10 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
     return (
         <div className="wrap w-full min-h-screen bg-white relative">
             {/* navbar */}
-            <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed bg-white">
+            <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed bg-white md:bg-transparent">
                 <div className="wra white md:ml-[290px]  bg-white   m-auto justify-between lg:justify-end py-[23px]  flex items-center gap-4">
                     <div onClick={handleNavbar} className="icon block cursor-pointer lg:hidden ">
                         {navbar ? "x" : "="}
-                    </div>
-                    <div className="nav-wrap w-full flex justify-between">
-                        <div className="header  flex flex-col">
-                            <div className="text-3xl font-semibold text-primary uppercase">{props.title || "Title"}</div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -89,13 +84,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     </AccordionTrigger>
                                     <AccordionContent>
                                         <Menu link="/data-pegawai">
-                                            <span className='text-sm'>Data Pegawai</span>
-                                        </Menu>
-                                        <Menu link="/tambah-pegawai">
-                                            <span className='text-sm'>Tambah Pegawai</span>
-                                        </Menu>
-                                        <Menu link="/data-pensiun">
-                                            <span className='text-sm'>Data Pensiun</span>
+                                            <span className='text-sm'>Sub</span>
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
@@ -140,7 +129,15 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Kepegawaian
                                     </AccordionTrigger>
                                     <AccordionContent>
-                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
+                                        <Menu link="/kepegawaian/data-pegawai">
+                                            <span className='text-sm'>Data Pegawai</span>
+                                        </Menu>
+                                        <Menu link="/kepegawaian/tambah-pegawai">
+                                            <span className='text-sm'>Tambah Pegawai</span>
+                                        </Menu>
+                                        <Menu link="/kepegawaian/data-pensiun">
+                                            <span className='text-sm'>Data Pensiun</span>
+                                        </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
@@ -162,7 +159,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
             </div>
             {/* KONTEN */}
-            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[290px]  pt-[80px] h-full">
+            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[290px]  pt-[60px] h-full">
                 <div className="konten  overflow-auto h-[90%] p-3 lg:px-1">
                     {/* konten */}
                     {props.children}

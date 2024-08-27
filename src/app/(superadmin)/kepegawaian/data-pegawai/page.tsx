@@ -1,14 +1,17 @@
 import { Input } from '@/components/ui/input'
 import React from 'react'
-import SearchIcon from '../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
-import UnduhIcon from '../../../../public/icons/UnduhIcon'
-import PrintIcon from '../../../../public/icons/PrintIcon'
-import FilterIcon from '../../../../public/icons/FilterIcon'
+import UnduhIcon from '../../../../../public/icons/UnduhIcon'
+import PrintIcon from '../../../../../public/icons/PrintIcon'
+import SearchIcon from '../../../../../public/icons/SearchIcon'
+import FilterIcon from '../../../../../public/icons/FilterIcon'
 
-const KepegawaianPage = () => {
+const DataPegawaiPage = () => {
   return (
     <div title='Kepegawaian' className=''>
+      {/* title */}
+      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Kepegawaian</div>
+      {/* title */}
       <div className="header flex justify-between items-center">
         <div className="search w-[50%]">
           <Input
@@ -53,4 +56,4 @@ const KepegawaianPage = () => {
   )
 }
 
-export default KepegawaianPage
+export default DataPegawaiPage
