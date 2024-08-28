@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from '@/components/ui/input'
 import React from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -5,6 +7,10 @@ import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
+import Link from 'next/link'
+import EditIcon from '../../../../../public/icons/EditIcon'
+import EyeIcon from '../../../../../public/icons/EyeIcon'
+import HapusIcon from '../../../../../public/icons/HapusIcon'
 import {
   Table,
   TableBody,
@@ -25,6 +31,17 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import DeletePopup from '@/components/superadmin/PopupDelete'
+
+
 
 interface Data {
   nama?: string;
@@ -157,7 +174,7 @@ const DataPegawaiPage = () => {
                 <br /> Tempat/Tgl Lahir</TableHead>
               <TableHead className="text-primary py-3">Pangkat/Gol Ruang
                 <br />
-                 TMT Pangkat</TableHead>
+                TMT Pangkat</TableHead>
               <TableHead className="text-primary py-3">
                 Jabatan <br />
                 TMT Jabatan
@@ -167,6 +184,7 @@ const DataPegawaiPage = () => {
               <TableHead className="text-primary py-3">Usia</TableHead>
               <TableHead className="text-primary py-3">Masa Kerja</TableHead>
               <TableHead className="text-primary py-3">Ket</TableHead>
+              <TableHead className="text-primary py-3 font-semibold">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -203,6 +221,19 @@ const DataPegawaiPage = () => {
                 </TableCell>
                 <TableCell>
                   {item.keterangan}
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-5">
+                    <Link href="/kepegawaian/data-pegawai/detail-pegawai">
+                      <EyeIcon />
+                    </Link>
+                    <Link href="/kepegawaian/data-pegawai/edit-pegawai">
+                      <EditIcon />
+                    </Link>
+                    <button>
+                      <DeletePopup onDelete={() => {}} />
+                    </button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
