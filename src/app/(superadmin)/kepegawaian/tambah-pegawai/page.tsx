@@ -323,7 +323,7 @@ const TamabahPegawaiPage = () => {
 
         {/* Pendidikan Umum */}
         <div className="mb-2">
-          {/* <div className="text-primary text-lg font-bold mb-2">Nama, Tahun Lulus, Jenjang</div> */}
+          <div className="text-primary text-lg font-bold mb-2">Pendidikan Umum</div>
           <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Nama" />
@@ -369,7 +369,7 @@ const TamabahPegawaiPage = () => {
 
         {/* Diklat Struktural */}
         <div className="mb-10">
-          {/* <div className="text-primary text-lg font-bold mb-2">Nama Diklat, Tanggal, Jam</div> */}
+          <div className="text-primary text-lg font-bold mb-2">Diklat Struktural</div>
           <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Nama Diklat" />

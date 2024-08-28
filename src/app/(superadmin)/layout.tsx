@@ -127,14 +127,11 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Penyuluhan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2'>
-                                        <Menu link="/kepegawaian/data-pegawai">
-                                            <span className='text-sm'>Data Pegawai</span>
+                                        <Menu link="/penyuluhan/data-kabupaten">
+                                            <span className='text-sm'>Data Kabupaten</span>
                                         </Menu>
-                                        <Menu link="/kepegawaian/tambah-pegawai">
-                                            <span className='text-sm'>Tambah Pegawai</span>
-                                        </Menu>
-                                        <Menu link="/kepegawaian/data-pensiun">
-                                            <span className='text-sm'>Data Pensiun</span>
+                                        <Menu link="/penyuluhan/data-kecamatan">
+                                            <span className='text-sm'>Data Kecamatan</span>
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
