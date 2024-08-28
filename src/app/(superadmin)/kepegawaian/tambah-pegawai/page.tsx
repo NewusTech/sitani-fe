@@ -85,6 +85,7 @@ const TamabahPegawaiPage = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
   });
@@ -231,7 +232,7 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Bidang" />
               <Select
-                {...register('bidang')}
+                onValueChange={(value) => setValue("bidang", value)}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Bidang" />
@@ -245,7 +246,9 @@ const TamabahPegawaiPage = () => {
             </div>
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Status Aktif / Pensiunan" />
-              <Select {...register('statusAktifPensiun')}>
+              <Select 
+              onValueChange={(value) => setValue("statusAktifPensiun", value)}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Status Aktif / Pensiunan" />
                 </SelectTrigger>
