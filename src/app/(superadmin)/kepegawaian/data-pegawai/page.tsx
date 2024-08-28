@@ -73,7 +73,7 @@ const DataPegawaiPage = () => {
       },
       usia: 34,
       masaKerja: "12 Tahun",
-      keterangan: "Aktif",
+      keterangan: "PNS",
     },
     {
       nama: "Jane Smith",
@@ -96,14 +96,14 @@ const DataPegawaiPage = () => {
       },
       usia: 36,
       masaKerja: "14 Tahun",
-      keterangan: "Aktif",
+      keterangan: "PNS",
     },
   ];
 
   return (
     <div>
       {/* title */}
-      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Pensiun</div>
+      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Pegawai</div>
       {/* title */}
       {/* top */}
       <div className="header flex justify-between items-center">
@@ -126,7 +126,7 @@ const DataPegawaiPage = () => {
           </Button>
         </div>
       </div>
-      <div className="date mt-3 gap-2 flex justify-start items-center">
+      <div className="date mt-5 gap-2 flex justify-start items-center">
         <div className="">
           <Input
             type='date'
@@ -149,7 +149,7 @@ const DataPegawaiPage = () => {
       {/* top */}
 
       {/* table */}
-      <div className="table w-full mt-4 rounded-md overflow-hidden">
+      <div className="table w-full mt-5 rounded-md overflow-hidden">
         <Table className='border border-slate-200'>
           <TableHeader className='bg-primary-600'>
             <TableRow >
