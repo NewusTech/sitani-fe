@@ -230,9 +230,9 @@ const DataPegawaiPage = () => {
                     <Link href="/kepegawaian/data-pegawai/edit-pegawai">
                       <EditIcon />
                     </Link>
-                    <button>
+                    <div>
                       <DeletePopup onDelete={() => {}} />
-                    </button>
+                    </div>
                   </div>
                 </TableCell>
               </TableRow>
