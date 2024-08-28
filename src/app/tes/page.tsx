@@ -1,5 +1,9 @@
 "use client"
+
 import React, { useState } from 'react';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { utils, writeFile } from 'xlsx';
 
 interface Data {
   nama: string;
@@ -41,6 +45,54 @@ const Table: React.FC = () => {
     setFilter(updatedFilter);
   };
 
+  // Export to PDF
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    const table = document.querySelector('table');
+    if (table) {
+      (doc as any).autoTable({ html: table });
+      doc.save('table.pdf');
+    }
+  };
+
+  // Export to Excel
+  const exportToExcel = () => {
+    const ws = utils.json_to_sheet(
+      data.map(item => ({
+        Nama: filter.includes('Nama') ? item.nama : '',
+        Alamat: filter.includes('Alamat') ? item.alamat : '',
+        SMA: filter.includes('Pendidikan') ? item.pendidikan.sma : '',
+        SMP: filter.includes('Pendidikan') ? item.pendidikan.smp : '',
+        SD: filter.includes('Pendidikan') ? item.pendidikan.sd : '',
+      }))
+    );
+
+    // Menambahkan header yang sesuai dengan tabel
+    const header = [];
+    if (filter.includes('Nama')) header.push('Nama');
+    if (filter.includes('Alamat')) header.push('Alamat');
+    if (filter.includes('Pendidikan')) {
+      header.push('SMA');
+      header.push('SMP');
+      header.push('SD');
+    }
+    ws['!cols'] = header.map(col => ({ wch: col.length + 2 }));
+
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, 'Sheet1');
+    writeFile(wb, 'table.xlsx');
+  };
+
+  // Print table
+  const printTable = () => {
+    const originalContent = document.body.innerHTML;
+    const tableContent = document.querySelector('table')?.outerHTML || '';
+
+    document.body.innerHTML = tableContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+  };
+
   return (
     <div className="flex flex-col items-center p-8">
       {/* Filter Options */}
@@ -56,6 +108,13 @@ const Table: React.FC = () => {
             {option}
           </label>
         ))}
+      </div>
+
+      {/* Buttons */}
+      <div className="mb-4">
+        <button onClick={exportToPDF} className="bg-blue-500 text-white px-4 py-2 rounded mr-2">Unduh PDF</button>
+        <button onClick={exportToExcel} className="bg-green-500 text-white px-4 py-2 rounded mr-2">Unduh Excel</button>
+        <button onClick={printTable} className="bg-gray-500 text-white px-4 py-2 rounded">Cetak</button>
       </div>
 
       {/* Table */}

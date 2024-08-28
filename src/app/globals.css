@@ -13,3 +13,26 @@ html {
 * {
   font-family: "Poppins", sans-serif;
 }
+
+/* scrollbar */
+/* Menyesuaikan warna latar belakang dan lebar scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  margin-left: 10px;
+}
+
+/* Warna track scrollbar */
+::-webkit-scrollbar-track {
+  background: #d9d9d9;
+}
+
+/* Warna thumb scrollbar */
+::-webkit-scrollbar-thumb {
+  background: #B4DBB3;
+}
+
+/* Menghilangkan tombol panah scrollbar */
+::-webkit-scrollbar-button {
+  display: none;
+}
+/* scrollbar */

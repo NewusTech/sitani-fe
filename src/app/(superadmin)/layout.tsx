@@ -28,15 +28,18 @@ interface MenuProps {
 
 const Menu = (props: MenuProps) => {
     const pathname = usePathname();
-
     return (
-        <Link href={props.link} className={`nav flex items-center gap-4 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith(props.link) ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+        <Link href={props.link} className={`nav flex items-center gap-4 text-left rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith(props.link) ? "text-primary" : "text-black"}`}>
             <div className="icon">
                 {props.icons}
             </div>
-            <div className={`nama text-[18px] ${pathname.startsWith(props.link) ? "text-white" : "text-primary"}`}>{props.children}</div>
+            <div className={`nama text-[18px] ${pathname.startsWith(props.link) ? "text-primary font-semibold" : "text-black/70"}`}>{props.children}</div>
         </Link>
     )
+}
+
+interface LayProps {
+    link?: string;
 }
 
 const LayoutAdmin = (props: LayoutAdminProps) => {
@@ -56,14 +59,14 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
         <div className="wrap w-full min-h-screen bg-white relative">
             {/* navbar */}
             <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed bg-white md:bg-transparent">
-                <div className="wra white md:ml-[290px]  bg-white   m-auto justify-between lg:justify-end py-[23px]  flex items-center gap-4">
+                <div className="wra white md:ml-[290px]  bg-white   m-auto justify-between lg:justify-end py-[23px]  flex items-center gap-4 text-left">
                     <div onClick={handleNavbar} className="icon block cursor-pointer lg:hidden ">
                         {navbar ? "x" : "="}
                     </div>
                 </div>
             </div>
             {/* sidebar */}
-            <div className={`sidebar bg-[#F6F6F6] overflow-auto pt-[70px] lg:pt-0 z-[1] lg:z-20 lg:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"} box-border lg:w-[250px] lg:shadow-none shadow-lg w-[70%] px-[30px] bg-whie transition-all duration-300 lg:left-0 `}>
+            <div className={`sidebar bg-[#F6F6F6] overflow-auto pt-[70px] lg:pt-0 z-[1] lg:z-20 lg:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"} box-border lg:w-[300px] lg:shadow-none shadow-lg w-[70%] px-[30px] bg-whie transition-all duration-300 lg:left-0 `}>
                 <div className="LOGO flex my-10 gap-2 items-center ">
                     <div className="logo flex-shrink-0 ">
                         <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[50px]' />
@@ -75,60 +78,49 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
                 <div className="wrap-nav flex bg-red flex-col gap-2">
                     <div className="wrap flex flex-col gap-1">
-                        <Menu icons={<Dashboard />} link="/kepegawaian">Dashboard</Menu>
-                        <div className='h-[73%] overflow-auto'>
+
+                        <div className='h-[73%] overflow-auto '>
+                            {/* dashboard */}
+                            <Link href="/dashboard" className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] ${pathname.startsWith('/dashboard') ? "bg-primary text-white" : "bg-transparent text-primary"}`} >
+                                <Dashboard />
+                                Dashboard
+                            </Link>
+                            {/* dashboard */}
+                            {/* ketahanan-pangan */}
                             <Accordion className='' type="single" collapsible>
                                 <AccordionItem className='pl-2' value="item-1">
-                                    <AccordionTrigger className='text-left'>
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/ketahanan-pangan') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         Ketahanan Pangan
                                     </AccordionTrigger>
-                                    <AccordionContent>
-                                        <Menu link="/data-pegawai">
-                                            <span className='text-sm'>Sub</span>
+                                    <AccordionContent className='bg-primary-600/25 mb-2'>
+                                        <Menu link="/kepegawaian/data-pegawai">
+                                            <span className='text-sm'>Data Pegawai</span>
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
-
+                            {/* ketahanan-pangan */}
+                            {/* tanaman-pangan */}
                             <Accordion className='' type="single" collapsible>
                                 <AccordionItem className='pl-2' value="item-1">
-                                    <AccordionTrigger className='text-left'>
-                                        Tanaman Pangan dan Holtikulturan
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/tanaman-pangan-holtikutura') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                    Tanaman Pangan dan Holtikulturan
                                     </AccordionTrigger>
-                                    <AccordionContent>
-                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
+                                    <AccordionContent className='bg-primary-600/25 mb-2'>
+                                        <Menu link="/kepegawaian/data-pegawai">
+                                            <span className='text-sm'>Data Pegawai</span>
+                                        </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
-
+                            {/* tanaman-pangan */}
+                            {/* penyuluhan */}
                             <Accordion className='' type="single" collapsible>
                                 <AccordionItem className='pl-2' value="item-1">
-                                    <AccordionTrigger className='text-left'>
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/penyuluhan') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         Penyuluhan
                                     </AccordionTrigger>
-                                    <AccordionContent>
-                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            </Accordion>
-
-                            <Accordion className='' type="single" collapsible>
-                                <AccordionItem className='pl-2' value="item-1">
-                                    <AccordionTrigger className='text-left'>
-                                        PSP
-                                    </AccordionTrigger>
-                                    <AccordionContent>
-                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            </Accordion>
-
-                            <Accordion className='' type="single" collapsible>
-                                <AccordionItem className='pl-2' value="item-1">
-                                    <AccordionTrigger className='text-left'>
-                                        Kepegawaian
-                                    </AccordionTrigger>
-                                    <AccordionContent>
+                                    <AccordionContent className='bg-primary-600/25 mb-2'>
                                         <Menu link="/kepegawaian/data-pegawai">
                                             <span className='text-sm'>Data Pegawai</span>
                                         </Menu>
@@ -141,25 +133,62 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
-
+                            {/* penyuluhan */}
+                            {/* PSP */}
                             <Accordion className='' type="single" collapsible>
                                 <AccordionItem className='pl-2' value="item-1">
-                                    <AccordionTrigger className='text-left'>
-                                        Data Master
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/psp') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                    PSP
                                     </AccordionTrigger>
-                                    <AccordionContent>
-                                        <Menu link="/admin/cms/laporan"><span className='text-sm'>Laporan</span></Menu>
+                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/kepegawaian/data-pegawai">
+                                            <span className='text-sm'>Data Pegawai</span>
+                                        </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
+                            {/* PSP */}
+                            {/* kepegawaian */}
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/kepegawaian/') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                        Kepegawaian
+                                    </AccordionTrigger>
+                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/kepegawaian/data-pegawai">
+                                            <span className='text-sm'>Data Pegawai</span>
+                                        </Menu>
+                                        <Menu link="/kepegawaian/tambah-pegawai">
+                                            <span className='text-sm'>Tambah Pegawai</span>
+                                        </Menu>
+                                        <Menu link="/kepegawaian/data-pensiun">
+                                            <span className='text-sm'>Data Pensiun</span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                            {/* kepegawaian */}
+                            {/* data-master */}
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/data-master') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                        Data Master
+                                    </AccordionTrigger>
+                                    <AccordionContent className='bg-primary-600/25 mb-2'>
+                                        <Menu link="/kepegawaian/data-pegawai">
+                                            <span className='text-sm'>Data Pegawai</span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                            {/*data-master */}
                         </div>
-                        {/* <Menu icons="icon" link="/admin/cms/kelola-kasir">Kelola Kasir</Menu> */}
                     </div>
 
                 </div>
             </div>
             {/* KONTEN */}
-            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[290px]  pt-[60px] h-full">
+            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  pt-[60px] h-full">
                 <div className="konten  overflow-auto h-[90%] p-3 lg:px-1">
                     {/* konten */}
                     {props.children}
