@@ -5,6 +5,16 @@ import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 
 const DataPegawaiPage = () => {
   return (
@@ -52,6 +62,34 @@ const DataPegawaiPage = () => {
           </Button>
         </div>
       </div>
+      {/* table */}
+      <div className="table mt-5 w-full">
+        <Table>
+          <TableHeader className='bg-primary-600'>
+            <TableRow className='text-primary'>
+              <TableHead className='text-primary'>Invoice</TableHead>
+              <TableHead className='text-primary'>Status</TableHead>
+              <TableHead className='text-primary'>Method</TableHead>
+              <TableHead className="text-right">Amount</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium">INV001</TableCell>
+              <TableCell>Paid</TableCell>
+              <TableCell>Credit Card</TableCell>
+              <TableCell className="text-right">$250.00</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">INV001</TableCell>
+              <TableCell>Paid</TableCell>
+              <TableCell>Credit Card</TableCell>
+              <TableCell className="text-right">$250.00</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
+      {/* table */}
     </div>
   )
 }
