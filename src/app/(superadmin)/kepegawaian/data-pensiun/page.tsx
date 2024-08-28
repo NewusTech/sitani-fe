@@ -26,51 +26,6 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-]
-
 interface Data {
   nama?: string;
   nip?: string;
@@ -118,29 +73,6 @@ const DataPensiunPage = () => {
       },
       usia: 34,
       masaKerja: "12 Tahun",
-      keterangan: "Aktif",
-    },
-    {
-      nama: "Jane Smith",
-      nip: "987654321",
-      tempat: "Bandung",
-      tanggalLahir: "1988-02-02",
-      pangkatGol: "Pembina Utama IV/a",
-      tmtPangkat: "2021-02-02",
-      jabatan: "Staff",
-      tmtJabatan: "2022-02-02",
-      diklatStruktural: {
-        nama: "Diklat Manajemen",
-        tanggal: "2020-02-02",
-        jam: "30 Jam",
-      },
-      pendidikanUmum: {
-        nama: "Universitas ABC",
-        tahunLulus: "2010",
-        jenjang: "S2",
-      },
-      usia: 36,
-      masaKerja: "14 Tahun",
       keterangan: "Aktif",
     },
   ];
@@ -202,7 +134,7 @@ const DataPensiunPage = () => {
                 <br /> Tempat/Tgl Lahir</TableHead>
               <TableHead className="text-primary py-3">Pangkat/Gol Ruang
                 <br />
-                 TMT Pangkat</TableHead>
+                TMT Pangkat</TableHead>
               <TableHead className="text-primary py-3">
                 Jabatan <br />
                 TMT Jabatan
