@@ -113,8 +113,8 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Tanaman Pangan dan Holtikulturan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
-                                        <Menu link="/kepegawaian/data-pegawai">
-                                            <span className='text-sm'>Data Pegawai</span>
+                                        <Menu link="/tanaman-pangan-holtikutura/realisasi">
+                                            <span className='text-sm'>Realisasi</span>
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>

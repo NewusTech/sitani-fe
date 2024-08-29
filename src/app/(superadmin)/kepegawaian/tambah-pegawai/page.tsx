@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const formSchema = z.object({
   name: z
@@ -246,8 +247,8 @@ const TamabahPegawaiPage = () => {
             </div>
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Status Aktif / Pensiunan" />
-              <Select 
-              onValueChange={(value) => setValue("statusAktifPensiun", value)}
+              <Select
+                onValueChange={(value) => setValue("statusAktifPensiun", value)}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Status Aktif / Pensiunan" />
@@ -413,10 +414,13 @@ const TamabahPegawaiPage = () => {
           </div>
         </div>
 
-        <div className="mb-10 text-center">
-          <Button type="submit" variant="primary" size="lg" className="w-[40%]">
-            Tambah
+        <div className="mb-10 flex justify-end gap-3">
+          <Button type="submit" variant="primary" size="lg" className="w-[120px]">
+            SIMPAN
           </Button>
+          <Link href="/kepegawaian/data-pegawai" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+            BATAL
+          </Link>
         </div>
       </form>
     </>
