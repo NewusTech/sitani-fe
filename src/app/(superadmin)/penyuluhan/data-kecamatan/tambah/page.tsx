@@ -33,6 +33,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import Link from 'next/link';
 
 const frameworks = [
     {
@@ -63,22 +64,22 @@ const formSchema = z.object({
         .min(1, { message: "Nama Kecamatan wajib diisi" }),
     namaPenyuluh: z
         .string()
-        .min(1, { message: "NIP wajib diisi" }),
+        .min(1, { message: "Nama wajib diisi" }),
     nip: z
         .string()
-        .min(1, { message: "Tempat Lahir wajib diisi" }),
+        .min(1, { message: "NIP wajib diisi" }),
     pangkat: z
         .string()
-        .min(1, { message: "Tanggal Lahir wajib diisi" }),
+        .min(1, { message: "Pangkat wajib diisi" }),
     golongan: z
         .string()
-        .min(1, { message: "Tanggal Lahir wajib diisi" }),
+        .min(1, { message: "Golongan wajib diisi" }),
     wilayahDesaBinaan: z
         .string()
-        .min(1, { message: "Pangkat/Gol Ruang wajib diisi" }),
+        .min(1, { message: "Wilayah Desa Binaan wajib diisi" }),
     keterangan: z
         .string()
-        .min(1, { message: "TMT Pangkat wajib diisi" })
+        .min(1, { message: "Keterangan wajib diisi" })
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -167,11 +168,11 @@ const TamabahPenyuluhDataKecamatan = () => {
                                 autoFocus
                                 type="text"
                                 placeholder="Wilayah Desa Binaan"
-                                {...register('namaPenyuluh')}
-                                className={`${errors.namaPenyuluh ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('wilayahDesaBinaan')}
+                                className={`${errors.wilayahDesaBinaan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaPenyuluh && (
-                                <HelperError>{errors.namaPenyuluh.message}</HelperError>
+                            {errors.wilayahDesaBinaan && (
+                                <HelperError>{errors.wilayahDesaBinaan.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -235,7 +236,6 @@ const TamabahPenyuluhDataKecamatan = () => {
 
                 {/* Pangkat/Gol Ruang Tmt Pangkat */}
                 <div className="mb-2">
-                    {/* <div className="text-primary text-lg font-bold mb-2">Pangkat / Gol, Ruang, TMT Pangkat</div> */}
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Wilayah Desa Binaan" />
@@ -266,10 +266,13 @@ const TamabahPenyuluhDataKecamatan = () => {
                     </div>
                 </div>
 
-                <div className="mb-10 text-center">
-                    <Button type="submit" variant="primary" size="lg" className="w-[40%]">
-                        Tambah
+                <div className="mb-10 flex justify-end gap-3">
+                    <Button type="submit" variant="primary" size="lg" className="w-[120px]">
+                        SIMPAN
                     </Button>
+                    <Link href="/penyuluhan/data-kecamatan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                        BATAL
+                    </Link>
                 </div>
             </form>
         </>

@@ -33,6 +33,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import Link from 'next/link';
 
 const frameworks = [
     {
@@ -161,6 +162,21 @@ const TamabahPegawaiPage = () => {
                                 )}
                             </Popover>
                         </div>
+
+                        {/* <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Nama" />
+                            <Input
+                                autoFocus
+                                type="text"
+                                placeholder="Nama"
+                                {...register('namaPenyuluh')}
+                                className={`${errors.namaPenyuluh ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.namaPenyuluh && (
+                                <HelperError>{errors.namaPenyuluh.message}</HelperError>
+                            )}
+                        </div> */}
+                        
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
@@ -253,10 +269,13 @@ const TamabahPegawaiPage = () => {
                     </div>
                 </div>
 
-                <div className="mb-10 text-center">
-                    <Button type="submit" variant="primary" size="lg" className="w-[40%]">
-                        Tambah
+                <div className="mb-10 flex justify-end gap-3">
+                    <Button type="submit" variant="primary" size="lg" className="w-[120px]">
+                        SIMPAN
                     </Button>
+                    <Link href="/penyuluhan/data-kabupaten" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                        BATAL
+                    </Link>
                 </div>
             </form>
         </>
