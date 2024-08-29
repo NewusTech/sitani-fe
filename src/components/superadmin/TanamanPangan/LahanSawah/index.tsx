@@ -1,10 +1,6 @@
+import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React from 'react'
-import PrintIcon from '../../../../../public/icons/PrintIcon'
-import FilterIcon from '../../../../../public/icons/FilterIcon'
-import SearchIcon from '../../../../../public/icons/SearchIcon'
-import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import {
     Select,
     SelectContent,
@@ -12,17 +8,18 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import SearchIcon from '../../../../../public/icons/SearchIcon'
+import UnduhIcon from '../../../../../public/icons/UnduhIcon'
+import PrintIcon from '../../../../../public/icons/PrintIcon'
+import FilterIcon from '../../../../../public/icons/FilterIcon'
 import Link from 'next/link'
 
-const RealisasiPage = () => {
+const LahanSawah = () => {
     return (
         <div>
-            {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Realisasi luas panen, produktivitas dan produksi</div>
-            {/* title */}
             {/* top */}
             <div className="header flex justify-between items-center">
-                <div className="search w-[50%]">
+                <div className="search w-[50%] mb-2">
                     <Input
                         type="text"
                         placeholder="Cari"
@@ -42,7 +39,7 @@ const RealisasiPage = () => {
                 </div>
             </div>
             {/*  */}
-            <div className="wrap-filter flex justify-between items-center mt-4 ">
+            <div className="wrap-filter flex justify-between items-center mt-42">
                 <div className="left gap-2 flex justify-start items-center">
                     <div className="">
                         <Input
@@ -57,7 +54,7 @@ const RealisasiPage = () => {
                             className='w-fit py-2'
                         />
                     </div>
-                    <div className="fil-kect w-[170px]">
+                    <div className="fil-kect w-[185px]">
                         <Select >
                             <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Kecamatan" className='text-2xl' />
@@ -69,20 +66,6 @@ const RealisasiPage = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    {/* fil tanaman */}
-                    <div className="fil-kect w-[170px]">
-                        <Select >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Tanaman" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="select1">Select1</SelectItem>
-                                <SelectItem value="select2">Select2</SelectItem>
-                                <SelectItem value="select3">Select3</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    {/* fil tanaman */}
                     <div className="filter-table w-[40px] h-[40px]">
                         <Button variant="outlinePrimary" className=''>
                             <FilterIcon />
@@ -90,7 +73,7 @@ const RealisasiPage = () => {
                     </div>
                 </div>
                 <div className="right">
-                    <Link href="/tanaman-pangan-holtikutura/realisasi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
+                    <Link href="/tanaman-pangan-holtikutura/lahan/tambah-lahan-sawah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
                         Tambah Data
                     </Link>
                 </div>
@@ -100,4 +83,4 @@ const RealisasiPage = () => {
     )
 }
 
-export default RealisasiPage
+export default LahanSawah

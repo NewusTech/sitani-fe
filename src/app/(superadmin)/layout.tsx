@@ -58,8 +58,8 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
     return (
         <div className="wrap w-full min-h-screen bg-white relative">
             {/* navbar */}
-            <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed bg-white md:bg-transparent">
-                <div className="wra white md:ml-[290px]  bg-white   m-auto justify-between lg:justify-end py-[23px]  flex items-center gap-4 text-left">
+            <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed bg-transparent">
+                <div className="wra white md:ml-[290px]  bg-white md:bg-transparent   m-auto justify-between lg:justify-end py-[23px]  flex items-center gap-4 text-left">
                     <div onClick={handleNavbar} className="icon block cursor-pointer lg:hidden ">
                         {navbar ? "x" : "="}
                     </div>
@@ -115,6 +115,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
                                         <Menu link="/tanaman-pangan-holtikutura/realisasi">
                                             <span className='text-sm'>Realisasi</span>
+                                        </Menu>
+                                        <Menu link="/tanaman-pangan-holtikutura/lahan">
+                                            <span className='text-sm'>Lahan</span>
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
@@ -191,7 +194,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
             </div>
             {/* KONTEN */}
-            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  pt-[60px] h-full">
+            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  pt-[15px] h-full">
                 <div className="konten  overflow-auto h-[90%] p-3 lg:px-1">
                     {/* konten */}
                     {props.children}
