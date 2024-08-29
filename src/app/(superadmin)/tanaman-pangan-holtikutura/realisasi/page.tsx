@@ -12,7 +12,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from 'next/link'
+import Palawija1 from '@/components/superadmin/TanamanPangan/Palawija1'
+import Palawija2 from '@/components/superadmin/TanamanPangan/Palawija2'
+import Padi from '@/components/superadmin/TanamanPangan/Padi'
 
 const RealisasiPage = () => {
     return (
@@ -20,85 +24,26 @@ const RealisasiPage = () => {
             {/* title */}
             <div className="text-2xl mb-4 font-semibold text-primary uppercase">Realisasi luas panen, produktivitas dan produksi</div>
             {/* title */}
-            {/* top */}
-            <div className="header flex justify-between items-center">
-                <div className="search w-[50%]">
-                    <Input
-                        type="text"
-                        placeholder="Cari"
-                        rightIcon={<SearchIcon />}
-                        className='border-primary py-2'
-                    />
-                </div>
-                <div className="btn flex gap-3">
-                    <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
-                        <UnduhIcon />
-                        Download
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
-                        <PrintIcon />
-                        Print
-                    </Button>
-                </div>
+            {/* tabs */}
+            <div className="tabs">
+                <Tabs defaultValue="palawija1" className="w-full">
+                    <TabsList>
+                        <TabsTrigger value="palawija1">Palawija 1</TabsTrigger>
+                        <TabsTrigger value="palawija2">Palawija 2</TabsTrigger>
+                        <TabsTrigger value="padi">Padi</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="palawija1">
+                        <Palawija1 />
+                    </TabsContent>
+                    <TabsContent value="palawija2">
+                        <Palawija2 />
+                    </TabsContent>
+                    <TabsContent value="padi">
+                        <Padi />
+                    </TabsContent>
+                </Tabs>
             </div>
-            {/*  */}
-            <div className="wrap-filter flex justify-between items-center mt-4 ">
-                <div className="left gap-2 flex justify-start items-center">
-                    <div className="">
-                        <Input
-                            type='date'
-                            className='w-fit py-2'
-                        />
-                    </div>
-                    <div className="">to</div>
-                    <div className="">
-                        <Input
-                            type='date'
-                            className='w-fit py-2'
-                        />
-                    </div>
-                    <div className="fil-kect w-[170px]">
-                        <Select >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Kecamatan" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="select1">Select1</SelectItem>
-                                <SelectItem value="select2">Select2</SelectItem>
-                                <SelectItem value="select3">Select3</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    {/* fil tanaman */}
-                    <div className="filter-table w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
-                    </div>
-                </div>
-                <div className="right flex gap-3">
-                    <Link href="/tanaman-pangan-holtikutura/realisasi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
-                        Tambah Data
-                    </Link>
-                    <Link href="/tanaman-pangan-holtikutura/realisasi/tambah-padi" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
-                        Tambah Data Padi
-                    </Link>
-                </div>
-            </div>
-            {/* fil tanaman */}
-            <div className="fil-kect w-[185px] mt-3">
-                    <Select >
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Tanaman" className='text-2xl' />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="select1">Select1</SelectItem>
-                            <SelectItem value="select2">Select2</SelectItem>
-                            <SelectItem value="select3">Select3</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-            {/* top */}
+            {/* tabs */}
         </div>
     )
 }
