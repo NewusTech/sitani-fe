@@ -129,6 +129,23 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                             </Accordion>
                             {/* tanaman-pangan */}
+                            {/* perkebunan */}
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/perkebunan') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                        Perkebunan
+                                    </AccordionTrigger>
+                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/perkebunan/luas-produksi-kecamatan">
+                                            <span className='text-sm'>Luas & Produksi PR (Kec)</span>
+                                        </Menu>
+                                        <Menu link="/perkebunan/luas-produksi-kabupaten">
+                                            <span className='text-sm'>Luas & Produksi PR (Kab)</span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                            {/* perkebunan */}
                             {/* penyuluhan */}
                             <Accordion className='' type="single" collapsible>
                                 <AccordionItem className='pl-2' value="item-1">
