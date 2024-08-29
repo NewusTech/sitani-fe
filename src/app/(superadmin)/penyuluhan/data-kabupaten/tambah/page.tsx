@@ -9,6 +9,7 @@ import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
+import { Textarea } from "@/components/ui/textarea"
 
 const OPTIONS: Option[] = [
     { label: 'nextjs', value: 'nextjs' },
@@ -40,9 +41,6 @@ const formSchema = z.object({
     golongan: z
         .string()
         .min(1, { message: "Golongan wajib diisi" }),
-    wilayahDesaBinaan: z
-        .string()
-        .min(1, { message: "Wilayah Desa Binaan wajib diisi" }),
     keterangan: z
         .string()
         .min(1, { message: "Keterangan wajib diisi" })
@@ -154,29 +152,11 @@ const PenyuluhanTambahDataKabupaten = () => {
                     </div>
                 </div>
 
-                {/* Pangkat/Gol Ruang Tmt Pangkat */}
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Wilayah Desa Binaan" />
-                            <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Wilayah Desa Binaan"
-                                {...register('wilayahDesaBinaan')}
-                                className={`${errors.wilayahDesaBinaan ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.wilayahDesaBinaan && (
-                                <HelperError>{errors.wilayahDesaBinaan.message}</HelperError>
-                            )}
-                        </div>
-                        <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
-                            <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Keterangan"
-                                {...register('keterangan')}
+                            <Textarea  {...register('keterangan')}
                                 className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
                             {errors.keterangan && (

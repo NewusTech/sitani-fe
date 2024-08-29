@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/popover"
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 
 const frameworks = [
     {
@@ -249,11 +250,7 @@ const TamabahPenyuluhDataKecamatan = () => {
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
-                            <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Keterangan"
-                                {...register('keterangan')}
+                            <Textarea  {...register('keterangan')}
                                 className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
                             {errors.keterangan && (

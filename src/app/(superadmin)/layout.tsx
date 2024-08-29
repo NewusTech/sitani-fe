@@ -94,13 +94,19 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
                                         <Menu link="/ketahanan-pangan/produsen-dan-eceran">
-                                            <span className='text-sm'>Produsen dan Eceran </span>
+                                            <span className='text-sm'>Harga Produsen & Eceran </span>
                                         </Menu>
-                                        <Menu link="/ketahanan-pangan/luas-areal-dan-produksi-kec">
-                                            <span className='text-sm'>Luas Areal dan Produksi Kec</span>
+                                        <Menu link="/ketahanan-pangan/harga-pangan-eceran">
+                                            <span className='text-sm'>Harga Pangan Eceran</span>
                                         </Menu>
-                                        <Menu link="/ketahanan-pangan/luas-areal-dan-produksi-kab">
-                                            <span className='text-sm'>Luas Areal dan Produksi Kab</span>
+                                        <Menu link="/ketahanan-pangan/kuisioner-pedagang-eceran">
+                                            <span className='text-sm'>Kuesioner Pedagang Eceran</span>
+                                        </Menu>
+                                        <Menu link="/ketahanan-pangan/koefisien-variasi-produsen">
+                                            <span className='text-sm'>Koefisien Variasi Produsen</span>
+                                        </Menu>
+                                        <Menu link="/ketahanan-pangan/koefisien-variasi-produksi">
+                                            <span className='text-sm'>Koefisien Variasi Produksi</span>
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
