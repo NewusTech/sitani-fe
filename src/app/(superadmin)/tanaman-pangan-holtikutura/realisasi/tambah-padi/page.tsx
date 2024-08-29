@@ -42,7 +42,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahRealisasiPage = () => {
+const TambahPadiRealisasiPage = () => {
   const [date, setDate] = React.useState<Date>()
 
   const {
@@ -61,7 +61,7 @@ const TambahRealisasiPage = () => {
   };
   return (
     <>
-      <div className="text-primary text-2xl font-bold mb-5">Tambah Data Tanaman</div>
+      <div className="text-primary text-2xl font-bold mb-5">Tambah Data Padi</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
         <div className="wrap-form">
@@ -180,4 +180,4 @@ const TambahRealisasiPage = () => {
   )
 }
 
-export default TambahRealisasiPage
+export default TambahPadiRealisasiPage

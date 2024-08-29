@@ -70,31 +70,34 @@ const RealisasiPage = () => {
                         </Select>
                     </div>
                     {/* fil tanaman */}
-                    <div className="fil-kect w-[170px]">
-                        <Select >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Tanaman" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="select1">Select1</SelectItem>
-                                <SelectItem value="select2">Select2</SelectItem>
-                                <SelectItem value="select3">Select3</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    {/* fil tanaman */}
                     <div className="filter-table w-[40px] h-[40px]">
                         <Button variant="outlinePrimary" className=''>
                             <FilterIcon />
                         </Button>
                     </div>
                 </div>
-                <div className="right">
+                <div className="right flex gap-3">
                     <Link href="/tanaman-pangan-holtikutura/realisasi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
                         Tambah Data
                     </Link>
+                    <Link href="/tanaman-pangan-holtikutura/realisasi/tambah-padi" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
+                        Tambah Data Padi
+                    </Link>
                 </div>
             </div>
+            {/* fil tanaman */}
+            <div className="fil-kect w-[185px] mt-3">
+                    <Select >
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Tanaman" className='text-2xl' />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="select1">Select1</SelectItem>
+                            <SelectItem value="select2">Select2</SelectItem>
+                            <SelectItem value="select3">Select3</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
             {/* top */}
         </div>
     )
