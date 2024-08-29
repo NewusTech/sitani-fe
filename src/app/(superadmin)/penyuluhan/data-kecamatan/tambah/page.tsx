@@ -140,7 +140,7 @@ const TamabahPenyuluhDataKecamatan = () => {
                                     <Command>
                                         <CommandInput placeholder="Cari Kecamatan" />
                                         <CommandList>
-                                            <CommandEmpty>No framework found.</CommandEmpty>
+                                            <CommandEmpty>Maaf, Kecamatan <br /> tidak tersedia.</CommandEmpty>
                                             <CommandGroup>
                                                 {frameworks.map((framework) => (
                                                     <CommandItem

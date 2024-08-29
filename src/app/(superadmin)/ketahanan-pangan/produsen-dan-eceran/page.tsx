@@ -6,13 +6,6 @@ import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import Link from 'next/link'
 
 import {
@@ -35,35 +28,23 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import EyeIcon from '../../../../../public/icons/EyeIcon'
-import EditIcon from '../../../../../public/icons/EditIcon'
-import DeletePopup from '@/components/superadmin/PopupDelete'
 
 interface Data {
-  wilayahDesaBinaan?: string;
-  nama?: string;
-  nip?: string;
-  pangkat?: string;
-  gol?: string;
+  komoditas?: string;
+  harga?: string;
   keterangan?: string;
 }
 
 const ProdusenDanEceran = () => {
   const data: Data[] = [
     {
-      wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
-      nama: "Hardono, S.P",
-      nip: "123456789",
-      pangkat: "Pembina Utama",
-      gol: "IV/a",
+      komoditas: "Melinting, Braja Selebah, Labuhan Maringgai",
+      harga: "Hardono, S.P",
       keterangan: "Keterangan"
     },
     {
-      wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
-      nama: "Hardono, S.P",
-      nip: "123456789",
-      pangkat: "Pembina Utama",
-      gol: "IV/a",
+      komoditas: "Melinting, Braja Selebah, Labuhan Maringgai",
+      harga: "Hardono, S.P",
       keterangan: "Keterangan"
     },
   ];
@@ -103,7 +84,7 @@ const ProdusenDanEceran = () => {
           </div>
         </div>
         <div className="right">
-          <Link href="/penyuluhan/data-kabupaten/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
+          <Link href="/ketahanan-pangan/produsen-dan-eceran/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
             Tambah Data
           </Link>
         </div>
@@ -115,13 +96,8 @@ const ProdusenDanEceran = () => {
         <Table className='border border-slate-200'>
           <TableHeader className='bg-primary-600'>
             <TableRow >
-              <TableHead className="text-primary py-3">Wilayah Desa Binaan</TableHead>
-              <TableHead className="text-primary py-3">Nama</TableHead>
-              <TableHead className="text-primary py-3">NIP</TableHead>
-              <TableHead className="text-primary py-3">
-                Pangkat
-              </TableHead>
-              <TableHead className="text-primary py-3">Gol</TableHead>
+              <TableHead className="text-primary py-3">Komoditas</TableHead>
+              <TableHead className="text-primary py-3">Harga</TableHead>
               <TableHead className="text-primary py-3">Keterangan</TableHead>
             </TableRow>
           </TableHeader>
@@ -129,19 +105,10 @@ const ProdusenDanEceran = () => {
             {data.map((item, index) => (
               <TableRow key={index}>
                 <TableCell>
-                  {item.wilayahDesaBinaan}
+                  {item.komoditas}
                 </TableCell>
                 <TableCell>
-                  {item.nama}
-                </TableCell>
-                <TableCell>
-                  {item.nip}
-                </TableCell>
-                <TableCell>
-                  {item.pangkat}
-                </TableCell>
-                <TableCell>
-                  {item.gol}
+                  {item.harga}
                 </TableCell>
                 <TableCell>
                   {item.keterangan}
