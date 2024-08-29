@@ -83,7 +83,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TamabahPegawaiPage = () => {
+const TamabahPenyuluhDataKecamatan = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -111,19 +111,19 @@ const TamabahPegawaiPage = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-1/2">
-                            <Label className='text-sm mb-1' label="Wilayah Desa Binaan" />
+                        <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Nama Kecamatan" />
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant="outline"
                                         role="combobox"
                                         aria-expanded={open}
-                                        className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
+                                        className={`w-full justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
                                     >
                                         {value
                                             ? frameworks.find((framework) => framework.value === value)?.label
-                                            : "Pilih WIlayah Desa Binaan"}
+                                            : "Pilih Kecamatan"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                     </Button>
                                 </PopoverTrigger>
@@ -160,6 +160,19 @@ const TamabahPegawaiPage = () => {
                                     <HelperError>{errors.namaKecamatan.message}</HelperError>
                                 )}
                             </Popover>
+                        </div>
+                        <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Wilayah Desa Binaan" />
+                            <Input
+                                autoFocus
+                                type="text"
+                                placeholder="Wilayah Desa Binaan"
+                                {...register('namaPenyuluh')}
+                                className={`${errors.namaPenyuluh ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.namaPenyuluh && (
+                                <HelperError>{errors.namaPenyuluh.message}</HelperError>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
@@ -263,4 +276,4 @@ const TamabahPegawaiPage = () => {
     )
 }
 
-export default TamabahPegawaiPage
+export default TamabahPenyuluhDataKecamatan
