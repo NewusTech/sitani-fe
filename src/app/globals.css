@@ -18,6 +18,7 @@ html {
 /* Menyesuaikan warna latar belakang dan lebar scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
   margin-left: 10px;
 }
 
