@@ -29,9 +29,9 @@ const DeletePopup: FC<DeletePopupProps> = ({ onDelete }) => {
         <div>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
-                    <Button variant="ghost" onClick={() => setIsOpen(true)}>
+                    <button onClick={() => setIsOpen(true)}>
                         <HapusIcon />
-                    </Button>
+                    </button>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>

@@ -19,9 +19,6 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 const formSchema = z.object({
-    kecamatan: z
-        .string()
-        .min(1, "Kecamatan wajib diisi"),
     kategoriPanen: z
         .string()
         .min(1, { message: "Kategori wajib diisi" }),
@@ -56,7 +53,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahKecPage = () => {
+const TambahKabPage = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -75,28 +72,29 @@ const TambahKecPage = () => {
     };
     return (
         <>
-            <div className="text-primary text-2xl font-bold mb-5">Tambah Data Luas Produksi Kecamatan</div>
+            <div className="text-primary text-2xl font-bold mb-5">Tambah Data Luas Produksi Kabupaten</div>
             {/* Nama NIP Tempat Tanggal Lahir */}
             <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
                 <div className="wrap-form">
-                    {/* pilih kecamatan - katagori panen */}
+                    {/* pilih Kabamatan - katagori panen */}
                     <div className="mb-2">
                         <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Pilih Kecamatan" />
+                                <Label className='text-sm mb-1' label="Pilih Komiditi" />
                                 <Select
-                                    onValueChange={(value) => setValue("kecamatan", value)}
+                                    onValueChange={(value) => setValue("komoditi", value)}
                                 >
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Kecamatan" />
+                                        <SelectValue placeholder="Pilih Komoditi" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Jabung">Jabung</SelectItem>
-                                        <SelectItem value="Pensiun">Way Jepara</SelectItem>
+                                        <SelectItem value="Aren">Aren</SelectItem>
+                                        <SelectItem value="Karet">Karet</SelectItem>
+                                        <SelectItem value="Cengkeh">Cengkeh</SelectItem>
                                     </SelectContent>
                                 </Select>
-                                {errors.kecamatan && (
-                                    <HelperError>{errors.kecamatan.message}</HelperError>
+                                {errors.komoditi && (
+                                    <HelperError>{errors.komoditi.message}</HelperError>
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
@@ -113,35 +111,13 @@ const TambahKecPage = () => {
                                         <SelectItem value="Tan. Rempah">Tan. Rempah</SelectItem>
                                     </SelectContent>
                                 </Select>
-                                {errors.kecamatan && (
-                                    <HelperError>{errors.kecamatan.message}</HelperError>
+                                {errors.kategoriPanen && (
+                                    <HelperError>{errors.kategoriPanen.message}</HelperError>
                                 )}
                             </div>
                         </div>
                     </div>
-                    {/* pilih komoditi */}
-                    <div className="mb-2">
-                        <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-1/2 pr-3">
-                                <Label className='text-sm mb-1' label="Pilih Komiditi" />
-                                <Select
-                                    onValueChange={(value) => setValue("komoditi", value)}
-                                >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Pilih Komoditi" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Aren">Aren</SelectItem>
-                                        <SelectItem value="Karet">Karet</SelectItem>
-                                        <SelectItem value="Cengkeh">Cengkeh</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                {errors.kecamatan && (
-                                    <HelperError>{errors.kecamatan.message}</HelperError>
-                                )}
-                            </div>
-                        </div>
-                    </div>
+                    {/*  */}
                     <div className="wrap">
                         <div className="text-primary text-xl font-bold my-2">
                             Komposisi Luas Areal
@@ -283,4 +259,4 @@ const TambahKecPage = () => {
     )
 }
 
-export default TambahKecPage
+export default TambahKabPage

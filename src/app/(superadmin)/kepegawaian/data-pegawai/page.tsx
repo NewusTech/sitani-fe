@@ -64,6 +64,7 @@ interface Data {
   };
   usia?: number;
   masaKerja?: string;
+  status?: string;
   keterangan?: string;
 }
 
@@ -90,6 +91,7 @@ const DataPegawaiPage = () => {
       },
       usia: 34,
       masaKerja: "12 Tahun",
+      status: "Aktif",
       keterangan: "PNS",
     },
     {
@@ -113,6 +115,7 @@ const DataPegawaiPage = () => {
       },
       usia: 36,
       masaKerja: "14 Tahun",
+      status: "Mendekati Pensiun",
       keterangan: "PNS",
     },
   ];
@@ -170,21 +173,22 @@ const DataPegawaiPage = () => {
         <Table className='border border-slate-200'>
           <TableHeader className='bg-primary-600'>
             <TableRow >
-              <TableHead className="text-primary py-3">Nama/NIP
+              <TableHead className="text-primary py-1">Nama/NIP
                 <br /> Tempat/Tgl Lahir</TableHead>
-              <TableHead className="text-primary py-3">Pangkat/Gol Ruang
+              <TableHead className="text-primary py-1">Pangkat/Gol Ruang
                 <br />
                 TMT Pangkat</TableHead>
-              <TableHead className="text-primary py-3">
+              <TableHead className="text-primary py-1">
                 Jabatan <br />
                 TMT Jabatan
               </TableHead>
-              <TableHead className="text-primary py-3">Diklat Struktural</TableHead>
-              <TableHead className="text-primary py-3">Pendidikan Umum</TableHead>
-              <TableHead className="text-primary py-3">Usia</TableHead>
-              <TableHead className="text-primary py-3">Masa Kerja</TableHead>
-              <TableHead className="text-primary py-3">Ket</TableHead>
-              <TableHead className="text-primary py-3 font-semibold">Aksi</TableHead>
+              <TableHead className="text-primary py-1">Diklat Struktural</TableHead>
+              <TableHead className="text-primary py-1">Pendidikan Umum</TableHead>
+              <TableHead className="text-primary py-1">Usia</TableHead>
+              <TableHead className="text-primary py-1">Masa Kerja</TableHead>
+              <TableHead className="text-primary py-1">Ket</TableHead>
+              <TableHead className="text-primary py-1">Status</TableHead>
+              <TableHead className="text-primary py-1 ">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -223,16 +227,19 @@ const DataPegawaiPage = () => {
                   {item.keterangan}
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-5">
-                    <Link href="/kepegawaian/data-pegawai/detail-pegawai">
+                  <div className="p-1 text-xs rounded bg-slate-200 text-center">
+                    {item.status}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-4">
+                    <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
                       <EyeIcon />
                     </Link>
-                    <Link href="/kepegawaian/data-pegawai/edit-pegawai">
+                    <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
                       <EditIcon />
                     </Link>
-                    <div>
-                      <DeletePopup onDelete={() => {}} />
-                    </div>
+                    <DeletePopup onDelete={() => { }} />
                   </div>
                 </TableCell>
               </TableRow>

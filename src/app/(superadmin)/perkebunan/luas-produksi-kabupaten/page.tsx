@@ -77,7 +77,7 @@ const LuasKabPage = () => {
                     </div>
                 </div>
                 <div className="right flex gap-3">
-                    <Link href="/tanaman-pangan-holtikutura/realisasi/tambah-palawija1" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
+                    <Link href="/perkebunan/luas-produksi-kabupaten/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
                         Tambah Data
                     </Link>
                 </div>
