@@ -80,8 +80,17 @@ const Login = () => {
         {/* Login Form Section */}
         <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-center">
           <div className="w-full">
-            <div className="m-5 p-5 md:border-none lg:border-none border-dashed border-2 border-primary rounded-lg">
-              <h1 className="text-2xl mb-10 text-primary font-bold text-left">
+            <div className="left container mx-auto py-2 flex items-center gap-2">
+              <div className="logo">
+                <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[50px]' />
+              </div>
+              <div className="teks">
+                <div className="head font-bold text-xl md:text-3xl text-primary">SITANI</div>
+                <div className="head text-sm md:text-base">Sistem Informasi Data Pertanian Lampung Timur</div>
+              </div>
+            </div>
+            <div className="m-5 p-5 md:border-none lg:border-none  border-2 border-primary rounded-lg">
+              <h1 className="text-2xl mb-5 md:mb-10 text-primary font-bold text-left">
                 Silahkan Masuk
               </h1>
 
@@ -124,11 +133,15 @@ const Login = () => {
                   Lupa kata sandi?
                 </Link>
               </div>
-
-              <div className="mt-5 text-center">
+              {/* <div className="mt-5 text-center">
                 <Button type="submit" variant="primary" size="lg" className="w-[40%]">
                   Masuk
                 </Button>
+              </div> */}
+              <div className="mt-5 text-center w-full">
+                <Link href="/dashboard" className="block w-full p-2 text-white bg-primary rounded-full">
+                  Masuk
+                </Link>
               </div>
             </div>
             {/* Footer Section */}

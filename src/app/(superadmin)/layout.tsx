@@ -78,7 +78,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                         <div className="head text-base ">Super Admin</div>
                     </div>
                 </div>
-                <div className="wrap-nav flex bg-red flex-col gap-2">
+                <div className="wrap-nav flex bg-red flex-col gap-2 mb-10">
                     <div className="wrap flex flex-col gap-1">
                         <div className='h-[73%] overflow-auto '>
                             {/* dashboard */}
@@ -218,6 +218,23 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                             </Accordion>
                             {/*data-master */}
+                            {/* peran-pengguna */}
+                            <Accordion className='' type="single" collapsible>
+                                <AccordionItem className='pl-2' value="item-1">
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/peran-pengguna') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                        Peran Pengguna
+                                    </AccordionTrigger>
+                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/peran-pengguna/peran">
+                                            <span className='text-sm'>Peran</span>
+                                        </Menu>
+                                        <Menu link="/peran-pengguna/pengguna">
+                                            <span className='text-sm'>Pengguna</span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                            {/*peran-pengguna */}
                         </div>
                     </div>
 
