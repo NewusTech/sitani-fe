@@ -78,13 +78,13 @@ const TambahBukanSawahPage = () => {
   };
   return (
     <>
-      <div className="text-primary text-2xl font-bold mb-5">Tambah Data Lahan Bukan Sawah</div>
+      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Lahan Bukan Sawah</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
         <div className="wrap-form">
           {/* pilih kecamatan - desa */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                 <Select
@@ -127,7 +127,7 @@ const TambahBukanSawahPage = () => {
             </div>
             {/* irigasi teknis - 1/2 */}
             <div className="mb-2">
-              <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+              <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                 <div className="flex flex-col mb-2 w-full">
                   <Label className='text-sm mb-1' label="Tegal / Kebun" />
                   <Input
@@ -158,7 +158,7 @@ const TambahBukanSawahPage = () => {
             </div>
             {/* desan - pasang */}
             <div className="mb-2">
-              <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+              <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                 <div className="flex flex-col mb-2 w-full">
                   <Label className='text-sm mb-1' label="Hutan Rakyat" />
                   <Input
@@ -189,7 +189,7 @@ const TambahBukanSawahPage = () => {
             </div>
             {/* lebak - lainnya */}
             <div className="mb-2">
-              <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+              <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                 <div className="flex flex-col mb-2 w-full">
                   <Label className='text-sm mb-1' label="Hutan Negara" />
                   <Input
@@ -226,7 +226,7 @@ const TambahBukanSawahPage = () => {
             </div>
             {/* irigasi teknis - 1/2 */}
             <div className="mb-2">
-              <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+              <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                 <div className="flex flex-col mb-2 w-full">
                   <Label className='text-sm mb-1' label="Jalan" />
                   <Input
@@ -257,7 +257,7 @@ const TambahBukanSawahPage = () => {
             </div>
             {/* desan - pasang */}
             <div className="mb-2">
-              <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+              <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                 <div className="flex flex-col mb-2 w-full">
                   <Label className='text-sm mb-1' label="Perkantoran" />
                   <Input

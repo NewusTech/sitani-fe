@@ -62,14 +62,13 @@ const TamabahPenyuluhDataKecamatan = () => {
 
     return (
         <>
-            <div className="text-primary text-2xl font-bold mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Panen (%)" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Panen (%)"
                                 {...register('panen')}
@@ -82,7 +81,6 @@ const TamabahPenyuluhDataKecamatan = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="GKP Tk.Petani" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan GKP Tk.Petani"
                                 {...register('gkpTkPetani')}
@@ -96,11 +94,10 @@ const TamabahPenyuluhDataKecamatan = () => {
                 </div>
 
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="GKP Tk. Penggilingan" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan GKP Tk. Penggilingan"
                                 {...register('gkpTkPenggilingan')}
@@ -113,7 +110,6 @@ const TamabahPenyuluhDataKecamatan = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="GKG Tk. Penggilingan" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan GKG Tk. Penggilingan"
                                 {...register('gkgTkPenggilingan')}
@@ -127,11 +123,10 @@ const TamabahPenyuluhDataKecamatan = () => {
                 </div>
 
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="JPK" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan JPK"
                                 {...register('jpk')}
@@ -144,7 +139,6 @@ const TamabahPenyuluhDataKecamatan = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Cabai Merah Keriting" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan Cabai Merah Keriting"
                                 {...register('cabaiMerahKeriting')}
@@ -158,11 +152,10 @@ const TamabahPenyuluhDataKecamatan = () => {
                 </div>
 
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Beras Medium" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan Beras Medium"
                                 {...register('berasMedium')}
@@ -175,7 +168,6 @@ const TamabahPenyuluhDataKecamatan = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Beras Premium" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan Beras Premium"
                                 {...register('berasPremium')}
@@ -189,11 +181,10 @@ const TamabahPenyuluhDataKecamatan = () => {
                 </div>
 
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Stok GKG" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan Stok GKG"
                                 {...register('stokGkg')}
@@ -206,7 +197,6 @@ const TamabahPenyuluhDataKecamatan = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Stok Beras" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan Stok Beras"
                                 {...register('stokBeras')}
@@ -218,14 +208,13 @@ const TamabahPenyuluhDataKecamatan = () => {
                         </div>
                     </div>
                 </div>
-
-                <div className="mb-10 flex justify-end gap-3">
+                <div className="mb-10 mt-3 flex justify-end gap-3">
+                    <Link href="/ketahanan-pangan/produsen-dan-eceran" className='bg-white w-[120px] text-sm md:text-base  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center'>
+                        BATAL
+                    </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
                         SIMPAN
                     </Button>
-                    <Link href="/ketahanan-pangan/koefisien-variasi-produksi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-                        BATAL
-                    </Link>
                 </div>
             </form>
         </>

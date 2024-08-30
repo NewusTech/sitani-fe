@@ -42,7 +42,7 @@ const TamabahPenyuluhDataKecamatan = () => {
 
     return (
         <>
-            <div className="text-primary text-2xl font-bold mb-3 md:mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-3 md:mb-5">Tambah Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="wrap-form flex-col gap-2">
                     <div className="">

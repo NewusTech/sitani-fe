@@ -61,13 +61,13 @@ const TambahPalawija2Page = () => {
   };
   return (
     <>
-      <div className="text-primary text-2xl font-bold mb-5">Tambah Data Palawija 2</div>
+      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Palawija 2</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
         <div className="wrap-form">
           {/* pilih kecamatan - desa */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                 <Select
@@ -103,7 +103,7 @@ const TambahPalawija2Page = () => {
           </div>
           {/* pilih tanaman - panen (ha) */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Pilih Tanaman" />
                 <Select
@@ -122,7 +122,6 @@ const TambahPalawija2Page = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Panen (ha)" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Panen"
                   {...register('panen')}
@@ -136,11 +135,10 @@ const TambahPalawija2Page = () => {
           </div>
           {/* produktivitas - produksi */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Produktivitas (ku/ha)" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produktivitas (ku/ha)"
                   {...register('produktivitas')}
@@ -153,7 +151,6 @@ const TambahPalawija2Page = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Produksi (ton)" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produksi"
                   {...register('produksi')}

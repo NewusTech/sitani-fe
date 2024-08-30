@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
+import { Textarea } from '@/components/ui/textarea';
+
 
 import {
   Select,
@@ -97,16 +99,15 @@ const TamabahPegawaiPage = () => {
   };
   return (
     <>
-      <div className="text-primary text-2xl font-bold mb-5">Tambah Data Pegawai</div>
+      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Pegawai</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="">
         <div className="mb-2">
           {/* <div className="text-primary text-lg font-bold mb-2">Nama, NIP, Tempat, Tanggal Lahir</div> */}
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Nama Lengkap" />
               <Input
-                autoFocus
                 type="text"
                 placeholder="Nama Lengkap"
                 {...register('name')}
@@ -119,7 +120,6 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="NIP" />
               <Input
-                autoFocus
                 type="number"
                 placeholder="NIP"
                 {...register('nip')}
@@ -130,11 +130,10 @@ const TamabahPegawaiPage = () => {
               )}
             </div>
           </div>
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Tempat Lahir" />
               <Input
-                autoFocus
                 type="text"
                 placeholder="Tempat Lahir"
                 {...register('tempatLahir')}
@@ -147,7 +146,6 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Tanggal Lahir" />
               <Input
-                autoFocus
                 type="date"
                 placeholder="Tanggal Lahir"
                 {...register('tanggalLahir')}
@@ -163,11 +161,10 @@ const TamabahPegawaiPage = () => {
         {/* Pangkat/Gol Ruang Tmt Pangkat */}
         <div className="mb-2">
           {/* <div className="text-primary text-lg font-bold mb-2">Pangkat / Gol, Ruang, TMT Pangkat</div> */}
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Pangkat / Gol Ruang " />
               <Input
-                autoFocus
                 type="text"
                 placeholder="Pangkat Gol / Ruang"
                 {...register('pangkatGolRuang')}
@@ -180,7 +177,6 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="TMT Pangkat" />
               <Input
-                autoFocus
                 type="date"
                 placeholder="TMT Pangkat"
                 {...register('tmtPangkat')}
@@ -196,11 +192,10 @@ const TamabahPegawaiPage = () => {
         {/* Jabatan TMT Jabatan */}
         <div className="mb-2">
           {/* <div className="text-primary text-lg font-bold mb-2">Jabatan, TMT Jabatan</div> */}
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Jabatan" />
               <Input
-                autoFocus
                 type="text"
                 placeholder="Jabatan"
                 {...register('jabatan')}
@@ -213,7 +208,6 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="TMT Jabatan" />
               <Input
-                autoFocus
                 type="date"
                 placeholder="TMT Jabatan"
                 {...register('tmtJabatan')}
@@ -229,7 +223,7 @@ const TamabahPegawaiPage = () => {
         {/* Bidang Status Aktif */}
         <div className="mb-2">
           {/* <div className="text-primary text-lg font-bold mb-2">Bidang Status Aktif</div> */}
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Bidang" />
               <Select
@@ -262,14 +256,13 @@ const TamabahPegawaiPage = () => {
           </div>
         </div>
 
-        {/* Usia */}
+        {/* Bidang Status Aktif */}
         <div className="mb-2">
-          {/* <div className="text-primary text-lg font-bold mb-2">Usia</div> */}
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+          {/* <div className="text-primary text-lg font-bold mb-2">Bidang Status Aktif</div> */}
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Usia" />
               <Input
-                autoFocus
                 type="text"
                 placeholder="Usia"
                 {...register('usia')}
@@ -279,17 +272,9 @@ const TamabahPegawaiPage = () => {
                 <HelperError>{errors.usia.message}</HelperError>
               )}
             </div>
-          </div>
-        </div>
-
-        {/* Masa Kerja */}
-        <div className="mb-2">
-          {/* <div className="text-primary text-lg font-bold mb-2">Masa Kerja</div> */}
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Masa Kerja" />
               <Input
-                autoFocus
                 type="text"
                 placeholder="Masa Kerja"
                 {...register('masaKerja')}
@@ -304,15 +289,10 @@ const TamabahPegawaiPage = () => {
 
         {/* Keterangan */}
         <div className="mb-2">
-          {/* <div className="text-primary text-lg font-bold mb-2">Keterangan</div> */}
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Keterangan" />
-              <Input
-                autoFocus
-                type="name"
-                placeholder="Keterangan"
-                {...register('keterangan')}
+              <Textarea  {...register('keterangan')}
                 className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
               />
               {errors.keterangan && (
@@ -325,11 +305,10 @@ const TamabahPegawaiPage = () => {
         {/* Pendidikan Umum */}
         <div className="mb-2">
           <div className="text-primary text-lg font-bold mb-2">Pendidikan Umum</div>
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Nama" />
               <Input
-                autoFocus
                 type="text"
                 placeholder="Nama"
                 {...register('namaPendidikanUmum')}
@@ -342,7 +321,6 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Tahun Lulus" />
               <Input
-                autoFocus
                 type="date"
                 placeholder="Tahun Lulus"
                 {...register('tahunLulusPendidikanUmum')}
@@ -355,7 +333,6 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Jenjang" />
               <Input
-                autoFocus
                 type="text"
                 placeholder="Jenjang"
                 {...register('jenjangPendidikanUmum')}
@@ -371,11 +348,10 @@ const TamabahPegawaiPage = () => {
         {/* Diklat Struktural */}
         <div className="mb-10">
           <div className="text-primary text-lg font-bold mb-2">Diklat Struktural</div>
-          <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Nama Diklat" />
               <Input
-                autoFocus
                 type="text"
                 placeholder="Nama Diklat"
                 {...register('namaDiklat')}
@@ -388,7 +364,6 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Tanggal Diklat" />
               <Input
-                autoFocus
                 type="date"
                 placeholder="Tanggal  Diklat"
                 {...register('tanggalDiklat')}
@@ -401,7 +376,6 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Jam Diklat" />
               <Input
-                autoFocus
                 type="time"
                 placeholder="Jam Diklat"
                 {...register('jamDiklat')}

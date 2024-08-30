@@ -41,14 +41,13 @@ const TamabahPenyuluhDataKecamatan = () => {
 
     return (
         <>
-            <div className="text-primary text-2xl font-bold mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Daging Sapi Tingkat Pemotong / RPH" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Daging Sapi Tingkat Pemotong / RPH"
                                 {...register('dagingSapi')}
@@ -61,7 +60,6 @@ const TamabahPenyuluhDataKecamatan = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Daging Ayam Ras" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan Daging Ayam Ras"
                                 {...register('dagingAyam')}
@@ -79,7 +77,6 @@ const TamabahPenyuluhDataKecamatan = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Telur Ayam Ras" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Masukkan Telur Ayam Ras"
                                 {...register('telurAyam')}
@@ -92,13 +89,13 @@ const TamabahPenyuluhDataKecamatan = () => {
                     </div>
                 </div>
 
-                <div className="mb-10 flex justify-end gap-3">
+                <div className="mb-10 mt-3 flex justify-end gap-3">
+                    <Link href="/ketahanan-pangan/produsen-dan-eceran" className='bg-white w-[120px] text-sm md:text-base  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center'>
+                        BATAL
+                    </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
                         SIMPAN
                     </Button>
-                    <Link href="/ketahanan-pangan/koefisien-variasi-produsen" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-                        BATAL
-                    </Link>
                 </div>
             </form>
         </>

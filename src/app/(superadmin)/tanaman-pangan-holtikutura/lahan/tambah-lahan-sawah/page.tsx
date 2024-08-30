@@ -66,13 +66,13 @@ const TambahLahanSawahPage = () => {
   };
   return (
     <>
-      <div className="text-primary text-2xl font-bold mb-5">Tambah Data Lahan Sawah</div>
+      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Lahan Sawah</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
         <div className="wrap-form">
           {/* pilih kecamatan - desa */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                 <Select
@@ -111,7 +111,7 @@ const TambahLahanSawahPage = () => {
           </div>
           {/* irigasi teknis - 1/2 */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Irigasi Teknis" />
                 <Input
@@ -142,7 +142,7 @@ const TambahLahanSawahPage = () => {
           </div>
           {/* desan - pasang */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Irigasi Desan / Non PU" />
                 <Input
@@ -173,7 +173,7 @@ const TambahLahanSawahPage = () => {
           </div>
           {/* lebak - lainnya */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Lebak" />
                 <Input

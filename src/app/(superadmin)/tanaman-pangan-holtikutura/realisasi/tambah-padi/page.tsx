@@ -60,13 +60,13 @@ const TambahPadiRealisasiPage = () => {
   };
   return (
     <>
-      <div className="text-primary text-2xl font-bold mb-5">Tambah Data Padi</div>
+      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Padi</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
         <div className="wrap-form">
           {/* pilih kecamatan - desa */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                 <Select
@@ -105,7 +105,7 @@ const TambahPadiRealisasiPage = () => {
           </div>
           {/* pilih tanaman - lahan */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Pilih Lahan" />
                 <Select
@@ -126,7 +126,6 @@ const TambahPadiRealisasiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Produksi (ton)" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produksi"
                   {...register('produksi')}
@@ -140,11 +139,10 @@ const TambahPadiRealisasiPage = () => {
           </div>
           {/* pilih tanaman - panen (ha) */}
           <div className="mb-2">
-            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full pr-3">
                 <Label className='text-sm mb-1' label="Panen" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Panen"
                   {...register('panen')}
@@ -157,7 +155,6 @@ const TambahPadiRealisasiPage = () => {
               <div className="flex flex-col mb-2 w-full pr-3">
                 <Label className='text-sm mb-1' label="Produktivitas (ku/ha)" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produktivitas (ku/ha)"
                   {...register('produktivitas')}

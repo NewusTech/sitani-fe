@@ -12,6 +12,8 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import CloseNav from '../../../public/icons/CloseNav';
+import OpenNav from '../../../public/icons/OpenNav';
 
 
 interface LayoutAdminProps {
@@ -58,16 +60,16 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
     return (
         <div className="wrap w-full min-h-screen bg-white relative">
             {/* navbar */}
-            <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed bg-transparent">
-                <div className="wra white md:ml-[290px]  bg-transparent   m-auto justify-between lg:justify-end md:py-[23px]  flex items-center gap-4 text-left">
-                    <div onClick={handleNavbar} className="icon ml-5 mt-2 block cursor-pointer lg:hidden bg-primary rounded p-1 px-2 text-white ">
-                        {navbar ? "x" : "="}
+            <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed md:bg-transparent bg-[#F6F6F6] py-2 pr-4">
+                <div className="wra white md:ml-[290px]  bg-transparent   m-auto justify-end lg:justify-end md:py-[23px]  flex items-center gap-4 text-left">
+                    <div onClick={handleNavbar} className="icon  flex cursor-pointer lg:hidden bg-primary rounded p-2 w-[40px]  justify-center items-center px-2 text-white ">
+                    {navbar ? <CloseNav /> : <OpenNav />}
                     </div>
                 </div>
             </div>
             {/* sidebar */}
-            <div className={`sidebar bg-[#F6F6F6] overflow-auto pt-[70px] lg:pt-0 z-[1] lg:z-20 lg:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"} box-border lg:w-[300px] lg:shadow-none shadow-lg w-[70%] px-[30px] bg-whie transition-all duration-300 lg:left-0 `}>
-                <div className="LOGO flex my-10 gap-2 items-center ">
+            <div className={`sidebar bg-[#F6F6F6] overflow-auto z-50 pt-[10px] lg:pt-0 lg:z-20 lg:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"} box-border lg:w-[300px] lg:shadow-none shadow-lg w-[75%] px-[30px] bg-whie transition-all duration-300 lg:left-0 `}>
+                <div className="LOGO flex my-5 md:my-10 gap-2 items-center ">
                     <div className="logo flex-shrink-0 ">
                         <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[50px]' />
                     </div>
@@ -78,7 +80,6 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
                 <div className="wrap-nav flex bg-red flex-col gap-2">
                     <div className="wrap flex flex-col gap-1">
-
                         <div className='h-[73%] overflow-auto '>
                             {/* dashboard */}
                             <Link href="/dashboard" className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] ${pathname.startsWith('/dashboard') ? "bg-primary text-white" : "bg-transparent text-primary"}`} >
@@ -223,7 +224,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
             </div>
             {/* KONTEN */}
-            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  md:pt-[15px] pt-[30px] h-full">
+            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  md:pt-[15px] pt-[50px] h-full">
                 <div className="konten  overflow-auto h-[90%] p-3 lg:px-1">
                     {/* konten */}
                     {props.children}

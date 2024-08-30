@@ -72,13 +72,13 @@ const TambahKabPage = () => {
     };
     return (
         <>
-            <div className="text-primary text-2xl font-bold mb-5">Tambah Data Luas Produksi Kabupaten</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Luas Produksi Kabupaten</div>
             {/* Nama NIP Tempat Tanggal Lahir */}
             <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
                 <div className="wrap-form">
                     {/* pilih Kabamatan - katagori panen */}
                     <div className="mb-2">
-                        <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Pilih Komiditi" />
                                 <Select
@@ -124,7 +124,7 @@ const TambahKabPage = () => {
                         </div>
                         {/* tbm - tm */}
                         <div className="mb-2">
-                            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                                 <div className="flex flex-col mb-2 w-full">
                                     <Label className='text-sm mb-1' label="Tanaman Belum Menghasilkan" />
                                     <Input
@@ -153,8 +153,8 @@ const TambahKabPage = () => {
                         </div>
                         {/* tr */}
                         <div className="mb-2">
-                            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                                <div className="flex flex-col mb-2 w-1/2 pr-3">
+                            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                                <div className="flex flex-col md:w-1/2 w-full md:pr-3">
                                     <Label className='text-sm mb-1' label="Tanaman Rusak" />
                                     <Input
                                         type="number"
@@ -170,7 +170,7 @@ const TambahKabPage = () => {
                         </div>
                         {/* produksi - produktivitas */}
                         <div className="mb-2 mt-4">
-                            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                                 <div className="flex flex-col mb-2 w-full">
                                     <Label className='text-sm mb-1' label="Produksi (TON)" />
                                     <Input
@@ -199,7 +199,7 @@ const TambahKabPage = () => {
                         </div>
                         {/* jumlah petani - bentuk hasil */}
                         <div className="mb-2">
-                            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                                 <div className="flex flex-col mb-2 w-full">
                                     <Label className='text-sm mb-1' label="Jumlah Petani Perkebun" />
                                     <Input
@@ -228,8 +228,8 @@ const TambahKabPage = () => {
                         </div>
                         {/* keterangan */}
                         <div className="mb-2">
-                            <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                                <div className="flex flex-col mb-2 w-1/2 pr-3">
+                            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                                <div className="flex flex-col mb-2 md:w-1/2 w-full md:pr-3">
                                     <Label className='text-sm mb-1' label="Keterangan" />
                                     <Input
                                         type="number"

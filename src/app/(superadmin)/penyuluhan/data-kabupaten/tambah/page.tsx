@@ -72,11 +72,11 @@ const PenyuluhanTambahDataKabupaten = () => {
 
     return (
         <>
-            <div className="text-primary text-2xl font-bold mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-1/2">
+                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                        <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Wilayah Desa Binaan (Kecamatan)" />
                             <MultipleSelector
                                 className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
@@ -94,7 +94,7 @@ const PenyuluhanTambahDataKabupaten = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Nama" />
                             <Input
@@ -122,7 +122,7 @@ const PenyuluhanTambahDataKabupaten = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pangkat" />
                             <Input
@@ -153,7 +153,7 @@ const PenyuluhanTambahDataKabupaten = () => {
                 </div>
 
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
                             <Textarea  {...register('keterangan')}
