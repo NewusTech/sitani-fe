@@ -10,7 +10,7 @@ const BerandaPage = () => {
     <div className='w-full  min-h-screen'>
       {/* home */}
       <div className="home">
-        <Image src="/assets/images/home.png" alt="logo" width={100} height={100} unoptimized className='w-full h-screen object-cover' />
+        <Image src="/assets/images/home.png" alt="logo" width={100} height={100} unoptimized className='w-full h-[250px] lg:h-screen object-cover' />
       </div>
       {/* home */}
 
