@@ -54,7 +54,7 @@ const KoefisienVariasiProdusen = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Daftar dagingSapi Produsen dan Eceran</div>
+            <div className="text-xl md:text-2xl md:mb-4 mb-3 font-semibold text-primary uppercase">Data Coefesien Variasi CV Tingkat Produsen</div>
             {/* title */}
             {/* top */}
             <div className="header flex justify-between items-center">

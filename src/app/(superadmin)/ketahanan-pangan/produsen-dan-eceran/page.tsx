@@ -51,11 +51,11 @@ const ProdusenDanEceran = () => {
   return (
     <div>
       {/* title */}
-      <div className="text-2xl mb-4 font-semibold text-primary uppercase">Daftar Harga Produsen dan Eceran</div>
+      <div className="text-xl md:text-2xl md:mb-4 mb-3 font-semibold text-primary uppercase">Daftar Harga Produsen dan Eceran</div>
       {/* title */}
       {/* top */}
-      <div className="header flex justify-between items-center">
-        <div className="search w-[50%]">
+      <div className="header flex gap-2 justify-between items-center">
+        <div className="search md:w-[50%]">
           <Input
             type="text"
             placeholder="Cari"
@@ -63,19 +63,23 @@ const ProdusenDanEceran = () => {
             className='border-primary py-2'
           />
         </div>
-        <div className="btn flex gap-3">
-          <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+        <div className="btn flex gap-2">
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
             <UnduhIcon />
-            Download
+            <div className="hidden md:block">
+              Download
+            </div>
           </Button>
-          <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
             <PrintIcon />
-            Print
+            <div className="hidden md:block">
+              Print
+            </div>
           </Button>
         </div>
       </div>
       {/*  */}
-      <div className="wrap-filter flex justify-between items-center mt-4 ">
+      <div className="wrap-filter flex justify-between items-center mt-2 md:mt-4 ">
         <div className="left gap-2 flex justify-start items-center">
           <div className="filter-table w-[40px] h-[40px]">
             <Button variant="outlinePrimary" className=''>
@@ -84,7 +88,7 @@ const ProdusenDanEceran = () => {
           </div>
         </div>
         <div className="right">
-          <Link href="/ketahanan-pangan/produsen-dan-eceran/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
+          <Link href="/ketahanan-pangan/produsen-dan-eceran/tambah" className='bg-primary text-sm px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
             Tambah Data
           </Link>
         </div>
