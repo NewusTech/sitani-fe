@@ -170,8 +170,14 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         PSP
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
-                                        <Menu link="/kepegawaian/data-pegawai">
-                                            <span className='text-sm'>Data Pegawai</span>
+                                        <Menu link="/psp/data-penerima-uppo">
+                                            <span className='text-sm'>Data Penerima UPP</span>
+                                        </Menu>
+                                        <Menu link="/psp/pupuk">
+                                            <span className='text-sm'>Pupuk</span>
+                                        </Menu>
+                                        <Menu link="/psp/bantuan">
+                                            <span className='text-sm'>Bantuan</span>
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
