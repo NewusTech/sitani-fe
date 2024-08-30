@@ -6,15 +6,7 @@ import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import Link from 'next/link'
-
 import {
     Table,
     TableBody,
@@ -111,8 +103,7 @@ const PenyuluhDataKabupaten = () => {
             {/* top */}
 
             {/* table */}
-            <div className="table w-full mt-5 rounded-md overflow-hidden">
-                <Table className='border border-slate-200'>
+                <Table className='border border-slate-200 mt-5'>
                     <TableHeader className='bg-primary-600'>
                         <TableRow >
                             <TableHead className="text-primary py-3">Wilayah Desa Binaan</TableHead>
@@ -150,7 +141,6 @@ const PenyuluhDataKabupaten = () => {
                         ))}
                     </TableBody>
                 </Table>
-            </div>
             {/* table */}
 
             {/* pagination */}
