@@ -84,36 +84,45 @@ const Bantuan = () => {
                     </Button>
                 </div>
             </div>
-            <div className="date mt-5 gap-2 flex justify-start items-center">
+            <div className="date mt-5 gap-2 flex justify-between items-center">
+                <div className="gap-2 flex justify-start items-center">
+                    <div className="">
+                        <Input
+                            type='date'
+                            className='w-fit py-2'
+                        />
+                    </div>
+                    <div className="">to</div>
+                    <div className="">
+                        <Input
+                            type='date'
+                            className='w-fit py-2'
+                        />
+                    </div>
+                    <div className="fil-kect w-[170px]">
+                        <Select >
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Kecamatan" className='text-2xl' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="select1">Select1</SelectItem>
+                                <SelectItem value="select2">Select2</SelectItem>
+                                <SelectItem value="select3">Select3</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="w-[40px] h-[40px]">
+                        <Button variant="outlinePrimary" className=''>
+                            <FilterIcon />
+                        </Button>
+                    </div>
+                </div>
                 <div className="">
-                    <Input
-                        type='date'
-                        className='w-fit py-2'
-                    />
-                </div>
-                <div className="">to</div>
-                <div className="">
-                    <Input
-                        type='date'
-                        className='w-fit py-2'
-                    />
-                </div>
-                <div className="fil-kect w-[170px]">
-                    <Select >
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Kecamatan" className='text-2xl' />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="select1">Select1</SelectItem>
-                            <SelectItem value="select2">Select2</SelectItem>
-                            <SelectItem value="select3">Select3</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="w-[40px] h-[40px]">
-                    <Button variant="outlinePrimary" className=''>
-                        <FilterIcon />
-                    </Button>
+                    <div className="justify-end flex">
+                        <Link href="/psp/bantuan/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
+                            Tambah Data
+                        </Link>
+                    </div>
                 </div>
             </div>
             {/* top */}

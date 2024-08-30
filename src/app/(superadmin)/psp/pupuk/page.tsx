@@ -82,24 +82,33 @@ const Pupuk = () => {
                     </Button>
                 </div>
             </div>
-            <div className="date mt-5 gap-2 flex justify-start items-center">
-                <div className="">
-                    <Input
-                        type='date'
-                        className='w-fit py-2'
-                    />
+            <div className="date mt-5 gap-2 flex justify-between items-center">
+                <div className="gap-2 flex justify-start items-center">
+                    <div className="">
+                        <Input
+                            type='date'
+                            className='w-fit py-2'
+                        />
+                    </div>
+                    <div className="">to</div>
+                    <div className="">
+                        <Input
+                            type='date'
+                            className='w-fit py-2'
+                        />
+                    </div>
+                    <div className="w-[40px] h-[40px]">
+                        <Button variant="outlinePrimary" className=''>
+                            <FilterIcon />
+                        </Button>
+                    </div>
                 </div>
-                <div className="">to</div>
                 <div className="">
-                    <Input
-                        type='date'
-                        className='w-fit py-2'
-                    />
-                </div>
-                <div className="w-[40px] h-[40px]">
-                    <Button variant="outlinePrimary" className=''>
-                        <FilterIcon />
-                    </Button>
+                    <div className="justify-end flex">
+                        <Link href="/psp/pupuk/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
+                            Tambah Data
+                        </Link>
+                    </div>
                 </div>
             </div>
             {/* top */}
