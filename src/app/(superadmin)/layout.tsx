@@ -59,8 +59,8 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
         <div className="wrap w-full min-h-screen bg-white relative">
             {/* navbar */}
             <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed bg-transparent">
-                <div className="wra white md:ml-[290px]  bg-white md:bg-transparent   m-auto justify-between lg:justify-end py-[23px]  flex items-center gap-4 text-left">
-                    <div onClick={handleNavbar} className="icon block cursor-pointer lg:hidden ">
+                <div className="wra white md:ml-[290px]  bg-transparent   m-auto justify-between lg:justify-end md:py-[23px]  flex items-center gap-4 text-left">
+                    <div onClick={handleNavbar} className="icon ml-5 mt-2 block cursor-pointer lg:hidden bg-primary rounded p-1 px-2 text-white ">
                         {navbar ? "x" : "="}
                     </div>
                 </div>
@@ -217,7 +217,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
             </div>
             {/* KONTEN */}
-            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  pt-[15px] h-full">
+            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  md:pt-[15px] pt-[30px] h-full">
                 <div className="konten  overflow-auto h-[90%] p-3 lg:px-1">
                     {/* konten */}
                     {props.children}
