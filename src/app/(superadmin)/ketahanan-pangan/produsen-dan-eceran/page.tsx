@@ -92,32 +92,34 @@ const ProdusenDanEceran = () => {
       {/* top */}
 
       {/* table */}
-      <div className="table w-full mt-5 rounded-md overflow-hidden">
-        <Table className='border border-slate-200'>
-          <TableHeader className='bg-primary-600'>
-            <TableRow >
-              <TableHead className="text-primary py-3">Komoditas</TableHead>
-              <TableHead className="text-primary py-3">Harga</TableHead>
-              <TableHead className="text-primary py-3">Keterangan</TableHead>
+      <Table className='border border-slate-200 mt-4'>
+        <TableHeader className='bg-primary-600'>
+          <TableRow >
+            <TableHead className="text-primary py-3">No</TableHead>
+            <TableHead className="text-primary py-3">Komoditas</TableHead>
+            <TableHead className="text-primary py-3">Harga</TableHead>
+            <TableHead className="text-primary py-3">Keterangan</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell>
+                {index + 1}
+              </TableCell>
+              <TableCell>
+                {item.komoditas}
+              </TableCell>
+              <TableCell>
+                {item.harga}
+              </TableCell>
+              <TableCell>
+                {item.keterangan}
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  {item.komoditas}
-                </TableCell>
-                <TableCell>
-                  {item.harga}
-                </TableCell>
-                <TableCell>
-                  {item.keterangan}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+          ))}
+        </TableBody>
+      </Table>
       {/* table */}
 
       {/* pagination */}

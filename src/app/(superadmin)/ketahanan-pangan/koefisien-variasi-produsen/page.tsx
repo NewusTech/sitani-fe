@@ -36,7 +36,7 @@ interface Data {
     telurAyam?: string;
 }
 
-const KoefisienVariasiProduksi = () => {
+const KoefisienVariasiProdusen = () => {
     const data: Data[] = [
         {
             bulan: "Januari",
@@ -80,6 +80,19 @@ const KoefisienVariasiProduksi = () => {
             {/*  */}
             <div className="wrap-filter flex justify-between items-center mt-4 ">
                 <div className="left gap-2 flex justify-start items-center">
+                    <div className="">
+                        <Input
+                            type='date'
+                            className='w-fit py-2'
+                        />
+                    </div>
+                    <div className="">to</div>
+                    <div className="">
+                        <Input
+                            type='date'
+                            className='w-fit py-2'
+                        />
+                    </div>
                     <div className="filter-table w-[40px] h-[40px]">
                         <Button variant="outlinePrimary" className=''>
                             <FilterIcon />
@@ -95,36 +108,70 @@ const KoefisienVariasiProduksi = () => {
             {/* top */}
 
             {/* table */}
-            <div className="table w-full mt-5 rounded-md overflow-hidden">
-                <Table className='border border-slate-200'>
-                    <TableHeader className='bg-primary-600'>
-                        <TableRow >
-                            <TableHead className="text-primary py-3">Bulan</TableHead>
-                            <TableHead className="text-primary py-3">Daging Sapi Tingkat Pemotong RPH</TableHead>
-                            <TableHead className="text-primary py-3">Daging Ayam Ras</TableHead>
-                            <TableHead className="text-primary py-3">Telur Ayam Ras</TableHead>
+            <Table className='border border-slate-200 mt-4'>
+                <TableHeader className='bg-primary-600'>
+                    <TableRow >
+                        <TableHead className="text-primary py-3">No</TableHead>
+                        <TableHead className="text-primary py-3">Bulan</TableHead>
+                        <TableHead className="text-primary py-3">Daging Sapi Tingkat Pemotong RPH</TableHead>
+                        <TableHead className="text-primary py-3">Daging Ayam Ras</TableHead>
+                        <TableHead className="text-primary py-3">Telur Ayam Ras</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {data.map((item, index) => (
+                        <TableRow key={index}>
+                            <TableCell>
+                                {index + 1}
+                            </TableCell>
+                            <TableCell>
+                                {item.bulan}
+                            </TableCell>
+                            <TableCell>
+                                {item.dagingSapi}
+                            </TableCell>
+                            <TableCell>
+                                {item.dagingAyam}
+                            </TableCell>
+                            <TableCell>
+                                {item.telurAyam}
+                            </TableCell>
                         </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {data.map((item, index) => (
-                            <TableRow key={index}>
-                                <TableCell>
-                                    {item.bulan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.dagingSapi}
-                                </TableCell>
-                                <TableCell>
-                                    {item.dagingAyam}
-                                </TableCell>
-                                <TableCell>
-                                    {item.telurAyam}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                    ))}
+                </TableBody>
+                <TableFooter className='bg-primary-600'>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>Rata-rata</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                </TableFooter>
+            </Table>
             {/* table */}
 
             {/* pagination */}
@@ -159,4 +206,4 @@ const KoefisienVariasiProduksi = () => {
     )
 }
 
-export default KoefisienVariasiProduksi
+export default KoefisienVariasiProdusen
