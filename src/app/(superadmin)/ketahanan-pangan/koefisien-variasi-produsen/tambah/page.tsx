@@ -90,7 +90,7 @@ const TamabahPenyuluhDataKecamatan = () => {
                 </div>
 
                 <div className="mb-10 mt-3 flex justify-end gap-3">
-                    <Link href="/ketahanan-pangan/produsen-dan-eceran" className='bg-white w-[120px] text-sm md:text-base  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center'>
+                    <Link href="/ketahanan-pangan/koefisien-variasi-produsen" className='bg-white w-[120px] text-sm md:text-base  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center'>
                         BATAL
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">

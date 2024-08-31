@@ -39,6 +39,16 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+
 interface Data {
     kecamatan?: string;
     desa?: string;
@@ -48,6 +58,8 @@ interface Data {
 }
 
 const DataPenerimaUppo = () => {
+    const [date, setDate] = React.useState<Date>()
+
     const data: Data[] = [
         {
             kecamatan: "123456789",
@@ -63,9 +75,10 @@ const DataPenerimaUppo = () => {
             {/* title */}
             <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Penerima UPPO</div>
             {/* title */}
+
             {/* top */}
-            <div className="header flex justify-between items-center">
-                <div className="search w-[50%]">
+            <div className="header flex gap-2 justify-between items-center mt-4">
+                <div className="search md:w-[50%]">
                     <Input
                         type="text"
                         placeholder="Cari"
@@ -73,35 +86,83 @@ const DataPenerimaUppo = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-3">
-                    <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+                <div className="btn flex gap-2">
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
-                        Download
+                        <div className="hidden md:block">
+                            Download
+                        </div>
                     </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <PrintIcon />
-                        Print
+                        <div className="hidden md:block">
+                            Print
+                        </div>
                     </Button>
                 </div>
             </div>
-            <div className="date mt-5 gap-2 flex justify-between items-center">
-                <div className="gap-2 flex justify-start items-center">
-                    <div className="">
-                        <Input
-                            type='date'
-                            className='w-fit py-2'
-                        />
+            {/*  */}
+            <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
+                <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
+                    <div className="w-auto">
+                        <Popover>
+                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                                <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                                        !date && "text-muted-foreground"
+                                    )}
+                                >
+                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                                    {date ? format(date, "PPP") : <span>Tanggal Awal</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                                <Calendar className=''
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={setDate}
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
                     </div>
-                    <div className="">to</div>
-                    <div className="">
-                        <Input
-                            type='date'
-                            className='w-fit py-2'
-                        />
+                    <div className="">-</div>
+                    <div className="w-auto">
+                        <Popover>
+                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                                <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                                        !date && "text-muted-foreground"
+                                    )}
+                                >
+                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                                    {date ? format(date, "PPP") : <span>Tanggal Akhir</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                                <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={setDate}
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
                     </div>
-                    <div className="fil-kect w-[170px]">
+                    <div className="w-[40px] h-[40px]">
+                        <Button variant="outlinePrimary" className=''>
+                            <FilterIcon />
+                        </Button>
+                    </div>
+                </div>
+                <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
+                    <div className="w-full">
                         <Select >
-                            <SelectTrigger className="w-full">
+                            <SelectTrigger>
                                 <SelectValue placeholder="Kecamatan" className='text-2xl' />
                             </SelectTrigger>
                             <SelectContent>
@@ -111,74 +172,62 @@ const DataPenerimaUppo = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
-                    </div>
+                    <Link href="/psp/data-penerima-uppo/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                        Tambah Data
+                    </Link>
                 </div>
-                <div className="">
-                    <div className="justify-end flex">
-                        <Link href="/psp/data-penerima-uppo/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
-                            Tambah Data
-                        </Link>
-                    </div>
-                </div>
-
             </div>
             {/* top */}
 
             {/* table */}
-            <div className="table w-full mt-5 rounded-md overflow-hidden">
-                <Table className='border border-slate-200'>
-                    <TableHeader className='bg-primary-600'>
-                        <TableRow >
-                            <TableHead className="text-primary py-1">No</TableHead>
-                            <TableHead className="text-primary py-1">Kecamatan</TableHead>
-                            <TableHead className="text-primary py-1">Desa</TableHead>
-                            <TableHead className="text-primary py-1">Nama Poktan</TableHead>
-                            <TableHead className="text-primary py-1">Nama Ketua</TableHead>
-                            <TableHead className="text-primary py-1">Titik Koordinat</TableHead>
-                            <TableHead className="text-primary py-1">Aksi</TableHead>
+            <Table className='border border-slate-200 mt-4'>
+                <TableHeader className='bg-primary-600'>
+                    <TableRow >
+                        <TableHead className="text-primary py-1">No</TableHead>
+                        <TableHead className="text-primary py-1">Kecamatan</TableHead>
+                        <TableHead className="text-primary py-1">Desa</TableHead>
+                        <TableHead className="text-primary py-1">Nama Poktan</TableHead>
+                        <TableHead className="text-primary py-1">Nama Ketua</TableHead>
+                        <TableHead className="text-primary py-1">Titik Koordinat</TableHead>
+                        <TableHead className="text-primary py-1">Aksi</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {data.map((item, index) => (
+                        <TableRow key={index}>
+                            <TableCell>
+                                {index + 1}
+                            </TableCell>
+                            <TableCell>
+                                {item.kecamatan}
+                            </TableCell>
+                            <TableCell>
+                                {item.desa}
+                            </TableCell>
+                            <TableCell>
+                                {item.namaPoktan}
+                            </TableCell>
+                            <TableCell>
+                                {item.namaKetua}
+                            </TableCell>
+                            <TableCell>
+                                {item.titikKoordinat}
+                            </TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-4">
+                                    <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
+                                        <EyeIcon />
+                                    </Link>
+                                    <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
+                                        <EditIcon />
+                                    </Link>
+                                    <DeletePopup onDelete={() => { }} />
+                                </div>
+                            </TableCell>
                         </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {data.map((item, index) => (
-                            <TableRow key={index}>
-                                <TableCell>
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell>
-                                    {item.kecamatan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.desa}
-                                </TableCell>
-                                <TableCell>
-                                    {item.namaPoktan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.namaKetua}
-                                </TableCell>
-                                <TableCell>
-                                    {item.titikKoordinat}
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => { }} />
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                    ))}
+                </TableBody>
+            </Table>
             {/* table */}
 
             {/* pagination */}

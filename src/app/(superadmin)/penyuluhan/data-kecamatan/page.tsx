@@ -77,8 +77,8 @@ const PenyuluhDataKecamatan = () => {
             <div className="text-2xl mb-4 font-semibold text-primary uppercase">Daftar Penempatan Penyuluh Pertanian Kecamatan</div>
             {/* title */}
             {/* top */}
-            <div className="header flex justify-between items-center">
-                <div className="search w-[50%]">
+            <div className="header flex gap-2 justify-between items-center">
+                <div className="search md:w-[50%]">
                     <Input
                         type="text"
                         placeholder="Cari"
@@ -86,14 +86,18 @@ const PenyuluhDataKecamatan = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-3">
-                    <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+                <div className="btn flex gap-2">
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
-                        Download
+                        <div className="hidden md:block">
+                            Download
+                        </div>
                     </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <PrintIcon />
-                        Print
+                        <div className="hidden md:block">
+                            Print
+                        </div>
                     </Button>
                 </div>
             </div>
@@ -119,58 +123,60 @@ const PenyuluhDataKecamatan = () => {
                     </div>
                 </div>
                 <div className="right">
-                    <Link href="/penyuluhan/data-kecamatan/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
-                        Tambah Data
+                    <Link href="/penyuluhan/data-kecamatan/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium w-full'>
+                        Tambah
                     </Link>
                 </div>
             </div>
             {/* top */}
 
             {/* table */}
-            <div className="table w-full mt-5 rounded-md overflow-hidden">
-                <Table className='border border-slate-200'>
-                    <TableHeader className='bg-primary-600'>
-                        <TableRow >
-                            <TableHead className="text-primary py-3">Kecamatan</TableHead>
-                            <TableHead className="text-primary py-3">Wilayah Desa Binaan</TableHead>
-                            <TableHead className="text-primary py-3">Nama</TableHead>
-                            <TableHead className="text-primary py-3">NIP</TableHead>
-                            <TableHead className="text-primary py-3">
-                                Pangkat
-                            </TableHead>
-                            <TableHead className="text-primary py-3">Gol</TableHead>
-                            <TableHead className="text-primary py-3">Keterangan</TableHead>
+            <Table className='border border-slate-200 mt-4'>
+                <TableHeader className='bg-primary-600'>
+                    <TableRow >
+                        <TableHead className="text-primary py-3">No</TableHead>
+                        <TableHead className="text-primary py-3">Kecamatan</TableHead>
+                        <TableHead className="text-primary py-3">Wilayah Desa Binaan</TableHead>
+                        <TableHead className="text-primary py-3">Nama</TableHead>
+                        <TableHead className="text-primary py-3">NIP</TableHead>
+                        <TableHead className="text-primary py-3">
+                            Pangkat
+                        </TableHead>
+                        <TableHead className="text-primary py-3">Gol</TableHead>
+                        <TableHead className="text-primary py-3">Keterangan</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {data.map((item, index) => (
+                        <TableRow key={index}>
+                            <TableCell>
+                                {index + 1}
+                            </TableCell>
+                            <TableCell>
+                                {item.kecamatan}
+                            </TableCell>
+                            <TableCell>
+                                {item.wilayahDesaBinaan}
+                            </TableCell>
+                            <TableCell>
+                                {item.nama}
+                            </TableCell>
+                            <TableCell>
+                                {item.nip}
+                            </TableCell>
+                            <TableCell>
+                                {item.pangkat}
+                            </TableCell>
+                            <TableCell>
+                                {item.gol}
+                            </TableCell>
+                            <TableCell>
+                                {item.keterangan}
+                            </TableCell>
                         </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {data.map((item, index) => (
-                            <TableRow key={index}>
-                                <TableCell>
-                                    {item.kecamatan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.wilayahDesaBinaan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.nama}
-                                </TableCell>
-                                <TableCell>
-                                    {item.nip}
-                                </TableCell>
-                                <TableCell>
-                                    {item.pangkat}
-                                </TableCell>
-                                <TableCell>
-                                    {item.gol}
-                                </TableCell>
-                                <TableCell>
-                                    {item.keterangan}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                    ))}
+                </TableBody>
+            </Table>
             {/* table */}
 
             {/* pagination */}

@@ -152,12 +152,12 @@ const TambahDataPenerimaUppo = () => {
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
+                    <Link href="/psp/data-penerima-uppo" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                        BATAL
+                    </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
                         SIMPAN
                     </Button>
-                    <Link href="/penyuluhan/data-kabupaten" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-                        BATAL
-                    </Link>
                 </div>
             </form>
         </>
