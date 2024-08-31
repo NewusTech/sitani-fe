@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
@@ -9,8 +9,9 @@ import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
-
+import { useRouter, useSearchParams } from 'next/navigation';
+import useSWR from 'swr';
+import { SWRResponse } from "swr";
 
 const formSchema = z.object({
   email: z
@@ -19,7 +20,8 @@ const formSchema = z.object({
     .min(1, "Email wajib diisi"),
   password: z
     .string()
-    .min(6, { message: "Password minimal 6 karakter" }),
+    .min(6, { message: "Password minimal 6 karakter" })
+    .optional(),
   name: z
     .string()
     .min(1, { message: "Nama Teknis wajib diisi" }),
@@ -33,44 +35,85 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahPeran = () => {
+const EditPeran = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-    setValue
+    setValue,
+    watch
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
   });
 
+  interface User {
+    email: string;
+    name: string;
+    nip: number;
+    pangkat: string;
+  }
 
-  // TAMBAH
+  interface Response {
+    status: string;
+    data: User;
+    message: string;
+  }
+
   const axiosPrivate = useAxiosPrivate();
   const navigate = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+
+  // Get user data
+  const { data: dataUser, error } = useSWR<Response>(
+    `user/get/${id}`,
+    async (url) => {
+      try {
+        const response = await axiosPrivate.get(url);
+        return response.data;
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        return null;
+      }
+    },
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
+    }
+  );
+
+  // Set form values once data is fetched
+  useEffect(() => {
+    if (dataUser) {
+      setValue("email", dataUser.data.email);
+      setValue("name", dataUser.data.name);
+      setValue("nip", dataUser.data.nip);
+      setValue("pangkat", dataUser.data.pangkat);
+    }
+  }, [dataUser, setValue]);
+
+  // Handle form submission
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     try {
-      await axiosPrivate.post("/user/create", data);
+      await axiosPrivate.put(`/user/update/${id}`, data); // Update endpoint as necessary
+      console.log("Success to update user:", data);
       console.log(data)
-      // push
       navigate.push('/peran-pengguna/peran');
-      console.log("Success to create user:");
-    } catch (e: any) {
+    } catch (error) {
+      console.error('Failed to update user:', error);
       console.log(data)
-      console.log("Failed to create user:");
-      return;
+
     }
   };
 
-  // TAMBAH
   return (
     <>
-      <div className="text-primary md:text-2xl text-xl font-bold mb-5">Tambah Peran</div>
-      {/* Nama NIP Tempat Tanggal Lahir */}
+      <div className="text-primary md:text-2xl text-xl font-bold mb-5">Edit Peran</div>
       <form onSubmit={handleSubmit(onSubmit)} className="gap-3 flex flex-col justify-between">
         <div className="wrap-form">
           <div className="wrap">
-            {/* produksi - produktivitas */}
             <div className="mb-2 mt-4">
               <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                 <div className="flex flex-col mb-2 w-full">
@@ -86,23 +129,6 @@ const TambahPeran = () => {
                   )}
                 </div>
                 <div className="flex flex-col mb-2 w-full">
-                  <Label className='text-sm mb-1' label="Password" />
-                  <Input
-                    type="password"
-                    placeholder="Password"
-                    {...register('password')}
-                    className={`${errors.password ? 'border-red-500' : ''}`}
-                  />
-                  {errors.password && (
-                    <HelperError>{errors.password.message}</HelperError>
-                  )}
-                </div>
-              </div>
-            </div>
-            {/* jumlah petani - bentuk hasil */}
-            <div className="mb-2">
-              <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                <div className="flex flex-col mb-2 w-full">
                   <Label className='text-sm mb-1' label="Nama" />
                   <Input
                     type="text"
@@ -114,7 +140,11 @@ const TambahPeran = () => {
                     <HelperError>{errors.name.message}</HelperError>
                   )}
                 </div>
-                <div className="flex flex-col mb-2 w-full">
+              </div>
+            </div>
+            <div className="mb-2">
+              <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                <div className="flex flex-col mb-2 md:w-1/2 w-full">
                   <Label className='text-sm mb-1' label="NIP" />
                   <Input
                     type="number"
@@ -126,12 +156,7 @@ const TambahPeran = () => {
                     <HelperError>{errors.nip.message}</HelperError>
                   )}
                 </div>
-              </div>
-            </div>
-            {/* keterangan */}
-            <div className="mb-2">
-              <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                <div className="flex flex-col mb-2 md:w-1/2 w-full md:pr-3">
+                <div className="flex flex-col mb-2 md:w-1/2 w-full">
                   <Label className='text-sm mb-1' label="Pangkat" />
                   <Input
                     type="text"
@@ -147,7 +172,6 @@ const TambahPeran = () => {
             </div>
           </div>
         </div>
-        {/* Button */}
         <div className="flex justify-end gap-3">
           <Link href="/kepegawaian/data-pegawai" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
             BATAL
@@ -161,4 +185,4 @@ const TambahPeran = () => {
   )
 }
 
-export default TambahPeran
+export default EditPeran

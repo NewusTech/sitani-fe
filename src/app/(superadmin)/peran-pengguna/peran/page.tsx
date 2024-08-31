@@ -1,5 +1,7 @@
+"use client"
+
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -13,24 +15,52 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
+import EyeIcon from '../../../../../public/icons/EyeIcon'
+import EditIcon from '../../../../../public/icons/EditIcon'
+import DeletePopup from '@/components/superadmin/PopupDelete'
 
-
-interface Data {
-    namaPeran: string;
-    hakAkses: string[];
-}
 
 const PeranPage = () => {
-    const data: Data[] = [
-        {
-            namaPeran: "Kepala Bidang",
-            hakAkses: ["create", "read", "delete"]
-        },
-        {
-            namaPeran: "Staf",
-            hakAkses: ["read"]
-        },
-    ];
+    // TES
+    interface User {
+        id?: number;
+        name: string;
+        email: string;
+        nip: string;
+    }
+
+
+    interface Response {
+        status: string,
+        data: User[],
+        message: string
+    }
+
+    // 
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // list
+    const {
+        data: dataUser,
+    }: SWRResponse<Response> = useSWR(
+        `/user/get`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+    console.log(dataUser);
+    // TES
     return (
         <div>
             {/* title */}
@@ -52,25 +82,62 @@ const PeranPage = () => {
                     </Link>
                 </div>
             </div>
+            <div className="bg-red-500">
+                {/* {dataUser?.data?.[0]?.name} */}
+            </div>
             {/* table */}
             <Table className='border border-slate-200 mt-5'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow>
-                        <TableHead className="text-primary py-3">Nama Peran</TableHead>
-                        <TableHead className="text-primary py-3">Hak Akses</TableHead>
+                        <TableHead className="text-primary py-3">
+                            No
+                        </TableHead>
+                        <TableHead className="text-primary py-3">
+                            Nama
+                        </TableHead>
+                        <TableHead className="text-primary py-3">
+                            Email
+                        </TableHead>
+                        <TableHead className="text-primary py-3">
+                            NIP
+                        </TableHead>
+                        <TableHead className="text-primary py-3">
+                            Aksi
+                        </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell>
-                                {item.namaPeran}
-                            </TableCell>
-                            <TableCell>
-                                {item.hakAkses.join(", ")}
+                    {dataUser?.data ? (
+                        dataUser.data.map((item, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>{item?.name}</TableCell>
+                                <TableCell>{item?.email}</TableCell>
+                                <TableCell>{item?.nip}</TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link
+                                            href={{
+                                                pathname: "/peran-pengguna/peran/edit",
+                                                query: { id: item.id },
+                                            }}
+                                        >
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={() => { }} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={5} className="text-center">
+                                Tidak ada data
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )}
+
+
                 </TableBody>
             </Table>
             {/* table */}
