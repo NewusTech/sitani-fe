@@ -1,7 +1,7 @@
 "use client"
 
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -27,12 +27,11 @@ import DeletePopup from '@/components/superadmin/PopupDelete'
 const PeranPage = () => {
     // TES
     interface User {
-        id?: number;
+        id?: string; // Ensure id is a string
         name: string;
         email: string;
         nip: string;
     }
-
 
     interface Response {
         status: string,
@@ -40,14 +39,10 @@ const PeranPage = () => {
         message: string
     }
 
-    // 
-    const [accessToken, _] = useLocalStorage("accessToken", "");
+    const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    // list
-    const {
-        data: dataUser,
-    }: SWRResponse<Response> = useSWR(
+
+    const { data: dataUser }: SWRResponse<Response> = useSWR(
         `/user/get`,
         (url) =>
             axiosPrivate
@@ -59,8 +54,25 @@ const PeranPage = () => {
                 .then((res: any) => res.data)
     );
 
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/user/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            // Update the local data after successful deletion
+            mutate('/user/get');
+        } catch (error) {
+            console.error('Failed to delete:', error);
+            console.log(id)
+            // Add notification or alert here for user feedback
+        }
+    };
+
     console.log(dataUser);
-    // TES
+
     return (
         <div>
             {/* title */}
@@ -81,9 +93,6 @@ const PeranPage = () => {
                         Tambah Data
                     </Link>
                 </div>
-            </div>
-            <div className="bg-red-500">
-                {/* {dataUser?.data?.[0]?.name} */}
             </div>
             {/* table */}
             <Table className='border border-slate-200 mt-5'>
@@ -107,9 +116,9 @@ const PeranPage = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataUser?.data ? (
+                    {dataUser?.data && dataUser.data.length > 0 ? (
                         dataUser.data.map((item, index) => (
-                            <TableRow key={index}>
+                            <TableRow key={item.id}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{item?.name}</TableCell>
                                 <TableCell>{item?.email}</TableCell>
@@ -124,7 +133,7 @@ const PeranPage = () => {
                                         >
                                             <EditIcon />
                                         </Link>
-                                        <DeletePopup onDelete={() => { }} />
+                                        <DeletePopup onDelete={() => handleDelete(item.id || '')} />
                                     </div>
                                 </TableCell>
                             </TableRow>
@@ -136,8 +145,6 @@ const PeranPage = () => {
                             </TableCell>
                         </TableRow>
                     )}
-
-
                 </TableBody>
             </Table>
             {/* table */}
