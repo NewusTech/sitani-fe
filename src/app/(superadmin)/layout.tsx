@@ -63,7 +63,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
             <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed md:bg-transparent bg-[#F6F6F6] py-2 pr-4">
                 <div className="wra white md:ml-[290px]  bg-transparent   m-auto justify-end lg:justify-end md:py-[23px]  flex items-center gap-4 text-left">
                     <div onClick={handleNavbar} className="icon  flex cursor-pointer lg:hidden bg-primary rounded p-2 w-[40px]  justify-center items-center px-2 text-white ">
-                    {navbar ? <CloseNav /> : <OpenNav />}
+                        {navbar ? <CloseNav /> : <OpenNav />}
                     </div>
                 </div>
             </div>

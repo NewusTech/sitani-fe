@@ -1,3 +1,5 @@
+"use client"
+
 import { Input } from '@/components/ui/input'
 import React from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -26,6 +28,16 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
 interface Data {
   nama?: string;
   nip?: string;
@@ -51,6 +63,8 @@ interface Data {
 }
 
 const DataPensiunPage = () => {
+  const [date, setDate] = React.useState<Date>()
+
   const data: Data[] = [
     {
       nama: "John Doe",
@@ -92,30 +106,76 @@ const DataPensiunPage = () => {
             className='border-primary py-2'
           />
         </div>
-        <div className="btn flex gap-3">
-          <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+        <div className="btn flex gap-2">
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
             <UnduhIcon />
-            Download
+            <div className="hidden md:block">
+              Download
+            </div>
           </Button>
-          <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
             <PrintIcon />
-            Print
+            <div className="hidden md:block">
+              Print
+            </div>
           </Button>
+          <div className="hidden m filter-table w-[40px] h-[40px]">
+            <Button variant="outlinePrimary" className=''>
+              <FilterIcon />
+            </Button>
+          </div>
         </div>
       </div>
-      <div className="date mt-3 gap-2 flex justify-start items-center">
-        <div className="">
-          <Input
-            type='date'
-            className='w-fit py-2'
-          />
+      {/*  */}
+      <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
+        <div className="w-auto">
+          <Popover>
+            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                  !date && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                {date ? format(date, "PPP") : <span>Tanggal Awal</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar className=''
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
-        <div className="">to</div>
-        <div className="">
-          <Input
-            type='date'
-            className='w-fit py-2'
-          />
+        <div className="">-</div>
+        <div className="w-auto">
+          <Popover>
+            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                  !date && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                {date ? format(date, "PPP") : <span>Tanggal Akhir</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
         <div className="w-[40px] h-[40px]">
           <Button variant="outlinePrimary" className=''>
@@ -126,66 +186,68 @@ const DataPensiunPage = () => {
       {/* top */}
 
       {/* table */}
-      <div className="table w-full mt-4 rounded-md overflow-hidden">
-        <Table className='border border-slate-200'>
-          <TableHeader className='bg-primary-600'>
-            <TableRow >
-              <TableHead className="text-primary py-3">Nama/NIP
-                <br /> Tempat/Tgl Lahir</TableHead>
-              <TableHead className="text-primary py-3">Pangkat/Gol Ruang
-                <br />
-                TMT Pangkat</TableHead>
-              <TableHead className="text-primary py-3">
-                Jabatan <br />
-                TMT Jabatan
-              </TableHead>
-              <TableHead className="text-primary py-3">Diklat Struktural</TableHead>
-              <TableHead className="text-primary py-3">Pendidikan Umum</TableHead>
-              <TableHead className="text-primary py-3">Usia</TableHead>
-              <TableHead className="text-primary py-3">Masa Kerja</TableHead>
-              <TableHead className="text-primary py-3">Ket</TableHead>
+      <Table className='border border-slate-200 mt-4'>
+        <TableHeader className='bg-primary-600'>
+          <TableRow >
+            <TableHead className="text-primary py-3">No</TableHead>
+            <TableHead className="text-primary py-3">Nama/NIP
+              <br /> Tempat/Tgl Lahir</TableHead>
+            <TableHead className="text-primary py-3">Pangkat/Gol Ruang
+              <br />
+              TMT Pangkat</TableHead>
+            <TableHead className="text-primary py-3">
+              Jabatan <br />
+              TMT Jabatan
+            </TableHead>
+            <TableHead className="text-primary py-3">Diklat Struktural</TableHead>
+            <TableHead className="text-primary py-3">Pendidikan Umum</TableHead>
+            <TableHead className="text-primary py-3">Usia</TableHead>
+            <TableHead className="text-primary py-3">Masa Kerja</TableHead>
+            <TableHead className="text-primary py-3">Ket</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell>
+                {index + 1}
+              </TableCell>
+              <TableCell>
+                {item.nama} <br />
+                {item.nip} <br />
+                {item.tempat}, {item.tanggalLahir}
+              </TableCell>
+              <TableCell>
+                {item.pangkatGol} <br />
+                TMT: {item.tmtPangkat}
+              </TableCell>
+              <TableCell>
+                {item.jabatan} <br />
+                TMT: {item.tmtJabatan}
+              </TableCell>
+              <TableCell>
+                Nama Diklat: {item.diklatStruktural?.nama} <br />
+                Tanggal: {item.diklatStruktural?.tanggal} <br />
+                Jam: {item.diklatStruktural?.jam}
+              </TableCell>
+              <TableCell>
+                Nama: {item.pendidikanUmum?.nama} <br />
+                Tahun Lulus: {item.pendidikanUmum?.tahunLulus} <br />
+                Jenjang: {item.pendidikanUmum?.jenjang}
+              </TableCell>
+              <TableCell>
+                {item.usia}
+              </TableCell>
+              <TableCell>
+                {item.masaKerja}
+              </TableCell>
+              <TableCell>
+                {item.keterangan}
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  {item.nama} <br />
-                  {item.nip} <br />
-                  {item.tempat}, {item.tanggalLahir}
-                </TableCell>
-                <TableCell>
-                  {item.pangkatGol} <br />
-                  TMT: {item.tmtPangkat}
-                </TableCell>
-                <TableCell>
-                  {item.jabatan} <br />
-                  TMT: {item.tmtJabatan}
-                </TableCell>
-                <TableCell>
-                  Nama Diklat: {item.diklatStruktural?.nama} <br />
-                  Tanggal: {item.diklatStruktural?.tanggal} <br />
-                  Jam: {item.diklatStruktural?.jam}
-                </TableCell>
-                <TableCell>
-                  Nama: {item.pendidikanUmum?.nama} <br />
-                  Tahun Lulus: {item.pendidikanUmum?.tahunLulus} <br />
-                  Jenjang: {item.pendidikanUmum?.jenjang}
-                </TableCell>
-                <TableCell>
-                  {item.usia}
-                </TableCell>
-                <TableCell>
-                  {item.masaKerja}
-                </TableCell>
-                <TableCell>
-                  {item.keterangan}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+          ))}
+        </TableBody>
+      </Table>
       {/* table */}
 
       {/* pagination */}

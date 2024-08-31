@@ -1,5 +1,7 @@
 import React from 'react'
 import AlertIcon from '../../../../../../public/icons/AlertIcon'
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface LabelProps {
   label?: string;
@@ -21,6 +23,11 @@ const DetailPegawaiPage = () => {
       {/* title */}
       <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail Data Pegawai</div>
       {/* title */}
+      <div className="mb-10 flex justify-start gap-3 mt-4">
+        <Link href="/kepegawaian/data-pegawai" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+          Kembali
+        </Link>
+      </div>
       {/* alert */}
       <div className="p-3 border border-red-400 rounded-md bg-red-100">
         <div className="text-red-600 flex gap-2 items-center">

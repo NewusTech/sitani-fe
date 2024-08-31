@@ -29,6 +29,16 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+
 interface Data {
     bulan?: string;
     panen?: string;
@@ -45,6 +55,8 @@ interface Data {
 }
 
 const KoefisienVariasiProduksi = () => {
+    const [date, setDate] = React.useState<Date>()
+
     const data: Data[] = [
         {
             bulan: "Januari",
@@ -79,8 +91,8 @@ const KoefisienVariasiProduksi = () => {
             <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Coefesien Variasi CV Tingkat Produksi</div>
             {/* title */}
             {/* top */}
-            <div className="header flex justify-between items-center">
-                <div className="search w-[50%]">
+            <div className="header flex gap-2 justify-between items-center">
+                <div className="search md:w-[50%]">
                     <Input
                         type="text"
                         placeholder="Cari"
@@ -88,175 +100,217 @@ const KoefisienVariasiProduksi = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-3">
-                    <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+                <div className="btn flex gap-2">
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
-                        Download
+                        <div className="hidden md:block">
+                            Download
+                        </div>
                     </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-3 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <PrintIcon />
-                        Print
+                        <div className="hidden md:block">
+                            Print
+                        </div>
                     </Button>
                 </div>
             </div>
-            {/*  */}
-            <div className="wrap-filter flex justify-between items-center mt-4 ">
-                <div className="left gap-2 flex justify-start items-center">
-                    <div className="">
-                        <Input
-                            type='date'
-                            className='w-fit py-2'
-                        />
+            {/* top */}
+            <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-4">
+                <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
+                    <div className="w-auto">
+                        <Popover>
+                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                                <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                                        !date && "text-muted-foreground"
+                                    )}
+                                >
+                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                                    {date ? format(date, "PPP") : <span>Tanggal Awal</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                                <Calendar className=''
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={setDate}
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
                     </div>
-                    <div className="">to</div>
-                    <div className="">
-                        <Input
-                            type='date'
-                            className='w-fit py-2'
-                        />
+                    <div className="">-</div>
+                    <div className="w-auto">
+                        <Popover>
+                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                                <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                                        !date && "text-muted-foreground"
+                                    )}
+                                >
+                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                                    {date ? format(date, "PPP") : <span>Tanggal Akhir</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                                <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={setDate}
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
                     </div>
-                    <div className="filter-table w-[40px] h-[40px]">
+                    <div className="w-[40px] h-[40px]">
                         <Button variant="outlinePrimary" className=''>
                             <FilterIcon />
                         </Button>
                     </div>
                 </div>
-                <div className="right">
-                    <Link href="/ketahanan-pangan/koefisien-variasi-produksi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
-                        Tambah Data
-                    </Link>
+                <div className="w-full mt-4 lg:mt-0">
+                    <div className="flex justify-end">
+                        <Link href="/ketahanan-pangan/koefisien-variasi-produksi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm'>
+                            Tambah Data
+                        </Link>
+                    </div>
                 </div>
             </div>
             {/* top */}
 
             {/* table */}
-                <Table className='border border-slate-200 mt-4'>
-                    <TableHeader className='bg-primary-600'>
-                        <TableRow >
-                            <TableHead className="text-primary py-3">No</TableHead>
-                            <TableHead className="text-primary py-3">Bulan</TableHead>
-                            <TableHead className="text-primary py-3">% Panen</TableHead>
-                            <TableHead className="text-primary py-3">GKP Tk. Petani</TableHead>
-                            <TableHead className="text-primary py-3">GkP Tk. Penggilingan</TableHead>
-                            <TableHead className="text-primary py-3">GKG Tk. Penggilingan</TableHead>
-                            <TableHead className="text-primary py-3">JPK</TableHead>
-                            <TableHead className="text-primary py-3">Cabai Merah Keriting</TableHead>
-                            <TableHead className="text-primary py-3">Beras Medium</TableHead>
-                            <TableHead className="text-primary py-3">Beras Premium</TableHead>
-                            <TableHead className="text-primary py-3">Stok GKG</TableHead>
-                            <TableHead className="text-primary py-3">Stok Beras</TableHead>
+            <Table className='border border-slate-200 mt-4'>
+                <TableHeader className='bg-primary-600'>
+                    <TableRow >
+                        <TableHead className="text-primary py-3">No</TableHead>
+                        <TableHead className="text-primary py-3">Bulan</TableHead>
+                        <TableHead className="text-primary py-3">% Panen</TableHead>
+                        <TableHead className="text-primary py-3">GKP Tk. Petani</TableHead>
+                        <TableHead className="text-primary py-3">GkP Tk. Penggilingan</TableHead>
+                        <TableHead className="text-primary py-3">GKG Tk. Penggilingan</TableHead>
+                        <TableHead className="text-primary py-3">JPK</TableHead>
+                        <TableHead className="text-primary py-3">Cabai Merah Keriting</TableHead>
+                        <TableHead className="text-primary py-3">Beras Medium</TableHead>
+                        <TableHead className="text-primary py-3">Beras Premium</TableHead>
+                        <TableHead className="text-primary py-3">Stok GKG</TableHead>
+                        <TableHead className="text-primary py-3">Stok Beras</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {data.map((item, index) => (
+                        <TableRow key={index}>
+                            <TableCell>
+                                {index + 1}
+                            </TableCell>
+                            <TableCell>
+                                {item.bulan}
+                            </TableCell>
+                            <TableCell>
+                                {item.panen}
+                            </TableCell>
+                            <TableCell>
+                                {item.gkpTkPetani}
+                            </TableCell>
+                            <TableCell>
+                                {item.gkpTkPenggilingan}
+                            </TableCell>
+                            <TableCell>
+                                {item.gkgTkPenggilingan}
+                            </TableCell>
+                            <TableCell>
+                                {item.jpk}
+                            </TableCell>
+                            <TableCell>
+                                {item.cabaiMerahKeriting}
+                            </TableCell>
+                            <TableCell>
+                                {item.berasMedium}
+                            </TableCell>
+                            <TableCell>
+                                {item.berasPremium}
+                            </TableCell>
+                            <TableCell>
+                                {item.stokGkg}
+                            </TableCell>
+                            <TableCell>
+                                {item.stokBeras}
+                            </TableCell>
                         </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {data.map((item, index) => (
-                            <TableRow key={index}>
-                                <TableCell>
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell>
-                                    {item.bulan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.panen}
-                                </TableCell>
-                                <TableCell>
-                                    {item.gkpTkPetani}
-                                </TableCell>
-                                <TableCell>
-                                    {item.gkpTkPenggilingan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.gkgTkPenggilingan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.jpk}
-                                </TableCell>
-                                <TableCell>
-                                    {item.cabaiMerahKeriting}
-                                </TableCell>
-                                <TableCell>
-                                    {item.berasMedium}
-                                </TableCell>
-                                <TableCell>
-                                    {item.berasPremium}
-                                </TableCell>
-                                <TableCell>
-                                    {item.stokGkg}
-                                </TableCell>
-                                <TableCell>
-                                    {item.stokBeras}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                    <TableFooter className='bg-primary-600'>
-                        <TableRow>
-                            <TableCell className='text-primary py-3' colSpan={2}>Rata-rata</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        </TableRow>
-                    </TableFooter>
-                </Table>
+                    ))}
+                </TableBody>
+                <TableFooter className='bg-primary-600'>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>Rata-rata</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                    </TableRow>
+                </TableFooter>
+            </Table>
             {/* table */}
 
             {/* pagination */}

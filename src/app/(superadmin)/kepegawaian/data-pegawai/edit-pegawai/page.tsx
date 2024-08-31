@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const formSchema = z.object({
   name: z
@@ -410,9 +411,12 @@ const EditPegawaiPage = () => {
           </div>
         </div>
 
-        <div className="mb-10 text-center">
-          <Button type="submit" variant="primary" size="lg" className="w-[40%]">
-            Simpan
+        <div className="mb-10 flex justify-end gap-3">
+          <Link href="/kepegawaian/data-pegawai" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+            BATAL
+          </Link>
+          <Button type="submit" variant="primary" size="lg" className="w-[120px]">
+            EDIT
           </Button>
         </div>
       </form>
