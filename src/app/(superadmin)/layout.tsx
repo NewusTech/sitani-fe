@@ -239,10 +239,10 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         <Menu link="/korlub/sayuran-buah">
                                             <span className='text-sm'>Sayuran dan Buah</span>
                                         </Menu>
-                                        <Menu link="/korlub/tanamanHias">
+                                        <Menu link="/korlub/tanaman-hias">
                                             <span className='text-sm'>Tanaman Hias</span>
                                         </Menu>
-                                        <Menu link="/korlub/tanamanBiofarmaka">
+                                        <Menu link="/korlub/tanaman-biofarmaka">
                                             <span className='text-sm'>Tanaman Biofarmaka</span>
                                         </Menu>
                                     </AccordionContent>
