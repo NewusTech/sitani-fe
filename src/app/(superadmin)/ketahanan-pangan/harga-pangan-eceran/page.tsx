@@ -7,7 +7,6 @@ import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import Link from 'next/link'
-
 import {
     Table,
     TableBody,
@@ -18,7 +17,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
 import {
     Pagination,
     PaginationContent,
@@ -31,7 +29,6 @@ import {
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
 import EditIcon from '../../../../../public/icons/EditIcon'
-
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
@@ -41,11 +38,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-
 import { TrendingUp } from "lucide-react"
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
-
-
 import {
     Card,
     CardContent,
@@ -61,28 +55,6 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart"
 export const description = "A line chart with dots"
-const chartData = [
-    { month: "jan", desktop: 186, mobile: 80 },
-    { month: "feb", desktop: 305, mobile: 200 },
-    { month: "mar", desktop: 237, mobile: 120 },
-    { month: "apr", desktop: 73, mobile: 190 },
-    { month: "mei", desktop: 209, mobile: 130 },
-    { month: "jun", desktop: 214, mobile: 140 },
-    { month: "jul", desktop: 214, mobile: 140 },
-    { month: "ags", desktop: 214, mobile: 140 },
-    { month: "sep", desktop: 214, mobile: 140 },
-]
-const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "hsl(var(--chart-1))",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "hsl(var(--chart-2))",
-    },
-} satisfies ChartConfig
-
 
 interface Data {
     komoditas: string;
@@ -97,8 +69,6 @@ interface Data {
         ags: string;
         sep: string;
         okt: string;
-        nov: string;
-        des: string;
     };
 }
 
@@ -117,17 +87,39 @@ const HargaPanganEceran = () => {
                 ags: "12900",
                 sep: "12700",
                 okt: "13000",
-                nov: "13100",
-                des: "14000",
             }
         },
     ];
     const [date, setDate] = React.useState<Date>()
+
+    const chartData = [
+        { month: "jan", desktop: 186, mobile: 80 },
+        { month: "feb", desktop: 305, mobile: 200 },
+        { month: "mar", desktop: 237, mobile: 120 },
+        { month: "apr", desktop: 73, mobile: 190 },
+        { month: "mei", desktop: 209, mobile: 130 },
+        { month: "jun", desktop: 214, mobile: 140 },
+        { month: "jul", desktop: 214, mobile: 140 },
+        { month: "ags", desktop: 214, mobile: 140 },
+        { month: "sep", desktop: 214, mobile: 140 },
+        { month: "okt", desktop: 214, mobile: 140 },
+    ]
+    const chartConfig = {
+        desktop: {
+            label: "Desktop",
+            color: "hsl(var(--chart-1))",
+        },
+        mobile: {
+            label: "Mobile",
+            color: "hsl(var(--chart-2))",
+        },
+    } satisfies ChartConfig
     return (
         <div>
             {/* title */}
             <div className="text-2xl mb-4 font-semibold text-primary uppercase">Perbandingan Komoditas Harga Panen</div>
             {/* title */}
+            
             {/* top */}
             <div className="header flex justify-between items-center">
                 <div className="search w-[50%]">
@@ -233,8 +225,6 @@ const HargaPanganEceran = () => {
                         <TableHead className="text-primary py-3">Ags</TableHead>
                         <TableHead className="text-primary py-3">Sep</TableHead>
                         <TableHead className="text-primary py-3">Okt</TableHead>
-                        <TableHead className="text-primary py-3">Nov</TableHead>
-                        <TableHead className="text-primary py-3">Des</TableHead>
                         <TableHead className="text-primary py-3">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -309,7 +299,7 @@ const HargaPanganEceran = () => {
                                     />
                                     <YAxis
                                         label={{
-                                            value: 'Harga (IDR)',
+                                            value: 'Harga',
                                             angle: -90,
                                             position: 'insideCenter',
                                             dx: -12, // Mengatur posisi vertikal label
@@ -332,17 +322,21 @@ const HargaPanganEceran = () => {
                                             r: 6,
                                         }}
                                     />
+                                    <Line
+                                        dataKey="mobile" // Ubah dengan kunci data yang relevan untuk garis kedua
+                                        type="natural"
+                                        stroke="var(--color-mobile)" // Ubah dengan warna yang sesuai untuk garis kedua
+                                        strokeWidth={2}
+                                        dot={{
+                                            fill: "var(--color-mobile)",
+                                        }}
+                                        activeDot={{
+                                            r: 6,
+                                        }}
+                                    />
                                 </LineChart>
                             </ChartContainer>
                         </CardContent>
-                        <CardFooter className="flex-col items-start gap-2 text-sm">
-                            <div className="flex gap-2 font-medium leading-none">
-                                Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                            </div>
-                            <div className="leading-none text-muted-foreground">
-                                Showing total visitors for the last 6 months
-                            </div>
-                        </CardFooter>
                     </Card>
 
                     {/* Card */}

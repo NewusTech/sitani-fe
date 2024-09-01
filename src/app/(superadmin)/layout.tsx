@@ -88,7 +88,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                             </Link>
                             {/* dashboard */}
                             <Accordion className='' type="single" collapsible>
-                            {/* ketahanan-pangan */}
+                                {/* ketahanan-pangan */}
                                 <AccordionItem className='pl-2' value="item-1">
                                     <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/ketahanan-pangan') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         Ketahanan Pangan
@@ -224,11 +224,33 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/*peran-pengguna */}
+                                {/* korlub */}
+                                <AccordionItem className='pl-2' value="item-9">
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korlub') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                        Korlub
+                                    </AccordionTrigger>
+                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/korlub/padi">
+                                            <span className='text-sm'>Padi</span>
+                                        </Menu>
+                                        <Menu link="/korlub/palawija">
+                                            <span className='text-sm'>Palawija</span>
+                                        </Menu>
+                                        <Menu link="/korlub/sayur&buah">
+                                            <span className='text-sm'>Sayuran dan Buah</span>
+                                        </Menu>
+                                        <Menu link="/korlub/tanamanHias">
+                                            <span className='text-sm'>Tanaman Hias</span>
+                                        </Menu>
+                                        <Menu link="/korlub/tanamanBiofarmaka">
+                                            <span className='text-sm'>Tanaman Biofarmaka</span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/*korlub */}
                             </Accordion>
-
                         </div>
                     </div>
-
                 </div>
             </div>
             {/* KONTEN */}
