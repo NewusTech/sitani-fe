@@ -53,6 +53,7 @@ const Layout = (props: LayoutProps) => {
     const navBgColor = scrolled ? 'bg-primary-600/60' : (colorMap[pathname] || 'bg-primary-600');
     return (
         <div>
+            {/* nav mobile */}
             <div className="nav mobile md:hidden bg-primary-600">
                 <div className="left container mx-auto py-2 flex items-center gap-2 justify-center">
                     <div className="logo">
@@ -64,11 +65,12 @@ const Layout = (props: LayoutProps) => {
                     </div>
                 </div>
             </div>
-            <nav className={`py-5 hidden md:block fixed top-0 w-full z-50 ${navBgColor} transition-colors duration-300`}>
+            {/* nav mobile */}
+            <nav className={`py-3 hidden md:block fixed top-0 w-full z-50 ${navBgColor} transition-colors duration-300`}>
                 <div className="wrap flex justify-between items-center container mx-auto">
                     <div className="left flex items-center gap-2">
                         <div className="logo">
-                            <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[65px]' />
+                            <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[55px]' />
                         </div>
                         <div className="teks">
                             <div className="head font-bold text-3xl text-primary">SITANI</div>

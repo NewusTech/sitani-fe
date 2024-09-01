@@ -19,18 +19,18 @@ import DeletePopup from '@/components/superadmin/PopupDelete'
 import Image from 'next/image';
 
 interface Data {
-    gambar?: string;
+    image?: string;
     deskripsi?: string;
 }
 
 const KelolaGaleriPage = () => {
     const data: Data[] = [
         {
-            gambar: "https://static.gatra.com/foldershared/images/2019/thytha/09-Sep/lahan-pertanian-shutterstock.jpg",
+            image: "https://static.gatra.com/foldershared/images/2019/thytha/09-Sep/lahan-pertanian-shutterstock.jpg",
             deskripsi: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
         },
         {
-            gambar: "https://static.gatra.com/foldershared/images/2019/thytha/09-Sep/lahan-pertanian-shutterstock.jpg",
+            image: "https://static.gatra.com/foldershared/images/2019/thytha/09-Sep/lahan-pertanian-shutterstock.jpg",
             deskripsi: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
         },
     ];
@@ -61,8 +61,8 @@ const KelolaGaleriPage = () => {
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
                         <TableHead className="text-primary py-3">No</TableHead>
-                        <TableHead className="text-primary py-3">gambar</TableHead>
-                        <TableHead className="text-primary py-3">deskripsi</TableHead>
+                        <TableHead className="text-primary py-3">Gambar</TableHead>
+                        <TableHead className="text-primary py-3">Deskripsi</TableHead>
                         <TableHead className="text-primary py-3">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -73,8 +73,8 @@ const KelolaGaleriPage = () => {
                                 {index + 1}
                             </TableCell>
                             <TableCell>
-                                <div className="w-[150px] h-[150px]">
-                                    <Image src={item.gambar || "../../assets/images/galeri1.png"} alt="logo" width={300} height={300} unoptimized className='w-full h-full object-cover' />
+                                <div className="w-[150px] h-[100px]">
+                                    <Image src={item.image || "../../assets/images/galeri1.png"} alt="logo" width={300} height={300} unoptimized className='w-full h-full object-cover' />
                                 </div>
                             </TableCell>
                             <TableCell>
@@ -82,7 +82,7 @@ const KelolaGaleriPage = () => {
                             </TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-4">
-                                    <Link href="/data-master/kelola-berita/edit">
+                                    <Link href="/data-master/kelola-galeri/edit">
                                         <EditIcon />
                                     </Link>
                                     <DeletePopup onDelete={() => { }} />

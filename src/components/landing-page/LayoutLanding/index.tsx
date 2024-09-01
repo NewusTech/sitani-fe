@@ -64,11 +64,11 @@ const Layout = (props: LayoutProps) => {
                     </div>
                 </div>
             </div>
-            <nav className={`py-5 hidden md:block fixed top-0 w-full z-50 ${navBgColor} transition-colors duration-300`}>
+            <nav className={`py-3 hidden md:block fixed top-0 w-full z-50 ${navBgColor} transition-colors duration-300`}>
                 <div className="wrap flex justify-between items-center container mx-auto">
                     <div className="left flex items-center gap-2">
                         <div className="logo">
-                            <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[65px]' />
+                            <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[55px]' />
                         </div>
                         <div className="teks">
                             <div className="head font-bold text-3xl text-primary">SITANI</div>
@@ -76,7 +76,7 @@ const Layout = (props: LayoutProps) => {
                         </div>
                     </div>
                     <div className="menu flex items-center gap-5">
-                        <Menu link="/beranda">Beranda</Menu>
+                        <Menu link="/">Beranda</Menu>
                         <Menu link="/berita">Berita</Menu>
                         <Menu link="/galeri">Galeri</Menu>
                         {/* <Menu link="#">Data</Menu> */}

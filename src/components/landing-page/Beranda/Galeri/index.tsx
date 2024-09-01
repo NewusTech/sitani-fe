@@ -39,7 +39,7 @@ const GaleriLanding = () => {
             ))}
         </div>
         <div className="flex justify-center  mt-5 md:mt-10">
-          <Link href="/galeri" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-lg md:text-xl">
+          <Link href="/galeri" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-base md:text-lg hover:bg-primary-hover">
             Lihat selengkapnya
             <ShareBeritaIcon />
           </Link>
