@@ -186,9 +186,9 @@ const DataPenerimaUppo = () => {
                         <TableHead className="text-primary py-1">No</TableHead>
                         <TableHead className="text-primary py-1">Kecamatan</TableHead>
                         <TableHead className="text-primary py-1">Desa</TableHead>
-                        <TableHead className="text-primary py-1">Nama Poktan</TableHead>
-                        <TableHead className="text-primary py-1">Nama Ketua</TableHead>
-                        <TableHead className="text-primary py-1">Titik Koordinat</TableHead>
+                        <TableHead className="text-primary py-1 ">Nama Poktan</TableHead>
+                        <TableHead className="text-primary py-1 hidden md:table-cell">Nama Ketua</TableHead>
+                        <TableHead className="text-primary py-1 hidden md:table-cell">Titik Koordinat</TableHead>
                         <TableHead className="text-primary py-1">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -207,10 +207,10 @@ const DataPenerimaUppo = () => {
                             <TableCell>
                                 {item.namaPoktan}
                             </TableCell>
-                            <TableCell>
+                            <TableCell className='hidden md:table-cell'>
                                 {item.namaKetua}
                             </TableCell>
-                            <TableCell>
+                            <TableCell className='hidden md:table-cell'>
                                 {item.titikKoordinat}
                             </TableCell>
                             <TableCell>
