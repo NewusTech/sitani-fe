@@ -2,13 +2,16 @@
 import Label from '@/components/ui/label'
 import React from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
 import { Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter } from 'next/navigation';
+import { SWRResponse, mutate } from "swr";
 import {
     Command,
     CommandEmpty,
@@ -116,7 +119,7 @@ const formSchema = z.object({
     sawahTadahHujanSawahRawaLebak: z
         .string()
         .min(1, { message: "wajib diisi" }).optional(),
-    
+
     sawahRawaPasangSurutPanen: z
         .string()
         .min(1, { message: "wajib diisi" }).optional(),
@@ -129,7 +132,7 @@ const formSchema = z.object({
     sawahRawaPasangSurutSawahRawaLebak: z
         .string()
         .min(1, { message: "wajib diisi" }).optional(),
-    
+
     sawahRawaLebakPanen: z
         .string()
         .min(1, { message: "wajib diisi" }).optional(),
@@ -148,6 +151,7 @@ type FormSchemaType = z.infer<typeof formSchema>;
 
 const TambahDataPadi = () => {
     const [date, setDate] = React.useState<Date>()
+    const [valueSelect, setValueSelectt] = React.useState(""); // Untuk menyimpan nilai jenis padi
 
     const {
         register,
@@ -163,9 +167,23 @@ const TambahDataPadi = () => {
         setValue('namaDesa', selectedOptions.map(option => option.value));
     };
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log(data);
-        reset();
+    // TAMBAH
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        try {
+            await axiosPrivate.post("/", data);
+            console.log(data)
+            // push
+            navigate.push('/korlub/padi');
+            console.log("Success to create Padi:");
+            reset()
+        } catch (e: any) {
+            console.log(data)
+            console.log("Failed to create Padi:");
+            return;
+        }
+        mutate(`/user/get`);
     };
 
     const [open, setOpen] = React.useState(false)
@@ -264,7 +282,10 @@ const TambahDataPadi = () => {
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Pilih Jenis Padi" />
                                 <Select
-                                    onValueChange={(value) => setValue("jenisPadi", value)}
+                                    onValueChange={(value) => {
+                                        setValue("jenisPadi", value);
+                                        setValueSelectt(value); // Simpan nilai jenis padi
+                                    }}
                                 >
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Pilih Jenis Padi" />
@@ -281,25 +302,27 @@ const TambahDataPadi = () => {
                             </div>
                         </div>
 
-                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Pilih Kategori" />
-                                <Select
-                                    onValueChange={(value) => setValue("kategori", value)}
-                                >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Pilih Kategori" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="lahanSawah">Lahan Sawah</SelectItem>
-                                        <SelectItem value="lahanBukanSawah">Lahan Bukan Sawah</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                {errors.kategori && (
-                                    <HelperError>{errors.kategori.message}</HelperError>
-                                )}
+                        {(valueSelect === 'hibrida' || valueSelect === 'unggul') && (
+                            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                                <div className="flex flex-col mb-2 w-full">
+                                    <Label className='text-sm mb-1' label="Pilih Kategori" />
+                                    <Select
+                                        onValueChange={(value) => setValue("kategori", value)}
+                                    >
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Pilih Kategori" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="kategori1">Kategori 1</SelectItem>
+                                            <SelectItem value="kategori2">Kategori 2</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    {errors.kategori && (
+                                        <HelperError>{errors.kategori.message}</HelperError>
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">

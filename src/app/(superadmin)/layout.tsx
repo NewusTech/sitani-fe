@@ -236,7 +236,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         <Menu link="/korlub/palawija">
                                             <span className='text-sm'>Palawija</span>
                                         </Menu>
-                                        <Menu link="/korlub/sayur&buah">
+                                        <Menu link="/korlub/sayuran-buah">
                                             <span className='text-sm'>Sayuran dan Buah</span>
                                         </Menu>
                                         <Menu link="/korlub/tanamanHias">
