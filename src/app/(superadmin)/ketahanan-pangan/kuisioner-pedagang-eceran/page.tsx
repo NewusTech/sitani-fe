@@ -78,7 +78,7 @@ const KuisionerPedagangEceran = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Coefesien Variasi CV Tingkat Produksi</div>
+            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Harian Panel Pedagangan Eceran</div>
             {/* title */}
             {/* top */}
             <div className="header flex gap-2 justify-between items-center">
@@ -184,7 +184,7 @@ const KuisionerPedagangEceran = () => {
                         <TableHead className="text-primary py-3">MG III</TableHead>
                         <TableHead className="text-primary py-3">MG IV</TableHead>
                         <TableHead className="text-primary py-3">MG V</TableHead>
-                        <TableHead className="text-primary py-3">Rata2 Per komoditas</TableHead>
+                        <TableHead className="text-primary py-3">Rata2 Per Bulan</TableHead>
                         <TableHead className="text-primary py-3">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>

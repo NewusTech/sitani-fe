@@ -42,17 +42,84 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
+import { TrendingUp } from "lucide-react"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
+
+
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "@/components/ui/chart"
+export const description = "A line chart with dots"
+const chartData = [
+    { month: "jan", desktop: 186, mobile: 80 },
+    { month: "feb", desktop: 305, mobile: 200 },
+    { month: "mar", desktop: 237, mobile: 120 },
+    { month: "apr", desktop: 73, mobile: 190 },
+    { month: "mei", desktop: 209, mobile: 130 },
+    { month: "jun", desktop: 214, mobile: 140 },
+    { month: "jul", desktop: 214, mobile: 140 },
+    { month: "ags", desktop: 214, mobile: 140 },
+    { month: "sep", desktop: 214, mobile: 140 },
+]
+const chartConfig = {
+    desktop: {
+        label: "Desktop",
+        color: "hsl(var(--chart-1))",
+    },
+    mobile: {
+        label: "Mobile",
+        color: "hsl(var(--chart-2))",
+    },
+} satisfies ChartConfig
+
+
 interface Data {
-    komoditas?: string;
+    komoditas: string;
+    harga: {
+        jan: string;
+        feb: string;
+        mar: string;
+        apr: string;
+        mei: string;
+        jun: string;
+        jul: string;
+        ags: string;
+        sep: string;
+        okt: string;
+        nov: string;
+        des: string;
+    };
 }
 
 const HargaPanganEceran = () => {
     const data: Data[] = [
         {
-            komoditas: "Januari",
-        },
-        {
-            komoditas: "Januari",
+            komoditas: "Beras Premium Eceran",
+            harga: {
+                jan: "12000",
+                feb: "12500",
+                mar: "12300",
+                apr: "12600",
+                mei: "12800",
+                jun: "12400",
+                jul: "12200",
+                ags: "12900",
+                sep: "12700",
+                okt: "13000",
+                nov: "13100",
+                des: "14000",
+            }
         },
     ];
     const [date, setDate] = React.useState<Date>()
@@ -156,6 +223,18 @@ const HargaPanganEceran = () => {
                     <TableRow >
                         <TableHead className="text-primary py-3">No</TableHead>
                         <TableHead className="text-primary py-3">Komoditas</TableHead>
+                        <TableHead className="text-primary py-3">Jan</TableHead>
+                        <TableHead className="text-primary py-3">Feb</TableHead>
+                        <TableHead className="text-primary py-3">Mar</TableHead>
+                        <TableHead className="text-primary py-3">Apr</TableHead>
+                        <TableHead className="text-primary py-3">Mei</TableHead>
+                        <TableHead className="text-primary py-3">Jun</TableHead>
+                        <TableHead className="text-primary py-3">Jul</TableHead>
+                        <TableHead className="text-primary py-3">Ags</TableHead>
+                        <TableHead className="text-primary py-3">Sep</TableHead>
+                        <TableHead className="text-primary py-3">Okt</TableHead>
+                        <TableHead className="text-primary py-3">Nov</TableHead>
+                        <TableHead className="text-primary py-3">Des</TableHead>
                         <TableHead className="text-primary py-3">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -168,6 +247,9 @@ const HargaPanganEceran = () => {
                             <TableCell>
                                 {item.komoditas}
                             </TableCell>
+                            {Object.values(item.harga).map((harga, i) => (
+                                <TableCell key={i}>{harga}</TableCell>
+                            ))}
                             <TableCell>
                                 <div className="flex items-center gap-4">
                                     <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
@@ -184,6 +266,164 @@ const HargaPanganEceran = () => {
                 </TableBody>
             </Table>
             {/* table */}
+
+            {/* title */}
+            <div className="text-2xl mt-4 mb-4 font-semibold text-primary uppercase">Grafik Tiap Komoditas</div>
+            {/* title */}
+            {/* Card */}
+            <div className="lg:flex justify-center lg:justify-between gap-4">
+                <div className="w-full">
+                    {/* Card */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-sm">
+                                Harga Rata-rata Kedelai Biji Kering Impor (Tingkat Pengrajin Tahu/Tempe)
+                            </CardTitle>
+                            {/* <CardDescription>January - June 2024</CardDescription> */}
+                        </CardHeader>
+                        <CardContent>
+                            <ChartContainer config={chartConfig}>
+                                <LineChart
+                                    accessibilityLayer
+                                    data={chartData}
+                                    margin={{
+                                        left: 12,
+                                        right: 12,
+                                        bottom: 12,
+                                    }}
+                                >
+                                    <CartesianGrid vertical={false} />
+                                    <XAxis
+                                        dataKey="month"
+                                        tickLine={false}
+                                        axisLine={false}
+                                        tickMargin={8}
+                                        tickFormatter={(value) => value.slice(0, 3)}
+                                        label={{
+                                            value: 'Bulan',
+                                            position: 'insideBottom',
+                                            dy: 12, // Mengatur posisi vertikal label
+                                            fill: '#666', // Mengatur warna label
+                                            fontSize: '12px', // Mengatur ukuran font label
+                                        }}
+                                    />
+                                    <YAxis
+                                        label={{
+                                            value: 'Harga (IDR)',
+                                            angle: -90,
+                                            position: 'insideCenter',
+                                            dx: -12, // Mengatur posisi vertikal label
+                                            fontSize: '12px', // Mengatur ukuran font label
+                                        }}
+                                    />
+                                    <ChartTooltip
+                                        cursor={false}
+                                        content={<ChartTooltipContent hideLabel />}
+                                    />
+                                    <Line
+                                        dataKey="desktop"
+                                        type="natural"
+                                        stroke="var(--color-desktop)"
+                                        strokeWidth={2}
+                                        dot={{
+                                            fill: "var(--color-desktop)",
+                                        }}
+                                        activeDot={{
+                                            r: 6,
+                                        }}
+                                    />
+                                </LineChart>
+                            </ChartContainer>
+                        </CardContent>
+                        <CardFooter className="flex-col items-start gap-2 text-sm">
+                            <div className="flex gap-2 font-medium leading-none">
+                                Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+                            </div>
+                            <div className="leading-none text-muted-foreground">
+                                Showing total visitors for the last 6 months
+                            </div>
+                        </CardFooter>
+                    </Card>
+
+                    {/* Card */}
+                </div>
+                <div className="w-full">
+                    {/* Card */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-sm">
+                                Harga Rata-rata Kedelai Biji Kering Impor (Tingkat Pengrajin Tahu/Tempe)
+                            </CardTitle>
+                            {/* <CardDescription>January - June 2024</CardDescription> */}
+                        </CardHeader>
+                        <CardContent>
+                            <ChartContainer config={chartConfig}>
+                                <LineChart
+                                    accessibilityLayer
+                                    data={chartData}
+                                    margin={{
+                                        left: 12,
+                                        right: 12,
+                                        bottom: 12,
+                                    }}
+                                >
+                                    <CartesianGrid vertical={false} />
+                                    <XAxis
+                                        dataKey="month"
+                                        tickLine={false}
+                                        axisLine={false}
+                                        tickMargin={8}
+                                        tickFormatter={(value) => value.slice(0, 3)}
+                                        label={{
+                                            value: 'Bulan',
+                                            position: 'insideBottom',
+                                            dy: 12, // Mengatur posisi vertikal label
+                                            fill: '#666', // Mengatur warna label
+                                            fontSize: '12px', // Mengatur ukuran font label
+                                        }}
+                                    />
+                                    <YAxis
+                                        label={{
+                                            value: 'Harga (IDR)',
+                                            angle: -90,
+                                            position: 'insideCenter',
+                                            dx: -12, // Mengatur posisi vertikal label
+                                            fontSize: '12px', // Mengatur ukuran font label
+                                        }}
+                                    />
+                                    <ChartTooltip
+                                        cursor={false}
+                                        content={<ChartTooltipContent hideLabel />}
+                                    />
+                                    <Line
+                                        dataKey="desktop"
+                                        type="natural"
+                                        stroke="var(--color-desktop)"
+                                        strokeWidth={2}
+                                        dot={{
+                                            fill: "var(--color-desktop)",
+                                        }}
+                                        activeDot={{
+                                            r: 6,
+                                        }}
+                                    />
+                                </LineChart>
+                            </ChartContainer>
+                        </CardContent>
+                        <CardFooter className="flex-col items-start gap-2 text-sm">
+                            <div className="flex gap-2 font-medium leading-none">
+                                Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+                            </div>
+                            <div className="leading-none text-muted-foreground">
+                                Showing total visitors for the last 6 months
+                            </div>
+                        </CardFooter>
+                    </Card>
+
+                    {/* Card */}
+                </div>
+            </div>
+            {/* Card */}
 
             {/* pagination */}
             <div className="pagination md:mb-[0px] mb-[111px] flex md:justify-end justify-center">
@@ -213,7 +453,7 @@ const HargaPanganEceran = () => {
                 </Pagination>
             </div>
             {/* pagination */}
-        </div>
+        </div >
     )
 }
 
