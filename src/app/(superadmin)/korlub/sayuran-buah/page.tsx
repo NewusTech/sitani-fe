@@ -73,7 +73,7 @@ const KorlubSayuranBuah = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Korlub Palawija</div>
+            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Korlub Sayuran dan Buah</div>
             {/* title */}
 
             {/* top */}
@@ -172,7 +172,7 @@ const KorlubSayuranBuah = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Link href="/korlub/palawija/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                    <Link href="/korlub/sayuran-buah/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
                         Tambah Data
                     </Link>
                 </div>
