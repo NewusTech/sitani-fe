@@ -21,6 +21,7 @@ const config = {
       colors: {
         'primary': '#0A6847',
         'primary-600': '#B4DBB3',
+        'primary-hover': '#0B573C',
         'secondary': '#F3CA52',
       },
       keyframes: {

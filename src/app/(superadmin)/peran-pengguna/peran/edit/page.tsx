@@ -11,7 +11,7 @@ import Link from 'next/link';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useSWR from 'swr';
-import { SWRResponse } from "swr";
+import { SWRResponse, mutate } from "swr";
 
 const formSchema = z.object({
   email: z
@@ -78,9 +78,9 @@ const EditPeran = () => {
       }
     },
     {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false
+      // revalidateIfStale: false,
+      // revalidateOnFocus: false,
+      // revalidateOnReconnect: false
     }
   );
 
@@ -101,11 +101,12 @@ const EditPeran = () => {
       console.log("Success to update user:", data);
       console.log(data)
       navigate.push('/peran-pengguna/peran');
+      reset()
     } catch (error) {
       console.error('Failed to update user:', error);
       console.log(data)
-
     }
+    mutate(`/user/get`);
   };
 
   return (

@@ -200,8 +200,11 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Data Master
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
-                                        <Menu link="/kelola-berita">
+                                        <Menu link="/data-master/kelola-berita">
                                             <span className='text-sm'>Kelola Berita</span>
+                                        </Menu>
+                                        <Menu link="/data-master/kelola-galeri">
+                                            <span className='text-sm'>Kelola Galeri</span>
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>

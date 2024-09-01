@@ -26,7 +26,7 @@ const DeletePopup: FC<DeletePopupProps> = ({ onDelete }) => {
     };
 
     return (
-        <div>
+        <div className='flex items-center'>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                     <button onClick={() => setIsOpen(true)}>

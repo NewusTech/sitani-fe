@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter } from 'next/navigation';
+import { SWRResponse, mutate } from "swr";
 
 
 const formSchema = z.object({
@@ -55,11 +56,13 @@ const TambahPeran = () => {
       // push
       navigate.push('/peran-pengguna/peran');
       console.log("Success to create user:");
+      reset()
     } catch (e: any) {
       console.log(data)
       console.log("Failed to create user:");
       return;
     }
+    mutate(`/user/get`);
   };
 
   // TAMBAH

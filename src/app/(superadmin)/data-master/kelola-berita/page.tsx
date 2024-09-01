@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react'
-import SearchIcon from '../../../../public/icons/SearchIcon'
+import SearchIcon from '../../../../../public/icons/SearchIcon'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import {
@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import EditIcon from '../../../../public/icons/EditIcon'
+import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
 
 interface Data {
@@ -49,7 +49,7 @@ const KelolaBeritaPage = () => {
           />
         </div>
         <div className="right md:w-fit w-full flex justify-end md:mt-0 mt-2">
-          <Link href="/kelola-berita/tambah" className='bg-primary text-sm px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
+          <Link href="/data-master/kelola-berita/tambah" className='bg-primary text-sm px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
             Tambah Data
           </Link>
         </div>
@@ -79,7 +79,7 @@ const KelolaBeritaPage = () => {
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-4">
-                  <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
+                  <Link href="/data-master/kelola-berita/edit">
                     <EditIcon />
                   </Link>
                   <DeletePopup onDelete={() => { }} />
