@@ -23,7 +23,7 @@ const DetailPegawaiPage = () => {
       {/* title */}
       <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail Data Pegawai</div>
       {/* title */}
-      <div className="mb-10 flex justify-start gap-3 mt-4">
+      <div className="mb-10 flex justify-start gap-2 md:gap-3 mt-4">
         <Link href="/kepegawaian/data-pegawai" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
           Kembali
         </Link>
@@ -39,7 +39,7 @@ const DetailPegawaiPage = () => {
       {/* detail */}
       <div className="wrap-detail bg-slate-100 p-6 mt-5 rounded-lg">
         <div className="font-semibold mb-2 text-lg uppercase">Data Pegawai</div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
           <LabelDetail label='Name' name='John Dea' />
           <LabelDetail label='NIP' name='1345435345' />
           <LabelDetail label='Tempat' name='Jakarta' />
@@ -54,7 +54,7 @@ const DetailPegawaiPage = () => {
         </div>
         <div className="wr">
           <div className="font-semibold mb-2 text-lg mt-5 uppercase">Diklat Struktural</div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-2  gap-2 md:gap-3">
             <LabelDetail label='Name' name='John Dea' />
             <LabelDetail label='NIP' name='1345435345' />
             <LabelDetail label='Tempat' name='Jakarta' />
@@ -62,7 +62,7 @@ const DetailPegawaiPage = () => {
         </div>
         <div className="wr">
           <div className="font-semibold text-lg mb-2 mt-5 uppercase">Pendidikan Umum</div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-2  gap-2 md:gap-3">
             <LabelDetail label='Nama' name='Agronomi' />
             <LabelDetail label='Tahun Lulus' name='1345435345' />
             <LabelDetail label='Jenjang' name='Sarjana' />
