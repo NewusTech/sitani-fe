@@ -51,7 +51,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahDataPenerimaUppo = () => {
+const EditDataPenerimaUppo = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -71,7 +71,7 @@ const TambahDataPenerimaUppo = () => {
 
     return (
         <>
-            <div className="text-primary text-2xl font-bold mb-5">Tambah Data</div>
+            <div className="text-primary text-2xl font-bold mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
@@ -122,6 +122,7 @@ const TambahDataPenerimaUppo = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Nama Ketua" />
                             <Input
+                                
                                 type="date"
                                 placeholder="Nama Ketua"
                                 {...register('namaKetua')}
@@ -136,6 +137,7 @@ const TambahDataPenerimaUppo = () => {
                         <div className="flex flex-col mb-2 w-1/2">
                             <Label className='text-sm mb-1' label="Titik Koordinat" />
                             <Input
+                                
                                 type="number"
                                 placeholder="Pilih Titik Koordinat"
                                 {...register('titikKoordinat')}
@@ -161,4 +163,4 @@ const TambahDataPenerimaUppo = () => {
     )
 }
 
-export default TambahDataPenerimaUppo
+export default EditDataPenerimaUppo
