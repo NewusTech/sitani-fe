@@ -126,10 +126,7 @@ const PeranPage = () => {
                                 <TableCell>
                                     <div className="flex items-center gap-4">
                                         <Link
-                                            href={{
-                                                pathname: "/peran-pengguna/peran/edit",
-                                                query: { id: item.id },
-                                            }}
+                                            href={`/peran-pengguna/peran/edit/${item.id}`}
                                         >
                                             <EditIcon />
                                         </Link>
