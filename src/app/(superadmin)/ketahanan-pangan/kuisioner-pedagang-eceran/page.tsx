@@ -217,10 +217,10 @@ const KuisionerPedagangEceran = () => {
                             </TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-4">
-                                    <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
+                                    <Link className='' href="/ketahanan-pangan/kuisioner-pedagang-eceran/detail">
                                         <EyeIcon />
                                     </Link>
-                                    <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
+                                    <Link className='' href="/ketahanan-pangan/kuisioner-pedagang-eceran/edit">
                                         <EditIcon />
                                     </Link>
                                     <DeletePopup onDelete={() => { }} />

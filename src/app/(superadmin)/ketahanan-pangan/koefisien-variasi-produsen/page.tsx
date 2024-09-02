@@ -38,6 +38,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import EyeIcon from '../../../../../public/icons/EyeIcon'
+import DeletePopup from '@/components/superadmin/PopupDelete'
+import EditIcon from '../../../../../public/icons/EditIcon'
 
 interface Data {
     bulan?: string;
@@ -170,6 +173,7 @@ const KoefisienVariasiProdusen = () => {
                         <TableHead className="text-primary py-3">Daging Sapi Tingkat Pemotong RPH</TableHead>
                         <TableHead className="text-primary py-3">Daging Ayam Ras</TableHead>
                         <TableHead className="text-primary py-3">Telur Ayam Ras</TableHead>
+                        <TableHead className="text-primary py-3">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -190,6 +194,17 @@ const KoefisienVariasiProdusen = () => {
                             <TableCell>
                                 {item.telurAyam}
                             </TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-4">
+                                    <Link className='' href="/ketahanan-pangan/koefisien-variasi-produsen/detail">
+                                        <EyeIcon />
+                                    </Link>
+                                    <Link className='' href="/ketahanan-pangan/koefisien-variasi-produsen/edit">
+                                        <EditIcon />
+                                    </Link>
+                                    <DeletePopup onDelete={() => { }} />
+                                </div>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -199,30 +214,35 @@ const KoefisienVariasiProdusen = () => {
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
