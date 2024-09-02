@@ -237,7 +237,7 @@ const Palawija1 = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Link href="/tanaman-pangan-holtikutura/realisasi/tambah-palawija1" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px]'>
+                    <Link href="/tanaman-pangan-holtikutura/realisasi/palawija-1/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px]'>
                         Tambah
                     </Link>
                 </div>
@@ -262,6 +262,9 @@ const Palawija1 = () => {
                         </TableHead>
                         <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
                             Ubi Jalar
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Aksi
                         </TableHead>
                     </TableRow>
                     <TableRow>
@@ -329,6 +332,17 @@ const Palawija1 = () => {
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
                                 {item.ubiJalar.produksi}
+                            </TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-4">
+                                    <Link className='' href="/tanaman-pangan-holtikutura/realisasi/palawija-1/detail">
+                                        <EyeIcon />
+                                    </Link>
+                                    <Link className='' href="/tanaman-pangan-holtikutura/realisasi/palawija-1/edit">
+                                        <EditIcon />
+                                    </Link>
+                                    <DeletePopup onDelete={() => { }} />
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}

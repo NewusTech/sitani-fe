@@ -42,7 +42,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahRealisasiPage = () => {
+const TambahPalawija1Page = () => {
   const [date, setDate] = React.useState<Date>()
 
   const {
@@ -166,10 +166,10 @@ const TambahRealisasiPage = () => {
         {/* Button */}
         <div className="flex justify-end gap-3">
           <Link href="/tanaman-pangan-holtikutura/realisasi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-            BATAL
+            Batal
           </Link>
           <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-            SIMPAN
+            Simpan
           </Button>
         </div>
       </form>
@@ -177,4 +177,4 @@ const TambahRealisasiPage = () => {
   )
 }
 
-export default TambahRealisasiPage
+export default TambahPalawija1Page

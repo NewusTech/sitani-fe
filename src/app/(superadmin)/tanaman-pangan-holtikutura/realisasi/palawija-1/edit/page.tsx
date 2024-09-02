@@ -42,7 +42,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahPalawija2Page = () => {
+const EditPalawija1Page = () => {
   const [date, setDate] = React.useState<Date>()
 
   const {
@@ -61,7 +61,7 @@ const TambahPalawija2Page = () => {
   };
   return (
     <>
-      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Palawija 2</div>
+      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data Palawija 1</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
         <div className="wrap-form">
@@ -166,10 +166,10 @@ const TambahPalawija2Page = () => {
         {/* Button */}
         <div className="flex justify-end gap-3">
           <Link href="/tanaman-pangan-holtikutura/realisasi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-            BATAL
+            Batal
           </Link>
           <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-            SIMPAN
+            Simpan
           </Button>
         </div>
       </form>
@@ -177,4 +177,4 @@ const TambahPalawija2Page = () => {
   )
 }
 
-export default TambahPalawija2Page
+export default EditPalawija1Page
