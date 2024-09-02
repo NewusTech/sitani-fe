@@ -17,7 +17,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
 import {
     Pagination,
     PaginationContent,
@@ -30,35 +29,51 @@ import {
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
+// 
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 
-interface Data {
-    wilayahDesaBinaan?: string;
-    nama?: string;
-    nip?: string;
-    pangkat?: string;
-    gol?: string;
-    keterangan?: string;
-}
 
 const PenyuluhDataKabupaten = () => {
-    const data: Data[] = [
-        {
-            wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
-            nama: "Hardono, S.P",
-            nip: "123456789",
-            pangkat: "Pembina Utama",
-            gol: "IV/a",
-            keterangan: "Keterangan"
-        },
-        {
-            wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
-            nama: "Hardono, S.P",
-            nip: "123456789",
-            pangkat: "Pembina Utama",
-            gol: "IV/a",
-            keterangan: "Keterangan"
-        },
-    ];
+    
+    // INTEGRASI
+    // GET LIST
+    interface Kecamatan {
+        id: string;
+        nama: string
+    }
+    interface User {
+        id?: string; // Ensure id is a string
+        nama: string;
+        nip: string;
+        pangkat: string;
+        golongan: string;
+        keterangan: string;
+        kecamatan: Kecamatan[];
+    }
+
+    interface Response {
+        status: string,
+        data: User[],
+        message: string
+    }
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const { data: dataKabupaten }: SWRResponse<Response> = useSWR(
+        `/penyuluh-kabupaten/get`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    // GET LIST
+    // INTEGRASI
     return (
         <div>
             {/* title */}
@@ -115,50 +130,59 @@ const PenyuluhDataKabupaten = () => {
                         <TableHead className="text-primary py-3">Nama</TableHead>
                         <TableHead className="text-primary py-3">NIP</TableHead>
                         <TableHead className="text-primary py-3 hidden md:table-cell">
-                            Pangkat
+                            Pangkat/Gol
                         </TableHead>
-                        <TableHead className="text-primary py-3 hidden md:table-cell">Gol</TableHead>
                         <TableHead className="text-primary py-3 hidden md:table-cell">Keterangan</TableHead>
                         <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell className='hidden md:table-cell'>
-                                {item.wilayahDesaBinaan}
-                            </TableCell>
-                            <TableCell>
-                                {item.nama}
-                            </TableCell>
-                            <TableCell>
-                                {item.nip}
-                            </TableCell>
-                            <TableCell className='hidden md:table-cell'>
-                                {item.pangkat}
-                            </TableCell>
-                            <TableCell className='hidden md:table-cell'>
-                                {item.gol}
-                            </TableCell>
-                            <TableCell className='hidden md:table-cell'>
-                                {item.keterangan}
-                            </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href="/penyuluhan/data-kabupaten/detail">
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link className='' href="/penyuluhan/data-kabupaten/edit">
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={() => { }} />
-                                </div>
+                    {dataKabupaten?.data && dataKabupaten.data.length > 0 ? (
+                        dataKabupaten.data.map((item, index) => (
+                            <TableRow key={index}>
+                                <TableCell>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell className='hidden md:table-cell'>
+                                    {item.kecamatan.map((kec, index) => (
+                                        <span key={kec.id}>
+                                            {kec.nama}
+                                            {index < item.kecamatan.length - 1 && ", "}
+                                        </span>
+                                    ))}
+                                </TableCell>
+                                <TableCell>
+                                    {item.nama}
+                                </TableCell>
+                                <TableCell>
+                                    {item.nip}
+                                </TableCell>
+                                <TableCell className='hidden md:table-cell'>
+                                    {item.pangkat}, {item.golongan}
+                                </TableCell>
+                                <TableCell className='hidden md:table-cell'>
+                                    {item.keterangan}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link className='' href="/penyuluhan/data-kabupaten/detail">
+                                            <EyeIcon />
+                                        </Link>
+                                        <Link className='' href="/penyuluhan/data-kabupaten/edit">
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={() => { }} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={7} className="text-center">
+                                Tidak ada data
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
             {/* table */}

@@ -2,7 +2,7 @@
 import Label from '@/components/ui/label'
 import React from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
@@ -10,31 +10,27 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
 import { Textarea } from "@/components/ui/textarea"
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter } from 'next/navigation';
+import { mutate } from "swr";
+
 
 const OPTIONS: Option[] = [
-    { label: 'nextjs', value: 'nextjs' },
-    { label: 'React', value: 'react' },
-    { label: 'Remix', value: 'remix' },
-    { label: 'Vite', value: 'vite' },
-    { label: 'Nuxt', value: 'nuxt' },
-    { label: 'Vue', value: 'vue' },
-    { label: 'Svelte', value: 'svelte' },
-    { label: 'Angular', value: 'angular' },
-    { label: 'Ember', value: 'ember', disable: true },
-    { label: 'Gatsby', value: 'gatsby', disable: true },
-    { label: 'Astro', value: 'astro' },
+    { label: 'Kecamatan A', value: "1" },
+    { label: 'Kecamatan B', value: "2" },
+    { label: 'Kecamatan C', value: "3" },
 ];
 
 const formSchema = z.object({
-    namaKecamatan: z
-        .array(z.string())
-        .min(1, { message: "Wilayah Desa Binaan wajib diisi" }).optional(),
-    namaPenyuluh: z
+    kecamatan_list: z
+        .array(z.preprocess((val) => Number(val), z.number()))
+        .min(1, { message: "Wilayah Desa Binaan wajib diisi" })
+        .optional(),
+    nama: z
         .string()
         .min(1, { message: "Nama wajib diisi" }),
-    nip: z
-        .string()
-        .min(1, { message: "NIP wajib diisi" }),
+    nip: z.
+        preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
     pangkat: z
         .string()
         .min(1, { message: "Pangkat wajib diisi" }),
@@ -45,6 +41,7 @@ const formSchema = z.object({
         .string()
         .min(1, { message: "Keterangan wajib diisi" })
 });
+
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -62,14 +59,36 @@ const PenyuluhanTambahDataKabupaten = () => {
     });
 
     const handleSelectorChange = (selectedOptions: Option[]) => {
-        setValue('namaKecamatan', selectedOptions.map(option => option.value));
+        setValue('kecamatan_list', selectedOptions.map(option => Number(option.value)));
     };
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log(data);
-        reset();
-    };
 
+    // const onSubmit = (data: FormSchemaType) => {
+    //     console.log(data);
+    //     // reset();
+    // };
+
+    // INTEGRASI
+    // TAMBAH
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        try {
+            await axiosPrivate.post("/penyuluh-kabupaten/create", data);
+            console.log(data)
+            // push
+            navigate.push('/penyuluhan/data-kabupaten');
+            console.log("Success to create user:");
+            reset()
+        } catch (e: any) {
+            console.log(data)
+            console.log("Failed to create user:");
+            return;
+        }
+        mutate(`/penyuluh-kabupaten/get`);
+    };
+    // TAMBAH
+    // INTEGRASI
     return (
         <>
             <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
@@ -79,7 +98,7 @@ const PenyuluhanTambahDataKabupaten = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Wilayah Desa Binaan (Kecamatan)" />
                             <MultipleSelector
-                                className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
+                                className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.kecamatan_list ? 'border-red-500' : ''}`}
                                 defaultOptions={OPTIONS}
                                 placeholder="Cari Kecamatan"
                                 onChange={handleSelectorChange}
@@ -89,8 +108,8 @@ const PenyuluhanTambahDataKabupaten = () => {
                                     </p>
                                 }
                             />
-                            {errors.namaKecamatan && (
-                                <HelperError>{errors.namaKecamatan.message}</HelperError>
+                            {errors.kecamatan_list && (
+                                <HelperError>{errors.kecamatan_list.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -98,20 +117,18 @@ const PenyuluhanTambahDataKabupaten = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Nama" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Nama"
-                                {...register('namaPenyuluh')}
-                                className={`${errors.namaPenyuluh ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('nama')}
+                                className={`${errors.nama ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaPenyuluh && (
-                                <HelperError>{errors.namaPenyuluh.message}</HelperError>
+                            {errors.nama && (
+                                <HelperError>{errors.nama.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="NIP" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="NIP"
                                 {...register('nip')}
@@ -126,7 +143,6 @@ const PenyuluhanTambahDataKabupaten = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pangkat" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Pangkat"
                                 {...register('pangkat')}
@@ -139,7 +155,6 @@ const PenyuluhanTambahDataKabupaten = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Golongan" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Golongan"
                                 {...register('golongan')}
