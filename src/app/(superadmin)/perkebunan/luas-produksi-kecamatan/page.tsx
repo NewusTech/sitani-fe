@@ -34,6 +34,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import EyeIcon from '../../../../../public/icons/EyeIcon'
+import EditIcon from '../../../../../public/icons/EditIcon'
+import DeletePopup from '@/components/superadmin/PopupDelete'
 
 const LuasKecPage = () => {
     const [date, setDate] = React.useState<Date>()
@@ -177,6 +180,7 @@ const LuasKecPage = () => {
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
                             Keterangan
                         </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 text-center">Aksi</TableHead>
                     </TableRow>
                     <TableRow>
                         <TableHead className="text-primary py-1 border border-slate-200 text-center">
@@ -193,17 +197,30 @@ const LuasKecPage = () => {
                 <TableBody>
                     {/* tan1 */}
                     <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
                             I
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold'>
                             Tan. Tahunan
                         </TableCell>
+                        <TableCell colSpan={9} className='border border-slate-200 font-semibold'>
+                        </TableCell>
+                        <TableCell>
+                            <div className="flex items-center gap-4">
+                                <Link className='' href="/psp/bantuan/detail">
+                                    <EyeIcon />
+                                </Link>
+                                <Link className='' href="/psp/bantuan/edit">
+                                    <EditIcon />
+                                </Link>
+                                <DeletePopup onDelete={() => { }} />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     {/* isi */}
                     <TableRow >
                         <TableCell className='border border-slate-200 text-center'>
-                            
+
                         </TableCell>
                         <TableCell className='border border-slate-200'>
                             Aren
@@ -239,7 +256,7 @@ const LuasKecPage = () => {
                     {/* jumlah */}
                     <TableRow >
                         <TableCell className='border border-slate-200 text-center'>
-                            
+
                         </TableCell>
                         <TableCell className='border italic font-semibold border-slate-200'>
                             Jumlah I
@@ -269,7 +286,7 @@ const LuasKecPage = () => {
                     {/* tan1 */}
                     {/* tan2 */}
                     <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
                             II
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold'>
@@ -279,7 +296,7 @@ const LuasKecPage = () => {
                     {/* isi */}
                     <TableRow >
                         <TableCell className='border border-slate-200 text-center'>
-                            
+
                         </TableCell>
                         <TableCell className='border border-slate-200'>
                             Aren
@@ -315,7 +332,7 @@ const LuasKecPage = () => {
                     {/* jumlah */}
                     <TableRow >
                         <TableCell className='border border-slate-200 text-center'>
-                            
+
                         </TableCell>
                         <TableCell className='border italic font-semibold border-slate-200'>
                             Jumlah II
@@ -345,7 +362,7 @@ const LuasKecPage = () => {
                     {/* tan2 */}
                     {/* tan3 */}
                     <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
                             III
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold'>
@@ -355,7 +372,7 @@ const LuasKecPage = () => {
                     {/* isi */}
                     <TableRow >
                         <TableCell className='border border-slate-200 text-center'>
-                            
+
                         </TableCell>
                         <TableCell className='border border-slate-200'>
                             Aren
@@ -391,7 +408,7 @@ const LuasKecPage = () => {
                     {/* jumlah */}
                     <TableRow >
                         <TableCell className='border border-slate-200 text-center'>
-                            
+
                         </TableCell>
                         <TableCell className='border italic font-semibold border-slate-200'>
                             Jumlah III
@@ -422,7 +439,7 @@ const LuasKecPage = () => {
                     {/* jumlah TOTAL I II III*/}
                     <TableRow >
                         <TableCell className='border border-slate-200 text-center'>
-                            
+
                         </TableCell>
                         <TableCell className='border italic font-semibold border-slate-200'>
                             Jumlah I+II+III
