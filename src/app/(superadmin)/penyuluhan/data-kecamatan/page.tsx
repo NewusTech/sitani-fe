@@ -7,6 +7,10 @@ import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 import {
     Select,
     SelectContent,
@@ -40,37 +44,71 @@ import EyeIcon from '../../../../../public/icons/EyeIcon'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
 
-interface Data {
-    kecamatan?: string;
-    wilayahDesaBinaan?: string;
-    nama?: string;
-    nip?: string;
-    pangkat?: string;
-    gol?: string;
-    keterangan?: string;
-}
-
 const PenyuluhDataKecamatan = () => {
+    interface Desa {
+        id: string;
+        nama: string;
+        kecamatanId: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Data {
+        id?: string;
+        kecamatanId?: string;
+        nama?: string;
+        nip?: string;
+        pangkat?: string;
+        golongan?: string;
+        keterangan?: string;
+        desa?: Desa[];
+    }
+
+    interface Response {
+        status: string;
+        message: string;
+        data: Data[];
+    }
+
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    const { data: dataUser }: SWRResponse<Response> = useSWR(
+        `/penyuluh-kecamatan/get`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
     const data: Data[] = [
         {
-            kecamatan: "Sukadana",
-            wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
+            kecamatanId: "Sukadana",
+            // wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
             nama: "Hardono, S.P",
             nip: "123456789",
             pangkat: "Pembina Utama",
-            gol: "IV/a",
+            golongan: "IV/a",
             keterangan: "Keterangan"
         },
         {
-            kecamatan: "Sukadana",
-            wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
+            kecamatanId: "Sukadana",
+            // wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
             nama: "Hardono, S.P",
             nip: "123456789",
             pangkat: "Pembina Utama",
-            gol: "IV/a",
+            golongan: "IV/a",
             keterangan: "Keterangan"
         },
     ];
+
+    console.log(dataUser);
+
     return (
         <div>
             {/* title */}
@@ -148,45 +186,56 @@ const PenyuluhDataKecamatan = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell className='hidden md:table-cell'>
-                                {item.kecamatan}
-                            </TableCell>
-                            <TableCell className='hidden md:table-cell'>
-                                {item.wilayahDesaBinaan}
-                            </TableCell>
-                            <TableCell>
-                                {item.nama}
-                            </TableCell>
-                            <TableCell>
-                                {item.nip}
-                            </TableCell>
-                            <TableCell className='hidden md:table-cell'>
-                                {item.pangkat}
-                            </TableCell>
-                            <TableCell className='hidden md:table-cell'>
-                                {item.gol}
-                            </TableCell>
-                            <TableCell className='hidden md:table-cell'>
-                                {item.keterangan}
-                            </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href="/penyuluhan/data-kecamatan/detail">
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link className='' href="/penyuluhan/data-kecamatan/edit">
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={() => { }} />
-                                </div>
-                            </TableCell>
+                    {dataUser?.data && dataUser.data.length > 0 ? (
+                        dataUser.data.map((item, index) => (
+                            <TableRow key={index}>
+                                <TableCell>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell className='hidden md:table-cell'>
+                                    {item.kecamatanId}
+                                </TableCell>
+                                <TableCell className='hidden md:table-cell'>
+                                    {item.desa?.map((desa) => (
+                                        <div key={desa.id}>
+                                            <p>Nama Desa: {desa.nama}</p>
+                                            <p>ID Kecamatan: {desa.kecamatanId}</p>
+                                        </div>
+                                    ))}
+                                </TableCell>
+                                <TableCell>
+                                    {item.nama}
+                                </TableCell>
+                                <TableCell>
+                                    {item.nip}
+                                </TableCell>
+                                <TableCell className='hidden md:table-cell'>
+                                    {item.pangkat}
+                                </TableCell>
+                                <TableCell className='hidden md:table-cell'>
+                                    {item.golongan}
+                                </TableCell>
+                                <TableCell className='hidden md:table-cell'>
+                                    {item.keterangan}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link className='' href="/penyuluhan/data-kecamatan/detail">
+                                            <EyeIcon />
+                                        </Link>
+                                        <Link className='' href="/penyuluhan/data-kecamatan/edit">
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={() => { }} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={9} className='text-center'>Tidak Ada Data</TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
             {/* table */}

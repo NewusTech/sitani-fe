@@ -2,13 +2,16 @@
 import Label from '@/components/ui/label'
 import React from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
 import { Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter } from 'next/navigation';
+import { SWRResponse, mutate } from "swr";
 import {
     Command,
     CommandEmpty,
@@ -64,13 +67,13 @@ const OPTIONS: Option[] = [
 ];
 
 const formSchema = z.object({
-    namaKecamatan: z
+    kecamatan_id: z
         .string()
         .min(1, { message: "Nama Kecamatan wajib diisi" }).optional(),
-    wilayahDesaBinaan: z
+    desa_list: z
         .array(z.string())
         .min(1, { message: "Wilayah Desa Binaan wajib diisi" }).optional(),
-    namaPenyuluh: z
+    nama: z
         .string()
         .min(1, { message: "Nama wajib diisi" }),
     nip: z
@@ -103,12 +106,26 @@ const TamabahPenyuluhDataKecamatan = () => {
     });
 
     const handleSelectorChange = (selectedOptions: Option[]) => {
-        setValue('wilayahDesaBinaan', selectedOptions.map(option => option.value));
+        setValue('desa_list', selectedOptions.map(option => option.value));
     };
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log(data);
-        reset();
+    // TAMBAH
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        try {
+            await axiosPrivate.post("/penyuluh-kecamatan/create", data);
+            console.log(data)
+            // push
+            navigate.push('/penyuluhan/data-kecamatan');
+            console.log("Success to create user:");
+            reset()
+        } catch (e: any) {
+            console.log(data)
+            console.log("Failed to create penyuluh:");
+            return;
+        }
+        mutate(`/penyuluh-kecamatan/get`);
     };
 
     const [open, setOpen] = React.useState(false)
@@ -128,7 +145,7 @@ const TamabahPenyuluhDataKecamatan = () => {
                                         variant="outline"
                                         role="combobox"
                                         aria-expanded={open}
-                                        className={`w-full justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
+                                        className={`w-full justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.kecamatan_id ? 'border-red-500' : ''}`}
                                     >
                                         {value
                                             ? frameworks.find((framework) => framework.value === value)?.label
@@ -147,7 +164,7 @@ const TamabahPenyuluhDataKecamatan = () => {
                                                         key={framework.value}
                                                         value={framework.value}
                                                         onSelect={(currentValue) => {
-                                                            setValue("namaKecamatan", currentValue === value ? "" : currentValue, { shouldValidate: true });
+                                                            setValue("kecamatan_id", currentValue === value ? "" : currentValue, { shouldValidate: true });
                                                             setValueSelect(currentValue === value ? "" : currentValue);
                                                             setOpen(false);
                                                         }}
@@ -165,15 +182,15 @@ const TamabahPenyuluhDataKecamatan = () => {
                                         </CommandList>
                                     </Command>
                                 </PopoverContent>
-                                {errors.namaKecamatan && (
-                                    <HelperError>{errors.namaKecamatan.message}</HelperError>
+                                {errors.kecamatan_id && (
+                                    <HelperError>{errors.kecamatan_id.message}</HelperError>
                                 )}
                             </Popover>
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Wilayah Desa Binaan" />
                             <MultipleSelector
-                                className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.wilayahDesaBinaan ? 'border-red-500' : ''}`}
+                                className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.desa_list ? 'border-red-500' : ''}`}
                                 defaultOptions={OPTIONS}
                                 placeholder="Cari Desa"
                                 onChange={handleSelectorChange}
@@ -183,8 +200,8 @@ const TamabahPenyuluhDataKecamatan = () => {
                                     </p>
                                 }
                             />
-                            {errors.wilayahDesaBinaan && (
-                                <HelperError>{errors.wilayahDesaBinaan.message}</HelperError>
+                            {errors.desa_list && (
+                                <HelperError>{errors.desa_list.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -195,11 +212,11 @@ const TamabahPenyuluhDataKecamatan = () => {
                                 autoFocus
                                 type="text"
                                 placeholder="Nama"
-                                {...register('namaPenyuluh')}
-                                className={`${errors.namaPenyuluh ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('nama')}
+                                className={`${errors.nama ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaPenyuluh && (
-                                <HelperError>{errors.namaPenyuluh.message}</HelperError>
+                            {errors.nama && (
+                                <HelperError>{errors.nama.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
