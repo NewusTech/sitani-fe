@@ -6,10 +6,48 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
-import { Textarea } from "@/components/ui/textarea"
+import { Check, ChevronsUpDown } from "lucide-react"
+import { cn } from "@/lib/utils"
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+
+const frameworks = [
+    {
+        value: "kecamatan1",
+        label: "kecamatan1",
+    },
+    {
+        value: "kecamatan2",
+        label: "kecamatan2",
+    },
+    {
+        value: "kedacamatan3",
+        label: "kedacamatan3",
+    },
+    {
+        value: "kecamatan4",
+        label: "kecamatan4",
+    },
+    {
+        value: "kecamatan5",
+        label: "kecamatan5",
+    },
+]
 
 const OPTIONS: Option[] = [
     { label: 'nextjs', value: 'nextjs' },
@@ -27,6 +65,9 @@ const OPTIONS: Option[] = [
 
 const formSchema = z.object({
     namaKecamatan: z
+        .string()
+        .min(1, { message: "Nama Kecamatan wajib diisi" }).optional(),
+    wilayahDesaBinaan: z
         .array(z.string())
         .min(1, { message: "Wilayah Desa Binaan wajib diisi" }).optional(),
     namaPenyuluh: z
@@ -48,7 +89,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const PenyuluhanTambahDataKabupaten = () => {
+const EditPenyuluhDataKecamatan = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -62,7 +103,7 @@ const PenyuluhanTambahDataKabupaten = () => {
     });
 
     const handleSelectorChange = (selectedOptions: Option[]) => {
-        setValue('namaKecamatan', selectedOptions.map(option => option.value));
+        setValue('wilayahDesaBinaan', selectedOptions.map(option => option.value));
     };
 
     const onSubmit = (data: FormSchemaType) => {
@@ -70,18 +111,71 @@ const PenyuluhanTambahDataKabupaten = () => {
         reset();
     };
 
+    const [open, setOpen] = React.useState(false)
+    const [value, setValueSelect] = React.useState("")
+
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Wilayah Desa Binaan (Kecamatan)" />
+                            <Label className='text-sm mb-1' label="Pilih Kecamatan" />
+                            <Popover open={open} onOpenChange={setOpen}>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={open}
+                                        className={`w-full justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
+                                    >
+                                        {value
+                                            ? frameworks.find((framework) => framework.value === value)?.label
+                                            : "Pilih Kecamatan"}
+                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-full p-0">
+                                    <Command>
+                                        <CommandInput placeholder="Cari Kecamatan" />
+                                        <CommandList>
+                                            <CommandEmpty>Maaf, Kecamatan <br /> tidak tersedia.</CommandEmpty>
+                                            <CommandGroup>
+                                                {frameworks.map((framework) => (
+                                                    <CommandItem
+                                                        key={framework.value}
+                                                        value={framework.value}
+                                                        onSelect={(currentValue) => {
+                                                            setValue("namaKecamatan", currentValue === value ? "" : currentValue, { shouldValidate: true });
+                                                            setValueSelect(currentValue === value ? "" : currentValue);
+                                                            setOpen(false);
+                                                        }}
+                                                    >
+                                                        <Check
+                                                            className={cn(
+                                                                "mr-2 h-4 w-4",
+                                                                value === framework.value ? "opacity-100" : "opacity-0"
+                                                            )}
+                                                        />
+                                                        {framework.label}
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                                {errors.namaKecamatan && (
+                                    <HelperError>{errors.namaKecamatan.message}</HelperError>
+                                )}
+                            </Popover>
+                        </div>
+                        <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Wilayah Desa Binaan" />
                             <MultipleSelector
-                                className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
+                                className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.wilayahDesaBinaan ? 'border-red-500' : ''}`}
                                 defaultOptions={OPTIONS}
-                                placeholder="Cari Kecamatan"
+                                placeholder="Cari Desa"
                                 onChange={handleSelectorChange}
                                 emptyIndicator={
                                     <p className="text-center text-lg leading-10 text-gray-600">
@@ -89,8 +183,8 @@ const PenyuluhanTambahDataKabupaten = () => {
                                     </p>
                                 }
                             />
-                            {errors.namaKecamatan && (
-                                <HelperError>{errors.namaKecamatan.message}</HelperError>
+                            {errors.wilayahDesaBinaan && (
+                                <HelperError>{errors.wilayahDesaBinaan.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -167,7 +261,7 @@ const PenyuluhanTambahDataKabupaten = () => {
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/penyuluhan/data-kabupaten" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    <Link href="/penyuluhan/data-kecamatan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
@@ -179,4 +273,4 @@ const PenyuluhanTambahDataKabupaten = () => {
     )
 }
 
-export default PenyuluhanTambahDataKabupaten
+export default EditPenyuluhDataKecamatan

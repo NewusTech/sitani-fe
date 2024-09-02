@@ -48,7 +48,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const PenyuluhanTambahDataKabupaten = () => {
+const PenyuluhanEditDataKabupaten = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -72,7 +72,7 @@ const PenyuluhanTambahDataKabupaten = () => {
 
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
@@ -179,4 +179,4 @@ const PenyuluhanTambahDataKabupaten = () => {
     )
 }
 
-export default PenyuluhanTambahDataKabupaten
+export default PenyuluhanEditDataKabupaten

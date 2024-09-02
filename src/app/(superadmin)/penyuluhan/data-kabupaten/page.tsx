@@ -119,6 +119,7 @@ const PenyuluhDataKabupaten = () => {
                         </TableHead>
                         <TableHead className="text-primary py-3">Gol</TableHead>
                         <TableHead className="text-primary py-3">Keterangan</TableHead>
+                        <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -144,6 +145,17 @@ const PenyuluhDataKabupaten = () => {
                             </TableCell>
                             <TableCell>
                                 {item.keterangan}
+                            </TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-4">
+                                    <Link className='' href="/penyuluhan/data-kabupaten/detail">
+                                        <EyeIcon />
+                                    </Link>
+                                    <Link className='' href="/penyuluhan/data-kabupaten/edit">
+                                        <EditIcon />
+                                    </Link>
+                                    <DeletePopup onDelete={() => { }} />
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
