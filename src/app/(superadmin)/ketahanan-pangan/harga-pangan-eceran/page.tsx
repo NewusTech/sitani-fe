@@ -119,7 +119,7 @@ const HargaPanganEceran = () => {
             {/* title */}
             <div className="text-2xl mb-4 font-semibold text-primary uppercase">Perbandingan Komoditas Harga Panen</div>
             {/* title */}
-            
+
             {/* top */}
             <div className="header flex justify-between items-center">
                 <div className="search w-[50%]">
@@ -254,6 +254,35 @@ const HargaPanganEceran = () => {
             </Table>
             {/* table */}
 
+            {/* pagination */}
+            <div className="pagination md:mb-[0px] mb-[111px] flex md:justify-end justify-center">
+                <Pagination className='md:justify-end'>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious href="#" />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#" isActive>
+                                2
+                            </PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">3</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext href="#" />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            </div>
+            {/* pagination */}
+
             {/* title */}
             <div className="text-2xl mt-4 mb-4 font-semibold text-primary uppercase">Grafik Tiap Komoditas</div>
             {/* title */}
@@ -264,7 +293,7 @@ const HargaPanganEceran = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="text-sm">
-                                Harga Rata-rata Kedelai Biji Kering Impor (Tingkat Pengrajin Tahu/Tempe)
+                                Harga Rata-rata Beras Premium & Medium Tingkat Pedagang Eceran
                             </CardTitle>
                             {/* <CardDescription>January - June 2024</CardDescription> */}
                         </CardHeader>
@@ -274,8 +303,8 @@ const HargaPanganEceran = () => {
                                     accessibilityLayer
                                     data={chartData}
                                     margin={{
-                                        left: 12,
-                                        right: 12,
+                                        left: 2,
+                                        right: 2,
                                         bottom: 12,
                                     }}
                                 >
@@ -335,7 +364,6 @@ const HargaPanganEceran = () => {
                             </ChartContainer>
                         </CardContent>
                     </Card>
-
                     {/* Card */}
                 </div>
                 <div className="w-full">
@@ -353,8 +381,8 @@ const HargaPanganEceran = () => {
                                     accessibilityLayer
                                     data={chartData}
                                     margin={{
-                                        left: 12,
-                                        right: 12,
+                                        left: 2,
+                                        right: 2,
                                         bottom: 12,
                                     }}
                                 >
@@ -375,7 +403,7 @@ const HargaPanganEceran = () => {
                                     />
                                     <YAxis
                                         label={{
-                                            value: 'Harga (IDR)',
+                                            value: 'Harga',
                                             angle: -90,
                                             position: 'insideCenter',
                                             dx: -12, // Mengatur posisi vertikal label
@@ -398,52 +426,26 @@ const HargaPanganEceran = () => {
                                             r: 6,
                                         }}
                                     />
+                                    <Line
+                                        dataKey="mobile" // Ubah dengan kunci data yang relevan untuk garis kedua
+                                        type="natural"
+                                        stroke="var(--color-mobile)" // Ubah dengan warna yang sesuai untuk garis kedua
+                                        strokeWidth={2}
+                                        dot={{
+                                            fill: "var(--color-mobile)",
+                                        }}
+                                        activeDot={{
+                                            r: 6,
+                                        }}
+                                    />
                                 </LineChart>
                             </ChartContainer>
                         </CardContent>
-                        <CardFooter className="flex-col items-start gap-2 text-sm">
-                            <div className="flex gap-2 font-medium leading-none">
-                                Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                            </div>
-                            <div className="leading-none text-muted-foreground">
-                                Showing total visitors for the last 6 months
-                            </div>
-                        </CardFooter>
                     </Card>
-
                     {/* Card */}
                 </div>
             </div>
             {/* Card */}
-
-            {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[111px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </div>
-            {/* pagination */}
         </div >
     )
 }
