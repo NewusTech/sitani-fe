@@ -117,7 +117,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahTanamanHias = () => {
+const EditTanamanHias = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -158,7 +158,7 @@ const TambahTanamanHias = () => {
 
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-5">
                     <div className="mb-2">
@@ -385,7 +385,7 @@ const TambahTanamanHias = () => {
                         BATAL
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        SIMPAN
+                        EDIT
                     </Button>
                 </div>
             </form>
@@ -393,4 +393,4 @@ const TambahTanamanHias = () => {
     )
 }
 
-export default TambahTanamanHias
+export default EditTanamanHias
