@@ -77,7 +77,8 @@ interface Data {
 }
 
 const DataPegawaiPage = () => {
-  const [date, setDate] = React.useState<Date>()
+  const [startDate, setstartDate] = React.useState<Date>()
+  const [endDate, setendDate] = React.useState<Date>()
 
   const data: Data[] = [
     {
@@ -175,18 +176,18 @@ const DataPegawaiPage = () => {
                 variant={"outline"}
                 className={cn(
                   "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                  !date && "text-muted-foreground"
+                  !startDate && "text-muted-foreground"
                 )}
               >
                 <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                {date ? format(date, "PPP") : <span>Tanggal Awal</span>}
+                {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
               <Calendar className=''
                 mode="single"
-                selected={date}
-                onSelect={setDate}
+                selected={startDate}
+                onSelect={setstartDate}
                 initialFocus
               />
             </PopoverContent>
@@ -200,18 +201,18 @@ const DataPegawaiPage = () => {
                 variant={"outline"}
                 className={cn(
                   "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                  !date && "text-muted-foreground"
+                  !endDate && "text-muted-foreground"
                 )}
               >
                 <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                {date ? format(date, "PPP") : <span>Tanggal Akhir</span>}
+                {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
               <Calendar
                 mode="single"
-                selected={date}
-                onSelect={setDate}
+                selected={endDate}
+                onSelect={setendDate}
                 initialFocus
               />
             </PopoverContent>
