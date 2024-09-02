@@ -24,7 +24,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahProdusenEceran = () => {
+const EditProdusenEceran = () => {
     const {
         register,
         handleSubmit,
@@ -42,7 +42,7 @@ const TambahProdusenEceran = () => {
 
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-3 md:mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-3 md:mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="wrap-form flex-col gap-2">
                     <div className="">
@@ -101,4 +101,4 @@ const TambahProdusenEceran = () => {
     )
 }
 
-export default TambahProdusenEceran
+export default EditProdusenEceran

@@ -242,11 +242,8 @@ const HargaPanganEceran = () => {
                             ))}
                             <TableCell>
                                 <div className="flex items-center gap-4">
-                                    <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
+                                    <Link className='' href="/ketahanan-pangan/harga-pangan-eceran/detail">
                                         <EyeIcon />
-                                    </Link>
-                                    <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
-                                        <EditIcon />
                                     </Link>
                                     <DeletePopup onDelete={() => { }} />
                                 </div>

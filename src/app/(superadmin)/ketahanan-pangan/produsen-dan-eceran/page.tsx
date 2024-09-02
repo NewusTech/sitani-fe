@@ -28,6 +28,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import EyeIcon from '../../../../../public/icons/EyeIcon'
+import DeletePopup from '@/components/superadmin/PopupDelete'
+import EditIcon from '../../../../../public/icons/EditIcon'
 
 interface Data {
   komoditas?: string;
@@ -103,6 +106,7 @@ const ProdusenDanEceran = () => {
             <TableHead className="text-primary py-3">Komoditas</TableHead>
             <TableHead className="text-primary py-3">Harga</TableHead>
             <TableHead className="text-primary py-3">Keterangan</TableHead>
+            <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -119,6 +123,17 @@ const ProdusenDanEceran = () => {
               </TableCell>
               <TableCell>
                 {item.keterangan}
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center gap-4">
+                  <Link className='' href="/ketahanan-pangan/produsen-dan-eceran/detail">
+                    <EyeIcon />
+                  </Link>
+                  <Link className='' href="/ketahanan-pangan/produsen-dan-eceran/edit">
+                    <EditIcon />
+                  </Link>
+                  <DeletePopup onDelete={() => { }} />
+                </div>
               </TableCell>
             </TableRow>
           ))}
