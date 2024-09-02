@@ -58,35 +58,7 @@ const DetailPalawija2Page = () => {
                     </div>
                     <hr className='my-2' />
                 </div>
-                <div className="wrap">
-                    <div className="wr">
-                        <div className="font-semibold mb-2 text-lg mt-5 uppercase">Kecamatan</div>
-                        <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
-                            <LabelDetail label='Nama' name='Metro Kibang' />
-                        </div>
-                    </div>
-                    <div className="wr">
-                        <div className="font-semibold text-lg mb-2 mt-3 uppercase">Jagung</div>
-                        <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
-                            <LabelDetail label='Panen (ha)' name='123000' />
-                            <LabelDetail label='Produktivitas (ku/ha)' name='123000' />
-                            <LabelDetail label='Produksi (ton)' name='123000' />
-                        </div>
-                        <div className="font-semibold text-lg mb-2 mt-3 uppercase">Kedelai</div>
-                        <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
-                            <LabelDetail label='Panen (ha)' name='123000' />
-                            <LabelDetail label='Produktivitas (ku/ha)' name='123000' />
-                            <LabelDetail label='Produksi (ton)' name='123000' />
-                        </div>
-                        <div className="font-semibold text-lg mb-2 mt-3 uppercase">Kacang Tanah</div>
-                        <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
-                            <LabelDetail label='Panen (ha)' name='123000' />
-                            <LabelDetail label='Produktivitas (ku/ha)' name='123000' />
-                            <LabelDetail label='Produksi (ton)' name='123000' />
-                        </div>
-                    </div>
-                    <hr className='my-2' />
-                </div>
+                
                 {/* jumlah total */}
                 <div className="wrap">
                     <div className="wr">
