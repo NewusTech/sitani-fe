@@ -38,6 +38,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import EyeIcon from '../../../../../public/icons/EyeIcon'
+import EditIcon from '../../../../../public/icons/EditIcon'
+import DeletePopup from '@/components/superadmin/PopupDelete'
 
 interface Data {
     bulan?: string;
@@ -199,6 +202,7 @@ const KoefisienVariasiProduksi = () => {
                         <TableHead className="text-primary py-3">Beras Premium</TableHead>
                         <TableHead className="text-primary py-3">Stok GKG</TableHead>
                         <TableHead className="text-primary py-3">Stok Beras</TableHead>
+                        <TableHead className="text-primary py-3">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -240,6 +244,17 @@ const KoefisienVariasiProduksi = () => {
                             <TableCell>
                                 {item.stokBeras}
                             </TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-4">
+                                    <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/detail">
+                                        <EyeIcon />
+                                    </Link>
+                                    <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/edit">
+                                        <EditIcon />
+                                    </Link>
+                                    <DeletePopup onDelete={() => { }} />
+                                </div>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -256,6 +271,7 @@ const KoefisienVariasiProduksi = () => {
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
@@ -269,6 +285,7 @@ const KoefisienVariasiProduksi = () => {
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
@@ -282,6 +299,7 @@ const KoefisienVariasiProduksi = () => {
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
@@ -295,6 +313,7 @@ const KoefisienVariasiProduksi = () => {
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
@@ -308,6 +327,7 @@ const KoefisienVariasiProduksi = () => {
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
                         <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
