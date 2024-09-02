@@ -21,7 +21,7 @@ const DetailDataKabupatenPage = () => {
   return (
     <div>
       {/* title */}
-      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail Data Pupuk</div>
+      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail Daftar Penempatan Penyuluh Pertanian</div>
       {/* title */}
       <div className="mb-10 flex justify-start gap-2 md:gap-3 mt-4">
         <Link href="/penyuluhan/data-kabupaten" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>

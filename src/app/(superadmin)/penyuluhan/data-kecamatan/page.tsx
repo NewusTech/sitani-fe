@@ -135,15 +135,15 @@ const PenyuluhDataKecamatan = () => {
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
                         <TableHead className="text-primary py-3">No</TableHead>
-                        <TableHead className="text-primary py-3">Kecamatan</TableHead>
-                        <TableHead className="text-primary py-3">Wilayah Desa Binaan</TableHead>
+                        <TableHead className="text-primary py-3 hidden md:table-cell">Kecamatan</TableHead>
+                        <TableHead className="text-primary py-3 hidden md:table-cell">Wilayah Desa Binaan</TableHead>
                         <TableHead className="text-primary py-3">Nama</TableHead>
                         <TableHead className="text-primary py-3">NIP</TableHead>
-                        <TableHead className="text-primary py-3">
+                        <TableHead className="text-primary py-3 hidden md:table-cell">
                             Pangkat
                         </TableHead>
-                        <TableHead className="text-primary py-3">Gol</TableHead>
-                        <TableHead className="text-primary py-3">Keterangan</TableHead>
+                        <TableHead className="text-primary py-3 hidden md:table-cell">Gol</TableHead>
+                        <TableHead className="text-primary py-3 hidden md:table-cell ">Keterangan</TableHead>
                         <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -153,10 +153,10 @@ const PenyuluhDataKecamatan = () => {
                             <TableCell>
                                 {index + 1}
                             </TableCell>
-                            <TableCell>
+                            <TableCell className='hidden md:table-cell'>
                                 {item.kecamatan}
                             </TableCell>
-                            <TableCell>
+                            <TableCell className='hidden md:table-cell'>
                                 {item.wilayahDesaBinaan}
                             </TableCell>
                             <TableCell>
@@ -165,13 +165,13 @@ const PenyuluhDataKecamatan = () => {
                             <TableCell>
                                 {item.nip}
                             </TableCell>
-                            <TableCell>
+                            <TableCell className='hidden md:table-cell'>
                                 {item.pangkat}
                             </TableCell>
-                            <TableCell>
+                            <TableCell className='hidden md:table-cell'>
                                 {item.gol}
                             </TableCell>
-                            <TableCell>
+                            <TableCell className='hidden md:table-cell'>
                                 {item.keterangan}
                             </TableCell>
                             <TableCell>
