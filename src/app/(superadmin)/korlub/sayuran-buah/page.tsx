@@ -52,9 +52,22 @@ import {
 interface Data {
     kecamatan?: string;
     desa?: string;
-    namaPoktan?: string;
-    namaKetua?: string;
-    titikKoordinat?: string;
+    hasilProduksi?: string;
+    namaTanaman?: string;
+    luasTanamanAkhirBulanLalu?: string;
+    luasPanen: {
+        habisDibongkar?: number;
+        belumHabis?: number;
+    }
+    luasRusak?: string;
+    luasPenanamanBaru?: string;
+    luasTanamanAkhirBulanLaporan?: string;
+    produksiKuintal: {
+        dipanenHabis?: number;
+        belumHabis?: number;
+    }
+    rataRataHargaJual?: string;
+    keterangan?: string;
 }
 
 const KorlubSayuranBuah = () => {
@@ -62,11 +75,24 @@ const KorlubSayuranBuah = () => {
 
     const data: Data[] = [
         {
-            kecamatan: "123456789",
-            desa: "Jakarta",
-            namaPoktan: "1990-01-01",
-            namaKetua: "Pembina Utama IV/a",
-            titikKoordinat: "2022-01-01",
+            kecamatan: "Metro Kibang",
+            desa: "Metro",
+            hasilProduksi: "Palawija",
+            namaTanaman: "Padi",
+            luasTanamanAkhirBulanLalu: "100 hektar",
+            luasPanen: {
+                habisDibongkar: 23,
+                belumHabis: 345,
+            },
+            luasRusak: "100 hektar",
+            luasPenanamanBaru: "100 hektar",
+            luasTanamanAkhirBulanLaporan: "100 hektar",
+            produksiKuintal: {
+                dipanenHabis: 23,
+                belumHabis: 345,
+            },
+            rataRataHargaJual: "100 hektar",
+            keterangan: "100 hektar",
         },
     ];
 
@@ -183,49 +209,155 @@ const KorlubSayuranBuah = () => {
             <Table className='border border-slate-200 mt-4'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
-                        <TableHead className="text-primary py-1">No</TableHead>
-                        <TableHead className="text-primary py-1">Kecamatan</TableHead>
-                        <TableHead className="text-primary py-1">Desa</TableHead>
-                        <TableHead className="text-primary py-1">Nama Poktan</TableHead>
-                        <TableHead className="text-primary py-1">Nama Ketua</TableHead>
-                        <TableHead className="text-primary py-1">Titik Koordinat</TableHead>
-                        <TableHead className="text-primary py-1">Aksi</TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            No
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            <div className="text-center items-center">
+                                Nama Tanaman
+                            </div>
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            <div className="w-[150px] text-center items-center">
+                                Hasil Produksi Yang dicatat
+                            </div>
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            <div className="w-[150px] text-center items-center">
+                                Luas Tanaman Akhir Bulan yang Lalu (Hektar)
+                            </div>
+                        </TableHead>
+                        <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            <div className="text-center items-center">
+                                Luas Panen (Hektar)
+                            </div>
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            <div className="w-[150px] text-center items-center">
+                                Luas Rusak / Tidak Berhasil/Puso (Hektar)
+                            </div>
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            <div className="w-[150px] text-center items-center">
+                                Luas Penanaman Baru / Tambah Tanam (Hektar)
+                            </div>
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            <div className="w-[150px] text-center items-center">
+                                Luas Tanaman Akhir Bulan Laporan (Hektar)  (4)-(5)-(7)+(8)
+                            </div>
+                        </TableHead>
+                        <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Produksi (Kuintal)
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            <div className="w-[150px] text-center items-center">
+                                Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)
+                            </div>
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            Keterangan
+                        </TableHead>
+                    </TableRow>
+                    <TableRow>
+                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                            Habis / <br /> Dibongkar
+                        </TableHead>
+                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                            Belum Habis
+                        </TableHead>
+                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                            Dipanen Habis / Dibongkar
+                        </TableHead>
+                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                            Belum Habis
+                        </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {data.map((item, index) => (
                         <TableRow key={index}>
-                            <TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
                                 {index + 1}
                             </TableCell>
-                            <TableCell>
-                                {item.kecamatan}
+                            <TableCell className='border border-slate-200'>
+                                {item.namaTanaman}
                             </TableCell>
-                            <TableCell>
-                                {item.desa}
+                            <TableCell className='border border-slate-200'>
+                                {item.hasilProduksi}
                             </TableCell>
-                            <TableCell>
-                                {item.namaPoktan}
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.luasTanamanAkhirBulanLalu}
                             </TableCell>
-                            <TableCell>
-                                {item.namaKetua}
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.luasPanen.habisDibongkar}
                             </TableCell>
-                            <TableCell>
-                                {item.titikKoordinat}
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.luasPanen.belumHabis}
                             </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={() => { }} />
-                                </div>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.luasRusak}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.luasPenanamanBaru}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.luasTanamanAkhirBulanLaporan}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.produksiKuintal.dipanenHabis}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.produksiKuintal.belumHabis}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.rataRataHargaJual}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {item.keterangan}
                             </TableCell>
                         </TableRow>
                     ))}
+                    <TableRow>
+                        <TableCell className='border border-slate-200'>
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            Jumlah
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                        <TableCell className='border font-semibold border-slate-200 text-center'>
+                            234
+                        </TableCell>
+                    </TableRow>
                 </TableBody>
             </Table>
             {/* table */}
