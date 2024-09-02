@@ -180,7 +180,9 @@ const LuasKecPage = () => {
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
                             Keterangan
                         </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 text-center">Aksi</TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 text-center">
+                            Aksi
+                        </TableHead>
                     </TableRow>
                     <TableRow>
                         <TableHead className="text-primary py-1 border border-slate-200 text-center">

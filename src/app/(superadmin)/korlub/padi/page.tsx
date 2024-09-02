@@ -195,6 +195,9 @@ const KorlubPadi = () => {
                         <TableHead colSpan={5} className="text-primary border border-slate-200 text-center py-1">
                             Laha Bukan Sawah
                         </TableHead>
+                        <TableHead rowSpan={3} className="text-primary py-1 text-center">
+                            Aksi
+                        </TableHead>
                     </TableRow>
                     <TableRow >
                         <TableHead className="text-primary border border-slate-200 text-center py-1">
@@ -305,6 +308,17 @@ const KorlubPadi = () => {
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold text-center '>
                             455
+                        </TableCell>
+                        <TableCell>
+                            <div className="flex items-center gap-4">
+                                <Link className='' href="/korlub/padi/detail">
+                                    <EyeIcon />
+                                </Link>
+                                <Link className='' href="/korlub/padi/edit">
+                                    <EditIcon />
+                                </Link>
+                                <DeletePopup onDelete={() => { }} />
+                            </div>
                         </TableCell>
                     </TableRow>
                     {/* jumlah padi */}
