@@ -213,7 +213,7 @@ const Palawija1 = () => {
                     </div>
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                    <div className="w-[185px]">
+                    <div className="w-[150px]">
                         <Select >
                             <SelectTrigger>
                                 <SelectValue placeholder="Kecamatan" className='text-2xl' />
@@ -225,7 +225,7 @@ const Palawija1 = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="fil-kect w-[185px]">
+                    <div className="fil-kect w-[150px]">
                         <Select >
                             <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Tanaman" className='text-2xl' />
@@ -237,7 +237,7 @@ const Palawija1 = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Link href="/tanaman-pangan-holtikutura/realisasi/tambah-palawija1" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                    <Link href="/tanaman-pangan-holtikutura/realisasi/tambah-palawija1" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px]'>
                         Tambah
                     </Link>
                 </div>
