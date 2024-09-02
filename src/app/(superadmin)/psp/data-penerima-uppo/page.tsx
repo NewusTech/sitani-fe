@@ -58,8 +58,8 @@ interface Data {
 }
 
 const DataPenerimaUppo = () => {
-    const [startDate, setStartDate] = React.useState<Date>()
-    const [EndDate, setEndDate] = React.useState<Date>()
+    const [startDate, setstartDate] = React.useState<Date>()
+    const [endDate, setendDate] = React.useState<Date>()
 
     const data: Data[] = [
         {
@@ -123,7 +123,7 @@ const DataPenerimaUppo = () => {
                                 <Calendar className=''
                                     mode="single"
                                     selected={startDate}
-                                    onSelect={setStartDate}
+                                    onSelect={setstartDate}
                                     initialFocus
                                 />
                             </PopoverContent>
@@ -137,18 +137,18 @@ const DataPenerimaUppo = () => {
                                     variant={"outline"}
                                     className={cn(
                                         "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !EndDate && "text-muted-foreground"
+                                        !endDate && "text-muted-foreground"
                                     )}
                                 >
                                     <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {EndDate ? format(EndDate, "PPP") : <span>Tanggal Akhir</span>}
+                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
                                 <Calendar
                                     mode="single"
-                                    selected={EndDate}
-                                    onSelect={setEndDate}
+                                    selected={endDate}
+                                    onSelect={setendDate}
                                     initialFocus
                                 />
                             </PopoverContent>
