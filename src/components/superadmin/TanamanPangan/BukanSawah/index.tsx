@@ -35,6 +35,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import EyeIcon from '../../../../../public/icons/EyeIcon'
+import EditIcon from '../../../../../public/icons/EditIcon'
+import DeletePopup from '../../PopupDelete'
 
 interface Data {
     kecamatan?: string;
@@ -197,7 +200,7 @@ const BukanSawah = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Link href="/tanaman-pangan-holtikutura/lahan/tambah-bukan-sawah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                    <Link href="/tanaman-pangan-holtikutura/lahan/bukan-sawah/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
                         Tambah Data
                     </Link>
                 </div>
@@ -221,6 +224,9 @@ const BukanSawah = () => {
                         </TableHead>
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
                             Total
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Aksi
                         </TableHead>
                     </TableRow>
                     <TableRow>
@@ -246,7 +252,7 @@ const BukanSawah = () => {
                             Smt. Tidak Diusahakan
                         </TableHead>
                         <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Lainnya Tambah, Kolam Empang
+                            Lainnya Tambak, Kolam Empang
                         </TableHead>
                         <TableHead className="text-primary py-1 border border-slate-200 text-center">
                             Jumlah Lahan Bukan Sawah
@@ -254,6 +260,7 @@ const BukanSawah = () => {
                         <TableHead className="text-primary py-1 border border-slate-200 text-center">
                             Jalan, Pemukiman, Perkantoran, Sungai
                         </TableHead>
+                        
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -297,6 +304,17 @@ const BukanSawah = () => {
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
                                 {item.total}
+                            </TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-4">
+                                    <Link className='' href="/tanaman-pangan-holtikutura/lahan/bukan-sawah/detail">
+                                        <EyeIcon />
+                                    </Link>
+                                    <Link className='' href="/tanaman-pangan-holtikutura/lahan/bukan-sawah/edit">
+                                        <EditIcon />
+                                    </Link>
+                                    <DeletePopup onDelete={() => { }} />
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}

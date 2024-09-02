@@ -47,7 +47,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahLahanSawahPage = () => {
+const EditLahanSawahPage = () => {
   const [date, setDate] = React.useState<Date>()
 
   const {
@@ -66,7 +66,7 @@ const TambahLahanSawahPage = () => {
   };
   return (
     <>
-      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Lahan Sawah</div>
+      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data Lahan Sawah</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
         <div className="wrap-form">
@@ -206,10 +206,10 @@ const TambahLahanSawahPage = () => {
         {/* Button */}
         <div className="flex justify-end gap-3">
           <Link href="/tanaman-pangan-holtikutura/lahan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-            BATAL
+            Batal
           </Link>
           <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-            SIMPAN
+            Simpan
           </Button>
         </div>
       </form>
@@ -217,4 +217,4 @@ const TambahLahanSawahPage = () => {
   )
 }
 
-export default TambahLahanSawahPage
+export default EditLahanSawahPage

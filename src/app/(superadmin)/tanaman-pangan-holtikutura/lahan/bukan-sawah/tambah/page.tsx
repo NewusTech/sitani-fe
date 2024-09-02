@@ -291,10 +291,10 @@ const TambahBukanSawahPage = () => {
         {/* Button */}
         <div className="flex justify-end gap-3">
           <Link href="/tanaman-pangan-holtikutura/lahan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-            BATAL
+            Batal
           </Link>
           <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-            SIMPAN
+            Simpan
           </Button>
         </div>
       </form>

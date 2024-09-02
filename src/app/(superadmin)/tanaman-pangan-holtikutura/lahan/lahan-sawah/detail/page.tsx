@@ -1,0 +1,87 @@
+import React from 'react'
+import Link from 'next/link';
+
+interface LabelProps {
+    label?: string;
+    name?: string;
+}
+
+const LabelDetail = (props: LabelProps) => {
+    return (
+        <div>
+            <div className="label font-semibold">{props.label || '-'}</div>
+            <div className="name text-black/70">{props.name || '-'}</div>
+        </div>
+    )
+}
+
+const DetailLahanSawahPage = () => {
+    return (
+        <div>
+            {/* title */}
+            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail Lahan Sawah</div>
+            {/* title */}
+            <div className="mb-10 flex justify-start gap-2 md:gap-3 mt-4">
+                <Link href="/tanaman-pangan-holtikutura/lahan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    Kembali
+                </Link>
+            </div>
+            {/* detail */}
+            <div className="wrap-detail bg-slate-100 p-6 mt-5 rounded-lg">
+                <div className="font-semibold mb-2 text-lg uppercase">Data Lahan Sawah</div>
+                <div className="wrap">
+                    <div className="wr">
+                        <div className="font-semibold mb-2 text-lg mt-5 uppercase">Kecamatan</div>
+                        <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
+                            <LabelDetail label='Nama' name='Metro Kibang' />
+                        </div>
+                    </div>
+                    <div className="wr">
+                        <div className="font-semibold text-lg mb-2 mt-3 uppercase">Luas Lahan Sawah (Ha)</div>
+                        <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
+                            <LabelDetail label='Panen (ha)' name='123000' />
+                            <LabelDetail label='Irigasi Teknis' name='23432' />
+                            <LabelDetail label='Irigasi 1/2 tEKNIS' name='23432' />
+                            <LabelDetail label='Irigasi Sederhana' name='23432' />
+                            <LabelDetail label='Irigasi Desa/Non PU' name='23432' />
+                            <LabelDetail label='Tadah Hujan' name='23432' />
+                            <LabelDetail label='Pasang Surut' name='23432' />
+                            <LabelDetail label='Lebak' name='23432' />
+                            <LabelDetail label='Lainnya' name='23432' />
+                            <LabelDetail label='Jumlah' name='23432' />
+                            <LabelDetail label='Keterangan' name='keterangan' />
+                        </div>
+                    </div>
+                    <hr className='my-2' />
+                </div>
+                {/* jumlah */}
+                <div className="wrap">
+                    <div className="wr">
+                        <div className="font-semibold mb-2 text-lg mt-5 uppercase">Jumlah</div>
+                    </div>
+                    <div className="wr">
+                        <div className="font-semibold text-lg mb-2 mt-3 uppercase">Luas Lahan Sawah (Ha)</div>
+                        <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
+                            <LabelDetail label='Panen (ha)' name='123000' />
+                            <LabelDetail label='Irigasi Teknis' name='23432' />
+                            <LabelDetail label='Irigasi 1/2 tEKNIS' name='23432' />
+                            <LabelDetail label='Irigasi Sederhana' name='23432' />
+                            <LabelDetail label='Irigasi Desa/Non PU' name='23432' />
+                            <LabelDetail label='Tadah Hujan' name='23432' />
+                            <LabelDetail label='Pasang Surut' name='23432' />
+                            <LabelDetail label='Lebak' name='23432' />
+                            <LabelDetail label='Lainnya' name='23432' />
+                            <LabelDetail label='Jumlah' name='23432' />
+                            <LabelDetail label='Keterangan' name='keterangan' />
+                        </div>
+                    </div>
+                    <hr className='my-2' />
+                </div>
+                {/* jumlah */}
+            </div>
+            {/* detail */}
+        </div>
+    )
+}
+
+export default DetailLahanSawahPage

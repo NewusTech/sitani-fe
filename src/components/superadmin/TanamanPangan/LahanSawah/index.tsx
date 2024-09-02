@@ -35,6 +35,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import EyeIcon from '../../../../../public/icons/EyeIcon'
+import EditIcon from '../../../../../public/icons/EditIcon'
+import DeletePopup from '../../PopupDelete'
 
 interface Data {
     kecamatan?: string;
@@ -194,7 +197,7 @@ const LahanSawah = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Link href="/tanaman-pangan-holtikutura/lahan/tambah-lahan-sawah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                    <Link href="/tanaman-pangan-holtikutura/lahan/lahan-sawah/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
                         Tambah Data
                     </Link>
                 </div>
@@ -215,6 +218,9 @@ const LahanSawah = () => {
                         </TableHead>
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
                             Ket
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Aksi
                         </TableHead>
                     </TableRow>
                     <TableRow>
@@ -285,6 +291,17 @@ const LahanSawah = () => {
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
                                 {item.ket}
+                            </TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-4">
+                                    <Link className='' href="/tanaman-pangan-holtikutura/lahan/lahan-sawah/detail">
+                                        <EyeIcon />
+                                    </Link>
+                                    <Link className='' href="/tanaman-pangan-holtikutura/lahan/lahan-sawah/edit">
+                                        <EditIcon />
+                                    </Link>
+                                    <DeletePopup onDelete={() => { }} />
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
