@@ -58,7 +58,8 @@ interface Data {
 }
 
 const DataPenerimaUppo = () => {
-    const [date, setDate] = React.useState<Date>()
+    const [startDate, setStartDate] = React.useState<Date>()
+    const [EndDate, setEndDate] = React.useState<Date>()
 
     const data: Data[] = [
         {
@@ -111,18 +112,18 @@ const DataPenerimaUppo = () => {
                                     variant={"outline"}
                                     className={cn(
                                         "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !date && "text-muted-foreground"
+                                        !startDate && "text-muted-foreground"
                                     )}
                                 >
                                     <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {date ? format(date, "PPP") : <span>Tanggal Awal</span>}
+                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
                                 <Calendar className=''
                                     mode="single"
-                                    selected={date}
-                                    onSelect={setDate}
+                                    selected={startDate}
+                                    onSelect={setStartDate}
                                     initialFocus
                                 />
                             </PopoverContent>
@@ -136,18 +137,18 @@ const DataPenerimaUppo = () => {
                                     variant={"outline"}
                                     className={cn(
                                         "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !date && "text-muted-foreground"
+                                        !EndDate && "text-muted-foreground"
                                     )}
                                 >
                                     <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {date ? format(date, "PPP") : <span>Tanggal Akhir</span>}
+                                    {EndDate ? format(EndDate, "PPP") : <span>Tanggal Akhir</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
                                 <Calendar
                                     mode="single"
-                                    selected={date}
-                                    onSelect={setDate}
+                                    selected={EndDate}
+                                    onSelect={setEndDate}
                                     initialFocus
                                 />
                             </PopoverContent>
