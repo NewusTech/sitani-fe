@@ -171,7 +171,7 @@ const Pupuk = () => {
                     <TableRow >
                         <TableHead className="text-primary py-1">No</TableHead>
                         <TableHead className="text-primary py-1">Jenis Pupuk</TableHead>
-                        <TableHead className="text-primary py-1">Kandang Pupuk</TableHead>
+                        <TableHead className="text-primary py-1">Kandungan Pupuk</TableHead>
                         <TableHead className="text-primary py-1">Keterangan</TableHead>
                         <TableHead className="text-primary py-1">Harga Pupuk</TableHead>
                         <TableHead className="text-primary py-1">Aksi</TableHead>
@@ -197,10 +197,10 @@ const Pupuk = () => {
                             </TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-4">
-                                    <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
+                                    <Link className='' href="/psp/pupuk/detail">
                                         <EyeIcon />
                                     </Link>
-                                    <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
+                                    <Link className='' href="/psp/pupuk/edit">
                                         <EditIcon />
                                     </Link>
                                     <DeletePopup onDelete={() => { }} />

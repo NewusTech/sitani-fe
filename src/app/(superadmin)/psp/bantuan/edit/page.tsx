@@ -38,20 +38,20 @@ const formSchema = z.object({
         .string(),
     desa: z
         .string(),
-    namaPoktan: z
+    jenisBantuan: z
         .string()
-        .min(1, { message: "Nama Poktan wajib diisi" }),
-    namaKetua: z
+        .min(1, { message: "Nama wajib diisi" }),
+    periodePenerimaan: z
         .string()
-        .min(1, { message: "Nama Ketua wajib diisi" }),
-    titikKoordinat: z
+        .min(1, { message: "Periode Penerimaan wajib diisi" }),
+    keterangan: z
         .string()
-        .min(1, { message: "Titik Koordinat wajib diisi" }),
+        .min(1, { message: "Keterangan wajib diisi" }),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const EditDataPenerimaUppo = () => {
+const BantuanEdit = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -76,7 +76,7 @@ const EditDataPenerimaUppo = () => {
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Kecamatan" />
+                            <Label className='text-sm mb-1' label="Kecamatan" />
                             <Select
                                 onValueChange={(value) => setValue("kecamatan", value)}
                             >
@@ -91,7 +91,7 @@ const EditDataPenerimaUppo = () => {
                             </Select>
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Desa" />
+                            <Label className='text-sm mb-1' label="Desa" />
                             <Select
                                 onValueChange={(value) => setValue("desa", value)}
                             >
@@ -108,50 +108,47 @@ const EditDataPenerimaUppo = () => {
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Nama Poktan" />
+                            <Label className='text-sm mb-1' label="Jenis Bantuan" />
                             <Input
+                                autoFocus
                                 type="text"
-                                placeholder="Pilih Nama Poktan"
-                                {...register('namaPoktan')}
-                                className={`${errors.namaPoktan ? 'border-red-500' : 'py-5 text-sm'}`}
+                                placeholder="Jenis Bantuan"
+                                {...register('jenisBantuan')}
+                                className={`${errors.jenisBantuan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaPoktan && (
-                                <HelperError>{errors.namaPoktan.message}</HelperError>
+                            {errors.jenisBantuan && (
+                                <HelperError>{errors.jenisBantuan.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Nama Ketua" />
+                            <Label className='text-sm mb-1' label="Periode Penerimaan" />
                             <Input
-                                
-                                type="input"
-                                placeholder="Nama Ketua"
-                                {...register('namaKetua')}
-                                className={`${errors.namaKetua ? 'border-red-500' : 'py-5 text-sm'}`}
+                                autoFocus
+                                type="date"
+                                placeholder="Periode Penerimaan"
+                                {...register('periodePenerimaan')}
+                                className={`${errors.periodePenerimaan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaKetua && (
-                                <HelperError>{errors.namaKetua.message}</HelperError>
+                            {errors.periodePenerimaan && (
+                                <HelperError>{errors.periodePenerimaan.message}</HelperError>
                             )}
                         </div>
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-1/2">
-                            <Label className='text-sm mb-1' label="Titik Koordinat" />
-                            <Input
-                                
-                                type="number"
-                                placeholder="Pilih Titik Koordinat"
-                                {...register('titikKoordinat')}
-                                className={`${errors.titikKoordinat ? 'border-red-500' : 'py-5 text-sm'}`}
+                        <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Keterangan" />
+                            <Textarea  {...register('keterangan')}
+                                className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.titikKoordinat && (
-                                <HelperError>{errors.titikKoordinat.message}</HelperError>
+                            {errors.keterangan && (
+                                <HelperError>{errors.keterangan.message}</HelperError>
                             )}
                         </div>
                     </div>
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/psp/data-penerima-uppo" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    <Link href="/psp/bantuan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
@@ -163,4 +160,4 @@ const EditDataPenerimaUppo = () => {
     )
 }
 
-export default EditDataPenerimaUppo
+export default BantuanEdit

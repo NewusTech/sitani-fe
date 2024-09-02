@@ -122,7 +122,7 @@ const TambahDataPenerimaUppo = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Nama Ketua" />
                             <Input
-                                type="date"
+                                type="text"
                                 placeholder="Nama Ketua"
                                 {...register('namaKetua')}
                                 className={`${errors.namaKetua ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -150,10 +150,10 @@ const TambahDataPenerimaUppo = () => {
 
                 <div className="mb-10 flex justify-end gap-3">
                     <Link href="/psp/data-penerima-uppo" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-                        BATAL
+                        Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        SIMPAN
+                        Simpan
                     </Button>
                 </div>
             </form>

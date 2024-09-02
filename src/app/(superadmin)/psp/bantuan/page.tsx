@@ -215,10 +215,10 @@ const Bantuan = () => {
                             </TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-4">
-                                    <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
+                                    <Link className='' href="/psp/bantuan/detail">
                                         <EyeIcon />
                                     </Link>
-                                    <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
+                                    <Link className='' href="/psp/bantuan/edit">
                                         <EditIcon />
                                     </Link>
                                     <DeletePopup onDelete={() => { }} />

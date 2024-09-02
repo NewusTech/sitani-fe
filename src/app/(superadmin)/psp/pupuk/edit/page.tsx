@@ -34,24 +34,21 @@ const OPTIONS: Option[] = [
 ];
 
 const formSchema = z.object({
-    kecamatan: z
+    jenisPupuk: z
         .string(),
-    desa: z
+    kandunganPupuk: z
         .string(),
-    namaPoktan: z
+    keterangan: z
         .string()
-        .min(1, { message: "Nama Poktan wajib diisi" }),
-    namaKetua: z
+        .min(1, { message: "Keterangan wajib diisi" }),
+    hargaPupuk: z
         .string()
-        .min(1, { message: "Nama Ketua wajib diisi" }),
-    titikKoordinat: z
-        .string()
-        .min(1, { message: "Titik Koordinat wajib diisi" }),
+        .min(1, { message: "Harga Pupuk wajib diisi" }),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const EditDataPenerimaUppo = () => {
+const PupukEdit = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -76,12 +73,12 @@ const EditDataPenerimaUppo = () => {
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Kecamatan" />
+                            <Label className='text-sm mb-1' label="pilih Jenis Pupuk" />
                             <Select
-                                onValueChange={(value) => setValue("kecamatan", value)}
+                                onValueChange={(value) => setValue("jenisPupuk", value)}
                             >
                                 <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih Kecamatan" />
+                                    <SelectValue placeholder="Pilih Jenis Pupuk" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="select1">Select1</SelectItem>
@@ -91,12 +88,12 @@ const EditDataPenerimaUppo = () => {
                             </Select>
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Desa" />
+                            <Label className='text-sm mb-1' label="Kandungan Pupuk" />
                             <Select
-                                onValueChange={(value) => setValue("desa", value)}
+                                onValueChange={(value) => setValue("kandunganPupuk", value)}
                             >
                                 <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih Desa" />
+                                    <SelectValue placeholder="Pilih kandungan Pupuk" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="select1">Select1</SelectItem>
@@ -108,50 +105,37 @@ const EditDataPenerimaUppo = () => {
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Nama Poktan" />
-                            <Input
-                                type="text"
-                                placeholder="Pilih Nama Poktan"
-                                {...register('namaPoktan')}
-                                className={`${errors.namaPoktan ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.namaPoktan && (
-                                <HelperError>{errors.namaPoktan.message}</HelperError>
-                            )}
+                            <Label className='text-sm mb-1' label="Keterangan" />
+                            <Select
+                                onValueChange={(value) => setValue("keterangan", value)}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Keterangan" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="subsidi">Subsidi</SelectItem>
+                                    <SelectItem value="nonSubsidi">Non Subsidi</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Nama Ketua" />
+                            <Label className='text-sm mb-1' label="Harga Pupuk/Kg" />
                             <Input
-                                
-                                type="input"
-                                placeholder="Nama Ketua"
-                                {...register('namaKetua')}
-                                className={`${errors.namaKetua ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.namaKetua && (
-                                <HelperError>{errors.namaKetua.message}</HelperError>
-                            )}
-                        </div>
-                    </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-1/2">
-                            <Label className='text-sm mb-1' label="Titik Koordinat" />
-                            <Input
-                                
+                                autoFocus
                                 type="number"
-                                placeholder="Pilih Titik Koordinat"
-                                {...register('titikKoordinat')}
-                                className={`${errors.titikKoordinat ? 'border-red-500' : 'py-5 text-sm'}`}
+                                placeholder="Harga Pupuk/Kg"
+                                {...register('hargaPupuk')}
+                                className={`${errors.hargaPupuk ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.titikKoordinat && (
-                                <HelperError>{errors.titikKoordinat.message}</HelperError>
+                            {errors.hargaPupuk && (
+                                <HelperError>{errors.hargaPupuk.message}</HelperError>
                             )}
                         </div>
                     </div>
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/psp/data-penerima-uppo" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    <Link href="/psp/pupuk" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
@@ -163,4 +147,4 @@ const EditDataPenerimaUppo = () => {
     )
 }
 
-export default EditDataPenerimaUppo
+export default PupukEdit
