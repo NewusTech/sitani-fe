@@ -15,7 +15,16 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import Link from 'next/link'
-
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
@@ -34,7 +43,7 @@ const LuasKecPage = () => {
             {/* title */}
             <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Luas Areal dan Produksi Perkebunan Rakyat ( Kecamatan )</div>
             {/* title */}
-            
+
             {/* top */}
             <div className="header flex gap-2 justify-between items-center mt-4">
                 <div className="search md:w-[50%]">
@@ -137,6 +146,312 @@ const LuasKecPage = () => {
                 </div>
             </div>
             {/* top */}
+            {/* table */}
+            <Table className='border border-slate-200 mt-4'>
+                <TableHeader className='bg-primary-600'>
+                    <TableRow >
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            No
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            Komoditi
+                        </TableHead>
+                        <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
+                            Komposisi Luas Areal
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Jumlah
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Produksi (Ton)
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Produktivitas Kg/Ha
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Jml. Petani Pekebun (KK)
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Bentuk Hasil
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                            Keterangan
+                        </TableHead>
+                    </TableRow>
+                    <TableRow>
+                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                            TBM
+                        </TableHead>
+                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                            TM
+                        </TableHead>
+                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                            TR
+                        </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {/* tan1 */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            I
+                        </TableCell>
+                        <TableCell className='border border-slate-200 font-semibold'>
+                            Tan. Tahunan
+                        </TableCell>
+                    </TableRow>
+                    {/* isi */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Aren
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Gula merah
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Keterangan
+                        </TableCell>
+                    </TableRow>
+                    {/* jumlah */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            
+                        </TableCell>
+                        <TableCell className='border italic font-semibold border-slate-200'>
+                            Jumlah I
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                    </TableRow>
+                    {/* tan1 */}
+                    {/* tan2 */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            II
+                        </TableCell>
+                        <TableCell className='border border-slate-200 font-semibold'>
+                            Tan. Semusim
+                        </TableCell>
+                    </TableRow>
+                    {/* isi */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Aren
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Gula merah
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Keterangan
+                        </TableCell>
+                    </TableRow>
+                    {/* jumlah */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            
+                        </TableCell>
+                        <TableCell className='border italic font-semibold border-slate-200'>
+                            Jumlah II
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                    </TableRow>
+                    {/* tan2 */}
+                    {/* tan3 */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            III
+                        </TableCell>
+                        <TableCell className='border border-slate-200 font-semibold'>
+                            Tan. Semusim
+                        </TableCell>
+                    </TableRow>
+                    {/* isi */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Aren
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Gula merah
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Keterangan
+                        </TableCell>
+                    </TableRow>
+                    {/* jumlah */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            
+                        </TableCell>
+                        <TableCell className='border italic font-semibold border-slate-200'>
+                            Jumlah III
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                    </TableRow>
+                    {/* tan2 */}
+                    {/* jumlah TOTAL I II III*/}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            
+                        </TableCell>
+                        <TableCell className='border italic font-semibold border-slate-200'>
+                            Jumlah I+II+III
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                        <TableCell className='border text-center border-slate-200'>
+                            4324
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+            {/* table */}
         </div>
     )
 }
