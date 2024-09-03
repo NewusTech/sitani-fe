@@ -323,7 +323,7 @@ const DataPenerimaUppo = () => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-4">
-                                        <Link className='' href="/psp/data-penerima-uppo/detail">
+                                        <Link className='' href={`/psp/data-penerima-uppo/detail/${item.id}`}>
                                             <EyeIcon />
                                         </Link>
                                         <Link className='' href={`/psp/data-penerima-uppo/edit/${item.id}`}>

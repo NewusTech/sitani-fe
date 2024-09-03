@@ -2,7 +2,7 @@
 import Label from '@/components/ui/label'
 import React from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
@@ -10,6 +10,9 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
 import { Textarea } from "@/components/ui/textarea";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter } from 'next/navigation';
+import { SWRResponse, mutate } from "swr";
 
 import {
     Select,
@@ -34,16 +37,15 @@ const OPTIONS: Option[] = [
 ];
 
 const formSchema = z.object({
-    jenisPupuk: z
+    jenis_pupuk: z
         .string(),
-    kandunganPupuk: z
+    kandungan_pupuk: z
         .string(),
     keterangan: z
         .string()
         .min(1, { message: "Keterangan wajib diisi" }),
-    hargaPupuk: z
-        .string()
-        .min(1, { message: "Harga Pupuk wajib diisi" }),
+    harga_pupuk: z
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Harga pupuk wajib diisi" })),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -61,10 +63,30 @@ const PupukTambah = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log(data);
-        reset();
+    // const onSubmit = (data: FormSchemaType) => {
+    //     console.log(data);
+    //     reset();
+    // };
+
+    // TAMBAH
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        try {
+            await axiosPrivate.post("/psp/pupuk/create", data);
+            console.log(data)
+            // push
+            navigate.push('/psp/pupuk');
+            console.log("Success to create user:");
+            reset()
+        } catch (e: any) {
+            console.log(data)
+            console.log("Failed to create user:");
+            return;
+        }
+        mutate(`/psp/pupuk/get?page=1&limit=10&search&startDate=&endDate`);
     };
+    // TAMBAH
 
     return (
         <>
@@ -75,7 +97,7 @@ const PupukTambah = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="pilih Jenis Pupuk" />
                             <Select
-                                onValueChange={(value) => setValue("jenisPupuk", value)}
+                                onValueChange={(value) => setValue("jenis_pupuk", value)}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Pilih Jenis Pupuk" />
@@ -89,18 +111,16 @@ const PupukTambah = () => {
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Kandungan Pupuk" />
-                            <Select
-                                onValueChange={(value) => setValue("kandunganPupuk", value)}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih kandungan Pupuk" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="select1">Select1</SelectItem>
-                                    <SelectItem value="select2">Select2</SelectItem>
-                                    <SelectItem value="select3">Select3</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Input
+                                autoFocus
+                                type="text"
+                                placeholder="Kandungan Pupuk"
+                                {...register('kandungan_pupuk')}
+                                className={`${errors.kandungan_pupuk ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.kandungan_pupuk && (
+                                <HelperError>{errors.kandungan_pupuk.message}</HelperError>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
@@ -124,16 +144,15 @@ const PupukTambah = () => {
                                 autoFocus
                                 type="number"
                                 placeholder="Harga Pupuk/Kg"
-                                {...register('hargaPupuk')}
-                                className={`${errors.hargaPupuk ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('harga_pupuk')}
+                                className={`${errors.harga_pupuk ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.hargaPupuk && (
-                                <HelperError>{errors.hargaPupuk.message}</HelperError>
+                            {errors.harga_pupuk && (
+                                <HelperError>{errors.harga_pupuk.message}</HelperError>
                             )}
                         </div>
                     </div>
                 </div>
-
                 <div className="mb-10 flex justify-end gap-3">
                     <Link href="/psp/pupuk" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
                         Batal

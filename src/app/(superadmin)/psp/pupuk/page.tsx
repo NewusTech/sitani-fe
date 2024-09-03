@@ -57,28 +57,41 @@ import {
 const Pupuk = () => {
     // TES
     interface Data {
-        id?: string; // Ensure id is a string
+        id?: number; // Ensure id is a number
         jenisPupuk?: string;
-        kandangPupuk?: string;
+        kandunganPupuk?: string;
         keterangan?: string;
-        hargaPupuk?: string;
+        hargaPupuk?: number; // Change to number
     }
 
     interface Response {
-        status: string,
-        data: Data[],
-        message: string
+        status: number;
+        message: string;
+        data: {
+            data: Data[];
+            pagination: {
+                page: number;
+                perPage: number;
+                totalPages: number;
+                totalCount: number;
+                links: {
+                    prev: string | null;
+                    next: string | null;
+                };
+            };
+        };
     }
 
-    const [startDate, setstartDate] = React.useState<Date>()
-    const [endDate, setendDate] = React.useState<Date>()
+    const [startDate, setstartDate] = React.useState<Date>();
+    const [endDate, setendDate] = React.useState<Date>();
 
     const dummyData: Data[] = [
         {
-            jenisPupuk: "123456789",
-            kandangPupuk: "Jakarta",
-            keterangan: "1990-01-01",
-            hargaPupuk: "1990-01-01",
+            id: 1,
+            jenisPupuk: "jenis pupuk a",
+            kandunganPupuk: "banyak pokoknya",
+            keterangan: "tidak ada keterangan",
+            hargaPupuk: 150000,
         },
     ];
 
@@ -96,31 +109,30 @@ const Pupuk = () => {
                 })
                 .then((res: any) => {
                     // Jika data dari API kosong, gunakan data dummy
-                    if (res.data.data.length === 0) {
-                        return { ...res.data, data: dummyData };
+                    if (res.data.data.data.length === 0) {
+                        return { ...res.data, data: { ...res.data.data, data: dummyData } };
                     }
                     return res.data;
                 })
                 .catch((error) => {
                     console.error("Failed to fetch data:", error);
-                    return { status: "error", data: dummyData, message: "Failed to fetch data" };
+                    return { status: 500, message: "Failed to fetch data", data: { data: dummyData, pagination: { page: 1, perPage: 1, totalPages: 1, totalCount: 1, links: { prev: null, next: null } } } };
                 })
-                // .then((res: any) => res.data)
     );
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = async (id: number) => {
         try {
             await axiosPrivate.delete(`/user/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            console.log(id)
+            console.log(id);
             // Update the local data after successful deletion
             mutate('/psp/pupuk/get?page=1&limit=10&search&startDate=&endDate');
         } catch (error) {
             console.error('Failed to delete:', error);
-            console.log(id)
+            console.log(id);
             // Add notification or alert here for user feedback
         }
     };
@@ -237,8 +249,8 @@ const Pupuk = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataUser?.data && dataUser.data.length > 0 ? (
-                        dataUser.data.map((item, index) => (
+                    {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
+                        dataUser.data.data.map((item, index) => (
                             <TableRow key={item.id}>
                                 <TableCell>
                                     {index + 1}
@@ -247,7 +259,7 @@ const Pupuk = () => {
                                     {item.jenisPupuk}
                                 </TableCell>
                                 <TableCell>
-                                    {item.kandangPupuk}
+                                    {item.kandunganPupuk}
                                 </TableCell>
                                 <TableCell>
                                     {item.keterangan}
