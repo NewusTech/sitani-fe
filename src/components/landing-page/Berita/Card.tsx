@@ -15,7 +15,7 @@ const CardBerita = (props: CardBeritaPageProps) => {
     return (
         <>
             <Link href={`/berita/${props.slug}`} className="rounded-xl bg-primary-600 p-4 flex flex-col lg:flex-row gap-4">
-                <div className="flex items-center justify-center rounded overflow-hidden w-full h-48 lg:w-1/2 lg:h-full">
+                <div className="flex items-center justify-center rounded overflow-hidden w-full h-48 lg:w-1/2">
                     <Image
                         src={props.image || "/assets/images/cardBeritaPage.png"}
                         alt="logo"
@@ -27,13 +27,21 @@ const CardBerita = (props: CardBeritaPageProps) => {
                 </div>
                 <div className="flex flex-col gap-1 lg:gap-4 w-full">
                     <div className="mt-2 lg:mt-4 text-[#2C2C2C] text-xs lg:text-sm">
-                        {props.date || "January 13, 2024"}
+                        {props.date && !isNaN(new Date(props.date).getTime()) ? (
+                            new Date(props.date).toLocaleDateString('id-ID', {
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric',
+                            })
+                        ) : (
+                            'Tanggal tidak tersedia'
+                        )}
                     </div>
-                    <div className="flex flex-col lg:flex-row lg:gap-2">
+                    <div className="flex flex-col lg:flex-row lg:gap-2 justify-between">
                         <div className="text-[#2C2C2C] text-base lg:text-lg line-clamp-2 font-semibold">
                             {props.title || "Lorem Ipsum Dolor Amet Amit Amon Amin"}
                         </div>
-                        <div className="hidden lg:block">
+                        <div className="hidden lg:block mt-1">
                             <ArrowBeritaPage />
                         </div>
                     </div>

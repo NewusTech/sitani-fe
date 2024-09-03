@@ -16,23 +16,71 @@ import {
 } from "@/components/ui/table"
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
+// 
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 
-interface Data {
-  tanggal?: string;
-  judul?: string;
-}
+// interface Data {
+//   tanggal?: string;
+//   judul?: string;
+// }
 
 const KelolaBeritaPage = () => {
-  const data: Data[] = [
-    {
-      tanggal: "20-07-2024",
-      judul: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
-    },
-    {
-      tanggal: "20-07-2024",
-      judul: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
-    },
-  ];
+  // const data: Data[] = [
+  //   {
+  //     tanggal: "20-07-2024",
+  //     judul: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
+  //   },
+  //   {
+  //     tanggal: "20-07-2024",
+  //     judul: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
+  //   },
+  // ];
+
+  // INTEGRASI
+  interface Artikel {
+    id?: string; // Ensure id is a string
+    judul?: string;
+    slug?: string;
+    createdAt?: string;
+  }
+
+  interface Pagination {
+    page: number,
+    perPage: number,
+    totalPages: number,
+    totalCount: number,
+  }
+
+  interface ResponseData {
+    data: Artikel[];
+    pagination: Pagination;
+  }
+
+  interface Response {
+    status: string,
+    data: ResponseData,
+    message: string
+  }
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data: dataArtikel }: SWRResponse<Response> = useSWR(
+    `article/get?page=1`,
+    (url) =>
+      axiosPrivate
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res: any) => res.data)
+  );
+
+  console.log(dataArtikel)
+  // INTEGRASI
   return (
     <div>
       {/* title */}
@@ -66,27 +114,40 @@ const KelolaBeritaPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                {index + 1}
-              </TableCell>
-              <TableCell>
-                {item.tanggal}
-              </TableCell>
-              <TableCell>
-                {item.judul}
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-4">
-                  <Link href="/data-master/kelola-berita/edit">
-                    <EditIcon />
-                  </Link>
-                  <DeletePopup onDelete={() => { }} />
-                </div>
+          {dataArtikel?.data.data && dataArtikel.data.data.length > 0 ? (
+            dataArtikel.data.data.map((item, index) => (
+              <TableRow key={item.id}>
+                <TableCell>
+                  {index + 1}
+                </TableCell>
+                <TableCell>
+                  {item.createdAt ? new Date(item.createdAt).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  }) : 'Tanggal tidak tersedia'}
+                </TableCell>
+
+                <TableCell>
+                  {item.judul}
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-4">
+                    <Link href={`/data-master/kelola-berita/edit/${item.slug}`}>
+                      <EditIcon />
+                    </Link>
+                    <DeletePopup onDelete={() => { }} />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} className="text-center">
+                Tidak ada data
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
       {/* table */}

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import 'react-quill/dist/quill.snow.css';
-import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Label from '@/components/ui/label';
@@ -12,16 +11,20 @@ import { Input } from '@/components/ui/input';
 import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 
+import { useForm, SubmitHandler } from 'react-hook-form';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter } from 'next/navigation';
+import { mutate } from 'swr';
+
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const schema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
-  content: z.string().min(1, { message: 'Content is required' }),
+  judul: z.string().min(1, { message: 'Title is required' }),
+  konten: z.string().min(1, { message: 'Content is required' }),
   image: z.instanceof(File).refine(file => file.size > 0, { message: 'Image is required' }),
 });
 
-
-type FormData = z.infer<typeof schema>;
+type FormSchemaType = z.infer<typeof schema>;
 
 const TambahBerita = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -30,15 +33,11 @@ const TambahBerita = () => {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<FormSchemaType>({
     resolver: zodResolver(schema),
   });
-
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    // Handle form submission
-  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -48,23 +47,44 @@ const TambahBerita = () => {
     }
   };
 
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useRouter();
+  
+  const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+    const formData = new FormData();
+    formData.append('judul', data.judul);
+    formData.append('konten', data.konten);
+    formData.append('image', data.image);
+
+    try {
+      await axiosPrivate.post("/article/create", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      navigate.push('/data-master/kelola-berita');
+      reset();
+    } catch (e: any) {
+      console.log("Failed to create article:", e);
+    }
+    mutate(`/data-master/kelola-berita`);
+  };
+
   return (
     <div className="">
-      {/* title */}
       <div className="text-xl md:text-2xl md:mb-4 mb-3 font-semibold text-primary uppercase">Tambah Berita</div>
-      {/* title */}
-      <div className="max-full bg-primary-600/50 rounded-lg  p-6">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="max-full bg-primary-600/50 rounded-lg p-6">
+        <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
           <div className="mb-4">
             <Label className='text-sm mb-1' label="Judul" />
             <Input
               type="text"
               placeholder="Judul"
-              {...register('title')}
-              className={`${errors.title ? 'border-red-500' : ''}`}
+              {...register('judul')}
+              className={`${errors.judul ? 'border-red-500' : ''}`}
             />
-            {errors.title && (
-              <HelperError>{errors.title.message}</HelperError>
+            {errors.judul && (
+              <HelperError>{errors.judul.message}</HelperError>
             )}
           </div>
           <div className="mb-4">
@@ -72,11 +92,11 @@ const TambahBerita = () => {
             <div className="text-editor bg-white border border-primary rounded-lg overflow-hidden">
               <ReactQuill
                 className='h-[450px]'
-                onChange={(value) => setValue('content', value)}
+                onChange={(value) => setValue('konten', value)}
               />
             </div>
-            {errors.content && (
-              <p className="mt-1 text-red-600 text-sm">{errors.content.message}</p>
+            {errors.konten && (
+              <p className="mt-1 text-red-600 text-sm">{errors.konten.message}</p>
             )}
           </div>
           <div className="mb-4">
@@ -91,13 +111,13 @@ const TambahBerita = () => {
               <p className="mt-1 text-red-600 text-sm">{errors.image.message}</p>
             )}
             {imagePreview && (
-              <div className="mt-4">
+              <div className="mt-4 w-[300px] h-[200px] overflow-hidden rounded">
                 <Image
                   src={imagePreview}
                   alt="Preview"
                   width={300}
                   height={200}
-                  className="rounded"
+                  className="rounded h-full object-contain"
                 />
               </div>
             )}

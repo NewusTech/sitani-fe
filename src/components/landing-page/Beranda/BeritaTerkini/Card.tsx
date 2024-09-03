@@ -19,7 +19,15 @@ const CardBerita = (props: CardProps) => {
             </div>
             <div className="wrap-teks flex flex-col gap-3">
                 <div className="date mt-4 text-[#2C2C2C] text-[12px]">
-                    {props.date || "tanggal"}
+                    {props.date && !isNaN(new Date(props.date).getTime()) ? (
+                        new Date(props.date).toLocaleDateString('id-ID', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                        })
+                    ) : (
+                        'Tanggal tidak tersedia'
+                    )}
                 </div>
                 <div className="wrap-title flex gap-1 items-start">
                     <div className="title text-[#2C2C2C] text-[16px] font-semibold line-clamp-2">

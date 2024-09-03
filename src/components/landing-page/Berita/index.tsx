@@ -1,9 +1,16 @@
+"use client";
+
 import { Input } from '@/components/ui/input';
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import Link from 'next/link';
 import React from 'react'
 import SearchIcon from '../../../../public/icons/SearchIcon';
 import CardBerita from './Card';
+// 
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 
 const dummyBerita = [
     {
@@ -37,6 +44,50 @@ const dummyBerita = [
 ]
 
 const BeritaLayout = () => {
+    // INTEGRASI
+    interface Artikel {
+        id?: string; // Ensure id is a string
+        judul?: string;
+        slug?: string;
+        konten?: string;
+        image?: string;
+        createdAt?: string;
+    }
+
+    interface Pagination {
+        page: number,
+        perPage: number,
+        totalPages: number,
+        totalCount: number,
+    }
+
+    interface ResponseData {
+        data: Artikel[];
+        pagination: Pagination;
+    }
+
+    interface Response {
+        status: string,
+        data: ResponseData,
+        message: string
+    }
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    const { data: dataArtikel }: SWRResponse<Response> = useSWR(
+        `article/get?page=1`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+    console.log(dataArtikel)
+    // INTEGRASI
     return (
         <div>
             <div className='w-full min-h-screen mt-0 lg:mt-28'>
@@ -57,13 +108,13 @@ const BeritaLayout = () => {
                     </div>
                     {/* card */}
                     <div className="berita grid grid-cols-1 md:grid-cols-2 gap-4 md:py-[30px] py-[20px]">
-                        {dummyBerita.map((berita, index) => (
+                        {dataArtikel?.data?.data.map((berita, index) => (
                             <CardBerita
                                 key={index}
-                                title={berita.title}
+                                title={berita.judul}
                                 slug={berita.slug}
-                                desc={berita.desc}
-                                date={berita.date}
+                                desc={berita.konten}
+                                date={berita.createdAt}
                                 image={berita.image}
                             />
                         ))}

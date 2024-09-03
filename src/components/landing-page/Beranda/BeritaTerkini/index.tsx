@@ -4,6 +4,11 @@ import SearchIcon from '../../../../../public/icons/SearchIcon'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import CardBerita from './Card'
+// 
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 
 const dummyBerita = [
   {
@@ -42,6 +47,50 @@ const dummyBerita = [
 ]
 
 const BeritaTerkini = () => {
+  // INTEGRASI
+  interface Artikel {
+    id?: string; // Ensure id is a string
+    judul?: string;
+    slug?: string;
+    konten?: string;
+    image?: string;
+    createdAt?: string;
+}
+
+interface Pagination {
+    page: number,
+    perPage: number,
+    totalPages: number,
+    totalCount: number,
+}
+
+interface ResponseData {
+    data: Artikel[];
+    pagination: Pagination;
+}
+
+interface Response {
+    status: string,
+    data: ResponseData,
+    message: string
+}
+const [accessToken] = useLocalStorage("accessToken", "");
+const axiosPrivate = useAxiosPrivate();
+
+const { data: dataArtikel }: SWRResponse<Response> = useSWR(
+    `article/get?page=1`,
+    (url) =>
+        axiosPrivate
+            .get(url, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            .then((res: any) => res.data)
+);
+
+console.log(dataArtikel)
+// INTEGRASI
   return (
     <div className="berita container mx-auto md:py-[60px] py-[40px]">
       <div className="header items-center flex flex-col md:flex-row gap-5">
@@ -57,12 +106,12 @@ const BeritaTerkini = () => {
       </div>
       {/* card */}
       <div className="berita mt-[25px] md:mt-[50px] grid grid-cols-1 md:grid-cols-4 gap-4">
-        {dummyBerita.map((berita, index) => (
+        {dataArtikel?.data?.data.slice(0, 4).map((berita) => (
           <CardBerita
-            key={index}
-            title={berita.title}
-            desc={berita.desc}
-            date={berita.date}
+            key={berita.id}
+            title={berita.judul}
+            desc={berita.konten}
+            date={berita.createdAt}
             slug={berita.slug}
             image={berita.image}
           />
