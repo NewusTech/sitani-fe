@@ -31,18 +31,11 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination"
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
+import { useSearchParams } from 'next/navigation'
+import Paginate from '@/components/ui/paginate'
 
 const PenyuluhDataKecamatan = () => {
     interface Desa {
@@ -67,15 +60,31 @@ const PenyuluhDataKecamatan = () => {
     interface Response {
         status: string;
         message: string;
-        data: Data[];
+        data: {
+            data: Data[];
+            pagination: Pagination;
+        };
+    }
+
+    interface Pagination {
+        page: number;
+        perPage: number;
+        totalPages: number;
+        totalCount: number;
+        links: {
+            prev: string | null;
+            next: string | null;
+        };
     }
 
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+    const searchParams = useSearchParams();
 
     const { data: dataUser }: SWRResponse<Response> = useSWR(
-        `/penyuluh-kecamatan/get`,
+        // `/penyuluh-kecamatan/get?page=${searchParams.get("page")}&limit=1`,
+        `/penyuluh-kecamatan/get?page=${searchParams.get("page")}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -186,8 +195,8 @@ const PenyuluhDataKecamatan = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataUser?.data && dataUser.data.length > 0 ? (
-                        dataUser.data.map((item, index) => (
+                    {dataUser?.data?.data && dataUser?.data?.data?.length > 0 ? (
+                        dataUser.data.data.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell>
                                     {index + 1}
@@ -241,34 +250,7 @@ const PenyuluhDataKecamatan = () => {
             </Table>
             {/* table */}
 
-            {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </div>
-            {/* pagination */}
+            <Paginate url='/penyuluhan/data-kecamatan' pagination={dataUser?.data?.pagination} />
         </div>
     )
 }

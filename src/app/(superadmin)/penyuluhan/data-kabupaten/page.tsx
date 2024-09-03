@@ -34,6 +34,7 @@ import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
+import Paginate from '@/components/ui/paginate'
 
 
 const PenyuluhDataKabupaten = () => {
@@ -56,9 +57,24 @@ const PenyuluhDataKabupaten = () => {
 
     interface Response {
         status: string,
-        data: User[],
+        data: {
+            data: User[];
+            pagination: Pagination;
+        },
         message: string
     }
+
+    interface Pagination {
+        page: number;
+        perPage: number;
+        totalPages: number;
+        totalCount: number;
+        links: {
+            prev: string | null;
+            next: string | null;
+        };
+    }
+
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataKabupaten }: SWRResponse<Response> = useSWR(
@@ -137,8 +153,8 @@ const PenyuluhDataKabupaten = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataKabupaten?.data && dataKabupaten.data.length > 0 ? (
-                        dataKabupaten.data.map((item, index) => (
+                    {dataKabupaten?.data?.data && dataKabupaten?.data?.data?.length > 0 ? (
+                        dataKabupaten?.data?.data?.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell>
                                     {index + 1}
@@ -190,32 +206,7 @@ const PenyuluhDataKabupaten = () => {
             {/* table */}
 
             {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </div>
+            <Paginate url='/penyuluhan/data-kecamatan' pagination={dataKabupaten?.data?.pagination} />
             {/* pagination */}
         </div>
     )
