@@ -10,6 +10,10 @@ import FilterIcon from '../../../../../public/icons/FilterIcon'
 import Link from 'next/link'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import EyeIcon from '../../../../../public/icons/EyeIcon'
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 import {
     Table,
     TableBody,
@@ -49,18 +53,27 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-interface Data {
-    jenisPupuk?: string;
-    kandangPupuk?: string;
-    keterangan?: string;
-    hargaPupuk?: string;
-}
 
 const Pupuk = () => {
+    // TES
+    interface Data {
+        id?: string; // Ensure id is a string
+        jenisPupuk?: string;
+        kandangPupuk?: string;
+        keterangan?: string;
+        hargaPupuk?: string;
+    }
+
+    interface Response {
+        status: string,
+        data: Data[],
+        message: string
+    }
+
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
 
-    const data: Data[] = [
+    const dummyData: Data[] = [
         {
             jenisPupuk: "123456789",
             kandangPupuk: "Jakarta",
@@ -68,6 +81,51 @@ const Pupuk = () => {
             hargaPupuk: "1990-01-01",
         },
     ];
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    const { data: dataUser }: SWRResponse<Response> = useSWR(
+        `/psp/pupuk/get?page=1&limit=10&search&startDate=&endDate`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => {
+                    // Jika data dari API kosong, gunakan data dummy
+                    if (res.data.data.length === 0) {
+                        return { ...res.data, data: dummyData };
+                    }
+                    return res.data;
+                })
+                .catch((error) => {
+                    console.error("Failed to fetch data:", error);
+                    return { status: "error", data: dummyData, message: "Failed to fetch data" };
+                })
+                // .then((res: any) => res.data)
+    );
+
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/user/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            // Update the local data after successful deletion
+            mutate('/psp/pupuk/get?page=1&limit=10&search&startDate=&endDate');
+        } catch (error) {
+            console.error('Failed to delete:', error);
+            console.log(id)
+            // Add notification or alert here for user feedback
+        }
+    };
+
+    console.log(dataUser);
 
     return (
         <div>
@@ -179,36 +237,44 @@ const Pupuk = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell>
-                                {item.jenisPupuk}
-                            </TableCell>
-                            <TableCell>
-                                {item.kandangPupuk}
-                            </TableCell>
-                            <TableCell>
-                                {item.keterangan}
-                            </TableCell>
-                            <TableCell>
-                                {item.hargaPupuk}
-                            </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href="/psp/pupuk/detail">
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link className='' href="/psp/pupuk/edit">
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={() => { }} />
-                                </div>
+                    {dataUser?.data && dataUser.data.length > 0 ? (
+                        dataUser.data.map((item, index) => (
+                            <TableRow key={item.id}>
+                                <TableCell>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell>
+                                    {item.jenisPupuk}
+                                </TableCell>
+                                <TableCell>
+                                    {item.kandangPupuk}
+                                </TableCell>
+                                <TableCell>
+                                    {item.keterangan}
+                                </TableCell>
+                                <TableCell>
+                                    {item.hargaPupuk}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link className='' href="/psp/pupuk/detail">
+                                            <EyeIcon />
+                                        </Link>
+                                        <Link className='' href={`/psp/pupuk/edit/${item.id}`}>
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={() => { }} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={5} className="text-center">
+                                Tidak ada data
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
             {/* table */}

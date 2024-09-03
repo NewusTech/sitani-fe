@@ -10,6 +10,10 @@ import FilterIcon from '../../../../../public/icons/FilterIcon'
 import Link from 'next/link'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import EyeIcon from '../../../../../public/icons/EyeIcon'
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 import {
     Table,
     TableBody,
@@ -49,19 +53,27 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-interface Data {
-    kecamatan?: string;
-    desa?: string;
-    jenisBantuan?: string;
-    periode?: string;
-    keterangan?: string;
-}
-
 const Bantuan = () => {
+    // TES
+    interface Data {
+        id?: string; // Ensure id is a string
+        kecamatan?: string;
+        desa?: string;
+        jenisBantuan?: string;
+        periode?: string;
+        keterangan?: string;
+    }
+
+    interface Response {
+        status: string,
+        data: Data[],
+        message: string
+    }
+
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
 
-    const data: Data[] = [
+    const dummyData: Data[] = [
         {
             kecamatan: "123456789",
             desa: "Jakarta",
@@ -70,6 +82,51 @@ const Bantuan = () => {
             keterangan: "2022-01-01",
         },
     ];
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    const { data: dataUser }: SWRResponse<Response> = useSWR(
+        `/psp/bantuan/get?page=1&limit=10&search&kecamatan&startDate=&endDate`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => {
+                    // Jika data dari API kosong, gunakan data dummy
+                    if (res.data.data.length === 0) {
+                        return { ...res.data, data: dummyData };
+                    }
+                    return res.data;
+                })
+                .catch((error) => {
+                    console.error("Failed to fetch data:", error);
+                    return { status: "error", data: dummyData, message: "Failed to fetch data" };
+                })
+                // .then((res: any) => res.data)
+    );
+
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/user/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            // Update the local data after successful deletion
+            mutate('/psp/bantuan/get?page=1&limit=10&search&kecamatan&startDate=&endDate');
+        } catch (error) {
+            console.error('Failed to delete:', error);
+            console.log(id)
+            // Add notification or alert here for user feedback
+        }
+    };
+
+    console.log(dataUser);
 
     return (
         <div>
@@ -194,39 +251,47 @@ const Bantuan = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell>
-                                {item.kecamatan}
-                            </TableCell>
-                            <TableCell>
-                                {item.desa}
-                            </TableCell>
-                            <TableCell>
-                                {item.jenisBantuan}
-                            </TableCell>
-                            <TableCell>
-                                {item.periode}
-                            </TableCell>
-                            <TableCell>
-                                {item.keterangan}
-                            </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href="/psp/bantuan/detail">
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link className='' href="/psp/bantuan/edit">
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={() => { }} />
-                                </div>
+                    {dataUser?.data && dataUser.data.length > 0 ? (
+                        dataUser.data.map((item, index) => (
+                            <TableRow key={item.id}>
+                                <TableCell>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell>
+                                    {item.kecamatan}
+                                </TableCell>
+                                <TableCell>
+                                    {item.desa}
+                                </TableCell>
+                                <TableCell>
+                                    {item.jenisBantuan}
+                                </TableCell>
+                                <TableCell>
+                                    {item.periode}
+                                </TableCell>
+                                <TableCell>
+                                    {item.keterangan}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link className='' href="/psp/bantuan/detail">
+                                            <EyeIcon />
+                                        </Link>
+                                        <Link className='' href={`/psp/bantuan/edit/${item.id}`}>
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={() => { }} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={6} className="text-center">
+                                Tidak ada data
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
             {/* table */}
