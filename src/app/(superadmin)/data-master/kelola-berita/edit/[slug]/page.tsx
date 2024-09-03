@@ -72,10 +72,15 @@ const EditBerita = () => {
             navigate.push('/data-master/kelola-berita');
             reset();
         } catch (e: any) {
-            console.log("Failed to create article:", e);
+            if (e.response && e.response.data && e.response.data.data) {
+                console.log("Failed to update article:", e.response.data.data[0].message);
+            } else {
+                console.log("Failed to update article:", e.message);
+            }
         }
         mutate(`/data-master/kelola-berita`);
     };
+
 
 
     interface Artikel {
@@ -178,7 +183,7 @@ const EditBerita = () => {
                         variant="primary"
                         size="sm"
                         className="w-full mt-5 hover:primary-hover">
-                        Tambah
+                        Perbarui Artikel
                     </Button>
                 </form>
             </div>

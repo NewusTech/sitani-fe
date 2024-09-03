@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
@@ -66,9 +66,14 @@ const KelolaBeritaPage = () => {
   }
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
 
+  // GETALL
   const { data: dataArtikel }: SWRResponse<Response> = useSWR(
-    `article/get?page=1`,
+    `article/get?page=1&search=${search}`,
     (url) =>
       axiosPrivate
         .get(url, {
@@ -78,9 +83,25 @@ const KelolaBeritaPage = () => {
         })
         .then((res: any) => res.data)
   );
-
   console.log(dataArtikel)
-  // INTEGRASI
+
+  // DELETE
+  const handleDelete = async (slug: string) => {
+    try {
+      await axiosPrivate.delete(`/article/delete/${slug}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(slug)
+      // Update the local data after successful deletion
+      mutate('article/get?page=1');
+    } catch (error) {
+      console.error('Failed to delete:', error);
+      console.log(slug)
+      // Add notification or alert here for user feedback
+    }
+  };  // INTEGRASI
   return (
     <div>
       {/* title */}
@@ -90,8 +111,11 @@ const KelolaBeritaPage = () => {
       <div className="header flex md:flex-row flex-col gap-2 justify-between items-center">
         <div className="search md:w-[50%] w-full">
           <Input
+            autoFocus
             type="text"
             placeholder="Cari"
+            value={search}
+            onChange={handleSearchChange}
             rightIcon={<SearchIcon />}
             className='border-primary py-2'
           />
@@ -136,7 +160,7 @@ const KelolaBeritaPage = () => {
                     <Link href={`/data-master/kelola-berita/edit/${item.slug}`}>
                       <EditIcon />
                     </Link>
-                    <DeletePopup onDelete={() => { }} />
+                    <DeletePopup onDelete={() => handleDelete(item.slug || '')} />
                   </div>
                 </TableCell>
               </TableRow>
