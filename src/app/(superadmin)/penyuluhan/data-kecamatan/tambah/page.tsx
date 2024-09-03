@@ -30,55 +30,31 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
 const frameworks = [
-    {
-        value: "kecamatan1",
-        label: "kecamatan1",
-    },
-    {
-        value: "kecamatan2",
-        label: "kecamatan2",
-    },
-    {
-        value: "kedacamatan3",
-        label: "kedacamatan3",
-    },
-    {
-        value: "kecamatan4",
-        label: "kecamatan4",
-    },
-    {
-        value: "kecamatan5",
-        label: "kecamatan5",
-    },
+    { label: 'Kecamatan A', value: "1" },
+    { label: 'Kecamatan B', value: "2" },
+    { label: 'Kecamatan C', value: "3" },
+    { label: 'Kecamatan D', value: "4" },
 ]
 
 const OPTIONS: Option[] = [
-    { label: 'nextjs', value: 'nextjs' },
-    { label: 'React', value: 'react' },
-    { label: 'Remix', value: 'remix' },
-    { label: 'Vite', value: 'vite' },
-    { label: 'Nuxt', value: 'nuxt' },
-    { label: 'Vue', value: 'vue' },
-    { label: 'Svelte', value: 'svelte' },
-    { label: 'Angular', value: 'angular' },
-    { label: 'Ember', value: 'ember', disable: true },
-    { label: 'Gatsby', value: 'gatsby', disable: true },
-    { label: 'Astro', value: 'astro' },
+    { label: 'Desa A', value: "1" },
+    { label: 'Desa B', value: "2" },
+    { label: 'Desa C', value: "3" },
+    { label: 'Desa D', value: "4" },
 ];
 
 const formSchema = z.object({
     kecamatan_id: z
-        .string()
-        .min(1, { message: "Nama Kecamatan wajib diisi" }).optional(),
+        .preprocess((val) => val !== undefined ? Number(val) : undefined, z.number().optional())
+        .refine((val) => val === undefined || val > 0, { message: "Nama Kecamatan wajib diisi" }),
     desa_list: z
-        .array(z.string())
+        .array(z.preprocess((val) => Number(val), z.number()))
         .min(1, { message: "Wilayah Desa Binaan wajib diisi" }).optional(),
     nama: z
         .string()
         .min(1, { message: "Nama wajib diisi" }),
-    nip: z
-        .string()
-        .min(1, { message: "NIP wajib diisi" }),
+    nip: z.
+        preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
     pangkat: z
         .string()
         .min(1, { message: "Pangkat wajib diisi" }),
@@ -106,8 +82,13 @@ const TamabahPenyuluhDataKecamatan = () => {
     });
 
     const handleSelectorChange = (selectedOptions: Option[]) => {
-        setValue('desa_list', selectedOptions.map(option => option.value));
+        setValue('desa_list', selectedOptions.map(option => Number(option.value)));
     };
+
+    // const onSubmit = (data: FormSchemaType) => {
+    //     console.log(data);
+    //     // reset();
+    // };
 
     // TAMBAH
     const axiosPrivate = useAxiosPrivate();
@@ -164,8 +145,12 @@ const TamabahPenyuluhDataKecamatan = () => {
                                                         key={framework.value}
                                                         value={framework.value}
                                                         onSelect={(currentValue) => {
-                                                            setValue("kecamatan_id", currentValue === value ? "" : currentValue, { shouldValidate: true });
-                                                            setValueSelect(currentValue === value ? "" : currentValue);
+                                                            const selectedValue = currentValue === value ? undefined : Number(currentValue);
+                                                            // Set kecamatan_id with number or undefined
+                                                            setValue("kecamatan_id", selectedValue, { shouldValidate: true });
+                                                            // Set valueSelect with string or empty string
+                                                            setValueSelect(selectedValue !== undefined ? String(selectedValue) : "");
+
                                                             setOpen(false);
                                                         }}
                                                     >
