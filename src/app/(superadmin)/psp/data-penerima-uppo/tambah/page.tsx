@@ -2,15 +2,15 @@
 import Label from '@/components/ui/label'
 import React from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
-import { Textarea } from "@/components/ui/textarea";
-
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter } from 'next/navigation';
+import { SWRResponse, mutate } from "swr";
 import {
     Select,
     SelectContent,
@@ -19,32 +19,20 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-const OPTIONS: Option[] = [
-    { label: 'nextjs', value: 'nextjs' },
-    { label: 'React', value: 'react' },
-    { label: 'Remix', value: 'remix' },
-    { label: 'Vite', value: 'vite' },
-    { label: 'Nuxt', value: 'nuxt' },
-    { label: 'Vue', value: 'vue' },
-    { label: 'Svelte', value: 'svelte' },
-    { label: 'Angular', value: 'angular' },
-    { label: 'Ember', value: 'ember', disable: true },
-    { label: 'Gatsby', value: 'gatsby', disable: true },
-    { label: 'Astro', value: 'astro' },
-];
-
 const formSchema = z.object({
-    kecamatan: z
-        .string(),
-    desa: z
-        .string(),
-    namaPoktan: z
+    kecamatan_id: z
+        .number()
+        .min(1, { message: "Kecamatan wajib diisi" }), 
+    desa_id: z
+        .number()
+        .min(1, { message: "Desa wajib diisi" }), 
+    nama_poktan: z
         .string()
         .min(1, { message: "Nama Poktan wajib diisi" }),
-    namaKetua: z
+    ketua_poktan: z
         .string()
         .min(1, { message: "Nama Ketua wajib diisi" }),
-    titikKoordinat: z
+    titik_koordinat: z
         .string()
         .min(1, { message: "Titik Koordinat wajib diisi" }),
 });
@@ -64,10 +52,30 @@ const TambahDataPenerimaUppo = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log(data);
-        reset();
+    // const onSubmit = (data: FormSchemaType) => {
+    //     console.log(data);
+    //     reset();
+    // };
+    // TAMBAH
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        try {
+            await axiosPrivate.post("/psp/penerima-uppo/create", data);
+            console.log(data)
+            // push
+            navigate.push('/psp/data-penerima-uppo');
+            console.log("Success to create user:");
+            reset()
+        } catch (e: any) {
+            console.log(data)
+            console.log("Failed to create user:");
+            return;
+        }
+        mutate(`/psp/penerima-uppo/get?page=1&limit=10&search&kecamatan&startDate=&endDate`);
     };
+
+    // TAMBAH
 
     return (
         <>
@@ -78,30 +86,30 @@ const TambahDataPenerimaUppo = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                             <Select
-                                onValueChange={(value) => setValue("kecamatan", value)}
+                                onValueChange={(value) => setValue("kecamatan_id", Number(value))} // Mengubah value menjadi number
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Pilih Kecamatan" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="select1">Select1</SelectItem>
-                                    <SelectItem value="select2">Select2</SelectItem>
-                                    <SelectItem value="select3">Select3</SelectItem>
+                                    <SelectItem value="1">Kecamatan 1</SelectItem> {/* Ubah value menjadi angka */}
+                                    <SelectItem value="2">Kecamatan 2</SelectItem> {/* Ubah value menjadi angka */}
+                                    <SelectItem value="3">Kecamatan 3</SelectItem> {/* Ubah value menjadi angka */}
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Desa" />
                             <Select
-                                onValueChange={(value) => setValue("desa", value)}
+                                onValueChange={(value) => setValue("desa_id", Number(value))} // Mengubah value menjadi number
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Pilih Desa" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="select1">Select1</SelectItem>
-                                    <SelectItem value="select2">Select2</SelectItem>
-                                    <SelectItem value="select3">Select3</SelectItem>
+                                    <SelectItem value="1">Desa 1</SelectItem> {/* Ubah value menjadi angka */}
+                                    <SelectItem value="2">Desa 2</SelectItem> {/* Ubah value menjadi angka */}
+                                    <SelectItem value="3">Desa 3</SelectItem> {/* Ubah value menjadi angka */}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -112,11 +120,11 @@ const TambahDataPenerimaUppo = () => {
                             <Input
                                 type="text"
                                 placeholder="Pilih Nama Poktan"
-                                {...register('namaPoktan')}
-                                className={`${errors.namaPoktan ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('nama_poktan')}
+                                className={`${errors.nama_poktan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaPoktan && (
-                                <HelperError>{errors.namaPoktan.message}</HelperError>
+                            {errors.nama_poktan && (
+                                <HelperError>{errors.nama_poktan.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
@@ -124,11 +132,11 @@ const TambahDataPenerimaUppo = () => {
                             <Input
                                 type="text"
                                 placeholder="Nama Ketua"
-                                {...register('namaKetua')}
-                                className={`${errors.namaKetua ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('ketua_poktan')}
+                                className={`${errors.ketua_poktan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaKetua && (
-                                <HelperError>{errors.namaKetua.message}</HelperError>
+                            {errors.ketua_poktan && (
+                                <HelperError>{errors.ketua_poktan.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -138,11 +146,11 @@ const TambahDataPenerimaUppo = () => {
                             <Input
                                 type="number"
                                 placeholder="Pilih Titik Koordinat"
-                                {...register('titikKoordinat')}
-                                className={`${errors.titikKoordinat ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('titik_koordinat')}
+                                className={`${errors.titik_koordinat ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.titikKoordinat && (
-                                <HelperError>{errors.titikKoordinat.message}</HelperError>
+                            {errors.titik_koordinat && (
+                                <HelperError>{errors.titik_koordinat.message}</HelperError>
                             )}
                         </div>
                     </div>

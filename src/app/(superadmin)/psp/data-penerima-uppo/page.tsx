@@ -55,19 +55,52 @@ import {
 
 const DataPenerimaUppo = () => {
     // TES
+    interface Kecamatan {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Desa {
+        id: number;
+        nama: string;
+        kecamatanId: number;
+        createdAt: string;
+        updatedAt: string;
+    }
+
     interface Data {
-        id?: string;
-        kecamatan?: string;
-        desa?: string;
-        namaPoktan?: string;
-        namaKetua?: string;
-        titikKoordinat?: string;
+        id: number;
+        kecamatanId: number;
+        desaId: number;
+        namaPoktan: string;
+        ketuaPoktan: string;
+        titikKoordinat: string;
+        createdAt: string;
+        updatedAt: string;
+        kecamatan: Kecamatan;
+        desa: Desa;
+    }
+
+    interface Pagination {
+        page: number;
+        perPage: number;
+        totalPages: number;
+        totalCount: number;
+        links: {
+            prev: string | null;
+            next: string | null;
+        };
     }
 
     interface Response {
-        status: string,
-        data: Data[],
-        message: string
+        status: number;
+        message: string;
+        data: {
+            data: Data[];
+            pagination: Pagination;
+        };
     }
 
     const [startDate, setstartDate] = React.useState<Date>()
@@ -75,11 +108,27 @@ const DataPenerimaUppo = () => {
 
     const dummyData: Data[] = [
         {
-            kecamatan: "123456789",
-            desa: "Jakarta",
-            namaPoktan: "1990-01-01",
-            namaKetua: "Pembina Utama IV/a",
-            titikKoordinat: "2022-01-01",
+            id: 0,
+            kecamatanId: 1,
+            desaId: 1,
+            namaPoktan: "Dummy Nama Poktan",
+            ketuaPoktan: "Dummy Ketua Poktan",
+            titikKoordinat: "Dummy Koordinat",
+            createdAt: "2024-01-01T00:00:00.000Z",
+            updatedAt: "2024-01-01T00:00:00.000Z",
+            kecamatan: {
+                id: 1,
+                nama: "Dummy Kecamatan",
+                createdAt: "2024-01-01T00:00:00.000Z",
+                updatedAt: "2024-01-01T00:00:00.000Z",
+            },
+            desa: {
+                id: 1,
+                nama: "Dummy Desa",
+                kecamatanId: 1,
+                createdAt: "2024-01-01T00:00:00.000Z",
+                updatedAt: "2024-01-01T00:00:00.000Z",
+            },
         },
     ];
 
@@ -108,6 +157,23 @@ const DataPenerimaUppo = () => {
                 })
         // .then((res: any) => res.data)
     );
+
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/psp/penerima-uppo/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            // Update the local data after successful deletion
+            mutate('/psp/penerima-uppo/get?page=1&limit=10&search&kecamatan&startDate=&endDate');
+        } catch (error) {
+            console.error('Failed to delete:', error);
+            console.log(id)
+            // Add notification or alert here for user feedback
+        }
+    };
 
     console.log(dataUser);
 
@@ -234,23 +300,23 @@ const DataPenerimaUppo = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataUser?.data && dataUser.data.length > 0 ? (
-                        dataUser.data.map((item, index) => (
+                    {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
+                        dataUser.data.data.map((item, index) => (
                             <TableRow key={item.id}>
                                 <TableCell>
                                     {index + 1}
                                 </TableCell>
                                 <TableCell>
-                                    {item.kecamatan}
+                                    {item.kecamatanId}
                                 </TableCell>
                                 <TableCell>
-                                    {item.desa}
+                                    {item.desaId}
                                 </TableCell>
                                 <TableCell>
                                     {item.namaPoktan}
                                 </TableCell>
                                 <TableCell className='hidden md:table-cell'>
-                                    {item.namaKetua}
+                                    {item.ketuaPoktan}
                                 </TableCell>
                                 <TableCell className='hidden md:table-cell'>
                                     {item.titikKoordinat}
@@ -260,10 +326,10 @@ const DataPenerimaUppo = () => {
                                         <Link className='' href="/psp/data-penerima-uppo/detail">
                                             <EyeIcon />
                                         </Link>
-                                        <Link className='' href={`/peran-pengguna/peran/edit/${item.id}`}>
+                                        <Link className='' href={`/psp/data-penerima-uppo/edit/${item.id}`}>
                                             <EditIcon />
                                         </Link>
-                                        <DeletePopup onDelete={() => { }} />
+                                        <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
                                     </div>
                                 </TableCell>
                             </TableRow>

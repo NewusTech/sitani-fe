@@ -1,16 +1,18 @@
 "use client"
 import Label from '@/components/ui/label'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
-import { Textarea } from "@/components/ui/textarea";
-
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter, useSearchParams } from 'next/navigation';
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import { useParams } from 'next/navigation';
 import {
     Select,
     SelectContent,
@@ -18,33 +20,22 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-
-const OPTIONS: Option[] = [
-    { label: 'nextjs', value: 'nextjs' },
-    { label: 'React', value: 'react' },
-    { label: 'Remix', value: 'remix' },
-    { label: 'Vite', value: 'vite' },
-    { label: 'Nuxt', value: 'nuxt' },
-    { label: 'Vue', value: 'vue' },
-    { label: 'Svelte', value: 'svelte' },
-    { label: 'Angular', value: 'angular' },
-    { label: 'Ember', value: 'ember', disable: true },
-    { label: 'Gatsby', value: 'gatsby', disable: true },
-    { label: 'Astro', value: 'astro' },
-];
+import { watch } from 'fs';
 
 const formSchema = z.object({
-    kecamatan: z
-        .string(),
-    desa: z
-        .string(),
-    namaPoktan: z
+    kecamatan_id: z
+        .number()
+        .min(1, { message: "Kecamatan wajib diisi" }),
+    desa_id: z
+        .number()
+        .min(1, { message: "Desa wajib diisi" }),
+    nama_poktan: z
         .string()
         .min(1, { message: "Nama Poktan wajib diisi" }),
-    namaKetua: z
+    ketua_poktan: z
         .string()
         .min(1, { message: "Nama Ketua wajib diisi" }),
-    titikKoordinat: z
+    titik_koordinat: z
         .string()
         .min(1, { message: "Titik Koordinat wajib diisi" }),
 });
@@ -52,6 +43,52 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const EditDataPenerimaUppo = () => {
+    // TES
+    interface Kecamatan {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Desa {
+        id: number;
+        nama: string;
+        kecamatanId: number;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Data {
+        id: number;
+        kecamatanId: number;
+        desaId: number;
+        namaPoktan: string;
+        ketuaPoktan: string;
+        titikKoordinat: string;
+        createdAt: string;
+        updatedAt: string;
+        kecamatan: Kecamatan;
+        desa: Desa;
+    }
+
+    interface Pagination {
+        page: number;
+        perPage: number;
+        totalPages: number;
+        totalCount: number;
+        links: {
+            prev: string | null;
+            next: string | null;
+        };
+    }
+
+    interface Response {
+        status: number;
+        message: string;
+        data: Data;
+    }
+
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -59,15 +96,69 @@ const EditDataPenerimaUppo = () => {
         handleSubmit,
         reset,
         formState: { errors },
-        setValue
+        setValue,
+        watch,
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log(data);
-        reset();
+    // const onSubmit = (data: FormSchemaType) => {
+    //     console.log(data);
+    //     reset();
+    // };
+    // Edit
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
+
+    // Get user data
+    const { data: dataUser, error } = useSWR<Response>(
+        `psp/penerima-uppo/get/${id}`,
+        async (url) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch user data:', error);
+                return null;
+            }
+        },
+        {
+            // revalidateIfStale: false,
+            // revalidateOnFocus: false,
+            // revalidateOnReconnect: false
+        }
+    );
+
+    // Set form values once data is fetched
+    useEffect(() => {
+        if (dataUser) {
+            setValue("kecamatan_id", 1);
+            setValue("desa_id", 2);
+            setValue("nama_poktan", dataUser.data.namaPoktan);
+            setValue("ketua_poktan", dataUser.data.ketuaPoktan);
+            setValue("titik_koordinat", dataUser.data.titikKoordinat);
+        }
+    }, [dataUser, setValue]);
+
+    // Handle form submission
+    const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        try {
+            await axiosPrivate.put(`/psp/penerima-uppo/update/${id}`, data); // Update endpoint as necessary
+            console.log("Success to update user:", data);
+            console.log(data)
+            navigate.push('/psp/data-penerima-uppo');
+            reset()
+        } catch (error) {
+            console.error('Failed to update user:', error);
+            console.log(data)
+        }
+        mutate(`/psp/penerima-uppo/get?page=1&limit=10&search&kecamatan&startDate=&endDate`);
     };
+    // Edit
+
+    console.log(dataUser);
 
     return (
         <>
@@ -78,30 +169,32 @@ const EditDataPenerimaUppo = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                             <Select
-                                onValueChange={(value) => setValue("kecamatan", value)}
+                                onValueChange={(value) => setValue("kecamatan_id", Number(value))} // Mengubah value menjadi number
+                                value={(String(watch("kecamatan_id"))) || ""}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Pilih Kecamatan" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="select1">Select1</SelectItem>
-                                    <SelectItem value="select2">Select2</SelectItem>
-                                    <SelectItem value="select3">Select3</SelectItem>
+                                    <SelectItem value="1">Kecamatan 1</SelectItem> {/* Ubah value menjadi angka */}
+                                    <SelectItem value="2">Kecamatan 2</SelectItem> {/* Ubah value menjadi angka */}
+                                    <SelectItem value="3">Kecamatan 3</SelectItem> {/* Ubah value menjadi angka */}
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Desa" />
                             <Select
-                                onValueChange={(value) => setValue("desa", value)}
+                                onValueChange={(value) => setValue("desa_id", Number(value))} // Mengubah value menjadi number
+                                value={(String(watch("desa_id"))) || ""}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Pilih Desa" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="select1">Select1</SelectItem>
-                                    <SelectItem value="select2">Select2</SelectItem>
-                                    <SelectItem value="select3">Select3</SelectItem>
+                                    <SelectItem value="1">Desa 1</SelectItem> {/* Ubah value menjadi angka */}
+                                    <SelectItem value="2">Desa 2</SelectItem> {/* Ubah value menjadi angka */}
+                                    <SelectItem value="3">Desa 3</SelectItem> {/* Ubah value menjadi angka */}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -112,24 +205,23 @@ const EditDataPenerimaUppo = () => {
                             <Input
                                 type="text"
                                 placeholder="Pilih Nama Poktan"
-                                {...register('namaPoktan')}
-                                className={`${errors.namaPoktan ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('nama_poktan')}
+                                className={`${errors.nama_poktan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaPoktan && (
-                                <HelperError>{errors.namaPoktan.message}</HelperError>
+                            {errors.nama_poktan && (
+                                <HelperError>{errors.nama_poktan.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Nama Ketua" />
                             <Input
-                                
-                                type="input"
+                                type="text"
                                 placeholder="Nama Ketua"
-                                {...register('namaKetua')}
-                                className={`${errors.namaKetua ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('ketua_poktan')}
+                                className={`${errors.ketua_poktan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaKetua && (
-                                <HelperError>{errors.namaKetua.message}</HelperError>
+                            {errors.ketua_poktan && (
+                                <HelperError>{errors.ketua_poktan.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -137,14 +229,13 @@ const EditDataPenerimaUppo = () => {
                         <div className="flex flex-col mb-2 w-1/2">
                             <Label className='text-sm mb-1' label="Titik Koordinat" />
                             <Input
-                                
                                 type="number"
                                 placeholder="Pilih Titik Koordinat"
-                                {...register('titikKoordinat')}
-                                className={`${errors.titikKoordinat ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('titik_koordinat')}
+                                className={`${errors.titik_koordinat ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.titikKoordinat && (
-                                <HelperError>{errors.titikKoordinat.message}</HelperError>
+                            {errors.titik_koordinat && (
+                                <HelperError>{errors.titik_koordinat.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -155,7 +246,7 @@ const EditDataPenerimaUppo = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        Simpan
+                        Edit
                     </Button>
                 </div>
             </form>
