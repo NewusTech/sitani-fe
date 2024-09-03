@@ -198,8 +198,7 @@ const PenyuluhDataKecamatan = () => {
                                 <TableCell className='hidden md:table-cell'>
                                     {item.desa?.map((desa) => (
                                         <div key={desa.id}>
-                                            <p>Nama Desa: {desa.nama}</p>
-                                            <p>ID Kecamatan: {desa.kecamatanId}</p>
+                                            {desa.nama}
                                         </div>
                                     ))}
                                 </TableCell>
