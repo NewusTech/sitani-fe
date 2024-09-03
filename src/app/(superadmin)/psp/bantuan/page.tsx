@@ -55,39 +55,40 @@ import {
 
 const Bantuan = () => {
     // TES
+    interface Kecamatan {
+        nama?: string;
+    }
+    interface Desa {
+        nama?: string;
+    }
     interface Data {
-        id?: string; // Ensure id is a string
-        kecamatan?: string;
-        desa?: string;
+        id?: string;
+        kecamatan?: Kecamatan;
+        desa?: Desa;
         jenisBantuan?: string;
         periode?: string;
         keterangan?: string;
     }
 
+    interface ResponseData {
+        data: Data[]
+    }
+
     interface Response {
         status: string,
-        data: Data[],
+        data: ResponseData,
         message: string
     }
 
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
 
-    const dummyData: Data[] = [
-        {
-            kecamatan: "123456789",
-            desa: "Jakarta",
-            jenisBantuan: "1990-01-01",
-            periode: "Pembina Utama IV/a",
-            keterangan: "2022-01-01",
-        },
-    ];
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
-    const { data: dataUser }: SWRResponse<Response> = useSWR(
-        `/psp/bantuan/get?page=1&limit=10&search&kecamatan&startDate=&endDate`,
+    const { data: dataPSP }: SWRResponse<Response> = useSWR(
+        `/psp/bantuan/get?page=1`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -95,38 +96,27 @@ const Bantuan = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 })
-                .then((res: any) => {
-                    // Jika data dari API kosong, gunakan data dummy
-                    if (res.data.data.length === 0) {
-                        return { ...res.data, data: dummyData };
-                    }
-                    return res.data;
-                })
-                .catch((error) => {
-                    console.error("Failed to fetch data:", error);
-                    return { status: "error", data: dummyData, message: "Failed to fetch data" };
-                })
-                // .then((res: any) => res.data)
+                .then((res: any) => res.data)
     );
+
+    console.log(dataPSP)
 
     const handleDelete = async (id: string) => {
         try {
-            await axiosPrivate.delete(`/user/delete/${id}`, {
+            await axiosPrivate.delete(`/psp/bantuan/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
             console.log(id)
             // Update the local data after successful deletion
-            mutate('/psp/bantuan/get?page=1&limit=10&search&kecamatan&startDate=&endDate');
+            mutate('/psp/bantuan/get?page=1');
         } catch (error) {
             console.error('Failed to delete:', error);
             console.log(id)
             // Add notification or alert here for user feedback
         }
     };
-
-    console.log(dataUser);
 
     return (
         <div>
@@ -251,23 +241,27 @@ const Bantuan = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataUser?.data && dataUser.data.length > 0 ? (
-                        dataUser.data.map((item, index) => (
+                    {dataPSP?.data?.data && dataPSP.data.data.length > 0 ? (
+                        dataPSP?.data?.data.map((item, index) => (
                             <TableRow key={item.id}>
                                 <TableCell>
                                     {index + 1}
                                 </TableCell>
                                 <TableCell>
-                                    {item.kecamatan}
+                                    {item?.kecamatan?.nama}
                                 </TableCell>
                                 <TableCell>
-                                    {item.desa}
+                                    {item?.desa?.nama}
                                 </TableCell>
                                 <TableCell>
                                     {item.jenisBantuan}
                                 </TableCell>
                                 <TableCell>
-                                    {item.periode}
+                                    {item.periode ? new Date(item.periode).toLocaleDateString('id-ID', {
+                                        day: 'numeric',
+                                        month: 'long',
+                                        year: 'numeric',
+                                    }) : 'Tanggal tidak tersedia'}
                                 </TableCell>
                                 <TableCell>
                                     {item.keterangan}
@@ -280,7 +274,7 @@ const Bantuan = () => {
                                         <Link className='' href={`/psp/bantuan/edit/${item.id}`}>
                                             <EditIcon />
                                         </Link>
-                                        <DeletePopup onDelete={() => { }} />
+                                        <DeletePopup onDelete={() => handleDelete(item.id || '')} />
                                     </div>
                                 </TableCell>
                             </TableRow>

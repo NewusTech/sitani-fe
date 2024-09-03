@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
@@ -8,18 +8,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
+import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-
+import { watch } from 'fs';
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
 const formatDate = (dateString: string) => {
@@ -43,49 +38,88 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const BantuanTambah = () => {
-    const [date, setDate] = React.useState<Date>()
-
+const BantuanEdit = () => {
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
-        setValue
+        setValue,
+        watch,
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
 
-    // const onSubmit = (data: FormSchemaType) => {
-    //     console.log(data);
-    //     reset();
-    // };
+    interface Kecamatan {
+        nama: string;
+    }
+    interface Desa {
+        nama: string;
+    }
+    interface Bantuan {
+        kecamatan: Kecamatan;
+        kecamatanId: number;
+        desaId: number;
+        periode: string;
+        jenisBantuan: string;
+        keterangan: string;
+    }
 
+    interface Response {
+        status: string;
+        data: Bantuan;
+        message: string;
+    }
 
-    // TAMBAH
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataBantuan, error } = useSWR<Response>(
+        `psp/bantuan/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch user data:', error);
+                return null;
+            }
+        }
+    );
+
+    useEffect(() => {
+        if (dataBantuan) {
+            const formattedPeriode = new Date(dataBantuan.data.periode).toISOString().split('T')[0];
+            setValue("periode", formattedPeriode);
+            setValue("keterangan", dataBantuan.data.keterangan);
+            setValue("jenis_bantuan", dataBantuan.data.jenisBantuan);
+            setValue("kecamatan_id", (dataBantuan.data.kecamatanId));
+            setValue("desa_id", (dataBantuan.data.desaId));
+        }
+    }, [dataBantuan, setValue]);
+
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         try {
-            await axiosPrivate.post("/psp/bantuan/create", data);
-            console.log(data)
-            // push
+            await axiosPrivate.put(`psp/bantuan/update/${id}`, data);
+            console.log("Success to update user:", data);
             navigate.push('/psp/bantuan');
-            console.log("Success to create user:");
-            reset()
-        } catch (e: any) {
-            console.log(data)
-            console.log("Failed to create user:");
-            return;
+            reset();
+        } catch (error) {
+            console.error('Failed to update user:', error);
         }
         mutate(`/psp/bantuan/get?page=1`);
     };
 
-    // TAMBAH
+    // const onSubmit = (data: FormSchemaType) => {
+    //     console.log(data);
+    // };
+ 
 
     return (
         <>
-            <div className="text-primary text-2xl font-bold mb-5">Tambah Data</div>
+            <div className="text-primary text-2xl font-bold mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
@@ -93,6 +127,7 @@ const BantuanTambah = () => {
                             <Label className='text-sm mb-1' label="Kecamatan" />
                             <Select
                                 onValueChange={(value) => setValue("kecamatan_id", Number(value))}
+                                value={String(watch('kecamatan_id')) || ''}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Pilih Kecamatan" />
@@ -108,6 +143,7 @@ const BantuanTambah = () => {
                             <Label className='text-sm mb-1' label="Desa" />
                             <Select
                                 onValueChange={(value) => setValue("desa_id", Number(value))}
+                                value={String(watch('desa_id')) || ''}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Pilih Desa" />
@@ -124,7 +160,6 @@ const BantuanTambah = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Jenis Bantuan" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Jenis Bantuan"
                                 {...register('jenis_bantuan')}
@@ -137,7 +172,6 @@ const BantuanTambah = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Periode Penerimaan" />
                             <Input
-                                autoFocus
                                 type="date"
                                 placeholder="Periode Penerimaan"
                                 {...register('periode')}
@@ -151,7 +185,8 @@ const BantuanTambah = () => {
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
-                            <Textarea  {...register('keterangan')}
+                            <Textarea
+                                {...register('keterangan')}
                                 className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
                             {errors.keterangan && (
@@ -174,4 +209,4 @@ const BantuanTambah = () => {
     )
 }
 
-export default BantuanTambah
+export default BantuanEdit
