@@ -268,7 +268,7 @@ const Bantuan = () => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-4">
-                                        <Link className='' href="/psp/bantuan/detail">
+                                        <Link className='' href={`/psp/bantuan/detail/${item.id}`}>
                                             <EyeIcon />
                                         </Link>
                                         <Link className='' href={`/psp/bantuan/edit/${item.id}`}>
