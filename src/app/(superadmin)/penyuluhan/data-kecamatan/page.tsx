@@ -222,7 +222,9 @@ const PenyuluhDataKecamatan = () => {
                                         <Link className='' href="/penyuluhan/data-kecamatan/detail">
                                             <EyeIcon />
                                         </Link>
-                                        <Link className='' href="/penyuluhan/data-kecamatan/edit">
+                                        <Link
+                                            href={`/penyuluhan/data-kecamatan/edit/${item.id}`}
+                                        >
                                             <EditIcon />
                                         </Link>
                                         <DeletePopup onDelete={() => { }} />
