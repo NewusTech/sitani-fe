@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import 'react-quill/dist/quill.snow.css';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Label from '@/components/ui/label';
@@ -12,17 +12,22 @@ import { Input } from '@/components/ui/input';
 import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+// 
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter, useParams } from 'next/navigation';
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
 
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const schema = z.object({
-  deskripsi: z.string().min(1, { message: 'Title is required' }),
-  image: z.instanceof(File).refine(file => file.size > 0, { message: 'Image is required' }),
+  deskripsi: z.string().min(1, { message: 'Deskripsi wajib diisi' }),
+  image: z.instanceof(File).optional().refine(file => !file || file.size > 0, { message: 'Image is required if provided' }),
 });
 
 
-type FormData = z.infer<typeof schema>;
+type FormSchemaType = z.infer<typeof schema>;
 
 const EditGaleri = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -31,15 +36,16 @@ const EditGaleri = () => {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<FormSchemaType>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    // Handle form submission
-  };
+  // const onSubmit = (data: FormSchemaType) => {
+  //   console.log(data);
+  //   // Handle form submission
+  // };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -48,6 +54,80 @@ const EditGaleri = () => {
       setImagePreview(URL.createObjectURL(file));
     }
   };
+  // integrasi
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useRouter();
+  const params = useParams();
+    const { id } = params;
+
+  const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+    const formData = new FormData();
+    formData.append('deskripsi', data.deskripsi);
+
+    // Memeriksa jika image ada sebelum menambahkannya ke formData
+    if (data.image) {
+      formData.append('image', data.image);
+    }
+
+    try {
+      await axiosPrivate.put(`/galeri/update/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      navigate.push('/data-master/kelola-galeri');
+      console.log("berhasil update", formData)
+      reset();
+    } catch (e: any) {
+      if (e.response && e.response.data && e.response.data.data) {
+        console.log("Failed to update galeri:", e.response.data.data[0].message);
+      } else {
+        console.log("Failed to update galeri:", e.message);
+      }
+    }
+    mutate(`/data-master/kelola-galeri`);
+  };
+
+
+
+  interface Galeri {
+    id?: string;
+    deskripsi?: string;
+    image?: string;
+  }
+
+  interface Response {
+    status: string,
+    data: Galeri,
+    message: string
+  }
+
+  const { data: dataGaleri, error } = useSWR<Response>(
+    id ? `galeri/get/${id}` : null,
+    async (url: string) => {
+      try {
+        const response = await axiosPrivate.get(url);
+        return response.data;
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        return null;
+      }
+    }
+  );
+
+  useEffect(() => {
+    if (dataGaleri?.data) {
+      setValue("deskripsi", dataGaleri.data.deskripsi ?? '');
+      if (dataGaleri.data.image) {
+        setImagePreview(dataGaleri.data.image);
+      }
+    }
+  }, [dataGaleri, setValue]);
+
+  const handleEditorChange = (content: string) => {
+    setValue('deskripsi', content); // Update form value when editor content changes
+  };
+  // integrasi
 
   return (
     <div className="">
@@ -97,7 +177,7 @@ const EditGaleri = () => {
             variant="primary"
             size="sm"
             className="w-full mt-5 hover:primary-hover">
-            Tambah
+            Simpan Perubahan
           </Button>
         </form>
       </div>

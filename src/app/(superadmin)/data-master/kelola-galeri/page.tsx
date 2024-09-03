@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
@@ -17,23 +17,60 @@ import {
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
 import Image from 'next/image';
+// 
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 
-interface Data {
-    image?: string;
-    deskripsi?: string;
-}
 
 const KelolaGaleriPage = () => {
-    const data: Data[] = [
-        {
-            image: "https://static.gatra.com/foldershared/images/2019/thytha/09-Sep/lahan-pertanian-shutterstock.jpg",
-            deskripsi: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
-        },
-        {
-            image: "https://static.gatra.com/foldershared/images/2019/thytha/09-Sep/lahan-pertanian-shutterstock.jpg",
-            deskripsi: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
-        },
-    ];
+
+    // INTEGRASI
+    interface Galeri {
+        id?: string; // Ensure id is a string
+        image?: string;
+        deskripsi?: string;
+    }
+
+    interface Pagination {
+        page: number,
+        perPage: number,
+        totalPages: number,
+        totalCount: number,
+    }
+
+    interface ResponseData {
+        data: Galeri[];
+        pagination: Pagination;
+    }
+
+    interface Response {
+        status: string,
+        data: ResponseData,
+        message: string
+    }
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+
+    // GETALL
+    const { data: dataGaleri }: SWRResponse<Response> = useSWR(
+        `galeri/get?page=1&search=${search}`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    console.log(dataGaleri)
+    // INTEGRASI
     return (
         <div>
             {/* title */}
@@ -43,8 +80,11 @@ const KelolaGaleriPage = () => {
             <div className="header flex md:flex-row flex-col gap-2 justify-between items-center">
                 <div className="search md:w-[50%] w-full">
                     <Input
+                        autoFocus
                         type="text"
                         placeholder="Cari"
+                        value={search}
+                        onChange={handleSearchChange}
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     />
@@ -67,29 +107,37 @@ const KelolaGaleriPage = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell>
-                                <div className="w-[150px] h-[100px]">
-                                    <Image src={item.image || "../../assets/images/galeri1.png"} alt="logo" width={300} height={300} unoptimized className='w-full h-full object-cover' />
-                                </div>
-                            </TableCell>
-                            <TableCell>
-                                {item.deskripsi}
-                            </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link href="/data-master/kelola-galeri/edit">
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={() => { }} />
-                                </div>
+                    {dataGaleri?.data.data && dataGaleri.data.data.length > 0 ? (
+                        dataGaleri.data.data.map((item, index) => (
+                            <TableRow key={index}>
+                                <TableCell>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="w-[150px] h-[100px]">
+                                        <Image src={item.image || "../../assets/images/galeri1.png"} alt="logo" width={300} height={300} unoptimized className='w-full h-full object-cover' />
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    {item.deskripsi}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link href={`/data-master/kelola-galeri/edit/${item.id}`}>
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={() => { }} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={4} className="text-center">
+                                Tidak ada data
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
             {/* table */}

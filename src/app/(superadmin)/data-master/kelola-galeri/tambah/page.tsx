@@ -4,7 +4,6 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import 'react-quill/dist/quill.snow.css';
-import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Label from '@/components/ui/label';
@@ -12,17 +11,19 @@ import { Input } from '@/components/ui/input';
 import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter } from 'next/navigation';
+import { mutate } from 'swr';
 
-
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const schema = z.object({
-  deskripsi: z.string().min(1, { message: 'Title is required' }),
-  image: z.instanceof(File).refine(file => file.size > 0, { message: 'Image is required' }),
+  deskripsi: z.string().min(1, { message: 'Deksripsii wajib diisi' }),
+  image: z.instanceof(File).refine(file => file.size > 0, { message: 'Gambar wajib diisi' }),
 });
 
 
-type FormData = z.infer<typeof schema>;
+type FormSchemaType = z.infer<typeof schema>;
 
 const TambahGaleri = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -31,15 +32,16 @@ const TambahGaleri = () => {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<FormSchemaType>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    // Handle form submission
-  };
+  // const onSubmit = (data: FormSchemaType) => {
+  //   console.log(data);
+  //   // Handle form submission
+  // };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -48,6 +50,31 @@ const TambahGaleri = () => {
       setImagePreview(URL.createObjectURL(file));
     }
   };
+
+  // integrasi
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useRouter();
+
+  const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+    const formData = new FormData();
+    formData.append('deskripsi', data.deskripsi);
+    formData.append('image', data.image);
+
+    try {
+      await axiosPrivate.post("/galeri/create", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      navigate.push('/data-master/kelola-galeri');
+      reset();
+    } catch (e: any) {
+      console.log("Failed to create article:", e);
+    }
+    mutate(`galeri/get?page=1`);
+  };
+
+  // integrasi
 
   return (
     <div className="">

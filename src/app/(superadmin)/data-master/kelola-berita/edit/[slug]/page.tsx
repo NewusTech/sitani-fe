@@ -69,6 +69,7 @@ const EditBerita = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            console.log('sukses', formData);
             navigate.push('/data-master/kelola-berita');
             reset();
         } catch (e: any) {
