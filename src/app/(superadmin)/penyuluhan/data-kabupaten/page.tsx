@@ -37,7 +37,7 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 
 
 const PenyuluhDataKabupaten = () => {
-    
+
     // INTEGRASI
     // GET LIST
     interface Kecamatan {
@@ -168,7 +168,9 @@ const PenyuluhDataKabupaten = () => {
                                         <Link className='' href="/penyuluhan/data-kabupaten/detail">
                                             <EyeIcon />
                                         </Link>
-                                        <Link className='' href="/penyuluhan/data-kabupaten/edit">
+                                        <Link
+                                            href={`/penyuluhan/data-kabupaten/edit/${item.id}`}
+                                        >
                                             <EditIcon />
                                         </Link>
                                         <DeletePopup onDelete={() => { }} />
