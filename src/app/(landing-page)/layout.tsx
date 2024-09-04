@@ -7,6 +7,12 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
 interface LayoutProps {
     children: React.ReactNode
@@ -51,8 +57,9 @@ const Layout = (props: LayoutProps) => {
     };
 
     const navBgColor = scrolled ? 'bg-primary-600/60' : (colorMap[pathname] || 'bg-primary-600');
+    const [isOpen, setIsOpen] = useState(false);
     return (
-        <div>
+        <div className='min-h-screen flex flex-col'>
             {/* nav mobile */}
             <div className="nav mobile md:hidden bg-primary-600">
                 <div className="left container mx-auto py-2 flex items-center gap-2 justify-center">
@@ -81,34 +88,52 @@ const Layout = (props: LayoutProps) => {
                         <Menu link="/beranda">Beranda</Menu>
                         <Menu link="/berita">Berita</Menu>
                         <Menu link="/galeri">Galeri</Menu>
-                        {/* <Menu link="#">Data</Menu> */}
                         <Menu link="#">
-                            <NavigationMenu>
-                                <NavigationMenuList>
-                                    <NavigationMenuItem>
-                                        <NavigationMenuTrigger>Data</NavigationMenuTrigger>
-                                        <NavigationMenuContent className='mt-10'>
-                                            <Link href="/docs" legacyBehavior passHref>
-                                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                                    Link1
-                                                </NavigationMenuLink>
-                                            </Link>
-                                            <Link href="/docs" legacyBehavior passHref>
-                                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                                    Link2
-                                                </NavigationMenuLink>
-                                            </Link>
-                                        </NavigationMenuContent>
-                                    </NavigationMenuItem>
-                                </NavigationMenuList>
-                            </NavigationMenu>
+                            <Popover
+                                onOpenChange={(open) => setIsOpen(open)} // Mengubah state berdasarkan status Popover
+                            >
+                                <PopoverTrigger>
+                                    Data
+                                    {isOpen ? (
+                                        <ChevronUpIcon className="h-5 w-5 inline-block ml-2 animate-bounce" />
+                                    ) : (
+                                        <ChevronDownIcon className="h-5 w-5 inline-block ml-2" />
+                                    )}
+                                </PopoverTrigger>
+                                <PopoverContent className="shadow-lg w-[60%] border-primary border-double border-4 opacity-90 p-0">
+                                    <Link href={"/data/harga-produsen-dan-eceran"} className="opacity-1">
+                                        <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold text-primary">
+                                            Daftar harga produsen
+                                            dan eceran
+                                        </div>
+                                    </Link>
+                                    <Link href={"/data/koefisien-variasi-produksi"} className="opacity-1">
+                                        <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold text-primary">
+                                            Koefesian variasi tingkat
+                                            produksi
+                                        </div>
+                                    </Link>
+                                    <Link href={"/data/koefisien-variasi-produsen"} className="opacity-1">
+                                        <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold text-primary">
+                                            Koefesian variasi tingkat
+                                            produsen
+                                        </div>
+                                    </Link>
+                                    <Link href={"/data/perbandingan-komoditas-harga-panen"} className="opacity-1">
+                                        <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold text-primary">
+                                            Perbandingan komoditas
+                                            harga panen tingkat
+                                            eceran
+                                        </div>
+                                    </Link>
+                                </PopoverContent>
+                            </Popover>
                         </Menu>
                         <Link href="/login" className='text-xl p-2 px-10 rounded-full bg-primary text-white'>Login</Link>
                     </div>
                 </div>
             </nav>
-
-            <div>
+            <div className="flex-grow">
                 {props.children}
             </div>
             <footer className='bg-primary md:block hidden py-5'>

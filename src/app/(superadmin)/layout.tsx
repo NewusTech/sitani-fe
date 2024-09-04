@@ -98,7 +98,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                             <span className='text-sm'>Harga Produsen & Eceran </span>
                                         </Menu>
                                         <Menu link="/ketahanan-pangan/harga-pangan-eceran">
-                                            <span className='text-sm'>Harga Pangan Eceran</span>
+                                            <span className='text-sm'>Perbandingan Komoditas Harga Panen</span>
                                         </Menu>
                                         <Menu link="/ketahanan-pangan/kuisioner-pedagang-eceran">
                                             <span className='text-sm'>Kuesioner Pedagang Eceran</span>
