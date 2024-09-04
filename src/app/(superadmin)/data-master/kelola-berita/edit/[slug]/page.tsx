@@ -14,6 +14,7 @@ import { useRouter, useParams } from 'next/navigation';
 import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import Image from 'next/image';
+import Loading from '@/components/ui/Loading';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -52,8 +53,11 @@ const EditBerita = () => {
     const navigate = useRouter();
     const params = useParams();
     const { slug } = params;
+    const [loading, setLoading] = useState(false);
+
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
         const formData = new FormData();
         formData.append('judul', data.judul);
         formData.append('konten', data.konten);
@@ -78,6 +82,8 @@ const EditBerita = () => {
             } else {
                 console.log("Failed to update article:", e.message);
             }
+        } finally {
+            setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/data-master/kelola-berita`);
     };
@@ -184,7 +190,11 @@ const EditBerita = () => {
                         variant="primary"
                         size="sm"
                         className="w-full mt-5 hover:primary-hover">
-                        Perbarui Artikel
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            "Perbarui Artikel"
+                        )}
                     </Button>
                 </form>
             </div>

@@ -15,6 +15,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter } from 'next/navigation';
 import { mutate } from 'swr';
+import Loading from '@/components/ui/Loading';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -49,8 +50,10 @@ const TambahBerita = () => {
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useRouter();
+  const [loading, setLoading] = useState(false);
   
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+    setLoading(true); // Set loading to true when the form is submitted
     const formData = new FormData();
     formData.append('judul', data.judul);
     formData.append('konten', data.konten);
@@ -66,6 +69,8 @@ const TambahBerita = () => {
       reset();
     } catch (e: any) {
       console.log("Failed to create article:", e);
+    }finally {
+      setLoading(false); // Set loading to false once the process is complete
     }
     mutate(`/data-master/kelola-berita`);
   };
@@ -126,8 +131,13 @@ const TambahBerita = () => {
             type="submit"
             variant="primary"
             size="sm"
+            disabled={loading}
             className="w-full mt-5 hover:primary-hover">
-            Tambah
+            {loading ? (
+              <Loading />
+            ) : (
+              "Tambah"
+            )}
           </Button>
         </form>
       </div>
