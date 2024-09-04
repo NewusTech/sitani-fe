@@ -29,5 +29,19 @@ jobs:
       run: npm i
     - name : Run build
       run: npm run build --if-present
-    - name : change repo
-      run : pm2 restart sitanilampungtimurkab.com
+    - name : Restart Process
+      run : |
+          APP_NAME="sitanilampungtimurkab.com"
+          APP_ID="12"
+
+          if pm2 restart $APP_NAME; then
+            echo "Successfully restarted app with name $APP_NAME"
+          else
+            echo "Failed to restart app with name $APP_NAME, trying with ID $APP_ID"
+            if pm2 restart $APP_ID; then
+              echo "Successfully restarted app with ID $APP_ID"
+            else
+              echo "Failed to restart app with both name and ID"
+              exit 1
+            fi
+          fi
