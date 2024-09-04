@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ShareBeritaIcon from '../../../../../public/icons/ShareBerita'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import Link from 'next/link'
@@ -76,9 +76,14 @@ interface Response {
 }
 const [accessToken] = useLocalStorage("accessToken", "");
 const axiosPrivate = useAxiosPrivate();
+// search
+const [search, setSearch] = useState("");
+const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+};
 
 const { data: dataArtikel }: SWRResponse<Response> = useSWR(
-    `article/get?page=1`,
+    `article/get?page=1&search=${search}&limit=4`,
     (url) =>
         axiosPrivate
             .get(url, {
@@ -89,7 +94,6 @@ const { data: dataArtikel }: SWRResponse<Response> = useSWR(
             .then((res: any) => res.data)
 );
 
-console.log(dataArtikel)
 // INTEGRASI
   return (
     <div className="berita container mx-auto md:py-[60px] py-[40px]">
@@ -99,6 +103,8 @@ console.log(dataArtikel)
         <div className="search w-full">
           <Input
             placeholder="Cari Berita"
+            value={search}
+            onChange={handleSearchChange}
             className='w-full md:min-w-[300px] border border-primary'
             rightIcon={<SearchIcon />}
           />
@@ -106,7 +112,7 @@ console.log(dataArtikel)
       </div>
       {/* card */}
       <div className="berita mt-[25px] md:mt-[50px] grid grid-cols-1 md:grid-cols-4 gap-4">
-        {dataArtikel?.data?.data.slice(0, 4).map((berita) => (
+        {dataArtikel?.data?.data.map((berita) => (
           <CardBerita
             key={berita.id}
             title={berita.judul}

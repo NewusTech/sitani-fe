@@ -3,7 +3,7 @@
 import { Input } from '@/components/ui/input';
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import Link from 'next/link';
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../public/icons/SearchIcon';
 import CardBerita from './Card';
 // 
@@ -73,9 +73,14 @@ const BeritaLayout = () => {
     }
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+    // search
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
 
     const { data: dataArtikel }: SWRResponse<Response> = useSWR(
-        `article/get?page=1`,
+        `article/get?page=1&search=${search}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -86,7 +91,7 @@ const BeritaLayout = () => {
                 .then((res: any) => res.data)
     );
 
-    console.log(dataArtikel)
+
     // INTEGRASI
     return (
         <div>
@@ -101,6 +106,8 @@ const BeritaLayout = () => {
                         <div className="searc mt-5 lg:mt-0">
                             <Input
                                 placeholder="Cari"
+                                value={search}
+                                onChange={handleSearchChange}
                                 className='w-full lg:w-[370px] border border-primary'
                                 rightIcon={<SearchIcon />}
                             />
