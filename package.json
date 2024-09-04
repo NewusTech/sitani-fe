@@ -28,7 +28,6 @@
     "date-fns": "^3.6.0",
     "embla-carousel-autoplay": "^8.2.0",
     "embla-carousel-react": "^8.2.0",
-    "flowbite-react": "^0.10.1",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "lucide-react": "^0.436.0",

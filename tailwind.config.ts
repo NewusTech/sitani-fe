@@ -1,14 +1,12 @@
-import type { Config } from "tailwindcss";
-const flowbite = require("flowbite-react/tailwind");
+import type { Config } from "tailwindcss"
 
-const config: Config = {
+const config = {
   darkMode: ["class"],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-    flowbite.content(), // Add Flowbite content path
   ],
   prefix: "",
   theme: {
@@ -40,13 +38,13 @@ const config: Config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      
     },
   },
   plugins: [
     require("@tailwindcss/typography"), 
-    require("tailwindcss-animate"),
-    flowbite.plugin(), // Add Flowbite plugin
+    require("tailwindcss-animate"), 
   ],
-} satisfies Config;
+} satisfies Config
 
-export default config;
+export default config
