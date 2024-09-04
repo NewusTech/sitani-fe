@@ -122,7 +122,7 @@ const Pupuk = () => {
 
     const handleDelete = async (id: number) => {
         try {
-            await axiosPrivate.delete(`/user/delete/${id}`, {
+            await axiosPrivate.delete(`/psp/pupuk/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -269,13 +269,13 @@ const Pupuk = () => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-4">
-                                        <Link className='' href="/psp/pupuk/detail">
+                                        <Link className='' href={`/psp/pupuk/detail/${item.id}`}>
                                             <EyeIcon />
                                         </Link>
                                         <Link className='' href={`/psp/pupuk/edit/${item.id}`}>
                                             <EditIcon />
                                         </Link>
-                                        <DeletePopup onDelete={() => { }} />
+                                        <DeletePopup onDelete={() => handleDelete(item.id || 0)} />
                                     </div>
                                 </TableCell>
                             </TableRow>

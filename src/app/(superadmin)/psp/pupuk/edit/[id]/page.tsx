@@ -1,8 +1,8 @@
 "use client"
 import Label from '@/components/ui/label'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
@@ -10,6 +10,11 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
 import { Textarea } from "@/components/ui/textarea";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter, useParams } from 'next/navigation';
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import { watch } from 'fs';
 
 import {
     Select,
@@ -34,21 +39,35 @@ const OPTIONS: Option[] = [
 ];
 
 const formSchema = z.object({
-    jenisPupuk: z
-        .string(),
-    kandunganPupuk: z
+    jenis_pupuk: z
+        .string()
+        .min(1, { message: "Jenis Pupuk wajib diisi" }),
+    kandungan_pupuk: z
         .string(),
     keterangan: z
         .string()
         .min(1, { message: "Keterangan wajib diisi" }),
-    hargaPupuk: z
-        .string()
-        .min(1, { message: "Harga Pupuk wajib diisi" }),
+    harga_pupuk: z
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Harga pupuk wajib diisi" })),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const PupukEdit = () => {
+interface PSP {
+    id: number;
+    jenisPupuk: string;
+    kandunganPupuk: string;
+    keterangan: string;
+    hargaPupuk: number;
+}
+
+interface Response {
+    status: string;
+    message: string;
+    data: PSP;
+}
+
+const PupukTambah = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -56,15 +75,58 @@ const PupukEdit = () => {
         handleSubmit,
         reset,
         formState: { errors },
-        setValue
+        setValue,
+        watch
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log(data);
-        reset();
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataPSP, error } = useSWR<Response>(
+        `psp/pupuk/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch user data:', error);
+                return null;
+            }
+        }
+    );
+
+    useEffect(() => {
+        if (dataPSP) {
+            setValue("jenis_pupuk", dataPSP.data.jenisPupuk);
+            setValue("kandungan_pupuk", dataPSP.data.kandunganPupuk);
+            setValue("keterangan", dataPSP.data.keterangan);
+            setValue("harga_pupuk", 1);
+        }
+    }, [dataPSP, setValue]);
+
+
+    // Handle form submission
+    const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        try {
+            await axiosPrivate.put(`psp/pupuk/update/${id}`, data);
+            console.log("Success to update user:", data);
+            navigate.push('/psp/pupuk');
+            reset();
+        } catch (error) {
+            console.error('Failed to update user:', error);
+        }
+        mutate(`/psp/pupuk/get?page=1`);
     };
+
+    // const onSubmit = (data: FormSchemaType) => {
+    //     console.log(data);
+    //     reset();
+    // };
+    console.log(dataPSP);
 
     return (
         <>
@@ -73,9 +135,10 @@ const PupukEdit = () => {
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="pilih Jenis Pupuk" />
+                            <Label className='text-sm mb-1' label="Pilih Jenis Pupuk" />
                             <Select
-                                onValueChange={(value) => setValue("jenisPupuk", value)}
+                                onValueChange={(value) => setValue("jenis_pupuk", String(value))}
+                                value={String(watch('jenis_pupuk')) || ''}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Pilih Jenis Pupuk" />
@@ -89,26 +152,24 @@ const PupukEdit = () => {
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Kandungan Pupuk" />
-                            <Select
-                                onValueChange={(value) => setValue("kandunganPupuk", value)}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih kandungan Pupuk" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="select1">Select1</SelectItem>
-                                    <SelectItem value="select2">Select2</SelectItem>
-                                    <SelectItem value="select3">Select3</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Input
+                                autoFocus
+                                type="text"
+                                placeholder="Kandungan Pupuk"
+                                {...register('kandungan_pupuk')}
+                                className={`${errors.kandungan_pupuk ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.kandungan_pupuk && (
+                                <HelperError>{errors.kandungan_pupuk.message}</HelperError>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
                             <Select
-                                onValueChange={(value) => setValue("keterangan", value)}
-                            >
+                                onValueChange={(value) => setValue("keterangan", String(value))}
+                                value={String(watch('keterangan')) || ''}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Keterangan" />
                                 </SelectTrigger>
@@ -124,22 +185,21 @@ const PupukEdit = () => {
                                 autoFocus
                                 type="number"
                                 placeholder="Harga Pupuk/Kg"
-                                {...register('hargaPupuk')}
-                                className={`${errors.hargaPupuk ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('harga_pupuk')}
+                                className={`${errors.harga_pupuk ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.hargaPupuk && (
-                                <HelperError>{errors.hargaPupuk.message}</HelperError>
+                            {errors.harga_pupuk && (
+                                <HelperError>{errors.harga_pupuk.message}</HelperError>
                             )}
                         </div>
                     </div>
                 </div>
-
                 <div className="mb-10 flex justify-end gap-3">
                     <Link href="/psp/pupuk" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        Simpan
+                        Edit
                     </Button>
                 </div>
             </form>
@@ -147,4 +207,4 @@ const PupukEdit = () => {
     )
 }
 
-export default PupukEdit
+export default PupukTambah
