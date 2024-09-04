@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 import {
     Pagination,
@@ -9,43 +10,25 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 import CardGaleriPage from "./Card"
-// 
 import useSWR from 'swr';
-import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
+import { useState } from 'react';
+import { SWRResponse, mutate } from "swr";
 
+// Dummy data
 const dummyGaleri = [
     {
         image: "../../assets/images/galeri1.png",
         deskripsi: "Deskripsi",
     },
-    {
-        image: "../../assets/images/galeri1.png",
-        deskripsi: "Deskripsi",
-    },
-    {
-        image: "../../assets/images/galeri1.png",
-        deskripsi: "Deskripsi",
-    },
-    {
-        image: "../../assets/images/galeri1.png",
-        deskripsi: "Deskripsi",
-    },
-    {
-        image: "../../assets/images/galeri1.png",
-        deskripsi: "Deskripsi",
-    },
-    {
-        image: "../../assets/images/galeri1.png",
-        deskripsi: "Deskripsi",
-    },
+    //... more dummy data
 ]
 
 const GaleriLanding = () => {
     // INTEGRASI
     interface Galeri {
-        id?: string; // Ensure id is a string
+        id?: string;
         image?: string;
         deskripsi?: string;
     }
@@ -67,6 +50,7 @@ const GaleriLanding = () => {
         data: ResponseData,
         message: string
     }
+
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
@@ -82,6 +66,21 @@ const GaleriLanding = () => {
                 })
                 .then((res: any) => res.data)
     );
+
+    // State for Modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState<Galeri | null>(null);
+
+    const handleCardClick = (galeri: Galeri) => {
+        setSelectedImage(galeri);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedImage(null);
+    };
+
     return (
         <div className='md:pt-[130px] pt-[30px] container mx-auto'>
             <div className="galeri md:py-[60px]">
@@ -93,8 +92,8 @@ const GaleriLanding = () => {
                 {/* header */}
                 {/* Card */}
                 <div className="wrap-card grid grid-cols-1 md:grid-cols-3 gap-4 md:py-[30px] py-[20px]">
-                {dataGaleri?.data.data.map((galeri, index) => (
-                        <CardGaleriPage key={index} image={galeri.image} deskripsi={galeri.deskripsi} />
+                    {dataGaleri?.data.data.map((galeri, index) => (
+                        <CardGaleriPage key={index} image={galeri.image} deskripsi={galeri.deskripsi} onClick={() => handleCardClick(galeri)} />
                     ))}
                 </div>
                 {/* Card */}
@@ -127,6 +126,31 @@ const GaleriLanding = () => {
                     </Pagination>
                 </div>
                 {/* pagination */}
+
+                {/* Modal */}
+                {isModalOpen && selectedImage && (
+                    <div
+                        onClick={closeModal}
+                        className="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-5 md:px-0"
+                    >
+                        <div
+                            onClick={(e) => e.stopPropagation()} // Mencegah event klik pada modal-content menutup modal
+                            className="modal-content bg-white w-full h-[250px] md:h-[80%] md:w-[60%] rounded-lg relative overflow-hidden"
+                        >
+                            <button
+                                onClick={closeModal}
+                                className="modal-close absolute top-2 right-2 bg-primary flex justify-center items-center w-5 h-5 aspect-square rounded-full text-white"
+                            >
+                                &times;
+                            </button>
+                            <div className="modal-body w-full h-full overflow-hidden">
+                                <div className="w-full h-full overflow-hidden">
+                                    <img src={selectedImage.image} alt="Detail Gambar" className="w-full h-full object-cover" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
             </div>
         </div>
