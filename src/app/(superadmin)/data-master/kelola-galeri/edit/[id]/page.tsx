@@ -17,6 +17,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter, useParams } from 'next/navigation';
 import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
+import Loading from '@/components/ui/Loading';
 
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
@@ -55,12 +56,14 @@ const EditGaleri = () => {
     }
   };
   // integrasi
+  const [loading, setLoading] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useRouter();
   const params = useParams();
-    const { id } = params;
+  const { id } = params;
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+    setLoading(true); // Set loading to true when the form is submitted
     const formData = new FormData();
     formData.append('deskripsi', data.deskripsi);
 
@@ -84,6 +87,8 @@ const EditGaleri = () => {
       } else {
         console.log("Failed to update galeri:", e.message);
       }
+    } finally {
+      setLoading(false); // Set loading to false once the process is complete
     }
     mutate(`/data-master/kelola-galeri`);
   };
@@ -177,7 +182,11 @@ const EditGaleri = () => {
             variant="primary"
             size="sm"
             className="w-full mt-5 hover:primary-hover">
-            Simpan Perubahan
+            {loading ? (
+              <Loading />
+            ) : (
+              "Simpan Perubahan"
+            )}
           </Button>
         </form>
       </div>
