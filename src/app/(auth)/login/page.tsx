@@ -97,11 +97,10 @@ const Login = () => {
                 <div className="head text-sm md:text-base">Sistem Informasi Data Pertanian Lampung Timur</div>
               </div>
             </div>
-            <div className="m-5 p-5 md:border-none lg:border-none  border-2 border-primary rounded-lg">
-              <h1 className="text-2xl mb-5 md:mb-10 text-primary font-bold text-left">
+            <div className="m-5 pl-5 pr-5 pt-5 pb-5 lg:pb-0 lg:pt-0  md:border-none lg:border-none  border-2 border-primary rounded-lg">
+              <h1 className="text-2xl mb-5 md:mb-5 text-primary font-bold text-left">
                 Silahkan Masuk
               </h1>
-
               <div className="flex flex-col mb-5">
                 <Label label="Email / NIP" />
                 <Input
@@ -185,7 +184,7 @@ const Login = () => {
               </div>
             </div>
             {/* Footer Section */}
-              <div className="bottom-0 left-0 right-0 flex justify-center text-primary gap-1 py-2 bg-white">
+              <div className="text-sm bottom-0 left-0 right-0 flex justify-center text-primary gap-1 py-2 bg-white">
                 <span>copyright 2024</span>
                 <span>&copy;</span>
                 <span className="font-bold">SITANI</span>
