@@ -14,8 +14,8 @@ interface CardBeritaPageProps {
 const CardBerita = (props: CardBeritaPageProps) => {
     return (
         <>
-            <Link href={`/berita/${props.slug}`} className="rounded-xl bg-primary-600 p-4 flex flex-col lg:flex-row gap-4">
-                <div className="flex items-center justify-center rounded overflow-hidden w-full h-48 lg:w-1/2">
+            <Link href={`/berita/${props.slug}`} className="rounded-xl bg-primary-600 p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="flex items-center justify-center rounded overflow-hidden w-full h-48 md:w-full bg-red-300">
                     <Image
                         src={props.image || "/assets/images/cardBeritaPage.png"}
                         alt="logo"
@@ -26,7 +26,7 @@ const CardBerita = (props: CardBeritaPageProps) => {
                     />
                 </div>
                 <div className="flex flex-col gap-1 lg:gap-4 w-full">
-                    <div className="mt-2 lg:mt-4 text-[#2C2C2C] text-xs lg:text-sm">
+                    <div className="mt-2 lg:mt-4 text-[#2C2C2C]/80 text-xs md:text-sm">
                         {props.date && !isNaN(new Date(props.date).getTime()) ? (
                             new Date(props.date).toLocaleDateString('id-ID', {
                                 day: 'numeric',
