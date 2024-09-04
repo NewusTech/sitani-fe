@@ -37,54 +37,52 @@ import DeletePopup from '@/components/superadmin/PopupDelete'
 import { useSearchParams } from 'next/navigation'
 import Paginate from '@/components/ui/paginate'
 
+interface Desa {
+    id: string;
+    nama: string;
+    kecamatanId: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface Data {
+    id?: string;
+    kecamatanId?: string;
+    nama?: string;
+    nip?: string;
+    pangkat?: string;
+    golongan?: string;
+    keterangan?: string;
+    desa?: Desa[];
+}
+
+interface Response {
+    status: string;
+    message: string;
+    data: {
+        data: Data[];
+        pagination: Pagination;
+    };
+}
+
+interface Pagination {
+    page: number;
+    perPage: number;
+    totalPages: number;
+    totalCount: number;
+    links: {
+        prev: string | null;
+        next: string | null;
+    };
+}
+
 const PenyuluhDataKecamatan = () => {
-    interface Desa {
-        id: string;
-        nama: string;
-        kecamatanId: string;
-        createdAt: string;
-        updatedAt: string;
-    }
-
-    interface Data {
-        id?: string;
-        kecamatanId?: string;
-        nama?: string;
-        nip?: string;
-        pangkat?: string;
-        golongan?: string;
-        keterangan?: string;
-        desa?: Desa[];
-    }
-
-    interface Response {
-        status: string;
-        message: string;
-        data: {
-            data: Data[];
-            pagination: Pagination;
-        };
-    }
-
-    interface Pagination {
-        page: number;
-        perPage: number;
-        totalPages: number;
-        totalCount: number;
-        links: {
-            prev: string | null;
-            next: string | null;
-        };
-    }
-
-
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
-    const searchParams = useSearchParams();
 
-    const { data: dataUser }: SWRResponse<Response> = useSWR(
+    const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
         // `/penyuluh-kecamatan/get?page=${searchParams.get("page")}&limit=1`,
-        `/penyuluh-kecamatan/get?page=${searchParams.get("page")}`,
+        `/penyuluh-kecamatan/get`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -95,28 +93,7 @@ const PenyuluhDataKecamatan = () => {
                 .then((res: any) => res.data)
     );
 
-    const data: Data[] = [
-        {
-            kecamatanId: "Sukadana",
-            // wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
-            nama: "Hardono, S.P",
-            nip: "123456789",
-            pangkat: "Pembina Utama",
-            golongan: "IV/a",
-            keterangan: "Keterangan"
-        },
-        {
-            kecamatanId: "Sukadana",
-            // wilayahDesaBinaan: "Melinting, Braja Selebah, Labuhan Maringgai",
-            nama: "Hardono, S.P",
-            nip: "123456789",
-            pangkat: "Pembina Utama",
-            golongan: "IV/a",
-            keterangan: "Keterangan"
-        },
-    ];
-
-    console.log(dataUser);
+    console.log(dataKecamatan);
 
     return (
         <div>
@@ -195,8 +172,8 @@ const PenyuluhDataKecamatan = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataUser?.data?.data && dataUser?.data?.data?.length > 0 ? (
-                        dataUser.data.data.map((item, index) => (
+                    {dataKecamatan?.data?.data && dataKecamatan?.data?.data?.length > 0 ? (
+                        dataKecamatan.data.data.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell>
                                     {index + 1}
@@ -250,7 +227,7 @@ const PenyuluhDataKecamatan = () => {
             </Table>
             {/* table */}
 
-            <Paginate url='/penyuluhan/data-kecamatan' pagination={dataUser?.data?.pagination} />
+            <Paginate url='/penyuluhan/data-kecamatan' pagination={dataKecamatan?.data?.pagination} />
         </div>
     )
 }
