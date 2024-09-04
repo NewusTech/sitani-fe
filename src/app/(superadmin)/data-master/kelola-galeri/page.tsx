@@ -70,6 +70,23 @@ const KelolaGaleriPage = () => {
                 .then((res: any) => res.data)
     );
     console.log(dataGaleri)
+    // delete
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/galeri/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            // Update the local data after successful deletion
+            mutate(`galeri/get?page=1&search=${search}`);
+        } catch (error) {
+            console.error('Failed to delete:', error);
+            console.log(id)
+            // Add notification or alert here for user feedback
+        }
+    };
     // INTEGRASI
     return (
         <div>
@@ -115,7 +132,7 @@ const KelolaGaleriPage = () => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="w-[150px] h-[100px]">
-                                        <Image src={item.image || "../../assets/images/galeri1.png"} alt="logo" width={300} height={300} unoptimized className='w-full h-full object-cover' />
+                                        <Image src={item.image || "../../assets/images/galeri1.png"} alt="logo" width={300} height={300} unoptimized className='w-full h-full object-contain' />
                                     </div>
                                 </TableCell>
                                 <TableCell>
@@ -126,7 +143,7 @@ const KelolaGaleriPage = () => {
                                         <Link href={`/data-master/kelola-galeri/edit/${item.id}`}>
                                             <EditIcon />
                                         </Link>
-                                        <DeletePopup onDelete={() => { }} />
+                                        <DeletePopup onDelete={() => handleDelete(item.id || '')} />
                                     </div>
                                 </TableCell>
                             </TableRow>
