@@ -25,7 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
 import {
   Pagination,
   PaginationContent,
@@ -35,17 +34,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import DeletePopup from '@/components/superadmin/PopupDelete'
-
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { cn } from "@/lib/utils"
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import DeletePopup from '@/components/superadmin/PopupDelete';
 
 interface Response {
   status: string,
@@ -154,54 +150,17 @@ const DataPegawaiPage = () => {
       </div>
       {/*  */}
       <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
-        <div className="w-auto">
-          <Popover>
-            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-              <Button
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                  !startDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar className=''
-                mode="single"
-                selected={startDate}
-                onSelect={setstartDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div className="">-</div>
-        <div className="w-auto">
-          <Popover>
-            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-              <Button
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                  !endDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={endDate}
-                onSelect={setendDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+        <div className="w-1/4">
+          <Select >
+            <SelectTrigger>
+              <SelectValue placeholder="Bidang" className='text-2xl' />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="BidangA">BidangA</SelectItem>
+              <SelectItem value="BidangB">BidangB</SelectItem>
+              <SelectItem value="BidangC">BidangC</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div className="w-[40px] h-[40px]">
           <Button variant="outlinePrimary" className=''>
@@ -215,23 +174,52 @@ const DataPegawaiPage = () => {
       <Table className='border border-slate-200 mt-4'>
         <TableHeader className='bg-primary-600'>
           <TableRow >
-            <TableHead className="text-primary py-1">No</TableHead>
-            <TableHead className="text-primary py-1">Nama/NIP
-              <br /> Tempat/Tgl Lahir</TableHead>
-            <TableHead className="text-primary py-1">Pangkat/Gol Ruang
-              <br />
-              TMT Pangkat</TableHead>
-            <TableHead className="text-primary py-1">
+            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+              No
+            </TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+              Nama/NIP
+              <br /> Tempat/Tgl Lahir
+            </TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+              Pangkat/Gol Ruang
+              TMT Pangkat
+            </TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
               Jabatan <br />
               TMT Jabatan
             </TableHead>
-            <TableHead className="text-primary py-1">Diklat Struktural</TableHead>
-            <TableHead className="text-primary py-1">Pendidikan Umum</TableHead>
-            <TableHead className="text-primary py-1">Usia</TableHead>
-            <TableHead className="text-primary py-1">Masa Kerja</TableHead>
-            <TableHead className="text-primary py-1">Ket</TableHead>
-            <TableHead className="text-primary py-1">Status</TableHead>
-            <TableHead className="text-primary py-1 ">Aksi</TableHead>
+            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">
+              Diklat Struktural
+            </TableHead>
+            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">
+              Pendidikan Umum
+            </TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Usia</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Masa Kerja</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Ket</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1">Status</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1">Aksi</TableHead>
+          </TableRow>
+          <TableRow>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              Nama  DIklat
+            </TableHead>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              Tanggal
+            </TableHead>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              Jam
+            </TableHead>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              Nama
+            </TableHead>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              Tahun Lulus
+            </TableHead>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              Jenjang
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -239,38 +227,46 @@ const DataPegawaiPage = () => {
             dataKepegawaian?.data.data.map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>
+                <TableCell className=''>
                   {item.nama} <br />
                   {item.nip} <br />
                   {item.tempatLahir}, {item.tglLahir}
                 </TableCell>
-                <TableCell>
+                <TableCell className=''>
                   {item.pangkat} / {item.golongan} <br />
                   TMT: {item.tmtPangkat}
                 </TableCell>
-                <TableCell>
+                <TableCell className=''>
                   {item.jabatan} <br />
                   TMT: {item.tmtJabatan}
                 </TableCell>
-                <TableCell>
-                  Nama Diklat: {item.namaDiklat} <br />
-                  Tanggal: {item.tglDiklat} <br />
-                  Jam: {item.totalJam} Jam
+                <TableCell className='hidden md:table-cell'>
+                  {item.namaDiklat} <br />
                 </TableCell>
-                <TableCell>
-                  Nama: {item.namaPendidikan} <br />
-                  Tahun Lulus: {item.tahunLulus} <br />
-                  Jenjang: {item.jenjangPendidikan}
+                <TableCell className='hidden md:table-cell'>
+                  {item.tglDiklat} <br />
                 </TableCell>
-                <TableCell>{item.usia}</TableCell>
-                <TableCell>{item.masaKerja}</TableCell>
-                <TableCell>{item.keterangan}</TableCell>
-                <TableCell>
+                <TableCell className='hidden md:table-cell'>
+                  {item.totalJam} Jam
+                </TableCell>
+                <TableCell className='hidden md:table-cell'>
+                  {item.namaPendidikan} <br />
+                </TableCell>
+                <TableCell className='hidden md:table-cell'>
+                  {item.tahunLulus} <br />
+                </TableCell>
+                <TableCell className='hidden md:table-cell'>
+                  {item.jenjangPendidikan}
+                </TableCell>
+                <TableCell className='hidden md:table-cell'>{item.usia}</TableCell>
+                <TableCell className='hidden md:table-cell'>{item.masaKerja}</TableCell>
+                <TableCell className='hidden md:table-cell'>{item.keterangan}</TableCell>
+                <TableCell className=''>
                   <div className="p-1 text-xs rounded bg-slate-200 text-center">
                     {item.status}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className=''>
                   <div className="flex items-center gap-4">
                     <Link className='' href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`}>
                       <EyeIcon />
