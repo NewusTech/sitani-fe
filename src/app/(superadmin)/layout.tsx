@@ -195,7 +195,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 {/* kepegawaian */}
                                 {/* berita */}
                                 {/* peran-pengguna */}
-                                <AccordionItem className='pl-2' value="item-8">
+                                <AccordionItem className='pl-2' value="item-7">
                                     <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/peran-pengguna') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         Peran Pengguna
                                     </AccordionTrigger>
@@ -210,9 +210,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                                 {/*peran-pengguna */}
                                 {/* KJF Kecamatan */}
-                                <AccordionItem className='pl-2' value="item-9">
+                                <AccordionItem className='pl-2' value="item-8">
                                     <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korlub') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
-                                        KJF Kecamatan
+                                        KJF Kabupaten
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
                                         <Menu link="/kjf-kabupaten/padi">
@@ -258,7 +258,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                                 {/*bpp kecamatan */}
                                 {/* korluh */}
-                                <AccordionItem className='pl-2' value="item-9">
+                                <AccordionItem className='pl-2' value="item-10">
                                     <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korlub') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         Korluh
                                     </AccordionTrigger>
@@ -282,7 +282,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                                 {/*korluh */}
                                 {/* data-master */}
-                                <AccordionItem className='pl-2' value="item-7">
+                                <AccordionItem className='pl-2' value="item-11">
                                     <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/data-master') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         Data Master
                                     </AccordionTrigger>
