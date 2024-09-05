@@ -211,7 +211,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 {/*peran-pengguna */}
                                 {/* KJF Kecamatan */}
                                 <AccordionItem className='pl-2' value="item-8">
-                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korlub') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/kjf-kabupaten') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         KJF Kabupaten
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
@@ -235,7 +235,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 {/*bpp kecamatan */}
                                 {/* bpp kecamatan */}
                                 <AccordionItem className='pl-2' value="item-9">
-                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korlub') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/bpp-kecamatan') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         BPP Kecamatan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
@@ -259,23 +259,23 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 {/*bpp kecamatan */}
                                 {/* korluh */}
                                 <AccordionItem className='pl-2' value="item-10">
-                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korlub') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korluh') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         Korluh
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
-                                        <Menu link="/korlub/padi">
+                                        <Menu link="/korluh/padi">
                                             <span className='text-sm'>Padi</span>
                                         </Menu>
-                                        <Menu link="/korlub/palawija">
+                                        <Menu link="/korluh/palawija">
                                             <span className='text-sm'>Palawija</span>
                                         </Menu>
-                                        <Menu link="/korlub/sayuran-buah">
+                                        <Menu link="/korluh/sayuran-buah">
                                             <span className='text-sm'>Sayuran dan Buah</span>
                                         </Menu>
-                                        <Menu link="/korlub/tanaman-hias">
+                                        <Menu link="/korluh/tanaman-hias">
                                             <span className='text-sm'>Tanaman Hias</span>
                                         </Menu>
-                                        <Menu link="/korlub/tanaman-biofarmaka">
+                                        <Menu link="/korluh/tanaman-biofarmaka">
                                             <span className='text-sm'>Tanaman Biofarmaka</span>
                                         </Menu>
                                     </AccordionContent>
