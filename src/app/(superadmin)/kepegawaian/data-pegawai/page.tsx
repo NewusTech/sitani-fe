@@ -11,6 +11,10 @@ import Link from 'next/link'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import HapusIcon from '../../../../../public/icons/HapusIcon'
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 import {
   Table,
   TableBody,
@@ -31,14 +35,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import DeletePopup from '@/components/superadmin/PopupDelete'
 
 import { format } from "date-fns"
@@ -51,85 +47,74 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+interface Response {
+  status: string,
+  data: ResponseData,
+  message: string
+}
+
+interface ResponseData {
+  data: Data[]
+}
+
 interface Data {
+  id?: number;
   nama?: string;
-  nip?: string;
-  tempat?: string;
-  tanggalLahir?: string;
-  pangkatGol?: string;
+  nip?: number;
+  tempatLahir?: string;
+  tglLahir?: string;
+  pangkat?: string;
+  golongan?: string;
   tmtPangkat?: string;
   jabatan?: string;
   tmtJabatan?: string;
-  diklatStruktural?: {
-    nama?: string;
-    tanggal?: string;
-    jam?: string;
-  };
-  pendidikanUmum: {
-    nama: string;
-    tahunLulus: string;
-    jenjang: string;
-  };
-  usia?: number;
+  namaDiklat?: string;
+  tglDiklat?: string;
+  totalJam?: number;
+  namaPendidikan?: string;
+  tahunLulus?: number;
+  jenjangPendidikan?: string;
+  usia?: string;
   masaKerja?: string;
-  status?: string;
   keterangan?: string;
+  status?: string;
 }
 
 const DataPegawaiPage = () => {
-  const [startDate, setstartDate] = React.useState<Date>()
-  const [endDate, setendDate] = React.useState<Date>()
+  const [startDate, setstartDate] = React.useState<Date>();
+  const [endDate, setendDate] = React.useState<Date>();
 
-  const data: Data[] = [
-    {
-      nama: "John Doe",
-      nip: "123456789",
-      tempat: "Jakarta",
-      tanggalLahir: "1990-01-01",
-      pangkatGol: "Pembina Utama IV/a",
-      tmtPangkat: "2022-01-01",
-      jabatan: "Manager",
-      tmtJabatan: "2023-01-01",
-      diklatStruktural: {
-        nama: "Diklat Kepemimpinan",
-        tanggal: "2021-01-01",
-        jam: "40 Jam",
-      },
-      pendidikanUmum: {
-        nama: "Universitas XYZ",
-        tahunLulus: "2012",
-        jenjang: "S1",
-      },
-      usia: 34,
-      masaKerja: "12 Tahun",
-      status: "Aktif",
-      keterangan: "PNS",
-    },
-    {
-      nama: "Jane Smith",
-      nip: "987654321",
-      tempat: "Bandung",
-      tanggalLahir: "1988-02-02",
-      pangkatGol: "Pembina Utama IV/a",
-      tmtPangkat: "2021-02-02",
-      jabatan: "Staff",
-      tmtJabatan: "2022-02-02",
-      diklatStruktural: {
-        nama: "Diklat Manajemen",
-        tanggal: "2020-02-02",
-        jam: "30 Jam",
-      },
-      pendidikanUmum: {
-        nama: "Universitas ABC",
-        tahunLulus: "2010",
-        jenjang: "S2",
-      },
-      usia: 36,
-      masaKerja: "14 Tahun",
-      status: "Mendekati Pensiun",
-      keterangan: "PNS",
-    },
-  ];
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data: dataKepegawaian }: SWRResponse<Response> = useSWR(
+    `/kepegawaian/get`,
+    (url) =>
+      axiosPrivate
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res: any) => res?.data)
+  );
+
+  console.log(dataKepegawaian)
+
+  const handleDelete = async (id: string) => {
+    try {
+      await axiosPrivate.delete(`/kepegawaian/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(id)
+      mutate('/kepegawaian/get');
+    } catch (error) {
+      console.error('Failed to delete:', error);
+      console.log(id)
+    }
+  };
 
   return (
     <div>
@@ -250,61 +235,61 @@ const DataPegawaiPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                {index + 1}
-              </TableCell>
-              <TableCell>
-                {item.nama} <br />
-                {item.nip} <br />
-                {item.tempat}, {item.tanggalLahir}
-              </TableCell>
-              <TableCell>
-                {item.pangkatGol} <br />
-                TMT: {item.tmtPangkat}
-              </TableCell>
-              <TableCell>
-                {item.jabatan} <br />
-                TMT: {item.tmtJabatan}
-              </TableCell>
-              <TableCell>
-                Nama Diklat: {item.diklatStruktural?.nama} <br />
-                Tanggal: {item.diklatStruktural?.tanggal} <br />
-                Jam: {item.diklatStruktural?.jam}
-              </TableCell>
-              <TableCell>
-                Nama: {item.pendidikanUmum?.nama} <br />
-                Tahun Lulus: {item.pendidikanUmum?.tahunLulus} <br />
-                Jenjang: {item.pendidikanUmum?.jenjang}
-              </TableCell>
-              <TableCell>
-                {item.usia}
-              </TableCell>
-              <TableCell>
-                {item.masaKerja}
-              </TableCell>
-              <TableCell>
-                {item.keterangan}
-              </TableCell>
-              <TableCell>
-                <div className="p-1 text-xs rounded bg-slate-200 text-center">
-                  {item.status}
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-4">
-                  <Link className='' href="/kepegawaian/data-pegawai/detail-pegawai">
-                    <EyeIcon />
-                  </Link>
-                  <Link className='' href="/kepegawaian/data-pegawai/edit-pegawai">
-                    <EditIcon />
-                  </Link>
-                  <DeletePopup onDelete={() => { }} />
-                </div>
+          {dataKepegawaian?.data.data && dataKepegawaian?.data.data.length > 0 ? (
+            dataKepegawaian?.data.data.map((item, index) => (
+              <TableRow key={item.id}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>
+                  {item.nama} <br />
+                  {item.nip} <br />
+                  {item.tempatLahir}, {item.tglLahir}
+                </TableCell>
+                <TableCell>
+                  {item.pangkat} / {item.golongan} <br />
+                  TMT: {item.tmtPangkat}
+                </TableCell>
+                <TableCell>
+                  {item.jabatan} <br />
+                  TMT: {item.tmtJabatan}
+                </TableCell>
+                <TableCell>
+                  Nama Diklat: {item.namaDiklat} <br />
+                  Tanggal: {item.tglDiklat} <br />
+                  Jam: {item.totalJam} Jam
+                </TableCell>
+                <TableCell>
+                  Nama: {item.namaPendidikan} <br />
+                  Tahun Lulus: {item.tahunLulus} <br />
+                  Jenjang: {item.jenjangPendidikan}
+                </TableCell>
+                <TableCell>{item.usia}</TableCell>
+                <TableCell>{item.masaKerja}</TableCell>
+                <TableCell>{item.keterangan}</TableCell>
+                <TableCell>
+                  <div className="p-1 text-xs rounded bg-slate-200 text-center">
+                    {item.status}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-4">
+                    <Link className='' href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`}>
+                      <EyeIcon />
+                    </Link>
+                    <Link className='' href={`/kepegawaian/data-pegawai/edit-pegawai/${item.id}`}>
+                      <EditIcon />
+                    </Link>
+                    <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={10} className="text-center">
+                Tidak ada data
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
       {/* table */}

@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
@@ -10,8 +10,10 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Textarea } from "@/components/ui/textarea";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
+import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
+import { watch } from 'fs';
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -57,9 +59,8 @@ const formSchema = z.object({
   keterangan: z.string().min(1, { message: "Keterangan wajib diisi" }),
 });
 
-type FormSchemaType = z.infer<typeof formSchema>;
 
-const TamabahPegawaiPage = () => {
+const EdithPegawaiPage = () => {
   const [date, setDate] = React.useState<Date>()
 
   const {
@@ -80,24 +81,103 @@ const TamabahPegawaiPage = () => {
   //   // reset();
   // };
 
+  // Edit
+  type FormSchemaType = z.infer<typeof formSchema>;
+
+  interface Response {
+    status: string;
+    message: string;
+    data: Data;
+  }
+
+  interface Data {
+    id?: number;
+    nama?: string;
+    nip?: number;
+    tempatLahir?: string;
+    tglLahir?: string;
+    pangkat?: string;
+    golongan?: string;
+    tmtPangkat?: string;
+    jabatan?: string;
+    tmtJabatan?: string;
+    namaDiklat?: string;
+    tglDiklat?: string;
+    totalJam?: number;
+    namaPendidikan?: string;
+    tahunLulus?: number;
+    jenjangPendidikan?: string;
+    usia?: string;
+    masaKerja?: string;
+    keterangan?: string;
+    createdAt?: string;
+    updatedAt?: string;
+  }
+
   const axiosPrivate = useAxiosPrivate();
   const navigate = useRouter();
+  const params = useParams();
+  const { id } = params;
+
+  const { data: dataKepegawaian, error } = useSWR<Response>(
+    `kepegawaian/get/${id}`,
+    async (url: string) => {
+      try {
+        const response = await axiosPrivate.get(url);
+        return response.data;
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        return null;
+      }
+    }
+  );
+
+  useEffect(() => {
+    if (dataKepegawaian) {
+      const formattedTglLahir = formatDate(dataKepegawaian.data.tglLahir || '');
+      const formattedTmtPangkat = formatDate(dataKepegawaian.data.tmtPangkat || '');
+      const formattedTmtJabatan = formatDate(dataKepegawaian.data.tmtJabatan || '');
+      const formattedTglDiklat = formatDate(dataKepegawaian.data.tglDiklat || '');
+
+      setValue("nama", dataKepegawaian.data.nama || '');
+      setValue("nip", dataKepegawaian.data.nip || 0);
+      setValue("tempat_lahir", dataKepegawaian.data.tempatLahir || '');
+      setValue("tgl_lahir", formattedTglLahir);
+      setValue("pangkat", dataKepegawaian.data.pangkat || '');
+      setValue("golongan", dataKepegawaian.data.golongan || '');
+      setValue("tmt_pangkat", formattedTmtPangkat);
+      setValue("jabatan", dataKepegawaian.data.jabatan || '');
+      setValue("tmt_jabatan", formattedTmtJabatan);
+      setValue("nama_diklat", dataKepegawaian.data.namaDiklat || '');
+      setValue("tgl_diklat", formattedTglDiklat);
+      setValue("total_jam", dataKepegawaian.data.totalJam || 0);
+      setValue("nama_pendidikan", dataKepegawaian.data.namaPendidikan || '');
+      setValue("tahun_lulus", dataKepegawaian.data.tahunLulus || 0);
+      setValue("jenjang_pendidikan", dataKepegawaian.data.jenjangPendidikan || '');
+      setValue("usia", dataKepegawaian.data.usia || '');
+      setValue("masa_kerja", dataKepegawaian.data.masaKerja || '');
+      setValue("keterangan", dataKepegawaian.data.keterangan || '');
+    }
+  }, [dataKepegawaian, setValue]);
+
+
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     try {
-      await axiosPrivate.post("kepegawaian/create", data);
-      console.log(data)
-      // push
+      await axiosPrivate.put(`/kepegawaian/update/${id}`, data);
+      console.log("Success to update user:", data);
       navigate.push('/kepegawaian/data-pegawai');
-      console.log("Success to create user:");
-      reset()
-    } catch (e: any) {
-      console.log(data)
-      console.log("Failed:");
-      return;
+      reset();
+    } catch (error) {
+      console.error('Failed to update user:', error);
     }
-    mutate(`kepegawaian/get`);
+    mutate(`/kepegawaian/get`);
   };
-  // TAMBAH
+  // Edit
+
+  // const onSubmit = (data: FormSchemaType) => {
+  //     console.log(data);
+  // };
+
   return (
     <>
       <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Pegawai</div>
@@ -370,7 +450,7 @@ const TamabahPegawaiPage = () => {
             BATAL
           </Link>
           <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-            SIMPAN
+            Edit
           </Button>
         </div>
       </form>
@@ -378,4 +458,4 @@ const TamabahPegawaiPage = () => {
   )
 }
 
-export default TamabahPegawaiPage
+export default EdithPegawaiPage
