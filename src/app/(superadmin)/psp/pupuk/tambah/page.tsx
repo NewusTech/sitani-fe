@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -21,6 +21,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import Loading from '@/components/ui/Loading';
 
 const OPTIONS: Option[] = [
     { label: 'nextjs', value: 'nextjs' },
@@ -69,9 +70,11 @@ const PupukTambah = () => {
     // };
 
     // TAMBAH
+    const [loading, setLoading] = useState(false);
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
         try {
             await axiosPrivate.post("/psp/pupuk/create", data);
             console.log(data)
@@ -83,6 +86,8 @@ const PupukTambah = () => {
             console.log(data)
             console.log("Failed to create user:");
             return;
+        } finally {
+            setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/psp/pupuk/get?page=1&limit=10&search&startDate=&endDate`);
     };
@@ -95,7 +100,7 @@ const PupukTambah = () => {
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="pilih Jenis Pupuk" />
+                            <Label className='text-sm mb-1' label="Pilih Jenis Pupuk" />
                             <Select
                                 onValueChange={(value) => setValue("jenis_pupuk", value)}
                             >
@@ -158,7 +163,11 @@ const PupukTambah = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        Simpan
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            "Tambah"
+                        )}
                     </Button>
                 </div>
             </form>

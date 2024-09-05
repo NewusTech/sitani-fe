@@ -1,8 +1,8 @@
 "use client"
 import Label from '@/components/ui/label'
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { Textarea } from "@/components/ui/textarea";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter } from 'next/navigation';
-import { SWRResponse, mutate } from "swr";
+import useSWR, { SWRResponse, mutate } from "swr";
 import {
     Select,
     SelectContent,
@@ -19,6 +19,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import useLocalStorage from '@/hooks/useLocalStorage';
+import InputComponent from '@/components/ui/InputKecDesa';
+import Loading from '@/components/ui/Loading';
 
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
@@ -31,8 +34,10 @@ const formatDate = (dateString: string) => {
 };
 
 const formSchema = z.object({
-    kecamatan_id: z.number(),
-    desa_id: z.number(),
+    kecamatan_id: z
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" })),
+    desa_id: z
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Desa wajib diisi" })),
     jenis_bantuan: z.string().min(1, { message: "Nama wajib diisi" }),
     periode: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
@@ -50,11 +55,79 @@ const BantuanTambah = () => {
         register,
         handleSubmit,
         reset,
+        watch,
         formState: { errors },
-        setValue
+        control,
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
+
+    // GET ALL KECAMATAN
+    interface Kecamatan {
+        id: number;
+        nama: string;
+    }
+
+    interface Response {
+        status: string;
+        data: Kecamatan[];
+        message: string;
+    }
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+
+    const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
+        `kecamatan/get`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+    // GET ALL DESA
+    interface Desa {
+        id: number;
+        nama: string;
+        kecamatanId: number;
+    }
+
+    interface ResponseDesa {
+        status: string;
+        data: Desa[];
+        message: string;
+    }
+
+    const { data: dataDesa }: SWRResponse<ResponseDesa> = useSWR(
+        `desa/get`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+    const selectedKecamatan = Number(watch("kecamatan_id")); // Ensure conversion to number
+
+    const kecamatanOptions = dataKecamatan?.data.map(kecamatan => ({
+        id: kecamatan.id.toString(),
+        name: kecamatan.nama,
+    }));
+
+    const desaOptions = dataDesa?.data
+        .filter(desa => desa.kecamatanId === selectedKecamatan) // Ensure types match here
+        .map(desa => ({
+            id: desa.id.toString(),
+            name: desa.nama,
+        }));
+
+    // GET ALL DESA
 
     // const onSubmit = (data: FormSchemaType) => {
     //     console.log(data);
@@ -63,9 +136,11 @@ const BantuanTambah = () => {
 
 
     // TAMBAH
+    const [loading, setLoading] = useState(false);
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
         try {
             await axiosPrivate.post("/psp/bantuan/create", data);
             console.log(data)
@@ -77,6 +152,8 @@ const BantuanTambah = () => {
             console.log(data)
             console.log("Failed to create user:");
             return;
+        }finally {
+            setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/psp/bantuan/get?page=1`);
     };
@@ -90,34 +167,44 @@ const BantuanTambah = () => {
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Kecamatan" />
-                            <Select
-                                onValueChange={(value) => setValue("kecamatan_id", Number(value))}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih Kecamatan" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Kecamatan 1</SelectItem>
-                                    <SelectItem value="2">Kecamatan 2</SelectItem>
-                                    <SelectItem value="3">Kecamatan 3</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Label className='text-sm mb-1' label="Pilih Kecamatan" />
+                            <Controller
+                                name="kecamatan_id"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputComponent
+                                        typeInput="selectSearch"
+                                        placeholder="Pilih Kecamatan"
+                                        label="Kecamatan"
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        items={kecamatanOptions}
+                                    />
+                                )}
+                            />
+                            {errors.kecamatan_id && (
+                                <p className="text-red-500">{errors.kecamatan_id.message}</p>
+                            )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Desa" />
-                            <Select
-                                onValueChange={(value) => setValue("desa_id", Number(value))}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih Desa" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Desa 1</SelectItem>
-                                    <SelectItem value="2">Desa 2</SelectItem>
-                                    <SelectItem value="3">Desa 3</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Label className='text-sm mb-1' label="Pilih Desa" />
+                            <Controller
+                                name="desa_id"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputComponent
+                                        typeInput="selectSearch"
+                                        placeholder="Select Desa"
+                                        label="Desa"
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        items={desaOptions}
+                                    />
+                                )}
+                            />
+                            {errors.desa_id && (
+                                <p className="text-red-500">{errors.desa_id.message}</p>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
@@ -152,7 +239,7 @@ const BantuanTambah = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
                             <Textarea  {...register('keterangan')}
-                                className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.keterangan ? 'border-red-500' : ''} py-2 text-sm h-[150px]`}
                             />
                             {errors.keterangan && (
                                 <HelperError>{errors.keterangan.message}</HelperError>
@@ -166,7 +253,11 @@ const BantuanTambah = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        Simpan
+                    {loading ? (
+                            <Loading />
+                        ) : (
+                            "Tambah"
+                        )}
                     </Button>
                 </div>
             </form>

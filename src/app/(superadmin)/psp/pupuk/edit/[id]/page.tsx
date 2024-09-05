@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -23,6 +23,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import Loading from '@/components/ui/Loading';
 
 const OPTIONS: Option[] = [
     { label: 'nextjs', value: 'nextjs' },
@@ -85,6 +86,8 @@ const PupukTambah = () => {
     const navigate = useRouter();
     const params = useParams();
     const { id } = params;
+    const [loading, setLoading] = useState(false);
+
 
     const { data: dataPSP, error } = useSWR<Response>(
         `psp/pupuk/get/${id}`,
@@ -95,7 +98,7 @@ const PupukTambah = () => {
             } catch (error) {
                 console.error('Failed to fetch user data:', error);
                 return null;
-            }
+            } 
         }
     );
 
@@ -104,13 +107,15 @@ const PupukTambah = () => {
             setValue("jenis_pupuk", dataPSP.data.jenisPupuk);
             setValue("kandungan_pupuk", dataPSP.data.kandunganPupuk);
             setValue("keterangan", dataPSP.data.keterangan);
-            setValue("harga_pupuk", 1);
+            setValue("harga_pupuk", dataPSP.data.hargaPupuk);
         }
     }, [dataPSP, setValue]);
 
 
     // Handle form submission
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
+
         try {
             await axiosPrivate.put(`psp/pupuk/update/${id}`, data);
             console.log("Success to update user:", data);
@@ -118,6 +123,8 @@ const PupukTambah = () => {
             reset();
         } catch (error) {
             console.error('Failed to update user:', error);
+        }finally {
+            setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/psp/pupuk/get?page=1`);
     };
@@ -199,7 +206,11 @@ const PupukTambah = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        Edit
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            "Simpan"
+                        )}
                     </Button>
                 </div>
             </form>

@@ -1,0 +1,104 @@
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select";
+  import { Input } from "@/components/ui/input";
+  import { Search } from "lucide-react";
+  import { useState } from "react";
+  
+  interface SelectItem {
+    id: string;
+    name: string;
+  }
+  
+  interface InputProps {
+    typeInput?: string;
+    placeholder?: string;
+    label?: string;
+    value?: string;
+    name?: string;
+    items?: SelectItem[];
+    valueInput?: string;
+    onChangeInputSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (value: string) => void;
+  }
+  
+  const InputComp = ({
+    typeInput,
+    placeholder,
+    label,
+    items = [],
+    value,
+    onChange,
+    valueInput,
+    onChangeInputSearch,
+  }: InputProps) => {
+    const [searchTerm, setSearchTerm] = useState<string>(valueInput || '');
+  
+    // Filter items based on the search term
+    const filteredItems = items.filter(item =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(e.target.value);
+      if (onChangeInputSearch) onChangeInputSearch(e);
+    };
+  
+    if (typeInput === "selectSearch")
+      return (
+        <Select value={value} onValueChange={onChange}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent className="pt-10">
+            <div className="px-2 fixed border-b w-full top-0 flex items-center justify-between z-10 bg-white">
+              <Search className="text-slate-400" />
+              <Input
+                placeholder="Search..."
+                className="w-full border-0"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </div>
+            <SelectGroup>
+              <SelectLabel>{label}</SelectLabel>
+              {filteredItems.map((item) => (
+                <SelectItem key={item.id} value={item.id}>
+                  {item.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      );
+  
+    if (typeInput === "select")
+      return (
+        <Select value={value} onValueChange={onChange}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>{label}</SelectLabel>
+              {items.map((item) => (
+                <SelectItem key={item.id} value={item.id}>
+                  {item.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      );
+  
+    return null;
+  };
+  
+  export default InputComp;
+  

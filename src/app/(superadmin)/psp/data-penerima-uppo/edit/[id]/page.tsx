@@ -1,62 +1,45 @@
 "use client"
-import Label from '@/components/ui/label'
-import React, { useEffect } from 'react'
-import { Input } from '@/components/ui/input'
-import { useForm, SubmitHandler } from 'react-hook-form';
+
+import Label from '@/components/ui/label';
+import React, { useEffect } from 'react';
+import { Input } from '@/components/ui/input';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter, useSearchParams } from 'next/navigation';
-import useSWR from 'swr';
-import { SWRResponse, mutate } from "swr";
-import { useParams } from 'next/navigation';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { watch } from 'fs';
+import { useRouter, useParams } from 'next/navigation';
+import useSWR, { SWRResponse, mutate } from 'swr';
+import InputComponent from '@/components/ui/InputKecDesa';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 const formSchema = z.object({
     kecamatan_id: z
-        .number()
-        .min(1, { message: "Kecamatan wajib diisi" }),
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" }))
+        .optional(),
     desa_id: z
-        .number()
-        .min(1, { message: "Desa wajib diisi" }),
-    nama_poktan: z
-        .string()
-        .min(1, { message: "Nama Poktan wajib diisi" }),
-    ketua_poktan: z
-        .string()
-        .min(1, { message: "Nama Ketua wajib diisi" }),
-    titik_koordinat: z
-        .string()
-        .min(1, { message: "Titik Koordinat wajib diisi" }),
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Desa wajib diisi" }))
+        .optional(),
+    nama_poktan: z.string().min(1, { message: "Nama Poktan wajib diisi" }).optional(),
+    ketua_poktan: z.string().min(1, { message: "Nama Ketua wajib diisi" }).optional(),
+    titik_koordinat: z.string().min(1, { message: "Titik Koordinat wajib diisi" }).optional(),
 });
+
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const EditDataPenerimaUppo = () => {
-    // TES
     interface Kecamatan {
         id: number;
         nama: string;
-        createdAt: string;
-        updatedAt: string;
     }
 
     interface Desa {
         id: number;
         nama: string;
         kecamatanId: number;
-        createdAt: string;
-        updatedAt: string;
     }
 
     interface Data {
@@ -72,50 +55,54 @@ const EditDataPenerimaUppo = () => {
         desa: Desa;
     }
 
-    interface Pagination {
-        page: number;
-        perPage: number;
-        totalPages: number;
-        totalCount: number;
-        links: {
-            prev: string | null;
-            next: string | null;
-        };
-    }
-
     interface Response {
         status: number;
         message: string;
         data: Data;
     }
 
-    const [date, setDate] = React.useState<Date>()
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const { id } = useParams();
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-        setValue,
-        watch,
-    } = useForm<FormSchemaType>({
+    const { data: dataKecamatan }: SWRResponse<{ status: string; data: Kecamatan[]; message: string }> = useSWR(
+        `kecamatan/get`,
+        (url: string) =>
+            axiosPrivate.get(url, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            }).then(res => res.data)
+    );
+
+    const { data: dataDesa }: SWRResponse<{ status: string; data: Desa[]; message: string }> = useSWR(
+        `desa/get`,
+        (url: string) =>
+            axiosPrivate.get(url, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            }).then(res => res.data)
+    );
+
+    const { register, handleSubmit, reset, formState: { errors }, setValue, watch, control } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
 
-    // const onSubmit = (data: FormSchemaType) => {
-    //     console.log(data);
-    //     reset();
-    // };
-    // Edit
-    const axiosPrivate = useAxiosPrivate();
-    const navigate = useRouter();
-    const params = useParams();
-    const { id } = params;
+    const selectedKecamatan = Number(watch("kecamatan_id"));
 
-    // Get user data
+    const kecamatanOptions = dataKecamatan?.data.map(kecamatan => ({
+        id: kecamatan.id.toString(),
+        name: kecamatan.nama,
+    }));
+
+    const desaOptions = dataDesa?.data
+        .filter(desa => desa.kecamatanId === selectedKecamatan)
+        .map(desa => ({
+            id: desa.id.toString(),
+            name: desa.nama,
+        }));
+
     const { data: dataUser, error } = useSWR<Response>(
         `psp/penerima-uppo/get/${id}`,
-        async (url) => {
+        async (url: string) => {
             try {
                 const response = await axiosPrivate.get(url);
                 return response.data;
@@ -123,42 +110,40 @@ const EditDataPenerimaUppo = () => {
                 console.error('Failed to fetch user data:', error);
                 return null;
             }
-        },
-        {
-            // revalidateIfStale: false,
-            // revalidateOnFocus: false,
-            // revalidateOnReconnect: false
         }
     );
 
-    // Set form values once data is fetched
     useEffect(() => {
         if (dataUser) {
-            setValue("kecamatan_id", 1);
-            setValue("desa_id", 2);
+            setValue("kecamatan_id", dataUser.data.kecamatanId);
+            setValue("desa_id", dataUser.data.desaId);
             setValue("nama_poktan", dataUser.data.namaPoktan);
             setValue("ketua_poktan", dataUser.data.ketuaPoktan);
             setValue("titik_koordinat", dataUser.data.titikKoordinat);
         }
     }, [dataUser, setValue]);
 
-    // Handle form submission
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         try {
-            await axiosPrivate.put(`/psp/penerima-uppo/update/${id}`, data); // Update endpoint as necessary
+            await axiosPrivate.put(`/psp/penerima-uppo/update/${id}`, data);
             console.log("Success to update user:", data);
-            console.log(data)
             navigate.push('/psp/data-penerima-uppo');
-            reset()
+            reset();
         } catch (error) {
             console.error('Failed to update user:', error);
-            console.log(data)
+            console.log(data);
         }
         mutate(`/psp/penerima-uppo/get?page=1&limit=10&search&kecamatan&startDate=&endDate`);
     };
-    // Edit
 
-    console.log(dataUser);
+    const valueDesa = dataUser?.data.desaId.toString();
+    console.log("value desa = ", valueDesa);
+
+
+    // const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+    //     console.log(data);
+    //     // reset();
+    // };
 
     return (
         <>
@@ -168,35 +153,47 @@ const EditDataPenerimaUppo = () => {
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Kecamatan" />
-                            <Select
-                                onValueChange={(value) => setValue("kecamatan_id", Number(value))} // Mengubah value menjadi number
-                                value={(String(watch("kecamatan_id"))) || ""}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih Kecamatan" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Kecamatan 1</SelectItem> {/* Ubah value menjadi angka */}
-                                    <SelectItem value="2">Kecamatan 2</SelectItem> {/* Ubah value menjadi angka */}
-                                    <SelectItem value="3">Kecamatan 3</SelectItem> {/* Ubah value menjadi angka */}
-                                </SelectContent>
-                            </Select>
+                            <Controller
+                                name="kecamatan_id"
+                                control={control}
+                                render={({ field }) => (
+                                    <>
+                                        <InputComponent
+                                            typeInput="selectSearch"
+                                            placeholder="Pilih Kecamatan"
+                                            label="Kecamatan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            items={kecamatanOptions}
+                                        />
+                                    </>
+
+                                )}
+                            />
+                            {errors.kecamatan_id && (
+                                <p className="text-red-500">{errors.kecamatan_id.message}</p>
+                            )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Desa" />
-                            <Select
-                                onValueChange={(value) => setValue("desa_id", Number(value))} // Mengubah value menjadi number
-                                value={(String(watch("desa_id"))) || ""}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih Desa" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Desa 1</SelectItem> {/* Ubah value menjadi angka */}
-                                    <SelectItem value="2">Desa 2</SelectItem> {/* Ubah value menjadi angka */}
-                                    <SelectItem value="3">Desa 3</SelectItem> {/* Ubah value menjadi angka */}
-                                </SelectContent>
-                            </Select>
+                            <Controller
+                                name="desa_id"
+                                control={control}
+                                render={({ field }) => (
+                                    <InputComponent
+                                        typeInput="selectSearch"
+                                        placeholder="Select Desa"
+                                        label="Desa"
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        items={desaOptions}
+                                    />
+                                )}
+                            />
+
+                            {errors.desa_id && (
+                                <p className="text-red-500">{errors.desa_id.message}</p>
+                            )}
                         </div>
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
@@ -229,7 +226,7 @@ const EditDataPenerimaUppo = () => {
                         <div className="flex flex-col mb-2 w-1/2">
                             <Label className='text-sm mb-1' label="Titik Koordinat" />
                             <Input
-                                type="number"
+                                type="text"
                                 placeholder="Pilih Titik Koordinat"
                                 {...register('titik_koordinat')}
                                 className={`${errors.titik_koordinat ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -251,7 +248,7 @@ const EditDataPenerimaUppo = () => {
                 </div>
             </form>
         </>
-    )
-}
+    );
+};
 
-export default EditDataPenerimaUppo
+export default EditDataPenerimaUppo;

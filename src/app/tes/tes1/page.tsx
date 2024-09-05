@@ -1,56 +1,115 @@
-// import React from "react"
-// import { useForm, FormProvider } from "react-hook-form"
-// import { zodResolver } from "@hookform/resolvers/zod"
-// import { InputSearch } from "@/components/ui/InputSearch"
+"use client";
 
-// const frameworks = [
-//     { value: "next.js", label: "Next.js" },
-//     { value: "sveltekit", label: "SvelteKit" },
-//     { value: "nuxt.js", label: "Nuxt.js" },
-//     { value: "remix", label: "Remix" },
-//     { value: "astro", label: "Astro" },
-// ]
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import InputComponent from "@/components/ui/InputKecDesa";
 
-// const FormPage: React.FC = () => {
-//   const methods = useForm({
-//     resolver: zodResolver(schema),
-//     defaultValues: {
-//       framework: "",
-//     },
-//   })
+// Validation schemas
+const schema = z.object({
+  selectedKecamatan: z.string().nonempty("Kecamatan is required"),
+  selectedDesa: z.string().nonempty("Desa is required"),
+});
 
-//   const onSubmit = (data: any) => {
-//     console.log(data)
-//   }
+type FormData = z.infer<typeof schema>;
 
-//   return (
-//     <FormProvider {...methods}>
-//       <form onSubmit={methods.handleSubmit(onSubmit)} className="p-4">
-//         <h1 className="text-2xl font-bold mb-4">Select a Framework</h1>
-//         <InputSearch
-//           frameworks={frameworks}
-//           name="framework"
-//           placeholder="Search for a framework..."
-//           fullWidth
-//         />
-//         {methods.formState.errors.framework && (
-//           <p className="text-red-500">{methods.formState.errors.framework.message}</p>
-//         )}
-//         <button type="submit" className="mt-4 px-4 py-2 bg-blue-500 text-white">
-//           Submit
-//         </button>
-//       </form>
-//     </FormProvider>
-//   )
-// }
+const PageComponent = () => {
+  const [dummyKecamatan] = useState([
+    { id: 1, nama: "Metro Kibang" },
+    { id: 2, nama: "Batanghari" },
+    { id: 3, nama: "Sekampung" },
+    { id: 4, nama: "Margatiga" },
+  ]);
 
-// export default FormPage
-import React from 'react'
+  const [dummyDesa] = useState([
+    { id: 1, nama: "Sumber Agung", kecamatanId: 1 },
+    { id: 2, nama: "Purbo Sembodo", kecamatanId: 1 },
+    { id: 3, nama: "Kibang", kecamatanId: 1 },
+    { id: 4, nama: "Desa A", kecamatanId: 2 },
+    { id: 5, nama: "Desa B", kecamatanId: 2 },
+    { id: 6, nama: "Desa C", kecamatanId: 3 },
+    { id: 7, nama: "Desa D", kecamatanId: 4 },
+  ]);
 
-const page = () => {
+  // INTEGRASI DESA KECAMATAN
+
+  // INTEGRASI DESA KECAMATAN
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+
+  const selectedKecamatan = watch("selectedKecamatan");
+
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+  };
+
+  const kecamatanOptions = dummyKecamatan.map(kecamatan => ({
+    id: kecamatan.id.toString(),
+    name: kecamatan.nama,
+  }));
+
+  const desaOptions = dummyDesa
+    .filter(desa => desa.kecamatanId.toString() === selectedKecamatan)
+    .map(desa => ({
+      id: desa.id.toString(),
+      name: desa.nama,
+    }));
+
   return (
-    <div>page</div>
-  )
-}
+    <form onSubmit={handleSubmit(onSubmit)} className="p-4">
+      <h1>Select Kecamatan and Desa</h1>
 
-export default page
+      <Controller
+        name="selectedKecamatan"
+        control={control}
+        render={({ field }) => (
+          <InputComponent
+            typeInput="selectSearch"
+            placeholder="Select Kecamatan"
+            label="Kecamatan"
+            value={field.value}
+            onChange={field.onChange}
+            items={kecamatanOptions}
+          />
+        )}
+      />
+      {errors.selectedKecamatan && (
+        <p className="text-red-500">{errors.selectedKecamatan.message}</p>
+      )}
+
+      <Controller
+        name="selectedDesa"
+        control={control}
+        render={({ field }) => (
+          <InputComponent
+            typeInput="selectSearch"
+            placeholder="Select Desa"
+            label="Desa"
+            value={field.value}
+            onChange={field.onChange}
+            items={desaOptions}
+            valueInput={field.value}
+            onChangeInputSearch={() => { }}
+          />
+        )}
+      />
+      {errors.selectedDesa && (
+        <p className="text-red-500">{errors.selectedDesa.message}</p>
+      )}
+
+      <button type="submit" className="mt-4 p-2 bg-blue-500 text-white">
+        Submit
+      </button>
+    </form>
+  );
+};
+
+export default PageComponent;

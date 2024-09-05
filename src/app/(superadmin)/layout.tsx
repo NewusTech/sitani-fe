@@ -194,21 +194,6 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                                 {/* kepegawaian */}
                                 {/* berita */}
-                                {/* data-master */}
-                                <AccordionItem className='pl-2' value="item-7">
-                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/data-master') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
-                                        Data Master
-                                    </AccordionTrigger>
-                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
-                                        <Menu link="/data-master/kelola-berita">
-                                            <span className='text-sm'>Kelola Berita</span>
-                                        </Menu>
-                                        <Menu link="/data-master/kelola-galeri">
-                                            <span className='text-sm'>Kelola Galeri</span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                {/*data-master */}
                                 {/* peran-pengguna */}
                                 <AccordionItem className='pl-2' value="item-8">
                                     <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/peran-pengguna') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
@@ -224,10 +209,58 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/*peran-pengguna */}
-                                {/* korlub */}
+                                {/* KJF Kecamatan */}
                                 <AccordionItem className='pl-2' value="item-9">
                                     <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korlub') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
-                                        Korlub
+                                        KJF Kecamatan
+                                    </AccordionTrigger>
+                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/kjf-kabupaten/padi">
+                                            <span className='text-sm'>Padi</span>
+                                        </Menu>
+                                        <Menu link="/kjf-kabupaten/palawija">
+                                            <span className='text-sm'>Palawija</span>
+                                        </Menu>
+                                        <Menu link="/kjf-kabupaten/sayuran-buah">
+                                            <span className='text-sm'>Sayuran dan Buah</span>
+                                        </Menu>
+                                        <Menu link="/kjf-kabupaten/tanaman-hias">
+                                            <span className='text-sm'>Tanaman Hias</span>
+                                        </Menu>
+                                        <Menu link="/kjf-kabupaten/tanaman-biofarmaka">
+                                            <span className='text-sm'>Tanaman Biofarmaka</span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/*bpp kecamatan */}
+                                {/* bpp kecamatan */}
+                                <AccordionItem className='pl-2' value="item-9">
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korlub') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                        BPP Kecamatan
+                                    </AccordionTrigger>
+                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/bpp-kecamatan/padi">
+                                            <span className='text-sm'>Padi</span>
+                                        </Menu>
+                                        <Menu link="/bpp-kecamatan/palawija">
+                                            <span className='text-sm'>Palawija</span>
+                                        </Menu>
+                                        <Menu link="/bpp-kecamatan/sayuran-buah">
+                                            <span className='text-sm'>Sayuran dan Buah</span>
+                                        </Menu>
+                                        <Menu link="/bpp-kecamatan/tanaman-hias">
+                                            <span className='text-sm'>Tanaman Hias</span>
+                                        </Menu>
+                                        <Menu link="/bpp-kecamatan/tanaman-biofarmaka">
+                                            <span className='text-sm'>Tanaman Biofarmaka</span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/*bpp kecamatan */}
+                                {/* korluh */}
+                                <AccordionItem className='pl-2' value="item-9">
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/korlub') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                        Korluh
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
                                         <Menu link="/korlub/padi">
@@ -247,7 +280,22 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
-                                {/*korlub */}
+                                {/*korluh */}
+                                {/* data-master */}
+                                <AccordionItem className='pl-2' value="item-7">
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/data-master') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                        Data Master
+                                    </AccordionTrigger>
+                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/data-master/kelola-berita">
+                                            <span className='text-sm'>Kelola Berita</span>
+                                        </Menu>
+                                        <Menu link="/data-master/kelola-galeri">
+                                            <span className='text-sm'>Kelola Galeri</span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/*data-master */}
                             </Accordion>
                         </div>
                     </div>
