@@ -184,7 +184,7 @@ const Login = () => {
               </div>
             </div>
             {/* Footer Section */}
-              <div className="text-sm bottom-0 left-0 right-0 flex justify-center text-primary gap-1 py-2 bg-white">
+              <div className="text-xs lg:text-sm bottom-0 left-0 right-0 flex justify-center text-primary gap-1 py-2 bg-white">
                 <span>copyright 2024</span>
                 <span>&copy;</span>
                 <span className="font-bold">SITANI</span>

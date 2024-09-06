@@ -142,7 +142,8 @@ const KorlubPadi = () => {
 
     // GETALL
     const { data: dataPadi }: SWRResponse<Response> = useSWR(
-        `korluh/padi/get?limit=1`,
+        // `korluh/padi/get?limit=1`,
+        `korluh/padi/get`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -264,9 +265,9 @@ const KorlubPadi = () => {
             </div>
             {/* top */}
             {/* bulan */}
-                <div className="font-semibold mt-2 uppercase">
-                    BULAN : Januari
-                </div>
+            <div className="font-semibold mt-2 uppercase">
+                BULAN : Januari
+            </div>
             {/* bulan */}
             {/* table */}
             <Table className='border border-slate-200 mt-1'>
@@ -403,10 +404,10 @@ const KorlubPadi = () => {
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex items-center gap-4">
-                                            <Link className='' href="/korlub/padi/detail">
+                                            <Link className='' href={`/bpp-kecamatan/padi/detail/${item.id}`}>
                                                 <EyeIcon />
                                             </Link>
-                                            <Link className='' href="/korlub/padi/edit">
+                                            <Link className='' href={`/bpp-kecamatan/padi/edit/${item.id}`}>
                                                 <EditIcon />
                                             </Link>
                                             <DeletePopup onDelete={() => { }} />
