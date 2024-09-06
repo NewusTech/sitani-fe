@@ -98,11 +98,11 @@ const Login = () => {
               </div>
             </div>
             <div className="m-5 pl-5 pr-5 pt-5 pb-5 lg:pb-0 lg:pt-0  md:border-none lg:border-none  border-2 border-primary rounded-lg">
-              <h1 className="text-2xl mb-5 md:mb-5 text-primary font-bold text-left">
+              <h1 className="text-xl lg:text-[24px] mb-5 md:mb-5 text-primary font-semibold text-left">
                 Silahkan Masuk
               </h1>
-              <div className="flex flex-col mb-5">
-                <Label label="Email / NIP" />
+              <div className="flex flex-col mb-2">
+                <Label className='text-[14px] pb-1' label="Email / NIP" />
                 <Input
                   autoFocus
                   leftIcon={<Emailicon />}
@@ -117,7 +117,7 @@ const Login = () => {
               </div>
 
               <div className="flex flex-col">
-                <Label label="Password" />
+                <Label className='text-[14px] pb-1' label="Password" />
                 <Input
                   type="password"
                   placeholder="Kata Sandi"
@@ -136,7 +136,7 @@ const Login = () => {
               )}
 
               <div className="text-left underline mt-2">
-                <Link href="/admin/forget-password" className="text-primary">
+                <Link href="/admin/forget-password" className="text-primary text-[14px]">
                   Lupa kata sandi?
                 </Link>
               </div>
@@ -184,7 +184,7 @@ const Login = () => {
               </div>
             </div>
             {/* Footer Section */}
-              <div className="text-xs lg:text-sm bottom-0 left-0 right-0 flex justify-center text-primary gap-1 py-2 bg-white">
+              <div className="text-[14px] lg:text-sm bottom-0 left-0 right-0 flex justify-center text-primary gap-1 py-2 bg-white">
                 <span>copyright 2024</span>
                 <span>&copy;</span>
                 <span className="font-bold">SITANI</span>

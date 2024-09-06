@@ -38,58 +38,8 @@ const Card = ({
 
 const DashboardPeranPengguna = () => {
     return (
-        <section className="space-y-4">
-            <div className="w-full py-4 px-8 rounded-[16px] shadow bg-neutral-50">
-                <div className="flex justify-end space-x-4 items-center">
-                    <div className="flex gap-x-3 text-slate-400">
-                        <p className="text-neutral-900">Tahun</p>
-                    </div>
-                    <div className="w-2/12">
-                        <Select
-                        // value={selectedYear.toString()}
-                        // onValueChange={(e: any) => setSelectedYear(e)}
-                        >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Pilih Tahun" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Tahun</SelectLabel>
-                                    {/* {years?.map((year) => (
-                                        <SelectItem key={year} value={year.toString()}>
-                                            {year}
-                                        </SelectItem>
-                                    ))} */}
-                                    <SelectItem value="2022">2022</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                </div>
-                <div className="space-x-4 mt-4 flex justify-between">
-                    <Card
-                        color="bg-gradient-to-b from-primary via-primary via-32% to-primary"
-                        text="10"
-                        title="Jumlah Data Pegawai"
-                    />
-                    <Card
-                        color="bg-gradient-to-b from-secondary via-secondary via-36% to-secondary"
-                        text="10"
-                        title="Jumlah Data Pegawai Pensiun"
-                    />
-                </div>
-            </div>
-
-            <div className="rounded-[16px] bg-neutral-50 w-full p-12 shadow">
-                {/* {services && (
-                    <DataTables
-                        columns={DashboardPeranPenggunaColumns}
-                        data={services}
-                        filterBy="layanan_name"
-                        type="request"
-                    />
-                )} */}
-            </div>
+        <section className="space-y-2 lg:space-y-4">
+            <div className="text-lg lg:text-xl font-semibold text-primary uppercase lg:text-left text-center">Dashboard Peran Pengguna</div>
         </section>
     );
 };
