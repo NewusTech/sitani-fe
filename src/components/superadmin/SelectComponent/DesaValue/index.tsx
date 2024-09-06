@@ -16,6 +16,7 @@ interface SelectDesaProps {
   value: number | undefined;
   onChange: (value: number) => void;
   kecamatanValue: number | undefined;
+  disabled?: boolean;
 }
 
 const desaItems: DesaItem[] = [
@@ -24,7 +25,7 @@ const desaItems: DesaItem[] = [
   { id: 3, nama: "Desa C", kecamatanId: 2 },
 ];
 
-const DesaValue: React.FC<SelectDesaProps> = ({ value, onChange, kecamatanValue }) => {
+const DesaValue: React.FC<SelectDesaProps> = ({ value, onChange, kecamatanValue, disabled=false }) => {
   // GET ALL DESA
   interface Desa {
     id: number;
@@ -63,7 +64,7 @@ const DesaValue: React.FC<SelectDesaProps> = ({ value, onChange, kecamatanValue 
   );
 
   return (
-    <Select value={value?.toString()} onValueChange={(val) => onChange(Number(val))}>
+    <Select disabled={disabled} value={value?.toString()} onValueChange={(val) => onChange(Number(val))}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Pilih Desa" />
       </SelectTrigger>

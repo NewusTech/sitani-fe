@@ -27,15 +27,15 @@ const formatDate = (dateString: string) => {
 const formSchema = z.object({
     kecamatan_id: z
         .number()
-        .min(1, "Kecamatan is required")
+        .min(0, "Kecamatan is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     desa_id: z
         .number()
-        .min(1, "Desa is required")
+        .min(0, "Desa is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Tanggal wajib diisi" })),
+        z.string().min(0, { message: "Tanggal wajib diisi" })),
     nama_tanaman: z.string().min(1, { message: "Nama tanaman wajib diisi" }),
     hasil_produksi: z.coerce.number().min(1, { message: "Hasil produksi wajib diisi" }),
     luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
@@ -84,6 +84,7 @@ const EditSayuranBuah = () => {
         rerataHarga: number;
         keterangan: string;
         korluhSayurBuah: {
+            tanggal: string,
             kecamatanId: number,
             desaId: number,
         }
@@ -120,6 +121,7 @@ const EditSayuranBuah = () => {
     useEffect(() => {
         if (dataSayuran) {
             setValue("nama_tanaman", dataSayuran.data.namaTanaman);
+            setValue("tanggal", new Date(dataSayuran.data.korluhSayurBuah.tanggal).toISOString().split('T')[0]);
             setValue("hasil_produksi", dataSayuran.data.hasilProduksi);
             setValue("luas_panen_habis", dataSayuran.data.luasPanenHabis);
             setValue("luas_panen_belum_habis", dataSayuran.data.luasPanenBelumHabis);
@@ -137,7 +139,7 @@ const EditSayuranBuah = () => {
 
     useEffect(() => {
         // Clear desa_id when kecamatan_id changes
-        setValue("desa_id", initialDesaId??0); // Reset to initial desa_id
+        setValue("desa_id", initialDesaId ?? 0); // Reset to initial desa_id
     }, [kecamatanId, setValue, initialDesaId]);
     // setvalue
 
@@ -163,7 +165,7 @@ const EditSayuranBuah = () => {
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/sayur-buah/get`);
+        mutate(`/korluh/sayur-buah/get`);
     };
 
     const [open, setOpen] = React.useState(false)
@@ -183,6 +185,7 @@ const EditSayuranBuah = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <KecValue
+                                            disabled
                                             // kecamatanItems={kecamatanItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -200,6 +203,7 @@ const EditSayuranBuah = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <DesaValue
+                                            disabled
                                             // desaItems={filteredDesaItems}
                                             value={field.value}
                                             onChange={field.onChange}

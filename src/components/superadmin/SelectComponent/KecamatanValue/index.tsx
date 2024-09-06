@@ -14,6 +14,7 @@ interface SelectItem {
 interface SelectKecamatanProps {
     value: number | undefined;
     onChange: (value: number) => void;
+    disabled?: boolean;
 }
 
 const kecamatanItems: SelectItem[] = [
@@ -22,7 +23,7 @@ const kecamatanItems: SelectItem[] = [
     { id: 3, nama: "Sekampung" },
 ];
 
-const KecValue: React.FC<SelectKecamatanProps> = ({ value, onChange }) => {
+const KecValue: React.FC<SelectKecamatanProps> = ({disabled=false, value, onChange }) => {
 
     // GET ALL KECAMATAN
     interface Kecamatan {
@@ -58,7 +59,7 @@ const KecValue: React.FC<SelectKecamatanProps> = ({ value, onChange }) => {
     );
 
     return (
-        <Select value={value?.toString()} onValueChange={(val) => onChange(Number(val))}>
+        <Select disabled={disabled} value={value?.toString()} onValueChange={(val) => onChange(Number(val))}>
             <SelectTrigger className="w-full">
                 <SelectValue placeholder="Pilih Kecamatan" />
             </SelectTrigger>

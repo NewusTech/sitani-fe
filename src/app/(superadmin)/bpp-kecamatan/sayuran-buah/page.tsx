@@ -148,7 +148,10 @@ const KorlubSayuranBuah = () => {
     // INTEGRASI
 
     // DELETE
+    const [loading, setLoading] = useState(false);
+
     const handleDelete = async (id: string) => {
+        setLoading(true); // Set loading to true when the form is submitted
         try {
             await axiosPrivate.delete(`/korluh/sayur-buah/delete/${id}`, {
                 headers: {
@@ -157,12 +160,15 @@ const KorlubSayuranBuah = () => {
             });
             console.log(id)
             // Update the local data after successful deletion
-            mutate('/psp/bantuan/get?page=1');
+            mutate('/korluh/sayur-buah/get');
         } catch (error) {
             console.error('Failed to delete:', error);
             console.log(id)
             // Add notification or alert here for user feedback
+        }finally {
+            setLoading(false); // Set loading to false once the process is complete
         }
+        mutate(`/korluh/sayur-buah/get`);
     };
     // DELETE
 
@@ -392,13 +398,13 @@ const KorlubSayuranBuah = () => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-4">
-                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/${item.id}`}>
+                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/${tanaman.id}`}>
                                             <EyeIcon />
                                         </Link>
-                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/edit/${item.id}`}>
+                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/edit/${tanaman.id}`}>
                                             <EditIcon />
                                         </Link>
-                                        <DeletePopup onDelete={() => handleDelete(item.id?.toString() || '')} />
+                                        <DeletePopup onDelete={() => handleDelete(tanaman.id?.toString() || '')} />
                                     </div>
                                 </TableCell>
                             </TableRow>
@@ -444,15 +450,6 @@ const KorlubSayuranBuah = () => {
                             belum
                         </TableCell>
                         <TableCell>
-                            <div className="flex items-center gap-4">
-                                <Link className='' href={`/bpp-kecamatan/palawija/detail/1`}>
-                                    <EyeIcon />
-                                </Link>
-                                <Link className='' href={`/bpp-kecamatan/palawija/edit/1`}>
-                                    <EditIcon />
-                                </Link>
-                                <DeletePopup onDelete={() => { }} />
-                            </div>
                         </TableCell>
                     </TableRow>
                 </TableBody>

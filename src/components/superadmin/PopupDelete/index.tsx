@@ -10,19 +10,26 @@ import {
 } from "@/components/ui/dialog";
 import HapusIcon from '../../../../public/icons/HapusIcon';
 import { Button } from '@/components/ui/button';
+import Loading from '@/components/ui/Loading';
 
 interface DeletePopupProps {
-    onDelete: () => void; // Menentukan tipe untuk onDelete sebagai fungsi yang tidak mengembalikan apa pun (void)
+    onDelete: () => Promise<void>; // onDelete should return a promise
 }
 
 const DeletePopup: FC<DeletePopupProps> = ({ onDelete }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const handleDelete = () => {
-        if (onDelete) {
-            onDelete(); // Memanggil fungsi yang diberikan sebagai props untuk melakukan tindakan penghapusan
+    const handleDelete = async () => {
+        setLoading(true); // Set loading to true when starting the delete operation
+        try {
+            await onDelete(); // Wait for the delete action to complete
+        } catch (error) {
+            console.error("Delete operation failed:", error);
+        } finally {
+            setLoading(false); // Set loading to false once the operation is complete
+            setIsOpen(false); // Close the dialog
         }
-        setIsOpen(false); // Menutup dialog setelah menghapus
     };
 
     return (
@@ -50,10 +57,11 @@ const DeletePopup: FC<DeletePopupProps> = ({ onDelete }) => {
                                     Batal
                                 </Button>
                                 <Button 
-                                    className='bg-red-500 w-[100px]' 
+                                    className={`w-[100px] ${loading ? 'bg-gray-500' : 'bg-red-500'}`} 
                                     onClick={handleDelete} // Menambahkan fungsi onClick
+                                    disabled={loading} // Disable button while loading
                                 >
-                                    Hapus
+                                    {loading ? <Loading /> : "Hapus"}
                                 </Button>
                             </div>
                         </DialogDescription>
