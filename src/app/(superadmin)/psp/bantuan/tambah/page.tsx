@@ -39,19 +39,25 @@ const formSchema = z.object({
     kecamatan_id: z
         .number()
         .min(1, "Kecamatan is required")
-        .transform((value) => Number(value)), // Mengubah string menjadi number
+        .transform((value) => Number(value)), // Convert string to number
+
     desa_id: z
         .number()
         .min(1, "Desa is required")
-        .transform((value) => Number(value)), // Mengubah string menjadi number
+        .transform((value) => Number(value)), // Convert string to number
+
     jenis_bantuan: z
         .string()
         .min(1, { message: "Nama wajib diisi" }),
-    periode: z.preprocess(
-        (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Periode Penerimaan wajib diisi" })
-    ),
-    keterangan: z.string().min(1, { message: "Keterangan wajib diisi" }),
+
+    periode: z
+        .string()
+        .min(1, { message: "Periode Penerimaan wajib diisi" })
+        .transform((val) => formatDate(val)),
+
+    keterangan: z
+        .string()
+        .min(1, { message: "Keterangan wajib diisi" }),
 });
 
 

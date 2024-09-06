@@ -54,53 +54,10 @@ import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 
-interface Data {
-    kecamatan?: string;
-    desa?: string;
-    hasilProduksi?: string;
-    namaTanaman?: string;
-    luasTanamanAkhirBulanLalu?: string;
-    luasPanen: {
-        habisDibongkar?: number;
-        belumHabis?: number;
-    }
-    luasRusak?: string;
-    luasPenanamanBaru?: string;
-    luasTanamanAkhirBulanLaporan?: string;
-    produksiKuintal: {
-        dipanenHabis?: number;
-        belumHabis?: number;
-    }
-    rataRataHargaJual?: string;
-    keterangan?: string;
-}
-
 const KorlubSayuranBuah = () => {
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
 
-    const data: Data[] = [
-        {
-            kecamatan: "Metro Kibang",
-            desa: "Metro",
-            hasilProduksi: "Palawija",
-            namaTanaman: "Padi",
-            luasTanamanAkhirBulanLalu: "100 hektar",
-            luasPanen: {
-                habisDibongkar: 23,
-                belumHabis: 345,
-            },
-            luasRusak: "100 hektar",
-            luasPenanamanBaru: "100 hektar",
-            luasTanamanAkhirBulanLaporan: "100 hektar",
-            produksiKuintal: {
-                dipanenHabis: 23,
-                belumHabis: 345,
-            },
-            rataRataHargaJual: "100 hektar",
-            keterangan: "100 hektar",
-        },
-    ];
 
     // INTEGRASI
     interface KorluhSayurBuahResponse {
@@ -176,7 +133,7 @@ const KorlubSayuranBuah = () => {
     // GETALL
     const { data: dataSayuran }: SWRResponse<KorluhSayurBuahResponse> = useSWR(
         // `korluh/padi/get?limit=1`,
-        `korluh/sayur-buah/get`,
+        `korluh/sayur-buah/get?limit=1`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -189,6 +146,25 @@ const KorlubSayuranBuah = () => {
     console.log(dataSayuran)
 
     // INTEGRASI
+
+    // DELETE
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/korluh/sayur-buah/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            // Update the local data after successful deletion
+            mutate('/psp/bantuan/get?page=1');
+        } catch (error) {
+            console.error('Failed to delete:', error);
+            console.log(id)
+            // Add notification or alert here for user feedback
+        }
+    };
+    // DELETE
 
     return (
         <div>
@@ -352,7 +328,7 @@ const KorlubSayuranBuah = () => {
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
                             Keterangan
                         </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                        <TableHead rowSpan={2} className="text-primary text-center py-1 border border-slate-200">
                             Aksi
                         </TableHead>
                     </TableRow>
@@ -413,6 +389,17 @@ const KorlubSayuranBuah = () => {
                                 </TableCell>
                                 <TableCell className='border border-slate-200 text-center'>
                                     {tanaman.keterangan}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/${item.id}`}>
+                                            <EyeIcon />
+                                        </Link>
+                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/edit/${item.id}`}>
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={() => handleDelete(item.id?.toString() || '')} />
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         ))
