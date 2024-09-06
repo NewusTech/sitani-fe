@@ -101,18 +101,16 @@ const PupukTambah = () => {
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Jenis Pupuk" />
-                            <Select
-                                onValueChange={(value) => setValue("jenis_pupuk", value)}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih Jenis Pupuk" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="select1">Select1</SelectItem>
-                                    <SelectItem value="select2">Select2</SelectItem>
-                                    <SelectItem value="select3">Select3</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Input
+                                autoFocus
+                                type="text"
+                                placeholder="Jenis Pupuk"
+                                {...register('jenis_pupuk')}
+                                className={`${errors.jenis_pupuk ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.jenis_pupuk && (
+                                <HelperError>{errors.jenis_pupuk.message}</HelperError>
+                            )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Kandungan Pupuk" />

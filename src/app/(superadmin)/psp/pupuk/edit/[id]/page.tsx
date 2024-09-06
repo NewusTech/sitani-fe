@@ -98,7 +98,7 @@ const PupukTambah = () => {
             } catch (error) {
                 console.error('Failed to fetch user data:', error);
                 return null;
-            } 
+            }
         }
     );
 
@@ -123,7 +123,7 @@ const PupukTambah = () => {
             reset();
         } catch (error) {
             console.error('Failed to update user:', error);
-        }finally {
+        } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/psp/pupuk/get?page=1`);
@@ -143,19 +143,13 @@ const PupukTambah = () => {
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Jenis Pupuk" />
-                            <Select
-                                onValueChange={(value) => setValue("jenis_pupuk", String(value))}
-                                value={String(watch('jenis_pupuk')) || ''}
-                            >
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih Jenis Pupuk" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="select1">Select1</SelectItem>
-                                    <SelectItem value="select2">Select2</SelectItem>
-                                    <SelectItem value="select3">Select3</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Input
+                                autoFocus
+                                type="text"
+                                placeholder="Jenis Pupuk"
+                                {...register('jenis_pupuk')}
+                                className={`${errors.jenis_pupuk ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Kandungan Pupuk" />
@@ -181,8 +175,8 @@ const PupukTambah = () => {
                                     <SelectValue placeholder="Keterangan" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="subsidi">Subsidi</SelectItem>
-                                    <SelectItem value="nonSubsidi">Non Subsidi</SelectItem>
+                                    <SelectItem value="Subsidi">Subsidi</SelectItem>
+                                    <SelectItem value="NonSubsidi">Non Subsidi</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
