@@ -14,6 +14,7 @@ import useSWR, { mutate } from 'swr';
 import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
 import DesaValue from '@/components/superadmin/SelectComponent/DesaValue';
 import { Textarea } from '@/components/ui/textarea';
+import Loading from '@/components/ui/Loading';
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
 const formatDate = (dateString: string) => {
@@ -112,8 +113,10 @@ const BantuanEdit = () => {
         // Clear desa_id when kecamatan_id changes
         setValue("desa_id", initialDesaId); // Reset to initial desa_id
     }, [kecamatanId, setValue, initialDesaId]);
+    const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
         try {
             await axiosPrivate.put(`psp/bantuan/update/${id}`, data);
             console.log("Success to update data:", data);
@@ -210,7 +213,11 @@ const BantuanEdit = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        Simpan
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            "Simpan"
+                        )}
                     </Button>
                 </div>
             </form>
