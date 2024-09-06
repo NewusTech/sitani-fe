@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -48,54 +48,129 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+// 
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 
-interface Data {
-    kecamatan?: string;
-    desa?: string;
-    hasilProduksi?: string;
-    namaTanaman?: string;
-    luasTanamanAkhirBulanLalu?: string;
-    luasPanen: {
-        habisDibongkar?: number;
-        belumHabis?: number;
-    }
-    luasRusak?: string;
-    luasPenanamanBaru?: string;
-    luasTanamanAkhirBulanLaporan?: string;
-    produksiKuintal: {
-        dipanenHabis?: number;
-        belumHabis?: number;
-    }
-    rataRataHargaJual?: string;
-    keterangan?: string;
-}
-
-const KorluTanamanHias = () => {
+const KorlubTanamanHias = () => {
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
 
-    const data: Data[] = [
-        {
-            kecamatan: "Metro Kibang",
-            desa: "Metro",
-            hasilProduksi: "Palawija",
-            namaTanaman: "Padi",
-            luasTanamanAkhirBulanLalu: "100 hektar",
-            luasPanen: {
-                habisDibongkar: 23,
-                belumHabis: 345,
-            },
-            luasRusak: "100 hektar",
-            luasPenanamanBaru: "100 hektar",
-            luasTanamanAkhirBulanLaporan: "100 hektar",
-            produksiKuintal: {
-                dipanenHabis: 23,
-                belumHabis: 345,
-            },
-            rataRataHargaJual: "100 hektar",
-            keterangan: "100 hektar",
-        },
-    ];
+
+    // INTEGRASI
+    interface KorluhTanamanHiasResponse {
+        status: number;
+        message: string;
+        data: {
+            data: KorluhTanamanHias[];
+            pagination: Pagination;
+        };
+    }
+
+    interface KorluhTanamanHias {
+        id: number;
+        kecamatanId: number;
+        desaId: number;
+        tanggal: string;
+        createdAt: string;
+        updatedAt: string;
+        kecamatan: Kecamatan;
+        desa: Desa;
+        list: Tanaman[];
+    }
+
+    interface Kecamatan {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Desa {
+        id: number;
+        nama: string;
+        kecamatanId: number;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Tanaman {
+        id: number;
+        korluhTanamanHiasId: number;
+        namaTanaman: string;
+        satuanProduksi: string;
+        luasPanenHabis: number;
+        luasPanenBelumHabis: number;
+        luasRusak: number;
+        luasPenanamanBaru: number;
+        produksiHabis: number;
+        produksiBelumHabis: number;
+        rerataHarga: number;
+        keterangan: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Pagination {
+        page: number;
+        perPage: number;
+        totalPages: number;
+        totalCount: number;
+        links: {
+            prev: string | null;
+            next: string | null;
+        };
+    }
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+
+    // GETALL
+    const { data: dataTanaman }: SWRResponse<KorluhTanamanHiasResponse> = useSWR(
+        // `korluh/padi/get?limit=1`,
+        `korluh/tanaman-hias/get?limit=10`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    console.log(dataTanaman)
+
+    // INTEGRASI
+
+    // DELETE
+    const [loading, setLoading] = useState(false);
+
+    const handleDelete = async (id: string) => {
+        setLoading(true); // Set loading to true when the form is submitted
+        try {
+            await axiosPrivate.delete(`/korluh/tanaman-hias/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            // Update the local data after successful deletion
+            mutate('/korluh/tanaman-hias/get');
+        } catch (error) {
+            console.error('Failed to delete:', error);
+            console.log(id)
+            // Add notification or alert here for user feedback
+        } finally {
+            setLoading(false); // Set loading to false once the process is complete
+        }
+        mutate(`/korluh/tanaman-hias/get`);
+    };
+    // DELETE
 
     return (
         <div>
@@ -277,59 +352,61 @@ const KorluTanamanHias = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell className='border border-slate-200'>
-                                {item.namaTanaman}
-                            </TableCell>
-                            <TableCell className='border border-slate-200'>
-                                {item.hasilProduksi}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasTanamanAkhirBulanLalu}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPanen.habisDibongkar}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPanen.belumHabis}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasRusak}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPenanamanBaru}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasTanamanAkhirBulanLaporan}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.produksiKuintal.dipanenHabis}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.produksiKuintal.belumHabis}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.rataRataHargaJual}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.keterangan}
-                            </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href={`/bpp-kecamatan/tanaman-hias/detail/1`}>
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link className='' href={`/bpp-kecamatan/tanaman-hias/edit/1`}>
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={async () => { }} />
-                                </div>
-                            </TableCell>
-                        </TableRow>
+                    {dataTanaman?.data.data.map((item, index) => (
+                        item.list.map((tanaman) => (
+                            <TableRow key={tanaman.id}>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell className='border border-slate-200'>
+                                    {tanaman.namaTanaman}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    belum ada
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.luasPanenHabis} hd
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.luasPanenBelumHabis}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.luasRusak}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.luasPenanamanBaru}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    belum ada
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.produksiHabis}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.produksiBelumHabis}
+                                </TableCell>
+                                <TableCell className='border border-slate-200'>
+                                    {tanaman.satuanProduksi}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.rerataHarga}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.keterangan}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/${tanaman.id}`}>
+                                            <EyeIcon />
+                                        </Link>
+                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/edit/${tanaman.id}`}>
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={() => handleDelete(tanaman.id?.toString() || '')} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
                     ))}
                     <TableRow>
                         <TableCell className='border border-slate-200'>
@@ -338,40 +415,39 @@ const KorluTanamanHias = () => {
                             Jumlah
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-
+                        <TableCell>
                         </TableCell>
                     </TableRow>
                 </TableBody>
@@ -410,4 +486,4 @@ const KorluTanamanHias = () => {
     )
 }
 
-export default KorluTanamanHias
+export default KorlubTanamanHias

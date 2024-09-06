@@ -1,123 +1,58 @@
 "use client"
 import Label from '@/components/ui/label'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
-import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
-import { Check, ChevronsUpDown } from "lucide-react"
-import { cn } from "@/lib/utils"
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
-import { SWRResponse, mutate } from "swr";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
+import { useRouter, useParams } from 'next/navigation';
+import useSWR, { SWRResponse, mutate } from "swr";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
+import DesaValue from '@/components/superadmin/SelectComponent/DesaValue';
+import Loading from '@/components/ui/Loading';
 
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-
-const frameworks = [
-    {
-        value: "kecamatan1",
-        label: "kecamatan1",
-    },
-    {
-        value: "kecamatan2",
-        label: "kecamatan2",
-    },
-    {
-        value: "kedacamatan3",
-        label: "kedacamatan3",
-    },
-    {
-        value: "kecamatan4",
-        label: "kecamatan4",
-    },
-    {
-        value: "kecamatan5",
-        label: "kecamatan5",
-    },
-]
-
-const OPTIONS: Option[] = [
-    { label: 'nextjs', value: 'nextjs' },
-    { label: 'React', value: 'react' },
-    { label: 'Remix', value: 'remix' },
-    { label: 'Vite', value: 'vite' },
-    { label: 'Nuxt', value: 'nuxt' },
-    { label: 'Vue', value: 'vue' },
-    { label: 'Svelte', value: 'svelte' },
-    { label: 'Angular', value: 'angular' },
-    { label: 'Ember', value: 'ember', disable: true },
-    { label: 'Gatsby', value: 'gatsby', disable: true },
-    { label: 'Astro', value: 'astro' },
-];
+// Format tanggal yang diinginkan (yyyy-mm-dd)
+const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}/${month}/${day}`;
+};
 
 const formSchema = z.object({
-    namaKecamatan: z
-        .string()
-        .min(1, { message: "Nama Kecamatan wajib diisi" }).optional(),
-    namaDesa: z
-        .array(z.string())
-        .min(1, { message: "Desa wajib diisi" }).optional(),
-    namaTanaman: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
-    hasilDibongkar: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
-    belumHabis: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
-    luasRusak: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
-    luasPenanamanBaru: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
-    dipanenHabis: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
-    produksiBelumHabis: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
-    satuanProduksi: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
-    rataRataHargaJual: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
-    keterangan: z
-        .string()
-        .min(1, { message: "Lahian wajib diisi" }).optional(),
+    kecamatan_id: z
+        .number()
+        .min(0, "Kecamatan is required")
+        .transform((value) => Number(value)), // Mengubah string menjadi number
+    desa_id: z
+        .number()
+        .min(0, "Desa is required")
+        .transform((value) => Number(value)), // Mengubah string menjadi number
+    tanggal: z.preprocess(
+        (val) => typeof val === "string" ? formatDate(val) : val,
+        z.string().min(0, { message: "Tanggal wajib diisi" })),
+    nama_tanaman: z.string().min(1, { message: "Nama tanaman wajib diisi" }),
+    satuan_produksi: z.string().min(0, { message: "Satuan Produksi wajib diisi" }),
+    luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
+    luas_panen_belum_habis: z.coerce.number().min(0, { message: "Luas panen belum habis wajib diisi" }),
+    luas_rusak: z.coerce.number().min(0, { message: "Luas rusak wajib diisi" }),
+    luas_penanaman_baru: z.coerce.number().min(0, { message: "Luas penanaman baru wajib diisi" }),
+    produksi_habis: z.coerce.number().min(0, { message: "Produksi habis wajib diisi" }),
+    produksi_belum_habis: z.coerce.number().min(0, { message: "Produksi belum habis wajib diisi" }),
+    rerata_harga: z.coerce.number().min(0, { message: "Rata-rata harga wajib diisi" }),
+    keterangan: z.string().optional(),
 });
+
+
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const EditTanamanHias = () => {
+const EditTanamanBuah = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -125,32 +60,112 @@ const EditTanamanHias = () => {
         handleSubmit,
         reset,
         formState: { errors },
-        setValue
+        control,
+        setValue,
+        watch,
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
 
-    const handleSelectorChange = (selectedOptions: Option[]) => {
-        setValue('namaDesa', selectedOptions.map(option => option.value));
-    };
+    // getone
+    // INTEGRASI
 
-    // TAMBAH
+    interface Sayuran {
+        id: number;
+        korluhSayurBuahId: number;
+        namaTanaman: string;
+        satuanProduksi: string;
+        luasPanenHabis: number;
+        luasPanenBelumHabis: number;
+        luasRusak: number;
+        luasPenanamanBaru: number;
+        produksiHabis: number;
+        produksiBelumHabis: number;
+        rerataHarga: number;
+        keterangan: string;
+        korluhSayurBuah: {
+            tanggal: string,
+            kecamatanId: number,
+            desaId: number,
+        }
+    }
+
+    interface Response {
+        status: string;
+        data: Sayuran;
+        message: string;
+    }
+
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataTanaman, error } = useSWR<Response>(
+        `/korluh/tanaman-hias/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
+    );
+
+    // setvalue
+    const kecamatanId = watch("kecamatan_id");
+    const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
+
+    useEffect(() => {
+        if (dataTanaman) {
+            setValue("nama_tanaman", dataTanaman.data.namaTanaman);
+            setValue("tanggal", new Date(dataTanaman.data.korluhSayurBuah.tanggal).toISOString().split('T')[0]);
+            setValue("satuan_produksi", dataTanaman.data.satuanProduksi);
+            setValue("luas_panen_habis", dataTanaman.data.luasPanenHabis);
+            setValue("luas_panen_belum_habis", dataTanaman.data.luasPanenBelumHabis);
+            setValue("luas_rusak", dataTanaman.data.luasRusak);
+            setValue("luas_penanaman_baru", dataTanaman.data.luasPenanamanBaru);
+            setValue("produksi_habis", dataTanaman.data.produksiHabis);
+            setValue("produksi_belum_habis", dataTanaman.data.produksiBelumHabis);
+            setValue("rerata_harga", dataTanaman.data.rerataHarga);
+            setValue("keterangan", dataTanaman.data.keterangan);
+            setValue("kecamatan_id", dataTanaman.data.korluhSayurBuah.kecamatanId);
+            setInitialDesaId(dataTanaman.data.korluhSayurBuah.desaId); // Save initial desa_id
+            setValue("desa_id", dataTanaman.data.korluhSayurBuah.desaId); // Set default value
+        }
+    }, [dataTanaman, setValue]);
+
+    useEffect(() => {
+        // Clear desa_id when kecamatan_id changes
+        setValue("desa_id", initialDesaId ?? 0); // Reset to initial desa_id
+    }, [kecamatanId, setValue, initialDesaId]);
+    // setvalue
+
+    // getone
+
+    // TAMBAH
+    const kecamatanValue = watch("kecamatan_id");
+    const [loading, setLoading] = useState(false);
+
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.post("/", data);
+            await axiosPrivate.put(`/korluh/tanaman-hias/update/${id}`, data);
             console.log(data)
             // push
-            navigate.push('/korlub/tanaman-hias');
+            navigate.push('/bpp-kecamatan/tanaman-hias');
             console.log("Success to create Tanaman Hias:");
-            reset()
+            // reset()
         } catch (e: any) {
             console.log(data)
             console.log("Failed to create Tanaman Hias:");
             return;
+        } finally {
+            setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/user/get`);
+        mutate(`/korluh/tanaman-hias/get`);
     };
 
     const [open, setOpen] = React.useState(false)
@@ -158,76 +173,46 @@ const EditTanamanHias = () => {
 
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-4">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
-                <div className="mb-5">
+                <div className="mb-4">
                     <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Pilih Kecamatan" />
-                                <Popover open={open} onOpenChange={setOpen}>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant="outline"
-                                            role="combobox"
-                                            aria-expanded={open}
-                                            className={`w-full justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
-                                        >
-                                            {value
-                                                ? frameworks.find((framework) => framework.value === value)?.label
-                                                : "Pilih Kecamatan"}
-                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-full p-0">
-                                        <Command>
-                                            <CommandInput placeholder="Cari Kecamatan" />
-                                            <CommandList>
-                                                <CommandEmpty>Maaf, Kecamatan <br /> tidak tersedia.</CommandEmpty>
-                                                <CommandGroup>
-                                                    {frameworks.map((framework) => (
-                                                        <CommandItem
-                                                            key={framework.value}
-                                                            value={framework.value}
-                                                            onSelect={(currentValue) => {
-                                                                setValue("namaKecamatan", currentValue === value ? "" : currentValue, { shouldValidate: true });
-                                                                setValueSelect(currentValue === value ? "" : currentValue);
-                                                                setOpen(false);
-                                                            }}
-                                                        >
-                                                            <Check
-                                                                className={cn(
-                                                                    "mr-2 h-4 w-4",
-                                                                    value === framework.value ? "opacity-100" : "opacity-0"
-                                                                )}
-                                                            />
-                                                            {framework.label}
-                                                        </CommandItem>
-                                                    ))}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                    {errors.namaKecamatan && (
-                                        <HelperError>{errors.namaKecamatan.message}</HelperError>
+                                <Controller
+                                    name="kecamatan_id"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <KecValue
+                                            disabled
+                                            // kecamatanItems={kecamatanItems}
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
                                     )}
-                                </Popover>
+                                />
+                                {errors.kecamatan_id && (
+                                    <p className="text-red-500">{errors.kecamatan_id.message}</p>
+                                )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Pilih Desa" />
-                                <MultipleSelector
-                                    className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaDesa ? 'border-red-500' : ''}`}
-                                    defaultOptions={OPTIONS}
-                                    placeholder="Cari Desa"
-                                    onChange={handleSelectorChange}
-                                    emptyIndicator={
-                                        <p className="text-center text-lg leading-10 text-gray-600">
-                                            Tidak ada data.
-                                        </p>
-                                    }
+                                <Controller
+                                    name="desa_id"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <DesaValue
+                                            disabled
+                                            // desaItems={filteredDesaItems}
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            kecamatanValue={kecamatanValue}
+                                        />
+                                    )}
                                 />
-                                {errors.namaDesa && (
-                                    <HelperError>{errors.namaDesa.message}</HelperError>
+                                {errors.desa_id && (
+                                    <p className="text-red-500 mt-1">{errors.desa_id.message}</p>
                                 )}
                             </div>
                         </div>
@@ -235,142 +220,148 @@ const EditTanamanHias = () => {
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Nama Tanaman" />
                                 <Input
-                                    autoFocus
                                     type="text"
                                     placeholder="Nama Tanaman"
-                                    {...register('namaTanaman')}
-                                    className={`${errors.namaTanaman ? 'border-red-500' : 'py-5 text-sm'}`}
+                                    {...register('nama_tanaman')}
+                                    className={`${errors.nama_tanaman ? 'border-red-500' : 'py-5 text-sm'}`}
                                 />
-                                {errors.namaTanaman && (
-                                    <HelperError>{errors.namaTanaman.message}</HelperError>
+                                {errors.nama_tanaman && (
+                                    <HelperError>{errors.nama_tanaman.message}</HelperError>
+                                )}
+                            </div>
+                            <div className="flex flex-col mb-2 w-full">
+                                <Label className='text-sm mb-1' label="Tanggal" />
+                                <Input
+                                    type="date"
+                                    placeholder="Tanggal"
+                                    {...register('tanggal')}
+                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
+                                />
+                                {errors.tanggal && (
+                                    <HelperError>{errors.tanggal.message}</HelperError>
+                                )}
+                            </div>
+                        </div>
+                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
+                                <Label className='text-sm mb-1' label="Satuan Produksi" />
+                                <Input
+                                    type="number"
+                                    placeholder="Satuan Produksi"
+                                    {...register('satuan_produksi')}
+                                    className={`${errors.satuan_produksi ? 'border-red-500' : 'py-5 text-sm'}`}
+                                />
+                                {errors.satuan_produksi && (
+                                    <HelperError>{errors.satuan_produksi.message}</HelperError>
                                 )}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className='mb-5'>
-                    <div className="text-primary text-lg font-bold mb-2">Luas Panen (m2)</div>
+                <div className='mb-4'>
+                    <div className="text-primary text-lg font-bold mb-2">Luas Panen (m²)</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Hasil / Dibongkar" />
+                            <Label className='text-sm mb-1' label="Habis/Dibongkar" />
                             <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Hasil / Dibongkar"
-                                {...register('hasilDibongkar')}
-                                className={`${errors.hasilDibongkar ? 'border-red-500' : 'py-5 text-sm'}`}
+                                type="number"
+                                placeholder="Habis / Dibongkar"
+                                {...register('luas_panen_habis')}
+                                className={`${errors.luas_panen_habis ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.hasilDibongkar && (
-                                <HelperError>{errors.hasilDibongkar.message}</HelperError>
+                            {errors.luas_panen_habis && (
+                                <HelperError>{errors.luas_panen_habis.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Belum Habis" />
                             <Input
-                                autoFocus
-                                type="text"
+                                type="number"
                                 placeholder="Belum Habis"
-                                {...register('belumHabis')}
-                                className={`${errors.belumHabis ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('luas_panen_belum_habis')}
+                                className={`${errors.luas_panen_belum_habis ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.belumHabis && (
-                                <HelperError>{errors.belumHabis.message}</HelperError>
+                            {errors.luas_panen_belum_habis && (
+                                <HelperError>{errors.luas_panen_belum_habis.message}</HelperError>
                             )}
                         </div>
                     </div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Luas Rusak / Tidak Berhasil / Puso (Hektar)" />
+                            <Label className='text-sm mb-1' label="Luas Rusak / Tidak Berhasil / Puso (m²)" />
                             <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Luas Rusak / Tidak Berhasil / Puso (Hektar)"
-                                {...register('luasRusak')}
-                                className={`${errors.luasRusak ? 'border-red-500' : 'py-5 text-sm'}`}
+                                type="number"
+                                placeholder="Luas Rusak / Tidak Berhasil / Puso (m²)"
+                                {...register('luas_rusak')}
+                                className={`${errors.luas_rusak ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.luasRusak && (
-                                <HelperError>{errors.luasRusak.message}</HelperError>
+                            {errors.luas_rusak && (
+                                <HelperError>{errors.luas_rusak.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Luas Penanaman Baru / Tambah (hektar)" />
+                            <Label className='text-sm mb-1' label="Luas Penanaman Baru / Tambah (m²)" />
                             <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Luas Penanaman Baru / Tambah (hektar)"
-                                {...register('luasPenanamanBaru')}
-                                className={`${errors.luasPenanamanBaru ? 'border-red-500' : 'py-5 text-sm'}`}
+                                type="number"
+                                placeholder="Luas Penanaman Baru / Tambah (m²)"
+                                {...register('luas_penanaman_baru')}
+                                className={`${errors.luas_penanaman_baru ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.luasPenanamanBaru && (
-                                <HelperError>{errors.luasPenanamanBaru.message}</HelperError>
+                            {errors.luas_penanaman_baru && (
+                                <HelperError>{errors.luas_penanaman_baru.message}</HelperError>
                             )}
                         </div>
                     </div>
                 </div>
 
-                <div className='mb-5'>
+                <div className='mb-4'>
                     <div className="text-primary text-lg font-bold mb-2">Produksi</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Dipanen Habis / Dibongkar" />
                             <Input
-                                autoFocus
-                                type="text"
+                                type="number"
                                 placeholder="Dipanen Habis / Dibongkar"
-                                {...register('dipanenHabis')}
-                                className={`${errors.dipanenHabis ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('produksi_habis')}
+                                className={`${errors.produksi_habis ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.dipanenHabis && (
-                                <HelperError>{errors.dipanenHabis.message}</HelperError>
+                            {errors.produksi_habis && (
+                                <HelperError>{errors.produksi_habis.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Belum Habis" />
                             <Input
-                                autoFocus
-                                type="text"
+                                type="number"
                                 placeholder="Belum Habis"
-                                {...register('produksiBelumHabis')}
-                                className={`${errors.produksiBelumHabis ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('produksi_belum_habis')}
+                                className={`${errors.produksi_belum_habis ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.produksiBelumHabis && (
-                                <HelperError>{errors.produksiBelumHabis.message}</HelperError>
+                            {errors.produksi_belum_habis && (
+                                <HelperError>{errors.produksi_belum_habis.message}</HelperError>
                             )}
                         </div>
                     </div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Satuan Produksi" />
+                            <Label className='text-sm mb-1' label="Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)" />
                             <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Satuan Produksi"
-                                {...register('satuanProduksi')}
-                                className={`${errors.satuanProduksi ? 'border-red-500' : 'py-5 text-sm'}`}
+                                type="number"
+                                placeholder="Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)"
+                                {...register('rerata_harga')}
+                                className={`${errors.rerata_harga ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.satuanProduksi && (
-                                <HelperError>{errors.satuanProduksi.message}</HelperError>
+                            {errors.rerata_harga && (
+                                <HelperError>{errors.rerata_harga.message}</HelperError>
                             )}
                         </div>
-                        <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Rata-rata Harga Jual di Petani Per Satuan" />
-                            <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Rata-rata Harga Jual di Petani Per Satuan"
-                                {...register('rataRataHargaJual')}
-                                className={`${errors.rataRataHargaJual ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.rataRataHargaJual && (
-                                <HelperError>{errors.rataRataHargaJual.message}</HelperError>
-                            )}
-                        </div>
-                    </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
-                            <Textarea  {...register('keterangan')}
+                            <Input
+                                type="text"
+                                placeholder="Keterangan"
+                                {...register('keterangan')}
                                 className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
                             {errors.keterangan && (
@@ -381,11 +372,15 @@ const EditTanamanHias = () => {
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/korlub/tanaman-hias" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-                        BATAL
+                    <Link href="/bpp-kecamatan/tanaman-hias" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                        Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        EDIT
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            "Simpan"
+                        )}
                     </Button>
                 </div>
             </form>
@@ -393,4 +388,4 @@ const EditTanamanHias = () => {
     )
 }
 
-export default EditTanamanHias
+export default EditTanamanBuah
