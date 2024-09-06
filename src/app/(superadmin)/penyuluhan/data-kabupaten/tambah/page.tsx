@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
@@ -13,13 +13,36 @@ import { Textarea } from "@/components/ui/textarea"
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter } from 'next/navigation';
 import { mutate } from "swr";
+import Loading from '@/components/ui/Loading';
 
 
 const OPTIONS: Option[] = [
-    { label: 'Kecamatan A', value: "1" },
-    { label: 'Kecamatan B', value: "2" },
-    { label: 'Kecamatan C', value: "3" },
+    { label: 'Metro Kibang', value: "1" },
+    { label: 'Batanghari', value: "2" },
+    { label: 'Sekampung', value: "3" },
+    { label: 'Margatiga', value: "4" },
+    { label: 'Sekampung Udik', value: "5" },
+    { label: 'Jabung', value: "6" },
+    { label: 'Pasir Sakti', value: "7" },
+    { label: 'Waway Karya', value: "8" },
+    { label: 'Marga Sekampung', value: "9" },
+    { label: 'Labuhan Maringgai', value: "10" },
+    { label: 'Mataram Baru', value: "11" },
+    { label: 'Bandar Sribawono', value: "12" },
+    { label: 'Melinting', value: "13" },
+    { label: 'Gunung Pelindung', value: "14" },
+    { label: 'Way Jepara', value: "15" },
+    { label: 'Braja Slebah', value: "16" },
+    { label: 'Labuhan Ratu', value: "17" },
+    { label: 'Sukadana', value: "18" },
+    { label: 'Bumi Agung', value: "19" },
+    { label: 'Batanghari Nuban', value: "20" },
+    { label: 'Pekalongan', value: "21" },
+    { label: 'Raman Utara', value: "22" },
+    { label: 'Purbolinggo', value: "23" },
+    { label: 'Way Bungur', value: "24" }
 ];
+
 
 const formSchema = z.object({
     kecamatan_list: z
@@ -72,7 +95,10 @@ const PenyuluhanTambahDataKabupaten = () => {
     // TAMBAH
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
+    const [loading, setLoading] = useState(false);
+
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
         try {
             await axiosPrivate.post("/penyuluh-kabupaten/create", data);
             console.log(data)
@@ -84,6 +110,8 @@ const PenyuluhanTambahDataKabupaten = () => {
             console.log(data)
             console.log("Failed to create user:");
             return;
+        } finally {
+            setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/penyuluh-kabupaten/get`);
     };
@@ -186,7 +214,11 @@ const PenyuluhanTambahDataKabupaten = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        Simpan
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            "Simpan"
+                        )}
                     </Button>
                 </div>
             </form>

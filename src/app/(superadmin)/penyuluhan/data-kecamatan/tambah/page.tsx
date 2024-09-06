@@ -2,7 +2,7 @@
 import Label from '@/components/ui/label'
 import React from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
@@ -28,6 +28,7 @@ import {
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
 
 const frameworks = [
     { label: 'Kecamatan A', value: "1" },
@@ -76,7 +77,8 @@ const TamabahPenyuluhDataKecamatan = () => {
         handleSubmit,
         reset,
         formState: { errors },
-        setValue
+        setValue,
+        control,
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
@@ -120,57 +122,20 @@ const TamabahPenyuluhDataKecamatan = () => {
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Kecamatan" />
-                            <Popover open={open} onOpenChange={setOpen}>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        aria-expanded={open}
-                                        className={`w-full justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.kecamatan_id ? 'border-red-500' : ''}`}
-                                    >
-                                        {value
-                                            ? frameworks.find((framework) => framework.value === value)?.label
-                                            : "Pilih Kecamatan"}
-                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-full p-0">
-                                    <Command>
-                                        <CommandInput placeholder="Cari Kecamatan" />
-                                        <CommandList>
-                                            <CommandEmpty>Maaf, Kecamatan <br /> tidak tersedia.</CommandEmpty>
-                                            <CommandGroup>
-                                                {frameworks.map((framework) => (
-                                                    <CommandItem
-                                                        key={framework.value}
-                                                        value={framework.value}
-                                                        onSelect={(currentValue) => {
-                                                            const selectedValue = currentValue === value ? undefined : Number(currentValue);
-                                                            // Set kecamatan_id with number or undefined
-                                                            setValue("kecamatan_id", selectedValue, { shouldValidate: true });
-                                                            // Set valueSelect with string or empty string
-                                                            setValueSelect(selectedValue !== undefined ? String(selectedValue) : "");
-
-                                                            setOpen(false);
-                                                        }}
-                                                    >
-                                                        <Check
-                                                            className={cn(
-                                                                "mr-2 h-4 w-4",
-                                                                value === framework.value ? "opacity-100" : "opacity-0"
-                                                            )}
-                                                        />
-                                                        {framework.label}
-                                                    </CommandItem>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                                {errors.kecamatan_id && (
-                                    <HelperError>{errors.kecamatan_id.message}</HelperError>
+                            <Controller
+                                name="kecamatan_id"
+                                control={control}
+                                render={({ field }) => (
+                                    <KecValue
+                                        // kecamatanItems={kecamatanItems}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                    />
                                 )}
-                            </Popover>
+                            />
+                            {errors.kecamatan_id && (
+                                <p className="text-red-500">{errors.kecamatan_id.message}</p>
+                            )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Wilayah Desa Binaan" />
