@@ -155,6 +155,20 @@ const KorlubPadi = () => {
     );
     console.log(dataPadi)
 
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/korluh/padi/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            mutate('/korluh/padi/get');
+        } catch (error) {
+            console.error('Failxed to delete:', error);
+            console.log(id)
+        }
+    };
 
     return (
         <div>
@@ -410,7 +424,7 @@ const KorlubPadi = () => {
                                             <Link className='' href={`/bpp-kecamatan/padi/edit/${item.id}`}>
                                                 <EditIcon />
                                             </Link>
-                                            <DeletePopup onDelete={() => { }} />
+                                            <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
                                         </div>
                                     </TableCell>
                                 </TableRow>

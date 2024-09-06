@@ -32,42 +32,43 @@ const formSchema = z.object({
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(1, { message: "Wajib Penerimaan wajib diisi" })
     ),
-    hibrida_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => Number(val), z.preprocess((val) => Number(val), z.number())),
-    hibrida_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    hibrida_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    hibrida_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    hibrida_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    hibrida_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    unggul_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    unggul_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    unggul_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    unggul_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    unggul_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    lokal_lahan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    lokal_lahan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    lokal_lahan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    lokal_lahan_bukan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    lokal_lahan_bukan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    lokal_lahan_bukan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    sawah_irigasi_lahan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    sawah_irigasi_lahan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    sawah_irigasi_lahan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    sawah_tadah_hujan_lahan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    sawah_tadah_hujan_lahan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    sawah_tadah_hujan_lahan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    sawah_rawa_pasang_surut_lahan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    sawah_rawa_pasang_surut_lahan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    sawah_rawa_pasang_surut_lahan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
-    sawah_rawa_lebak_lahan_sawah_panen: z.preprocess((val) => Number(val), z.number()),
-    sawah_rawa_lebak_lahan_sawah_tanam: z.preprocess((val) => Number(val), z.number()),
-    sawah_rawa_lebak_lahan_sawah_puso: z.preprocess((val) => Number(val), z.number()),
+    hibrida_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    hibrida_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    hibrida_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    hibrida_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    hibrida_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    hibrida_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    lokal_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    lokal_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    lokal_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    lokal_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    lokal_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    lokal_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_irigasi_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_irigasi_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_irigasi_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_tadah_hujan_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_tadah_hujan_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_tadah_hujan_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_rawa_pasang_surut_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_rawa_pasang_surut_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_rawa_pasang_surut_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_rawa_lebak_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_rawa_lebak_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
+    sawah_rawa_lebak_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
+
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -171,7 +172,7 @@ const TambahDataPadi = () => {
             console.log(data)
             console.log("Failed to create Padi:");
             return;
-        }finally {
+        } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/padi/get`);
@@ -744,7 +745,7 @@ const TambahDataPadi = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                    {loading ? (
+                        {loading ? (
                             <Loading />
                         ) : (
                             "Tambah"
