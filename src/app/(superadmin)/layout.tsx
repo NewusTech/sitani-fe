@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/accordion"
 import CloseNav from '../../../public/icons/CloseNav';
 import OpenNav from '../../../public/icons/OpenNav';
+import LogoutDashboard from '../../../public/icons/Logout';
 
 
 interface LayoutAdminProps {
@@ -54,9 +55,15 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
     const handleProduk = () => {
         setProduk(!produk);
     }
+
     const handleNavbar = () => {
         setNavbar(!navbar);
     }
+    const handleDropdownOpen = (route: string) => {
+        setIsDropdownOpen(isDropdownOpen === route ? null : route);
+    };
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState<string | null>(null);
     return (
         <div className="wrap w-full min-h-screen bg-white relative">
             {/* navbar */}
@@ -94,6 +101,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Ketahanan Pangan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/ketahanan-pangan/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/ketahanan-pangan/produsen-dan-eceran">
                                             <span className='text-sm'>Harga Produsen & Eceran </span>
                                         </Menu>
@@ -118,6 +128,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Tanaman Pangan dan Holtikulturan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/tanaman-pangan-holtikultura/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/tanaman-pangan-holtikutura/realisasi">
                                             <span className='text-sm'>Realisasi</span>
                                         </Menu>
@@ -133,6 +146,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Perkebunan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/perkebunan/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/perkebunan/luas-produksi-kecamatan">
                                             <span className='text-sm'>Luas & Produksi PR (Kec)</span>
                                         </Menu>
@@ -148,6 +164,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Penyuluhan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/penyuluhan/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/penyuluhan/data-kabupaten">
                                             <span className='text-sm'>Data Kabupaten</span>
                                         </Menu>
@@ -163,6 +182,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         PSP
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/psp/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/psp/data-penerima-uppo">
                                             <span className='text-sm'>Data Penerima UPPO</span>
                                         </Menu>
@@ -181,6 +203,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Kepegawaian
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/kepegawaian/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/kepegawaian/data-pegawai">
                                             <span className='text-sm'>Data Pegawai</span>
                                         </Menu>
@@ -200,6 +225,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Peran Pengguna
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/peran-pengguna/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/peran-pengguna/peran">
                                             <span className='text-sm'>Peran</span>
                                         </Menu>
@@ -215,6 +243,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         KJF Kabupaten
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/kjf-kabupaten/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/kjf-kabupaten/padi">
                                             <span className='text-sm'>Padi</span>
                                         </Menu>
@@ -239,6 +270,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         BPP Kecamatan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/bpp-kecamatabn/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/bpp-kecamatan/padi">
                                             <span className='text-sm'>Padi</span>
                                         </Menu>
@@ -263,6 +297,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Korluh
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/korluh/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/korluh/padi">
                                             <span className='text-sm'>Padi</span>
                                         </Menu>
@@ -287,6 +324,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Data Master
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/data-master/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
                                         <Menu link="/data-master/kelola-berita">
                                             <span className='text-sm'>Kelola Berita</span>
                                         </Menu>
@@ -297,6 +337,10 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                                 {/*data-master */}
                             </Accordion>
+                            <Link href="/" className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] text-primary hover:text-white bg-transparent hover:bg-primary ease-in duration-300">
+                                <LogoutDashboard />
+                                Logout
+                            </Link>
                         </div>
                     </div>
                 </div>
