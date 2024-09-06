@@ -100,7 +100,7 @@ const KorlubSayuranBuah = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Korlub Sayuran dan Buah</div>
+            <div className="text-2xl mb-5 font-semibold text-primary uppercase">KJF Kabupaten Sayuran Buah</div>
             {/* title */}
 
             {/* top */}
@@ -199,7 +199,7 @@ const KorlubSayuranBuah = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Link href="/korlub/sayuran-buah/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                    <Link href="/kjf-kabupaten/sayuran-buah/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
                         Tambah Data
                     </Link>
                 </div>
@@ -258,6 +258,9 @@ const KorlubSayuranBuah = () => {
                         </TableHead>
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
                             Keterangan
+                        </TableHead>
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            Aksi
                         </TableHead>
                     </TableRow>
                     <TableRow>
@@ -357,6 +360,17 @@ const KorlubSayuranBuah = () => {
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
                             234
+                        </TableCell>
+                        <TableCell>
+                            <div className="flex items-center gap-4">
+                                <Link className='' href={`/bpp-kecamatan/sayuran-buah/detail/1`}>
+                                    <EyeIcon />
+                                </Link>
+                                <Link className='' href={`/bpp-kecamatan/sayuran-buah/edit/1`}>
+                                    <EditIcon />
+                                </Link>
+                                <DeletePopup onDelete={() => { }} />
+                            </div>
                         </TableCell>
                     </TableRow>
                 </TableBody>

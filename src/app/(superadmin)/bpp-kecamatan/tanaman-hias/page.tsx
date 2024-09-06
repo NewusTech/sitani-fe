@@ -100,7 +100,7 @@ const KorluTanamanHias = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Korlub Tanaman Hias</div>
+            <div className="text-2xl mb-5 font-semibold text-primary uppercase">BPP Kecamatan Tanaman Hias</div>
             {/* title */}
 
             {/* top */}
@@ -199,7 +199,7 @@ const KorluTanamanHias = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Link href="/korlub/tanaman-hias/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                    <Link href="/bpp-kecamatan/tanaman-hias/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
                         Tambah Data
                     </Link>
                 </div>
@@ -320,10 +320,10 @@ const KorluTanamanHias = () => {
                             </TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-4">
-                                    <Link className='' href="/korlub/tanaman-hias/detail">
+                                    <Link className='' href={`/bpp-kecamatan/tanaman-hias/detail/1`}>
                                         <EyeIcon />
                                     </Link>
-                                    <Link className='' href="/korlub/tanaman-hias/edit">
+                                    <Link className='' href={`/bpp-kecamatan/tanaman-hias/edit/1`}>
                                         <EditIcon />
                                     </Link>
                                     <DeletePopup onDelete={() => { }} />

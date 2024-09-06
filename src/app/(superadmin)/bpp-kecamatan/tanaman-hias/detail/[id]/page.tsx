@@ -1,5 +1,5 @@
 import React from 'react'
-import AlertIcon from '../../../../../../public/icons/AlertIcon'
+import AlertIcon from '../../../../../../../public/icons/AlertIcon'
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 

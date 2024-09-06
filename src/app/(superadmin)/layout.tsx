@@ -128,7 +128,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         Tanaman Pangan dan Holtikulturan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
-                                        <Menu link="/tanaman-pangan-holtikultura/overview">
+                                        <Menu link="/tanaman-pangan-holtikutura/overview">
                                             <span className='text-sm'>Overview</span>
                                         </Menu>
                                         <Menu link="/tanaman-pangan-holtikutura/realisasi">
@@ -270,7 +270,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         BPP Kecamatan
                                     </AccordionTrigger>
                                     <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
-                                        <Menu link="/bpp-kecamatabn/overview">
+                                        <Menu link="/bpp-kecamatan/overview">
                                             <span className='text-sm'>Overview</span>
                                         </Menu>
                                         <Menu link="/bpp-kecamatan/padi">
@@ -337,7 +337,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                                 {/*data-master */}
                             </Accordion>
-                            <Link href="/" className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] text-primary hover:text-white bg-transparent hover:bg-primary ease-in duration-300">
+                            <Link href="/" className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] text-primary hover:text-white bg-transparent hover:bg-primary ease-in duration-300 mt-1">
                                 <LogoutDashboard />
                                 Logout
                             </Link>
