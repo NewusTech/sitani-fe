@@ -245,7 +245,7 @@ const HargaPanganEceran = () => {
                                     <Link className='' href="/ketahanan-pangan/harga-pangan-eceran/detail">
                                         <EyeIcon />
                                     </Link>
-                                    <DeletePopup onDelete={() => { }} />
+                                    <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell>
                         </TableRow>

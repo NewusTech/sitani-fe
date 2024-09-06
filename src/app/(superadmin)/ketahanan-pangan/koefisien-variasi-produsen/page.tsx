@@ -203,7 +203,7 @@ const KoefisienVariasiProdusen = () => {
                                     <Link className='' href="/ketahanan-pangan/koefisien-variasi-produsen/edit">
                                         <EditIcon />
                                     </Link>
-                                    <DeletePopup onDelete={() => { }} />
+                                    <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell>
                         </TableRow>

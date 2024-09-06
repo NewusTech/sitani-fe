@@ -2,9 +2,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import React from 'react'
-import PrintIcon from '../../../../../public/icons/PrintIcon'
-import FilterIcon from '../../../../../public/icons/FilterIcon'
-import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import Link from 'next/link'
 import {
@@ -26,28 +23,6 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
-import EyeIcon from '../../../../../public/icons/EyeIcon'
-import DeletePopup from '@/components/superadmin/PopupDelete'
-import EditIcon from '../../../../../public/icons/EditIcon'
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { cn } from "@/lib/utils"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
 import {
     ChartConfig,
     ChartContainer,
@@ -122,7 +97,7 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                 {/* header */}
                 <div className="header flex justify-between items-center">
                     <div className="search w-[70%]">
-                        <div className="text-primary font-semibold text-lg lg:text-3xl flex-shrink-0">Perbandingan komoditas harga panen tingkat eceran</div>
+                        <div className="text-primary font-semibold text-lg lg:text-3xl flex-shrink-0">Perbandingan Komoditas Harga Panen Tingkat Eceran</div>
                     </div>
                     <div className="btn flex gap-2">
                         <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
@@ -151,7 +126,6 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                             <TableHead className="text-primary py-3">Ags</TableHead>
                             <TableHead className="text-primary py-3">Sep</TableHead>
                             <TableHead className="text-primary py-3">Okt</TableHead>
-                            <TableHead className="text-primary py-3">Aksi</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -166,14 +140,6 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                                 {Object.values(item.harga).map((harga, i) => (
                                     <TableCell key={i}>{harga}</TableCell>
                                 ))}
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link className='' href="/ketahanan-pangan/harga-pangan-eceran/detail">
-                                            <EyeIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => { }} />
-                                    </div>
-                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

@@ -2,9 +2,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import React from 'react'
-import PrintIcon from '../../../../../public/icons/PrintIcon'
-import FilterIcon from '../../../../../public/icons/FilterIcon'
-import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import Link from 'next/link'
 
@@ -28,19 +25,6 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
-
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { cn } from "@/lib/utils"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import EyeIcon from '../../../../../public/icons/EyeIcon'
-import DeletePopup from '@/components/superadmin/PopupDelete'
-import EditIcon from '../../../../../public/icons/EditIcon'
 
 interface Data {
     bulan?: string;
@@ -74,7 +58,7 @@ const KomponenKoefisienVariasiProdusen = () => {
                 {/* header */}
                 <div className="header flex justify-between items-center">
                     <div className="search w-[70%]">
-                        <div className="text-primary font-semibold text-lg lg:text-3xl flex-shrink-0">koefesian variasi tinglat produsen</div>
+                        <div className="text-primary font-semibold text-lg lg:text-3xl flex-shrink-0">Koefesian Variasi Tingkat Produsen</div>
                     </div>
                     <div className="btn flex gap-2">
                         <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
@@ -95,7 +79,6 @@ const KomponenKoefisienVariasiProdusen = () => {
                             <TableHead className="text-primary py-3">Daging Sapi Tingkat Pemotong RPH</TableHead>
                             <TableHead className="text-primary py-3">Daging Ayam Ras</TableHead>
                             <TableHead className="text-primary py-3">Telur Ayam Ras</TableHead>
-                            <TableHead className="text-primary py-3">Aksi</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -116,17 +99,6 @@ const KomponenKoefisienVariasiProdusen = () => {
                                 <TableCell>
                                     {item.telurAyam}
                                 </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link className='' href="/ketahanan-pangan/koefisien-variasi-produsen/detail">
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link className='' href="/ketahanan-pangan/koefisien-variasi-produsen/edit">
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => { }} />
-                                    </div>
-                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -136,35 +108,30 @@ const KomponenKoefisienVariasiProdusen = () => {
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                     </TableFooter>
                 </Table>

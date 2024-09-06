@@ -224,7 +224,7 @@ const KuisionerPedagangEceran = () => {
                                     <Link className='' href="/ketahanan-pangan/kuisioner-pedagang-eceran/edit">
                                         <EditIcon />
                                     </Link>
-                                    <DeletePopup onDelete={() => { }} />
+                                    <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell>
                         </TableRow>

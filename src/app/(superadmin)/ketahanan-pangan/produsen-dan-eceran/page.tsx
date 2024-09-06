@@ -132,7 +132,7 @@ const ProdusenDanEceran = () => {
                   <Link className='' href="/ketahanan-pangan/produsen-dan-eceran/edit">
                     <EditIcon />
                   </Link>
-                  <DeletePopup onDelete={() => { }} />
+                  <DeletePopup onDelete={async () => { }} />
                 </div>
               </TableCell>
             </TableRow>

@@ -2,9 +2,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import React from 'react'
-import PrintIcon from '../../../../../public/icons/PrintIcon'
-import FilterIcon from '../../../../../public/icons/FilterIcon'
-import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import Link from 'next/link'
 
@@ -28,19 +25,6 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
-
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { cn } from "@/lib/utils"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import EyeIcon from '../../../../../public/icons/EyeIcon'
-import EditIcon from '../../../../../public/icons/EditIcon'
-import DeletePopup from '@/components/superadmin/PopupDelete'
 
 interface Data {
     bulan?: string;
@@ -98,7 +82,7 @@ const KomponenKoefisienVariasiPrduksi = () => {
                 <div className="header flex justify-between items-center">
                     <div className="search w-[70%]">
                         <div className="text-primary font-semibold text-lg lg:text-3xl flex-shrink-0">
-                            Koefesian variasi tingkat produksi</div>
+                            Koefesian Variasi Tingkat Produksi</div>
                     </div>
                     <div className="btn flex gap-2">
                         <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
@@ -127,7 +111,6 @@ const KomponenKoefisienVariasiPrduksi = () => {
                             <TableHead className="text-primary py-3">Beras Premium</TableHead>
                             <TableHead className="text-primary py-3">Stok GKG</TableHead>
                             <TableHead className="text-primary py-3">Stok Beras</TableHead>
-                            <TableHead className="text-primary py-3">Aksi</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -169,17 +152,6 @@ const KomponenKoefisienVariasiPrduksi = () => {
                                 <TableCell>
                                     {item.stokBeras}
                                 </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/detail">
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/edit">
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => { }} />
-                                    </div>
-                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -196,7 +168,6 @@ const KomponenKoefisienVariasiPrduksi = () => {
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
@@ -210,7 +181,6 @@ const KomponenKoefisienVariasiPrduksi = () => {
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
@@ -224,7 +194,6 @@ const KomponenKoefisienVariasiPrduksi = () => {
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
@@ -238,7 +207,6 @@ const KomponenKoefisienVariasiPrduksi = () => {
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
@@ -252,7 +220,6 @@ const KomponenKoefisienVariasiPrduksi = () => {
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
                             <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                            <TableCell className="text-primary py-3"></TableCell>
                         </TableRow>
                     </TableFooter>
                 </Table>
