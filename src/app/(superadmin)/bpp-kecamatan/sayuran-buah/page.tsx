@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -48,6 +48,11 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+// 
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 
 interface Data {
     kecamatan?: string;
@@ -96,6 +101,94 @@ const KorlubSayuranBuah = () => {
             keterangan: "100 hektar",
         },
     ];
+
+    // INTEGRASI
+    interface KorluhSayurBuahResponse {
+        status: number;
+        message: string;
+        data: {
+            data: KorluhSayurBuah[];
+            pagination: Pagination;
+        };
+    }
+
+    interface KorluhSayurBuah {
+        id: number;
+        kecamatanId: number;
+        desaId: number;
+        tanggal: string;
+        createdAt: string;
+        updatedAt: string;
+        kecamatan: Kecamatan;
+        desa: Desa;
+        list: Tanaman[];
+    }
+
+    interface Kecamatan {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Desa {
+        id: number;
+        nama: string;
+        kecamatanId: number;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Tanaman {
+        id: number;
+        korluhSayurBuahId: number;
+        namaTanaman: string;
+        hasilProduksi: string;
+        luasPanenHabis: number;
+        luasPanenBelumHabis: number;
+        luasRusak: number;
+        luasPenanamanBaru: number;
+        produksiHabis: number;
+        produksiBelumHabis: number;
+        rerataHarga: number;
+        keterangan: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Pagination {
+        page: number;
+        perPage: number;
+        totalPages: number;
+        totalCount: number;
+        links: {
+            prev: string | null;
+            next: string | null;
+        };
+    }
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+
+    // GETALL
+    const { data: dataSayuran }: SWRResponse<KorluhSayurBuahResponse> = useSWR(
+        // `korluh/padi/get?limit=1`,
+        `korluh/sayur-buah/get`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    console.log(dataSayuran)
+
+    // INTEGRASI
 
     return (
         <div>
@@ -279,48 +372,50 @@ const KorlubSayuranBuah = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell className='border border-slate-200'>
-                                {item.namaTanaman}
-                            </TableCell>
-                            <TableCell className='border border-slate-200'>
-                                {item.hasilProduksi}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasTanamanAkhirBulanLalu}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPanen.habisDibongkar}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPanen.belumHabis}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasRusak}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPenanamanBaru}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasTanamanAkhirBulanLaporan}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.produksiKuintal.dipanenHabis}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.produksiKuintal.belumHabis}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.rataRataHargaJual}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.keterangan}
-                            </TableCell>
-                        </TableRow>
+                    {dataSayuran?.data.data.map((item, index) => (
+                        item.list.map((tanaman) => (
+                            <TableRow key={tanaman.id}>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell className='border border-slate-200'>
+                                    {tanaman.namaTanaman}
+                                </TableCell>
+                                <TableCell className='border border-slate-200'>
+                                    {tanaman.hasilProduksi}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    belum ada
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.luasPanenHabis}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.luasPanenBelumHabis}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.luasRusak}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.luasPenanamanBaru}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    belum ada
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.produksiHabis}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.produksiBelumHabis}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.rerataHarga}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {tanaman.keterangan}
+                                </TableCell>
+                            </TableRow>
+                        ))
                     ))}
                     <TableRow>
                         <TableCell className='border border-slate-200'>
@@ -329,37 +424,37 @@ const KorlubSayuranBuah = () => {
                             Jumlah
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            belum
                         </TableCell>
                         <TableCell>
                             <div className="flex items-center gap-4">
