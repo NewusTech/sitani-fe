@@ -22,6 +22,8 @@ import {
 import useLocalStorage from '@/hooks/useLocalStorage';
 import InputComponent from '@/components/ui/InputKecDesa';
 import Loading from '@/components/ui/Loading';
+import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
+import DesaValue from '@/components/superadmin/SelectComponent/DesaValue';
 
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
@@ -35,16 +37,23 @@ const formatDate = (dateString: string) => {
 
 const formSchema = z.object({
     kecamatan_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" })),
+        .number()
+        .min(1, "Kecamatan is required")
+        .transform((value) => Number(value)), // Mengubah string menjadi number
     desa_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Desa wajib diisi" })),
-    jenis_bantuan: z.string().min(1, { message: "Nama wajib diisi" }),
+        .number()
+        .min(1, "Desa is required")
+        .transform((value) => Number(value)), // Mengubah string menjadi number
+    jenis_bantuan: z
+        .string()
+        .min(1, { message: "Nama wajib diisi" }),
     periode: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(1, { message: "Periode Penerimaan wajib diisi" })
     ),
     keterangan: z.string().min(1, { message: "Keterangan wajib diisi" }),
 });
+
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -62,76 +71,11 @@ const BantuanTambah = () => {
         resolver: zodResolver(formSchema),
     });
 
-    // GET ALL KECAMATAN
-    interface Kecamatan {
-        id: number;
-        nama: string;
-    }
-
-    interface Response {
-        status: string;
-        data: Kecamatan[];
-        message: string;
-    }
-
-    const [accessToken] = useLocalStorage("accessToken", "");
-
-    const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
-        `kecamatan/get`,
-        (url: string) =>
-            axiosPrivate
-                .get(url, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-                .then((res: any) => res.data)
-    );
-
-    // GET ALL DESA
-    interface Desa {
-        id: number;
-        nama: string;
-        kecamatanId: number;
-    }
-
-    interface ResponseDesa {
-        status: string;
-        data: Desa[];
-        message: string;
-    }
-
-    const { data: dataDesa }: SWRResponse<ResponseDesa> = useSWR(
-        `desa/get`,
-        (url: string) =>
-            axiosPrivate
-                .get(url, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-                .then((res: any) => res.data)
-    );
-
-    const selectedKecamatan = Number(watch("kecamatan_id")); // Ensure conversion to number
-
-    const kecamatanOptions = dataKecamatan?.data.map(kecamatan => ({
-        id: kecamatan.id.toString(),
-        name: kecamatan.nama,
-    }));
-
-    const desaOptions = dataDesa?.data
-        .filter(desa => desa.kecamatanId === selectedKecamatan) // Ensure types match here
-        .map(desa => ({
-            id: desa.id.toString(),
-            name: desa.nama,
-        }));
-
-    // GET ALL DESA
+    const kecamatanValue = watch("kecamatan_id");
 
     // const onSubmit = (data: FormSchemaType) => {
     //     console.log(data);
-    //     reset();
+    //     // reset();
     // };
 
 
@@ -139,6 +83,7 @@ const BantuanTambah = () => {
     const [loading, setLoading] = useState(false);
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
+
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
@@ -152,7 +97,7 @@ const BantuanTambah = () => {
             console.log(data)
             console.log("Failed to create user:");
             return;
-        }finally {
+        } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/psp/bantuan/get?page=1`);
@@ -172,13 +117,10 @@ const BantuanTambah = () => {
                                 name="kecamatan_id"
                                 control={control}
                                 render={({ field }) => (
-                                    <InputComponent
-                                        typeInput="selectSearch"
-                                        placeholder="Pilih Kecamatan"
-                                        label="Kecamatan"
+                                    <KecValue
+                                        // kecamatanItems={kecamatanItems}
                                         value={field.value}
                                         onChange={field.onChange}
-                                        items={kecamatanOptions}
                                     />
                                 )}
                             />
@@ -192,18 +134,16 @@ const BantuanTambah = () => {
                                 name="desa_id"
                                 control={control}
                                 render={({ field }) => (
-                                    <InputComponent
-                                        typeInput="selectSearch"
-                                        placeholder="Select Desa"
-                                        label="Desa"
+                                    <DesaValue
+                                        // desaItems={filteredDesaItems}
                                         value={field.value}
                                         onChange={field.onChange}
-                                        items={desaOptions}
+                                        kecamatanValue={kecamatanValue}
                                     />
                                 )}
                             />
                             {errors.desa_id && (
-                                <p className="text-red-500">{errors.desa_id.message}</p>
+                                <p className="text-red-500 mt-1">{errors.desa_id.message}</p>
                             )}
                         </div>
                     </div>
@@ -253,7 +193,7 @@ const BantuanTambah = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                    {loading ? (
+                        {loading ? (
                             <Loading />
                         ) : (
                             "Tambah"
