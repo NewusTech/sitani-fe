@@ -124,6 +124,8 @@ const BantuanEdit = () => {
             reset();
         } catch (error) {
             console.error('Failed to update data:', error);
+        }finally {
+            setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/psp/bantuan/get?page=1`);
     };

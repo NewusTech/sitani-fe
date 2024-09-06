@@ -1,7 +1,7 @@
 "use client"
 
 import Label from '@/components/ui/label';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
@@ -14,13 +14,17 @@ import { useRouter, useParams } from 'next/navigation';
 import useSWR, { SWRResponse, mutate } from 'swr';
 import InputComponent from '@/components/ui/InputKecDesa';
 import useLocalStorage from '@/hooks/useLocalStorage';
+import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
+import DesaValue from '@/components/superadmin/SelectComponent/DesaValue';
+import Loading from '@/components/ui/Loading';
 
 const formSchema = z.object({
     kecamatan_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" }))
-        .optional(),
+        .number()
+        .transform((value) => Number(value)), // Convert string to number
     desa_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Desa wajib diisi" }))
+        .number()
+        .transform((value) => Number(value))
         .optional(),
     nama_poktan: z.string().min(1, { message: "Nama Poktan wajib diisi" }).optional(),
     ketua_poktan: z.string().min(1, { message: "Nama Ketua wajib diisi" }).optional(),
@@ -65,6 +69,7 @@ const EditDataPenerimaUppo = () => {
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
     const { id } = useParams();
+
 
     const { data: dataKecamatan }: SWRResponse<{ status: string; data: Kecamatan[]; message: string }> = useSWR(
         `kecamatan/get`,
@@ -113,17 +118,30 @@ const EditDataPenerimaUppo = () => {
         }
     );
 
+    const kecamatanId = watch("kecamatan_id");
+    const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
+
+
     useEffect(() => {
         if (dataUser) {
             setValue("kecamatan_id", dataUser.data.kecamatanId);
-            setValue("desa_id", dataUser.data.desaId);
+            setInitialDesaId(dataUser.data.desaId); // Save initial desa_id
+            setValue("desa_id", dataUser.data.desaId); // Set default value
             setValue("nama_poktan", dataUser.data.namaPoktan);
             setValue("ketua_poktan", dataUser.data.ketuaPoktan);
             setValue("titik_koordinat", dataUser.data.titikKoordinat);
         }
     }, [dataUser, setValue]);
+    useEffect(() => {
+        // Clear desa_id when kecamatan_id changes
+        setValue("desa_id", initialDesaId); // Reset to initial desa_id
+    }, [kecamatanId, setValue, initialDesaId]);
+    const [loading, setLoading] = useState(false);
+
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true); // Set loading to true when the form is submitted
+
         try {
             await axiosPrivate.put(`/psp/penerima-uppo/update/${id}`, data);
             console.log("Success to update user:", data);
@@ -132,6 +150,8 @@ const EditDataPenerimaUppo = () => {
         } catch (error) {
             console.error('Failed to update user:', error);
             console.log(data);
+        } finally {
+            setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/psp/penerima-uppo/get?page=1&limit=10&search&kecamatan&startDate=&endDate`);
     };
@@ -158,13 +178,15 @@ const EditDataPenerimaUppo = () => {
                                 control={control}
                                 render={({ field }) => (
                                     <>
-                                        <InputComponent
-                                            typeInput="selectSearch"
-                                            placeholder="Pilih Kecamatan"
-                                            label="Kecamatan"
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            items={kecamatanOptions}
+                                        <Controller
+                                            name="kecamatan_id"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <KecValue
+                                                    value={field.value}
+                                                    onChange={(value) => field.onChange(Number(value))} // Ensure value is a number
+                                                />
+                                            )}
                                         />
                                     </>
 
@@ -180,13 +202,10 @@ const EditDataPenerimaUppo = () => {
                                 name="desa_id"
                                 control={control}
                                 render={({ field }) => (
-                                    <InputComponent
-                                        typeInput="selectSearch"
-                                        placeholder="Select Desa"
-                                        label="Desa"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        items={desaOptions}
+                                    <DesaValue
+                                        value={field.value ?? 0} // Provide a default value if undefined
+                                        onChange={(value) => field.onChange(Number(value))} // Ensure value is a number
+                                        kecamatanValue={kecamatanId}
                                     />
                                 )}
                             />
@@ -243,7 +262,11 @@ const EditDataPenerimaUppo = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        Edit
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            "Simpan"
+                        )}
                     </Button>
                 </div>
             </form>
