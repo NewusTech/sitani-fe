@@ -36,8 +36,8 @@ const formSchema = z.object({
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(0, { message: "Tanggal wajib diisi" })),
-    nama_tanaman: z.string().min(1, { message: "Nama tanaman wajib diisi" }),
-    satuan_produksi: z.string().min(0, { message: "Satuan Produksi wajib diisi" }),
+    nama_tanaman: z.string().min(0, { message: "Nama tanaman wajib diisi" }),
+    satuan_produksi: z.string().min(0, { message: "Hasil produksi wajib diisi" }),
     luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
     luas_panen_belum_habis: z.coerce.number().min(0, { message: "Luas panen belum habis wajib diisi" }),
     luas_rusak: z.coerce.number().min(0, { message: "Luas rusak wajib diisi" }),
@@ -72,7 +72,7 @@ const EditTanamanBuah = () => {
 
     interface Sayuran {
         id: number;
-        korluhSayurBuahId: number;
+        korluhTanamanHiasId: number;
         namaTanaman: string;
         satuanProduksi: string;
         luasPanenHabis: number;
@@ -83,7 +83,7 @@ const EditTanamanBuah = () => {
         produksiBelumHabis: number;
         rerataHarga: number;
         keterangan: string;
-        korluhSayurBuah: {
+        korluhTanamanHias: {
             tanggal: string,
             kecamatanId: number,
             desaId: number,
@@ -121,8 +121,9 @@ const EditTanamanBuah = () => {
     useEffect(() => {
         if (dataTanaman) {
             setValue("nama_tanaman", dataTanaman.data.namaTanaman);
-            setValue("tanggal", new Date(dataTanaman.data.korluhSayurBuah.tanggal).toISOString().split('T')[0]);
-            setValue("satuan_produksi", dataTanaman.data.satuanProduksi);
+            setValue("tanggal", new Date(dataTanaman.data.korluhTanamanHias.tanggal).toISOString().split('T')[0]);
+            setValue("satuan_produksi", "pcs");
+            console.log("satuan produksi = ",dataTanaman.data.satuanProduksi)
             setValue("luas_panen_habis", dataTanaman.data.luasPanenHabis);
             setValue("luas_panen_belum_habis", dataTanaman.data.luasPanenBelumHabis);
             setValue("luas_rusak", dataTanaman.data.luasRusak);
@@ -131,9 +132,9 @@ const EditTanamanBuah = () => {
             setValue("produksi_belum_habis", dataTanaman.data.produksiBelumHabis);
             setValue("rerata_harga", dataTanaman.data.rerataHarga);
             setValue("keterangan", dataTanaman.data.keterangan);
-            setValue("kecamatan_id", dataTanaman.data.korluhSayurBuah.kecamatanId);
-            setInitialDesaId(dataTanaman.data.korluhSayurBuah.desaId); // Save initial desa_id
-            setValue("desa_id", dataTanaman.data.korluhSayurBuah.desaId); // Set default value
+            setValue("kecamatan_id", dataTanaman.data.korluhTanamanHias.kecamatanId);
+            setInitialDesaId(dataTanaman.data.korluhTanamanHias.desaId); // Save initial desa_id
+            setValue("desa_id", dataTanaman.data.korluhTanamanHias.desaId); // Set default value
         }
     }, [dataTanaman, setValue]);
 
@@ -246,7 +247,7 @@ const EditTanamanBuah = () => {
                             <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
                                 <Label className='text-sm mb-1' label="Satuan Produksi" />
                                 <Input
-                                    type="number"
+                                    type="text"
                                     placeholder="Satuan Produksi"
                                     {...register('satuan_produksi')}
                                     className={`${errors.satuan_produksi ? 'border-red-500' : 'py-5 text-sm'}`}

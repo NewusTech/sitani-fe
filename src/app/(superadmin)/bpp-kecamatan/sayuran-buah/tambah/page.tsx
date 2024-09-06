@@ -37,7 +37,7 @@ const formSchema = z.object({
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(1, { message: "Tanggal wajib diisi" })),
     nama_tanaman: z.string().min(1, { message: "Nama tanaman wajib diisi" }),
-    hasil_produksi: z.coerce.number().min(1, { message: "Hasil produksi wajib diisi" }),
+    hasil_produksi: z.string().min(1, { message: "Hasil produksi wajib diisi" }),
     luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
     luas_panen_belum_habis: z.coerce.number().min(0, { message: "Luas panen belum habis wajib diisi" }),
     luas_rusak: z.coerce.number().min(0, { message: "Luas rusak wajib diisi" }),
@@ -170,7 +170,7 @@ const TambahSayuranBuah = () => {
                             <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
                                 <Label className='text-sm mb-1' label="Hasil Produksi Yang Dicatat" />
                                 <Input
-                                    type="number"
+                                    type="text"
                                     placeholder="Hasil Produksi Yang Dicatat"
                                     {...register('hasil_produksi')}
                                     className={`${errors.hasil_produksi ? 'border-red-500' : 'py-5 text-sm'}`}
