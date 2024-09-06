@@ -341,7 +341,7 @@ const Palawija2 = () => {
                                     <Link className='' href="/tanaman-pangan-holtikutura/realisasi/palawija-2/edit">
                                         <EditIcon />
                                     </Link>
-                                    <DeletePopup onDelete={() => { }} />
+                                    <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell>
                         </TableRow>

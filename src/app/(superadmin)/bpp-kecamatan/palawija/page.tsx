@@ -392,7 +392,7 @@ const KorluPalawija = () => {
                                 <Link className='' href={`/bpp-kecamatan/palawija/edit/1`}>
                                     <EditIcon />
                                 </Link>
-                                <DeletePopup onDelete={() => { }} />
+                                <DeletePopup onDelete={async () => { }} />
                             </div>
                         </TableCell>
                     </TableRow>

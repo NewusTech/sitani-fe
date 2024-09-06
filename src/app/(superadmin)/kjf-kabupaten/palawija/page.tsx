@@ -392,7 +392,7 @@ const KorluPalawija = () => {
                                 <Link className='' href="/korlub/padi/edit">
                                     <EditIcon />
                                 </Link>
-                                <DeletePopup onDelete={() => { }} />
+                                <DeletePopup onDelete={async () => { }} />
                             </div>
                         </TableCell>
                     </TableRow>

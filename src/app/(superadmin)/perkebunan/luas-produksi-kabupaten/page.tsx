@@ -378,7 +378,7 @@ const LuasKabPage = () => {
                                     <Link className='' href="/perkebunan/luas-produksi-kabupaten/edit">
                                         <EditIcon />
                                     </Link>
-                                    <DeletePopup onDelete={() => { }} />
+                                    <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell>
                         </TableRow>

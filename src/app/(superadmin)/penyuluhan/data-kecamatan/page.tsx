@@ -213,7 +213,7 @@ const PenyuluhDataKecamatan = () => {
                                         >
                                             <EditIcon />
                                         </Link>
-                                        <DeletePopup onDelete={() => { }} />
+                                        <DeletePopup onDelete={async () => { }} />
                                     </div>
                                 </TableCell>
                             </TableRow>

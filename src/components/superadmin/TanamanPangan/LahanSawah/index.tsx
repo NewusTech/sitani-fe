@@ -301,7 +301,7 @@ const LahanSawah = () => {
                                     <Link className='' href="/tanaman-pangan-holtikutura/lahan/lahan-sawah/edit">
                                         <EditIcon />
                                     </Link>
-                                    <DeletePopup onDelete={() => { }} />
+                                    <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell>
                         </TableRow>

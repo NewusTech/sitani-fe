@@ -141,7 +141,7 @@ const PenggunaPage = () => {
                   <Link className='' href="/peran-pengguna/pengguna/edit">
                     <EditIcon />
                   </Link>
-                  <DeletePopup onDelete={() => { }} />
+                  <DeletePopup onDelete={async () => { }} />
                 </div>
               </TableCell>
             </TableRow>

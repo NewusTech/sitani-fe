@@ -216,7 +216,7 @@ const LuasKecPage = () => {
                                 <Link className='' href="/psp/bantuan/edit">
                                     <EditIcon />
                                 </Link>
-                                <DeletePopup onDelete={() => { }} />
+                                <DeletePopup onDelete={async () => { }} />
                             </div>
                         </TableCell>
                     </TableRow>

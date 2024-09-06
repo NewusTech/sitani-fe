@@ -326,7 +326,7 @@ const KorluTanamanHias = () => {
                                     <Link className='' href="/korlub/tanaman-hias/edit">
                                         <EditIcon />
                                     </Link>
-                                    <DeletePopup onDelete={() => { }} />
+                                    <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell>
                         </TableRow>

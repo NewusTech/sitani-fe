@@ -342,7 +342,7 @@ const Padi = () => {
                                     <Link className='' href="/tanaman-pangan-holtikutura/realisasi/padi/edit">
                                         <EditIcon />
                                     </Link>
-                                    <DeletePopup onDelete={() => { }} />
+                                    <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell>
                         </TableRow>

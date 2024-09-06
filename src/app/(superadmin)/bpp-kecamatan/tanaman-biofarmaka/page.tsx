@@ -320,7 +320,7 @@ const KorlubTanamanBiofarmaka = () => {
                                     <Link className='' href={`/bpp-kecamatan/tanaman-biofarmaka/edit/1`}>
                                         <EditIcon />
                                     </Link>
-                                    <DeletePopup onDelete={() => { }} />
+                                    <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell>
                         </TableRow>

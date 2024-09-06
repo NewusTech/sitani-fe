@@ -369,7 +369,7 @@ const KorlubSayuranBuah = () => {
                                 <Link className='' href={`/bpp-kecamatan/sayuran-buah/edit/1`}>
                                     <EditIcon />
                                 </Link>
-                                <DeletePopup onDelete={() => { }} />
+                                <DeletePopup onDelete={async () => { }} />
                             </div>
                         </TableCell>
                     </TableRow>
