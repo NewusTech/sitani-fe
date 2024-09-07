@@ -1,19 +1,21 @@
-"use client"
-import Label from '@/components/ui/label'
-import React, { useState } from 'react'
-import { Input } from '@/components/ui/input'
+"use client";
+import Label from '@/components/ui/label';
+import React, { useEffect, useState } from 'react';
+import { Input } from '@/components/ui/input';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
-import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
-import useSWR, { SWRResponse, mutate } from "swr";
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import useLocalStorage from '@/hooks/useLocalStorage';
-import InputComponent from '@/components/ui/InputKecDesa';
+import Link from 'next/link';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter, useParams } from 'next/navigation';
+import useSWR, { mutate } from 'swr';
+import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
+import DesaValue from '@/components/superadmin/SelectComponent/DesaValue';
+import { Textarea } from '@/components/ui/textarea';
 import Loading from '@/components/ui/Loading';
+import InputComponent from '@/components/ui/InputKecDesa';
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
 const formatDate = (dateString: string) => {
@@ -25,163 +27,231 @@ const formatDate = (dateString: string) => {
 };
 const formSchema = z.object({
     kecamatan_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" })),
+        .number()
+        .transform((value) => Number(value)), // Convert string to number
     desa_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Desa wajib diisi" })),
+        .number()
+        .transform((value) => Number(value))
+        .optional(), // Allow undefined values
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(1, { message: "Wajib Penerimaan wajib diisi" })
     ),
-    hibrida_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_irigasi_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_irigasi_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_irigasi_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_tadah_hujan_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_tadah_hujan_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_tadah_hujan_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_pasang_surut_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_pasang_surut_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_pasang_surut_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_lebak_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_lebak_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_lebak_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-
+    hibrida_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    hibrida_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    hibrida_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    hibrida_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    hibrida_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    hibrida_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    lokal_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    lokal_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    lokal_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    lokal_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    lokal_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    lokal_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_irigasi_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_irigasi_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_irigasi_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_tadah_hujan_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_tadah_hujan_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_tadah_hujan_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_rawa_pasang_surut_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_rawa_pasang_surut_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_rawa_pasang_surut_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_rawa_lebak_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_rawa_lebak_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
+    sawah_rawa_lebak_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()).optional(),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahDataPadi = () => {
-    // GET ALL KECAMATAN
+const EditDataPadi = () => {
+    // INTEGRASI
+    interface Response {
+        status: string,
+        data: Data,
+        message: string
+    }
+
+    interface Data {
+        id: number;
+        kecamatanId: number;
+        desaId: number;
+        tanggal: string;
+        hibrida_bantuan_pemerintah_lahan_sawah_panen: number;
+        hibrida_bantuan_pemerintah_lahan_sawah_tanam: number;
+        hibrida_bantuan_pemerintah_lahan_sawah_puso: number;
+        hibrida_non_bantuan_pemerintah_lahan_sawah_panen: number;
+        hibrida_non_bantuan_pemerintah_lahan_sawah_tanam: number;
+        hibrida_non_bantuan_pemerintah_lahan_sawah_puso: number;
+        unggul_bantuan_pemerintah_lahan_sawah_panen: number;
+        unggul_bantuan_pemerintah_lahan_sawah_tanam: number;
+        unggul_bantuan_pemerintah_lahan_sawah_puso: number;
+        unggul_bantuan_pemerintah_lahan_bukan_sawah_panen: number;
+        unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam: number;
+        unggul_bantuan_pemerintah_lahan_bukan_sawah_puso: number;
+        unggul_non_bantuan_pemerintah_lahan_sawah_panen: number;
+        unggul_non_bantuan_pemerintah_lahan_sawah_tanam: number;
+        unggul_non_bantuan_pemerintah_lahan_sawah_puso: number;
+        unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen: number;
+        unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam: number;
+        unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso: number;
+        lokal_lahan_sawah_panen: number;
+        lokal_lahan_sawah_tanam: number;
+        lokal_lahan_sawah_puso: number;
+        lokal_lahan_bukan_sawah_panen: number;
+        lokal_lahan_bukan_sawah_tanam: number;
+        lokal_lahan_bukan_sawah_puso: number;
+        sawah_irigasi_lahan_sawah_panen: number;
+        sawah_irigasi_lahan_sawah_tanam: number;
+        sawah_irigasi_lahan_sawah_puso: number;
+        sawah_tadah_hujan_lahan_sawah_panen: number;
+        sawah_tadah_hujan_lahan_sawah_tanam: number;
+        sawah_tadah_hujan_lahan_sawah_puso: number;
+        sawah_rawa_pasang_surut_lahan_sawah_panen: number;
+        sawah_rawa_pasang_surut_lahan_sawah_tanam: number;
+        sawah_rawa_pasang_surut_lahan_sawah_puso: number;
+        sawah_rawa_lebak_lahan_sawah_panen: number;
+        sawah_rawa_lebak_lahan_sawah_tanam: number;
+        sawah_rawa_lebak_lahan_sawah_puso: number;
+        createdAt: string;
+        updatedAt: string;
+        kecamatan: Kecamatan;
+        desa: Desa;
+    }
+
     interface Kecamatan {
         id: number;
         nama: string;
+        createdAt: string; // ISO Date string
+        updatedAt: string; // ISO Date string
     }
 
-    interface Response {
-        status: string;
-        data: Kecamatan[];
-        message: string;
-    }
-
-    const [accessToken] = useLocalStorage("accessToken", "");
-    const axiosPrivate = useAxiosPrivate();
-
-    const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
-        `kecamatan/get`,
-        (url: string) =>
-            axiosPrivate
-                .get(url, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-                .then((res: any) => res.data)
-    );
-
-    // GET ALL DESA
     interface Desa {
         id: number;
         nama: string;
         kecamatanId: number;
+        createdAt: string; // ISO Date string
+        updatedAt: string; // ISO Date string
     }
 
-    interface ResponseDesa {
-        status: string;
-        data: Desa[];
-        message: string;
-    }
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
 
-    const { data: dataDesa }: SWRResponse<ResponseDesa> = useSWR(
-        `desa/get`,
-        (url: string) =>
-            axiosPrivate
-                .get(url, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-                .then((res: any) => res.data)
+    const { data: dataPadi, error } = useSWR<Response>(
+        `korluh/padi/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                console.log('Berhasil Dapat Data');
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
     );
-
-    // GET ALL DESA
-    const [date, setDate] = React.useState<Date>()
-    const [valueSelect, setValueSelectt] = React.useState(""); // Untuk menyimpan nilai jenis padi
 
     const {
         register,
         handleSubmit,
         reset,
-        watch,
-        control,
         formState: { errors },
-        setValue
+        setValue,
+        control,
+        watch,
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
-    const selectedKecamatan = Number(watch("kecamatan_id")); // Ensure conversion to number
 
-    const kecamatanOptions = dataKecamatan?.data.map(kecamatan => ({
-        id: kecamatan.id.toString(),
-        name: kecamatan.nama,
-    }));
+    const kecamatanId = watch("kecamatan_id");
+    const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
 
-    const desaOptions = dataDesa?.data
-        .filter(desa => desa.kecamatanId === selectedKecamatan) // Ensure types match here
-        .map(desa => ({
-            id: desa.id.toString(),
-            name: desa.nama,
-        }));
+    useEffect(() => {
+        if (dataPadi?.data) {
+            // Format tanggal
+            const formattedTanggal = formatDate(dataPadi.data.tanggal || '');
 
-    // TAMBAH
-    const navigate = useRouter();
+            // Set nilai-nilai ke form
+            setValue("kecamatan_id", dataPadi.data.kecamatanId);
+            setValue("desa_id", dataPadi.data.desaId);
+            setValue("tanggal", new Date(dataPadi.data.tanggal).toISOString().split('T')[0]);
+
+            // Mengonversi nilai ke angka dan memberikan default 0 jika tidak ada
+            setValue("hibrida_bantuan_pemerintah_lahan_sawah_panen", Number(dataPadi.data.hibrida_bantuan_pemerintah_lahan_sawah_panen) || 0);
+            setValue("hibrida_bantuan_pemerintah_lahan_sawah_tanam", Number(dataPadi.data.hibrida_bantuan_pemerintah_lahan_sawah_tanam) || 0);
+            setValue("hibrida_bantuan_pemerintah_lahan_sawah_puso", Number(dataPadi.data.hibrida_bantuan_pemerintah_lahan_sawah_puso) || 0);
+            setValue("hibrida_non_bantuan_pemerintah_lahan_sawah_panen", Number(dataPadi.data.hibrida_non_bantuan_pemerintah_lahan_sawah_panen) || 0);
+            setValue("hibrida_non_bantuan_pemerintah_lahan_sawah_tanam", Number(dataPadi.data.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam) || 0);
+            setValue("hibrida_non_bantuan_pemerintah_lahan_sawah_puso", Number(dataPadi.data.hibrida_non_bantuan_pemerintah_lahan_sawah_puso) || 0);
+            setValue("unggul_bantuan_pemerintah_lahan_sawah_panen", Number(dataPadi.data.unggul_bantuan_pemerintah_lahan_sawah_panen) || 0);
+            setValue("unggul_bantuan_pemerintah_lahan_sawah_tanam", Number(dataPadi.data.unggul_bantuan_pemerintah_lahan_sawah_tanam) || 0);
+            setValue("unggul_bantuan_pemerintah_lahan_sawah_puso", Number(dataPadi.data.unggul_bantuan_pemerintah_lahan_sawah_puso) || 0);
+            setValue("unggul_bantuan_pemerintah_lahan_bukan_sawah_panen", Number(dataPadi.data.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen) || 0);
+            setValue("unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam", Number(dataPadi.data.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam) || 0);
+            setValue("unggul_bantuan_pemerintah_lahan_bukan_sawah_puso", Number(dataPadi.data.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso) || 0);
+            setValue("unggul_non_bantuan_pemerintah_lahan_sawah_panen", Number(dataPadi.data.unggul_non_bantuan_pemerintah_lahan_sawah_panen) || 0);
+            setValue("unggul_non_bantuan_pemerintah_lahan_sawah_tanam", Number(dataPadi.data.unggul_non_bantuan_pemerintah_lahan_sawah_tanam) || 0);
+            setValue("unggul_non_bantuan_pemerintah_lahan_sawah_puso", Number(dataPadi.data.unggul_non_bantuan_pemerintah_lahan_sawah_puso) || 0);
+            setValue("unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen", Number(dataPadi.data.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen) || 0);
+            setValue("unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam", Number(dataPadi.data.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam) || 0);
+            setValue("unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso", Number(dataPadi.data.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso) || 0);
+            setValue("lokal_lahan_sawah_panen", Number(dataPadi.data.lokal_lahan_sawah_panen) || 0);
+            setValue("lokal_lahan_sawah_tanam", Number(dataPadi.data.lokal_lahan_sawah_tanam) || 0);
+            setValue("lokal_lahan_sawah_puso", Number(dataPadi.data.lokal_lahan_sawah_puso) || 0);
+            setValue("lokal_lahan_bukan_sawah_panen", Number(dataPadi.data.lokal_lahan_bukan_sawah_panen) || 0);
+            setValue("lokal_lahan_bukan_sawah_tanam", Number(dataPadi.data.lokal_lahan_bukan_sawah_tanam) || 0);
+            setValue("lokal_lahan_bukan_sawah_puso", Number(dataPadi.data.lokal_lahan_bukan_sawah_puso) || 0);
+            setValue("sawah_irigasi_lahan_sawah_panen", Number(dataPadi.data.sawah_irigasi_lahan_sawah_panen) || 0);
+            setValue("sawah_irigasi_lahan_sawah_tanam", Number(dataPadi.data.sawah_irigasi_lahan_sawah_tanam) || 0);
+            setValue("sawah_irigasi_lahan_sawah_puso", Number(dataPadi.data.sawah_irigasi_lahan_sawah_puso) || 0);
+            setValue("sawah_tadah_hujan_lahan_sawah_panen", Number(dataPadi.data.sawah_tadah_hujan_lahan_sawah_panen) || 0);
+            setValue("sawah_tadah_hujan_lahan_sawah_tanam", Number(dataPadi.data.sawah_tadah_hujan_lahan_sawah_tanam) || 0);
+            setValue("sawah_tadah_hujan_lahan_sawah_puso", Number(dataPadi.data.sawah_tadah_hujan_lahan_sawah_puso) || 0);
+            setValue("sawah_rawa_pasang_surut_lahan_sawah_panen", Number(dataPadi.data.sawah_rawa_pasang_surut_lahan_sawah_panen) || 0);
+            setValue("sawah_rawa_pasang_surut_lahan_sawah_tanam", Number(dataPadi.data.sawah_rawa_pasang_surut_lahan_sawah_tanam) || 0);
+            setValue("sawah_rawa_pasang_surut_lahan_sawah_puso", Number(dataPadi.data.sawah_rawa_pasang_surut_lahan_sawah_puso) || 0);
+            setValue("sawah_rawa_lebak_lahan_sawah_panen", Number(dataPadi.data.sawah_rawa_lebak_lahan_sawah_panen) || 0);
+            setValue("sawah_rawa_lebak_lahan_sawah_tanam", Number(dataPadi.data.sawah_rawa_lebak_lahan_sawah_tanam) || 0);
+            setValue("sawah_rawa_lebak_lahan_sawah_puso", Number(dataPadi.data.sawah_rawa_lebak_lahan_sawah_puso) || 0);
+        }
+        setInitialDesaId(dataPadi?.data.desaId); // Save initial desa_id
+        setValue("desa_id", dataPadi?.data.desaId); // Set default value
+    }, [dataPadi, setValue]);
+
+
+    useEffect(() => {
+        // Clear desa_id when kecamatan_id changes
+        setValue("desa_id", initialDesaId); // Reset to initial desa_id
+    }, [kecamatanId, setValue, initialDesaId]);
     const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.post("/korluh/padi/create", data);
-            console.log(data)
-            // push
+            await axiosPrivate.put(`/korluh/padi/update/${id}`, data);
+            console.log("Success to update data Padi:", data);
             navigate.push('/bpp-kecamatan/padi');
-            console.log("Success to create Padi:");
-            reset()
-        } catch (e: any) {
-            console.log(data)
-            console.log("Failed to create Padi:");
-            return;
-        } finally {
-            setLoading(false); // Set loading to false once the process is complete
+            reset();
+        } catch (error) {
+            console.error('Failed to update data:', error);
         }
-        mutate(`/padi/get`);
+        mutate(`/korluh/padi/get`);
     };
-    // const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-    //     console.log(data);
-    // };
-    const [open, setOpen] = React.useState(false)
-    const [value, setValueSelect] = React.useState("")
 
     return (
         <>
@@ -195,13 +265,9 @@ const TambahDataPadi = () => {
                                 name="kecamatan_id"
                                 control={control}
                                 render={({ field }) => (
-                                    <InputComponent
-                                        typeInput="selectSearch"
-                                        placeholder="Pilih Kecamatan"
-                                        label="Kecamatan"
+                                    <KecValue
                                         value={field.value}
-                                        onChange={field.onChange}
-                                        items={kecamatanOptions}
+                                        onChange={(value) => field.onChange(Number(value))} // Ensure value is a number
                                     />
                                 )}
                             />
@@ -215,13 +281,10 @@ const TambahDataPadi = () => {
                                 name="desa_id"
                                 control={control}
                                 render={({ field }) => (
-                                    <InputComponent
-                                        typeInput="selectSearch"
-                                        placeholder="Select Desa"
-                                        label="Desa"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        items={desaOptions}
+                                    <DesaValue
+                                        value={field.value ?? 0} // Provide a default value if undefined
+                                        onChange={(value) => field.onChange(Number(value))} // Ensure value is a number
+                                        kecamatanValue={kecamatanId}
                                     />
                                 )}
                             />
@@ -748,7 +811,7 @@ const TambahDataPadi = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Tambah"
+                            "Simpan"
                         )}
                     </Button>
                 </div>
@@ -757,4 +820,4 @@ const TambahDataPadi = () => {
     )
 }
 
-export default TambahDataPadi
+export default EditDataPadi

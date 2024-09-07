@@ -53,6 +53,7 @@ import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
+import PaginationTable from '@/components/PaginationTable';
 const KorlubPadi = () => {
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
@@ -112,6 +113,7 @@ const KorlubPadi = () => {
         id: number;
         nama: string;
         kecamatanId: number;
+        tanggal: string;
         createdAt: string; // ISO Date string
         updatedAt: string; // ISO Date string
     }
@@ -139,11 +141,17 @@ const KorlubPadi = () => {
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     };
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+    // pagination
 
     // GETALL
     const { data: dataPadi }: SWRResponse<Response> = useSWR(
         // `korluh/padi/get?limit=1`,
-        `korluh/padi/get`,
+        `korluh/padi/get?page=${currentPage}&search=${search}&limit=1`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -177,15 +185,15 @@ const KorlubPadi = () => {
             {/* title */}
 
             {/* top */}
-            <div className="header flex gap-2 justify-between items-center mt-4">
-                <div className="search md:w-[50%]">
+            <div className="header flex gap-2 justify-end items-center mt-4">
+                {/* <div className="search md:w-[50%]">
                     <Input
                         type="text"
                         placeholder="Cari"
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     />
-                </div>
+                </div> */}
                 <div className="btn flex gap-2">
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
@@ -279,8 +287,19 @@ const KorlubPadi = () => {
             </div>
             {/* top */}
             {/* bulan */}
-            <div className="font-semibold mt-2 uppercase">
-                BULAN : Januari
+            <div className="mt-2 flex items-center gap-2">
+                <div className="font-semibold">
+                    Tanggal:
+                </div>
+                {dataPadi?.data?.data.map((item, index) => (
+                    <div key={index}>
+                        {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                        }) : 'Tanggal tidak tersedia'}
+                    </div>
+                ))}
             </div>
             {/* bulan */}
             {/* table */}
@@ -416,17 +435,7 @@ const KorlubPadi = () => {
                                     <TableCell className='border border-slate-200 font-semibold text-center '>
                                         455
                                     </TableCell>
-                                    <TableCell>
-                                        <div className="flex items-center gap-4">
-                                            <Link className='' href={`/bpp-kecamatan/padi/detail/${item.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link className='' href={`/bpp-kecamatan/padi/edit/${item.id}`}>
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
-                                        </div>
-                                    </TableCell>
+
                                 </TableRow>
                                 {/* jumlah padi */}
                                 {/* jenis padi */}
@@ -436,6 +445,19 @@ const KorlubPadi = () => {
                                     </TableCell>
                                     <TableCell className='border border-slate-200 font-semibold'>
                                         Jenis Padi
+                                    </TableCell>
+                                    <TableCell colSpan={10} className='border border-slate-200 font-semibold'>
+                                    </TableCell>
+                                    <TableCell rowSpan={2} className='border border-slate-200 font-semibold'>
+                                        <div className="flex items-center gap-4">
+                                            <Link className='' href={`/bpp-kecamatan/padi/detail/${item.id}`}>
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link className='' href={`/bpp-kecamatan/padi/edit/${item.id}`}>
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                                 {/* hibrida */}
@@ -730,33 +752,15 @@ const KorlubPadi = () => {
                 </TableBody>
             </Table>
             {/* table */}
-
             {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
+            <div className="pagi flex items-center lg:justify-end justify-center">
+                {dataPadi?.data.pagination.totalCount as number > 1 && (
+                    <PaginationTable
+                        currentPage={currentPage}
+                        totalPages={dataPadi?.data.pagination.totalPages as number}
+                        onPageChange={onPageChange}
+                    />
+                )}
             </div>
             {/* pagination */}
         </div>

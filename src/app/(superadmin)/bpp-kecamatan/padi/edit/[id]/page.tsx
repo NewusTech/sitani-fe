@@ -811,7 +811,7 @@ const EditDataPadi = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Tambah"
+                            "Simpan"
                         )}
                     </Button>
                 </div>
