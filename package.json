@@ -39,6 +39,8 @@
     "react-hook-form": "^7.53.0",
     "react-quill": "^2.0.0",
     "recharts": "^2.12.7",
+    "sweetalert2": "^11.13.2",
+    "sweetalert2-react-content": "^5.0.7",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",

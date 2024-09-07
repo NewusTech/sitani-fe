@@ -116,13 +116,13 @@ const KorluPalawija = () => {
                 <div className="btn flex gap-2">
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
-                        <div className="hidden md:block">
+                        <div className="hidden md:block  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                             Download
                         </div>
                     </Button>
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <PrintIcon />
-                        <div className="hidden md:block">
+                        <div className="hidden md:block  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                             Print
                         </div>
                     </Button>
@@ -199,7 +199,7 @@ const KorluPalawija = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Link href="/bpp-kecamatan/palawija/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                    <Link href="/bpp-kecamatan/palawija/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Tambah Data
                     </Link>
                 </div>

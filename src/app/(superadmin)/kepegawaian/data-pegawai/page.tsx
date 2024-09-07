@@ -42,6 +42,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import DeletePopup from '@/components/superadmin/PopupDelete';
+import Swal from 'sweetalert2';
 
 interface Response {
   status: string,
@@ -105,6 +106,28 @@ const DataPegawaiPage = () => {
         },
       });
       console.log(id)
+      // alert
+      Swal.fire({
+        icon: 'success',
+        title: 'Data berhasil dihapus!',
+        text: 'Data sudah disimpan sistem!',
+        timer: 1500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown',
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp',
+        },
+        customClass: {
+          title: 'text-2xl font-semibold text-green-600',
+          icon: 'text-green-500 animate-bounce',
+          timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+        },
+        backdrop: `rgba(0, 0, 0, 0.4)`,
+      });
+      // alert
       mutate('/kepegawaian/get');
     } catch (error) {
       console.error('Failed to delete:', error);
@@ -129,13 +152,13 @@ const DataPegawaiPage = () => {
           />
         </div>
         <div className="btn flex gap-2">
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
             <UnduhIcon />
             <div className="hidden md:block">
               Download
             </div>
           </Button>
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
             <PrintIcon />
             <div className="hidden md:block">
               Print

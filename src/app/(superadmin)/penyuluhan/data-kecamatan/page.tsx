@@ -113,11 +113,11 @@ const PenyuluhDataKecamatan = () => {
                 <div className="btn flex gap-2">
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
-                        <div className="hidden md:block">
+                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                             Download
                         </div>
                     </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <PrintIcon />
                         <div className="hidden md:block">
                             Print
@@ -147,8 +147,8 @@ const PenyuluhDataKecamatan = () => {
                     </div>
                 </div>
                 <div className="right">
-                    <Link href="/penyuluhan/data-kecamatan/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium w-full'>
-                        Tambah
+                    <Link href="/penyuluhan/data-kecamatan/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium w-full transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                        Tambah Data
                     </Link>
                 </div>
             </div>
