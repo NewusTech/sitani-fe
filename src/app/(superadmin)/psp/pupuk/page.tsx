@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -52,6 +52,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import PaginationTable from '@/components/PaginationTable';
 
 
 const Pupuk = () => {
@@ -85,21 +86,24 @@ const Pupuk = () => {
     const [startDate, setstartDate] = React.useState<Date>();
     const [endDate, setendDate] = React.useState<Date>();
 
-    const dummyData: Data[] = [
-        {
-            id: 1,
-            jenisPupuk: "jenis pupuk a",
-            kandunganPupuk: "banyak pokoknya",
-            keterangan: "tidak ada keterangan",
-            hargaPupuk: 150000,
-        },
-    ];
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+    // pagination
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+    // serach
 
     const { data: dataUser }: SWRResponse<Response> = useSWR(
-        `/psp/pupuk/get?page=1&limit=10&search&startDate=&endDate`,
+        `/psp/pupuk/get?page=${currentPage}&limit=10&search=${search}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -108,15 +112,10 @@ const Pupuk = () => {
                     },
                 })
                 .then((res: any) => {
-                    // Jika data dari API kosong, gunakan data dummy
-                    if (res.data.data.data.length === 0) {
-                        return { ...res.data, data: { ...res.data.data, data: dummyData } };
-                    }
                     return res.data;
                 })
                 .catch((error) => {
                     console.error("Failed to fetch data:", error);
-                    return { status: 500, message: "Failed to fetch data", data: { data: dummyData, pagination: { page: 1, perPage: 1, totalPages: 1, totalCount: 1, links: { prev: null, next: null } } } };
                 })
     );
 
@@ -129,7 +128,7 @@ const Pupuk = () => {
             });
             console.log(id);
             // Update the local data after successful deletion
-            mutate('/psp/pupuk/get?page=1&limit=10&search&startDate=&endDate');
+            mutate(`/psp/pupuk/get?page=${currentPage}&limit=10&search=${search}`)
         } catch (error) {
             console.error('Failed to delete:', error);
             console.log(id);
@@ -149,8 +148,11 @@ const Pupuk = () => {
             <div className="header flex gap-2 justify-between items-center mt-4">
                 <div className="search md:w-[50%]">
                     <Input
+                        autoFocus
                         type="text"
                         placeholder="Cari"
+                        value={search}
+                        onChange={handleSearchChange}
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     />
@@ -245,7 +247,7 @@ const Pupuk = () => {
                         <TableHead className="text-primary py-1">Kandungan Pupuk</TableHead>
                         <TableHead className="text-primary py-1">Keterangan</TableHead>
                         <TableHead className="text-primary py-1">Harga Pupuk</TableHead>
-                        <TableHead className="text-primary py-1">Aksi</TableHead>
+                        <TableHead className="text-primary py-1 text-center">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -268,7 +270,7 @@ const Pupuk = () => {
                                     {item.hargaPupuk}
                                 </TableCell>
                                 <TableCell>
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-4 justify-center">
                                         <Link className='' href={`/psp/pupuk/detail/${item.id}`}>
                                             <EyeIcon />
                                         </Link>
@@ -292,31 +294,14 @@ const Pupuk = () => {
             {/* table */}
 
             {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
+            <div className="pagi flex items-center lg:justify-end justify-center">
+                {dataUser?.data.pagination.totalCount as number > 1 && (
+                    <PaginationTable
+                        currentPage={currentPage}
+                        totalPages={dataUser?.data.pagination.totalPages as number}
+                        onPageChange={onPageChange}
+                    />
+                )}
             </div>
             {/* pagination */}
         </div>

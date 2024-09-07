@@ -54,7 +54,6 @@ const KelolaGaleriPage = () => {
     }
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
-    const [search, setSearch] = useState("");
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
@@ -62,6 +61,7 @@ const KelolaGaleriPage = () => {
     };
     // pagination
     // serach
+    const [search, setSearch] = useState("");
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     };

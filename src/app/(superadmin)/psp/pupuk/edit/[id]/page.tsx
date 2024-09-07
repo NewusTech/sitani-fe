@@ -115,7 +115,6 @@ const PupukTambah = () => {
     // Handle form submission
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
-
         try {
             await axiosPrivate.put(`psp/pupuk/update/${id}`, data);
             console.log("Success to update user:", data);
@@ -133,7 +132,6 @@ const PupukTambah = () => {
     //     console.log(data);
     //     reset();
     // };
-    console.log(dataPSP);
 
     return (
         <>

@@ -12,6 +12,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import React, { useState } from "react";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import useSWR, { SWRResponse } from "swr";
 
 interface SelectItem {
     id: string;
@@ -26,11 +29,11 @@ interface KecamatanSelectProps {
     onChange: (value: string) => void;
 }
 
-const items = [
-    { id: "1", nama: "Metro Kibang" },
-    { id: "2", nama: "Batanghari" },
-    { id: "3", nama: "Sekampung" },
-];
+// const items = [
+//     { id: "1", nama: "Metro Kibang" },
+//     { id: "2", nama: "Batanghari" },
+//     { id: "3", nama: "Sekampung" },
+// ];
 
 const KecamatanSelect: React.FC<KecamatanSelectProps> = ({
     // items,
@@ -39,10 +42,38 @@ const KecamatanSelect: React.FC<KecamatanSelectProps> = ({
     value,
     onChange,
 }) => {
+
+    // INTEGRASI
+    interface Kecamatan {
+        id: number;
+        nama: string;
+    }
+
+    interface Response {
+        status: string;
+        data: Kecamatan[];
+        message: string;
+    }
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
+        `kecamatan/get`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    // INTEGRASI
     const [searchValue, setSearchValue] = useState("");
 
     // Filter items based on the search input
-    const filteredItems = items.filter((item) =>
+    const filteredItems = dataKecamatan?.data.filter((item) =>
         item.nama.toLowerCase().includes(searchValue.toLowerCase())
     );
 
@@ -68,10 +99,11 @@ const KecamatanSelect: React.FC<KecamatanSelectProps> = ({
                 </div>
                 <SelectGroup>
                     <SelectLabel>{label}</SelectLabel>
-                    {filteredItems.map((item) => (
-                        <SelectItem key={item.id} value={item.id}>
-                            {item.nama}
-                        </SelectItem>
+                    <SelectItem value={"semua"}>Semua</SelectItem>
+                    {filteredItems?.map((item) => (
+                         <SelectItem key={item.id} value={item.id.toString()}>
+                         {item.nama}
+                     </SelectItem>
                     ))}
                 </SelectGroup>
             </SelectContent>

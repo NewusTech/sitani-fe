@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react"; // Import useState
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,14 +17,11 @@ const formSchema = z.object({
 // Define the form input types
 type FormValues = z.infer<typeof formSchema>;
 
-// Dummy data for the component
-// const dummyResults = [
-//     { id: "1", name: "Instansi A" },
-//     { id: "2", name: "Instansi B" },
-//     { id: "3", name: "Instansi C" },
-// ];
-
 const FormWithInstansiSelect = () => {
+    // State to store the selected value
+    const [selectedInstansi, setSelectedInstansi] = useState<string>("");
+    console.log("Selected Instansi:", selectedInstansi);
+
     // Initialize the form
     const {
         handleSubmit,
@@ -35,7 +32,7 @@ const FormWithInstansiSelect = () => {
     });
 
     const onSubmit = (data: FormValues) => {
-        console.log("Selected Instansi ID:", data.instansi.id);
+        console.log("Selected Instansi ID on submit:", data.instansi.id);
     };
 
     return (
@@ -46,10 +43,13 @@ const FormWithInstansiSelect = () => {
                 render={({ field }) => (
                     <KecamatanSelect
                         // items={dummyResults}
-                        label="Instansi"
-                        placeholder="Pilih Instansi"
+                        label="Kecamatan"
+                        placeholder="Pilih Kecamatan"
                         value={field.value}
-                        onChange={(value) => field.onChange(value)}
+                        onChange={(value) => {
+                            setSelectedInstansi(value); // Update state with selected value
+                            field.onChange(value);
+                        }}
                     />
                 )}
             />

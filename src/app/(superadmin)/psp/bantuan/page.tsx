@@ -53,6 +53,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import PaginationTable from '@/components/PaginationTable';
+import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 
 const Bantuan = () => {
     // TES
@@ -107,9 +108,10 @@ const Bantuan = () => {
         setSearch(event.target.value);
     };
     // serach
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
     const { data: dataPSP }: SWRResponse<Response> = useSWR(
-        `/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10`,
+        `/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedKecamatan}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -233,16 +235,14 @@ const Bantuan = () => {
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                     <div className="w-full">
-                        <Select >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Kecamatan" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="select1">Select1</SelectItem>
-                                <SelectItem value="select2">Select2</SelectItem>
-                                <SelectItem value="select3">Select3</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <KecamatanSelect
+                            label="Kecamatan"
+                            placeholder="Pilih Kecamatan"
+                            value={selectedKecamatan}
+                            onChange={(value) => {
+                                setSelectedKecamatan(value); // Update state with selected value
+                            }}
+                        />
                     </div>
                     <Link href="/psp/bantuan/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
                         Tambah Data
@@ -317,11 +317,11 @@ const Bantuan = () => {
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
                 {dataPSP?.data.pagination.totalCount as number > 1 && (
-                    <PaginationTable 
-                    currentPage={currentPage} 
-                    totalPages={dataPSP?.data.pagination.totalPages as number} 
-                    onPageChange={onPageChange} 
-                  />
+                    <PaginationTable
+                        currentPage={currentPage}
+                        totalPages={dataPSP?.data.pagination.totalPages as number}
+                        onPageChange={onPageChange}
+                    />
                 )}
             </div>
             {/* pagination */}
