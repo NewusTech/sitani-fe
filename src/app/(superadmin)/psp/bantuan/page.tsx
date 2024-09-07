@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -52,6 +52,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import PaginationTable from '@/components/PaginationTable';
 
 const Bantuan = () => {
     // TES
@@ -60,6 +61,13 @@ const Bantuan = () => {
     }
     interface Desa {
         nama?: string;
+    }
+
+    interface Pagination {
+        page: number,
+        perPage: number,
+        totalPages: number,
+        totalCount: number,
     }
     interface Data {
         id?: string;
@@ -72,6 +80,7 @@ const Bantuan = () => {
 
     interface ResponseData {
         data: Data[]
+        pagination: Pagination;
     }
 
     interface Response {
@@ -86,9 +95,21 @@ const Bantuan = () => {
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+    // pagination
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+    // serach
 
     const { data: dataPSP }: SWRResponse<Response> = useSWR(
-        `/psp/bantuan/get?page=1`,
+        `/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -128,8 +149,11 @@ const Bantuan = () => {
             <div className="header flex gap-2 justify-between items-center mt-4">
                 <div className="search md:w-[50%]">
                     <Input
+                        autoFocus
                         type="text"
                         placeholder="Cari"
+                        value={search}
+                        onChange={handleSearchChange}
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     />
@@ -291,31 +315,14 @@ const Bantuan = () => {
             {/* table */}
 
             {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
+            <div className="pagi flex items-center lg:justify-end justify-center">
+                {dataPSP?.data.pagination.totalCount as number > 1 && (
+                    <PaginationTable 
+                    currentPage={currentPage} 
+                    totalPages={dataPSP?.data.pagination.totalPages as number} 
+                    onPageChange={onPageChange} 
+                  />
+                )}
             </div>
             {/* pagination */}
         </div>
