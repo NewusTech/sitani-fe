@@ -21,23 +21,9 @@ import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
-
-// interface Data {
-//   tanggal?: string;
-//   judul?: string;
-// }
+import PaginationTable from '@/components/PaginationTable';
 
 const KelolaBeritaPage = () => {
-  // const data: Data[] = [
-  //   {
-  //     tanggal: "20-07-2024",
-  //     judul: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
-  //   },
-  //   {
-  //     tanggal: "20-07-2024",
-  //     judul: "Bupati Dawam Umumkan Peresmian Mal Pelayanan Publik (MPP) Lampung Timur pada 2024",
-  //   },
-  // ];
 
   // INTEGRASI
   interface Artikel {
@@ -67,13 +53,21 @@ const KelolaBeritaPage = () => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
   const [search, setSearch] = useState("");
+  // search
+  // search
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const onPageChange = (page: number) => {
+    setCurrentPage(page)
+  };
+  // pagination
 
   // GETALL
   const { data: dataArtikel }: SWRResponse<Response> = useSWR(
-    `article/get?page=1&search=${search}`,
+    `article/get?page=${currentPage}&search=${search}&limit=10`,
     (url) =>
       axiosPrivate
         .get(url, {
@@ -95,7 +89,7 @@ const KelolaBeritaPage = () => {
       });
       console.log(slug)
       // Update the local data after successful deletion
-      mutate('article/get?page=1');
+      mutate(`article/get?page=${currentPage}&search=${search}&limit=10`);
     } catch (error) {
       console.error('Failed to delete:', error);
       console.log(slug)
@@ -175,6 +169,17 @@ const KelolaBeritaPage = () => {
         </TableBody>
       </Table>
       {/* table */}
+      {/* pagination */}
+      <div className="pagi flex items-center lg:justify-end justify-center">
+        {dataArtikel?.data.pagination.totalCount as number > 1 && (
+          <PaginationTable
+            currentPage={currentPage}
+            totalPages={dataArtikel?.data.pagination.totalPages as number}
+            onPageChange={onPageChange}
+          />
+        )}
+      </div>
+      {/* pagination */}
     </div>
   )
 }

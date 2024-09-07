@@ -23,6 +23,7 @@ import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
+import PaginationTable from '@/components/PaginationTable';
 
 
 const KelolaGaleriPage = () => {
@@ -55,10 +56,10 @@ const KelolaGaleriPage = () => {
     const axiosPrivate = useAxiosPrivate();
     const [search, setSearch] = useState("");
     // pagination
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const onPageChange = (page: number) => {
-    //     setCurrentPage(page)
-    // };
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
     // pagination
     // serach
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +69,7 @@ const KelolaGaleriPage = () => {
 
     // GETALL
     const { data: dataGaleri }: SWRResponse<Response> = useSWR(
-        `galeri/get?page=1&search=${search}&limit=10`,
+        `galeri/get?page=${currentPage}&search=${search}&limit=10`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -89,7 +90,7 @@ const KelolaGaleriPage = () => {
             });
             console.log(id)
             // Update the local data after successful deletion
-            mutate(`galeri/get?page=1&search=${search}`);
+            mutate(`galeri/get?page=${currentPage}&search=${search}&limit=2`);
         } catch (error) {
             console.error('Failed to delete:', error);
             console.log(id)
@@ -168,19 +169,15 @@ const KelolaGaleriPage = () => {
             </Table>
             {/* table */}
             {/* pagination */}
-            {/* <div className="pagi flex items-center lg:justify-end justify-center">
+            <div className="pagi flex items-center lg:justify-end justify-center">
                 {dataGaleri?.data.pagination.totalCount as number > 1 && (
-                    <Pagination theme={paginationTheme}
-                        layout="pagination"
-                        currentPage={currentPage}
-                        totalPages={dataGaleri?.data?.pagination?.totalPages as number}
-                        onPageChange={onPageChange}
-                        previousLabel=""
-                        nextLabel=""
-                        showIcons
-                    />
+                    <PaginationTable 
+                    currentPage={currentPage} 
+                    totalPages={dataGaleri?.data.pagination.totalPages as number} 
+                    onPageChange={onPageChange} 
+                  />
                 )}
-            </div> */}
+            </div>
             {/* pagination */}
         </div>
     )

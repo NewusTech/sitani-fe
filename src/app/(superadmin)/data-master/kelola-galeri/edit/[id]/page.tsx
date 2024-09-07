@@ -18,6 +18,8 @@ import { useRouter, useParams } from 'next/navigation';
 import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import Loading from '@/components/ui/Loading';
+import BackIcons from '../../../../../../../public/icons/BackIcons';
+import Link from 'next/link';
 
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
@@ -137,7 +139,12 @@ const EditGaleri = () => {
   return (
     <div className="">
       {/* title */}
-      <div className="text-xl md:text-2xl md:mb-4 mb-3 font-semibold text-primary uppercase">Edit Galeri</div>
+      <div className="wrap flex gap-2 items-center md:mb-4 mb-3">
+        <Link href="/data-master/kelola-galeri" className="back">
+          <BackIcons />
+        </Link>
+        <div className="text-xl md:text-2xl font-semibold text-primary">Edit Galeri</div>
+      </div>
       {/* title */}
       <div className="max-full bg-primary-600/50 rounded-lg  p-6">
         <form onSubmit={handleSubmit(onSubmit)}>

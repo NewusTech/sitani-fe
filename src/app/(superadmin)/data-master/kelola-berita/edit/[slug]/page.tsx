@@ -15,6 +15,8 @@ import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import Image from 'next/image';
 import Loading from '@/components/ui/Loading';
+import Link from 'next/link';
+import BackIcons from '../../../../../../../public/icons/BackIcons';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -134,7 +136,12 @@ const EditBerita = () => {
 
     return (
         <div className="">
-            <div className="text-xl md:text-2xl md:mb-4 mb-3 font-semibold text-primary uppercase">Edit Berita</div>
+            <div className="wrap flex gap-2 items-center md:mb-4 mb-3">
+                <Link href="/data-master/kelola-berita" className="back">
+                    <BackIcons />
+                </Link>
+                <div className="text-xl md:text-2xl font-semibold text-primary">Edit Berita</div>
+            </div>
             <div className="max-full bg-primary-600/50 rounded-lg p-6">
                 <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                     <div className="mb-4">

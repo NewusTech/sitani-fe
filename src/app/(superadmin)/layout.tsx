@@ -67,8 +67,8 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
     return (
         <div className="wrap w-full min-h-screen bg-white relative">
             {/* navbar */}
-            <div className="navatas lg:px-0 z-10 top-0 w-full md:w-full right-0 fixed md:bg-transparent bg-[#F6F6F6] py-2 pr-4">
-                <div className="wra white md:ml-[290px]  bg-transparent   m-auto justify-end lg:justify-end md:py-[23px]  flex items-center gap-4 text-left">
+            <div className="navatas lg:px-0 top-0 w-full md:w-full right-0 fixed md:bg-transparent bg-[#F6F6F6] py-2 pr-4 md:-z-30 z-10">
+                <div className="wra white -z-10 md:ml-[290px]  bg-transparent   m-auto justify-end lg:justify-end md:py-[23px] flex items-center gap-4 text-left">
                     <div onClick={handleNavbar} className="icon  flex cursor-pointer lg:hidden bg-primary rounded p-2 w-[40px]  justify-center items-center px-2 text-white ">
                         {navbar ? <CloseNav /> : <OpenNav />}
                     </div>
@@ -219,24 +219,6 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                                 {/* kepegawaian */}
                                 {/* berita */}
-                                {/* peran-pengguna */}
-                                <AccordionItem className='pl-2' value="item-7">
-                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/peran-pengguna') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
-                                        Peran Pengguna
-                                    </AccordionTrigger>
-                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
-                                        <Menu link="/peran-pengguna/overview">
-                                            <span className='text-sm'>Overview</span>
-                                        </Menu>
-                                        <Menu link="/peran-pengguna/peran">
-                                            <span className='text-sm'>Peran</span>
-                                        </Menu>
-                                        <Menu link="/peran-pengguna/pengguna">
-                                            <span className='text-sm'>Pengguna</span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                {/*peran-pengguna */}
                                 {/* KJF Kecamatan */}
                                 <AccordionItem className='pl-2' value="item-8">
                                     <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/kjf-kabupaten') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
@@ -336,6 +318,24 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/*data-master */}
+                                 {/* peran-pengguna */}
+                                 <AccordionItem className='pl-2' value="item-7">
+                                    <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/peran-pengguna') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
+                                        Peran Pengguna
+                                    </AccordionTrigger>
+                                    <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                        <Menu link="/peran-pengguna/overview">
+                                            <span className='text-sm'>Overview</span>
+                                        </Menu>
+                                        <Menu link="/peran-pengguna/peran">
+                                            <span className='text-sm'>Peran</span>
+                                        </Menu>
+                                        <Menu link="/peran-pengguna/pengguna">
+                                            <span className='text-sm'>Pengguna</span>
+                                        </Menu>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                {/*peran-pengguna */}
                             </Accordion>
                             <Link href="/" className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] text-primary hover:text-white bg-transparent hover:bg-primary ease-in duration-300 mt-1">
                                 <LogoutDashboard />
@@ -346,7 +346,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
             </div>
             {/* KONTEN */}
-            <div className="konten lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  md:pt-[15px] pt-[50px] h-full">
+            <div className="konten z-10 lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  md:pt-[15px] pt-[50px] h-full">
                 <div className="konten  overflow-auto h-[90%] p-3 lg:px-1">
                     {/* konten */}
                     {props.children}

@@ -16,6 +16,8 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter } from 'next/navigation';
 import { mutate } from 'swr';
 import Loading from '@/components/ui/Loading';
+import BackIcons from '../../../../../../public/icons/BackIcons';
+import Link from 'next/link';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -51,7 +53,7 @@ const TambahBerita = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useRouter();
   const [loading, setLoading] = useState(false);
-  
+
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setLoading(true); // Set loading to true when the form is submitted
     const formData = new FormData();
@@ -69,7 +71,7 @@ const TambahBerita = () => {
       reset();
     } catch (e: any) {
       console.log("Failed to create article:", e);
-    }finally {
+    } finally {
       setLoading(false); // Set loading to false once the process is complete
     }
     mutate(`/data-master/kelola-berita`);
@@ -77,7 +79,12 @@ const TambahBerita = () => {
 
   return (
     <div className="">
-      <div className="text-xl md:text-2xl md:mb-4 mb-3 font-semibold text-primary uppercase">Tambah Berita</div>
+      <div className="wrap flex gap-2 items-center md:mb-4 mb-3">
+        <Link href="/data-master/kelola-berita" className="back">
+          <BackIcons />
+        </Link>
+        <div className="text-xl md:text-2xl font-semibold text-primary">Tambah Berita</div>
+      </div>
       <div className="max-full bg-primary-600/50 rounded-lg p-6">
         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
           <div className="mb-4">
