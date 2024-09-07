@@ -396,7 +396,7 @@ const KorlubTanamanHias = () => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-4">
-                                        <Link className='' href={`/bpp-kecamatan/tanaman-hias/${tanaman.id}`}>
+                                        <Link className='' href={`/bpp-kecamatan/tanaman-hias/detail/${tanaman.id}`}>
                                             <EyeIcon />
                                         </Link>
                                         <Link className='' href={`/bpp-kecamatan/tanaman-hias/edit/${tanaman.id}`}>
