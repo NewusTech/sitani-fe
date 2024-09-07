@@ -59,9 +59,15 @@ const GaleriLanding = () => {
       </div>
       {/* card */}
       <div className="berita md:mt-[60px] mt-[30px] grid grid-cols-1 md:grid-cols-3 gap-4">
-        {dataGaleri?.data.data.map((berita, index) => (
+      {dataGaleri?.data?.data && dataGaleri.data.data.length > 0 ? (
+          dataGaleri.data.data.map((berita, index) => (
           <CardGaleri key={index} image={berita.image} />
-        ))}
+        ))
+      ) : (
+        <div className="flex justify-center items-center w-full col-span-4 py-5">
+          Tidak ada data
+        </div>
+      )}
       </div>
       <div className="flex justify-center  mt-5 md:mt-10">
         <Link href="/galeri" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-base md:text-lg hover:bg-primary-hover">

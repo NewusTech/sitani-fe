@@ -6,31 +6,12 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import { useState } from 'react';
 import { SWRResponse, mutate } from "swr";
+import PaginationTable from "@/components/PaginationTable";
 // import { Pagination } from "flowbite-react";
 
 
 
 const GaleriLanding = () => {
-    // pagination
-    // const paginationTheme = {
-    //     pages: {
-    //         base: "xs:mt-0 text-[12px] md:text-[14px] mt-3 flex gap-2 inline-flex items-center -space-x-px  ",
-    //         showIcon: "inline-flex",
-    //         previous: {
-    //             base: "md:min-w-[40px] min-w-[30px] rounded-md bg-primary md:px-3 md:py-2 px-2 py-2 leading-tight text-gray-500",
-    //             icon: "h-4 w-4 md:h-5 md:w-4  text-white",
-    //         },
-    //         next: {
-    //             base: "md:min-w-[40px] min-w-[30px] rounded-md bg-primary md:px-3 md:py-2 px-2 py-2 leading-tight text-gray-500",
-    //             icon: "h-4 w-4 md:h-5 md:w-4 text-white",
-    //         },
-    //         selector: {
-    //             base: "md:min-w-[40px] min-w-[30px] bg-white border border-gray-200 rounded-md md:px-3 md:py-2 px-2 py-2 leading-tight text-black hover:bg-primary hover:text-white",
-    //             active: "md:min-w-[40px] min-w-[30px] text-white md:px-3 md:py-2 px-2 py-2 bg-primary",
-    //             disabled: "bg-red-500 cursor-normal",
-    //         },
-    //     },
-    // };
     // INTEGRASI
     interface Galeri {
         id?: string;
@@ -59,15 +40,15 @@ const GaleriLanding = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     // pagination
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const onPageChange = (page: number) => {
-    //     setCurrentPage(page)
-    // };
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
     // pagination
 
     // GETALL
     const { data: dataGaleri }: SWRResponse<Response> = useSWR(
-        `galeri/get?page=1&limit=6`,
+        `galeri/get?page=${currentPage}&limit=6`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -103,26 +84,30 @@ const GaleriLanding = () => {
                 {/* header */}
                 {/* Card */}
                 <div className="wrap-card grid grid-cols-1 md:grid-cols-3 gap-4 md:py-[30px] py-[20px]">
-                    {dataGaleri?.data.data.map((galeri, index) => (
-                        <CardGaleriPage key={index} image={galeri.image} deskripsi={galeri.deskripsi} onClick={() => handleCardClick(galeri)} />
-                    ))}
+                    {dataGaleri?.data?.data && dataGaleri.data.data.length > 0 ? (
+                        dataGaleri.data.data.map((galeri, index) => (
+                            <CardGaleriPage key={index} image={galeri.image} deskripsi={galeri.deskripsi} onClick={() => handleCardClick(galeri)} />
+                        ))
+                    ) : (
+                        <div className="flex justify-center items-center w-full col-span-4 py-5">
+                            Tidak ada data
+                        </div>
+                    )}
                 </div>
                 {/* Card */}
 
                 {/* pagination */}
-                {/* <div className="pagi flex items-center lg:justify-end justify-center">
+                {/* pagination */}
+                <div className="pagi flex items-center lg:justify-end justify-center">
                     {dataGaleri?.data.pagination.totalCount as number > 1 && (
-                        <Pagination theme={paginationTheme}
-                            layout="pagination"
+                        <PaginationTable
                             currentPage={currentPage}
-                            totalPages={dataGaleri?.data?.pagination?.totalPages as number}
+                            totalPages={dataGaleri?.data.pagination.totalPages as number}
                             onPageChange={onPageChange}
-                            previousLabel=""
-                            nextLabel=""
-                            showIcons
                         />
                     )}
-                </div> */}
+                </div>
+                {/* pagination */}
                 {/* pagination */}
 
                 {/* Modal */}

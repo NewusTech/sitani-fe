@@ -55,46 +55,46 @@ const BeritaTerkini = () => {
     konten?: string;
     image?: string;
     createdAt?: string;
-}
+  }
 
-interface Pagination {
+  interface Pagination {
     page: number,
     perPage: number,
     totalPages: number,
     totalCount: number,
-}
+  }
 
-interface ResponseData {
+  interface ResponseData {
     data: Artikel[];
     pagination: Pagination;
-}
+  }
 
-interface Response {
+  interface Response {
     status: string,
     data: ResponseData,
     message: string
-}
-const [accessToken] = useLocalStorage("accessToken", "");
-const axiosPrivate = useAxiosPrivate();
-// search
-const [search, setSearch] = useState("");
-const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  }
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+  // search
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
-};
+  };
 
-const { data: dataArtikel }: SWRResponse<Response> = useSWR(
+  const { data: dataArtikel }: SWRResponse<Response> = useSWR(
     `article/get?page=1&search=${search}&limit=4`,
     (url) =>
-        axiosPrivate
-            .get(url, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            })
-            .then((res: any) => res.data)
-);
+      axiosPrivate
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res: any) => res.data)
+  );
 
-// INTEGRASI
+  // INTEGRASI
   return (
     <div className="berita container mx-auto md:py-[60px] py-[40px]">
       <div className="header items-center flex flex-col md:flex-row gap-5">
@@ -112,16 +112,22 @@ const { data: dataArtikel }: SWRResponse<Response> = useSWR(
       </div>
       {/* card */}
       <div className="berita mt-[25px] md:mt-[50px] grid grid-cols-1 md:grid-cols-4 gap-4">
-        {dataArtikel?.data?.data.map((berita) => (
-          <CardBerita
-            key={berita.id}
-            title={berita.judul}
-            desc={berita.konten}
-            date={berita.createdAt}
-            slug={berita.slug}
-            image={berita.image}
-          />
-        ))}
+        {dataArtikel?.data?.data && dataArtikel.data.data.length > 0 ? (
+          dataArtikel.data.data.map((berita, index) => (
+            <CardBerita
+              key={berita.id}
+              title={berita.judul}
+              desc={berita.konten}
+              date={berita.createdAt}
+              slug={berita.slug}
+              image={berita.image}
+            />
+          ))
+        ) : (
+          <div className="flex justify-center items-center w-full col-span-4 py-5">
+            Tidak ada data
+          </div>
+        )}
       </div>
       <div className="flex justify-center mt-5 md:mt-10">
         <Link href="/berita" className="selengkapnya flex items-center gap-5 bg-primary p-3 px-7 rounded-full text-white text-base md:text-lg hover:bg-primary-hover">
