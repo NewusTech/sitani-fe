@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import Loading from '@/components/ui/Loading';
 import Swal from 'sweetalert2';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import useSWR, { mutate, SWRResponse } from 'swr';
 import InputComponent from '@/components/ui/InputKecDesa';
 import useLocalStorage from '@/hooks/useLocalStorage';
@@ -27,18 +27,13 @@ const formatDate = (dateString: string) => {
 };
 
 const formSchema = z.object({
-    kepang_master_komoditas_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Komoditas wajib diisi" })),
-    tanggal: z.preprocess(
-        (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Tanggal wajib diisi" })
-    ),
+
     satuan: z
         .string()
         .min(1, { message: "Harga wajib diisi" }).optional(),
     harga: z
-        .string()
-        .min(1, { message: "Harga wajib diisi" }).optional(),
+        .number()
+        .transform((value) => Number(value)),
     keterangan: z
         .string()
         .min(1, { message: "Keterangan wajib diisi" })
@@ -46,8 +41,33 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahProdusenEceran = () => {
-    // GET ALL KOMODITAS
+const EditProdusenEceran = () => {
+    interface Response {
+        status: number;
+        message: string;
+        data: Data;
+    }
+
+    interface Data {
+        id: number;
+        kepangProdusenEceranId: number;
+        kepangMasterKomoditasId: number;
+        satuan: string;
+        harga: number;
+        keterangan: string;
+        createdAt: string;
+        updatedAt: string;
+        kepangProdusenEceran: KepangProdusenEceran;
+        komoditas: Komoditas;
+    }
+
+    interface KepangProdusenEceran {
+        id: number;
+        tanggal: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
     interface Komoditas {
         id: number;
         nama: string;
@@ -55,59 +75,57 @@ const TambahProdusenEceran = () => {
         updatedAt: string;
     }
 
-    interface Response {
-        status: string;
-        data: Komoditas[];
-        message: string;
-    }
-
-    const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
 
-    const { data: dataKomoditas }: SWRResponse<Response> = useSWR(
-        `/kepang/master-komoditas/get`,
-        (url: string) =>
-            axiosPrivate
-                .get(url, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-                .then((res: any) => res.data)
+    const { data: dataKomoditas, error } = useSWR<Response>(
+        `/kepang/produsen-eceran/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                console.log('Berhasil Dapat Data');
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
     );
 
-    const [date, setDate] = React.useState<Date>()
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
-        control,
         setValue,
+        control,
         watch,
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
 
-    // const selectedKomoditas = Number(watch("kepang_master_komoditas_id")); // Ensure conversion to number
+    const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
 
-    const komoditasOptions = dataKomoditas?.data.map(komoditas => ({
-        id: komoditas.id.toString(),
-        name: komoditas.nama,
-    }));
+    useEffect(() => {
+        if (dataKomoditas) {
+            setValue("satuan", dataKomoditas?.data?.satuan);
+            setValue("harga", dataKomoditas.data.harga);
+            setValue("keterangan", dataKomoditas.data.keterangan);
+        }
+    }, [dataKomoditas, setValue]);
 
-    // TAMBAH
-    const navigate = useRouter();
     const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-        setLoading(true);
+        setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.post("/kepang/produsen-eceran/create", data);
+            await axiosPrivate.put(`kepang/produsen-eceran/update/${id}`, data);
             // alert
             Swal.fire({
                 icon: 'success',
-                title: 'Data berhasil di tambahkan!',
+                title: 'Data berhasil di edit!',
                 text: 'Data sudah disimpan sistem!',
                 timer: 1500,
                 timerProgressBar: true,
@@ -126,51 +144,22 @@ const TambahProdusenEceran = () => {
                 backdrop: `rgba(0, 0, 0, 0.4)`,
             });
             // alert
-            console.log(data)
-            // push
+            console.log("Success to update data produsen dan eceran:", data);
             navigate.push('/ketahanan-pangan/produsen-dan-eceran');
-            console.log("Success to create Produsen dan Eceran:");
-            reset()
-        } catch (e: any) {
-            console.log(data)
-            console.log("Failed to create Produsen dan Eceran:");
-            return;
-        } finally {
-            setLoading(false); // Set loading to false once the process is complete
+            reset();
+        } catch (error) {
+            console.error('Failed to update data:', error);
         }
         mutate(`/kepang/produsen-eceran/get`);
     };
 
-    const [open, setOpen] = React.useState(false)
-    const [value, setValueSelect] = React.useState("")
-
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-3 md:mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-3 md:mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="wrap-form flex-col gap-2">
                     <div className="">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Komoditas" />
-                                <Controller
-                                    name="kepang_master_komoditas_id"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <InputComponent
-                                            typeInput="selectSearch"
-                                            placeholder="Pilih Komoditas"
-                                            label="Komoditas"
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            items={komoditasOptions}
-                                        />
-                                    )}
-                                />
-                                {errors.kepang_master_komoditas_id && (
-                                    <p className="text-red-500">{errors.kepang_master_komoditas_id.message}</p>
-                                )}
-                            </div>
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Satuan" />
                                 <Input
@@ -187,18 +176,6 @@ const TambahProdusenEceran = () => {
                     </div>
                     <div className="">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Tanggal" />
-                                <Input
-                                    type="date"
-                                    placeholder="Masukkan Tanggal"
-                                    {...register('tanggal')}
-                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
-                                />
-                                {errors.tanggal && (
-                                    <HelperError>{errors.tanggal.message}</HelperError>
-                                )}
-                            </div>
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Harga Komoditas ( Rp / Kg)" />
                                 <Input
@@ -236,7 +213,7 @@ const TambahProdusenEceran = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Simpan"
+                            "Edit"
                         )}
                     </Button>
                 </div>
@@ -245,4 +222,4 @@ const TambahProdusenEceran = () => {
     )
 }
 
-export default TambahProdusenEceran
+export default EditProdusenEceran
