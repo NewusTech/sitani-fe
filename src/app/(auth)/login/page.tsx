@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 const formSchema = z.object({
   email: z
@@ -64,6 +65,28 @@ const Login = () => {
       }
     } catch (error) {
       router.push('/dashboard');
+      // alert
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil Login!',
+        text: 'Selamat Datang ✅',
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown',
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp',
+        },
+        customClass: {
+          title: 'text-2xl font-semibold text-green-600',
+          icon: 'text-green-500 animate-bounce',
+          timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+        },
+        backdrop: `rgba(0, 0, 0, 0.4)`,
+      });
+      // alert
       // console.error('Error:', error);
       // setLoginError('Terjadi kesalahan pada server. Silakan coba lagi nanti.');
     } finally {

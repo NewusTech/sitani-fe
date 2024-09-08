@@ -53,6 +53,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import PaginationTable from '@/components/PaginationTable';
+import Swal from 'sweetalert2';
 
 
 const Pupuk = () => {
@@ -127,6 +128,28 @@ const Pupuk = () => {
                 },
             });
             console.log(id);
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil dihapus!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
             // Update the local data after successful deletion
             mutate(`/psp/pupuk/get?page=${currentPage}&limit=10&search=${search}`)
         } catch (error) {
