@@ -38,6 +38,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-quill": "^2.0.0",
+    "react-select": "^5.8.0",
     "recharts": "^2.12.7",
     "sweetalert2": "^11.13.2",
     "sweetalert2-react-content": "^5.0.7",

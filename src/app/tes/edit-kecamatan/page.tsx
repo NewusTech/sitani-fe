@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +7,7 @@ import useSWR from "swr";
 import Swal from "sweetalert2";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from 'next/navigation';
 import Label from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import HelperError from "@/components/ui/HelperError";
@@ -18,7 +18,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import Loading from "@/components/ui/Loading";
 
-// Define types for options used in selectors
 interface KecamatanOption {
     id: number;
     nama: string;
@@ -30,7 +29,6 @@ interface DesaOption {
     kecamatanId: number;
 }
 
-// Define API response types
 interface ResponseKecamatan {
     status: string;
     data: KecamatanOption[];
@@ -43,7 +41,6 @@ interface ResponseDesa {
     message: string;
 }
 
-// Form validation schema using Zod
 const formSchema = z.object({
     kecamatan_id: z
         .preprocess((val) => (val !== undefined ? Number(val) : undefined), z.number().optional())
@@ -61,13 +58,11 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TamabahPenyuluhDataKecamatan = () => {
-    // Hooks for local storage, axios, and navigation
+const EditPenyuluhDataKecamatan = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
 
-    // Fetching data for kecamatan and desa
     const { data: dataKecamatan } = useSWR<ResponseKecamatan>(
         "kecamatan/get",
         (url: string) =>
@@ -92,7 +87,22 @@ const TamabahPenyuluhDataKecamatan = () => {
                 .then((res: any) => res.data)
     );
 
-    // Form handling using react-hook-form
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataUser, error } = useSWR<any>(
+        `penyuluh-kecamatan/get/1`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
+    );
+
     const {
         register,
         handleSubmit,
@@ -106,7 +116,6 @@ const TamabahPenyuluhDataKecamatan = () => {
 
     const selectedKecamatanId = watch("kecamatan_id");
 
-    // Transform fetched data to be used in selectors
     const kecamatanOptions: KecamatanOption[] =
         dataKecamatan?.data.map((kec) => ({
             id: kec.id,
@@ -116,25 +125,22 @@ const TamabahPenyuluhDataKecamatan = () => {
     const filteredDesaOptions: DesaOption[] =
         selectedKecamatanId ? dataDesa?.data.filter((desa) => desa.kecamatanId === selectedKecamatanId) || [] : [];
 
-    // Handle selector changes
     const handleSelectorChange = (selectedOptions: DesaOption[]) => {
         const desaIds = selectedOptions.map((option) => option.id);
         setValue("desa_list", desaIds);
     };
 
-    // Submit handler for form
     const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-        setLoading(true); // Set loading to true when the form is submitted
+        setLoading(true);
         try {
-            await axiosPrivate.post("/penyuluh-kecamatan/create", data);
-            // console.log("data= ", data)
+            // await axiosPrivate.put("/penyuluh-kecamatan/update", data);
+            console.log("data", data);
 
-            // Success alert
             Swal.fire({
                 icon: "success",
-                title: "Data berhasil ditambahkan!",
+                title: "Data berhasil diperbarui!",
                 text: "Data sudah disimpan dalam sistem!",
                 timer: 1500,
                 timerProgressBar: true,
@@ -153,13 +159,25 @@ const TamabahPenyuluhDataKecamatan = () => {
                 backdrop: `rgba(0, 0, 0, 0.4)`,
             });
 
-            navigate.push("/penyuluhan/data-kecamatan");
+            // navigate.push("/penyuluhan/data-kecamatan");
         } catch (error) {
             console.log("Failed to create penyuluh:", error);
         } finally {
-            setLoading(false); // Set loading to false once the process is complete
+            setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (dataUser) {
+            setValue("kecamatan_id", dataUser.data.kecamatanId);
+            setValue("desa_list", dataUser.data.desa.map((desa: DesaOption) => desa.id));
+            setValue("nama", dataUser.data.nama);
+            setValue("nip", dataUser.data.nip);
+            setValue("pangkat", dataUser.data.pangkat);
+            setValue("golongan", dataUser.data.golongan);
+            setValue("keterangan", dataUser.data.keterangan);
+        }
+    }, [dataUser, setValue]);
 
     return (
         <>
@@ -198,7 +216,6 @@ const TamabahPenyuluhDataKecamatan = () => {
                             {errors.desa_list && <p className="text-red-500 text-sm">{errors.desa_list.message}</p>}
                         </div>
                     </div>
-                    {/* Additional form fields */}
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:gap-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className="text-sm mb-1" label="Nama" />
@@ -261,7 +278,7 @@ const TamabahPenyuluhDataKecamatan = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Tambah"
+                            "Simpan"
                         )}
                     </Button>
                 </div>
@@ -270,4 +287,4 @@ const TamabahPenyuluhDataKecamatan = () => {
     );
 };
 
-export default TamabahPenyuluhDataKecamatan;
+export default EditPenyuluhDataKecamatan;

@@ -16,6 +16,30 @@ html {
 
 
 
+/* multiple select */
+.react-select__control {
+  @apply border border-primary shadow-sm text-sm py-1 rounded-full !important; 
+}
+
+.react-select__option--is-selected {
+  @apply bg-green-200 text-black !important;
+}
+
+.react-select__option--is-focused {
+  @apply bg-green-100 !important;
+}
+
+.react-select__multi-value {
+  @apply bg-green-100 text-primary rounded-md !important;
+}
+
+.react-select__multi-value__remove:hover {
+  @apply bg-green-200 text-primary-hover !important;
+}
+/* multiple select */
+
+
+
 /* scrollbar */
 /* Menyesuaikan warna latar belakang dan lebar scrollbar */
 ::-webkit-scrollbar {

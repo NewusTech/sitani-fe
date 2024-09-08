@@ -1,276 +1,292 @@
-"use client"
-import Label from '@/components/ui/label'
-import React from 'react'
-import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import HelperError from '@/components/ui/HelperError';
-import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
-import { Check, ChevronsUpDown } from "lucide-react"
-import { cn } from "@/lib/utils"
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+"use client";
+import React, { useState, useEffect } from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import useSWR from "swr";
+import Swal from "sweetalert2";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { useRouter, useParams } from 'next/navigation';
+import Label from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import HelperError from "@/components/ui/HelperError";
+import SelectKecamatan from "@/components/superadmin/KecamatanSelect";
+import SelectMultipleDesa from "@/components/superadmin/DesaSelect/page";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import Loading from "@/components/ui/Loading";
 
-const frameworks = [
-    {
-        value: "kecamatan1",
-        label: "kecamatan1",
-    },
-    {
-        value: "kecamatan2",
-        label: "kecamatan2",
-    },
-    {
-        value: "kedacamatan3",
-        label: "kedacamatan3",
-    },
-    {
-        value: "kecamatan4",
-        label: "kecamatan4",
-    },
-    {
-        value: "kecamatan5",
-        label: "kecamatan5",
-    },
-]
+interface KecamatanOption {
+    id: number;
+    nama: string;
+}
 
-const OPTIONS: Option[] = [
-    { label: 'nextjs', value: 'nextjs' },
-    { label: 'React', value: 'react' },
-    { label: 'Remix', value: 'remix' },
-    { label: 'Vite', value: 'vite' },
-    { label: 'Nuxt', value: 'nuxt' },
-    { label: 'Vue', value: 'vue' },
-    { label: 'Svelte', value: 'svelte' },
-    { label: 'Angular', value: 'angular' },
-    { label: 'Ember', value: 'ember', disable: true },
-    { label: 'Gatsby', value: 'gatsby', disable: true },
-    { label: 'Astro', value: 'astro' },
-];
+interface DesaOption {
+    id: number;
+    nama: string;
+    kecamatanId: number;
+}
+
+interface ResponseKecamatan {
+    status: string;
+    data: KecamatanOption[];
+    message: string;
+}
+
+interface ResponseDesa {
+    status: string;
+    data: DesaOption[];
+    message: string;
+}
 
 const formSchema = z.object({
-    namaKecamatan: z
-        .string()
-        .min(1, { message: "Nama Kecamatan wajib diisi" }).optional(),
-    wilayahDesaBinaan: z
-        .array(z.string())
-        .min(1, { message: "Wilayah Desa Binaan wajib diisi" }).optional(),
-    namaPenyuluh: z
-        .string()
-        .min(1, { message: "Nama wajib diisi" }),
-    nip: z
-        .string()
-        .min(1, { message: "NIP wajib diisi" }),
-    pangkat: z
-        .string()
-        .min(1, { message: "Pangkat wajib diisi" }),
-    golongan: z
-        .string()
-        .min(1, { message: "Golongan wajib diisi" }),
-    keterangan: z
-        .string()
-        .min(1, { message: "Keterangan wajib diisi" })
+    kecamatan_id: z
+        .preprocess((val) => (val !== undefined ? Number(val) : undefined), z.number().optional())
+        .refine((val) => val === undefined || val > 0, { message: "Nama Kecamatan wajib diisi" }),
+    desa_list: z
+        .array(z.preprocess((val) => Number(val), z.number()))
+        .min(1, { message: "Wilayah Desa Binaan wajib diisi" })
+        .optional(),
+    nama: z.string().min(1, { message: "Nama wajib diisi" }),
+    nip: z.preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
+    pangkat: z.string().min(1, { message: "Pangkat wajib diisi" }),
+    golongan: z.string().min(1, { message: "Golongan wajib diisi" }),
+    keterangan: z.string().min(1, { message: "Keterangan wajib diisi" }),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const EditPenyuluhDataKecamatan = () => {
-    const [date, setDate] = React.useState<Date>()
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+
+    const { data: dataKecamatan } = useSWR<ResponseKecamatan>(
+        "kecamatan/get",
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+    const { data: dataDesa } = useSWR<ResponseDesa>(
+        "desa/get",
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataUser, error } = useSWR<any>(
+        `penyuluh-kecamatan/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
+    );
 
     const {
         register,
         handleSubmit,
-        reset,
+        control,
+        setValue,
+        watch,
         formState: { errors },
-        setValue
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
 
-    const handleSelectorChange = (selectedOptions: Option[]) => {
-        setValue('wilayahDesaBinaan', selectedOptions.map(option => option.value));
+    const selectedKecamatanId = watch("kecamatan_id");
+
+    const kecamatanOptions: KecamatanOption[] =
+        dataKecamatan?.data.map((kec) => ({
+            id: kec.id,
+            nama: kec.nama,
+        })) || [];
+
+    const filteredDesaOptions: DesaOption[] =
+        selectedKecamatanId ? dataDesa?.data.filter((desa) => desa.kecamatanId === selectedKecamatanId) || [] : [];
+
+    const handleSelectorChange = (selectedOptions: DesaOption[]) => {
+        const desaIds = selectedOptions.map((option) => option.id);
+        setValue("desa_list", desaIds);
     };
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log(data);
-        reset();
+    const [loading, setLoading] = useState(false);
+
+    const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true);
+        try {
+            await axiosPrivate.put(`/penyuluh-kecamatan/update/${id}`, data);
+            // console.log("data", data);
+
+            Swal.fire({
+                icon: "success",
+                title: "Data berhasil diperbarui!",
+                text: "Data sudah disimpan dalam sistem!",
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: "animate__animated animate__fadeInDown",
+                },
+                hideClass: {
+                    popup: "animate__animated animate__fadeOutUp",
+                },
+                customClass: {
+                    title: "text-2xl font-semibold text-green-600",
+                    icon: "text-green-500 animate-bounce",
+                    timerProgressBar: "bg-gradient-to-r from-blue-400 to-green-400",
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+
+            navigate.push("/penyuluhan/data-kecamatan");
+        } catch (error) {
+            console.log("Failed to create penyuluh:", error);
+            console.log("data", data);
+
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const [open, setOpen] = React.useState(false)
-    const [value, setValueSelect] = React.useState("")
+    useEffect(() => {
+        if (dataUser) {
+            setValue("kecamatan_id", dataUser.data.kecamatanId);
+            setValue("desa_list", dataUser.data.desa.map((desa: DesaOption) => desa.id));
+            setValue("nama", dataUser.data.nama);
+            setValue("nip", dataUser.data.nip);
+            setValue("pangkat", dataUser.data.pangkat);
+            setValue("golongan", dataUser.data.golongan);
+            setValue("keterangan", dataUser.data.keterangan);
+        }
+    }, [dataUser, setValue]);
 
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
-                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex md:flex-row flex-col justify-between gap-2 md:gap-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Kecamatan" />
-                            <Popover open={open} onOpenChange={setOpen}>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        aria-expanded={open}
-                                        className={`w-full justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
-                                    >
-                                        {value
-                                            ? frameworks.find((framework) => framework.value === value)?.label
-                                            : "Pilih Kecamatan"}
-                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-full p-0">
-                                    <Command>
-                                        <CommandInput placeholder="Cari Kecamatan" />
-                                        <CommandList>
-                                            <CommandEmpty>Maaf, Kecamatan <br /> tidak tersedia.</CommandEmpty>
-                                            <CommandGroup>
-                                                {frameworks.map((framework) => (
-                                                    <CommandItem
-                                                        key={framework.value}
-                                                        value={framework.value}
-                                                        onSelect={(currentValue) => {
-                                                            setValue("namaKecamatan", currentValue === value ? "" : currentValue, { shouldValidate: true });
-                                                            setValueSelect(currentValue === value ? "" : currentValue);
-                                                            setOpen(false);
-                                                        }}
-                                                    >
-                                                        <Check
-                                                            className={cn(
-                                                                "mr-2 h-4 w-4",
-                                                                value === framework.value ? "opacity-100" : "opacity-0"
-                                                            )}
-                                                        />
-                                                        {framework.label}
-                                                    </CommandItem>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                                {errors.namaKecamatan && (
-                                    <HelperError>{errors.namaKecamatan.message}</HelperError>
+                            <Label className="text-sm mb-1" label="Pilih Kecamatan" />
+                            <Controller
+                                name="kecamatan_id"
+                                control={control}
+                                render={({ field }) => (
+                                    <SelectKecamatan
+                                        kecamatanOptions={kecamatanOptions}
+                                        selectedKecamatan={kecamatanOptions.find((opt) => opt.id === field.value) || null}
+                                        onChange={(selectedKecamatan) => field.onChange(selectedKecamatan ? selectedKecamatan.id : null)}
+                                    />
                                 )}
-                            </Popover>
+                            />
+                            {errors.kecamatan_id && <p className="text-red-500 text-sm">{errors.kecamatan_id.message}</p>}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Wilayah Desa Binaan" />
-                            <MultipleSelector
-                                className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.wilayahDesaBinaan ? 'border-red-500' : ''}`}
-                                defaultOptions={OPTIONS}
-                                placeholder="Cari Desa"
-                                onChange={handleSelectorChange}
-                                emptyIndicator={
-                                    <p className="text-center text-lg leading-10 text-gray-600">
-                                        Tidak ada data.
-                                    </p>
-                                }
+                            <Label className="text-sm mb-1" label="Wilayah Desa Binaan" />
+                            <Controller
+                                name="desa_list"
+                                control={control}
+                                render={({ field }) => (
+                                    <SelectMultipleDesa
+                                        desaOptions={filteredDesaOptions}
+                                        selectedDesa={filteredDesaOptions.filter((opt) => field.value?.includes(opt.id))}
+                                        onChange={handleSelectorChange}
+                                    />
+                                )}
                             />
-                            {errors.wilayahDesaBinaan && (
-                                <HelperError>{errors.wilayahDesaBinaan.message}</HelperError>
-                            )}
+                            {errors.desa_list && <p className="text-red-500 text-sm">{errors.desa_list.message}</p>}
                         </div>
                     </div>
-                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex md:flex-row flex-col justify-between gap-2 md:gap-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Nama" />
+                            <Label className="text-sm mb-1" label="Nama" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Nama"
-                                {...register('namaPenyuluh')}
-                                className={`${errors.namaPenyuluh ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register("nama")}
+                                className={`${errors.nama ? "border-red-500" : "py-5 text-sm"}`}
                             />
-                            {errors.namaPenyuluh && (
-                                <HelperError>{errors.namaPenyuluh.message}</HelperError>
-                            )}
+                            {errors.nama && <HelperError>{errors.nama.message}</HelperError>}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="NIP" />
+                            <Label className="text-sm mb-1" label="NIP" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="NIP"
-                                {...register('nip')}
-                                className={`${errors.nip ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register("nip")}
+                                className={`${errors.nip ? "border-red-500" : "py-5 text-sm"}`}
                             />
-                            {errors.nip && (
-                                <HelperError>{errors.nip.message}</HelperError>
-                            )}
+                            {errors.nip && <HelperError>{errors.nip.message}</HelperError>}
                         </div>
                     </div>
-                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex md:flex-row flex-col justify-between gap-2 md:gap-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pangkat" />
+                            <Label className="text-sm mb-1" label="Pangkat" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Pangkat"
-                                {...register('pangkat')}
-                                className={`${errors.pangkat ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register("pangkat")}
+                                className={`${errors.pangkat ? "border-red-500" : "py-5 text-sm"}`}
                             />
-                            {errors.pangkat && (
-                                <HelperError>{errors.pangkat.message}</HelperError>
-                            )}
+                            {errors.pangkat && <HelperError>{errors.pangkat.message}</HelperError>}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Golongan" />
+                            <Label className="text-sm mb-1" label="Golongan" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Golongan"
-                                {...register('golongan')}
-                                className={`${errors.golongan ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register("golongan")}
+                                className={`${errors.golongan ? "border-red-500" : "py-5 text-sm"}`}
                             />
-                            {errors.golongan && (
-                                <HelperError>{errors.golongan.message}</HelperError>
-                            )}
+                            {errors.golongan && <HelperError>{errors.golongan.message}</HelperError>}
                         </div>
                     </div>
-                </div>
-
-                <div className="mb-2">
-                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Keterangan" />
-                            <Textarea  {...register('keterangan')}
-                                className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.keterangan && (
-                                <HelperError>{errors.keterangan.message}</HelperError>
-                            )}
-                        </div>
+                    <div className="flex flex-col mb-2 w-full">
+                        <Label className="text-sm mb-1" label="Keterangan" />
+                        <Textarea
+                            placeholder="Keterangan"
+                            {...register("keterangan")}
+                            className={`${errors.keterangan ? "border-red-500" : "py-5 text-sm"}`}
+                        />
+                        {errors.keterangan && <HelperError>{errors.keterangan.message}</HelperError>}
                     </div>
                 </div>
-
                 <div className="mb-10 flex justify-end gap-3">
                     <Link href="/penyuluhan/data-kecamatan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
-                        Simpan
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            "Simpan"
+                        )}
                     </Button>
                 </div>
             </form>
         </>
-    )
-}
+    );
+};
 
-export default EditPenyuluhDataKecamatan
+export default EditPenyuluhDataKecamatan;

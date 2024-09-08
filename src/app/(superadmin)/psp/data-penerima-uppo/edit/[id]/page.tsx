@@ -125,14 +125,20 @@ const EditDataPenerimaUppo = () => {
 
     useEffect(() => {
         if (dataUser) {
-            setValue("kecamatan_id", dataUser.data.kecamatanId);
-            setInitialDesaId(dataUser.data.desaId); // Save initial desa_id
-            setValue("desa_id", dataUser.data.desaId); // Set default value
-            setValue("nama_poktan", dataUser.data.namaPoktan);
-            setValue("ketua_poktan", dataUser.data.ketuaPoktan);
-            setValue("titik_koordinat", dataUser.data.titikKoordinat);
+            const timeoutId = setTimeout(() => {
+                setValue("kecamatan_id", dataUser.data.kecamatanId);
+                setInitialDesaId(dataUser.data.desaId); // Save initial desa_id
+                setValue("desa_id", dataUser.data.desaId); // Set default value
+                setValue("nama_poktan", dataUser.data.namaPoktan);
+                setValue("ketua_poktan", dataUser.data.ketuaPoktan);
+                setValue("titik_koordinat", dataUser.data.titikKoordinat);
+            }, 100); // 2 seconds timeout
+    
+            // Clean up the timeout if the component is unmounted or dataUser changes
+            return () => clearTimeout(timeoutId);
         }
     }, [dataUser, setValue]);
+    
     useEffect(() => {
         // Clear desa_id when kecamatan_id changes
         setValue("desa_id", initialDesaId); // Reset to initial desa_id
