@@ -15,7 +15,7 @@ import {
 import CloseNav from '../../../public/icons/CloseNav';
 import OpenNav from '../../../public/icons/OpenNav';
 import LogoutDashboard from '../../../public/icons/Logout';
-
+import { Badge } from "@/components/ui/badge"
 
 interface LayoutAdminProps {
     children: React.ReactNode;
@@ -318,8 +318,8 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/*data-master */}
-                                 {/* peran-pengguna */}
-                                 <AccordionItem className='pl-2' value="item-7">
+                                {/* peran-pengguna */}
+                                <AccordionItem className='pl-2' value="item-7">
                                     <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith('/peran-pengguna') ? "bg-primary text-white" : "bg-transparent text-primary"}`}>
                                         Peran Pengguna
                                     </AccordionTrigger>
@@ -336,6 +336,13 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/*peran-pengguna */}
+                                {/* Status Laporan */}
+                                {/* <Link href="/status-laporan" className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between ${pathname.startsWith('/status-laporan') ? "bg-primary text-white" : "bg-transparent text-primary"}`} >
+                                    <span>Status Laporan</span>
+                                    <Badge variant="destructive">2</Badge>
+                                </Link> */}
+                                {/*status laporan */}
+                                
                             </Accordion>
                             <Link href="/" className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] text-primary hover:text-white bg-transparent hover:bg-primary ease-in duration-300 mt-1">
                                 <LogoutDashboard />
