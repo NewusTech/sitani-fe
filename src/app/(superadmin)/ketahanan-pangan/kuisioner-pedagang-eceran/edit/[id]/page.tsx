@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -8,30 +8,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import useLocalStorage from '@/hooks/useLocalStorage';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import useSWR, { mutate, SWRResponse } from 'swr';
+import { useParams, useRouter } from 'next/navigation';
+import useSWR, { mutate } from 'swr';
 import Swal from 'sweetalert2';
-import { useRouter } from 'next/navigation';
-import InputComponent from '@/components/ui/InputKecDesa';
 import Loading from '@/components/ui/Loading';
 
-// Format tanggal yang diinginkan (yyyy-mm-dd)
-const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}/${month}/${day}`;
-};
-
 const formSchema = z.object({
-    kepang_master_komoditas_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Komoditas wajib diisi" })),
-    tanggal: z.preprocess(
-        (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Tanggal wajib diisi" })
-    ),
     minggu_1: z
         .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 1 wajib diisi" })),
     minggu_2: z
@@ -46,8 +29,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahKuisionerPedagangEceran = () => {
-    // GET ALL KOMODITAS
+const EditKuisionerPedagangEceran = () => {
     interface Komoditas {
         id: number;
         nama: string;
@@ -55,25 +37,48 @@ const TambahKuisionerPedagangEceran = () => {
         updatedAt: string;
     }
 
-    interface Response {
-        status: string;
-        data: Komoditas[];
-        message: string;
+    interface KepangPedagangEceran {
+        tanggal: string;
     }
 
-    const [accessToken] = useLocalStorage("accessToken", "");
-    const axiosPrivate = useAxiosPrivate();
+    interface Data {
+        id: number;
+        kepangPedagangEceranId: number;
+        kepangMasterKomoditasId: number;
+        minggu1: number;
+        minggu2: number;
+        minggu3: number;
+        minggu4: number;
+        minggu5: number;
+        createdAt: string;
+        updatedAt: string;
+        komoditas: Komoditas;
+        kepangPedagangEceran: KepangPedagangEceran;
+    }
 
-    const { data: dataKomoditas }: SWRResponse<Response> = useSWR(
-        `/kepang/master-komoditas/get`,
-        (url: string) =>
-            axiosPrivate
-                .get(url, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-                .then((res: any) => res.data)
+    interface Response {
+        status: number;
+        message: string;
+        data: Data;
+    }
+
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataKomoditas, error } = useSWR<Response>(
+        `/kepang/pedagang-eceran/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                console.log('Berhasil Dapat Data');
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
     );
 
     const {
@@ -81,30 +86,34 @@ const TambahKuisionerPedagangEceran = () => {
         handleSubmit,
         reset,
         formState: { errors },
-        control,
         setValue,
+        control,
         watch,
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
 
-    const komoditasOptions = dataKomoditas?.data.map(komoditas => ({
-        id: komoditas.id.toString(),
-        name: komoditas.nama,
-    }));
+    useEffect(() => {
+        if (dataKomoditas) {
+            setValue("minggu_1", dataKomoditas?.data?.minggu1);
+            setValue("minggu_2", dataKomoditas?.data?.minggu2);
+            setValue("minggu_3", dataKomoditas?.data?.minggu3);
+            setValue("minggu_4", dataKomoditas?.data?.minggu4);
+            setValue("minggu_5", dataKomoditas?.data?.minggu5);
 
-    // TAMBAH
-    const navigate = useRouter();
+        }
+    }, [dataKomoditas, setValue]);
+
     const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-        setLoading(true);
+        setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.post("/kepang/pedagang-eceran/create", data);
+            await axiosPrivate.put(`/kepang/pedagang-eceran/update/${id}`, data);
             // alert
             Swal.fire({
                 icon: 'success',
-                title: 'Data berhasil di tambahkan!',
+                title: 'Data berhasil di edit!',
                 text: 'Data sudah disimpan sistem!',
                 timer: 1500,
                 timerProgressBar: true,
@@ -123,58 +132,47 @@ const TambahKuisionerPedagangEceran = () => {
                 backdrop: `rgba(0, 0, 0, 0.4)`,
             });
             // alert
-            console.log(data)
-            // push
+            console.log("Success to update data produsen dan eceran:", data);
             navigate.push('/ketahanan-pangan/kuisioner-pedagang-eceran');
-            console.log("Success to create Produsen dan Eceran:");
-            reset()
-        } catch (e: any) {
-            console.log(data)
-            console.log("Failed to create Produsen dan Eceran:");
-            return;
-        } finally {
-            setLoading(false); // Set loading to false once the process is complete
+            reset();
+        } catch (error) {
+            console.error('Failed to update data:', error);
         }
         mutate(`/kepang/pedagang-eceran/get`);
     };
 
+    const formatDate = (dateString: string): string => {
+        const date = new Date(dateString);
+
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() returns 0-11, so we add 1
+
+        return `${year}/${month}`;
+    };
+
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
                     <div className="flex flex-col md:flex-row justify-between gap-2 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Komoditas" />
-                            <Controller
-                                name="kepang_master_komoditas_id"
-                                control={control}
-                                render={({ field }) => (
-                                    <InputComponent
-                                        typeInput="selectSearch"
-                                        placeholder="Pilih Komoditas"
-                                        label="Komoditas"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        items={komoditasOptions}
-                                    />
-                                )}
+                            <Input
+                                type="text"
+                                placeholder="Komoditas"
+                                disabled={true}
+                                value={dataKomoditas?.data?.komoditas?.nama || ''}
                             />
-                            {errors.kepang_master_komoditas_id && (
-                                <p className="text-red-500">{errors.kepang_master_komoditas_id.message}</p>
-                            )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Bulan" />
+                            <Label className='text-sm mb-1' label="Tahun/Bulan" />
                             <Input
-                                type="month"
+                                type="text"
+                                disabled={true}
                                 placeholder="Masukkan Tanggal"
-                                {...register('tanggal')}
-                                className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
+                                value={formatDate(dataKomoditas?.data?.kepangPedagangEceran?.tanggal || '')}
                             />
-                            {errors.tanggal && (
-                                <HelperError>{errors.tanggal.message}</HelperError>
-                            )}
                         </div>
                     </div>
                 </div>
@@ -255,14 +253,14 @@ const TambahKuisionerPedagangEceran = () => {
                 </div>
 
                 <div className="mb-10 mt-3 flex justify-end gap-3">
-                    <Link href="/ketahanan-pangan/kuisioner-pedagang-eceran" className='bg-white w-[120px] text-sm md:text-base  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/ketahanan-pangan/kuisioner-pedagang-eceran" className='bg-white w-[120px] text-sm md:text-base  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Simpan"
+                            "Edit"
                         )}
                     </Button>
                 </div>
@@ -271,4 +269,4 @@ const TambahKuisionerPedagangEceran = () => {
     )
 }
 
-export default TambahKuisionerPedagangEceran
+export default EditKuisionerPedagangEceran

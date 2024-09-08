@@ -1,9 +1,7 @@
 "use client";
 
 import React from 'react';
-import AlertIcon from '../../../../../../../public/icons/AlertIcon';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';

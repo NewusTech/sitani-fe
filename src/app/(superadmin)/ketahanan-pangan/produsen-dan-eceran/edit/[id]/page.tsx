@@ -13,18 +13,7 @@ import Loading from '@/components/ui/Loading';
 import Swal from 'sweetalert2';
 import { useParams, useRouter } from 'next/navigation';
 import useSWR, { mutate, SWRResponse } from 'swr';
-import InputComponent from '@/components/ui/InputKecDesa';
-import useLocalStorage from '@/hooks/useLocalStorage';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-
-// Format tanggal yang diinginkan (yyyy-mm-dd)
-const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}/${month}/${day}`;
-};
 
 const formSchema = z.object({
 
@@ -106,8 +95,6 @@ const EditProdusenEceran = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
-
     useEffect(() => {
         if (dataKomoditas) {
             setValue("satuan", dataKomoditas?.data?.satuan);
@@ -160,6 +147,15 @@ const EditProdusenEceran = () => {
                 <div className="wrap-form flex-col gap-2">
                     <div className="">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex flex-col mb-2 w-full">
+                                <Label className='text-sm mb-1' label="Satuan" />
+                                <Input
+                                    type="text"
+                                    placeholder="Masukkan Satuan"
+                                    disabled={true}
+                                    value={dataKomoditas?.data?.komoditas?.nama || ''}
+                                />
+                            </div>
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Satuan" />
                                 <Input

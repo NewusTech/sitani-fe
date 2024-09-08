@@ -244,7 +244,7 @@ const ProdusenDanEceran = () => {
                   {citem?.satuan}
                 </TableCell>
                 <TableCell>
-                  {citem?.harga.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
+                  Rp. {citem?.harga}
                 </TableCell>
                 <TableCell>
                   {citem?.keterangan} {/* Menampilkan keterangan dari item pertama dalam list */}

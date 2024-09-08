@@ -76,7 +76,6 @@ const TambahProdusenEceran = () => {
                 .then((res: any) => res.data)
     );
 
-    const [date, setDate] = React.useState<Date>()
     const {
         register,
         handleSubmit,
@@ -88,8 +87,6 @@ const TambahProdusenEceran = () => {
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
-
-    // const selectedKomoditas = Number(watch("kepang_master_komoditas_id")); // Ensure conversion to number
 
     const komoditasOptions = dataKomoditas?.data.map(komoditas => ({
         id: komoditas.id.toString(),
@@ -140,9 +137,6 @@ const TambahProdusenEceran = () => {
         }
         mutate(`/kepang/produsen-eceran/get`);
     };
-
-    const [open, setOpen] = React.useState(false)
-    const [value, setValueSelect] = React.useState("")
 
     return (
         <>
