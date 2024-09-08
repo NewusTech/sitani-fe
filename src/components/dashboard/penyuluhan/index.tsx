@@ -1,65 +1,110 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { Loader, Search } from "lucide-react";
+import Link from 'next/link'
+import React, { useState } from 'react'
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import HeaderDash from '@/components/HeaderDash'
+import DashCard from '@/components/DashCard';
 
-const Card = ({
-    color,
-    title,
-    text,
-}: {
-    color: string;
-    title: string;
-    text: string;
-}) => {
-    return (
-        <div
-            className={`${color} rounded-[16px] w-full h-[155px] flex flex-col items-center justify-center gap-y-10`}
-        >
-            <h5 className="text-neutral-50 font-semibold text-sm w-[187px] text-center">
-                {title}
-            </h5>
-            <h1 className="text-neutral-50 text-3xl font-medium">{text}</h1>
-        </div>
-    );
-};
+// Dummy data untuk tabel
+const dummyData = [
+    { kecamatan: 'Way Jepara', nama: 'Rudi', desa: 'Jepara', NIP: '32432423', Gol: 'penata' },
+    { kecamatan: 'Way Bungur', nama: 'Rudi', desa: 'Sido Mulyo', NIP: '32432423', Gol: 'penata' },
+    { kecamatan: 'Mataram Baru', nama: 'Rudi', desa: 'Sri Rejeki', NIP: '32432423', Gol: 'penata' },
+    { kecamatan: 'Mataram Baru', nama: 'Rudi', desa: 'Sri Rejeki', NIP: '32432423', Gol: 'peenata' },
+    { kecamatan: 'Mataram Baru', nama: 'Rudi', desa: 'Sri Rejeki', NIP: '32432423', Gol: 'penata' },
+];
 
 const DashboardPenyuluhan = () => {
+    // State untuk menyimpan nilai yang dipilih
+    const [selectedFilter, setSelectedFilter] = useState<string>('year');
+
+    // Fungsi untuk menangani klik tombol
+    const handleFilterClick = (filter: string) => {
+        setSelectedFilter(filter);
+        console.log(filter); // Log nilai yang dipilih ke console
+    };
     return (
-        <section className="space-y-2 lg:space-y-4">
-            <div className="text-lg lg:text-xl font-semibold text-primary uppercase lg:text-left text-center">Dashboard Penyuluhan</div>
-            <div className="rounded-[16px] bg-neutral-50 w-full p-2 lg:p-8 shadow">
-                {/* <div className="text-lg lg:text-xl font-semibold text-primary uppercase lg:text-left text-center"></div> */}
-                <div className="space-x-0 mt-2 lg:space-x-4 lg:mt-4 lg:flex lg:justify-between">
-                    <Card
-                        color="bg-gradient-to-b from-blue-400 via-blue-400 via-32% to-blue-400 mb-2"
-                        text="10"
-                        title="Jumlah Data Seluruh Kab"
-                    />
-                    <Card
-                        color="bg-gradient-to-b from-blue-400 via-blue-400 via-32% to-blue-400 mb-2"
-                        text="10"
-                        title="Jumlah Data Seluruh Penyuluh Kecamatan"
-                    />
+        <div className=''>
+            {/* title */}
+            <div className="wrap flex justify-between">
+                <div className="text-2xl mb-5 font-semibold text-primary uppercase">Dashboard PSP</div>
+            </div>
+            {/* title */}
+            {/* card */}
+            <div className="wrap-card grid md:grid-cols-2 grid-cols-1 gap-3">
+                <DashCard label='Penyuluh Kabupaten' value={430} />
+                <DashCard label='Penyuluh Kecamatan' value={324} />
+            </div>
+            {/* card */}
+            {/* tabel */}
+            <div className="peuppo h-fit md:h-[60vh] mt-6 flex md:flex-row flex-col gap-3 pb-5 md:pb-0">
+                {/*  */}
+                <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
+                    <HeaderDash label="Penyuluh Kabupaten" link="/penyuluhan/data-kabupaten" />
+                    {/* table */}
+                    <Table className='mt-1'>
+                        <TableHeader className='rounded-md p-0'>
+                            <TableRow className='border-none p-0'>
+                                <TableHead className="text-primary p-0">Kecamatan</TableHead>
+                                <TableHead className="text-primary p-0">Nama</TableHead>
+                                <TableHead className="text-primary p-0">NIP</TableHead>
+                                <TableHead className="text-primary p-0 ">Gol</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {dummyData.map((data, index) => (
+                                <TableRow className='border-none p-0 py-1' key={index}>
+                                    <TableCell className='p-0 py-1'>{data.kecamatan}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.nama}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.NIP}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.Gol}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {/* table */}
                 </div>
-            </div>
+                <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
+                    <HeaderDash label="Penyuluh Kecamatan" link="/penyuluhan/data-kecamatan" />
+                    {/* table */}
+                    {/* table */}
+                    <Table className='mt-1'>
+                        <TableHeader className='rounded-md p-0'>
+                            <TableRow className='border-none p-0'>
+                            <TableHead className="text-primary p-0">Kecamatan</TableHead>
+                                <TableHead className="text-primary p-0">Nama</TableHead>
+                                <TableHead className="text-primary p-0">Desa</TableHead>
+                                <TableHead className="text-primary p-0">NIP</TableHead>
+                                <TableHead className="text-primary p-0 ">Gol</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {dummyData.map((data, index) => (
+                                <TableRow className='border-none p-0 py-1' key={index}>
+                                   <TableCell className='p-0 py-1'>{data.kecamatan}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.nama}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.desa}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.NIP}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.Gol}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {/* table */}
+                </div>
 
-            <div className="rounded-[16px] bg-neutral-50 w-full p-2 lg:p-8 shadow">
             </div>
-        </section>
-    );
-};
+            {/* tabel */}
+        </div>
+    )
+}
 
-export default DashboardPenyuluhan;
+export default DashboardPenyuluhan

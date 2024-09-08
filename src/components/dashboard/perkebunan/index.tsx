@@ -1,114 +1,194 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { Loader, Search } from "lucide-react";
+import Link from 'next/link'
+import React, { useState } from 'react'
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import HeaderDash from '@/components/HeaderDash'
+import DashCard from '@/components/DashCard';
 
-const Card = ({
-    color,
-    title,
-    text,
-}: {
-    color: string;
-    title: string;
-    text: string;
-}) => {
-    return (
-        <div
-            className={`${color} rounded-[16px] w-full h-[155px] flex flex-col items-center justify-center gap-y-10`}
-        >
-            <h5 className="text-neutral-50 font-semibold text-sm w-[187px] text-center">
-                {title}
-            </h5>
-            <h1 className="text-neutral-50 text-3xl font-medium">{text}</h1>
-        </div>
-    );
-};
+// Dummy data untuk tabel
+const dummyData = [
+    { komoditas: 'Jagung', harga: '34000', satuan: 'Rp/kg', },
+    { komoditas: 'Padi', harga: '34000', satuan: 'Rp/kg', },
+    { komoditas: 'Kedelai', harga: '34000', satuan: 'Rp/kg', },
+    { komoditas: 'Kedelai', harga: '34000', satuan: 'Rp/kg', },
+    { komoditas: 'Cabai', harga: '34000', satuan: 'Rp/kg', },
+];
+
+const dummyPangan = [
+    {
+        komoditas: "Kacang",
+        rataRata: "50.000",
+        maksimum: "55.000",
+        minimum: "45.000",
+        targetCV: "5%",
+        cv: "4.8%"
+    },
+    {
+        komoditas: "Jagung",
+        rataRata: "40.000",
+        maksimum: "45.000",
+        minimum: "35.000",
+        targetCV: "4%",
+        cv: "4.1%"
+    },
+    {
+        komoditas: "Padi",
+        rataRata: "60.000",
+        maksimum: "65.000",
+        minimum: "55.000",
+        targetCV: "3%",
+        cv: "3.2%"
+    },
+    {
+        komoditas: "Wheat",
+        rataRata: "70.000",
+        maksimum: "75.000",
+        minimum: "65.000",
+        targetCV: "6%",
+        cv: "5.9%"
+    }
+];
 
 const DashboardPerkebunan = () => {
+    // State untuk menyimpan nilai yang dipilih
+    const [selectedFilter, setSelectedFilter] = useState<string>('year');
+
+    // Fungsi untuk menangani klik tombol
+    const handleFilterClick = (filter: string) => {
+        setSelectedFilter(filter);
+        console.log(filter); // Log nilai yang dipilih ke console
+    };
     return (
-        <section className="space-y-2 lg:space-y-4">
-            <div className="text-lg lg:text-xl font-semibold text-primary uppercase lg:text-left text-center">DAshboard Perkebunan</div>
-            <div className="rounded-[16px] bg-neutral-50 w-full p-2 lg:p-8 shadow">
-                <div className="text-lg lg:text-xl font-semibold text-primary uppercase lg:text-left text-center">Jumlah Komposisi Luas Areal Kabupaten</div>
-                <div className="space-x-0 mt-2 lg:space-x-4 lg:mt-4 lg:flex lg:justify-between">
-                    <Card
-                        color="bg-gradient-to-b from-blue-400 via-blue-400 via-32% to-blue-400 mb-2"
-                        text="10"
-                        title="Tanah Tahunan"
-                    />
-                    <Card
-                        color="bg-gradient-to-b from-secondary via-secondary via-36% to-secondary mb-2"
-                        text="10"
-                        title="Tanah Semusim"
-                    />
-                    <Card
-                        color="bg-gradient-to-b from-secondary via-secondary via-36% to-secondary mb-2"
-                        text="10"
-                        title="Tanah Rempah dan Penyegar"
-                    />
+        <div className=''>
+            {/* title */}
+            <div className="wrap flex justify-between">
+                <div className="text-2xl mb-5 font-semibold text-primary uppercase">Dashboard Perkebunan</div>
+                {/* filter */}
+                <div className="text-lg mb-5 flex gap-4">
+                    <button
+                        className={`${selectedFilter === 'year' ? 'aktif text-primary font-semibold' : 'text-black/70'
+                            }`}
+                        onClick={() => handleFilterClick('year')}
+                    >
+                        Year
+                    </button>
+                    <button
+                        className={`${selectedFilter === 'month' ? 'aktif text-primary font-semibold' : 'text-black/70'
+                            }`}
+                        onClick={() => handleFilterClick('month')}
+                    >
+                        Month
+                    </button>
+                    <button
+                        className={`${selectedFilter === 'week' ? 'aktif text-primary font-semibold' : 'text-black/70'
+                            }`}
+                        onClick={() => handleFilterClick('week')}
+                    >
+                        Week
+                    </button>
+                    <button
+                        className={`${selectedFilter === 'today' ? 'aktif text-primary font-semibold' : 'text-black/70'
+                            }`}
+                        onClick={() => handleFilterClick('today')}
+                    >
+                        Today
+                    </button>
+                </div>
+                {/* filter */}
+            </div>
+            {/* title */}
+            {/* card */}
+            <div className="wrap-card grid md:grid-cols-2 grid-cols-1 gap-3">
+                <DashCard label='Produksi (Ton)' value={43900} />
+                <DashCard label='Produktivitas (Kg/Ha)' value={22414} />
+            </div>
+            {/* card */}
+            {/* tabel */}
+            <div className="tablee h-fit md:h-[60vh] mt-6 flex md:flex-row flex-col gap-3">
+                {/*  */}
+                <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
+                    <HeaderDash label="Tan. Tahunan" link="/perkebunan/luas-produksi-kecamatan" />
+                    {/* table */}
+                    <Table className='mt-1'>
+                        <TableHeader className='rounded-md p-0'>
+                            <TableRow className='border-none p-0'>
+                                <TableHead className="text-primary p-0">Komoditi</TableHead>
+                                <TableHead className="text-primary p-0">Produktivitas</TableHead>
+                                <TableHead className="text-primary p-0">Produksi</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {dummyData.map((data, index) => (
+                                <TableRow className='border-none p-0 py-1' key={index}>
+                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.satuan}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {/* table */}
+                </div>
+                {/*  */}
+                <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
+                    <HeaderDash label="Tan. Semusim" link="/perkebunan/luas-produksi-kecamatan" />
+                    {/* table */}
+                    <Table className='mt-1'>
+                        <TableHeader className='rounded-md p-0'>
+                            <TableRow className='border-none p-0'>
+                                <TableHead className="text-primary p-0">Komoditi</TableHead>
+                                <TableHead className="text-primary p-0">Produktivitas</TableHead>
+                                <TableHead className="text-primary p-0">Produksi</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {dummyData.map((data, index) => (
+                                <TableRow className='border-none p-0 py-1' key={index}>
+                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.satuan}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {/* table */}
+                </div>
+                {/*  */}
+                <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
+                    <HeaderDash label="Tan. Rempah" link="/perkebunan/luas-produksi-kecamatan" />
+                    {/* table */}
+                    <Table className='mt-1'>
+                        <TableHeader className='rounded-md p-0'>
+                            <TableRow className='border-none p-0'>
+                                <TableHead className="text-primary p-0">Komoditi</TableHead>
+                                <TableHead className="text-primary p-0">Produktivitas</TableHead>
+                                <TableHead className="text-primary p-0">Produksi</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {dummyData.map((data, index) => (
+                                <TableRow className='border-none p-0 py-1' key={index}>
+                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.satuan}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {/* table */}
                 </div>
             </div>
+            {/* tabel */}
+        </div>
+    )
+}
 
-            <div className="rounded-[16px] bg-neutral-50 w-full p-2 lg:p-8 shadow">
-                <div className="text-lg lg:text-xl font-semibold text-primary uppercase lg:text-left text-center">Jumlah Komposisi Luas Areal Kecamatan</div>
-                <div className="flex justify-start space-x-4 items-center mt-2 mb-2">
-                    <div className="flex gap-x-3 text-slate-400">
-                        <p className="text-neutral-900">Kecamatan</p>
-                    </div>
-                    <div className="w-full lg:w-1/2">
-                        <Select
-                        // value={selectedYear.toString()}
-                        // onValueChange={(e: any) => setSelectedYear(e)}
-                        >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Pilih Kecamatan" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Kecamatan</SelectLabel>
-                                    {/* {years?.map((year) => (
-                                        <SelectItem key={year} value={year.toString()}>
-                                            {year}
-                                        </SelectItem>
-                                    ))} */}
-                                    <SelectItem value="2022">Kecamatan A</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                </div>
-                <div className="space-x-0 mt-2 lg:space-x-4 lg:mt-4 lg:flex lg:justify-between">
-                    <Card
-                        color="bg-gradient-to-b from-blue-400 via-blue-400 via-32% to-blue-400 mb-2"
-                        text="10"
-                        title="Tanah Tahunan"
-                    />
-                    <Card
-                        color="bg-gradient-to-b from-secondary via-secondary via-36% to-secondary mb-2"
-                        text="10"
-                        title="Tanah Semusim"
-                    />
-                    <Card
-                        color="bg-gradient-to-b from-secondary via-secondary via-36% to-secondary mb-2"
-                        text="10"
-                        title="Tanah Rempah dan Penyegar"
-                    />
-                </div>
-            </div>
-        </section>
-    );
-};
-
-export default DashboardPerkebunan;
+export default DashboardPerkebunan
