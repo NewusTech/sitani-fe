@@ -35,7 +35,7 @@ const DashboardPenyuluhan = () => {
         <div className=''>
             {/* title */}
             <div className="wrap flex justify-between">
-                <div className="text-2xl mb-5 font-semibold text-primary uppercase">Dashboard PSP</div>
+                <div className="text-xl md:text-2xl mb-4 font-semibold text-primary uppercase">Dashboard Penyuluhan</div>
             </div>
             {/* title */}
             {/* card */}

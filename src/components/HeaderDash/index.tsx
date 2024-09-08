@@ -8,11 +8,11 @@ interface HeadDashProps {
 
 const HeaderDash = (props: HeadDashProps) => {
     return (
-        <div className="head flex justify-between">
-            <div className="text-primary text-lg font-semibold">
+        <div className="head flex gap-3 justify-between">
+            <div className="text-primary text-base md:text-lg font-semibold">
                 {props.label || "label"}
             </div>
-            <Link href={props.link || "/"} className="text-primary font-medium hover:underline">
+            <Link href={props.link || "/"} className="text-primary text-sm md:text-base font-medium hover:underline flex-shrink-0">
                 View All
             </Link>
         </div>

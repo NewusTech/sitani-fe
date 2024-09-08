@@ -57,9 +57,9 @@ const DashboardKJFKabupaten = () => {
     return (
         <div className=''>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Dashboard KJF Kabupaten</div>
-            <div className="wrap flex justify-between">
-                <div className="w-[400px]">
+            <div className="text-xl md:text-2xl mb-4 font-semibold text-primary uppercase">Dashboard KJF Kabupaten</div>
+            <div className="wrap flex flex-col gap-3 md:flex-row justify-between">
+                <div className="w-full md:w-[400px]">
                     <Select >
                         <SelectTrigger>
                             <SelectValue placeholder="Kecamatan/Desa" className='text-2xl' />

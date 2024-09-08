@@ -69,10 +69,10 @@ const DashboardTanamanPanganHoltikultura = () => {
     return (
         <div className=''>
             {/* title */}
-            <div className="wrap flex justify-between">
-                <div className="text-2xl mb-5 font-semibold text-primary uppercase">Dashboard Tanaman Pangan dan Holtikultura</div>
+            <div className="wrap flex md:flex-row flex-col mb-4 justify-between">
+                <div className="md:text-2xl text-xl  font-semibold text-primary uppercase">Dashboard Tanaman Pangan dan Holtikultura</div>
                 {/* filter */}
-                <div className="text-lg mb-5 flex gap-4">
+                <div className="text-base md:text-lg  flex gap-4">
                     <button
                         className={`${selectedFilter === 'year' ? 'aktif text-primary font-semibold' : 'text-black/70'
                             }`}

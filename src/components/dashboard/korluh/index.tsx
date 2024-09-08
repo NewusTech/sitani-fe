@@ -57,78 +57,7 @@ const DashboardKorluh = () => {
     return (
         <div className=''>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Dashboard Korluh</div>
-            <div className="wrap flex justify-between">
-                <div className="w-[400px]">
-                    <Select >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Kecamatan/Desa" className='text-2xl' />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="Desa 1">Desa 1</SelectItem>
-                            <SelectItem value="Desa 2">Desa 2</SelectItem>
-                            <SelectItem value="Desa 3">Desa 3</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                {/* filter */}
-                <div className="wrap items-center mb-5 flex gap-3">
-                    <div className="text-lg flex gap-4">
-                        <button
-                            className={`${selectedFilter === 'year' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                                }`}
-                            onClick={() => handleFilterClick('year')}
-                        >
-                            Tahun
-                        </button>
-                        <button
-                            className={`${selectedFilter === 'month' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                                }`}
-                            onClick={() => handleFilterClick('month')}
-                        >
-                            Bulan
-                        </button>
-                    </div>
-
-                    {selectedFilter === 'year' && (
-                        <div className="tahun">
-                            <Select
-                                onValueChange={handleYearChange}
-                                value={selectedYear || ''}
-                            >
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Pilih Tahun" className='text-2xl' />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="2024">2024</SelectItem>
-                                    <SelectItem value="2023">2023</SelectItem>
-                                    <SelectItem value="2022">2022</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    )}
-
-                    {selectedFilter === 'month' && (
-                        <div className="bulan">
-                            <Select
-                                onValueChange={handleMonthChange}
-                                value={selectedMonth || ''}
-                            >
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Pilih Bulan" className='text-2xl' />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="januari">Januari</SelectItem>
-                                    <SelectItem value="februari">Februari</SelectItem>
-                                    <SelectItem value="maret">Maret</SelectItem>
-                                    {/* Tambahkan bulan lainnya jika perlu */}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    )}
-                </div>
-                {/* filter */}
-            </div>
+            <div className="text-xl md:text-2xl mb-4 font-semibold text-primary uppercase">Dashboard Korluh</div>
             {/* title */}
             {/* card */}
             <div className="wrap-card grid md:grid-cols-3 grid-cols-1 gap-3">

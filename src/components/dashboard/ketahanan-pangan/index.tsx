@@ -69,10 +69,10 @@ const DashboardKetahananPangan = () => {
     return (
         <div className=''>
             {/* title */}
-            <div className="wrap flex justify-between">
-                <div className="text-2xl mb-5 font-semibold text-primary uppercase">Dashboard Ketahanan Pangan</div>
+            <div className="wrap flex md:flex-row flex-col mb-4 justify-between">
+                <div className="md:text-2xl text-xl  font-semibold text-primary uppercase">Dashboard Ketahanan Pangan</div>
                 {/* filter */}
-                <div className="text-lg mb-5 flex gap-4">
+                <div className="text-base md:text-lg  flex gap-4">
                     <button
                         className={`${selectedFilter === 'year' ? 'aktif text-primary font-semibold' : 'text-black/70'
                             }`}
@@ -170,8 +170,8 @@ const DashboardKetahananPangan = () => {
                         <TableRow className='border-none p-0'>
                             <TableHead className="text-primary p-0">Komoditas</TableHead>
                             <TableHead className="text-primary p-0">Rata-rata</TableHead>
-                            <TableHead className="text-primary p-0">Maksimum</TableHead>
-                            <TableHead className="text-primary p-0">Minimum</TableHead>
+                            <TableHead className="text-primary p-0 hidden md:table-cell">Maksimum</TableHead>
+                            <TableHead className="text-primary p-0 hidden md:table-cell">Minimum</TableHead>
                             <TableHead className="text-primary p-0 ">Target CV</TableHead>
                             <TableHead className="text-primary p-0 ">CV</TableHead>
                         </TableRow>
@@ -181,8 +181,8 @@ const DashboardKetahananPangan = () => {
                             <TableRow className='border-none p-0 py-1' key={index}>
                                 <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
                                 <TableCell className='p-0 py-1'>{data.rataRata}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.maksimum}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.minimum}</TableCell>
+                                <TableCell className='p-0 py-1 hidden md:table-cell'>{data.maksimum}</TableCell>
+                                <TableCell className='p-0 py-1 hidden md:table-cell'>{data.minimum}</TableCell>
                                 <TableCell className='p-0 py-1'>{data.targetCV}</TableCell>
                                 <TableCell className='p-0 py-1'>{data.cv}</TableCell>
                             </TableRow>
@@ -201,8 +201,8 @@ const DashboardKetahananPangan = () => {
                         <TableRow className='border-none p-0'>
                             <TableHead className="text-primary p-0">Komoditas</TableHead>
                             <TableHead className="text-primary p-0">Rata-rata</TableHead>
-                            <TableHead className="text-primary p-0">Maksimum</TableHead>
-                            <TableHead className="text-primary p-0">Minimum</TableHead>
+                            <TableHead className="text-primary p-0 hidden md:table-cell">Maksimum</TableHead>
+                            <TableHead className="text-primary p-0 hidden md:table-cell">Minimum</TableHead>
                             <TableHead className="text-primary p-0 ">Target CV</TableHead>
                             <TableHead className="text-primary p-0 ">CV</TableHead>
                         </TableRow>
@@ -212,8 +212,8 @@ const DashboardKetahananPangan = () => {
                             <TableRow className='border-none p-0 py-1' key={index}>
                                 <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
                                 <TableCell className='p-0 py-1'>{data.rataRata}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.maksimum}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.minimum}</TableCell>
+                                <TableCell className='p-0 py-1 hidden md:table-cell'>{data.maksimum}</TableCell>
+                                <TableCell className='p-0 py-1 hidden md:table-cell'>{data.minimum}</TableCell>
                                 <TableCell className='p-0 py-1'>{data.targetCV}</TableCell>
                                 <TableCell className='p-0 py-1'>{data.cv}</TableCell>
                             </TableRow>

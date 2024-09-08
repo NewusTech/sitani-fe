@@ -27,8 +27,8 @@ const DashCard = ({ value = 0, label = "label" }: propsDash) => {
     }, [value]);
 
     return (
-        <div className="card h-[130px] bg-[url('/../assets/images/card.png')] bg-no-repeat bg-center bg-cover rounded-lg p-3 py-4 text-white flex flex-col justify-between">
-            <div className="font-semibold text-4xl">{displayValue}</div>
+        <div className="card h-[110px] md:h-[130px] bg-[url('/../assets/images/card.png')] bg-no-repeat bg-center bg-cover rounded-lg p-3 py-4 text-white flex flex-col justify-between">
+            <div className="font-semibold text-3xl md:text-4xl">{displayValue}</div>
             <div className="text-base">{label || "label"}</div>
         </div>
     );
