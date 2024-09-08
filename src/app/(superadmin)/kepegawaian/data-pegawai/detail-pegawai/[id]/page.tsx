@@ -11,18 +11,17 @@ import AlertIcon from '../../../../../../../public/icons/AlertIcon';
 
 interface LabelProps {
   label?: string;
-  name?: string;
-  number?: number;
+  value?: string | number;
 }
 
 const LabelDetail = (props: LabelProps) => {
   return (
     <div className='flex gap-2 justify-between lg:justify-start lg:block lg:flex-none'>
-      <div className="label text-black">{props.label || '-'}</div>
-      <div className="name text-black/70">{props.name || props.number || '-'}</div>
+      <div className="label text-black font-semibold">{props.label || '-'}</div>
+      <div className="value text-black/70">{props.value || '-'}</div>
     </div>
-  )
-}
+  );
+};
 
 const DetailPegawaiPage = () => {
   interface Response {
@@ -53,6 +52,14 @@ const DetailPegawaiPage = () => {
     keterangan?: string;
     createdAt?: string;
     updatedAt?: string;
+    bidang?: Bidang;
+  }
+
+  interface Bidang {
+    id: number;
+    nama: string;
+    createdAt: string;
+    updatedAt: string;
   }
 
   const axiosPrivate = useAxiosPrivate();
@@ -96,32 +103,57 @@ const DetailPegawaiPage = () => {
       <div className="wrap-detail bg-slate-100 p-6 mt-5 rounded-lg">
         <div className="font-semibold mb-2 text-lg uppercase">Data Pegawai</div>
         <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
-          <LabelDetail label='Nama' name={data?.nama} />
-          <LabelDetail label='NIP' number={data?.nip} />
-          <LabelDetail label='Tempat' name={data?.tempatLahir} />
-          <LabelDetail label='Tanggal Lahir' name={data?.tglLahir} />
-          <LabelDetail label='Pangkat/Gol Ruang' name={`${data?.pangkat} / ${data?.golongan}`} />
-          <LabelDetail label='TMT Pangkat' name={data?.tmtPangkat} />
-          <LabelDetail label='Jabatan' name={data?.jabatan} />
-          <LabelDetail label='TMT Jabatan' name={data?.tmtJabatan} />
-          <LabelDetail label='Usia' name={`${data?.usia} Tahun`} />
-          <LabelDetail label='Masa Kerja' name={data?.masaKerja} />
-          <LabelDetail label='Keterangan' name={data?.keterangan} />
+          <LabelDetail label='Bidang' value={data?.bidang?.nama} />
+          <LabelDetail label='Nama' value={data?.nama} />
+          <LabelDetail label='NIP' value={data?.nip} />
+          <LabelDetail label='Tempat' value={data?.tempatLahir} />
+          <LabelDetail label='Tanggal Lahir' value={data?.tglLahir} />
+          <LabelDetail label='Pangkat/Gol Ruang' value={`${data?.pangkat} / ${data?.golongan}`} />
+          <LabelDetail label='TMT Pangkat' value={
+            data?.tmtPangkat ?
+              new Date(data?.tmtPangkat).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })
+              : '-'
+          } />
+          <LabelDetail label='Jabatan' value={data?.jabatan} />
+          <LabelDetail label='TMT Jabatan' value={
+            data?.tmtJabatan ?
+              new Date(data?.tmtJabatan).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })
+              : '-'
+          } />
+          <LabelDetail label='Usia' value={`${data?.usia} Tahun`} />
+          <LabelDetail label='Masa Kerja' value={data?.masaKerja} />
+          <LabelDetail label='Keterangan' value={data?.keterangan} />
         </div>
         <div className="wr">
           <div className="font-semibold mb-2 text-lg mt-5 uppercase">Diklat Struktural</div>
           <div className="grid grid-cols-2 md:grid-cols-2  gap-2 md:gap-3">
-            <LabelDetail label='Nama Diklat' name={data?.namaDiklat} />
-            <LabelDetail label='Tanggal Diklat' name={data?.tglDiklat} />
-            <LabelDetail label='Jam Diklat' name={`${data?.totalJam} Jam`} />
+            <LabelDetail label='Nama Diklat' value={data?.namaDiklat} />
+            <LabelDetail label='Tanggal Diklat' value={
+              data?.tglDiklat ?
+                new Date(data?.tglDiklat).toLocaleDateString('id-ID', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })
+                : '-'
+            } />
+            <LabelDetail label='Jam Diklat' value={`${data?.totalJam} Jam`} />
           </div>
         </div>
         <div className="wr">
           <div className="font-semibold text-lg mb-2 mt-5 uppercase">Pendidikan Umum</div>
           <div className="grid grid-cols-2 md:grid-cols-2  gap-2 md:gap-3">
-            <LabelDetail label='Nama Pendidikan' name={data?.namaPendidikan} />
-            <LabelDetail label='Tahun Lulus' number={data?.tahunLulus} />
-            <LabelDetail label='Jenjang' name={data?.jenjangPendidikan} />
+            <LabelDetail label='Nama Pendidikan' value={data?.namaPendidikan} />
+            <LabelDetail label='Tahun Lulus' value={data?.tahunLulus} />
+            <LabelDetail label='Jenjang' value={data?.jenjangPendidikan} />
           </div>
         </div>
       </div>

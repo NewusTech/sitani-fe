@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/select"
 import DeletePopup from '@/components/superadmin/PopupDelete';
 import Swal from 'sweetalert2';
+import PaginationTable from '@/components/PaginationTable';
 
 interface Response {
   status: string,
@@ -51,7 +52,15 @@ interface Response {
 }
 
 interface ResponseData {
-  data: Data[]
+  data: Data[];
+  pagination: Pagination;
+}
+
+interface Pagination {
+  page: number,
+  perPage: number,
+  totalPages: number,
+  totalCount: number,
 }
 
 interface Data {
@@ -75,6 +84,15 @@ interface Data {
   masaKerja?: string;
   keterangan?: string;
   status?: string;
+  bidang_id?: number;
+  bidang?: Bidang;
+}
+
+interface Bidang {
+  id?: number;
+  nama?: string;
+  createdAt?: number;
+  updatedAt?: number;
 }
 
 const DataPegawaiPage = () => {
@@ -84,8 +102,22 @@ const DataPegawaiPage = () => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const onPageChange = (page: number) => {
+    setCurrentPage(page)
+  };
+  // pagination
+  // serach
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+  // serach
+  const [selectedBidang, setSelectedBidang] = useState<string>("");
+
   const { data: dataKepegawaian }: SWRResponse<Response> = useSWR(
-    `/kepegawaian/get`,
+    `/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedBidang}`,
     (url) =>
       axiosPrivate
         .get(url, {
@@ -147,6 +179,8 @@ const DataPegawaiPage = () => {
           <Input
             type="text"
             placeholder="Cari"
+            value={search}
+            onChange={handleSearchChange}
             rightIcon={<SearchIcon />}
             className='border-primary py-2'
           />
@@ -257,17 +291,36 @@ const DataPegawaiPage = () => {
                 </TableCell>
                 <TableCell className=''>
                   {item.pangkat} / {item.golongan} <br />
-                  TMT: {item.tmtPangkat}
+                  TMT: {item.tmtPangkat ?
+                    new Date(item.tmtPangkat).toLocaleDateString('id-ID', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    })
+                    : '-'}
                 </TableCell>
                 <TableCell className=''>
                   {item.jabatan} <br />
-                  TMT: {item.tmtJabatan}
+                  TMT:
+                  {item.tmtJabatan ?
+                    new Date(item.tmtJabatan).toLocaleDateString('id-ID', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    })
+                    : '-'}
                 </TableCell>
                 <TableCell className='hidden md:table-cell'>
                   {item.namaDiklat} <br />
                 </TableCell>
                 <TableCell className='hidden md:table-cell'>
-                  {item.tglDiklat} <br />
+                  {item.tglDiklat ?
+                    new Date(item.tglDiklat).toLocaleDateString('id-ID', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    })
+                    : '-'}
                 </TableCell>
                 <TableCell className='hidden md:table-cell'>
                   {item.totalJam} Jam
@@ -314,31 +367,14 @@ const DataPegawaiPage = () => {
       {/* table */}
 
       {/* pagination */}
-      <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-        <Pagination className='md:justify-end'>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+      <div className="pagi flex items-center lg:justify-end justify-center">
+        {dataKepegawaian?.data?.pagination.totalCount as number > 1 && (
+          <PaginationTable
+            currentPage={currentPage}
+            totalPages={dataKepegawaian?.data.pagination.totalPages as number}
+            onPageChange={onPageChange}
+          />
+        )}
       </div>
       {/* pagination */}
     </div>
