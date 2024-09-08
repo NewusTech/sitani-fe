@@ -1,16 +1,6 @@
-import Link from 'next/link'
-import React, { useState } from 'react'
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import HeaderDash from '@/components/HeaderDash'
+import Link from 'next/link';
+import React, { useState } from 'react';
+import HeaderDash from '@/components/HeaderDash';
 import DashCard from '@/components/DashCard';
 import {
     Select,
@@ -18,58 +8,132 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
-
-// Dummy data untuk tabel
-const dummyData = [
-    { komoditas: 'Jagung', panen: '3400', tanam: '4354', puso: '3432', },
-    { komoditas: 'Padi', panen: '3400', tanam: '4354', puso: '3432', },
-    { komoditas: 'Kedelai', panen: '3400', tanam: '4354', puso: '3432', },
-    { komoditas: 'Kedelai', panen: '3400', tanam: '4354', puso: '3432', },
-    { komoditas: 'Cabai', panen: '3400', tanam: '4354', puso: '3432', },
-];
-
+} from "@/components/ui/select";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import useSWR, { SWRResponse } from 'swr';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
+import DesaValue from '@/components/superadmin/SelectComponent/DesaValue'; // Assuming you have this component
 
 const DashboardBPPKecamatan = () => {
-    // State untuk menyimpan nilai filter yang dipilih
-    const [selectedFilter, setSelectedFilter] = useState<string>('year');
+    interface DashboardDataResponse {
+        status: number;
+        message: string;
+        data: {
+            padiPanenCount: number;
+            padiTanamCount: number;
+            padiPusoCount: number;
+            korluhTanamanBiofarmaka: {
+                luas: number;
+                namaTanaman: string;
+                harga: number;
+            }[];
+            korluhTanamanHias: {
+                luas: number;
+                namaTanaman: string;
+                harga: number;
+            }[];
+            korluhSayurBuah: {
+                luas: number;
+                hasilProduksi: string;
+                namaTanaman: string;
+            }[];
+            korluhPalawija: {
+                panen: number;
+                tanam: number;
+                puso: number;
+                nama: string;
+            }[];
+        };
+    }
 
-    // State untuk menyimpan data yang dipilih
+    // State for filters
+    const [selectedFilter, setSelectedFilter] = useState<string>('year');
     const [selectedYear, setSelectedYear] = useState<string | null>(null);
     const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+    const [selectedKecamatan, setSelectedKecamatan] = useState<number | undefined>(undefined);
 
-    // Fungsi untuk menangani klik tombol
-    const handleFilterClick = (filter: string) => {
-        setSelectedFilter(filter);
+    const handleKecamatanChange = (value: number) => {
+        setSelectedKecamatan(value);
+        setSelectedDesa(0);
     };
+    
 
-    // Fungsi untuk menangani perubahan nilai tahun
+    const [selectedDesa, setSelectedDesa] = useState<number | undefined>(undefined);
+
+
+    // Handle filter changes
+    const handleFilterClick = (filter: string) => setSelectedFilter(filter);
     const handleYearChange = (value: string) => {
-        setSelectedYear(value);
-        console.log('Selected Year:', value); // Log nilai tahun yang dipilih
+        setSelectedYear(value)
+        setSelectedMonth(null)
     };
+    const handleMonthChange = (value: string) => setSelectedMonth(value);
+    const handleDesaChange = (value: number) => {
+        setSelectedDesa(value);
+    };
+    
 
-    // Fungsi untuk menangani perubahan nilai bulan
-    const handleMonthChange = (value: string) => {
-        setSelectedMonth(value);
-        console.log('Selected Month:', value); // Log nilai bulan yang dipilih
-    };
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    // Construct the API URL with dynamic filters
+    const apiUrl = `/korluh/dashboard/get?limit=10${selectedKecamatan ? `&kecamatan=${selectedKecamatan}` : ''
+        }${selectedDesa ? `&desa=${selectedDesa}` : ''}${selectedYear !== null && selectedYear !== '0' ? `&year=${selectedYear}` : ''
+        }${selectedMonth !== null && selectedMonth !== '0' ? `&month=${selectedMonth}` : ''}`;
+
+    // SWR fetch data with dynamic API URL
+    const { data: dataKorluh }: SWRResponse<DashboardDataResponse> = useSWR(
+        apiUrl,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res) => res.data)
+    );
+
+    // if (!dataKorluh) return <div>Loading...</div>;
+
+    const {
+        padiPanenCount,
+        padiTanamCount,
+        padiPusoCount,
+        korluhPalawija,
+        korluhSayurBuah,
+        korluhTanamanHias,
+        korluhTanamanBiofarmaka,
+    } = dataKorluh?.data || {};
+
     return (
         <div className=''>
             {/* title */}
             <div className="text-xl md:text-2xl mb-4 font-semibold text-primary uppercase">Dashboard BPP Kecamatan</div>
             <div className="wrap flex flex-col gap-3 md:flex-row justify-between">
-                <div className="w-full md:w-[400px]">
-                    <Select >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Kecamatan/Desa" className='text-2xl' />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="Desa 1">Desa 1</SelectItem>
-                            <SelectItem value="Desa 2">Desa 2</SelectItem>
-                            <SelectItem value="Desa 3">Desa 3</SelectItem>
-                        </SelectContent>
-                    </Select>
+                <div className="w-full flex gap-3">
+                    <div className="kecamatan">
+                        <KecValue
+                            value={selectedKecamatan}
+                            onChange={handleKecamatanChange}
+                        />
+                    </div>
+                    <div className="desa">
+                        <DesaValue
+                            value={selectedDesa}
+                            onChange={handleDesaChange}
+                            kecamatanValue={selectedKecamatan}
+                        />
+                    </div>
                 </div>
                 {/* filter */}
                 <div className="wrap items-center mb-5 flex gap-3">
@@ -100,6 +164,7 @@ const DashboardBPPKecamatan = () => {
                                     <SelectValue placeholder="Pilih Tahun" className='text-2xl' />
                                 </SelectTrigger>
                                 <SelectContent>
+                                    <SelectItem value="0">Semua</SelectItem>
                                     <SelectItem value="2024">2024</SelectItem>
                                     <SelectItem value="2023">2023</SelectItem>
                                     <SelectItem value="2022">2022</SelectItem>
@@ -118,10 +183,20 @@ const DashboardBPPKecamatan = () => {
                                     <SelectValue placeholder="Pilih Bulan" className='text-2xl' />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="januari">Januari</SelectItem>
-                                    <SelectItem value="februari">Februari</SelectItem>
-                                    <SelectItem value="maret">Maret</SelectItem>
-                                    {/* Tambahkan bulan lainnya jika perlu */}
+                                    <SelectItem value="0">Semua</SelectItem>
+                                    <SelectItem value="1">Januari</SelectItem>
+                                    <SelectItem value="2">Februari</SelectItem>
+                                    <SelectItem value="3">Maret</SelectItem>
+                                    <SelectItem value="4">April</SelectItem>
+                                    <SelectItem value="5">Mei</SelectItem>
+                                    <SelectItem value="6">Juni</SelectItem>
+                                    <SelectItem value="7">Juli</SelectItem>
+                                    <SelectItem value="8">Agustus</SelectItem>
+                                    <SelectItem value="9">September</SelectItem>
+                                    <SelectItem value="10">Oktober</SelectItem>
+                                    <SelectItem value="11">November</SelectItem>
+                                    <SelectItem value="12">Desember</SelectItem>
+                                    {/* Add more months if needed */}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -132,17 +207,14 @@ const DashboardBPPKecamatan = () => {
             {/* title */}
             {/* card */}
             <div className="wrap-card grid md:grid-cols-3 grid-cols-1 gap-3">
-                <DashCard label='Jumlah Panen Padi' value={43900} />
-                <DashCard label='Jumlah Tanam Padi' value={22414} />
-                <DashCard label='Jumlah Puso' value={22414} />
+                <DashCard label='Jumlah Panen Padi' value={padiPanenCount} />
+                <DashCard label='Jumlah Tanam Padi' value={padiTanamCount} />
+                <DashCard label='Jumlah Puso' value={padiPusoCount} />
             </div>
-            {/* card */}
-            {/* tabel */}
+            {/* tables */}
             <div className="tablee h-fit md:h-[320px] mt-6 flex md:flex-row flex-col gap-3">
-                {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Tanaman Palawija" link="/korluh/palawija" />
-                    {/* table */}
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
@@ -153,9 +225,9 @@ const DashboardBPPKecamatan = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {korluhPalawija?.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.nama}</TableCell>
                                     <TableCell className='p-0 py-1'>{data.panen}</TableCell>
                                     <TableCell className='p-0 py-1'>{data.tanam}</TableCell>
                                     <TableCell className='p-0 py-1'>{data.puso}</TableCell>
@@ -163,12 +235,9 @@ const DashboardBPPKecamatan = () => {
                             ))}
                         </TableBody>
                     </Table>
-                    {/* table */}
                 </div>
-                {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Sayuran dan Buah" link="/korluh/sayuran-buah" />
-                    {/* table */}
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
@@ -178,72 +247,63 @@ const DashboardBPPKecamatan = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {korluhSayurBuah?.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.panen}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.tanam}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.namaTanaman}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.hasilProduksi}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.luas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    {/* table */}
                 </div>
             </div>
-            {/*  */}
             <div className="tablee h-fit md:h-[320px] mt-3 flex md:flex-row flex-col gap-3">
-                {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Tanaman Hias" link="/korluh/tanaman-hias" />
-                    {/* table */}
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
                                 <TableHead className="text-primary p-0">Nama Tanaman</TableHead>
-                                <TableHead className="text-primary p-0">Hasil Produksi</TableHead>
+                                <TableHead className="text-primary p-0">Harga</TableHead>
                                 <TableHead className="text-primary p-0">Luas Tanaman</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {korluhTanamanHias?.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.panen}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.tanam}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.namaTanaman}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.luas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    {/* table */}
                 </div>
-                {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Tanaman Biofarmaka" link="/korluh/tanaman-biofarmaka" />
-                    {/* table */}
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
                                 <TableHead className="text-primary p-0">Nama Tanaman</TableHead>
-                                <TableHead className="text-primary p-0">Hasil Produksi</TableHead>
+                                <TableHead className="text-primary p-0">Harga</TableHead>
                                 <TableHead className="text-primary p-0">Luas Tanaman</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {korluhTanamanBiofarmaka?.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.panen}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.tanam}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.namaTanaman}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.luas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    {/* table */}
                 </div>
             </div>
-            {/* tabel */}
         </div>
-    )
-}
+    );
+};
 
-export default DashboardBPPKecamatan
+export default DashboardBPPKecamatan;

@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import React, { useState } from 'react'
+import Link from 'next/link';
+import React, { useState } from 'react';
 import {
     Table,
     TableBody,
@@ -9,157 +9,205 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
-import HeaderDash from '@/components/HeaderDash'
+} from "@/components/ui/table";
+import HeaderDash from '@/components/HeaderDash';
 import DashCard from '@/components/DashCard';
-
-// Dummy data untuk tabel
-const dummyData = [
-    { kecamatan: 'Way Jepara', desa: 'Jepara', namaPoktan: 'Rudi', namaKetua: 'Rahmat' },
-    { kecamatan: 'Way Bungur', desa: 'Sido Mulyo', namaPoktan: 'Agus', namaKetua: 'Budi' },
-    { kecamatan: 'Mataram Baru', desa: 'Sri Rejeki', namaPoktan: 'Wawan', namaKetua: 'Andi' },
-    { kecamatan: 'Mataram Baru', desa: 'Sri Rejeki', namaPoktan: 'Wawan', namaKetua: 'Andi' },
-    { kecamatan: 'Mataram Baru', desa: 'Sri Rejeki', namaPoktan: 'Wawan', namaKetua: 'Andi' },
-];
+import useSWR, { SWRResponse } from 'swr';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import PaginationTable from '@/components/PaginationTable';
 
 const DashboardPSP = () => {
     // State untuk menyimpan nilai yang dipilih
     const [selectedFilter, setSelectedFilter] = useState<string>('year');
+
+    // date
+    const formatDateToDDMMYYYY = (isoString: string | number | Date) => {
+        const date = new Date(isoString);
+        const day = String(date.getDate()).padStart(2, '0'); // Get day and pad with leading zero if needed
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Get month and pad with leading zero if needed
+        const year = date.getFullYear(); // Get full year
+
+        return `${day}/${month}/${year}`; // Return formatted date
+    };
 
     // Fungsi untuk menangani klik tombol
     const handleFilterClick = (filter: string) => {
         setSelectedFilter(filter);
         console.log(filter); // Log nilai yang dipilih ke console
     };
+
+    // Interface untuk data API
+    interface Kecamatan {
+        id: number;
+        nama: string;
+    }
+
+    interface Desa {
+        id: number;
+        nama: string;
+        kecamatanId: number;
+    }
+
+    interface Bantuan {
+        id: number;
+        kecamatanId: number;
+        desaId: number;
+        jenisBantuan: string;
+        periode: string;
+        keterangan: string;
+        kecamatan: Kecamatan;
+        desa: Desa;
+    }
+
+    interface PenerimaUppo {
+        id: number;
+        kecamatanId: number;
+        desaId: number;
+        namaPoktan: string;
+        ketuaPoktan: string;
+        titikKoordinat: string;
+        kecamatan: Kecamatan;
+        desa: Desa;
+    }
+
+    interface PSPDashboardData {
+        bantuanNonSubsidiCount: number;
+        bantuanSubsidiCount: number;
+        uppoCount: number;
+        pspBantuanNonSubsidi: Bantuan[];
+        pspBantuanSubsidi: Bantuan[];
+        pspPenerimaUppo: PenerimaUppo[];
+    }
+
+    interface Response {
+        status: number;
+        message: string;
+        data: PSPDashboardData;
+    }
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+console.log("filter = ", selectedFilter);
+    const { data: dataPSP }: SWRResponse<Response> = useSWR(
+        `/psp/dashboard/get?type=${selectedFilter}&uppoLimit=10&bantuanLimit=10`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+    const bantuanSubsidi = dataPSP?.data?.pspBantuanSubsidi || [];
+    const bantuanNonSubsidi = dataPSP?.data?.pspBantuanNonSubsidi || [];
+    const penerimaUppo = dataPSP?.data?.pspPenerimaUppo || [];
+
     return (
-        <div className=''>
-            {/* title */}
+        <div>
+            {/* Title */}
             <div className="wrap flex md:flex-row flex-col mb-4 justify-between">
-                <div className="md:text-2xl text-xl  font-semibold text-primary uppercase">Dashboard PSP</div>
-                {/* filter */}
-                <div className="text-base md:text-lg  flex gap-4">
-                    <button
-                        className={`${selectedFilter === 'year' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('year')}
-                    >
-                        Year
-                    </button>
-                    <button
-                        className={`${selectedFilter === 'month' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('month')}
-                    >
-                        Month
-                    </button>
-                    <button
-                        className={`${selectedFilter === 'week' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('week')}
-                    >
-                        Week
-                    </button>
-                    <button
-                        className={`${selectedFilter === 'today' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('today')}
-                    >
-                        Today
-                    </button>
+                <div className="md:text-2xl text-xl font-semibold text-primary uppercase">Dashboard PSP</div>
+                {/* Filter */}
+                <div className="text-base md:text-lg flex gap-4">
+                    {['year', 'month', 'week', 'today'].map((filter) => (
+                        <button
+                            key={filter}
+                            className={`${selectedFilter === filter ? 'aktif text-primary font-semibold' : 'text-black/70'}`}
+                            onClick={() => handleFilterClick(filter)}
+                        >
+                            {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                        </button>
+                    ))}
                 </div>
-                {/* filter */}
             </div>
-            {/* title */}
-            {/* card */}
+            {/* Card */}
             <div className="wrap-card grid md:grid-cols-3 grid-cols-1 gap-3">
-                <DashCard label='Penerima UPPO' value={30000} />
-                <DashCard label='Penerima Bantuan Subsidi' value={30000} />
-                <DashCard label='Penerima Bantuan Non Subsidi' value={30000} />
+                <DashCard label='Penerima UPPO' value={dataPSP?.data?.uppoCount || 0} />
+                <DashCard label='Penerima Bantuan Subsidi' value={dataPSP?.data?.bantuanSubsidiCount || 0} />
+                <DashCard label='Penerima Bantuan Non Subsidi' value={dataPSP?.data?.bantuanNonSubsidiCount || 0} />
             </div>
-            {/* card */}
-            {/* tabel */}
+            {/* Tabel */}
             <div className="peuppo h-fit md:h-[60vh] mt-6 flex md:flex-row flex-col gap-3 pb-5 md:pb-0">
-                <div className="tab1 border border-slate-200 rounded-lg w-full md:w-[60%]  p-4">
-                    {/* head */}
+                {/* Penerima UPPO Table */}
+                <div className="tab1 border border-slate-200 rounded-lg w-full md:w-[60%] p-4">
                     <HeaderDash label="Data Penerima UPPO" link="/psp/data-penerima-uppo" />
-                    {/* head */}
-                    {/* table */}
                     <Table className='mt-4'>
                         <TableHeader className='bg-primary-600/20 rounded-md'>
-                            <TableRow >
+                            <TableRow>
                                 <TableHead className="text-primary py-1">Kecamatan</TableHead>
                                 <TableHead className="text-primary py-1">Desa</TableHead>
-                                <TableHead className="text-primary py-1 ">Nama Poktan</TableHead>
-                                <TableHead className="text-primary py-1 ">Nama Ketua</TableHead>
+                                <TableHead className="text-primary py-1">Nama Poktan</TableHead>
+                                <TableHead className="text-primary py-1">Nama Ketua</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{data.kecamatan}</TableCell>
-                                    <TableCell>{data.desa}</TableCell>
+                            {penerimaUppo.map((data) => (
+                                <TableRow key={data.id}>
+                                    <TableCell>{data.kecamatan.nama}</TableCell>
+                                    <TableCell>{data.desa.nama}</TableCell>
                                     <TableCell>{data.namaPoktan}</TableCell>
-                                    <TableCell className="">{data.namaKetua}</TableCell>
+                                    <TableCell>{data.ketuaPoktan}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    {/* table */}
                 </div>
-                {/*  */}
+                {/* Right Side Tables */}
                 <div className="wrap-right flex flex-col w-full md:w-[40%] h-full gap-4">
+                    {/* Data Bantuan Subsidi */}
                     <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-1/2 overflow-auto">
                         <HeaderDash label="Data Bantuan Subsidi" link="/psp/data-bantuan" />
-                        {/* table */}
                         <Table className='mt-1'>
                             <TableHeader className='rounded-md p-0'>
                                 <TableRow className='border-none p-0'>
                                     <TableHead className="text-primary p-0">Kecamatan</TableHead>
                                     <TableHead className="text-primary p-0">Desa</TableHead>
-                                    <TableHead className="text-primary p-0 ">Periode</TableHead>
+                                    <TableHead className="text-primary p-0">Periode</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {dummyData.map((data, index) => (
-                                    <TableRow className='border-none p-1' key={index}>
-                                        <TableCell className='p-1'>{data.kecamatan}</TableCell>
-                                        <TableCell className='p-1'>{data.desa}</TableCell>
-                                        <TableCell className='p-1'>{data.namaPoktan}</TableCell>
+                                {bantuanSubsidi.map((data) => (
+                                    <TableRow className='border-none p-1' key={data.id}>
+                                        <TableCell className='p-1'>{data.kecamatan.nama}</TableCell>
+                                        <TableCell className='p-1'>{data.desa.nama}</TableCell>
+                                        <TableCell className='p-1'>
+                                            {formatDateToDDMMYYYY(data.periode)}
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
-                        {/* table */}
                     </div>
+                    {/* Data Bantuan Non Subsidi */}
                     <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-1/2 overflow-auto">
                         <HeaderDash label="Data Bantuan Non Subsidi" link="/psp/data-bantuan" />
-                        {/* table */}
-                        {/* table */}
                         <Table className='mt-1'>
                             <TableHeader className='rounded-md p-0'>
                                 <TableRow className='border-none p-0'>
                                     <TableHead className="text-primary p-0">Kecamatan</TableHead>
                                     <TableHead className="text-primary p-0">Desa</TableHead>
-                                    <TableHead className="text-primary p-0 ">Periode</TableHead>
+                                    <TableHead className="text-primary p-0">Periode</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {dummyData.map((data, index) => (
-                                    <TableRow className='border-none p-1' key={index}>
-                                        <TableCell className='p-1'>{data.kecamatan}</TableCell>
-                                        <TableCell className='p-1'>{data.desa}</TableCell>
-                                        <TableCell className='p-1'>{data.namaPoktan}</TableCell>
+                                {bantuanNonSubsidi.map((data) => (
+                                    <TableRow className='border-none p-1' key={data.id}>
+                                        <TableCell className='p-1'>{data.kecamatan.nama}</TableCell>
+                                        <TableCell className='p-1'>{data.desa.nama}</TableCell>
+                                        <TableCell className='p-1'>{formatDateToDDMMYYYY(data.periode)}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
-                        {/* table */}
                     </div>
                 </div>
             </div>
-            {/* tabel */}
         </div>
-    )
-}
+    );
+};
 
-export default DashboardPSP
+export default DashboardPSP;

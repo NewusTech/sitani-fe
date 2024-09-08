@@ -1,77 +1,85 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React from 'react'
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
 import HeaderDash from '@/components/HeaderDash'
 import DashCard from '@/components/DashCard';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+import useSWR, { SWRResponse } from 'swr';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
-// Dummy data untuk tabel
-const dummyData = [
-    { komoditas: 'Jagung', panen: '3400', tanam: '4354', puso: '3432', },
-    { komoditas: 'Padi', panen: '3400', tanam: '4354', puso: '3432', },
-    { komoditas: 'Kedelai', panen: '3400', tanam: '4354', puso: '3432', },
-    { komoditas: 'Kedelai', panen: '3400', tanam: '4354', puso: '3432', },
-    { komoditas: 'Cabai', panen: '3400', tanam: '4354', puso: '3432', },
-];
-
+// Interface for API response data
+interface DashboardDataResponse {
+    status: number;
+    message: string;
+    data: {
+        padiPanenCount: number;
+        padiTanamCount: number;
+        padiPusoCount: number;
+        korluhTanamanBiofarmaka: {
+            luas: number;
+            namaTanaman: string;
+            harga: number;
+        }[];
+        korluhTanamanHias: {
+            luas: number;
+            namaTanaman: string;
+            harga: number;
+        }[];
+        korluhSayurBuah: {
+            luas: number;
+            hasilProduksi: string;
+            namaTanaman: string;
+        }[];
+        korluhPalawija: {
+            panen: number;
+            tanam: number;
+            puso: number;
+            nama: string;
+        }[];
+    };
+}
 
 const DashboardKorluh = () => {
-    // State untuk menyimpan nilai filter yang dipilih
-    const [selectedFilter, setSelectedFilter] = useState<string>('year');
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
 
-    // State untuk menyimpan data yang dipilih
-    const [selectedYear, setSelectedYear] = useState<string | null>(null);
-    const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+    const { data: dataKorluh }: SWRResponse<DashboardDataResponse> = useSWR(
+        `/korluh/dashboard/get`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res) => res.data)
+    );
 
-    // Fungsi untuk menangani klik tombol
-    const handleFilterClick = (filter: string) => {
-        setSelectedFilter(filter);
-    };
+    if (!dataKorluh) return <div>Loading...</div>;
 
-    // Fungsi untuk menangani perubahan nilai tahun
-    const handleYearChange = (value: string) => {
-        setSelectedYear(value);
-        console.log('Selected Year:', value); // Log nilai tahun yang dipilih
-    };
+    const { padiPanenCount, padiTanamCount, padiPusoCount, korluhPalawija, korluhSayurBuah, korluhTanamanHias, korluhTanamanBiofarmaka } = dataKorluh.data;
 
-    // Fungsi untuk menangani perubahan nilai bulan
-    const handleMonthChange = (value: string) => {
-        setSelectedMonth(value);
-        console.log('Selected Month:', value); // Log nilai bulan yang dipilih
-    };
     return (
-        <div className=''>
+        <div>
             {/* title */}
             <div className="text-xl md:text-2xl mb-4 font-semibold text-primary uppercase">Dashboard Korluh</div>
-            {/* title */}
             {/* card */}
             <div className="wrap-card grid md:grid-cols-3 grid-cols-1 gap-3">
-                <DashCard label='Jumlah Panen Padi' value={43900} />
-                <DashCard label='Jumlah Tanam Padi' value={22414} />
-                <DashCard label='Jumlah Puso' value={22414} />
+                <DashCard label='Jumlah Panen Padi' value={padiPanenCount} />
+                <DashCard label='Jumlah Tanam Padi' value={padiTanamCount} />
+                <DashCard label='Jumlah Puso' value={padiPusoCount} />
             </div>
-            {/* card */}
-            {/* tabel */}
+            {/* tables */}
             <div className="tablee h-fit md:h-[320px] mt-6 flex md:flex-row flex-col gap-3">
-                {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Tanaman Palawija" link="/korluh/palawija" />
-                    {/* table */}
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
@@ -82,9 +90,9 @@ const DashboardKorluh = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {korluhPalawija.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.nama}</TableCell>
                                     <TableCell className='p-0 py-1'>{data.panen}</TableCell>
                                     <TableCell className='p-0 py-1'>{data.tanam}</TableCell>
                                     <TableCell className='p-0 py-1'>{data.puso}</TableCell>
@@ -92,12 +100,9 @@ const DashboardKorluh = () => {
                             ))}
                         </TableBody>
                     </Table>
-                    {/* table */}
                 </div>
-                {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Sayuran dan Buah" link="/korluh/sayuran-buah" />
-                    {/* table */}
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
@@ -107,72 +112,63 @@ const DashboardKorluh = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {korluhSayurBuah.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.panen}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.tanam}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.namaTanaman}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.hasilProduksi}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.luas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    {/* table */}
                 </div>
             </div>
-            {/*  */}
             <div className="tablee h-fit md:h-[320px] mt-3 flex md:flex-row flex-col gap-3">
-                {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Tanaman Hias" link="/korluh/tanaman-hias" />
-                    {/* table */}
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
                                 <TableHead className="text-primary p-0">Nama Tanaman</TableHead>
-                                <TableHead className="text-primary p-0">Hasil Produksi</TableHead>
+                                <TableHead className="text-primary p-0">Harga</TableHead>
                                 <TableHead className="text-primary p-0">Luas Tanaman</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {korluhTanamanHias.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.panen}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.tanam}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.namaTanaman}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.luas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    {/* table */}
                 </div>
-                {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Tanaman Biofarmaka" link="/korluh/tanaman-biofarmaka" />
-                    {/* table */}
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
                                 <TableHead className="text-primary p-0">Nama Tanaman</TableHead>
-                                <TableHead className="text-primary p-0">Hasil Produksi</TableHead>
+                                <TableHead className="text-primary p-0">Harga</TableHead>
                                 <TableHead className="text-primary p-0">Luas Tanaman</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {korluhTanamanBiofarmaka.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.panen}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.tanam}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.namaTanaman}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
+                                    <TableCell className='p-0 py-1'>{data.luas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    {/* table */}
                 </div>
             </div>
-            {/* tabel */}
         </div>
-    )
+    );
 }
 
-export default DashboardKorluh
+export default DashboardKorluh;

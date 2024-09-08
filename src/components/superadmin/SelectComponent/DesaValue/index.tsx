@@ -25,7 +25,7 @@ const desaItems: DesaItem[] = [
   { id: 3, nama: "Desa C", kecamatanId: 2 },
 ];
 
-const DesaValue: React.FC<SelectDesaProps> = ({ value, onChange, kecamatanValue, disabled=false }) => {
+const DesaValue: React.FC<SelectDesaProps> = ({ value, onChange, kecamatanValue, disabled = false }) => {
   // GET ALL DESA
   interface Desa {
     id: number;
@@ -40,7 +40,7 @@ const DesaValue: React.FC<SelectDesaProps> = ({ value, onChange, kecamatanValue,
   }
 
   const [accessToken] = useLocalStorage("accessToken", "");
-    const axiosPrivate = useAxiosPrivate();
+  const axiosPrivate = useAxiosPrivate();
 
   const { data: dataDesa }: SWRResponse<ResponseDesa> = useSWR(
     `desa/get`,
@@ -80,6 +80,9 @@ const DesaValue: React.FC<SelectDesaProps> = ({ value, onChange, kecamatanValue,
         </div>
         <SelectGroup>
           <SelectLabel>Desa</SelectLabel>
+          <SelectItem key={0} value={"0"}>
+            Semua
+          </SelectItem>
           {filteredDesaItems?.map((item) => (
             <SelectItem key={item.id} value={item.id.toString()}>
               {item.nama}

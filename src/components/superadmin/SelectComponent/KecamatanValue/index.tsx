@@ -23,7 +23,7 @@ const kecamatanItems: SelectItem[] = [
     { id: 3, nama: "Sekampung" },
 ];
 
-const KecValue: React.FC<SelectKecamatanProps> = ({disabled=false, value, onChange }) => {
+const KecValue: React.FC<SelectKecamatanProps> = ({ disabled = false, value, onChange }) => {
 
     // GET ALL KECAMATAN
     interface Kecamatan {
@@ -75,6 +75,9 @@ const KecValue: React.FC<SelectKecamatanProps> = ({disabled=false, value, onChan
                 </div>
                 <SelectGroup>
                     <SelectLabel>Kecamatan</SelectLabel>
+                    <SelectItem key={0} value={"0"}>
+                        Semua
+                    </SelectItem>
                     {filteredKecamatanItems?.map((item) => (
                         <SelectItem key={item.id} value={item.id.toString()}>
                             {item.nama}

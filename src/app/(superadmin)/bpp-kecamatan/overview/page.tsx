@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardBPPKecamatan from "@/components/dashboard/bpp-kecamatan/indexc";
+import DashboardBPPKecamatan from "@/components/dashboard/bpp-kecamatan";
 
 const PageDashboardBPPKecamatan = () => {
     return (

@@ -16,7 +16,7 @@ import DashboardPSP from '@/components/dashboard/psp';
 import DashboardKepegawaian from '@/components/dashboard/kepegawaian';
 import DashboardKorluh from '@/components/dashboard/korluh';
 import DashboardKJFKabupaten from '@/components/dashboard/kjf-kabupaten';
-import DashboardBPPKecamatan from '@/components/dashboard/bpp-kecamatan/indexc';
+import DashboardBPPKecamatan from '@/components/dashboard/bpp-kecamatan';
 
 const Page = () => {
     const [selectedBidang, setSelectedBidang] = useState('Ketahanan Pangan'); // Default to 'Bidang 1'

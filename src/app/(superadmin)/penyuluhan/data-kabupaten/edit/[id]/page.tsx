@@ -1,73 +1,151 @@
-"use client"
-import Label from '@/components/ui/label'
-import React from 'react'
-import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form';
+"use client";
+import Label from '@/components/ui/label';
+import React, { useEffect, useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
-import { Textarea } from "@/components/ui/textarea"
-
-const OPTIONS: Option[] = [
-    { label: 'nextjs', value: 'nextjs' },
-    { label: 'React', value: 'react' },
-    { label: 'Remix', value: 'remix' },
-    { label: 'Vite', value: 'vite' },
-    { label: 'Nuxt', value: 'nuxt' },
-    { label: 'Vue', value: 'vue' },
-    { label: 'Svelte', value: 'svelte' },
-    { label: 'Angular', value: 'angular' },
-    { label: 'Ember', value: 'ember', disable: true },
-    { label: 'Gatsby', value: 'gatsby', disable: true },
-    { label: 'Astro', value: 'astro' },
-];
+import { Textarea } from '@/components/ui/textarea';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter, useParams } from 'next/navigation';
+import { mutate } from 'swr';
+import Loading from '@/components/ui/Loading';
+import Swal from 'sweetalert2';
+import useSWR from 'swr';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import SelectMultipleKecamatan from '@/components/superadmin/KecamatanMultiple';
 
 const formSchema = z.object({
-    namaKecamatan: z
-        .array(z.string())
-        .min(1, { message: "Wilayah Desa Binaan wajib diisi" }).optional(),
-    namaPenyuluh: z
-        .string()
-        .min(1, { message: "Nama wajib diisi" }),
+    kecamatan_list: z
+        .array(z.preprocess(val => Number(val), z.number()))
+        .min(1, { message: "Wilayah Desa Binaan wajib diisi" })
+        .optional(),
+    nama: z.string().min(1, { message: "Nama wajib diisi" }),
     nip: z
-        .string()
-        .min(1, { message: "NIP wajib diisi" }),
-    pangkat: z
-        .string()
-        .min(1, { message: "Pangkat wajib diisi" }),
-    golongan: z
-        .string()
-        .min(1, { message: "Golongan wajib diisi" }),
-    keterangan: z
-        .string()
-        .min(1, { message: "Keterangan wajib diisi" })
+        .preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
+    pangkat: z.string().min(1, { message: "Pangkat wajib diisi" }),
+    golongan: z.string().min(1, { message: "Golongan wajib diisi" }),
+    keterangan: z.string().min(1, { message: "Keterangan wajib diisi" })
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
+interface KecamatanOption {
+    id: number;
+    nama: string;
+}
+
+interface ResponseKecamatan {
+    status: string;
+    data: KecamatanOption[];
+    message: string;
+}
+
+interface Penyuluh {
+    nama: string,
+    nip: number,
+    pangkat: string,
+    golongan: string,
+    keterangan: string;
+    kecamatan: {
+        nama: string;
+    }
+
+}
+
+interface ResponsePenyuluh {
+    status: string;
+    data: Penyuluh;
+    message: string;
+}
+
 const PenyuluhanEditDataKabupaten = () => {
-    const [date, setDate] = React.useState<Date>()
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const { id } = useParams();
+    const [loading, setLoading] = useState(false);
+
+    const { data: dataKecamatan, error: kecamatanError } = useSWR<ResponseKecamatan>(
+        "kecamatan/get",
+        (url: string) =>
+            axiosPrivate.get(url, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }).then(res => res.data)
+    );
+
+    const { data: dataPenyuluh, error: penyuluhError } = useSWR<ResponsePenyuluh>(
+        id ? `/penyuluh-kabupaten/get/${id}` : null,
+        (url: string) =>
+            axiosPrivate.get(url, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }).then(res => res.data)
+    );
 
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
-        setValue
+        setValue,
+        control
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
 
-    const handleSelectorChange = (selectedOptions: Option[]) => {
-        setValue('namaKecamatan', selectedOptions.map(option => option.value));
-    };
+    useEffect(() => {
+        if (dataPenyuluh && dataPenyuluh.data) {
+            // Ensure kecamatan_list is an array of numbers
+            const kecamatanList = Array.isArray(dataPenyuluh.data.kecamatan)
+                ? dataPenyuluh.data.kecamatan.map(item => item.id)
+                : [];
+            setValue('kecamatan_list', kecamatanList);
+            setValue('nama', dataPenyuluh.data.nama || '');
+            setValue('nip', dataPenyuluh.data.nip || 0);
+            setValue('pangkat', dataPenyuluh.data.pangkat || '');
+            setValue('golongan', dataPenyuluh.data.golongan || '');
+            setValue('keterangan', dataPenyuluh.data.keterangan || '');
+        }
+    }, [dataPenyuluh, setValue]);
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log(data);
-        reset();
+
+
+
+    const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+        setLoading(true);
+        try {
+            await axiosPrivate.put(`/penyuluh-kabupaten/update/${id}`, data);
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil diperbarui!',
+                text: 'Data sudah diperbarui di sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            navigate.push('/penyuluhan/data-kabupaten');
+            reset();
+        } catch (error) {
+            console.error("Failed to update data:", error);
+        } finally {
+            setLoading(false);
+        }
+        mutate(`/penyuluh-kabupaten/get`);
     };
 
     return (
@@ -78,19 +156,24 @@ const PenyuluhanEditDataKabupaten = () => {
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Wilayah Desa Binaan (Kecamatan)" />
-                            <MultipleSelector
-                                className={`w-[98%] justify-between flex h-10 items-center rounded-full border border-primary bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 ${errors.namaKecamatan ? 'border-red-500' : ''}`}
-                                defaultOptions={OPTIONS}
-                                placeholder="Cari Kecamatan"
-                                onChange={handleSelectorChange}
-                                emptyIndicator={
-                                    <p className="text-center text-lg leading-10 text-gray-600">
-                                        Tidak ada data.
-                                    </p>
-                                }
+                            <Controller
+                                name="kecamatan_list"
+                                control={control}
+                                render={({ field: { onChange, value } }) => {
+                                    const selectedKecamatan = dataKecamatan?.data.filter(option =>
+                                        value?.includes(option.id)
+                                    ) || [];
+                                    return (
+                                        <SelectMultipleKecamatan
+                                            kecamatanOptions={dataKecamatan?.data || []}
+                                            selectedKecamatan={selectedKecamatan}
+                                            onChange={(selected: KecamatanOption[]) => onChange(selected.map(d => d.id))}
+                                        />
+                                    );
+                                }}
                             />
-                            {errors.namaKecamatan && (
-                                <HelperError>{errors.namaKecamatan.message}</HelperError>
+                            {errors.kecamatan_list && (
+                                <p className="text-red-500">{errors.kecamatan_list.message}</p>
                             )}
                         </div>
                     </div>
@@ -98,20 +181,18 @@ const PenyuluhanEditDataKabupaten = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Nama" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Nama"
-                                {...register('namaPenyuluh')}
-                                className={`${errors.namaPenyuluh ? 'border-red-500' : 'py-5 text-sm'}`}
+                                {...register('nama')}
+                                className={`${errors.nama ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.namaPenyuluh && (
-                                <HelperError>{errors.namaPenyuluh.message}</HelperError>
+                            {errors.nama && (
+                                <HelperError>{errors.nama.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="NIP" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="NIP"
                                 {...register('nip')}
@@ -126,7 +207,6 @@ const PenyuluhanEditDataKabupaten = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pangkat" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Pangkat"
                                 {...register('pangkat')}
@@ -139,7 +219,6 @@ const PenyuluhanEditDataKabupaten = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Golongan" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Golongan"
                                 {...register('golongan')}
@@ -156,7 +235,8 @@ const PenyuluhanEditDataKabupaten = () => {
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
-                            <Textarea  {...register('keterangan')}
+                            <Textarea
+                                {...register('keterangan')}
                                 className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
                             {errors.keterangan && (
@@ -165,18 +245,17 @@ const PenyuluhanEditDataKabupaten = () => {
                         </div>
                     </div>
                 </div>
-
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/penyuluhan/data-kabupaten" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/penyuluhan/data-kabupaten" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
-                    <Button type="submit" variant="primary" size="lg" className="w-[120px]  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
-                        Simpan
+                    <Button type="submit" disabled={loading} size="lg" className="w-[120px]">
+                        {loading ? <Loading /> : 'Simpan'}
                     </Button>
                 </div>
             </form>
         </>
-    )
-}
+    );
+};
 
-export default PenyuluhanEditDataKabupaten
+export default PenyuluhanEditDataKabupaten;
