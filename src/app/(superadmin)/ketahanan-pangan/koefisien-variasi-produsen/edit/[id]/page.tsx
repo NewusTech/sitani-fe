@@ -26,21 +26,8 @@ type FormSchemaType = z.infer<typeof formSchema>;
 const EditKoefisienVariasiProdusen = () => {
     interface Response {
         status: string;
-        data: Komoditas,
+        data: Data,
         message: string;
-    }
-
-    interface Komoditas {
-        id: number;
-        nama: string;
-        createdAt: string;
-        updatedAt: string;
-    }
-
-    interface ResponseEdit {
-        status: string;
-        message: string;
-        data: Data;
     }
 
     interface Data {
@@ -54,7 +41,14 @@ const EditKoefisienVariasiProdusen = () => {
         kepangCvProdusen: KepangCvProdusen;
     }
 
-    interface KepangCvProdusen {
+    interface Komoditas {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface KepangCvProdusen{
         id: number;
         bulan: string;
         createdAt: string;
@@ -64,7 +58,7 @@ const EditKoefisienVariasiProdusen = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
-    const { data: dataKomoditas }: SWRResponse<Response> = useSWR(
+    const { data: dataKomoditas }: SWRResponse<Komoditas[]> = useSWR(
         `/kepang/master-komoditas/get`,
         (url: string) =>
             axiosPrivate
@@ -95,7 +89,7 @@ const EditKoefisienVariasiProdusen = () => {
     const params = useParams();
     const { id } = params;
 
-    const { data: dataProdusen, error } = useSWR<ResponseEdit>(
+    const { data: dataProdusen, error } = useSWR<Response>(
         `/kepang/cv-produsen/get/${id}`,
         async (url: string) => {
             try {
@@ -169,9 +163,9 @@ const EditKoefisienVariasiProdusen = () => {
                             <Label className='text-sm mb-1' label="Komoditas" />
                             <Input
                                 type="text"
-                                placeholder="Komoditas"
+                                placeholder="Masukkan Satuan"
                                 disabled={true}
-                                value={dataKomoditas?.data.nama || ''}
+                                value={dataProdusen?.data?.komoditas?.nama ?? ''}
                             />
                         </div>
                         <div className="flex flex-col mb-2 w-full">

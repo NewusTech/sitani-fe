@@ -337,10 +337,10 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                 </AccordionItem>
                                 {/*peran-pengguna */}
                                 {/* Status Laporan */}
-                                {/* <Link href="/status-laporan" className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between ${pathname.startsWith('/status-laporan') ? "bg-primary text-white" : "bg-transparent text-primary"}`} >
+                                <Link href="/status-laporan" className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between ${pathname.startsWith('/status-laporan') ? "bg-primary text-white" : "bg-transparent text-primary"}`} >
                                     <span>Status Laporan</span>
                                     <Badge variant="destructive">2</Badge>
-                                </Link> */}
+                                </Link>
                                 {/*status laporan */}
                                 
                             </Accordion>
