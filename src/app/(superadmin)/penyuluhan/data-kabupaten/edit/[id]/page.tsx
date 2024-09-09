@@ -21,14 +21,14 @@ import SelectMultipleKecamatan from '@/components/superadmin/KecamatanMultiple';
 const formSchema = z.object({
     kecamatan_list: z
         .array(z.preprocess(val => Number(val), z.number()))
-        .min(1, { message: "Wilayah Desa Binaan wajib diisi" })
+        .min(0, { message: "Wilayah Desa Binaan wajib diisi" })
         .optional(),
-    nama: z.string().min(1, { message: "Nama wajib diisi" }),
+    nama: z.string().min(0, { message: "Nama wajib diisi" }),
     nip: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
-    pangkat: z.string().min(1, { message: "Pangkat wajib diisi" }),
-    golongan: z.string().min(1, { message: "Golongan wajib diisi" }),
-    keterangan: z.string().min(1, { message: "Keterangan wajib diisi" })
+        .preprocess((val) => Number(val), z.number().min(0, { message: "NIP wajib diisi" })),
+    pangkat: z.string().min(0, { message: "Pangkat wajib diisi" }),
+    golongan: z.string().min(0, { message: "Golongan wajib diisi" }),
+    keterangan: z.string().min(0, { message: "Keterangan wajib diisi" })
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -126,7 +126,7 @@ const PenyuluhanEditDataKabupaten = () => {
                 icon: 'success',
                 title: 'Data berhasil diperbarui!',
                 text: 'Data sudah diperbarui di sistem!',
-                timer: 1500,
+                timer: 2500,
                 timerProgressBar: true,
                 showConfirmButton: false,
                 showClass: { popup: 'animate__animated animate__fadeInDown' },
@@ -140,8 +140,23 @@ const PenyuluhanEditDataKabupaten = () => {
             });
             navigate.push('/penyuluhan/data-kabupaten');
             reset();
-        } catch (error) {
-            console.error("Failed to update data:", error);
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false);
         }

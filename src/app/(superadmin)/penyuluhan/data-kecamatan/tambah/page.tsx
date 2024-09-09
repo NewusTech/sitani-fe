@@ -136,7 +136,7 @@ const TamabahPenyuluhDataKecamatan = () => {
                 icon: "success",
                 title: "Data berhasil ditambahkan!",
                 text: "Data sudah disimpan dalam sistem!",
-                timer: 1500,
+                timer: 2000,
                 timerProgressBar: true,
                 showConfirmButton: false,
                 showClass: {
@@ -154,8 +154,23 @@ const TamabahPenyuluhDataKecamatan = () => {
             });
 
             navigate.push("/penyuluhan/data-kecamatan");
-        } catch (error) {
-            console.log("Failed to create penyuluh:", error);
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }

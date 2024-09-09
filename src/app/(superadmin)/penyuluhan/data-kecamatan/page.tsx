@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -19,7 +19,6 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import Link from 'next/link'
-
 import {
     Table,
     TableBody,
@@ -30,12 +29,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
 import { useSearchParams } from 'next/navigation'
 import Paginate from '@/components/ui/paginate'
+import PaginationTable from '@/components/PaginationTable'
+import Swal from 'sweetalert2';
+
 
 interface Desa {
     id: string;
@@ -79,10 +80,24 @@ interface Pagination {
 const PenyuluhDataKecamatan = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
-
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+    // pagination
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+    // serach
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
     const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
         // `/penyuluh-kecamatan/get?page=${searchParams.get("page")}&limit=1`,
-        `/penyuluh-kecamatan/get`,
+        `/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -93,7 +108,60 @@ const PenyuluhDataKecamatan = () => {
                 .then((res: any) => res.data)
     );
 
-    console.log(dataKecamatan);
+    // DELETE
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/penyuluh-kecamatan/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil dihapus!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+            console.log(id)
+            // Update the local data after successful deletion
+            mutate(`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}`);
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        }
+    };
+
+    // console.log(dataKecamatan);
 
     return (
         <div>
@@ -104,8 +172,11 @@ const PenyuluhDataKecamatan = () => {
             <div className="header flex gap-2 justify-between items-center">
                 <div className="search md:w-[50%]">
                     <Input
+                        autoFocus
                         type="text"
                         placeholder="Cari"
+                        value={search}
+                        onChange={handleSearchChange}
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     />
@@ -176,16 +247,17 @@ const PenyuluhDataKecamatan = () => {
                         dataKecamatan.data.data.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell>
-                                    {index + 1}
+                                    {(currentPage - 1) * limit + (index + 1)}
                                 </TableCell>
                                 <TableCell className='hidden md:table-cell'>
                                     {item.kecamatanId}
                                 </TableCell>
-                                <TableCell className='hidden md:table-cell'>
-                                    {item.desa?.map((desa) => (
-                                        <div key={desa.id}>
+                                <TableCell className="hidden md:table-cell">
+                                    {item?.desa?.map((desa, index) => (
+                                        <span key={desa.id}>
                                             {desa.nama}
-                                        </div>
+                                            {index < (item?.desa?.length ?? 0) - 1 && ", "}
+                                        </span>
                                     ))}
                                 </TableCell>
                                 <TableCell>
@@ -213,7 +285,7 @@ const PenyuluhDataKecamatan = () => {
                                         >
                                             <EditIcon />
                                         </Link>
-                                        <DeletePopup onDelete={async () => { }} />
+                                        <DeletePopup onDelete={() => handleDelete(item.id || '')} />
                                     </div>
                                 </TableCell>
                             </TableRow>
@@ -226,8 +298,17 @@ const PenyuluhDataKecamatan = () => {
                 </TableBody>
             </Table>
             {/* table */}
-
-            <Paginate url='/penyuluhan/data-kecamatan' pagination={dataKecamatan?.data?.pagination} />
+            {/* pagination */}
+            <div className="pagi flex items-center lg:justify-end justify-center">
+                {dataKecamatan?.data.pagination.totalCount as number > 1 && (
+                    <PaginationTable
+                        currentPage={currentPage}
+                        totalPages={dataKecamatan?.data.pagination.totalPages as number}
+                        onPageChange={onPageChange}
+                    />
+                )}
+            </div>
+            {/* pagination */}
         </div>
     )
 }

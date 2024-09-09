@@ -76,7 +76,7 @@ const PenyuluhanTambahDataKabupaten = () => {
                 icon: 'success',
                 title: 'Data berhasil ditambahkan!',
                 text: 'Data sudah disimpan sistem!',
-                timer: 1500,
+                timer: 2000,
                 timerProgressBar: true,
                 showConfirmButton: false,
                 showClass: { popup: 'animate__animated animate__fadeInDown' },
@@ -90,7 +90,22 @@ const PenyuluhanTambahDataKabupaten = () => {
             });
             navigate.push('/penyuluhan/data-kabupaten');
             reset();
-        } catch (error) {
+        } catch (error:any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
             console.error("Failed to create user:", error);
         } finally {
             setLoading(false);
