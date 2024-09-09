@@ -2,7 +2,7 @@
 import Label from '@/components/ui/label'
 import React, { useState } from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
@@ -11,9 +11,11 @@ import Link from 'next/link';
 import { Textarea } from "@/components/ui/textarea";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter } from 'next/navigation';
-import { SWRResponse, mutate } from "swr";
+import useSWR, { SWRResponse, mutate } from "swr";
 import Loading from '@/components/ui/Loading';
 import Swal from 'sweetalert2';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import InputComponent from '@/components/ui/InputKecDesa';
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -57,11 +59,44 @@ const formSchema = z.object({
   usia: z.string().min(1, { message: "Usia wajib diisi" }),
   masa_kerja: z.string().min(1, { message: "Masa Kerja wajib diisi" }),
   keterangan: z.string().min(1, { message: "Keterangan wajib diisi" }),
+  bidang_id: z
+    .preprocess((val) => Number(val), z.number().min(1, { message: "Bidang wajib diisi" })),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const TamabahPegawaiPage = () => {
+  // GET ALL Bidang
+  interface Bidang {
+    id: number;
+    nama: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+
+  interface Response {
+    status: string;
+    data: {
+      data: Bidang[];
+    };
+    message: string;
+  }
+
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data: dataBidang }: SWRResponse<Response> = useSWR(
+    `/bidang/get`,
+    (url: string) =>
+      axiosPrivate
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res: any) => res.data)
+  );
+
   const [date, setDate] = React.useState<Date>()
 
   const {
@@ -69,10 +104,17 @@ const TamabahPegawaiPage = () => {
     handleSubmit,
     reset,
     formState: { errors },
-    setValue
+    control,
+    setValue,
+    watch,
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
   });
+
+  const bidangOptions = dataBidang?.data?.data?.map(bidang => ({
+    id: bidang.id.toString(),
+    name: bidang.nama,
+  }));
 
   // TAMBAH
   // const axiosPrivate = useAxiosPrivate();
@@ -82,7 +124,6 @@ const TamabahPegawaiPage = () => {
   //   // reset();
   // };
 
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useRouter();
   const [loading, setLoading] = useState(false);
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
@@ -131,6 +172,28 @@ const TamabahPegawaiPage = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="">
         <div className="mb-2">
           {/* <div className="text-primary text-lg font-bold mb-2">Nama, NIP, Tempat, Tanggal Lahir</div> */}
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex flex-col mb-2 w-full">
+              <Label className='text-sm mb-1' label="Bidang Kepegawaian" />
+              <Controller
+                name="bidang_id"
+                control={control}
+                render={({ field }) => (
+                  <InputComponent
+                    typeInput="selectSearch"
+                    placeholder="Pilih Bidang"
+                    label="Tidak ada bidang"
+                    value={field.value}
+                    onChange={field.onChange}
+                    items={bidangOptions}
+                  />
+                )}
+              />
+              {errors.bidang_id && (
+                <p className="text-red-500">{errors.bidang_id.message}</p>
+              )}
+            </div>
+          </div>
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Nama Lengkap" />

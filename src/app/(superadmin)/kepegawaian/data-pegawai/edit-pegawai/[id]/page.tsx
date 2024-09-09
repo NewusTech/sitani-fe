@@ -2,7 +2,7 @@
 import Label from '@/components/ui/label'
 import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
@@ -16,6 +16,8 @@ import { SWRResponse, mutate } from "swr";
 import { watch } from 'fs';
 import Loading from '@/components/ui/Loading';
 import Swal from 'sweetalert2';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import InputComponent from '@/components/ui/InputKecDesa';
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -59,34 +61,29 @@ const formSchema = z.object({
   usia: z.string().min(1, { message: "Usia wajib diisi" }),
   masa_kerja: z.string().min(1, { message: "Masa Kerja wajib diisi" }),
   keterangan: z.string().min(1, { message: "Keterangan wajib diisi" }),
+  bidang_id: z
+    .preprocess((val) => Number(val), z.number().min(1, { message: "Bidang wajib diisi" })),
 });
 
 
 const EdithPegawaiPage = () => {
-  const [date, setDate] = React.useState<Date>()
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-    setValue
-  } = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
-  });
-
-  // TAMBAH
-  // const axiosPrivate = useAxiosPrivate();
-  // const navigate = useRouter();
-  // const onSubmit = (data: FormSchemaType) => {
-  //   console.log(data);
-  //   // reset();
-  // };
-
-  // Edit
-  type FormSchemaType = z.infer<typeof formSchema>;
+  // GET ALL Bidang
+  interface Bidang {
+    id: number;
+    nama: string;
+    createdAt: string;
+    updatedAt: string;
+  }
 
   interface Response {
+    status: string;
+    data: {
+      data: Bidang[];
+    };
+    message: string;
+  }
+
+  interface ResponseEdit {
     status: string;
     message: string;
     data: Data;
@@ -114,14 +111,52 @@ const EdithPegawaiPage = () => {
     keterangan?: string;
     createdAt?: string;
     updatedAt?: string;
+    bidang?: Bidang;
   }
 
+  const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
+
+  const { data: dataBidang }: SWRResponse<Response> = useSWR(
+    `/bidang/get`,
+    (url: string) =>
+      axiosPrivate
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res: any) => res.data)
+  );
+
+  const [date, setDate] = React.useState<Date>()
+
+
+  const bidangOptions = dataBidang?.data?.data?.map(bidang => ({
+    id: bidang.id.toString(),
+    name: bidang.nama,
+  }));
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    control,
+    setValue,
+    watch,
+  } = useForm<FormSchemaType>({
+    resolver: zodResolver(formSchema),
+  });
+
+  // Edit
+  type FormSchemaType = z.infer<typeof formSchema>;
+
   const navigate = useRouter();
   const params = useParams();
   const { id } = params;
 
-  const { data: dataKepegawaian, error } = useSWR<Response>(
+  const { data: dataKepegawaian, error } = useSWR<ResponseEdit>(
     `kepegawaian/get/${id}`,
     async (url: string) => {
       try {
@@ -159,6 +194,8 @@ const EdithPegawaiPage = () => {
       setValue("usia", dataKepegawaian.data.usia || '');
       setValue("masa_kerja", dataKepegawaian.data.masaKerja || '');
       setValue("keterangan", dataKepegawaian.data.keterangan || '');
+      setValue("keterangan", dataKepegawaian.data.keterangan || '');
+      setValue("bidang_id", dataKepegawaian.data.bidang?.id || 0);
     }
   }, [dataKepegawaian, setValue]);
 
@@ -209,6 +246,26 @@ const EdithPegawaiPage = () => {
       <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data Pegawai</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="">
+        <div className="flex flex-col mb-2 w-full">
+          <Label className='text-sm mb-1' label="Bidang Kepegawaian" />
+          <Controller
+            name="bidang_id"
+            control={control}
+            render={({ field }) => (
+              <InputComponent
+                typeInput="selectSearch"
+                placeholder="Pilih Bidang"
+                label="Tidak ada bidang"
+                value={field.value}
+                onChange={field.onChange}
+                items={bidangOptions}
+              />
+            )}
+          />
+          {errors.bidang_id && (
+            <p className="text-red-500">{errors.bidang_id.message}</p>
+          )}
+        </div>
         <div className="mb-2">
           {/* <div className="text-primary text-lg font-bold mb-2">Nama, NIP, Tempat, Tanggal Lahir</div> */}
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
@@ -483,7 +540,7 @@ const EdithPegawaiPage = () => {
             )}
           </Button>
         </div>
-      </form>
+      </form >
     </>
   )
 }
