@@ -54,44 +54,60 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
+import useSWR from 'swr';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 
-interface Data {
-    komoditas: string;
-    harga: {
-        jan: string;
-        feb: string;
-        mar: string;
-        apr: string;
-        mei: string;
-        jun: string;
-        jul: string;
-        ags: string;
-        sep: string;
-        okt: string;
-    };
+
+interface Komoditas {
+    id: number;
+    nama: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface ListItem {
+    id: number;
+    kepangPerbandinganHargaId: number;
+    kepangMasterKomoditasId: number;
+    harga: number;
+    createdAt: string;
+    updatedAt: string;
+    komoditas: Komoditas;
+}
+
+interface DataItem {
+    id: number;
+    bulan: string;
+    createdAt: string;
+    updatedAt: string;
+    list: ListItem[];
+}
+
+interface Response {
+    status: number;
+    message: string;
+    data: DataItem[];
 }
 
 const HargaPanganEceran = () => {
-    const data: Data[] = [
-        {
-            komoditas: "Beras Premium Eceran",
-            harga: {
-                jan: "12000",
-                feb: "12500",
-                mar: "12300",
-                apr: "12600",
-                mei: "12800",
-                jun: "12400",
-                jul: "12200",
-                ags: "12900",
-                sep: "12700",
-                okt: "13000",
-            }
-        },
-    ];
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const { data: dataKomoditas, error } = useSWR<Response>(
+        `/kepang/perbandingan-harga/get`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res) => res.data)
+    );
+
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
-
+    // grafik
     const chartData = [
         { month: "jan", desktop: 186, mobile: 80 },
         { month: "feb", desktop: 305, mobile: 200 },
@@ -114,6 +130,31 @@ const HargaPanganEceran = () => {
             color: "hsl(var(--chart-2))",
         },
     } satisfies ChartConfig
+    // 
+    if (error) return <div></div>;
+    if (!dataKomoditas) return <div></div>;
+    // Utility to format month name
+    const getMonthName = (dateStr: string): string => {
+        const date = new Date(dateStr);
+        const options: Intl.DateTimeFormatOptions = { month: 'long' };
+        return date.toLocaleDateString('id-ID', options);
+    };
+
+    // Create a map of month names to prices
+    const monthPricesMap = dataKomoditas.data.reduce((acc, item) => {
+        const month = getMonthName(item.bulan);
+        item.list.forEach(komoditasItem => {
+            if (!acc[komoditasItem.komoditas.nama]) {
+                acc[komoditasItem.komoditas.nama] = {};
+            }
+            acc[komoditasItem.komoditas.nama][month] = komoditasItem.harga;
+        });
+        return acc;
+    }, {} as Record<string, Record<string, number>>);
+
+    // Get unique commodity names
+    const komoditasNames = Object.keys(monthPricesMap);
+
     return (
         <div>
             {/* title */}
@@ -212,33 +253,24 @@ const HargaPanganEceran = () => {
             {/* table */}
             <Table className='border border-slate-200 mt-4'>
                 <TableHeader className='bg-primary-600'>
-                    <TableRow >
+                    <TableRow>
                         <TableHead className="text-primary py-3">No</TableHead>
                         <TableHead className="text-primary py-3">Komoditas</TableHead>
-                        <TableHead className="text-primary py-3">Jan</TableHead>
-                        <TableHead className="text-primary py-3">Feb</TableHead>
-                        <TableHead className="text-primary py-3">Mar</TableHead>
-                        <TableHead className="text-primary py-3">Apr</TableHead>
-                        <TableHead className="text-primary py-3">Mei</TableHead>
-                        <TableHead className="text-primary py-3">Jun</TableHead>
-                        <TableHead className="text-primary py-3">Jul</TableHead>
-                        <TableHead className="text-primary py-3">Ags</TableHead>
-                        <TableHead className="text-primary py-3">Sep</TableHead>
-                        <TableHead className="text-primary py-3">Okt</TableHead>
+                        {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, index) => (
+                            <TableHead key={index} className="text-primary py-3">{month}</TableHead>
+                        ))}
                         <TableHead className="text-primary py-3">Aksi</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
+                    {komoditasNames.map((komoditas, index) => (
                         <TableRow key={index}>
-                            <TableCell>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell>
-                                {item.komoditas}
-                            </TableCell>
-                            {Object.values(item.harga).map((harga, i) => (
-                                <TableCell key={i}>{harga}</TableCell>
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{komoditas}</TableCell>
+                            {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
+                                <TableCell key={i}>
+                                    {monthPricesMap[komoditas][month] || "-"}
+                                </TableCell>
                             ))}
                             <TableCell>
                                 <div className="flex items-center gap-4">

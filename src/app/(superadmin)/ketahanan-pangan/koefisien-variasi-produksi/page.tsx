@@ -47,6 +47,7 @@ import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import Paginate from '@/components/ui/paginate'
+import Swal from 'sweetalert2'
 
 
 const KoefisienVariasiProduksi = () => {
@@ -98,6 +99,44 @@ const KoefisienVariasiProduksi = () => {
                 .then((res: any) => res.data)
     );
     // GET LIST
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/kepang/cv-produksi/delete//${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil dihapus!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+            // Update the local data after successful deletion
+            mutate('/kepang/pedagang-eceran/get');
+        } catch (error) {
+            console.error('Failed to delete:', error);
+            console.log(id)
+            // Add notification or alert here for user feedback
+        }
+    };
     // INTEGRASI
     return (
         <div>
@@ -258,13 +297,13 @@ const KoefisienVariasiProduksi = () => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-4">
-                                        <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/detail">
+                                        <Link href={`/ketahanan-pangan/koefisien-variasi-produksi/detail/${item?.id}`}>
                                             <EyeIcon />
                                         </Link>
-                                        <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/edit">
+                                        <Link href={`/ketahanan-pangan/koefisien-variasi-produksi/edit/${item?.id}`}>
                                             <EditIcon />
                                         </Link>
-                                        <DeletePopup onDelete={async () => { }} />
+                                        <DeletePopup onDelete={() => handleDelete(String(item?.id))} />
                                     </div>
                                 </TableCell>
                             </TableRow>

@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
@@ -9,9 +9,9 @@ import HelperError from '@/components/ui/HelperError';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
-import { mutate } from 'swr';
+import useSWR, { mutate } from 'swr';
 import Loading from '@/components/ui/Loading';
+import { useParams, useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
@@ -50,8 +50,47 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
+interface Response {
+    status: number;
+    message: string;
+    data: KepangCvProduksiData;
+}
 
-const TambahKoefisienProduksi = () => {
+interface KepangCvProduksiData {
+    id: number;
+    bulan: string; // ISO date string
+    panen: number;
+    gkpTkPetani: number;
+    gkpTkPenggilingan: number;
+    jpk: number;
+    cabaiMerahKeriting: number;
+    berasMedium: number;
+    berasPremium: number;
+    stokGkg: number;
+    stokBeras: number;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+}
+
+const EditKoefisienProduksi = () => {
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataProduksi, error } = useSWR<Response>(
+        `/kepang/cv-produksi/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                console.log('Berhasil Dapat Data');
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
+    );
     const {
         register,
         handleSubmit,
@@ -61,15 +100,38 @@ const TambahKoefisienProduksi = () => {
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
+
+    useEffect(() => {
+        if (dataProduksi) {
+            // Extract and format the date
+            const date = new Date(dataProduksi.data.bulan);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure month has two digits
+    
+            // Set formatted values
+            setValue("bulan", `${year}-${month}`); 
+            setValue("panen", dataProduksi.data.panen); 
+            setValue("gkp_tk_petani", dataProduksi.data.gkpTkPetani); 
+            setValue("gkp_tk_penggilingan", dataProduksi.data.gkpTkPenggilingan); 
+            setValue("jpk", dataProduksi.data.jpk); 
+            setValue("cabai_merah_keriting", dataProduksi.data.cabaiMerahKeriting); 
+            setValue("beras_medium", dataProduksi.data.berasMedium); 
+            setValue("beras_premium", dataProduksi.data.berasPremium); 
+            setValue("stok_gkg", dataProduksi.data.stokGkg); 
+            setValue("stok_beras", dataProduksi.data.stokBeras); 
+        }
+    }, [dataProduksi, setValue]);
+    
+    
+      
+
     const [loading, setLoading] = useState(false);
-    const navigate = useRouter();
-    const axiosPrivate = useAxiosPrivate();
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true);
         try {
-            await axiosPrivate.post("/kepang/cv-produksi/create", data);
-            console.log(data);
+            await axiosPrivate.put(`/kepang/cv-produksi/update/${id}`, data);
+            console.log(data)
             Swal.fire({
                 icon: 'success',
                 title: 'Data berhasil ditambahkan!',
@@ -88,31 +150,15 @@ const TambahKoefisienProduksi = () => {
             });
             navigate.push('/ketahanan-pangan/koefisien-variasi-produksi');
             // reset();
-        } catch (error: any) {
-            // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'An unexpected error occurred';
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi kesalahan!',
-                text: errorMessage,
-                showConfirmButton: true,
-                showClass: { popup: 'animate__animated animate__fadeInDown' },
-                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-                customClass: {
-                    title: 'text-2xl font-semibold text-red-600',
-                    icon: 'text-red-500 animate-bounce',
-                },
-                backdrop: 'rgba(0, 0, 0, 0.4)',
-            });
-    
+        } catch (error) {
             console.error("Failed to create user:", error);
-            console.log(data);
+            console.log(data)
+
         } finally {
             setLoading(false);
         }
-        mutate("/kepang/cv-produksi/get");
+        mutate(`/kepang/cv-produksi/get`);
     };
-    
 
     return (
         <>
@@ -267,7 +313,7 @@ const TambahKoefisienProduksi = () => {
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        {loading ? <Loading /> : "Tambah"}
+                        {loading ? <Loading /> : "Simpan"}
                     </Button>
                 </div>
             </form>
@@ -275,4 +321,4 @@ const TambahKoefisienProduksi = () => {
     )
 }
 
-export default TambahKoefisienProduksi
+export default EditKoefisienProduksi
