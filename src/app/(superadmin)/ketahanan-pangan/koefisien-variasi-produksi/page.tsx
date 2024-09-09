@@ -41,54 +41,64 @@ import {
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
+// 
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
+import Paginate from '@/components/ui/paginate'
 
-interface Data {
-    bulan?: string;
-    panen?: string;
-    gkpTkPetani?: string;
-    gkpTkPenggilingan?: string;
-    gkgTkPenggilingan?: string;
-    jpk?: string;
-    cabaiMerahKeriting?: string;
-    berasMedium?: string;
-    berasPremium?: string;
-    stokGkg?: string;
-    stokBeras?: string;
-
-}
 
 const KoefisienVariasiProduksi = () => {
+    // Fungsi untuk mengubah format tanggal menjadi nama bulan
+    const getMonthName = (dateString: string): string => {
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat('id-ID', { month: 'long' }).format(date); // 'id-ID' untuk bahasa Indonesia
+    };
+
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
 
-    const data: Data[] = [
-        {
-            bulan: "Januari",
-            panen: "Januari",
-            gkpTkPetani: "48700",
-            gkpTkPenggilingan: "19400",
-            gkgTkPenggilingan: "25350",
-            jpk: "25350",
-            cabaiMerahKeriting: "25350",
-            berasMedium: "25350",
-            berasPremium: "25350",
-            stokGkg: "25350",
-            stokBeras: "25350",
-        },
-        {
-            bulan: "Januari",
-            panen: "Januari",
-            gkpTkPetani: "48700",
-            gkpTkPenggilingan: "19400",
-            gkgTkPenggilingan: "25350",
-            jpk: "25350",
-            cabaiMerahKeriting: "25350",
-            berasMedium: "25350",
-            berasPremium: "25350",
-            stokGkg: "25350",
-            stokBeras: "25350",
-        },
-    ];
+    // INTEGRASI
+    // GET LIST
+    interface Response {
+        status: number;
+        message: string;
+        data: ProduksiData[];
+    }
+
+    interface ProduksiData {
+        id: number;
+        bulan: string; // ISO date string
+        panen: number;
+        gkpTkPetani: number;
+        gkpTkPenggilingan: number;
+        jpk: number;
+        cabaiMerahKeriting: number;
+        berasMedium: number;
+        berasPremium: number;
+        stokGkg: number;
+        stokBeras: number;
+        createdAt: string; // ISO date string
+        updatedAt: string; // ISO date string
+    }
+
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+    const { data: dataProduksi }: SWRResponse<Response> = useSWR(
+        `/kepang/cv-produksi/get`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    // GET LIST
+    // INTEGRASI
     return (
         <div>
             {/* title */}
@@ -195,7 +205,7 @@ const KoefisienVariasiProduksi = () => {
                         <TableHead className="text-primary py-3">Bulan</TableHead>
                         <TableHead className="text-primary py-3">% Panen</TableHead>
                         <TableHead className="text-primary py-3">GKP Tk. Petani</TableHead>
-                        <TableHead className="text-primary py-3">GkP Tk. Penggilingan</TableHead>
+                        <TableHead className="text-primary py-3">GKP Tk. Penggilingan</TableHead>
                         <TableHead className="text-primary py-3">GKG Tk. Penggilingan</TableHead>
                         <TableHead className="text-primary py-3">JPK</TableHead>
                         <TableHead className="text-primary py-3">Cabai Merah Keriting</TableHead>
@@ -207,57 +217,65 @@ const KoefisienVariasiProduksi = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell>
-                                {item.bulan}
-                            </TableCell>
-                            <TableCell>
-                                {item.panen}
-                            </TableCell>
-                            <TableCell>
-                                {item.gkpTkPetani}
-                            </TableCell>
-                            <TableCell>
-                                {item.gkpTkPenggilingan}
-                            </TableCell>
-                            <TableCell>
-                                {item.gkgTkPenggilingan}
-                            </TableCell>
-                            <TableCell>
-                                {item.jpk}
-                            </TableCell>
-                            <TableCell>
-                                {item.cabaiMerahKeriting}
-                            </TableCell>
-                            <TableCell>
-                                {item.berasMedium}
-                            </TableCell>
-                            <TableCell>
-                                {item.berasPremium}
-                            </TableCell>
-                            <TableCell>
-                                {item.stokGkg}
-                            </TableCell>
-                            <TableCell>
-                                {item.stokBeras}
-                            </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/detail">
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/edit">
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={async () => { }} />
-                                </div>
+                    {dataProduksi?.data && dataProduksi?.data?.length > 0 ? (
+                        dataProduksi?.data?.map((item, index) => (
+                            <TableRow key={index}>
+                                <TableCell>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell>
+                                    {getMonthName(item.bulan)}
+                                </TableCell>
+                                <TableCell>
+                                    {item.panen}
+                                </TableCell>
+                                <TableCell>
+                                    {item.gkpTkPetani}
+                                </TableCell>
+                                <TableCell>
+                                    {item.gkpTkPenggilingan}
+                                </TableCell>
+                                <TableCell>
+                                    belum ada
+                                </TableCell>
+                                <TableCell>
+                                    {item.jpk}
+                                </TableCell>
+                                <TableCell>
+                                    {item.cabaiMerahKeriting}
+                                </TableCell>
+                                <TableCell>
+                                    {item.berasMedium}
+                                </TableCell>
+                                <TableCell>
+                                    {item.berasPremium}
+                                </TableCell>
+                                <TableCell>
+                                    {item.stokGkg}
+                                </TableCell>
+                                <TableCell>
+                                    {item.stokBeras}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/detail">
+                                            <EyeIcon />
+                                        </Link>
+                                        <Link className='' href="/ketahanan-pangan/koefisien-variasi-produksi/edit">
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={async () => { }} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={7} className="text-center">
+                                Tidak ada data
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
                 <TableFooter className='bg-primary-600'>
                     <TableRow>
