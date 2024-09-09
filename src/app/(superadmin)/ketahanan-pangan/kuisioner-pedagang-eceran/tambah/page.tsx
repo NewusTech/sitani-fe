@@ -194,7 +194,7 @@ const TambahKuisionerPedagangEceran = () => {
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Minggu 1" />
+                            <Label className='text-sm mb-1' label="Minggu 2" />
                             <Input
                                 type="number"
                                 placeholder="Minggu 2"
