@@ -35,6 +35,7 @@ import Swal from 'sweetalert2'
 import useSWR, { mutate, SWRResponse } from 'swr'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import PaginationTable from '@/components/PaginationTable'
 
 interface Komoditas {
   id: number;
@@ -84,12 +85,24 @@ interface Response {
 }
 
 const ProdusenDanEceran = () => {
-  const [startDate, setstartDate] = React.useState<Date>()
-  const [endDate, setendDate] = React.useState<Date>()
-
-
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
+
+  // filter date
+  const formatDate = (date?: Date): string => {
+    if (!date) return ''; // Return an empty string if the date is undefined
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth() is zero-based
+    const day = date.getDate();
+
+    return `${year}/${month}/${day}`;
+  };
+  const [startDate, setstartDate] = React.useState<Date>()
+  const [endDate, setendDate] = React.useState<Date>()
+  // Memoize the formatted date to avoid unnecessary recalculations on each render
+  const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+  const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+  // filter date   
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const onPageChange = (page: number) => {
@@ -102,9 +115,14 @@ const ProdusenDanEceran = () => {
     setSearch(event.target.value);
   };
   // serach
+  // limit
+  const [limit, setLimit] = useState(10);
+  // limit
+  // State untuk menyimpan id kecamatan yang dipilih
+  const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
   const { data: dataProdusenEceran }: SWRResponse<Response> = useSWR(
-    `/kepang/produsen-eceran/get`,
+    `/kepang/produsen-eceran/get?page=${currentPage}&search=${search}`,
     (url) =>
       axiosPrivate
         .get(url, {
@@ -225,42 +243,42 @@ const ProdusenDanEceran = () => {
           {dataProdusenEceran?.data?.data && dataProdusenEceran?.data?.data.length > 0 ? (
             dataProdusenEceran.data.data.map((item, index) => (
               item?.list?.map((citem, cindex) => (
-              <TableRow key={citem.id}>
-                <TableCell>
-                  {num++}
-                </TableCell>
-                <TableCell>
-                  {/* {item.tanggal} */}
-                  {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  }) : 'Tanggal tidak tersedia'}
-                </TableCell>
-                <TableCell>
-                  {citem?.komoditas.nama}
-                </TableCell>
-                <TableCell>
-                  {citem?.satuan}
-                </TableCell>
-                <TableCell>
-                  Rp. {citem?.harga}
-                </TableCell>
-                <TableCell>
-                  {citem?.keterangan} {/* Menampilkan keterangan dari item pertama dalam list */}
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-4">
-                    <Link href={`/ketahanan-pangan/produsen-dan-eceran/detail/${citem?.id}`}>
-                      <EyeIcon />
-                    </Link>
-                    <Link href={`/ketahanan-pangan/produsen-dan-eceran/edit/${citem?.id}`}>
-                      <EditIcon />
-                    </Link>
-                    <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
-                  </div>
-                </TableCell>
-              </TableRow>
+                <TableRow key={citem.id}>
+                  <TableCell>
+                    {num++}
+                  </TableCell>
+                  <TableCell>
+                    {/* {item.tanggal} */}
+                    {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    }) : 'Tanggal tidak tersedia'}
+                  </TableCell>
+                  <TableCell>
+                    {citem?.komoditas.nama}
+                  </TableCell>
+                  <TableCell>
+                    {citem?.satuan}
+                  </TableCell>
+                  <TableCell>
+                    Rp. {citem?.harga}
+                  </TableCell>
+                  <TableCell>
+                    {citem?.keterangan} {/* Menampilkan keterangan dari item pertama dalam list */}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-4">
+                      <Link href={`/ketahanan-pangan/produsen-dan-eceran/detail/${citem?.id}`}>
+                        <EyeIcon />
+                      </Link>
+                      <Link href={`/ketahanan-pangan/produsen-dan-eceran/edit/${citem?.id}`}>
+                        <EditIcon />
+                      </Link>
+                      <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
+                    </div>
+                  </TableCell>
+                </TableRow>
               ))
             ))
           ) : (
@@ -276,31 +294,14 @@ const ProdusenDanEceran = () => {
       {/* table */}
 
       {/* pagination */}
-      <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-        <Pagination className='md:justify-end'>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+      <div className="pagi flex items-center lg:justify-end justify-center">
+        {dataProdusenEceran?.data.pagination.totalCount as number > 1 && (
+          <PaginationTable
+            currentPage={currentPage}
+            totalPages={dataProdusenEceran?.data.pagination.totalPages as number}
+            onPageChange={onPageChange}
+          />
+        )}
       </div>
       {/* pagination */}
     </div >

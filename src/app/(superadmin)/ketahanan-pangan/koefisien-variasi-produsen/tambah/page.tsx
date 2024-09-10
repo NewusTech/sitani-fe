@@ -122,6 +122,19 @@ const TamabahPenyuluhDataKecamatan = () => {
             reset()
         } catch (e: any) {
             console.log(data)
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: 'Terjadi kesalahan',
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
             console.log("Failed to create koefisien variasi produsen:");
             return;
         } finally {

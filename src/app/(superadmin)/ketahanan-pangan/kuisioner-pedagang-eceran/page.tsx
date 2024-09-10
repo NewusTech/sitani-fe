@@ -45,6 +45,7 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useSWR, { mutate, SWRResponse } from 'swr'
 import Swal from 'sweetalert2'
+import PaginationTable from '@/components/PaginationTable'
 
 interface Komoditas {
     id: number;
@@ -97,10 +98,24 @@ interface Response {
 
 
 const KuisionerPedagangEceran = () => {
-    const [startDate, setstartDate] = React.useState<Date>()
-    const [endDate, setendDate] = React.useState<Date>()
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+
+    // filter date
+    const formatDate = (date?: Date): string => {
+        if (!date) return ''; // Return an empty string if the date is undefined
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // getMonth() is zero-based
+        const day = date.getDate();
+
+        return `${year}/${month}/${day}`;
+    };
+    const [startDate, setstartDate] = React.useState<Date>()
+    const [endDate, setendDate] = React.useState<Date>()
+    // Memoize the formatted date to avoid unnecessary recalculations on each render
+    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+    // filter date   
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
@@ -113,9 +128,14 @@ const KuisionerPedagangEceran = () => {
         setSearch(event.target.value);
     };
     // serach
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
     const { data: dataProdusenEceran }: SWRResponse<Response> = useSWR(
-        `/kepang/pedagang-eceran/get`,
+        `/kepang/pedagang-eceran/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -324,7 +344,7 @@ const KuisionerPedagangEceran = () => {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={6} className="text-center">
+                            <TableCell colSpan={9} className="text-center">
                                 Tidak ada data
                             </TableCell>
                         </TableRow>
@@ -334,31 +354,14 @@ const KuisionerPedagangEceran = () => {
             {/* table */}
 
             {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
+            <div className="pagi flex items-center lg:justify-end justify-center">
+                {dataProdusenEceran?.data.pagination.totalCount as number > 1 && (
+                    <PaginationTable
+                        currentPage={currentPage}
+                        totalPages={dataProdusenEceran?.data.pagination.totalPages as number}
+                        onPageChange={onPageChange}
+                    />
+                )}
             </div>
             {/* pagination */}
         </div>

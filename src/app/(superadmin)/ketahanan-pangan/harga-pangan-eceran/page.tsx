@@ -57,7 +57,13 @@ import {
 import useSWR from 'swr';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
-
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 interface Komoditas {
     id: number;
@@ -93,8 +99,10 @@ interface Response {
 const HargaPanganEceran = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+
+    const [tahun, setTahun] = React.useState("2024");
     const { data: dataKomoditas, error } = useSWR<Response>(
-        `/kepang/perbandingan-harga/get`,
+        `/kepang/perbandingan-harga/get?year=${tahun}`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -105,8 +113,6 @@ const HargaPanganEceran = () => {
                 .then((res) => res.data)
     );
 
-    const [startDate, setstartDate] = React.useState<Date>()
-    const [endDate, setendDate] = React.useState<Date>()
     // grafik
     const chartData = [
         { month: "jan", desktop: 186, mobile: 80 },
@@ -172,13 +178,13 @@ const HargaPanganEceran = () => {
                     />
                 </div>
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <UnduhIcon />
                         <div className="hidden md:block">
                             Download
                         </div>
                     </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <PrintIcon />
                         <div className="hidden md:block">
                             Print
@@ -194,53 +200,22 @@ const HargaPanganEceran = () => {
             {/*  */}
             <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
                 <div className="w-auto">
-                    <Popover>
-                        <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                            <Button
-                                variant={"outline"}
-                                className={cn(
-                                    "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                    !startDate && "text-muted-foreground"
-                                )}
-                            >
-                                <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                            <Calendar className=''
-                                mode="single"
-                                selected={startDate}
-                                onSelect={setstartDate}
-                                initialFocus
-                            />
-                        </PopoverContent>
-                    </Popover>
-                </div>
-                <div className="">-</div>
-                <div className="w-auto">
-                    <Popover>
-                        <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                            <Button
-                                variant={"outline"}
-                                className={cn(
-                                    "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                    !endDate && "text-muted-foreground"
-                                )}
-                            >
-                                <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                            <Calendar
-                                mode="single"
-                                selected={endDate}
-                                onSelect={setendDate}
-                                initialFocus
-                            />
-                        </PopoverContent>
-                    </Popover>
+                    {/* Dropdown Tahun */}
+                    <div className="w-auto">
+                        <Select
+                            onValueChange={(value) => setTahun(value)}
+                            value={tahun}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Tahun" className='text-2xl' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="2024">2024</SelectItem>
+                                <SelectItem value="2025">2025</SelectItem>
+                                <SelectItem value="2026">2026</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
                 <div className="w-[40px] h-[40px]">
                     <Button variant="outlinePrimary" className=''>
@@ -263,25 +238,33 @@ const HargaPanganEceran = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {komoditasNames.map((komoditas, index) => (
-                        <TableRow key={index}>
-                            <TableCell>{index + 1}</TableCell>
-                            <TableCell>{komoditas}</TableCell>
-                            {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
-                                <TableCell key={i}>
-                                    {monthPricesMap[komoditas][month] || "-"}
+                    {komoditasNames.length > 0 ? (
+                        komoditasNames.map((komoditas, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>{komoditas}</TableCell>
+                                {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
+                                    <TableCell key={i}>
+                                        {monthPricesMap[komoditas][month] || "-"}
+                                    </TableCell>
+                                ))}
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link href="/ketahanan-pangan/harga-pangan-eceran/detail">
+                                            <EyeIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={async () => { }} />
+                                    </div>
                                 </TableCell>
-                            ))}
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href="/ketahanan-pangan/harga-pangan-eceran/detail">
-                                        <EyeIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={async () => { }} />
-                                </div>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={15} className="text-center">
+                                Tidak ada data
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
             {/* table */}

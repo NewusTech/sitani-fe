@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -48,6 +48,13 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import Paginate from '@/components/ui/paginate'
 import Swal from 'sweetalert2'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 
 const KoefisienVariasiProduksi = () => {
@@ -84,11 +91,25 @@ const KoefisienVariasiProduksi = () => {
         updatedAt: string; // ISO date string
     }
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+    // pagination
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+    // serach
+    // Tahun
+    const [tahun, setTahun] = React.useState("2024");
+    // tahun
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataProduksi }: SWRResponse<Response> = useSWR(
-        `/kepang/cv-produksi/get`,
+        `/kepang/cv-produksi/get?year=${tahun}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -154,13 +175,13 @@ const KoefisienVariasiProduksi = () => {
                     />
                 </div>
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <UnduhIcon />
                         <div className="hidden md:block">
                             Download
                         </div>
                     </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <PrintIcon />
                         <div className="hidden md:block">
                             Print
@@ -172,53 +193,19 @@ const KoefisienVariasiProduksi = () => {
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                     <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !startDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar className=''
-                                    mode="single"
-                                    selected={startDate}
-                                    onSelect={setstartDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <div className="">-</div>
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !endDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={endDate}
-                                    onSelect={setendDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
+                        <Select
+                            onValueChange={(value) => setTahun(value)}
+                            value={tahun}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Tahun" className='text-2xl' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="2024">2024</SelectItem>
+                                <SelectItem value="2025">2025</SelectItem>
+                                <SelectItem value="2026">2026</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
                     <div className="w-[40px] h-[40px]">
                         <Button variant="outlinePrimary" className=''>
@@ -310,7 +297,7 @@ const KoefisienVariasiProduksi = () => {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={7} className="text-center">
+                            <TableCell colSpan={13} className="text-center">
                                 Tidak ada data
                             </TableCell>
                         </TableRow>
