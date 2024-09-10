@@ -40,6 +40,7 @@
     "react-quill": "^2.0.0",
     "react-select": "^5.8.0",
     "recharts": "^2.12.7",
+    "responsive-table-react": "^1.2.3",
     "sweetalert2": "^11.13.2",
     "sweetalert2-react-content": "^5.0.7",
     "swr": "^2.2.5",
