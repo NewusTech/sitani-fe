@@ -54,12 +54,9 @@ import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import Swal from 'sweetalert2';
+import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 
 const KorlubTanamanHias = () => {
-    const [startDate, setstartDate] = React.useState<Date>()
-    const [endDate, setendDate] = React.useState<Date>()
-
-
     // INTEGRASI
     interface KorluhTanamanHiasResponse {
         status: number;
@@ -126,15 +123,44 @@ const KorlubTanamanHias = () => {
     }
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+
+    // filter date
+    const formatDate = (date?: Date): string => {
+        if (!date) return ''; // Return an empty string if the date is undefined
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // getMonth() is zero-based
+        const day = date.getDate();
+
+        return `${year}/${month}/${day}`;
+    };
+    const [startDate, setstartDate] = React.useState<Date>()
+    const [endDate, setendDate] = React.useState<Date>()
+    // Memoize the formatted date to avoid unnecessary recalculations on each render
+    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+    // filter date   
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+    // pagination
+    // serach
     const [search, setSearch] = useState("");
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     };
+    // serach
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
     // GETALL
     const { data: dataTanaman }: SWRResponse<KorluhTanamanHiasResponse> = useSWR(
         // `korluh/padi/get?limit=1`,
-        `korluh/tanaman-hias/get?limit=10`,
+        `korluh/tanaman-hias/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -286,16 +312,12 @@ const KorlubTanamanHias = () => {
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                     <div className="w-full">
-                        <Select >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Kecamatan" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="select1">Select1</SelectItem>
-                                <SelectItem value="select2">Select2</SelectItem>
-                                <SelectItem value="select3">Select3</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <KecamatanSelect
+                            value={selectedKecamatan}
+                            onChange={(value) => {
+                                setSelectedKecamatan(value); // Update state with selected value
+                            }}
+                        />
                     </div>
                     <Link href="/bpp-kecamatan/tanaman-hias/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Tambah Data

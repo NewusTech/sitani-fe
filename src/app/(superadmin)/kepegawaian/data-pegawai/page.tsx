@@ -44,6 +44,7 @@ import {
 import DeletePopup from '@/components/superadmin/PopupDelete';
 import Swal from 'sweetalert2';
 import PaginationTable from '@/components/PaginationTable';
+import BidangSelect from '@/components/superadmin/SelectComponent/BidangValue';
 
 interface Response {
   status: string,
@@ -96,12 +97,24 @@ interface Bidang {
 }
 
 const DataPegawaiPage = () => {
-  const [startDate, setstartDate] = React.useState<Date>();
-  const [endDate, setendDate] = React.useState<Date>();
-
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
+  // filter date
+  const formatDate = (date?: Date): string => {
+    if (!date) return ''; // Return an empty string if the date is undefined
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth() is zero-based
+    const day = date.getDate();
+
+    return `${year}/${month}/${day}`;
+  };
+  const [startDate, setstartDate] = React.useState<Date>()
+  const [endDate, setendDate] = React.useState<Date>()
+  // Memoize the formatted date to avoid unnecessary recalculations on each render
+  const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+  const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+  // filter date   
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const onPageChange = (page: number) => {
@@ -114,10 +127,15 @@ const DataPegawaiPage = () => {
     setSearch(event.target.value);
   };
   // serach
+  // limit
+  const [limit, setLimit] = useState(10);
+  // limit
+  // State untuk menyimpan id kecamatan yang dipilih
+  // const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
   const [selectedBidang, setSelectedBidang] = useState<string>("");
 
   const { data: dataKepegawaian }: SWRResponse<Response> = useSWR(
-    `/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedBidang}`,
+    `/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`,
     (url) =>
       axiosPrivate
         .get(url, {
@@ -127,8 +145,6 @@ const DataPegawaiPage = () => {
         })
         .then((res: any) => res?.data)
   );
-
-  console.log(dataKepegawaian)
 
   const handleDelete = async (id: string) => {
     try {
@@ -208,16 +224,12 @@ const DataPegawaiPage = () => {
       {/*  */}
       <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
         <div className="w-1/4">
-          <Select >
-            <SelectTrigger>
-              <SelectValue placeholder="Bidang" className='text-2xl' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="BidangA">BidangA</SelectItem>
-              <SelectItem value="BidangB">BidangB</SelectItem>
-              <SelectItem value="BidangC">BidangC</SelectItem>
-            </SelectContent>
-          </Select>
+          <BidangSelect
+            value={selectedBidang}
+            onChange={(value) => {
+              setSelectedBidang(value); // Update state with selected value
+            }}
+          />
         </div>
         <div className="w-[40px] h-[40px]">
           <Button variant="outlinePrimary" className=''>
