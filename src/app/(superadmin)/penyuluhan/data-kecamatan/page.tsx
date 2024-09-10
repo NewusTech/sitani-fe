@@ -148,7 +148,6 @@ const PenyuluhDataKecamatan = () => {
             // alert
             console.log(id)
             // Update the local data after successful deletion
-            mutate(`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=10`);
         } catch (error: any) {
             // Extract error message from API response
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
@@ -166,7 +165,7 @@ const PenyuluhDataKecamatan = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        }
+        }mutate(`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`);
     };
 
     // console.log(dataKecamatan);

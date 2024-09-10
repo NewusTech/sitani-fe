@@ -178,7 +178,7 @@ const EditDataPenerimaUppo = () => {
             reset();
         } catch (error: any) {
             // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
             Swal.fire({
                 icon: 'error',
                 title: 'Terjadi kesalahan!',

@@ -16,6 +16,13 @@ import DesaValue from '@/components/superadmin/SelectComponent/DesaValue';
 import { Textarea } from '@/components/ui/textarea';
 import Loading from '@/components/ui/Loading';
 import Swal from 'sweetalert2';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
 const formatDate = (dateString: string) => {
@@ -101,12 +108,18 @@ const BantuanEdit = () => {
 
     useEffect(() => {
         if (dataBantuan) {
-            setValue("periode", new Date(dataBantuan.data.periode).toISOString().split('T')[0]);
-            setValue("keterangan", dataBantuan.data.keterangan);
-            setValue("jenis_bantuan", dataBantuan.data.jenisBantuan);
-            setValue("kecamatan_id", dataBantuan.data.kecamatanId);
-            setInitialDesaId(dataBantuan.data.desaId); // Save initial desa_id
-            setValue("desa_id", dataBantuan.data.desaId); // Set default value
+            const timeoutId = setTimeout(() => {
+                setValue("periode", new Date(dataBantuan.data.periode).toISOString().split('T')[0]);
+                setValue("keterangan", dataBantuan.data.keterangan);
+                setValue("jenis_bantuan", dataBantuan.data.jenisBantuan);
+                setValue("kecamatan_id", dataBantuan.data.kecamatanId);
+                setInitialDesaId(dataBantuan.data.desaId); // Save initial desa_id
+                setValue("desa_id", dataBantuan.data.desaId); // Set default value
+            }, 100); // 2 seconds timeout
+
+            // Clean up the timeout if the component is unmounted or dataUser changes
+            return () => clearTimeout(timeoutId);
+
         }
     }, [dataBantuan, setValue]);
 
@@ -145,8 +158,23 @@ const BantuanEdit = () => {
             console.log("Success to update data:", data);
             navigate.push('/psp/bantuan');
             reset();
-        } catch (error) {
-            console.error('Failed to update data:', error);
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
@@ -196,12 +224,17 @@ const BantuanEdit = () => {
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Jenis Bantuan" />
-                            <Input
-                                type="text"
-                                placeholder="Jenis Bantuan"
-                                {...register('jenis_bantuan')}
-                                className={`${errors.jenis_bantuan ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
+                            <Select
+                                onValueChange={(value) => setValue("jenis_bantuan", String(value))}
+                                value={String(watch('jenis_bantuan')) || ''}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="jenis_bantuan" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="Subsidi">Subsidi</SelectItem>
+                                    <SelectItem value="Non-Subsidi">Non Subsidi</SelectItem>
+                                </SelectContent>
+                            </Select>
                             {errors.jenis_bantuan && (
                                 <HelperError>{errors.jenis_bantuan.message}</HelperError>
                             )}

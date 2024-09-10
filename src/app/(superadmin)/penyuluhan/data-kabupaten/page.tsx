@@ -137,7 +137,7 @@ const PenyuluhDataKabupaten = () => {
             // alert
             console.log(id)
             // Update the local data after successful deletion
-            mutate(`/penyuluh-kabupaten/get?page=${currentPage}&search=${search}&limit=10`);
+            mutate(`/penyuluh-kabupaten/get?page=${currentPage}&search=${search}&limit=${limit}`);
         } catch (error: any) {
             // Extract error message from API response
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
@@ -155,7 +155,7 @@ const PenyuluhDataKabupaten = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        }
+        }mutate(`/penyuluh-kabupaten/get?page=${currentPage}&search=${search}&limit=${limit}`);
     };
     // INTEGRASI
     return (

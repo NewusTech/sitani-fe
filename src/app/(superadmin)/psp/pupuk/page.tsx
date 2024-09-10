@@ -84,12 +84,23 @@ const Pupuk = () => {
         };
     }
 
-    const [startDate, setstartDate] = React.useState<Date>();
-    const [endDate, setendDate] = React.useState<Date>();
-
-
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+    // filter date
+    const formatDate = (date?: Date): string => {
+        if (!date) return ''; // Return an empty string if the date is undefined
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // getMonth() is zero-based
+        const day = date.getDate();
+
+        return `${year}/${month}/${day}`;
+    };
+    const [startDate, setstartDate] = React.useState<Date>()
+    const [endDate, setendDate] = React.useState<Date>()
+    // Memoize the formatted date to avoid unnecessary recalculations on each render
+    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+    // filter date   
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
@@ -102,9 +113,12 @@ const Pupuk = () => {
         setSearch(event.target.value);
     };
     // serach
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
 
     const { data: dataUser }: SWRResponse<Response> = useSWR(
-        `/psp/pupuk/get?page=${currentPage}&limit=10&search=${search}`,
+        `/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -151,12 +165,24 @@ const Pupuk = () => {
             });
             // alert
             // Update the local data after successful deletion
-            mutate(`/psp/pupuk/get?page=${currentPage}&limit=10&search=${search}`)
-        } catch (error) {
-            console.error('Failed to delete:', error);
-            console.log(id);
-            // Add notification or alert here for user feedback
-        }
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        } mutate(`/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}`)
     };
 
     console.log(dataUser);
@@ -278,7 +304,7 @@ const Pupuk = () => {
                         dataUser.data.data.map((item, index) => (
                             <TableRow key={item.id}>
                                 <TableCell>
-                                    {index + 1}
+                                    {(currentPage - 1) * limit + (index + 1)}
                                 </TableCell>
                                 <TableCell>
                                     {item.jenisPupuk}

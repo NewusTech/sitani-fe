@@ -105,10 +105,23 @@ const PupukTambah = () => {
             navigate.push('/psp/pupuk');
             console.log("Success to create user:");
             reset()
-        } catch (e: any) {
-            console.log(data)
-            console.log("Failed to create user:");
-            return;
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
@@ -125,7 +138,6 @@ const PupukTambah = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Jenis Pupuk" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Jenis Pupuk"
                                 {...register('jenis_pupuk')}
@@ -138,7 +150,6 @@ const PupukTambah = () => {
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Kandungan Pupuk" />
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Kandungan Pupuk"
                                 {...register('kandungan_pupuk')}
@@ -159,15 +170,14 @@ const PupukTambah = () => {
                                     <SelectValue placeholder="Keterangan" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="subsidi">Subsidi</SelectItem>
-                                    <SelectItem value="nonSubsidi">Non Subsidi</SelectItem>
+                                    <SelectItem value="Subsidi">Subsidi</SelectItem>
+                                    <SelectItem value="Non-Subsidi">Non Subsidi</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Harga Pupuk/Kg" />
                             <Input
-                                autoFocus
                                 type="number"
                                 placeholder="Harga Pupuk/Kg"
                                 {...register('harga_pupuk')}

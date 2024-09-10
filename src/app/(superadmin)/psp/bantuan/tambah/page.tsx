@@ -72,6 +72,7 @@ const BantuanTambah = () => {
         handleSubmit,
         reset,
         watch,
+        setValue,
         formState: { errors },
         control,
     } = useForm<FormSchemaType>({
@@ -122,10 +123,23 @@ const BantuanTambah = () => {
             navigate.push('/psp/bantuan');
             console.log("Success to create user:");
             reset()
-        } catch (e: any) {
-            console.log(data)
-            console.log("Failed to create user:");
-            return;
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
@@ -179,13 +193,17 @@ const BantuanTambah = () => {
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Jenis Bantuan" />
-                            <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Jenis Bantuan"
-                                {...register('jenis_bantuan')}
-                                className={`${errors.jenis_bantuan ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
+                            <Select
+                                onValueChange={(value) => setValue("jenis_bantuan", value)}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Keterangan" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="Subsidi">Subsidi</SelectItem>
+                                    <SelectItem value="Non-Subsidi">Non Subsidi</SelectItem>
+                                </SelectContent>
+                            </Select>
                             {errors.jenis_bantuan && (
                                 <HelperError>{errors.jenis_bantuan.message}</HelperError>
                             )}

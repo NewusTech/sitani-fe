@@ -143,8 +143,23 @@ const PupukTambah = () => {
             console.log("Success to update user:", data);
             navigate.push('/psp/pupuk');
             reset();
-        } catch (error) {
-            console.error('Failed to update user:', error);
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
@@ -197,7 +212,7 @@ const PupukTambah = () => {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="Subsidi">Subsidi</SelectItem>
-                                    <SelectItem value="NonSubsidi">Non Subsidi</SelectItem>
+                                    <SelectItem value="Non-Subsidi">Non Subsidi</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -224,7 +239,7 @@ const PupukTambah = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Edit"
+                            "Simpan"
                         )}
                     </Button>
                 </div>
