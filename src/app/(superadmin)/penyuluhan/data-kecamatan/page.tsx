@@ -32,10 +32,10 @@ import {
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
-import { useSearchParams } from 'next/navigation'
-import Paginate from '@/components/ui/paginate'
 import PaginationTable from '@/components/PaginationTable'
 import Swal from 'sweetalert2';
+import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan'
+
 
 
 interface Desa {
@@ -55,6 +55,10 @@ interface Data {
     golongan?: string;
     keterangan?: string;
     desa?: Desa[];
+    kecamatan?: {
+        id?: string;
+        nama?: string;
+    };
 }
 
 interface Response {
@@ -95,10 +99,14 @@ const PenyuluhDataKecamatan = () => {
     // limit
     const [limit, setLimit] = useState(10);
     // limit
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+
+    //   
     const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
         // `/penyuluh-kecamatan/get?page=${searchParams.get("page")}&limit=1`,
-        `/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}`,
-        (url) =>
+        `/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`,
+        (url: string) =>
             axiosPrivate
                 .get(url, {
                     headers: {
@@ -140,7 +148,7 @@ const PenyuluhDataKecamatan = () => {
             // alert
             console.log(id)
             // Update the local data after successful deletion
-            mutate(`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}`);
+            mutate(`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=10`);
         } catch (error: any) {
             // Extract error message from API response
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
@@ -200,16 +208,12 @@ const PenyuluhDataKecamatan = () => {
             <div className="wrap-filter flex justify-between items-center mt-4 ">
                 <div className="left gap-2 flex justify-start items-center">
                     <div className="fil-kect w-[185px]">
-                        <Select >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Kecamatan" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="select1">Select1</SelectItem>
-                                <SelectItem value="select2">Select2</SelectItem>
-                                <SelectItem value="select3">Select3</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <KecamatanSelect
+                            value={selectedKecamatan}
+                            onChange={(value) => {
+                                setSelectedKecamatan(value); // Update state with selected value
+                            }}
+                        />
                     </div>
                     <div className="filter-table w-[40px] h-[40px]">
                         <Button variant="outlinePrimary" className=''>
@@ -250,7 +254,7 @@ const PenyuluhDataKecamatan = () => {
                                     {(currentPage - 1) * limit + (index + 1)}
                                 </TableCell>
                                 <TableCell className='hidden md:table-cell'>
-                                    {item.kecamatanId}
+                                    {item?.kecamatan?.nama}
                                 </TableCell>
                                 <TableCell className="hidden md:table-cell">
                                     {item?.desa?.map((desa, index) => (

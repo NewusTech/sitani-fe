@@ -1,92 +1,112 @@
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import React, { useState } from "react";
-import useLocalStorage from "@/hooks/useLocalStorage";
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import useSWR, { SWRResponse } from "swr";
-
-interface SelectItem {
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select";
+  import { Input } from "@/components/ui/input";
+  import { Search } from "lucide-react";
+  import React, { useState } from "react";
+  import useLocalStorage from "@/hooks/useLocalStorage";
+  import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+  import useSWR, { SWRResponse } from "swr";
+  
+  interface SelectItem {
     id: number;
     nama: string;
-}
-
-interface SelectKecamatanProps {
+  }
+  
+  interface SelectKecamatanProps {
     value: number | undefined;
     onChange: (value: number) => void;
     disabled?: boolean;
-}
-
-const kecamatanItems: SelectItem[] = [
+    showSelectAll?: boolean; // New prop to control the "Select All" item
+  }
+  
+  const kecamatanItems: SelectItem[] = [
     { id: 1, nama: "Metro Kibang" },
     { id: 2, nama: "Batanghari" },
     { id: 3, nama: "Sekampung" },
-];
-
-const KecValue: React.FC<SelectKecamatanProps> = ({ disabled = false, value, onChange }) => {
-
+  ];
+  
+  const KecValue: React.FC<SelectKecamatanProps> = ({
+    disabled = false,
+    value,
+    onChange,
+    showSelectAll = false, // Default is not to show "Select All"
+  }) => {
     // GET ALL KECAMATAN
     interface Kecamatan {
-        id: number;
-        nama: string;
+      id: number;
+      nama: string;
     }
-
+  
     interface Response {
-        status: string;
-        data: Kecamatan[];
-        message: string;
+      status: string;
+      data: Kecamatan[];
+      message: string;
     }
-
+  
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
-
+  
     const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
-        `kecamatan/get`,
-        (url: string) =>
-            axiosPrivate
-                .get(url, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-                .then((res: any) => res.data)
+      `kecamatan/get`,
+      (url: string) =>
+        axiosPrivate
+          .get(url, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res: any) => res.data)
     );
-
+  
     const [searchKecamatan, setSearchKecamatan] = useState("");
-
+  
     const filteredKecamatanItems = dataKecamatan?.data.filter((kecamatan) =>
-        kecamatan.nama.toLowerCase().includes(searchKecamatan.toLowerCase())
+      kecamatan.nama.toLowerCase().includes(searchKecamatan.toLowerCase())
     );
-
+  
     return (
-        <Select disabled={disabled} value={value?.toString()} onValueChange={(val) => onChange(Number(val))}>
-            <SelectTrigger className="w-full">
-                <SelectValue placeholder="Pilih Kecamatan" />
-            </SelectTrigger>
-            <SelectContent className="pt-10 bg-white">
-                <div className="px-2 fixed border-b w-full top-0 flex items-center justify-between z-10 bg-white">
-                    <Search className="text-slate-400" />
-                    <Input
-                        placeholder="Search Kecamatan..."
-                        className="w-full border-0"
-                        value={searchKecamatan}
-                        onChange={(e) => setSearchKecamatan(e.target.value)}
-                    />
-                </div>
-                <SelectGroup>
-                    <SelectLabel>Kecamatan</SelectLabel>
-                    <SelectItem key={0} value={"0"}>
-                        Semua
-                    </SelectItem>
-                    {filteredKecamatanItems?.map((item) => (
-                        <SelectItem key={item.id} value={item.id.toString()}>
-                            {item.nama}
-                        </SelectItem>
-                    ))}
-                </SelectGroup>
-            </SelectContent>
-        </Select>
+      <Select
+        disabled={disabled}
+        value={value?.toString()}
+        onValueChange={(val) => onChange(Number(val))}
+      >
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Pilih Kecamatan" />
+        </SelectTrigger>
+        <SelectContent className="pt-10 bg-white">
+          <div className="px-2 fixed border-b w-full top-0 flex items-center justify-between z-10 bg-white">
+            <Search className="text-slate-400" />
+            <Input
+              placeholder="Search Kecamatan..."
+              className="w-full border-0"
+              value={searchKecamatan}
+              onChange={(e) => setSearchKecamatan(e.target.value)}
+            />
+          </div>
+          <SelectGroup>
+            <SelectLabel>Kecamatan</SelectLabel>
+            {showSelectAll && ( // Conditionally show "Select All"
+              <SelectItem key={0} value={"0"}>
+                Semua
+              </SelectItem>
+            )}
+            {filteredKecamatanItems?.map((item) => (
+              <SelectItem key={item.id} value={item.id.toString()}>
+                {item.nama}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     );
-};
-
-export default KecValue;
+  };
+  
+  export default KecValue;
+  

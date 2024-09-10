@@ -133,12 +133,12 @@ const EditDataPenerimaUppo = () => {
                 setValue("ketua_poktan", dataUser.data.ketuaPoktan);
                 setValue("titik_koordinat", dataUser.data.titikKoordinat);
             }, 100); // 2 seconds timeout
-    
+
             // Clean up the timeout if the component is unmounted or dataUser changes
             return () => clearTimeout(timeoutId);
         }
     }, [dataUser, setValue]);
-    
+
     useEffect(() => {
         // Clear desa_id when kecamatan_id changes
         setValue("desa_id", initialDesaId); // Reset to initial desa_id
@@ -176,9 +176,23 @@ const EditDataPenerimaUppo = () => {
             console.log("Success to update user:", data);
             navigate.push('/psp/data-penerima-uppo');
             reset();
-        } catch (error) {
-            console.error('Failed to update user:', error);
-            console.log(data);
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }

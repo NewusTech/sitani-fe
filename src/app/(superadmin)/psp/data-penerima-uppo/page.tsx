@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -53,6 +53,8 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import Swal from 'sweetalert2';
+import PaginationTable from '@/components/PaginationTable';
+import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 
 const DataPenerimaUppo = () => {
     // TES
@@ -104,40 +106,44 @@ const DataPenerimaUppo = () => {
         };
     }
 
-    const [startDate, setstartDate] = React.useState<Date>()
-    const [endDate, setendDate] = React.useState<Date>()
-
-    const dummyData: Data[] = [
-        {
-            id: 0,
-            kecamatanId: 1,
-            desaId: 1,
-            namaPoktan: "Dummy Nama Poktan",
-            ketuaPoktan: "Dummy Ketua Poktan",
-            titikKoordinat: "Dummy Koordinat",
-            createdAt: "2024-01-01T00:00:00.000Z",
-            updatedAt: "2024-01-01T00:00:00.000Z",
-            kecamatan: {
-                id: 1,
-                nama: "Dummy Kecamatan",
-                createdAt: "2024-01-01T00:00:00.000Z",
-                updatedAt: "2024-01-01T00:00:00.000Z",
-            },
-            desa: {
-                id: 1,
-                nama: "Dummy Desa",
-                kecamatanId: 1,
-                createdAt: "2024-01-01T00:00:00.000Z",
-                updatedAt: "2024-01-01T00:00:00.000Z",
-            },
-        },
-    ];
-
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
+    // filter date
+    const formatDate = (date?: Date): string => {
+        if (!date) return ''; // Return an empty string if the date is undefined
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // getMonth() is zero-based
+        const day = date.getDate();
+
+        return `${year}/${month}/${day}`;
+    };
+    const [startDate, setstartDate] = React.useState<Date>()
+    const [endDate, setendDate] = React.useState<Date>()
+    // Memoize the formatted date to avoid unnecessary recalculations on each render
+    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+    // filter date   
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+    // pagination
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+    // serach
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+
     const { data: dataUser }: SWRResponse<Response> = useSWR(
-        `/psp/penerima-uppo/get?page=1&limit=10&search&kecamatan&startDate=&endDate`,
+        `/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -146,15 +152,11 @@ const DataPenerimaUppo = () => {
                     },
                 })
                 .then((res: any) => {
-                    // Jika data dari API kosong, gunakan data dummy
-                    if (res.data.data.length === 0) {
-                        return { ...res.data, data: dummyData };
-                    }
                     return res.data;
                 })
                 .catch((error) => {
                     console.error("Failed to fetch data:", error);
-                    return { status: "error", data: dummyData, message: "Failed to fetch data" };
+                    return { status: "error", message: "Failed to fetch data" };
                 })
         // .then((res: any) => res.data)
     );
@@ -190,15 +192,27 @@ const DataPenerimaUppo = () => {
             });
             // alert
             // Update the local data after successful deletion
-            mutate('/psp/penerima-uppo/get?page=1&limit=10&search&kecamatan&startDate=&endDate');
-        } catch (error) {
-            console.error('Failed to delete:', error);
-            console.log(id)
-            // Add notification or alert here for user feedback
+            mutate(`/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         }
     };
 
-    console.log(dataUser);
 
     return (
         <div>
@@ -210,8 +224,11 @@ const DataPenerimaUppo = () => {
             <div className="header flex gap-2 justify-between items-center mt-4">
                 <div className="search md:w-[50%]">
                     <Input
+                        autoFocus
                         type="text"
                         placeholder="Cari"
+                        value={search}
+                        onChange={handleSearchChange}
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     />
@@ -291,16 +308,12 @@ const DataPenerimaUppo = () => {
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                     <div className="w-full">
-                        <Select >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Kecamatan" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="select1">Select1</SelectItem>
-                                <SelectItem value="select2">Select2</SelectItem>
-                                <SelectItem value="select3">Select3</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <KecamatanSelect
+                            value={selectedKecamatan}
+                            onChange={(value) => {
+                                setSelectedKecamatan(value); // Update state with selected value
+                            }}
+                        />
                     </div>
                     <Link href="/psp/data-penerima-uppo/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Tambah Data
@@ -327,13 +340,13 @@ const DataPenerimaUppo = () => {
                         dataUser.data.data.map((item, index) => (
                             <TableRow key={item.id}>
                                 <TableCell>
-                                    {index + 1}
+                                    {(currentPage - 1) * limit + (index + 1)}
                                 </TableCell>
                                 <TableCell>
-                                    {item.kecamatanId}
+                                    {item.kecamatan.nama}
                                 </TableCell>
                                 <TableCell>
-                                    {item.desaId}
+                                    {item.desa.nama}
                                 </TableCell>
                                 <TableCell>
                                     {item.namaPoktan}
@@ -369,31 +382,14 @@ const DataPenerimaUppo = () => {
             {/* table */}
 
             {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
+            <div className="pagi flex items-center lg:justify-end justify-center">
+                {dataUser?.data.pagination.totalCount as number > 1 && (
+                    <PaginationTable
+                        currentPage={currentPage}
+                        totalPages={dataUser?.data.pagination.totalPages as number}
+                        onPageChange={onPageChange}
+                    />
+                )}
             </div>
             {/* pagination */}
         </div>

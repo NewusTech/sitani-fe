@@ -37,8 +37,8 @@ interface KecamatanSelectProps {
 
 const KecamatanSelect: React.FC<KecamatanSelectProps> = ({
     // items,
-    label = "Instansi",
-    placeholder = "Pilih Instansi",
+    label = "Kecamatan",
+    placeholder = "Pilih Kecamatan",
     value,
     onChange,
 }) => {
