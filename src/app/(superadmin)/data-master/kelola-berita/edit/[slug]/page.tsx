@@ -17,6 +17,8 @@ import Image from 'next/image';
 import Loading from '@/components/ui/Loading';
 import Link from 'next/link';
 import BackIcons from '../../../../../../../public/icons/BackIcons';
+import Swal from 'sweetalert2';
+
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -75,15 +77,46 @@ const EditBerita = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log('sukses', formData);
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil di edit!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
             navigate.push('/data-master/kelola-berita');
             reset();
-        } catch (e: any) {
-            if (e.response && e.response.data && e.response.data.data) {
-                console.log("Failed to update article:", e.response.data.data[0].message);
-            } else {
-                console.log("Failed to update article:", e.message);
-            }
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }

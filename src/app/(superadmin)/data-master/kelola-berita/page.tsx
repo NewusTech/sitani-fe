@@ -22,6 +22,8 @@ import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import PaginationTable from '@/components/PaginationTable';
+import Swal from 'sweetalert2';
+
 
 const KelolaBeritaPage = () => {
 
@@ -64,10 +66,13 @@ const KelolaBeritaPage = () => {
     setCurrentPage(page)
   };
   // pagination
+  // limit
+  const [limit, setLimit] = useState(10);
+  // limit
 
   // GETALL
   const { data: dataArtikel }: SWRResponse<Response> = useSWR(
-    `article/get?page=${currentPage}&search=${search}&limit=10`,
+    `article/get?page=${currentPage}&search=${search}&limit=${limit}`,
     (url) =>
       axiosPrivate
         .get(url, {
@@ -87,14 +92,49 @@ const KelolaBeritaPage = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(slug)
+      // alert
+      Swal.fire({
+        icon: 'success',
+        title: 'Data berhasil dihapus!',
+        text: 'Data sudah disimpan sistem!',
+        timer: 1500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown',
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp',
+        },
+        customClass: {
+          title: 'text-2xl font-semibold text-green-600',
+          icon: 'text-green-500 animate-bounce',
+          timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+        },
+        backdrop: `rgba(0, 0, 0, 0.4)`,
+      });
+      // alert
       // Update the local data after successful deletion
-      mutate(`article/get?page=${currentPage}&search=${search}&limit=10`);
-    } catch (error) {
-      console.error('Failed to delete:', error);
-      console.log(slug)
-      // Add notification or alert here for user feedback
+    } catch (error: any) {
+      // Extract error message from API response
+      const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+      Swal.fire({
+        icon: 'error',
+        title: 'Terjadi kesalahan!',
+        text: errorMessage,
+        showConfirmButton: true,
+        showClass: { popup: 'animate__animated animate__fadeInDown' },
+        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+        customClass: {
+          title: 'text-2xl font-semibold text-red-600',
+          icon: 'text-red-500 animate-bounce',
+        },
+        backdrop: 'rgba(0, 0, 0, 0.4)',
+      });
+      console.error("Failed to create user:", error);
     }
+    mutate(`article/get?page=${currentPage}&search=${search}&limit=10`);
+
   };  // INTEGRASI
   return (
     <div>
@@ -136,7 +176,7 @@ const KelolaBeritaPage = () => {
             dataArtikel.data.data.map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>
-                  {index + 1}
+                  {(currentPage - 1) * limit + (index + 1)}
                 </TableCell>
                 <TableCell>
                   {item.createdAt ? new Date(item.createdAt).toLocaleDateString('id-ID', {

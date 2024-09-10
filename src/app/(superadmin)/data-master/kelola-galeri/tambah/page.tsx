@@ -18,6 +18,8 @@ import { mutate } from 'swr';
 import Loading from '@/components/ui/Loading';
 import BackIcons from '../../../../../../public/icons/BackIcons';
 import Link from 'next/link';
+import Swal from 'sweetalert2';
+
 
 
 const schema = z.object({
@@ -71,10 +73,47 @@ const TambahGaleri = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+      // alert
+      Swal.fire({
+        icon: 'success',
+        title: 'Data berhasil di tambahkan!',
+        text: 'Data sudah disimpan sistem!',
+        timer: 1500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown',
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp',
+        },
+        customClass: {
+          title: 'text-2xl font-semibold text-green-600',
+          icon: 'text-green-500 animate-bounce',
+          timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+        },
+        backdrop: `rgba(0, 0, 0, 0.4)`,
+      });
+      // alert
       navigate.push('/data-master/kelola-galeri');
       reset();
-    } catch (e: any) {
-      console.log("Failed to create article:", e);
+    } catch (error: any) {
+      // Extract error message from API response
+      const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+      Swal.fire({
+        icon: 'error',
+        title: 'Terjadi kesalahan!',
+        text: errorMessage,
+        showConfirmButton: true,
+        showClass: { popup: 'animate__animated animate__fadeInDown' },
+        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+        customClass: {
+          title: 'text-2xl font-semibold text-red-600',
+          icon: 'text-red-500 animate-bounce',
+        },
+        backdrop: 'rgba(0, 0, 0, 0.4)',
+      });
+      console.error("Failed to create user:", error);
     } finally {
       setLoading(false); // Set loading to false once the process is complete
     }

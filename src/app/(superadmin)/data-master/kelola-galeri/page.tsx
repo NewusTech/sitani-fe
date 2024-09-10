@@ -24,6 +24,8 @@ import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import PaginationTable from '@/components/PaginationTable';
+import Swal from 'sweetalert2';
+
 
 
 const KelolaGaleriPage = () => {
@@ -66,10 +68,12 @@ const KelolaGaleriPage = () => {
         setSearch(event.target.value);
     };
     // serach
-
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
     // GETALL
     const { data: dataGaleri }: SWRResponse<Response> = useSWR(
-        `galeri/get?page=${currentPage}&search=${search}&limit=10`,
+        `galeri/get?page=${currentPage}&search=${search}&limit=${limit}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -79,7 +83,6 @@ const KelolaGaleriPage = () => {
                 })
                 .then((res: any) => res.data)
     );
-    console.log(dataGaleri)
     // delete
     const handleDelete = async (id: string) => {
         try {
@@ -89,13 +92,48 @@ const KelolaGaleriPage = () => {
                 },
             });
             console.log(id)
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil dihapus!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
             // Update the local data after successful deletion
-            mutate(`galeri/get?page=${currentPage}&search=${search}&limit=2`);
-        } catch (error) {
-            console.error('Failed to delete:', error);
-            console.log(id)
-            // Add notification or alert here for user feedback
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         }
+        mutate(`galeri/get?page=${currentPage}&search=${search}&limit=${limit}`);
     };
     // INTEGRASI
     return (
@@ -138,7 +176,7 @@ const KelolaGaleriPage = () => {
                         dataGaleri?.data.data.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell>
-                                    {index + 1}
+                                    {(currentPage - 1) * limit + (index + 1)}
                                 </TableCell>
                                 <TableCell>
                                     <div className="w-[150px] h-[100px]">
@@ -171,11 +209,11 @@ const KelolaGaleriPage = () => {
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
                 {dataGaleri?.data.pagination.totalCount as number > 1 && (
-                    <PaginationTable 
-                    currentPage={currentPage} 
-                    totalPages={dataGaleri?.data.pagination.totalPages as number} 
-                    onPageChange={onPageChange} 
-                  />
+                    <PaginationTable
+                        currentPage={currentPage}
+                        totalPages={dataGaleri?.data.pagination.totalPages as number}
+                        onPageChange={onPageChange}
+                    />
                 )}
             </div>
             {/* pagination */}
