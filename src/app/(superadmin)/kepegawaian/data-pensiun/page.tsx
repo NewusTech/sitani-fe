@@ -1,12 +1,16 @@
-"use client"
+"use client";
 
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
 import {
   Table,
   TableBody,
@@ -17,7 +21,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
 import {
   Pagination,
   PaginationContent,
@@ -27,94 +30,150 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import DeletePopup from '@/components/superadmin/PopupDelete';
+import Swal from 'sweetalert2';
+import PaginationTable from '@/components/PaginationTable';
+import BidangSelect from '@/components/superadmin/SelectComponent/BidangValue';
+import { Skeleton } from '@/components/ui/skeleton';
 
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { cn } from "@/lib/utils"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-
-interface Data {
-  nama?: string;
-  nip?: string;
-  tempat?: string;
-  tanggalLahir?: string;
-  pangkatGol?: string;
-  tmtPangkat?: string;
-  jabatan?: string;
-  tmtJabatan?: string;
-  diklatStruktural?: {
-    nama?: string;
-    tanggal?: string;
-    jam?: string;
-  };
-  pendidikanUmum: {
-    nama: string;
-    tahunLulus: string;
-    jenjang: string;
-  };
-  usia?: number;
-  masaKerja?: string;
-  keterangan?: string;
+interface Bidang {
+  id: number;
+  nama: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-const DataPensiunPage = () => {
+interface PegawaiSudahPensiun {
+  nama: string;
+  nip: number;
+  tempat_lahir: string;
+  tgl_lahir: string;
+  pangkat: string;
+  golongan: string;
+  tmt_pangkat: string;
+  jabatan: string;
+  tmt_jabatan: string;
+  nama_diklat: string;
+  tgl_diklat: string;
+  total_jam: number;
+  nama_pendidikan: string;
+  tahun_lulus: number;
+  usia: string;
+  masa_kerja: string;
+  usia_pensiun_tercapai: number;
+  bidang: Bidang;
+}
+
+interface Pagination {
+  page: number;
+  perPage: number;
+  totalPages: number;
+  totalCount: number;
+  links: {
+    prev: string | null;
+    next: string | null;
+  };
+}
+
+interface Response {
+  status: number;
+  message: string;
+  data: {
+    pegawaiSudahPensiun: PegawaiSudahPensiun[];
+    pagination: Pagination;
+  };
+}
+
+
+const DataPegawaiPagePensiun = () => {
+  const [accessToken] = useLocalStorage("accessToken", "");
+  const axiosPrivate = useAxiosPrivate();
+
+  // filter date
+  const formatDate = (date?: Date): string => {
+    if (!date) return ''; // Return an empty string if the date is undefined
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth() is zero-based
+    const day = date.getDate();
+
+    return `${year}/${month}/${day}`;
+  };
   const [startDate, setstartDate] = React.useState<Date>()
   const [endDate, setendDate] = React.useState<Date>()
+  // Memoize the formatted date to avoid unnecessary recalculations on each render
+  const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+  const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+  // filter date   
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const onPageChange = (page: number) => {
+    setCurrentPage(page)
+  };
+  // pagination
+  // serach
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+  // serach
+  // limit
+  const [limit, setLimit] = useState(10);
+  // limit
+  // State untuk menyimpan id kecamatan yang dipilih
+  // const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+  const [selectedBidang, setSelectedBidang] = useState<string>("");
 
-  const data: Data[] = [
-    {
-      nama: "John Doe",
-      nip: "123456789",
-      tempat: "Jakarta",
-      tanggalLahir: "1990-01-01",
-      pangkatGol: "Pembina Utama IV/a",
-      tmtPangkat: "2022-01-01",
-      jabatan: "Manager",
-      tmtJabatan: "2023-01-01",
-      diklatStruktural: {
-        nama: "Diklat Kepemimpinan",
-        tanggal: "2021-01-01",
-        jam: "40 Jam",
-      },
-      pendidikanUmum: {
-        nama: "Universitas XYZ",
-        tahunLulus: "2012",
-        jenjang: "S1",
-      },
-      usia: 34,
-      masaKerja: "12 Tahun",
-      keterangan: "Aktif",
-    },
-  ];
+  const { data: dataKepegawaian, error }: SWRResponse<Response> = useSWR(
+    `/kepegawaian/data-pensiun?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`,
+    (url) =>
+      axiosPrivate
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res: any) => res?.data)
+  );
+
+  if (error) return <div>Error loading data</div>;
+  if (!dataKepegawaian) return <div>
+    <div className="flex justify-center lg:justify-start gap-2 lg:gap-10">
+      <div className="flex flex-col space-y-3">
+        <Skeleton className="lg:h-[250px] h-[50px] lg:w-[250px] w-[50px] rounded-xl" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+    </div>
+  </div>;
 
   return (
     <div>
       {/* title */}
-      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Pensiun</div>
+      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Pegawai</div>
       {/* title */}
+
       {/* top */}
       <div className="header flex justify-between items-center">
         <div className="search w-[50%]">
           <Input
             type="text"
             placeholder="Cari"
+            value={search}
+            onChange={handleSearchChange}
             rightIcon={<SearchIcon />}
             className='border-primary py-2'
           />
         </div>
         <div className="btn flex gap-2">
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
             <UnduhIcon />
             <div className="hidden md:block">
               Download
             </div>
           </Button>
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
             <PrintIcon />
             <div className="hidden md:block">
               Print
@@ -129,54 +188,13 @@ const DataPensiunPage = () => {
       </div>
       {/*  */}
       <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
-        <div className="w-auto">
-          <Popover>
-            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-              <Button
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                  !startDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar className=''
-                mode="single"
-                selected={startDate}
-                onSelect={setstartDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div className="">-</div>
-        <div className="w-auto">
-          <Popover>
-            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-              <Button
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                  !endDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={endDate}
-                onSelect={setendDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+        <div className="w-1/4">
+          <BidangSelect
+            value={selectedBidang}
+            onChange={(value) => {
+              setSelectedBidang(value);
+            }}
+          />
         </div>
         <div className="w-[40px] h-[40px]">
           <Button variant="outlinePrimary" className=''>
@@ -189,98 +207,91 @@ const DataPensiunPage = () => {
       {/* table */}
       <Table className='border border-slate-200 mt-4'>
         <TableHeader className='bg-primary-600'>
-          <TableRow >
-            <TableHead className="text-primary py-3">No</TableHead>
-            <TableHead className="text-primary py-3">Nama/NIP
-              <br /> Tempat/Tgl Lahir</TableHead>
-            <TableHead className="text-primary py-3">Pangkat/Gol Ruang
-              <br />
-              TMT Pangkat</TableHead>
-            <TableHead className="text-primary py-3">
-              Jabatan <br />
-              TMT Jabatan
-            </TableHead>
-            <TableHead className="text-primary py-3">Diklat Struktural</TableHead>
-            <TableHead className="text-primary py-3">Pendidikan Umum</TableHead>
-            <TableHead className="text-primary py-3">Usia</TableHead>
-            <TableHead className="text-primary py-3">Masa Kerja</TableHead>
-            <TableHead className="text-primary py-3">Ket</TableHead>
+          <TableRow>
+            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">No</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">Nama/NIP <br /> Tempat/Tgl Lahir</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">Pangkat/Gol Ruang <br /> TMT Pangkat</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">Jabatan <br /> TMT Jabatan</TableHead>
+            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">Diklat Struktural</TableHead>
+            <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">Pendidikan Umum</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Usia</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Masa Kerja</TableHead>
+            {/* <TableHead rowSpan={2} className="text-primary py-1">Aksi</TableHead> */}
+          </TableRow>
+          <TableRow>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Nama Diklat</TableHead>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Tanggal</TableHead>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Jam</TableHead>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Nama</TableHead>
+            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Tahun Lulus</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                {index + 1}
-              </TableCell>
-              <TableCell>
-                {item.nama} <br />
-                {item.nip} <br />
-                {item.tempat}, {item.tanggalLahir}
-              </TableCell>
-              <TableCell>
-                {item.pangkatGol} <br />
-                TMT: {item.tmtPangkat}
-              </TableCell>
-              <TableCell>
-                {item.jabatan} <br />
-                TMT: {item.tmtJabatan}
-              </TableCell>
-              <TableCell>
-                Nama Diklat: {item.diklatStruktural?.nama} <br />
-                Tanggal: {item.diklatStruktural?.tanggal} <br />
-                Jam: {item.diklatStruktural?.jam}
-              </TableCell>
-              <TableCell>
-                Nama: {item.pendidikanUmum?.nama} <br />
-                Tahun Lulus: {item.pendidikanUmum?.tahunLulus} <br />
-                Jenjang: {item.pendidikanUmum?.jenjang}
-              </TableCell>
-              <TableCell>
-                {item.usia}
-              </TableCell>
-              <TableCell>
-                {item.masaKerja}
-              </TableCell>
-              <TableCell>
-                {item.keterangan}
+          {dataKepegawaian?.data.pegawaiSudahPensiun && dataKepegawaian?.data.pegawaiSudahPensiun.length > 0 ? (
+            dataKepegawaian.data.pegawaiSudahPensiun.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>
+                  {item.nama} <br />
+                  {item.nip} <br />
+                  {item.tempat_lahir}, {item.tgl_lahir}
+                </TableCell>
+                <TableCell>
+                  {item.pangkat} / {item.golongan} <br />
+                  TMT: {new Date(item.tmt_pangkat).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </TableCell>
+                <TableCell>
+                  {item.jabatan} <br />
+                  TMT: {new Date(item.tmt_jabatan).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </TableCell>
+                <TableCell className='hidden md:table-cell'>{item.nama_diklat}</TableCell>
+                <TableCell className='hidden md:table-cell'>
+                  {new Date(item.tgl_diklat).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </TableCell>
+                <TableCell className='hidden md:table-cell'>{item.total_jam} Jam</TableCell>
+                <TableCell className='hidden md:table-cell'>{item.nama_pendidikan}</TableCell>
+                <TableCell className='hidden md:table-cell'>{item.tahun_lulus}</TableCell>
+                <TableCell className='hidden md:table-cell'>{item.usia}</TableCell>
+                <TableCell className='hidden md:table-cell'>{item.masa_kerja}</TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={10} className="text-center">
+                Tidak ada Data
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
+
       {/* table */}
 
       {/* pagination */}
-      <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-        <Pagination className='md:justify-end'>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+      <div className="pagi flex items-center lg:justify-end justify-center">
+        {dataKepegawaian?.data?.pagination.totalCount as number > 1 && (
+          <PaginationTable
+            currentPage={currentPage}
+            totalPages={dataKepegawaian?.data.pagination.totalPages as number}
+            onPageChange={onPageChange}
+          />
+        )}
       </div>
       {/* pagination */}
     </div>
   )
 }
 
-export default DataPensiunPage
+export default DataPegawaiPagePensiun
