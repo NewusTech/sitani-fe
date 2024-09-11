@@ -146,20 +146,23 @@ const HargaPanganEceran = () => {
         return date.toLocaleDateString('id-ID', options);
     };
 
-    // Create a map of month names to prices
-    const monthPricesMap = dataKomoditas.data.reduce((acc, item) => {
-        const month = getMonthName(item.bulan);
-        item.list.forEach(komoditasItem => {
-            if (!acc[komoditasItem.komoditas.nama]) {
-                acc[komoditasItem.komoditas.nama] = {};
-            }
-            acc[komoditasItem.komoditas.nama][month] = komoditasItem.harga;
-        });
-        return acc;
-    }, {} as Record<string, Record<string, number>>);
+    // Ensure dataKomoditas.data is an array before calling reduce
+    const monthPricesMap = Array.isArray(dataKomoditas.data)
+        ? dataKomoditas.data.reduce((acc, item) => {
+            const month = getMonthName(item.bulan);
+            item.list.forEach(komoditasItem => {
+                if (!acc[komoditasItem.komoditas.nama]) {
+                    acc[komoditasItem.komoditas.nama] = {};
+                }
+                acc[komoditasItem.komoditas.nama][month] = komoditasItem.harga;
+            });
+            return acc;
+        }, {} as Record<string, Record<string, number>>)
+        : {}; // Default to an empty object if dataKomoditas.data is not an array
 
     // Get unique commodity names
     const komoditasNames = Object.keys(monthPricesMap);
+
 
     return (
         <div>

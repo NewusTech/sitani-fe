@@ -43,6 +43,9 @@ import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import PaginationTable from '@/components/PaginationTable';
+import KorluhPadiMobileComp from '@/components/koruhPadiMobile';
+
+
 const KorlubPadi = () => {
 
     const formatDate = (date?: Date): string => {
@@ -62,6 +65,8 @@ const KorlubPadi = () => {
         id: number;
         kecamatanId: number;
         desaId: number;
+        kecamatan: Kecamatan;
+        desa: Desa;
         tanggal: string;
         hibrida_bantuan_pemerintah_lahan_sawah_panen: number;
         hibrida_bantuan_pemerintah_lahan_sawah_tanam: number;
@@ -248,315 +253,352 @@ const KorlubPadi = () => {
                             </SelectContent>
                         </Select>
                     </div> */}
-                    <Link href="/korluh/padi/tambah" className='bg-primary px-3 md:px-8 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm'>
+                    <Link href="/korluh/padi/tambah" className='bg-primary px-3 md:px-8 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium '>
                         Tambah
                     </Link>
                 </div>
             </div>
             {/* top */}
             {/* bulan */}
-            <div className="mt-2 flex items-center gap-2">
+            <div className="md:mt-2 mt-1 flex items-center gap-2">
                 <div className="font-semibold">
                     Tanggal:
                 </div>
                 {dataPadi?.data?.data.map((item, index) => (
                     <div key={index}>
-                        {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric',
-                        }) : 'Tanggal tidak tersedia'}
+                        {item.tanggal
+                            ? new Date(item.tanggal).toLocaleDateString('id-ID', {
+                                weekday: 'long',
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric',
+                            })
+                            : 'Tanggal tidak tersedia'}
                     </div>
+
                 ))}
             </div>
             {/* bulan */}
-            {/* table */}
-            <Table className='border border-slate-200 mt-1'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow >
-                        <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">
-                            No
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">
-                            Uraian
-                        </TableHead>
-                        <TableHead colSpan={3} className="text-primary border border-slate-200 text-center py-1">
-                            Lahan Sawah
-                        </TableHead>
-                        <TableHead colSpan={3} className="text-primary border border-slate-200 text-center py-1">
-                            Laha Bukan Sawah
-                        </TableHead>
-                        <TableHead rowSpan={3} className="text-primary py-1 text-center">
-                            Aksi
-                        </TableHead>
-                    </TableRow>
-                    <TableRow >
-                        <TableHead className="text-primary border border-slate-200 text-center py-1">
-                            Panen
-                        </TableHead>
-                        <TableHead className="text-primary border border-slate-200 text-center py-1">
-                            Tanam
-                        </TableHead>
-                        <TableHead className="text-primary border border-slate-200 text-center py-1">
-                            Puso
-                        </TableHead>
-                        <TableHead className="text-primary border border-slate-200 text-center py-1">
-                            Panen
-                        </TableHead>
-                        <TableHead className="text-primary border border-slate-200 text-center py-1">
-                            Tanam
-                        </TableHead>
-                        <TableHead className="text-primary border border-slate-200 text-center py-1">
-                            Puso
-                        </TableHead>
+            {/* kecamatan */}
+            <div className="wrap mt-2 flex flex-col md:flex-row md:gap-2 gap-1">
+                <div className="flex items-center gap-2">
+                    <div className="font-semibold">
+                        Kecamatan:
+                    </div>
+                    {dataPadi?.data?.data.map((item, index) => (
+                        <div key={index}>
+                            {item?.kecamatan.nama || "Tidak ada data"}
+                        </div>
+                    ))}
+                </div>
+                <div className="flex items-center gap-2">
+                    <div className="font-semibold">
+                        Desa:
+                    </div>
+                    {dataPadi?.data?.data.map((item, index) => (
+                        <div key={index}>
+                            {item?.desa.nama || "Tidak ada data"}
+                        </div>
+                    ))}
+                </div>
+            </div>
+            {/* kecamatan */}
 
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {dataPadi?.data.data && dataPadi.data.data.length > 0 ? (
-                        dataPadi.data.data.map((item, index) => (
-                            <>
-                                {/* jenis padi */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        1.
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold'>
-                                        Jenis Padi
-                                    </TableCell>
-                                    <TableCell colSpan={6} className='border border-slate-200 font-semibold'>
-                                    </TableCell>
-                                    <TableCell rowSpan={2} className='border border-slate-200 font-semibold'>
-                                        <div className="flex items-center gap-4 justify-center">
-                                            <Link className='' href={`/bpp-kecamatan/padi/detail/${item.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link className='' href={`/korluh/padi/edit/${item.id}`}>
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                                {/* hibrida */}
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold '>
-                                        A. Hibrida
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 '>
-                                        1). Bantuan Pemerintah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_bantuan_pemerintah_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_bantuan_pemerintah_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_bantuan_pemerintah_lahan_sawah_panen}
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 '>
-                                        2). Non Bantuan Pemerintah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_non_bantuan_pemerintah_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_non_bantuan_pemerintah_lahan_sawah_puso}
-                                    </TableCell>
-                                </TableRow>
-                                {/* hibrida */}
-                                {/* Non hibrida */}
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold '>
-                                        B. Unggul (Non Hibrida)
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 '>
-                                        1). Bantuan Pemerintah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_sawah_puso}
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 '>
-                                        2). Non Bantuan Pemerintah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso}
-                                    </TableCell>
-                                </TableRow>
-                                {/* Non hibrida */}
-                                {/* Lokal */}
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold '>
-                                        C. Lokal
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_bukan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_bukan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_bukan_sawah_puso}
-                                    </TableCell>
-                                </TableRow>
-                                {/* jenis padi */}
-                                {/* Jenis pengairan */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        2.
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold'>
-                                        Jenis Pengairan
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah irigasi */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200'>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        A. Sawah Irigasi
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_irigasi_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_irigasi_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_irigasi_lahan_sawah_puso}
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah irigasi */}
-                                {/* sawah tadah hujan */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200'>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        B. Sawah Tadah Hujan
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_tadah_hujan_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_tadah_hujan_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_tadah_hujan_lahan_sawah_puso}
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah tadah hujan */}
-                                {/* sawah Rawa Pasang Surut */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200'>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        C. Sawah Rawa Pasang Surut
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_pasang_surut_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_pasang_surut_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_pasang_surut_lahan_sawah_puso}
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah Rawa Pasang Surut */}
-                                {/* sawah Rawa Lebak */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200'>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        D. Sawah Rawa Lebak
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_lebak_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_lebak_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_lebak_lahan_sawah_puso}
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah Rawa Lebak */}
-                                {/* Jenis pengairan */}
-                            </>))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={9} className="text-center">
-                                Tidak ada data
-                            </TableCell>
+            {/*table mobile */}
+            <div className="mobile mt-2 block md:hidden sm:hidden lg:hidden">
+                <KorluhPadiMobileComp urlApi={`korluh/padi/get?page=${currentPage}&search=${search}&limit=1&equalDate=${filterDate}`} />
+            </div>
+            {/*table mobile */}
+
+            {/* table */}
+            <div className="tabel-wrap hidden sm:block md:block lg:block">
+                <Table className='border border-slate-200 mt-1'>
+                    <TableHeader className='bg-primary-600'>
+                        <TableRow >
+                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">
+                                No
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">
+                                Uraian
+                            </TableHead>
+                            <TableHead colSpan={3} className="text-primary border border-slate-200 text-center py-1">
+                                Lahan Sawah
+                            </TableHead>
+                            <TableHead colSpan={3} className="text-primary border border-slate-200 text-center py-1">
+                                Laha Bukan Sawah
+                            </TableHead>
+                            <TableHead rowSpan={3} className="text-primary py-1 text-center">
+                                Aksi
+                            </TableHead>
                         </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                        <TableRow >
+                            <TableHead className="text-primary border border-slate-200 text-center py-1">
+                                Panen
+                            </TableHead>
+                            <TableHead className="text-primary border border-slate-200 text-center py-1">
+                                Tanam
+                            </TableHead>
+                            <TableHead className="text-primary border border-slate-200 text-center py-1">
+                                Puso
+                            </TableHead>
+                            <TableHead className="text-primary border border-slate-200 text-center py-1">
+                                Panen
+                            </TableHead>
+                            <TableHead className="text-primary border border-slate-200 text-center py-1">
+                                Tanam
+                            </TableHead>
+                            <TableHead className="text-primary border border-slate-200 text-center py-1">
+                                Puso
+                            </TableHead>
+
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {dataPadi?.data.data && dataPadi.data.data.length > 0 ? (
+                            dataPadi.data.data.map((item, index) => (
+                                <>
+                                    {/* jenis padi */}
+                                    <TableRow>
+                                        <TableCell className='border border-slate-200 font-semibold text-center'>
+                                            1.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 font-semibold'>
+                                            Jenis Padi
+                                        </TableCell>
+                                        <TableCell colSpan={6} className='border border-slate-200 font-semibold'>
+                                        </TableCell>
+                                        <TableCell rowSpan={2} className='border border-slate-200 font-semibold'>
+                                            <div className="flex items-center gap-4 justify-center">
+                                                <Link className='' href={`/bpp-kecamatan/padi/detail/${item.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link className='' href={`/korluh/padi/edit/${item.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* hibrida */}
+                                    <TableRow>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 font-semibold '>
+                                            A. Hibrida
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 '>
+                                            1). Bantuan Pemerintah
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_panen}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 '>
+                                            2). Non Bantuan Pemerintah
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.hibrida_non_bantuan_pemerintah_lahan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.hibrida_non_bantuan_pemerintah_lahan_sawah_puso}
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* hibrida */}
+                                    {/* Non hibrida */}
+                                    <TableRow>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 font-semibold '>
+                                            B. Unggul (Non Hibrida)
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 '>
+                                            1). Bantuan Pemerintah
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_bantuan_pemerintah_lahan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_bantuan_pemerintah_lahan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_bantuan_pemerintah_lahan_sawah_puso}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 '>
+                                            2). Non Bantuan Pemerintah
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_non_bantuan_pemerintah_lahan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_non_bantuan_pemerintah_lahan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_non_bantuan_pemerintah_lahan_sawah_puso}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso}
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Non hibrida */}
+                                    {/* Lokal */}
+                                    <TableRow>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 font-semibold '>
+                                            C. Lokal
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.lokal_lahan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.lokal_lahan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.lokal_lahan_sawah_puso}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.lokal_lahan_bukan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.lokal_lahan_bukan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.lokal_lahan_bukan_sawah_puso}
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* jenis padi */}
+                                    {/* Jenis pengairan */}
+                                    <TableRow>
+                                        <TableCell className='border border-slate-200 font-semibold text-center'>
+                                            2.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 font-semibold'>
+                                            Jenis Pengairan
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* sawah irigasi */}
+                                    <TableRow>
+                                        <TableCell className='border border-slate-200'>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            A. Sawah Irigasi
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_irigasi_lahan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_irigasi_lahan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_irigasi_lahan_sawah_puso}
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* sawah irigasi */}
+                                    {/* sawah tadah hujan */}
+                                    <TableRow>
+                                        <TableCell className='border border-slate-200'>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            B. Sawah Tadah Hujan
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_tadah_hujan_lahan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_tadah_hujan_lahan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_tadah_hujan_lahan_sawah_puso}
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* sawah tadah hujan */}
+                                    {/* sawah Rawa Pasang Surut */}
+                                    <TableRow>
+                                        <TableCell className='border border-slate-200'>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            C. Sawah Rawa Pasang Surut
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_rawa_pasang_surut_lahan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_rawa_pasang_surut_lahan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_rawa_pasang_surut_lahan_sawah_puso}
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* sawah Rawa Pasang Surut */}
+                                    {/* sawah Rawa Lebak */}
+                                    <TableRow>
+                                        <TableCell className='border border-slate-200'>
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            D. Sawah Rawa Lebak
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_rawa_lebak_lahan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_rawa_lebak_lahan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>
+                                            {item.sawah_rawa_lebak_lahan_sawah_puso}
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* sawah Rawa Lebak */}
+                                    {/* Jenis pengairan */}
+                                </>))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={9} className="text-center">
+                                    Tidak ada data
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
             {/* table */}
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
