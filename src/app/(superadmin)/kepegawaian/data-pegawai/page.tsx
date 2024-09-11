@@ -45,6 +45,7 @@ import DeletePopup from '@/components/superadmin/PopupDelete';
 import Swal from 'sweetalert2';
 import PaginationTable from '@/components/PaginationTable';
 import BidangSelect from '@/components/superadmin/SelectComponent/BidangValue';
+import FilterTable from '@/components/FilterTable';
 
 interface Response {
   status: string,
@@ -176,11 +177,35 @@ const DataPegawaiPage = () => {
         backdrop: `rgba(0, 0, 0, 0.4)`,
       });
       // alert
-      mutate('/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}');
     } catch (error) {
       console.error('Failed to delete:', error);
       console.log(id)
-    }
+    } mutate(`/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`);
+  };
+
+  // Filter table
+  const columns = [
+    { label: "No", key: "no" },
+    { label: "Nama/NIP Tempat/Tgl Lahir", key: "namaNip" },
+    { label: "Pangkat/Gol Ruang TMT Pangkat", key: "pangkat" },
+    { label: "Jabatan", key: "jabatan" },
+    { label: "Diklat Struktural", key: "diklat" },
+    { label: "Pendidikan Umum", key: "pendidikan" },
+    { label: "Usia", key: "usia" },
+    { label: "Masa Kerja", key: "masaKerja" },
+    { label: "Ket", key: "keterangan" },
+    { label: "Status", key: "status" },
+    { label: "Aksi", key: "aksi" }
+  ];
+
+  const defaultCheckedKeys = ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja", "keterangan", "status", "aksi"];
+
+  const [visibleColumns, setVisibleColumns] = React.useState<string[]>(defaultCheckedKeys);
+
+  const handleFilterChange = (key: string, checked: boolean) => {
+    setVisibleColumns(prev =>
+      checked ? [...prev, key] : prev.filter(col => col !== key)
+    );
   };
 
   return (
@@ -232,9 +257,10 @@ const DataPegawaiPage = () => {
           />
         </div>
         <div className="w-[40px] h-[40px]">
-          <Button variant="outlinePrimary" className=''>
+          {/* <Button variant="outlinePrimary" className=''>
             <FilterIcon />
-          </Button>
+          </Button> */}
+          <FilterTable columns={columns} defaultCheckedKeys={defaultCheckedKeys} onFilterChange={handleFilterChange} />
         </div>
       </div>
       {/* top */}
@@ -243,133 +269,197 @@ const DataPegawaiPage = () => {
       <Table className='border border-slate-200 mt-4'>
         <TableHeader className='bg-primary-600'>
           <TableRow >
-            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-              No
-            </TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-              Nama/NIP
-              <br /> Tempat/Tgl Lahir
-            </TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-              Pangkat/Gol Ruang
-              TMT Pangkat
-            </TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-              Jabatan <br />
-              TMT Jabatan
-            </TableHead>
-            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">
-              Diklat Struktural
-            </TableHead>
-            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">
-              Pendidikan Umum
-            </TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Usia</TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Masa Kerja</TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Ket</TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1">Status</TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1">Aksi</TableHead>
+            {visibleColumns.includes('no') && (
+              <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                No
+              </TableHead>
+            )}
+            {visibleColumns.includes('namaNip') && (
+              <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                Nama/NIP
+                <br /> Tempat/Tgl Lahir
+              </TableHead>
+            )}
+            {visibleColumns.includes('pangkat') && (
+              <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                Pangkat/Gol Ruang
+                TMT Pangkat
+              </TableHead>
+            )}
+            {visibleColumns.includes('jabatan') && (
+              <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                Jabatan <br />
+                TMT Jabatan
+              </TableHead>
+            )}
+            {visibleColumns.includes('diklat') && (
+              <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">
+                Diklat Struktural
+              </TableHead>
+            )}
+            {visibleColumns.includes('pendidikan') && (
+              <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">
+                Pendidikan Umum
+              </TableHead>
+            )}
+            {visibleColumns.includes('usia') && (
+              <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Usia</TableHead>
+            )}
+            {visibleColumns.includes('masaKerja') && (
+              <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Masa Kerja</TableHead>
+            )}
+            {visibleColumns.includes('keterangan') && (
+              <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Ket</TableHead>
+            )}
+            {visibleColumns.includes('status') && (
+              <TableHead rowSpan={2} className="text-primary py-1">Status</TableHead>
+            )}
+            {visibleColumns.includes('aksi') && (
+              <TableHead rowSpan={2} className="text-primary py-1">Aksi</TableHead>
+            )}
           </TableRow>
           <TableRow>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
-              Nama  DIklat
-            </TableHead>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
-              Tanggal
-            </TableHead>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
-              Jam
-            </TableHead>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
-              Nama
-            </TableHead>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
-              Tahun Lulus
-            </TableHead>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
-              Jenjang
-            </TableHead>
+            {visibleColumns.includes('diklat') && (
+              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+                Nama  DIklat
+              </TableHead>
+            )}
+            {visibleColumns.includes('diklat') && (
+              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+                Tanggal
+              </TableHead>
+            )}
+            {visibleColumns.includes('diklat') && (
+              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+                Jam
+              </TableHead>
+            )}
+            {visibleColumns.includes('pendidikan') && (
+              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+                Nama
+              </TableHead>
+            )}
+            {visibleColumns.includes('pendidikan') && (
+              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+                Tahun Lulus
+              </TableHead>
+            )}
+            {visibleColumns.includes('pendidikan') && (
+              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+                Jenjang
+              </TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
           {dataKepegawaian?.data.data && dataKepegawaian?.data.data.length > 0 ? (
             dataKepegawaian?.data.data.map((item, index) => (
               <TableRow key={item.id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell className=''>
-                  {item.nama} <br />
-                  {item.nip} <br />
-                  {item.tempatLahir}, {item.tglLahir}
-                </TableCell>
-                <TableCell className=''>
-                  {item.pangkat} / {item.golongan} <br />
-                  TMT: {item.tmtPangkat ?
-                    new Date(item.tmtPangkat).toLocaleDateString('id-ID', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })
-                    : '-'}
-                </TableCell>
-                <TableCell className=''>
-                  {item.jabatan} <br />
-                  TMT:
-                  {item.tmtJabatan ?
-                    new Date(item.tmtJabatan).toLocaleDateString('id-ID', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })
-                    : '-'}
-                </TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  {item.namaDiklat} <br />
-                </TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  {item.tglDiklat ?
-                    new Date(item.tglDiklat).toLocaleDateString('id-ID', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })
-                    : '-'}
-                </TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  {item.totalJam} Jam
-                </TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  {item.namaPendidikan} <br />
-                </TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  {item.tahunLulus} <br />
-                </TableCell>
-                <TableCell className='hidden md:table-cell'>
-                  {item.jenjangPendidikan}
-                </TableCell>
-                <TableCell className='hidden md:table-cell'>{item.usia}</TableCell>
-                <TableCell className='hidden md:table-cell'>{item.masaKerja}</TableCell>
-                <TableCell className='hidden md:table-cell'>{item.keterangan}</TableCell>
-                <TableCell className=''>
-                  <div className="p-1 text-xs rounded bg-slate-200 text-center">
-                    {item.status}
-                  </div>
-                </TableCell>
-                <TableCell className=''>
-                  <div className="flex items-center gap-4">
-                    <Link className='' href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`}>
-                      <EyeIcon />
-                    </Link>
-                    <Link className='' href={`/kepegawaian/data-pegawai/edit-pegawai/${item.id}`}>
-                      <EditIcon />
-                    </Link>
-                    <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
-                  </div>
-                </TableCell>
+                {visibleColumns.includes('no') && (
+                  <TableCell>{index + 1}</TableCell>
+                )}
+                {visibleColumns.includes('namaNip') && (
+                  <TableCell className=''>
+                    {item.nama} <br />
+                    {item.nip} <br />
+                    {item.tempatLahir}, {item.tglLahir}
+                  </TableCell>
+                )}
+                {visibleColumns.includes('pangkat') && (
+                  <TableCell className=''>
+                    {item.pangkat} / {item.golongan} <br />
+                    TMT: {item.tmtPangkat ?
+                      new Date(item.tmtPangkat).toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })
+                      : '-'}
+                  </TableCell>
+                )}
+                {visibleColumns.includes('jabatan') && (
+                  <TableCell className=''>
+                    {item.jabatan} <br />
+                    TMT:
+                    {item.tmtJabatan ?
+                      new Date(item.tmtJabatan).toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })
+                      : '-'}
+                  </TableCell>
+                )}
+                {visibleColumns.includes('diklat') && (
+                  <TableCell className='hidden md:table-cell'>
+                    {item.namaDiklat} <br />
+                  </TableCell>
+                )}
+                {visibleColumns.includes('diklat') && (
+                  <TableCell className='hidden md:table-cell'>
+                    {item.tglDiklat ?
+                      new Date(item.tglDiklat).toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })
+                      : '-'}
+                  </TableCell>
+                )}
+                {visibleColumns.includes('diklat') && (
+                  <TableCell className='hidden md:table-cell'>
+                    {item.totalJam} Jam
+                  </TableCell>
+                )}
+                {visibleColumns.includes('pendidikan') && (
+                  <TableCell className='hidden md:table-cell'>
+                    {item.namaPendidikan} <br />
+                  </TableCell>
+                )}
+                {visibleColumns.includes('pendidikan') && (
+                  <TableCell className='hidden md:table-cell'>
+                    {item.tahunLulus} <br />
+                  </TableCell>
+                )}
+                {visibleColumns.includes('pendidikan') && (
+                  <TableCell className='hidden md:table-cell'>
+                    {item.jenjangPendidikan}
+                  </TableCell>
+                )}
+                {visibleColumns.includes('usia') && (
+                  <TableCell className='hidden md:table-cell'>{item.usia}</TableCell>
+                )}
+                {visibleColumns.includes('masaKerja') && (
+                  <TableCell className='hidden md:table-cell'>{item.masaKerja}</TableCell>
+                )}
+                {visibleColumns.includes('keterangan') && (
+                  <TableCell className='hidden md:table-cell'>{item.keterangan}</TableCell>
+                )}
+                {visibleColumns.includes('status') && (
+                  <TableCell className=''>
+                    <div className="p-1 text-xs rounded bg-slate-200 text-center">
+                      {item.status}
+                    </div>
+                  </TableCell>
+                )}
+                {visibleColumns.includes('aksi') && (
+                  <TableCell className=''>
+                    <div className="flex items-center gap-4">
+                      <Link className='' href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`}>
+                        <EyeIcon />
+                      </Link>
+                      <Link className='' href={`/kepegawaian/data-pegawai/edit-pegawai/${item.id}`}>
+                        <EditIcon />
+                      </Link>
+                      <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
+                    </div>
+                  </TableCell>
+                )}
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={10} className="text-center">
+              <TableCell colSpan={15} className="text-center">
                 Tidak ada data
               </TableCell>
             </TableRow>

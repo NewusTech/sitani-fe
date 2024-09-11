@@ -280,7 +280,7 @@ const KoefisienVariasiProdusen = () => {
                         </TableRow>
                     )}
                 </TableBody>
-                <TableFooter className='bg-primary-600'>
+                {/* <TableFooter className='bg-primary-600'>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Rata-rata</TableCell>
                         <TableCell className="text-primary py-3">49000</TableCell>
@@ -306,7 +306,7 @@ const KoefisienVariasiProdusen = () => {
                         <TableCell className="text-primary py-3">49000</TableCell>
                         <TableCell className="text-primary py-3">49000</TableCell>
                     </TableRow>
-                </TableFooter>
+                </TableFooter> */}
             </Table>
             {/* table */}
 
