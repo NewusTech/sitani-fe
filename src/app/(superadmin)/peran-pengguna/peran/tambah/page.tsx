@@ -152,11 +152,11 @@ const TambahPeran = () => {
         </div>
         {/* Button */}
         <div className="flex justify-end gap-3">
-          <Link href="/kepegawaian/data-pegawai" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
-            BATAL
+          <Link href="/peran-pengguna/peran" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+            Batal
           </Link>
           <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-            SIMPAN
+            Simpan
           </Button>
         </div>
       </form>

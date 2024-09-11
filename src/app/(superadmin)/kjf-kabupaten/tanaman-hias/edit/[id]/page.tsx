@@ -1,14 +1,14 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
-import { SWRResponse, mutate } from "swr";
+import { useRouter, useParams } from 'next/navigation';
+import useSWR, { SWRResponse, mutate } from "swr";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
@@ -28,17 +28,17 @@ const formatDate = (dateString: string) => {
 const formSchema = z.object({
     kecamatan_id: z
         .number()
-        .min(1, "Kecamatan is required")
+        .min(0, "Kecamatan is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     desa_id: z
         .number()
-        .min(1, "Desa is required")
+        .min(0, "Desa is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Tanggal wajib diisi" })),
-    nama_tanaman: z.string().min(1, { message: "Nama tanaman wajib diisi" }),
-    hasil_produksi: z.string().min(1, { message: "Hasil produksi wajib diisi" }),
+        z.string().min(0, { message: "Tanggal wajib diisi" })),
+    nama_tanaman: z.string().min(0, { message: "Nama tanaman wajib diisi" }),
+    satuan_produksi: z.string().min(0, { message: "Hasil produksi wajib diisi" }),
     luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
     luas_panen_belum_habis: z.coerce.number().min(0, { message: "Luas panen belum habis wajib diisi" }),
     luas_rusak: z.coerce.number().min(0, { message: "Luas rusak wajib diisi" }),
@@ -53,7 +53,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahSayuranBuahKJFKabupaten = () => {
+const EditTanamanBuahKJFKabupaten = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -68,22 +68,97 @@ const TambahSayuranBuahKJFKabupaten = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const kecamatanValue = watch("kecamatan_id");
+    // getone
+    // INTEGRASI
 
+    interface Sayuran {
+        id: number;
+        korluhTanamanHiasId: number;
+        namaTanaman: string;
+        satuanProduksi: string;
+        luasPanenHabis: number;
+        luasPanenBelumHabis: number;
+        luasRusak: number;
+        luasPenanamanBaru: number;
+        produksiHabis: number;
+        produksiBelumHabis: number;
+        rerataHarga: number;
+        keterangan: string;
+        korluhTanamanHias: {
+            tanggal: string,
+            kecamatanId: number,
+            desaId: number,
+        }
+    }
 
-    // TAMBAH
+    interface Response {
+        status: string;
+        data: Sayuran;
+        message: string;
+    }
+
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataTanaman, error } = useSWR<Response>(
+        `/korluh/tanaman-hias/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
+    );
+
+    // setvalue
+    const kecamatanId = watch("kecamatan_id");
+    const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
+
+    useEffect(() => {
+        if (dataTanaman) {
+            setValue("nama_tanaman", dataTanaman.data.namaTanaman);
+            setValue("tanggal", new Date(dataTanaman.data.korluhTanamanHias.tanggal).toISOString().split('T')[0]);
+            setValue("satuan_produksi", "pcs");
+            console.log("satuan produksi = ", dataTanaman.data.satuanProduksi)
+            setValue("luas_panen_habis", dataTanaman.data.luasPanenHabis);
+            setValue("luas_panen_belum_habis", dataTanaman.data.luasPanenBelumHabis);
+            setValue("luas_rusak", dataTanaman.data.luasRusak);
+            setValue("luas_penanaman_baru", dataTanaman.data.luasPenanamanBaru);
+            setValue("produksi_habis", dataTanaman.data.produksiHabis);
+            setValue("produksi_belum_habis", dataTanaman.data.produksiBelumHabis);
+            setValue("rerata_harga", dataTanaman.data.rerataHarga);
+            setValue("keterangan", dataTanaman.data.keterangan);
+            setValue("kecamatan_id", dataTanaman.data.korluhTanamanHias.kecamatanId);
+            setInitialDesaId(dataTanaman.data.korluhTanamanHias.desaId); // Save initial desa_id
+            setValue("desa_id", dataTanaman.data.korluhTanamanHias.desaId); // Set default value
+        }
+    }, [dataTanaman, setValue]);
+
+    useEffect(() => {
+        // Clear desa_id when kecamatan_id changes
+        setValue("desa_id", initialDesaId ?? 0); // Reset to initial desa_id
+    }, [kecamatanId, setValue, initialDesaId]);
+    // setvalue
+
+    // getone
+
+    // TAMBAH
+    const kecamatanValue = watch("kecamatan_id");
     const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.post("/korluh/sayur-buah/create", data);
+            await axiosPrivate.put(`/korluh/tanaman-hias/update/${id}`, data);
             // alert
             Swal.fire({
                 icon: 'success',
-                title: 'Data berhasil di tambahkan!',
+                title: 'Data berhasil di edit!',
                 text: 'Data sudah disimpan sistem!',
                 timer: 1500,
                 timerProgressBar: true,
@@ -104,17 +179,17 @@ const TambahSayuranBuahKJFKabupaten = () => {
             // alert
             console.log(data)
             // push
-            navigate.push('/bpp-kecamatan/sayuran-buah');
-            console.log("Success to create Sayuran Buah:");
-            reset()
+            navigate.push('/bpp-kecamatan/tanaman-hias');
+            console.log("Success to create Tanaman Hias:");
+            // reset()
         } catch (e: any) {
             console.log(data)
-            console.log("Failed to create Sayuran Buah:");
+            console.log("Failed to create Tanaman Hias:");
             return;
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/sayur-buah/get`);
+        mutate(`/korluh/tanaman-hias/get`);
     };
 
     const [open, setOpen] = React.useState(false)
@@ -122,7 +197,7 @@ const TambahSayuranBuahKJFKabupaten = () => {
 
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-4">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-4">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-4">
                     <div className="mb-2">
@@ -134,6 +209,7 @@ const TambahSayuranBuahKJFKabupaten = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <KecValue
+                                            disabled
                                             // kecamatanItems={kecamatanItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -151,6 +227,7 @@ const TambahSayuranBuahKJFKabupaten = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <DesaValue
+                                            disabled
                                             // desaItems={filteredDesaItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -191,15 +268,15 @@ const TambahSayuranBuahKJFKabupaten = () => {
                         </div>
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
-                                <Label className='text-sm mb-1' label="Hasil Produksi Yang Dicatat" />
+                                <Label className='text-sm mb-1' label="Satuan Produksi" />
                                 <Input
                                     type="text"
-                                    placeholder="Hasil Produksi Yang Dicatat"
-                                    {...register('hasil_produksi')}
-                                    className={`${errors.hasil_produksi ? 'border-red-500' : 'py-5 text-sm'}`}
+                                    placeholder="Satuan Produksi"
+                                    {...register('satuan_produksi')}
+                                    className={`${errors.satuan_produksi ? 'border-red-500' : 'py-5 text-sm'}`}
                                 />
-                                {errors.hasil_produksi && (
-                                    <HelperError>{errors.hasil_produksi.message}</HelperError>
+                                {errors.satuan_produksi && (
+                                    <HelperError>{errors.satuan_produksi.message}</HelperError>
                                 )}
                             </div>
                         </div>
@@ -207,7 +284,7 @@ const TambahSayuranBuahKJFKabupaten = () => {
                 </div>
 
                 <div className='mb-4'>
-                    <div className="text-primary text-lg font-bold mb-2">Luas Panen (Hektar)</div>
+                    <div className="text-primary text-lg font-bold mb-2">Luas Panen (m²)</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Habis/Dibongkar" />
@@ -236,10 +313,10 @@ const TambahSayuranBuahKJFKabupaten = () => {
                     </div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Luas Rusak / Tidak Berhasil / Puso (Hektar)" />
+                            <Label className='text-sm mb-1' label="Luas Rusak / Tidak Berhasil / Puso (m²)" />
                             <Input
                                 type="number"
-                                placeholder="Luas Rusak / Tidak Berhasil / Puso (Hektar)"
+                                placeholder="Luas Rusak / Tidak Berhasil / Puso (m²)"
                                 {...register('luas_rusak')}
                                 className={`${errors.luas_rusak ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
@@ -248,10 +325,10 @@ const TambahSayuranBuahKJFKabupaten = () => {
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Luas Penanaman Baru / Tambah (hektar)" />
+                            <Label className='text-sm mb-1' label="Luas Penanaman Baru / Tambah (m²)" />
                             <Input
                                 type="number"
-                                placeholder="Luas Penanaman Baru / Tambah (hektar)"
+                                placeholder="Luas Penanaman Baru / Tambah (m²)"
                                 {...register('luas_penanaman_baru')}
                                 className={`${errors.luas_penanaman_baru ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
@@ -263,7 +340,7 @@ const TambahSayuranBuahKJFKabupaten = () => {
                 </div>
 
                 <div className='mb-4'>
-                    <div className="text-primary text-lg font-bold mb-2">Produksi (Kuintal)</div>
+                    <div className="text-primary text-lg font-bold mb-2">Produksi</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Dipanen Habis / Dibongkar" />
@@ -319,14 +396,14 @@ const TambahSayuranBuahKJFKabupaten = () => {
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/kjf-kabupaten/sayuran-buah" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/kjf-kabupaten/tanaman-hias" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
-                    <Button type="submit" variant="primary" size="lg" className="w-[120px]  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                    <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Tambah"
+                            "Edit"
                         )}
                     </Button>
                 </div>
@@ -335,4 +412,4 @@ const TambahSayuranBuahKJFKabupaten = () => {
     )
 }
 
-export default TambahSayuranBuahKJFKabupaten
+export default EditTanamanBuahKJFKabupaten

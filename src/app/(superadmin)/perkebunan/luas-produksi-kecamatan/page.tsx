@@ -210,10 +210,10 @@ const LuasKecPage = () => {
                         </TableCell>
                         <TableCell>
                             <div className="flex items-center gap-4">
-                                <Link className='' href="/psp/bantuan/detail">
+                                <Link className='' href="/perkebunan/luas-produksi-kecamatan/detail">
                                     <EyeIcon />
                                 </Link>
-                                <Link className='' href="/psp/bantuan/edit">
+                                <Link className='' href="/perkebunan/luas-produksi-kecamatan/edit">
                                     <EditIcon />
                                 </Link>
                                 <DeletePopup onDelete={async () => { }} />

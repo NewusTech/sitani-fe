@@ -25,7 +25,7 @@ const DetaiLuasProduksiKabupaten = () => {
                 Data Luas Areal dan</div>
             {/* title */}
             <div className="mb-10 flex justify-start gap-2 md:gap-3 mt-4">
-                <Link href="/korlub/tanaman-hias" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                <Link href="/perkebunan/luas-produksi-kabupaten" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
                     Kembali
                 </Link>
             </div>

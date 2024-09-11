@@ -215,7 +215,7 @@ const KoefisienVariasiProduksi = () => {
                 </div>
                 <div className="w-full mt-4 lg:mt-0">
                     <div className="flex justify-end">
-                        <Link href="/ketahanan-pangan/koefisien-variasi-produksi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm'>
+                        <Link href="/ketahanan-pangan/koefisien-variasi-produksi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                             Tambah Data
                         </Link>
                     </div>
@@ -306,72 +306,72 @@ const KoefisienVariasiProduksi = () => {
                 <TableFooter className='bg-primary-600'>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Rata-rata</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
                         <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
+                        <TableCell className="text-primary py-3">5370</TableCell>
                         <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
                         <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
                         <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
+                        <TableCell className="text-primary py-3">5850</TableCell>
                         <TableCell className="text-primary py-3"></TableCell>
                     </TableRow>
                 </TableFooter>

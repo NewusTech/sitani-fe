@@ -176,7 +176,7 @@ const DataPegawaiPage = () => {
         backdrop: `rgba(0, 0, 0, 0.4)`,
       });
       // alert
-      mutate('/kepegawaian/get');
+      mutate('/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}');
     } catch (error) {
       console.error('Failed to delete:', error);
       console.log(id)

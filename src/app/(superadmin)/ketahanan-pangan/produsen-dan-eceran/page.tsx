@@ -195,15 +195,15 @@ const ProdusenDanEceran = () => {
           />
         </div>
         <div className="btn flex gap-2">
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
             <UnduhIcon />
-            <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+            <div className="hidden md:block">
               Download
             </div>
           </Button>
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
             <PrintIcon />
-            <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+            <div className="hidden md:block">
               Print
             </div>
           </Button>
@@ -218,8 +218,8 @@ const ProdusenDanEceran = () => {
             </Button>
           </div>
         </div>
-        <div className="right">
-          <Link href="/ketahanan-pangan/produsen-dan-eceran/tambah" className='bg-primary text-sm px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+        <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+          <Link href="/ketahanan-pangan/produsen-dan-eceran/tambah" className='bg-primary text-sm px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
             Tambah Data
           </Link>
         </div>

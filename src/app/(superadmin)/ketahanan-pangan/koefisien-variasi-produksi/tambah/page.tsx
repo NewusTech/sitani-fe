@@ -25,27 +25,27 @@ function formatDate(date: string): string {
 
 const formSchema = z.object({
     panen: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Panen wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Panen wajib diisi" })),
     gkp_tk_petani: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "NIP wajib diisi" })),
     bulan: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(1, { message: "Bulan wajib diisi" })
     ),
     gkp_tk_penggilingan: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "GKP TK Penggilingan wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "GKP TK Penggilingan wajib diisi" })),
     jpk: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "JPK wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "JPK wajib diisi" })),
     cabai_merah_keriting: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Cabai merah keriting wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Cabai merah keriting wajib diisi" })),
     beras_medium: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Beras medium wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Beras medium wajib diisi" })),
     beras_premium: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Beras premium wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Beras premium wajib diisi" })),
     stok_gkg: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Stok gkg wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Stok gkg wajib diisi" })),
     stok_beras: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Stok beras wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Stok beras wajib diisi" })),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;

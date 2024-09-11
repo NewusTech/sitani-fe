@@ -5,7 +5,6 @@ import Link from 'next/link';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';
-
 interface LabelProps {
     label?: string;
     value?: string | number;
@@ -20,32 +19,33 @@ const LabelDetail = ({ label, value }: LabelProps) => {
     );
 };
 
-const DetailSayuranBuahKJFKabupaten = () => {
-    interface KorluhSayurBuahResponse {
-        status: string;
+const DetailTanamanHiasKJFKabupaten = () => {
+    // INTEGRASI
+    interface KorluhTanamanHiasResponse {
+        status: number;
         message: string;
         data: Data;
     }
 
     interface Data {
         id: number;
-        korluhSayurBuahId: number;
+        korluhTanamanHiasId: number;
         namaTanaman: string;
-        hasilProduksi: string;
         luasPanenHabis: number;
         luasPanenBelumHabis: number;
         luasRusak: number;
         luasPenanamanBaru: number;
         produksiHabis: number;
         produksiBelumHabis: number;
+        satuanProduksi: string;
         rerataHarga: number;
         keterangan: string;
         createdAt: string;
         updatedAt: string;
-        korluhSayurBuah: KorluhSayurBuah;
+        korluhTanamanHias: KorluhTanamanHias
     }
 
-    interface KorluhSayurBuah {
+    interface KorluhTanamanHias {
         id: number;
         kecamatanId: number;
         desaId: number;
@@ -71,23 +71,12 @@ const DetailSayuranBuahKJFKabupaten = () => {
         updatedAt: string;
     }
 
-    interface Pagination {
-        page: number;
-        perPage: number;
-        totalPages: number;
-        totalCount: number;
-        links: {
-            prev: string | null;
-            next: string | null;
-        };
-    }
-
     const axiosPrivate = useAxiosPrivate();
     const params = useParams();
     const { id } = params;
 
-    const { data: detailSayuranBuah, error } = useSWR<KorluhSayurBuahResponse>(
-        id ? `/korluh/sayur-buah/get/${id}` : null,
+    const { data: detailTanamanHias, error } = useSWR<KorluhTanamanHiasResponse>(
+        id ? `/korluh/tanaman-hias/get/${id}` : null,
         async (url: string) => {
             try {
                 const response = await axiosPrivate.get(url);
@@ -101,39 +90,42 @@ const DetailSayuranBuahKJFKabupaten = () => {
     );
 
     if (error) return <div>Error loading data: {error.message}</div>;
-    if (!detailSayuranBuah) return <div>Loading...</div>;
+    if (!detailTanamanHias) return <div>Loading...</div>;
 
-    const data = detailSayuranBuah?.data;
+    const data = detailTanamanHias?.data;
 
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail Laporan Sayur Buah</div>
+            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail
+                Laporan Tanaman Hias</div>
             {/* title */}
             <div className="mb-10 flex justify-start gap-2 md:gap-3 mt-4">
-                <Link href="/kjf-kabupaten/sayuran-buah" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                <Link href="/kjf-kabupaten/tanaman-hias" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                     Kembali
                 </Link>
             </div>
             {/* detail */}
             <div className="wrap-detail bg-slate-100 p-6 mt-5 rounded-lg">
-                <div className="font-semibold mb-2 text-lg uppercase">Data Tanaman Sayuran Buah</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+                <div className="font-semibold mb-2 text-lg uppercase">Data Tanaman Hias</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 text-sm">
                     <LabelDetail label="Nama Tanaman" value={data?.namaTanaman} />
-                    <LabelDetail label="Hasil Produksi Yang Dicatat" value={data?.hasilProduksi} />
-                    <LabelDetail label="Luas Panen Habis (Hektar)" value={data?.luasPanenHabis} />
-                    <LabelDetail label="Luas Panen Belum Habis (Hektar)" value={data?.luasPanenBelumHabis} />
-                    <LabelDetail label="Luas Rusak (Hektar)" value={data?.luasRusak} />
-                    <LabelDetail label="Luas Penanaman Baru (Hektar)" value={data?.luasPenanamanBaru} />
-                    <LabelDetail label="Produksi (Kuintal) Habis" value={data?.produksiHabis} />
-                    <LabelDetail label="Produksi (Kuintal) Belum Habis" value={data?.produksiBelumHabis} />
-                    <LabelDetail label="Rata-rata Harga Jual di Petani Per Kilogram" value={data?.rerataHarga} />
+                    <LabelDetail label="Luas Tanaman Akhir Triwulan Yang Lalu (m2)" value="Belum ada" />
+                    <LabelDetail label="Luas Panen Habis (m2)" value={data?.luasPanenHabis} />
+                    <LabelDetail label="Luas Panen Belum Habis (m2)" value={data?.luasPanenBelumHabis} />
+                    <LabelDetail label="Luas Rusak (m2)" value={data?.luasRusak} />
+                    <LabelDetail label="Luas Penanaman Baru (m2)" value={data?.luasPenanamanBaru} />
+                    <LabelDetail label="Luas Tanaman Akhir Triwulan Laporan (m2))" value={data?.luasPenanamanBaru} />
+                    <LabelDetail label="Produksi Habis" value={data?.produksiHabis} />
+                    <LabelDetail label="Produksi Belum Habis" value={data?.produksiBelumHabis} />
+                    <LabelDetail label="Satuan Produksi" value={data?.produksiBelumHabis} />
+                    <LabelDetail label="Rata-rata Harga Jual di Petani Per Satuan Produksi" value={data?.rerataHarga} />
                     <LabelDetail label="Keterangan" value={data?.keterangan} />
                 </div>
             </div>
             {/* detail */}
         </div>
-    );
-};
+    )
+}
 
-export default DetailSayuranBuahKJFKabupaten;
+export default DetailTanamanHiasKJFKabupaten

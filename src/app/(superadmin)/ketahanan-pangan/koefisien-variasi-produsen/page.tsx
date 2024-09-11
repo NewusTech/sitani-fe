@@ -259,7 +259,8 @@ const KoefisienVariasiProdusen = () => {
                                                     <DeletePopup onDelete={() => handleDelete(String(foundCommodity?.id))} />
                                                     <div className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
                                                         <Badge variant="primary">
-                                                            {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(foundCommodity.nilai)}
+                                                            {/* {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(foundCommodity.nilai)} */}
+                                                            {foundCommodity.nilai}
                                                         </Badge>
                                                     </div>
                                                 </div>
@@ -282,28 +283,28 @@ const KoefisienVariasiProdusen = () => {
                 <TableFooter className='bg-primary-600'>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Rata-rata</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
-                        <TableCell className="text-primary py-3">$2,500.00</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
+                        <TableCell className="text-primary py-3">49000</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>

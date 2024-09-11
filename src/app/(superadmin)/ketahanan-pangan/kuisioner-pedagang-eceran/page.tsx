@@ -301,47 +301,50 @@ const KuisionerPedagangEceran = () => {
                 </TableHeader>
                 <TableBody>
                     {dataProdusenEceran?.data?.data && dataProdusenEceran?.data?.data.length > 0 ? (
-                        dataProdusenEceran.data.data.map((item, index) => (
-                            item?.list?.map((citem, cindex) => (
-                                <TableRow key={citem.id}>
-                                    <TableCell>
-                                        {index + 1}
-                                    </TableCell>
-                                    <TableCell>
-                                        {citem?.komoditas.nama}
-                                    </TableCell>
-                                    <TableCell>
-                                        {citem?.minggu1}
-                                    </TableCell>
-                                    <TableCell>
-                                        {citem?.minggu2}
-                                    </TableCell>
-                                    <TableCell>
-                                        {citem?.minggu3}
-                                    </TableCell>
-                                    <TableCell>
-                                        {citem?.minggu4}
-                                    </TableCell>
-                                    <TableCell>
-                                        {citem?.minggu5}
-                                    </TableCell>
-                                    <TableCell>
-                                        {(citem?.minggu1 + citem?.minggu2 + citem?.minggu3 + citem?.minggu4 + citem?.minggu5) / 5}
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="flex items-center gap-4">
-                                            <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/detail/${citem?.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/edit/${citem?.id}`}>
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        ))
+                        (() => {
+                            let globalIndex = 1; // Inisialisasi global index
+                            return dataProdusenEceran.data.data.map((item, index) => (
+                                item?.list?.map((citem, cindex) => (
+                                    <TableRow key={citem.id}>
+                                        <TableCell>
+                                            {globalIndex++} {/* Menggunakan globalIndex */}
+                                        </TableCell>
+                                        <TableCell>
+                                            {citem?.komoditas.nama}
+                                        </TableCell>
+                                        <TableCell>
+                                            {citem?.minggu1}
+                                        </TableCell>
+                                        <TableCell>
+                                            {citem?.minggu2}
+                                        </TableCell>
+                                        <TableCell>
+                                            {citem?.minggu3}
+                                        </TableCell>
+                                        <TableCell>
+                                            {citem?.minggu4}
+                                        </TableCell>
+                                        <TableCell>
+                                            {citem?.minggu5}
+                                        </TableCell>
+                                        <TableCell>
+                                            {(citem?.minggu1 + citem?.minggu2 + citem?.minggu3 + citem?.minggu4 + citem?.minggu5) / 5}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center gap-4">
+                                                <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/detail/${citem?.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/edit/${citem?.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ));
+                        })()
                     ) : (
                         <TableRow>
                             <TableCell colSpan={9} className="text-center">
@@ -350,6 +353,7 @@ const KuisionerPedagangEceran = () => {
                         </TableRow>
                     )}
                 </TableBody>
+
             </Table>
             {/* table */}
 

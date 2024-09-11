@@ -19,6 +19,9 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 const formSchema = z.object({
+    kecamatan: z
+        .string()
+        .min(1, "Kecamatan wajib diisi"),
     kategoriPanen: z
         .string()
         .min(1, { message: "Kategori wajib diisi" }),
@@ -53,7 +56,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const EditLuasProduksiKabupaten = () => {
+const TambahKecPage = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -72,29 +75,28 @@ const EditLuasProduksiKabupaten = () => {
     };
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data Luas Produksi Kabupaten</div>
+            <div className="text-primary md:text-2xl text-xl font-bold mb-5">Edit Data Luas Produksi Kecamatan</div>
             {/* Nama NIP Tempat Tanggal Lahir */}
             <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
                 <div className="wrap-form">
-                    {/* pilih Kabamatan - katagori panen */}
+                    {/* pilih kecamatan - katagori panen */}
                     <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Pilih Komiditi" />
+                                <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                                 <Select
-                                    onValueChange={(value) => setValue("komoditi", value)}
+                                    onValueChange={(value) => setValue("kecamatan", value)}
                                 >
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Pilih Komoditi" />
+                                        <SelectValue placeholder="Kecamatan" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Aren">Aren</SelectItem>
-                                        <SelectItem value="Karet">Karet</SelectItem>
-                                        <SelectItem value="Cengkeh">Cengkeh</SelectItem>
+                                        <SelectItem value="Jabung">Jabung</SelectItem>
+                                        <SelectItem value="Pensiun">Way Jepara</SelectItem>
                                     </SelectContent>
                                 </Select>
-                                {errors.komoditi && (
-                                    <HelperError>{errors.komoditi.message}</HelperError>
+                                {errors.kecamatan && (
+                                    <HelperError>{errors.kecamatan.message}</HelperError>
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
@@ -111,13 +113,35 @@ const EditLuasProduksiKabupaten = () => {
                                         <SelectItem value="Tan. Rempah">Tan. Rempah</SelectItem>
                                     </SelectContent>
                                 </Select>
-                                {errors.kategoriPanen && (
-                                    <HelperError>{errors.kategoriPanen.message}</HelperError>
+                                {errors.kecamatan && (
+                                    <HelperError>{errors.kecamatan.message}</HelperError>
                                 )}
                             </div>
                         </div>
                     </div>
-                    {/*  */}
+                    {/* pilih komoditi */}
+                    <div className="mb-2">
+                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex flex-col mb-2 md:w-1/2 md:pr-3 w-full">
+                                <Label className='text-sm mb-1' label="Pilih Komiditi" />
+                                <Select
+                                    onValueChange={(value) => setValue("komoditi", value)}
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Pilih Komoditi" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Aren">Aren</SelectItem>
+                                        <SelectItem value="Karet">Karet</SelectItem>
+                                        <SelectItem value="Cengkeh">Cengkeh</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                {errors.kecamatan && (
+                                    <HelperError>{errors.kecamatan.message}</HelperError>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                     <div className="wrap">
                         <div className="text-primary text-xl font-bold my-2">
                             Komposisi Luas Areal
@@ -154,7 +178,7 @@ const EditLuasProduksiKabupaten = () => {
                         {/* tr */}
                         <div className="mb-2">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                                <div className="flex flex-col md:w-1/2 w-full md:pr-3">
+                                <div className="flex flex-col mb-2 md:w-1/2 w-full md:pr-3">
                                     <Label className='text-sm mb-1' label="Tanaman Rusak" />
                                     <Input
                                         type="number"
@@ -247,7 +271,7 @@ const EditLuasProduksiKabupaten = () => {
                 </div>
                 {/* Button */}
                 <div className="flex justify-end gap-3">
-                    <Link href="/perkebunan/luas-produksi-kabupaten" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    <Link href="/perkebunan/luas-produksi-kecamatan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">
@@ -259,4 +283,4 @@ const EditLuasProduksiKabupaten = () => {
     )
 }
 
-export default EditLuasProduksiKabupaten
+export default TambahKecPage

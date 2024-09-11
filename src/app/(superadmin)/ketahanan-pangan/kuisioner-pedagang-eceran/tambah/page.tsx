@@ -211,7 +211,7 @@ const TambahKuisionerPedagangEceran = () => {
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Minggu 1" />
+                            <Label className='text-sm mb-1' label="Minggu 3" />
                             <Input
                                 type="number"
                                 placeholder="Minggu 3"
@@ -240,7 +240,7 @@ const TambahKuisionerPedagangEceran = () => {
                 <div className="mb-2">
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Minggu 1" />
+                            <Label className='text-sm mb-1' label="Minggu 5" />
                             <Input
                                 type="number"
                                 placeholder="Minggu 5"
