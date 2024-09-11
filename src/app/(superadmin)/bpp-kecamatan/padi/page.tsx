@@ -56,6 +56,10 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import PaginationTable from '@/components/PaginationTable';
 import Swal from 'sweetalert2';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
+import VerifikasiIcon from '../../../../../public/icons/VerifikasiIcon';
+import TolakIcon from '../../../../../public/icons/TolakIcon';
+import VerifikasiPopup from '@/components/superadmin/PopupVerifikasi';
+import TolakPopup from '@/components/superadmin/TolakVerifikasi';
 const KorlubPadi = () => {
     // INTEGRASI
     interface Padi {
@@ -63,6 +67,9 @@ const KorlubPadi = () => {
         kecamatanId: number;
         desaId: number;
         tanggal: string;
+        kecamatan: {
+            nama: string;
+        };
         hibrida_bantuan_pemerintah_lahan_sawah_panen: number;
         hibrida_bantuan_pemerintah_lahan_sawah_tanam: number;
         hibrida_bantuan_pemerintah_lahan_sawah_puso: number;
@@ -215,13 +222,130 @@ const KorlubPadi = () => {
                 backdrop: `rgba(0, 0, 0, 0.4)`,
             });
             // alert
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        } mutate(`korluh/padi/get?page=${currentPage}&search=${search}&limit=1&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
+    };
 
-            mutate('/korluh/padi/get');
-        } catch (error) {
-            console.error('Failxed to delete:', error);
+    const handleVerifikasi = async (id: string) => {
+        try {
+            // await axiosPrivate.delete(`/korluh/padi/delete/${id}`, {
+            //     headers: {
+            //         Authorization: `Bearer ${accessToken}`,
+            //     },
+            // });
             console.log(id)
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil diverifikasi!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 2500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memverifikasi data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         }
     };
+
+    const handleTolak = async (id: string, alasan: string) => {
+        try {
+            // await axiosPrivate.post(`/korluh/padi/tolak/${id}`,
+            //     {
+            //         alasan: alasan  // Mengirimkan alasan dalam body request
+            //     },
+            //     {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     });
+            console.log(`Data dengan ID ${id} ditolak dengan alasan: ${alasan}`);
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil ditolak!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 2500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menolak data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        }
+    };
+
 
     return (
         <div>
@@ -334,15 +458,31 @@ const KorlubPadi = () => {
                 </div>
                 {dataPadi?.data?.data.map((item, index) => (
                     <div key={index}>
-                        {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric',
-                        }) : 'Tanggal tidak tersedia'}
+                        {item.tanggal
+                            ? new Date(item.tanggal).toLocaleDateString('id-ID', {
+                                weekday: 'long',
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric',
+                            })
+                            : 'Tanggal tidak tersedia'}
                     </div>
+
                 ))}
             </div>
             {/* bulan */}
+            {/* kecamatan */}
+            <div className="mt-2 flex items-center gap-2">
+                <div className="font-semibold">
+                    Kecamatan:
+                </div>
+                {dataPadi?.data?.data.map((item, index) => (
+                    <div key={index}>
+                        {item?.kecamatan.nama || "Tidak ada data"}
+                    </div>
+                ))}
+            </div>
+            {/* kecamatan */}
             {/* table */}
             <Table className='border border-slate-200 mt-1'>
                 <TableHeader className='bg-primary-600'>
@@ -490,14 +630,20 @@ const KorlubPadi = () => {
                                     <TableCell colSpan={10} className='border border-slate-200 font-semibold'>
                                     </TableCell>
                                     <TableCell rowSpan={2} className='border border-slate-200 font-semibold'>
-                                        <div className="flex items-center gap-4">
-                                            <Link className='' href={`/bpp-kecamatan/padi/detail/${item.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link className='' href={`/bpp-kecamatan/padi/edit/${item.id}`}>
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
+                                        <div className="flex flex-col gap-3">
+                                            <div className="flex gap-3 justify-center">
+                                                <Link title='Detail' className='' href={`/bpp-kecamatan/padi/detail/${item.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link title='Edit' className='' href={`/bpp-kecamatan/padi/edit/${item.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
+                                            </div>
+                                            <div className="flex gap-3 justify-center items-center">
+                                                <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(item.id) || "")} />
+                                                <TolakPopup onTolak={(alasan) => handleTolak(String(item.id), alasan)} />
+                                            </div>
                                         </div>
                                     </TableCell>
                                 </TableRow>
@@ -525,7 +671,7 @@ const KorlubPadi = () => {
                                         {item.hibrida_bantuan_pemerintah_lahan_sawah_tanam}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_bantuan_pemerintah_lahan_sawah_panen}
+                                        {item.hibrida_bantuan_pemerintah_lahan_sawah_puso}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
                                         akhir bulan
@@ -785,7 +931,7 @@ const KorlubPadi = () => {
                             </>))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={5} className="text-center">
+                            <TableCell colSpan={12} className="text-center">
                                 Tidak ada data
                             </TableCell>
                         </TableRow>

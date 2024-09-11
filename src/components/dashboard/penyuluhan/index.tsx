@@ -93,7 +93,7 @@ const DashboardPenyuluhan = () => {
                         <TableBody>
                             {penyuluhKabupaten.map((penyuluh, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{penyuluh.kecamatan?.nama || '-'}</TableCell>
+                                    <TableCell className='p-0 py-1'>{penyuluh.kecamatan.map((d: { nama: any; }) => d.nama).join(', ')}</TableCell>
                                     <TableCell className='p-0 py-1'>{penyuluh.nama}</TableCell>
                                     <TableCell className='p-0 py-1'>{penyuluh.nip}</TableCell>
                                     <TableCell className='p-0 py-1'>{penyuluh.golongan}</TableCell>
@@ -119,7 +119,7 @@ const DashboardPenyuluhan = () => {
                                 <TableRow className='border-none p-0 py-1' key={index}>
                                     <TableCell className='p-0 py-1'>{penyuluh.kecamatan?.nama}</TableCell>
                                     <TableCell className='p-0 py-1'>{penyuluh.nama}</TableCell>
-                                    <TableCell className='p-0 py-1'>{penyuluh.desa.map(d => d.nama).join(', ')}</TableCell>
+                                    <TableCell className='p-0 py-1 '>{penyuluh.desa.map(d => d.nama).join(', ')}</TableCell>
                                     <TableCell className='p-0 py-1'>{penyuluh.nip}</TableCell>
                                     <TableCell className='p-0 py-1'>{penyuluh.golongan}</TableCell>
                                 </TableRow>

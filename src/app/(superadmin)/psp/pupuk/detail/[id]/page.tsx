@@ -33,7 +33,7 @@ const DetailPupukPage = () => {
     jenisPupuk?: string;
     kandunganPupuk?: string;
     keterangan?: string;
-    hargaPupuk?: number; // Change to number
+    hargaPupuk?: string; // Change to number
   }
 
   const axiosPrivate = useAxiosPrivate();
@@ -70,16 +70,7 @@ const DetailPupukPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
           <LabelDetail label='Jenis Pupuk' name={dataPupuk?.data.jenisPupuk} />
           <LabelDetail label='Kandungan Pupuk' name={dataPupuk?.data?.kandunganPupuk} />
-          <LabelDetail label='Keterangan' name={dataPupuk?.data.keterangan} />
-          <LabelDetail label='Harga Pupuk' name={
-            dataPupuk?.data?.hargaPupuk ?
-              new Date(dataPupuk.data?.hargaPupuk).toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })
-              : '-'
-          } />
+          <LabelDetail label='Harga Pupuk' name={dataPupuk?.data.hargaPupuk} />
           <LabelDetail label='Keterangan' name={dataPupuk?.data.keterangan} />
         </div>
       </div>

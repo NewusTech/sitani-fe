@@ -56,6 +56,8 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import Swal from 'sweetalert2';
 import PaginationTable from '@/components/PaginationTable';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
+import VerifikasiPopup from '@/components/superadmin/PopupVerifikasi';
+import TolakPopup from '@/components/superadmin/TolakVerifikasi';
 
 const KorlubSayuranBuah = () => {
     // INTEGRASI
@@ -210,17 +212,134 @@ const KorlubSayuranBuah = () => {
             });
             // alert
             // Update the local data after successful deletion
-            mutate('/korluh/sayur-buah/get');
-        } catch (error) {
-            console.error('Failed to delete:', error);
-            console.log(id)
-            // Add notification or alert here for user feedback
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/korluh/sayur-buah/get`);
+        mutate(`korluh/sayur-buah/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
     };
     // DELETE
+
+    // VERIFIKASI/ TOLAK
+    const handleVerifikasi = async (id: string) => {
+        try {
+            // await axiosPrivate.delete(`/korluh/padi/delete/${id}`, {
+            //     headers: {
+            //         Authorization: `Bearer ${accessToken}`,
+            //     },
+            // });
+            console.log(id)
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil diverifikasi!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 2500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memverifikasi data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        }
+    };
+
+    const handleTolak = async (id: string, alasan: string) => {
+        try {
+            // await axiosPrivate.post(`/korluh/padi/tolak/${id}`,
+            //     {
+            //         alasan: alasan  // Mengirimkan alasan dalam body request
+            //     },
+            //     {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     });
+            console.log(`Data dengan ID ${id} ditolak dengan alasan: ${alasan}`);
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil ditolak!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 2500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menolak data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        }
+    };
 
     return (
         <div>
@@ -253,6 +372,39 @@ const KorlubSayuranBuah = () => {
                     </Button>
                 </div>
             </div>
+            {/* top */}
+            {/* bulan */}
+            <div className="mt-2 flex items-center gap-2">
+                <div className="font-semibold">
+                    Tanggal:
+                </div>
+                {dataSayuran?.data?.data.map((item, index) => (
+                    <div key={index}>
+                        {item.tanggal
+                            ? new Date(item.tanggal).toLocaleDateString('id-ID', {
+                                weekday: 'long',
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric',
+                            })
+                            : 'Tanggal tidak tersedia'}
+                    </div>
+
+                ))}
+            </div>
+            {/* bulan */}
+            {/* kecamatan */}
+            <div className="mt-2 flex items-center gap-2">
+                <div className="font-semibold">
+                    Kecamatan:
+                </div>
+                {dataSayuran?.data?.data.map((item, index) => (
+                    <div key={index}>
+                        {item?.kecamatan.nama || "Tidak ada data"}
+                    </div>
+                ))}
+            </div>
+            {/* kecamatan */}
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
@@ -443,14 +595,20 @@ const KorlubSayuranBuah = () => {
                                     {tanaman.keterangan}
                                 </TableCell>
                                 <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/detail/${tanaman.id}`}>
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link className='' href={`/bpp-kecamatan/sayuran-buah/edit/${tanaman.id}`}>
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => handleDelete(tanaman.id?.toString() || '')} />
+                                    <div className="flex flex-col gap-3">
+                                        <div className="flex gap-3 justify-center">
+                                            <Link title='Detail' className='' href={`/bpp-kecamatan/sayuran-buah/detail/${tanaman.id}`}>
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link title='Edit' className='' href={`/bpp-kecamatan/sayuran-buah/edit/${tanaman.id}`}>
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup onDelete={() => handleDelete(String(tanaman.id) || "")} />
+                                        </div>
+                                        <div className="flex gap-3 justify-center items-center">
+                                            <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(tanaman.id) || "")} />
+                                            <TolakPopup onTolak={(alasan) => handleTolak(String(tanaman.id), alasan)} />
+                                        </div>
                                     </div>
                                 </TableCell>
                             </TableRow>

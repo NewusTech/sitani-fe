@@ -26,50 +26,49 @@ const formatDate = (dateString: string) => {
 };
 const formSchema = z.object({
     kecamatan_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" })),
+        .preprocess((val) => Number(val) || undefined, z.number().min(1, { message: "Kecamatan wajib diisi" })),
     desa_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Desa wajib diisi" })),
+        .preprocess((val) => Number(val) || undefined, z.number().min(1, { message: "Desa wajib diisi" })),
     tanggal: z.preprocess(
-        (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Wajib Penerimaan wajib diisi" })
+        (val) => (typeof val === "string" ? formatDate(val) : val),
+        z.string().min(1, { message: "Tanggal wajib diisi" })
     ),
-    hibrida_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    hibrida_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_bukan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_bukan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    lokal_lahan_bukan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_irigasi_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_irigasi_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_irigasi_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_tadah_hujan_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_tadah_hujan_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_tadah_hujan_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_pasang_surut_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_pasang_surut_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_pasang_surut_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_lebak_lahan_sawah_panen: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_lebak_lahan_sawah_tanam: z.preprocess((val) => parseFloat(val as string), z.number()),
-    sawah_rawa_lebak_lahan_sawah_puso: z.preprocess((val) => parseFloat(val as string), z.number()),
-
+    hibrida_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    hibrida_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    hibrida_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    hibrida_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    hibrida_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    hibrida_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_non_bantuan_pemerintah_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_non_bantuan_pemerintah_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_non_bantuan_pemerintah_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lokal_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lokal_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lokal_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lokal_lahan_bukan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lokal_lahan_bukan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lokal_lahan_bukan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_irigasi_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_irigasi_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_irigasi_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_tadah_hujan_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_tadah_hujan_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_tadah_hujan_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_rawa_pasang_surut_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_rawa_pasang_surut_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_rawa_pasang_surut_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_rawa_lebak_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_rawa_lebak_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    sawah_rawa_lebak_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -191,10 +190,23 @@ const TambahDataPadi = () => {
             navigate.push('/bpp-kecamatan/padi');
             console.log("Success to create Padi:");
             reset()
-        } catch (e: any) {
-            console.log(data)
-            console.log("Failed to create Padi:");
-            return;
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
@@ -764,7 +776,7 @@ const TambahDataPadi = () => {
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/korlub/padi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/bpp-kecamatan/padi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">

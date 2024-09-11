@@ -28,16 +28,16 @@ const formatDate = (dateString: string) => {
 const formSchema = z.object({
     kecamatan_id: z
         .number()
-        .min(1, "Kecamatan is required")
+        .min(0, "Kecamatan is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     desa_id: z
         .number()
-        .min(1, "Desa is required")
+        .min(0, "Desa is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Tanggal wajib diisi" })),
-    nama_tanaman: z.string().min(1, { message: "Nama tanaman wajib diisi" }),
+        z.string().min(0, { message: "Tanggal wajib diisi" })),
+    nama_tanaman: z.string().min(0, { message: "Nama tanaman wajib diisi" }),
     luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
     luas_panen_belum_habis: z.coerce.number().min(0, { message: "Luas panen belum habis wajib diisi" }),
     luas_rusak: z.coerce.number().min(0, { message: "Luas rusak wajib diisi" }),
@@ -201,10 +201,23 @@ const EditTanamanBiofarmaka = () => {
             navigate.push('/bpp-kecamatan/tanaman-biofarmaka');
             console.log("Success to create Tanaman Hias:");
             // reset()
-        } catch (e: any) {
-            console.log(data)
-            console.log("Failed to create Tanaman Hias:");
-            return;
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }

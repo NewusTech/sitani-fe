@@ -181,10 +181,23 @@ const EditSayuranBuah = () => {
             navigate.push('/bpp-kecamatan/sayuran-buah');
             console.log("Success to create Sayuran Buah:");
             // reset()
-        } catch (e: any) {
-            console.log(data)
-            console.log("Failed to create Sayuran Buah:");
-            return;
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }

@@ -192,7 +192,7 @@ const DataPenerimaUppo = () => {
             });
             // alert
             // Update the local data after successful deletion
-            mutate(`/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
+
         } catch (error: any) {
             // Extract error message from API response
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
@@ -211,6 +211,7 @@ const DataPenerimaUppo = () => {
             });
             console.error("Failed to create user:", error);
         }
+        mutate(`/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
     };
 
 
