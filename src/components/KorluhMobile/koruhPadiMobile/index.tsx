@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import SearchIcon from "../../../public/icons/SearchIcon";
+import SearchIcon from "../../../../public/icons/SearchIcon";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 // import EditIcon from "../../../../public/icons/EditIcon";
@@ -144,12 +144,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableDataPadiBantuan = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Jenis Padi Hibrida Bantuan Pemerintah Lahan Sawah", // This can be dynamic if needed
-        panen: item.hibrida_bantuan_pemerintah_lahan_sawah_panen,
-        tanam: item.hibrida_bantuan_pemerintah_lahan_sawah_tanam,
-        puso: item.hibrida_bantuan_pemerintah_lahan_sawah_puso,
-    })) || [];
+    const tableDataPadiBantuan = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item, index) => ({
+            uraian: "Jenis Padi Hibrida Bantuan Pemerintah Lahan Sawah", // This can be dynamic if needed
+            panen: item.hibrida_bantuan_pemerintah_lahan_sawah_panen,
+            tanam: item.hibrida_bantuan_pemerintah_lahan_sawah_tanam,
+            puso: item.hibrida_bantuan_pemerintah_lahan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
+
     // - padi hibrida lahan sawan non bantuan pemerintah
     const columnsPadiNonBantuan = [
         { id: "uraian", text: "Uraian" },
@@ -157,13 +167,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableHibridaLahanSawahNonBantuan = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Jenis Padi Hibrida Bantuan Non Pemerintah Lahan Sawah", // This can be dynamic if needed
-        panen: item.hibrida_non_bantuan_pemerintah_lahan_sawah_panen,
-        tanam: item.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam,
-        puso: item.hibrida_non_bantuan_pemerintah_lahan_sawah_puso,
+    const tableHibridaLahanSawahNonBantuan = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item, index) => ({
+            uraian: "Jenis Padi Hibrida Bantuan Non Pemerintah Lahan Sawah", // This can be dynamic if needed
+            panen: item.hibrida_non_bantuan_pemerintah_lahan_sawah_panen,
+            tanam: item.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam,
+            puso: item.hibrida_non_bantuan_pemerintah_lahan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
     // - padi unggul lahan sawah bantuan pemerintah 
     const columnsUnggulLahanSawahBantuan = [
         { id: "uraian", text: "Uraian" },
@@ -171,13 +190,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableUnggulLahanSawahBantuan = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Jenis Padi Unggul Bantuan Pemerintah Lahan Sawah", // This can be dynamic if needed
-        panen: item.unggul_bantuan_pemerintah_lahan_sawah_panen,
-        tanam: item.unggul_bantuan_pemerintah_lahan_sawah_tanam,
-        puso: item.unggul_bantuan_pemerintah_lahan_sawah_puso,
+    const tableUnggulLahanSawahBantuan = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item, index) => ({
+            uraian: "Jenis Padi Unggul Bantuan Pemerintah Lahan Sawah", // This can be dynamic if needed
+            panen: item.unggul_bantuan_pemerintah_lahan_sawah_panen,
+            tanam: item.unggul_bantuan_pemerintah_lahan_sawah_tanam,
+            puso: item.unggul_bantuan_pemerintah_lahan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
     // - padi unggul lahan bukan sawah bantuan pemerintah 
     const columnsUnggulLahanBukanSawahBantuan = [
         { id: "uraian", text: "Uraian" },
@@ -185,13 +213,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableUnggulLahanBukanSawahBantuan = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Jenis Padi Unggul Bantuan Pemerintah Lahan Bukan Sawah", // This can be dynamic if needed
-        panen: item.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen,
-        tanam: item.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam,
-        puso: item.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso,
+    const tableUnggulLahanBukanSawahBantuan = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item, index) => ({
+            uraian: "Jenis Padi Unggul Bantuan Pemerintah Lahan Bukan Sawah", // This can be dynamic if needed
+            panen: item.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen,
+            tanam: item.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam,
+            puso: item.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
     // - padi unggul lahan sawah NON bantuan pemerintah 
     const columnsUnggulLahanSawahNonBantuan = [
         { id: "uraian", text: "Uraian" },
@@ -199,13 +236,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableUnggulLahanSawahNonBantuan = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Jenis Padi Unggul  Bantuan Pemerintah Lahan Sawah", // This can be dynamic if needed
-        panen: item.unggul_non_bantuan_pemerintah_lahan_sawah_panen,
-        tanam: item.unggul_non_bantuan_pemerintah_lahan_sawah_tanam,
-        puso: item.unggul_non_bantuan_pemerintah_lahan_sawah_puso,
+    const tableUnggulLahanSawahNonBantuan = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item, index) => ({
+            uraian: "Jenis Padi Unggul Non Bantuan Pemerintah Lahan Sawah", // This can be dynamic if needed
+            panen: item.unggul_non_bantuan_pemerintah_lahan_sawah_panen,
+            tanam: item.unggul_non_bantuan_pemerintah_lahan_sawah_tanam,
+            puso: item.unggul_non_bantuan_pemerintah_lahan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
     // - padi unggul lahan bukan sawah nonbantuan pemerintah 
     const columnsUnggulLahanBukanSawahNonBantuan = [
         { id: "uraian", text: "Uraian" },
@@ -213,13 +259,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableUnggulLahanBukanSawahNonBantuan = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Jenis Padi Unggul Non Bantuan Pemerintah Lahan Bukan Sawah", // This can be dynamic if needed
-        panen: item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen,
-        tanam: item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam,
-        puso: item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso,
+    const tableUnggulLahanBukanSawahNonBantuan = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item, index) => ({
+            uraian: "Jenis Padi Unggul Non Bantuan Pemerintah Lahan Bukan Sawah", // This can be dynamic if needed
+            panen: item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen,
+            tanam: item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam,
+            puso: item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
 
     // LOKAL
     // - Lokal lahan sawah
@@ -229,13 +284,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableLokalLahanSawah = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Jenis Padi Lokal Lahan Sawah", // This can be dynamic if needed
-        panen: item.lokal_lahan_sawah_panen,
-        tanam: item.lokal_lahan_sawah_tanam,
-        puso: item.lokal_lahan_sawah_puso,
+    const tableLokalLahanSawah = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item, index) => ({
+            uraian: "Jenis Padi Lokal Lahan Sawah", // This can be dynamic if needed
+            panen: item.lokal_lahan_sawah_panen,
+            tanam: item.lokal_lahan_sawah_tanam,
+            puso: item.lokal_lahan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
     // - Lokal lahan bukan sawah
     const columnsLokalLahanBukanSawah = [
         { id: "uraian", text: "Uraian" },
@@ -243,13 +307,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableLokalLahanBukanSawah = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Jenis Padi Lokal Lahan Bukan Sawah", // This can be dynamic if needed
-        panen: item.lokal_lahan_bukan_sawah_panen,
-        tanam: item.lokal_lahan_bukan_sawah_tanam,
-        puso: item.lokal_lahan_bukan_sawah_puso,
+    const tableLokalLahanBukanSawah = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item, index) => ({
+            uraian: "Jenis Padi Lokal Lahan Bukan Sawah", // This can be dynamic if needed
+            panen: item.lokal_lahan_bukan_sawah_panen,
+            tanam: item.lokal_lahan_bukan_sawah_tanam,
+            puso: item.lokal_lahan_bukan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
 
     // IRIGASI
     // - sawah irigasi lahan sawah
@@ -259,13 +332,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableSawahIrigasiLahanSawah = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Sawah Irigasi Lahan Sawah", // This can be dynamic if needed
-        panen: item.sawah_irigasi_lahan_sawah_panen,
-        tanam: item.sawah_irigasi_lahan_sawah_tanam,
-        puso: item.sawah_irigasi_lahan_sawah_puso,
+    const tableSawahIrigasiLahanSawah = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item) => ({
+            uraian: "Sawah Irigasi Lahan Sawah", // This can be dynamic if needed
+            panen: item.sawah_irigasi_lahan_sawah_panen,
+            tanam: item.sawah_irigasi_lahan_sawah_tanam,
+            puso: item.sawah_irigasi_lahan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
     // - sawah tadah hujan lahan sawah
     const columnsSawahTadahLahanSawah = [
         { id: "uraian", text: "Uraian" },
@@ -273,13 +355,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableSawahTadahLahanSawah = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Sawah Tadah Hujan Lahan Sawah", // This can be dynamic if needed
-        panen: item.sawah_tadah_hujan_lahan_sawah_panen,
-        tanam: item.sawah_tadah_hujan_lahan_sawah_tanam,
-        puso: item.sawah_tadah_hujan_lahan_sawah_puso,
+    const tableSawahTadahLahanSawah = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item) => ({
+            uraian: "Sawah Tadah Hujan Lahan Sawah", // This can be dynamic if needed
+            panen: item.sawah_tadah_hujan_lahan_sawah_panen,
+            tanam: item.sawah_tadah_hujan_lahan_sawah_tanam,
+            puso: item.sawah_tadah_hujan_lahan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
     // - Sawah Rawa Pasang Surut
     const columnsSawahRawaLahanSawah = [
         { id: "uraian", text: "Uraian" },
@@ -287,13 +378,22 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableSawahRawaLahanSawah = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Sawah Rawa Pasang Surut Lahan Sawah", // This can be dynamic if needed
-        panen: item.sawah_rawa_pasang_surut_lahan_sawah_panen,
-        tanam: item.sawah_rawa_pasang_surut_lahan_sawah_tanam,
-        puso: item.sawah_rawa_pasang_surut_lahan_sawah_puso,
+    const tableSawahRawaLahanSawah = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item) => ({
+            uraian: "Sawah Rawa Pasang Surut Lahan Sawah", // This can be dynamic if needed
+            panen: item.sawah_rawa_pasang_surut_lahan_sawah_panen,
+            tanam: item.sawah_rawa_pasang_surut_lahan_sawah_tanam,
+            puso: item.sawah_rawa_pasang_surut_lahan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
-    })) || [];
     // - Sawah Lebak Pasang Surut
     const columnsSawahLebakLahanSawah = [
         { id: "uraian", text: "Uraian" },
@@ -301,13 +401,21 @@ const KorluhPadiMobileComp = ({ urlApi }: KorluhRespon) => {
         { id: "tanam", text: "Non Bantuan Pemerintah Lahan Sawah - Tanam" },
         { id: "puso", text: "Non Bantuan Pemerintah Lahan Sawah - Puso" },
     ];
-    const tableSawahLebakLahanSawah = dataPadi?.data?.data?.map((item, index) => ({
-        uraian: "Sawah Sawah Rawa Lebak Lahan Sawah", // This can be dynamic if needed
-        panen: item.sawah_rawa_lebak_lahan_sawah_panen,
-        tanam: item.sawah_rawa_lebak_lahan_sawah_tanam,
-        puso: item.sawah_rawa_lebak_lahan_sawah_puso,
-
-    })) || [];
+    const tableSawahLebakLahanSawah = dataPadi?.data?.data?.length
+        ? dataPadi.data.data.map((item) => ({
+            uraian: "Sawah Sawah Rawa Lebak Lahan Sawah", // This can be dynamic if needed
+            panen: item.sawah_rawa_lebak_lahan_sawah_panen,
+            tanam: item.sawah_rawa_lebak_lahan_sawah_tanam,
+            puso: item.sawah_rawa_lebak_lahan_sawah_puso,
+        }))
+        : [
+            {
+                uraian: "Tidak ada data",
+                panen: "-",
+                tanam: "-",
+                puso: "-",
+            },
+        ];
 
     return (
         <div className="">

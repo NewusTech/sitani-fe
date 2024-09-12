@@ -43,7 +43,7 @@ import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import PaginationTable from '@/components/PaginationTable';
-import KorluhPadiMobileComp from '@/components/koruhPadiMobile';
+import KorluhPadiMobileComp from '@/components/KorluhMobile/koruhPadiMobile';
 
 
 const KorlubPadi = () => {
@@ -189,17 +189,15 @@ const KorlubPadi = () => {
             {/* title */}
 
             {/* top */}
-
-            {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
-                <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                    <div className="w-auto">
+                <div className="wrap-filter left gap-2 lg:gap-2 flex justify-start items-center w-full">
+                    <div className="md:w-auto w-full">
                         <Popover>
                             <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
                                 <Button
                                     variant={"outline"}
                                     className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                                        "w-full justify-start text-left font-normal text-[14px] md:text-[11px] lg:text-sm",
                                         !startDate && "text-muted-foreground"
                                     )}
                                 >
@@ -253,7 +251,7 @@ const KorlubPadi = () => {
                             </SelectContent>
                         </Select>
                     </div> */}
-                    <Link href="/korluh/padi/tambah" className='bg-primary px-3 md:px-8 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium '>
+                    <Link href="/korluh/padi/tambah" className='bg-primary px-3 md:px-8 py-2 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-base mb-3'>
                         Tambah
                     </Link>
                 </div>
@@ -280,7 +278,7 @@ const KorlubPadi = () => {
             </div>
             {/* bulan */}
             {/* kecamatan */}
-            <div className="wrap mt-2 flex flex-col md:flex-row md:gap-2 gap-1">
+            <div className="wrap mt-2 flex flex-col md:gap-2 gap-1">
                 <div className="flex items-center gap-2">
                     <div className="font-semibold">
                         Kecamatan:
@@ -305,7 +303,19 @@ const KorlubPadi = () => {
             {/* kecamatan */}
 
             {/*table mobile */}
-            <div className="mobile mt-2 block md:hidden sm:hidden lg:hidden">
+            <div className="mobile  block md:hidden sm:hidden lg:hidden">
+                <div className="garis my-2 mb-3 h-[1px] w-full bg-slate-400"></div>
+                {dataPadi?.data?.data.map((item, index) => (
+                    <div key={item.id} className="flex items-center gap-4 justify-end">
+                        <Link href={`/bpp-kecamatan/padi/detail/${item.id}`}>
+                            <EyeIcon />
+                        </Link>
+                        <Link href={`/korluh/padi/edit/${item.id}`}>
+                            <EditIcon />
+                        </Link>
+                        <DeletePopup onDelete={() => handleDelete(String(item.id))} />
+                    </div>
+                ))}
                 <KorluhPadiMobileComp urlApi={`korluh/padi/get?page=${currentPage}&search=${search}&limit=1&equalDate=${filterDate}`} />
             </div>
             {/*table mobile */}

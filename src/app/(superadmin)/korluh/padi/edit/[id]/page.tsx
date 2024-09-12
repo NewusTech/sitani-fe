@@ -804,7 +804,7 @@ const EditDataPadi = () => {
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/korlub/padi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    <Link href="/korluh/padi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
                         Batal
                     </Link>
                     <Button type="submit" variant="primary" size="lg" className="w-[120px]">

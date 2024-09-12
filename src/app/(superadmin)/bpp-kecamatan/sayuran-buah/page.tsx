@@ -552,68 +552,51 @@ const KorlubSayuranBuah = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataSayuran?.data.data.map((item, index) => (
-                        item.list.map((tanaman) => (
-                            <TableRow key={tanaman.id}>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell className='border border-slate-200'>
-                                    {tanaman.namaTanaman}
-                                </TableCell>
-                                <TableCell className='border border-slate-200'>
-                                    {tanaman.hasilProduksi}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    belum ada
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.luasPanenHabis}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.luasPanenBelumHabis}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.luasRusak}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.luasPenanamanBaru}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    belum ada
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.produksiHabis}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.produksiBelumHabis}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.rerataHarga}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.keterangan}
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex flex-col gap-3">
-                                        <div className="flex gap-3 justify-center">
-                                            <Link title='Detail' className='' href={`/bpp-kecamatan/sayuran-buah/detail/${tanaman.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link title='Edit' className='' href={`/bpp-kecamatan/sayuran-buah/edit/${tanaman.id}`}>
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(String(tanaman.id) || "")} />
+                    {dataSayuran?.data?.data && dataSayuran.data.data.length > 0 ? (
+                        dataSayuran.data.data.map((item, index) =>
+                            item.list.map((tanaman) => (
+                                <TableRow key={tanaman.id}>
+                                    <TableCell className="border border-slate-200 text-center">{index + 1}</TableCell>
+                                    <TableCell className="border border-slate-200">{tanaman.namaTanaman}</TableCell>
+                                    <TableCell className="border border-slate-200">{tanaman.hasilProduksi}</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">{tanaman.luasPanenHabis}</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">{tanaman.luasPanenBelumHabis}</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">{tanaman.luasRusak}</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">{tanaman.luasPenanamanBaru}</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">{tanaman.produksiHabis}</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">{tanaman.produksiBelumHabis}</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">{tanaman.rerataHarga}</TableCell>
+                                    <TableCell className="border border-slate-200 text-center">{tanaman.keterangan}</TableCell>
+                                    <TableCell>
+                                        <div className="flex flex-col gap-3">
+                                            <div className="flex gap-3 justify-center">
+                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${tanaman.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${tanaman.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(String(tanaman.id))} />
+                                            </div>
+                                            <div className="flex gap-3 justify-center items-center">
+                                                <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(tanaman.id))} />
+                                                <TolakPopup onTolak={(alasan) => handleTolak(String(tanaman.id), alasan)} />
+                                            </div>
                                         </div>
-                                        <div className="flex gap-3 justify-center items-center">
-                                            <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(tanaman.id) || "")} />
-                                            <TolakPopup onTolak={(alasan) => handleTolak(String(tanaman.id), alasan)} />
-                                        </div>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))
-                    ))}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={14} className="text-center">
+                                Tidak ada data
+                            </TableCell>
+                        </TableRow>
+                    )}
+
                     <TableRow>
                         <TableCell className='border border-slate-200'>
                         </TableCell>

@@ -73,27 +73,49 @@ interface Komoditas {
 }
 
 interface ListItem {
+    idList: number;
+    idKomoditas: number;
+    nama: string;
+    rerata: number;
+    sum: number;
+    count: number;
+}
+
+interface KepangPerbandinganHarga {
     id: number;
-    kepangPerbandinganHargaId: number;
-    kepangMasterKomoditasId: number;
-    harga: number;
+    tanggal: string;
     createdAt: string;
     updatedAt: string;
-    komoditas: Komoditas;
+    list: {
+        id: number;
+        kepangPedagangEceranId: number;
+        kepangMasterKomoditasId: number;
+        minggu1: number;
+        minggu2: number;
+        minggu3: number;
+        minggu4: number;
+        minggu5: number;
+        createdAt: string;
+        updatedAt: string;
+        komoditas: Komoditas;
+    }[];
 }
 
 interface DataItem {
     id: number;
-    bulan: string;
-    createdAt: string;
-    updatedAt: string;
+    tanggal: string;
+    bulan: number;
+    tahun: number;
     list: ListItem[];
 }
 
 interface Response {
     status: number;
     message: string;
-    data: DataItem[];
+    data: {
+        data: DataItem[];
+        kepangPerbandinganHarga: KepangPerbandinganHarga[];
+    };
 }
 
 const HargaPanganEceran = () => {
@@ -112,6 +134,8 @@ const HargaPanganEceran = () => {
                 })
                 .then((res) => res.data)
     );
+
+    console.log(dataKomoditas)
 
     // grafik
     const chartData = [
@@ -139,26 +163,27 @@ const HargaPanganEceran = () => {
     // 
     if (error) return <div></div>;
     if (!dataKomoditas) return <div></div>;
+
     // Utility to format month name
-    const getMonthName = (dateStr: string): string => {
-        const date = new Date(dateStr);
-        const options: Intl.DateTimeFormatOptions = { month: 'long' };
-        return date.toLocaleDateString('id-ID', options);
+    const getMonthName = (monthNumber: number): string => {
+        const months = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+        return months[monthNumber - 1];
     };
 
-    // Ensure dataKomoditas.data is an array before calling reduce
-    const monthPricesMap = Array.isArray(dataKomoditas.data)
-        ? dataKomoditas.data.reduce((acc, item) => {
-            const month = getMonthName(item.bulan);
-            item.list.forEach(komoditasItem => {
-                if (!acc[komoditasItem.komoditas.nama]) {
-                    acc[komoditasItem.komoditas.nama] = {};
-                }
-                acc[komoditasItem.komoditas.nama][month] = komoditasItem.harga;
-            });
-            return acc;
-        }, {} as Record<string, Record<string, number>>)
-        : {}; // Default to an empty object if dataKomoditas.data is not an array
+    // Create a map of month names to prices
+    const monthPricesMap = dataKomoditas.data.kepangPerbandinganHarga.reduce((acc, item) => {
+        const month = getMonthName(new Date(item.tanggal).getMonth() + 1);
+        item.list.forEach(komoditasItem => {
+            if (!acc[komoditasItem.komoditas.nama]) {
+                acc[komoditasItem.komoditas.nama] = {};
+            }
+            acc[komoditasItem.komoditas.nama][month] = komoditasItem.minggu1; // Example for week 1, adjust as needed
+        });
+        return acc;
+    }, {} as Record<string, Record<string, number>>);
 
     // Get unique commodity names
     const komoditasNames = Object.keys(monthPricesMap);
@@ -213,6 +238,7 @@ const HargaPanganEceran = () => {
                                 <SelectValue placeholder="Tahun" className='text-2xl' />
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value="2023">2023</SelectItem>
                                 <SelectItem value="2024">2024</SelectItem>
                                 <SelectItem value="2025">2025</SelectItem>
                                 <SelectItem value="2026">2026</SelectItem>
@@ -241,33 +267,25 @@ const HargaPanganEceran = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {komoditasNames.length > 0 ? (
-                        komoditasNames.map((komoditas, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{komoditas}</TableCell>
-                                {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
-                                    <TableCell key={i}>
-                                        {monthPricesMap[komoditas][month] || "-"}
-                                    </TableCell>
-                                ))}
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link href="/ketahanan-pangan/harga-pangan-eceran/detail">
-                                            <EyeIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={async () => { }} />
-                                    </div>
+                    {komoditasNames.map((komoditas, index) => (
+                        <TableRow key={index}>
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{komoditas}</TableCell>
+                            {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
+                                <TableCell key={i}>
+                                    {monthPricesMap[komoditas][month] || "-"}
                                 </TableCell>
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={15} className="text-center">
-                                Tidak ada data
+                            ))}
+                            <TableCell>
+                                <div className="flex items-center gap-4">
+                                    <Link className='' href="/ketahanan-pangan/harga-pangan-eceran/detail">
+                                        <EyeIcon />
+                                    </Link>
+                                    <DeletePopup onDelete={async () => { }} />
+                                </div>
                             </TableCell>
                         </TableRow>
-                    )}
+                    ))}
                 </TableBody>
             </Table>
             {/* table */}
