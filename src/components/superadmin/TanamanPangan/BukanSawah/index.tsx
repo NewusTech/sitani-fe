@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -25,7 +25,6 @@ import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import Link from 'next/link'
-
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
@@ -38,95 +37,155 @@ import {
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '../../PopupDelete'
+import useSWR from 'swr';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
+import { SWRResponse, mutate } from "swr";
+import Swal from 'sweetalert2';
+import KecamatanSelect from '../../SelectComponent/SelectKecamatan'
 
-interface Data {
-    kecamatan?: string;
-    tegalKebun?: number;
-    ladangHuma: number;
-    perkebunan: number;
-    hutanRakyat: number;
-    padangRumput: number;
-    hutanNegara: number;
-    smt: number;
-    lainnya: number;
-    jumlahLahan: number;
-    jalanPemukiman: number;
-    total: number;
+interface Kecamatan {
+    id: number;
+    nama: string;
 }
 
-const data: Data[] = [
-    {
-        kecamatan: "Sekampung",
-        tegalKebun: 234,
-        ladangHuma: 254,
-        perkebunan: 134,
-        hutanRakyat: 264,
-        padangRumput: 132,
-        hutanNegara: 634,
-        smt: 954,
-        lainnya: 135,
-        jumlahLahan: 157,
-        jalanPemukiman: 265,
-        total: 634,
-    },
-    {
-        kecamatan: "Batanghari",
-        tegalKebun: 234,
-        ladangHuma: 254,
-        perkebunan: 134,
-        hutanRakyat: 264,
-        padangRumput: 132,
-        hutanNegara: 634,
-        smt: 954,
-        lainnya: 135,
-        jumlahLahan: 157,
-        jalanPemukiman: 265,
-        total: 634,
-    },
-    {
-        kecamatan: "Metro Kibang",
-        tegalKebun: 234,
-        ladangHuma: 254,
-        perkebunan: 134,
-        hutanRakyat: 264,
-        padangRumput: 132,
-        hutanNegara: 634,
-        smt: 954,
-        lainnya: 135,
-        jumlahLahan: 157,
-        jalanPemukiman: 265,
-        total: 634,
-    },
-];
+interface LahanBukanSawahDetail {
+    id: number;
+    tphLahanBukanSawahId: number;
+    kecamatanId: number;
+    tegal: number;
+    ladang: number;
+    perkebunan: number;
+    hutanRakyat: number;
+    padangPengembalaanRumput: number;
+    hutanNegara: number;
+    smtTidakDiusahakan: number;
+    lainnya: number;
+    jumlahLahanBukanSawah: number;
+    lahanBukanPertanian: number;
+    total: number;
+    kecamatan: Kecamatan;
+}
+
+interface LahanBukanSawahData {
+    detail: {
+        tahun: number;
+        list: LahanBukanSawahDetail[];
+    };
+    total: number;
+    jumlahLahanBukanSawah: number;
+    padangPengembalaanRumput: number;
+    smtTidakDiusahakan: number;
+    hutanNegara: number;
+    hutanRakyat: number;
+    lainnya: number;
+    perkebunan: number;
+    ladang: number;
+    tegal: number;
+    lahanBukanPertanian: number;
+}
+
+interface Response {
+    status: number;
+    message: string;
+    data: LahanBukanSawahData;
+}
 
 const BukanSawah = () => {
-    const [startDate, setstartDate] = React.useState<Date>()
-    const [endDate, setendDate] = React.useState<Date>()
+
+    // INTERGASI
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+    const [tahun, setTahun] = React.useState("2024");
+
+
+    // GETALL
+    const { data: responseData, error } = useSWR<Response>(
+        `tph/lahan-bukan-sawah/get?year=${tahun}&kecamatan=${selectedKecamatan}`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res) => res.data)
+    );
+
+    if (error) {
+        Swal.fire('Error', 'Failed to fetch data', 'error');
+    }
+    // const data = responseData?.data?.list || [];
+
+    // DELETE
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/tph/lahan-bukan-sawah/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log(id)
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil dihapus!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+            // Update the local data after successful deletion
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        }
+        mutate(`tph/lahan-bukan-sawah/get?year=${tahun}&kecamatan=${selectedKecamatan}`);
+    };
+    // DELETE
 
     return (
         <div>
             {/* top */}
-            <div className="header flex gap-2 justify-between items-center mt-4">
-                <div className="search md:w-[50%]">
-                    <Input
-                        type="text"
-                        placeholder="Cari"
-                        rightIcon={<SearchIcon />}
-                        className='border-primary py-2'
-                    />
-                </div>
+            <div className="header flex gap-2 justify-end items-center mt-4">
                 <div className="btn flex gap-2">
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
+                        <div className="hidden md:block">Download</div>
                     </Button>
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
+                        <div className="hidden md:block">Print</div>
                     </Button>
                 </div>
             </div>
@@ -134,72 +193,35 @@ const BukanSawah = () => {
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                     <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !startDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar className=''
-                                    mode="single"
-                                    selected={startDate}
-                                    onSelect={setstartDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <div className="">-</div>
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !endDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={endDate}
-                                    onSelect={setendDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
+                        <Select
+                            onValueChange={(value) => setTahun(value)}
+                            value={tahun}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Tahun" className='text-2xl' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="2023">2023</SelectItem>
+                                <SelectItem value="2024">2024</SelectItem>
+                                <SelectItem value="2025">2025</SelectItem>
+                                <SelectItem value="2026">2026</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
                     <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
+                        <Button variant="outlinePrimary">
                             <FilterIcon />
                         </Button>
                     </div>
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                     <div className="w-full">
-                        <Select >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Kecamatan" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="select1">Select1</SelectItem>
-                                <SelectItem value="select2">Select2</SelectItem>
-                                <SelectItem value="select3">Select3</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <KecamatanSelect
+                            value={selectedKecamatan}
+                            onChange={(value) => {
+                                setSelectedKecamatan(value); // Update state with selected value
+                            }}
+                        />
                     </div>
                     <Link href="/tanaman-pangan-holtikutura/lahan/bukan-sawah/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
                         Tambah Data
@@ -265,60 +287,68 @@ const BukanSawah = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 '>
-                                {item.kecamatan}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.tegalKebun}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.ladangHuma}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.perkebunan}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.hutanRakyat}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.padangRumput}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.hutanNegara}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.smt}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.lainnya}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.jumlahLahan}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.jalanPemukiman}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.total}
-                            </TableCell>
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href="/tanaman-pangan-holtikutura/lahan/bukan-sawah/detail">
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link className='' href="/tanaman-pangan-holtikutura/lahan/bukan-sawah/edit">
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={async () => { }} />
-                                </div>
+                    {responseData?.data && responseData?.data?.detail?.list?.length > 0 ? (
+                        responseData?.data?.detail?.list.map((item, index) => (
+                            <TableRow key={index}>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 '>
+                                    {item?.kecamatan.nama}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.tegal}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.ladang}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.perkebunan}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.hutanRakyat}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.padangPengembalaanRumput}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.hutanNegara}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.smtTidakDiusahakan}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.lainnya}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.jumlahLahanBukanSawah}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.lahanBukanPertanian}
+                                </TableCell>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {item?.total}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link className='' href={`/tanaman-pangan-holtikutura/lahan/bukan-sawah/detail/${item.id}`}>
+                                            <EyeIcon />
+                                        </Link>
+                                        <Link className='' href={`/tanaman-pangan-holtikutura/lahan/bukan-sawah/edit/${item.id}`}>
+                                            <EditIcon />
+                                        </Link>
+                                        <DeletePopup onDelete={() => handleDelete(item.id ? item.id.toString() : '')} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={13} className="text-center">
+                                Tidak ada data
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )}
                     <TableRow>
                         <TableCell className='border border-slate-200'>
 
@@ -327,37 +357,37 @@ const BukanSawah = () => {
                             Jumlah
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                        {responseData?.data?.tegal}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.ladang}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.perkebunan}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.hutanRakyat}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.padangPengembalaanRumput}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.hutanNegara}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.smtTidakDiusahakan}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.lainnya}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.jumlahLahanBukanSawah}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.lahanBukanPertanian}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
+                            {responseData?.data?.total}
                         </TableCell>
                     </TableRow>
                 </TableBody>

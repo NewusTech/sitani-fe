@@ -1,53 +1,88 @@
-"use client"
-import Label from '@/components/ui/label'
-import React, { useState } from 'react'
-import { Input } from '@/components/ui/input'
+"use client";
+import Label from "@/components/ui/label";
+import React, { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
 import Swal from "sweetalert2";
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import HelperError from '@/components/ui/HelperError';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
-import Loading from '@/components/ui/Loading';
-import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import HelperError from "@/components/ui/HelperError";
+import { useRouter, useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import KecValue from "@/components/superadmin/SelectComponent/KecamatanValue";
+import Loading from "@/components/ui/Loading";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import useSWR from "swr";
 
+interface LahanSawahResponse {
+  status: number;
+  message: string;
+  data: LahanSawahData;
+}
+
+interface LahanSawahData {
+  id: number;
+  tphLahanSawahId: number;
+  kecamatanId: number;
+  irigasiTeknis: number;
+  irigasiSetengahTeknis: number;
+  irigasiSederhana: number;
+  irigasiDesa: number;
+  tadahHujan: number;
+  pasangSurut: number;
+  lebak: number;
+  lainnya: number;
+  jumlah: number;
+  keterangan: string;
+  createdAt: string;
+  updatedAt: string;
+  tphLahanSawah: TphLahanSawah;
+  kecamatan: Kecamatan;
+}
+
+interface TphLahanSawah {
+  id: number;
+  tahun: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Kecamatan {
+  id: number;
+  nama: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const formSchema = z.object({
-  kecamatan_id: z
-    .number()
-    .min(1, "Kecamatan wajib disi")
-    .transform((value) => Number(value)), // Convert string to number
-  tahun: z
-    .string()
-    .min(1, { message: "Tahun wajib diisi" }),
   irigasi_teknis: z
-    .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    .preprocess((val) => (val ? parseFloat(val as string) : undefined), z.number().optional()),
   irigasi_setengah_teknis: z
-    .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    .preprocess((val) => (val ? parseFloat(val as string) : undefined), z.number().optional()),
   irigasi_sederhana: z
-    .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    .preprocess((val) => (val ? parseFloat(val as string) : undefined), z.number().optional()),
   irigasi_desa: z
-    .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    .preprocess((val) => (val ? parseFloat(val as string) : undefined), z.number().optional()),
   tadah_hujan: z
-    .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    .preprocess((val) => (val ? parseFloat(val as string) : undefined), z.number().optional()),
   pasang_surut: z
-    .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    .preprocess((val) => (val ? parseFloat(val as string) : undefined), z.number().optional()),
   lebak: z
-    .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    .preprocess((val) => (val ? parseFloat(val as string) : undefined), z.number().optional()),
   lainnya: z
-    .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-  keterangan: z
-    .string()
-    .min(0, { message: "keterangan wajib diisi" }),
+    .preprocess((val) => (val ? parseFloat(val as string) : undefined), z.number().optional()),
+  keterangan: z.string().min(0, { message: "keterangan wajib diisi" }),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahLahanSawahPage = () => {
-  const [date, setDate] = React.useState<Date>()
+const EditLahanSawahPage = () => {
+  const [loading, setLoading] = useState(false);
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useRouter();
+  const params = useParams();
+  const { id } = params;
 
   const {
     register,
@@ -55,111 +90,89 @@ const TambahLahanSawahPage = () => {
     reset,
     control,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
   });
 
-  // const onSubmit = (data: FormSchemaType) => {
-  //   console.log(data);
-  // };
+  const { data: dataLahanSawah, error } = useSWR<LahanSawahResponse>(
+    `tph/lahan-sawah/get/${id}`,
+    async (url: string) => {
+      try {
+        const response = await axiosPrivate.get(url);
+        return response.data;
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+        return null;
+      }
+    }
+  );
 
-  // Submit handler for form
-  const [loading, setLoading] = useState(false);
-  const axiosPrivate = useAxiosPrivate();
-  const navigate = useRouter();
+  useEffect(() => {
+    if (dataLahanSawah && dataLahanSawah.data) {
+      const {
+        kecamatanId,
+        tphLahanSawah: { tahun },
+        irigasiTeknis,
+        irigasiSetengahTeknis,
+        irigasiSederhana,
+        irigasiDesa,
+        tadahHujan,
+        pasangSurut,
+        lebak,
+        lainnya,
+        keterangan,
+      } = dataLahanSawah.data;
+
+      // Set the form values with fetched data
+      setValue("irigasi_teknis", irigasiTeknis);
+      setValue("irigasi_setengah_teknis", irigasiSetengahTeknis);
+      setValue("irigasi_sederhana", irigasiSederhana);
+      setValue("irigasi_desa", irigasiDesa);
+      setValue("tadah_hujan", tadahHujan);
+      setValue("pasang_surut", pasangSurut);
+      setValue("lebak", lebak);
+      setValue("lainnya", lainnya);
+      setValue("keterangan", keterangan);
+    }
+  }, [dataLahanSawah, setValue]);
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-    setLoading(true); // Set loading to true when the form is submitted
+    setLoading(true);
     try {
-      await axiosPrivate.post("/tph/lahan-sawah/create", data);
-      // console.log("data= ", data)
+      await axiosPrivate.put(`/tph/lahan-sawah/update/${id}`, data);
 
-      // Success alert
       Swal.fire({
         icon: "success",
-        title: "Data berhasil ditambahkan!",
+        title: "Data berhasil diperbarui!",
         text: "Data sudah disimpan dalam sistem!",
         timer: 2000,
         timerProgressBar: true,
         showConfirmButton: false,
-        showClass: {
-          popup: "animate__animated animate__fadeInDown",
-        },
-        hideClass: {
-          popup: "animate__animated animate__fadeOutUp",
-        },
-        customClass: {
-          title: "text-2xl font-semibold text-green-600",
-          icon: "text-green-500 animate-bounce",
-          timerProgressBar: "bg-gradient-to-r from-blue-400 to-green-400",
-        },
-        backdrop: `rgba(0, 0, 0, 0.4)`,
       });
 
       navigate.push("/tanaman-pangan-holtikutura/lahan");
     } catch (error: any) {
-      // Extract error message from API response
-      const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+      const errorMessage =
+        error.response?.data?.data?.[0]?.message || "Gagal memperbarui data!";
       Swal.fire({
-        icon: 'error',
-        title: 'Terjadi kesalahan!',
+        icon: "error",
+        title: "Terjadi kesalahan!",
         text: errorMessage,
         showConfirmButton: true,
-        showClass: { popup: 'animate__animated animate__fadeInDown' },
-        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-        customClass: {
-          title: 'text-2xl font-semibold text-red-600',
-          icon: 'text-red-500 animate-bounce',
-        },
-        backdrop: 'rgba(0, 0, 0, 0.4)',
       });
       console.error("Failed to create user:", error);
     } finally {
-      setLoading(false); // Set loading to false once the process is complete
+      setLoading(false);
     }
   };
+
   return (
     <>
-      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Lahan Sawah</div>
+      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data Lahan Sawah</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
         <div className="wrap-form">
-          {/* pilih kecamatan - desa */}
-          <div className="mb-2">
-            <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-              <div className="flex flex-col mb-2 w-full">
-                <Label className='text-sm mb-1' label="Tahun" />
-                <Input
-                  autoFocus
-                  type="number"
-                  placeholder="Tahun"
-                  {...register('tahun')}
-                  className={`${errors.tahun ? 'border-red-500' : ''}`}
-                />
-                {errors.tahun && (
-                  <HelperError>{errors.tahun.message}</HelperError>
-                )}
-              </div>
-              <div className="flex flex-col mb-2 w-full">
-                <Label className='text-sm mb-1' label="Pilih Kecamatan" />
-                <Controller
-                  name="kecamatan_id"
-                  control={control}
-                  render={({ field }) => (
-                    <KecValue
-                      // kecamatanItems={kecamatanItems}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  )}
-                />
-                {errors.kecamatan_id && (
-                  <p className="text-red-500">{errors.kecamatan_id.message}</p>
-                )}
-              </div>
-            </div>
-          </div>
           {/* irigasi teknis - 1/2 */}
           <div className="mb-2">
             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
@@ -312,7 +325,7 @@ const TambahLahanSawahPage = () => {
             {loading ? (
               <Loading />
             ) : (
-              "Tambah"
+              "Simpan"
             )}
           </Button>
         </div>
@@ -321,4 +334,4 @@ const TambahLahanSawahPage = () => {
   )
 }
 
-export default TambahLahanSawahPage
+export default EditLahanSawahPage
