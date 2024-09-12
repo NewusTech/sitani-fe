@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -55,10 +55,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import FilterTable from '@/components/FilterTable'
 
 
 const KoefisienVariasiProduksi = () => {
-    // Fungsi untuk mengubah format tanggal menjadi nama bulan
+    // Fungsi untuk mengubah format bulan menjadi nama bulan
     const getMonthName = (dateString: string): string => {
         const date = new Date(dateString);
         return new Intl.DateTimeFormat('id-ID', { month: 'long' }).format(date); // 'id-ID' untuk bahasa Indonesia
@@ -159,6 +160,60 @@ const KoefisienVariasiProduksi = () => {
         }
     };
     // INTEGRASI
+
+    // Filter table
+    const columns = [
+        // { label: "No", key: "no" },
+        // { label: "Bulan", key: "bulan" },
+        { label: "Panen", key: "panen" },
+        { label: "GKP Petani", key: "gkpPetani" },
+        { label: "GKP Penggilingan", key: "gkpPenggilingan" },
+        { label: "GKG Penggilingan", key: "gkgPenggilingan" },
+        { label: "JPK", key: "jpk" },
+        { label: "Cabai Merah Keriting", key: "cabaiMerahKeriting" },
+        { label: "Beras Medium", key: "berasMedium" },
+        { label: "Beras Premium", key: "berasPremium" },
+        { label: "Stok GKG", key: "stokGKG" },
+        { label: "Stok Beras", key: "stokBeras" },
+        { label: "Aksi", key: "aksi" },
+    ];
+
+    const getDefaultCheckedKeys = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth <= 768) {
+                return ["panen", "aksi"];
+            } else {
+                return ["panen", "gkpPetani", "gkpPenggilingan", "gkgPenggilingan", "jpk", "cabaiMerahKeriting", "berasMedium", "berasPremium", "stokGKG", "stokBeras", "aksi"];
+            }
+        }
+        return [];
+    };
+
+    const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        setVisibleColumns(getDefaultCheckedKeys());
+        const handleResize = () => {
+            setVisibleColumns(getDefaultCheckedKeys());
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+
+    if (!isClient) {
+        return null;
+    }
+
+    const handleFilterChange = (key: string, checked: boolean) => {
+        setVisibleColumns(prev =>
+            checked ? [...prev, key] : prev.filter(col => col !== key)
+        );
+    };
+    // Filter Table
+
     return (
         <div>
             {/* title */}
@@ -208,9 +263,11 @@ const KoefisienVariasiProduksi = () => {
                         </Select>
                     </div>
                     <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
+                        <FilterTable
+                            columns={columns}
+                            defaultCheckedKeys={getDefaultCheckedKeys()}
+                            onFilterChange={handleFilterChange}
+                        />
                     </div>
                 </div>
                 <div className="w-full mt-4 lg:mt-0">
@@ -227,72 +284,124 @@ const KoefisienVariasiProduksi = () => {
             <Table className='border border-slate-200 mt-4'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
+                        {/* {visibleColumns.includes('no') && ( */}
                         <TableHead className="text-primary py-3">No</TableHead>
+                        {/* )} */}
+                        {/* {visibleColumns.includes('bulan') && ( */}
                         <TableHead className="text-primary py-3">Bulan</TableHead>
-                        <TableHead className="text-primary py-3">% Panen</TableHead>
-                        <TableHead className="text-primary py-3">GKP Tk. Petani</TableHead>
-                        <TableHead className="text-primary py-3">GKP Tk. Penggilingan</TableHead>
-                        <TableHead className="text-primary py-3">GKG Tk. Penggilingan</TableHead>
-                        <TableHead className="text-primary py-3">JPK</TableHead>
-                        <TableHead className="text-primary py-3">Cabai Merah Keriting</TableHead>
-                        <TableHead className="text-primary py-3">Beras Medium</TableHead>
-                        <TableHead className="text-primary py-3">Beras Premium</TableHead>
-                        <TableHead className="text-primary py-3">Stok GKG</TableHead>
-                        <TableHead className="text-primary py-3">Stok Beras</TableHead>
-                        <TableHead className="text-primary py-3">Aksi</TableHead>
+                        {/* )} */}
+                        {visibleColumns.includes('panen') && (
+                            <TableHead className="text-primary py-3">% Panen</TableHead>
+                        )}
+                        {visibleColumns.includes('gkpPetani') && (
+                            <TableHead className="text-primary py-3">GKP Tk. Petani</TableHead>
+                        )}
+                        {visibleColumns.includes('gkpPenggilingan') && (
+                            <TableHead className="text-primary py-3">GKP Tk. Penggilingan</TableHead>
+                        )}
+                        {visibleColumns.includes('gkgPenggilingan') && (
+                            <TableHead className="text-primary py-3">GKG Tk. Penggilingan</TableHead>
+                        )}
+                        {visibleColumns.includes('jpk') && (
+                            <TableHead className="text-primary py-3">JPK</TableHead>
+                        )}
+                        {visibleColumns.includes('cabaiMerahKeriting') && (
+                            <TableHead className="text-primary py-3">Cabai Merah Keriting</TableHead>
+                        )}
+                        {visibleColumns.includes('berasMedium') && (
+                            <TableHead className="text-primary py-3">Beras Medium</TableHead>
+                        )}
+                        {visibleColumns.includes('berasPremium') && (
+                            <TableHead className="text-primary py-3">Beras Premium</TableHead>
+                        )}
+                        {visibleColumns.includes('stokGKG') && (
+                            <TableHead className="text-primary py-3">Stok GKG</TableHead>
+                        )}
+                        {visibleColumns.includes('stokBeras') && (
+                            <TableHead className="text-primary py-3">Stok Beras</TableHead>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableHead className="text-primary py-3">Aksi</TableHead>
+                        )}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {dataProduksi?.data && dataProduksi?.data?.length > 0 ? (
                         dataProduksi?.data?.map((item, index) => (
                             <TableRow key={index}>
+                                {/* {visibleColumns.includes('no') && ( */}
                                 <TableCell>
                                     {index + 1}
                                 </TableCell>
+                                {/* )} */}
+                                {/* {visibleColumns.includes('bulan') && ( */}
                                 <TableCell>
                                     {getMonthName(item.bulan)}
                                 </TableCell>
-                                <TableCell>
-                                    {item.panen}
-                                </TableCell>
-                                <TableCell>
-                                    {item.gkpTkPetani}
-                                </TableCell>
-                                <TableCell>
-                                    {item.gkpTkPenggilingan}
-                                </TableCell>
-                                <TableCell>
-                                    belum ada
-                                </TableCell>
-                                <TableCell>
-                                    {item.jpk}
-                                </TableCell>
-                                <TableCell>
-                                    {item.cabaiMerahKeriting}
-                                </TableCell>
-                                <TableCell>
-                                    {item.berasMedium}
-                                </TableCell>
-                                <TableCell>
-                                    {item.berasPremium}
-                                </TableCell>
-                                <TableCell>
-                                    {item.stokGkg}
-                                </TableCell>
-                                <TableCell>
-                                    {item.stokBeras}
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link href={`/ketahanan-pangan/koefisien-variasi-produksi/detail/${item?.id}`}>
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link href={`/ketahanan-pangan/koefisien-variasi-produksi/edit/${item?.id}`}>
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => handleDelete(String(item?.id))} />
-                                    </div>
-                                </TableCell>
+                                {/* )} */}
+                                {visibleColumns.includes('panen') && (
+                                    <TableCell>
+                                        {item.panen}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('gkpPetani') && (
+                                    <TableCell>
+                                        {item.gkpTkPetani}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('gkpPenggilingan') && (
+                                    <TableCell>
+                                        {item.gkpTkPenggilingan}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('gkgPenggilingan') && (
+                                    <TableCell>
+                                        belum ada
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('jpk') && (
+                                    <TableCell>
+                                        {item.jpk}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('cabaiMerahKeriting') && (
+                                    <TableCell>
+                                        {item.cabaiMerahKeriting}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('berasMedium') && (
+                                    <TableCell>
+                                        {item.berasMedium}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('berasPremium') && (
+                                    <TableCell>
+                                        {item.berasPremium}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('stokGKG') && (
+                                    <TableCell>
+                                        {item.stokGkg}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('stokBeras') && (
+                                    <TableCell>
+                                        {item.stokBeras}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('aksi') && (
+                                    <TableCell>
+                                        <div className="flex items-center gap-4">
+                                            <Link href={`/ketahanan-pangan/koefisien-variasi-produksi/detail/${item?.id}`}>
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link href={`/ketahanan-pangan/koefisien-variasi-produksi/edit/${item?.id}`}>
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup onDelete={() => handleDelete(String(item?.id))} />
+                                        </div>
+                                    </TableCell>
+                                )}
                             </TableRow>
                         ))
                     ) : (
@@ -305,74 +414,194 @@ const KoefisienVariasiProduksi = () => {
                 </TableBody>
                 <TableFooter className='bg-primary-600'>
                     <TableRow>
+                        {/* {visibleColumns.includes('no') && ( */}
                         <TableCell className='text-primary py-3' colSpan={2}>Rata-rata</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3"></TableCell>
+                        {/* )} */}
+                        {visibleColumns.includes('panen') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPetani') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkgPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('jpk') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('cabaiMerahKeriting') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasMedium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasPremium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokGKG') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokBeras') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableCell className="text-primary py-3"></TableCell>
+                        )}
                     </TableRow>
                     <TableRow>
+                        {/* {visibleColumns.includes('no') && ( */}
                         <TableCell className='text-primary py-3' colSpan={2}>Maksimum</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3">5370</TableCell>
-                        <TableCell className="text-primary py-3"></TableCell>
+                        {/* )} */}
+                        {visibleColumns.includes('panen') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPetani') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkgPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('jpk') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('cabaiMerahKeriting') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasMedium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasPremium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokGKG') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokBeras') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableCell className="text-primary py-3"></TableCell>
+                        )}
                     </TableRow>
                     <TableRow>
+                        {/* {visibleColumns.includes('no') && ( */}
                         <TableCell className='text-primary py-3' colSpan={2}>Minimum</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3"></TableCell>
+                        {/* )} */}
+                        {visibleColumns.includes('panen') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPetani') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkgPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('jpk') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('cabaiMerahKeriting') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasMedium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasPremium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokGKG') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokBeras') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableCell className="text-primary py-3"></TableCell>
+                        )}
                     </TableRow>
                     <TableRow>
+                        {/* {visibleColumns.includes('no') && ( */}
                         <TableCell className='text-primary py-3' colSpan={2}>Target CV</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3"></TableCell>
+                        {/* )} */}
+                        {visibleColumns.includes('panen') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPetani') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkgPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('jpk') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('cabaiMerahKeriting') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasMedium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasPremium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokGKG') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokBeras') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableCell className="text-primary py-3"></TableCell>
+                        )}
                     </TableRow>
                     <TableRow>
+                        {/* {visibleColumns.includes('no') && ( */}
                         <TableCell className='text-primary py-3' colSpan={2}>CV (%)</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3">5850</TableCell>
-                        <TableCell className="text-primary py-3"></TableCell>
+                        {/* )} */}
+                        {visibleColumns.includes('panen') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPetani') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkpPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('gkgPenggilingan') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('jpk') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('cabaiMerahKeriting') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasMedium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('berasPremium') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokGKG') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('stokBeras') && (
+                            <TableCell className="text-primary py-3">5370</TableCell>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableCell className="text-primary py-3"></TableCell>
+                        )}
                     </TableRow>
                 </TableFooter>
             </Table>

@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -46,6 +46,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useSWR, { mutate, SWRResponse } from 'swr'
 import Swal from 'sweetalert2'
 import PaginationTable from '@/components/PaginationTable'
+import FilterTable from '@/components/FilterTable'
 
 interface Komoditas {
     id: number;
@@ -70,7 +71,7 @@ interface ListItem {
 
 interface DataItem {
     id: number;
-    tanggal: string;
+    mg1: string;
     createdAt: string;
     updatedAt: string;
     list: ListItem[];
@@ -186,6 +187,55 @@ const KuisionerPedagangEceran = () => {
             // Add notification or alert here for user feedback
         }
     };
+
+    // Filter table
+    const columns = [
+        { label: "No", key: "no" },
+        { label: "Komoditas", key: "komoditas" },
+        { label: "MG I", key: "mg1" },
+        { label: "MG II", key: "mg2" },
+        { label: "MG III", key: "mg3" },
+        { label: "MG IV", key: "mg4" },
+        { label: "MG V", key: "mg5" },
+        { label: "Rata - Rata", key: "rataRata" },
+        { label: "Aksi", key: "aksi" }
+    ];
+
+    const getDefaultCheckedKeys = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth <= 768) {
+                return ["no", "komoditas", "mg1", "aksi"];
+            } else {
+                return ["no", "komoditas", "mg1", "mg2", "mg3", "mg4", "mg5", "aksi"];
+            }
+        }
+        return [];
+    };
+
+    const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        setVisibleColumns(getDefaultCheckedKeys());
+        const handleResize = () => {
+            setVisibleColumns(getDefaultCheckedKeys());
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    if (!isClient) {
+        return null;
+    }
+
+    const handleFilterChange = (key: string, checked: boolean) => {
+        setVisibleColumns(prev =>
+            checked ? [...prev, key] : prev.filter(col => col !== key)
+        );
+    };
+    // Filter Table
+
     return (
         <div>
             {/* title */}
@@ -230,7 +280,7 @@ const KuisionerPedagangEceran = () => {
                                     )}
                                 >
                                     <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
+                                    {startDate ? format(startDate, "PPP") : <span>mg1 Awal</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
@@ -255,7 +305,7 @@ const KuisionerPedagangEceran = () => {
                                     )}
                                 >
                                     <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
+                                    {endDate ? format(endDate, "PPP") : <span>mg1 Akhir</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
@@ -269,9 +319,11 @@ const KuisionerPedagangEceran = () => {
                         </Popover>
                     </div>
                     <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
+                        <FilterTable
+                            columns={columns}
+                            defaultCheckedKeys={getDefaultCheckedKeys()}
+                            onFilterChange={handleFilterChange}
+                        />
                     </div>
                 </div>
                 <div className="w-full mt-4 lg:mt-0">
@@ -288,15 +340,35 @@ const KuisionerPedagangEceran = () => {
             <Table className='border border-slate-200 mt-4'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
-                        <TableHead className="text-primary py-3">No</TableHead>
-                        <TableHead className="text-primary py-3">Komoditas</TableHead>
-                        <TableHead className="text-primary py-3">MG I</TableHead>
-                        <TableHead className="text-primary py-3">MG II</TableHead>
-                        <TableHead className="text-primary py-3">MG III</TableHead>
-                        <TableHead className="text-primary py-3">MG IV</TableHead>
-                        <TableHead className="text-primary py-3">MG V</TableHead>
-                        <TableHead className="text-primary py-3">Rata2 Per Bulan</TableHead>
-                        <TableHead className="text-primary py-3">Aksi</TableHead>
+                        {visibleColumns.includes('no') && (
+
+                            <TableHead className="text-primary py-3">No</TableHead>
+                        )}
+                        {visibleColumns.includes('komoditas') && (
+                            <TableHead className="text-primary py-3">Komoditas</TableHead>
+                        )}
+                        {visibleColumns.includes('mg1') && (
+                            <TableHead className="text-primary py-3">MG I</TableHead>
+                        )}
+                        {visibleColumns.includes('mg2') && (
+                            <TableHead className="text-primary py-3">MG II</TableHead>
+                        )}
+                        {visibleColumns.includes('mg3') && (
+                            <TableHead className="text-primary py-3">MG III</TableHead>
+                        )}
+                        {visibleColumns.includes('mg4') && (
+                            <TableHead className="text-primary py-3">MG IV</TableHead>
+                        )}
+                        {visibleColumns.includes('mg5') && (
+                            <TableHead className="text-primary py-3">MG V</TableHead>
+                        )}
+                        {visibleColumns.includes('rataRata') && (
+                            <TableHead className="text-primary py-3">Rata2 Per Bulan</TableHead>
+                        )}
+                        {visibleColumns.includes('mg5') && (
+
+                            <TableHead className="text-primary py-3">Aksi</TableHead>
+                        )}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -306,41 +378,58 @@ const KuisionerPedagangEceran = () => {
                             return dataProdusenEceran.data.data.map((item, index) => (
                                 item?.list?.map((citem, cindex) => (
                                     <TableRow key={citem.id}>
-                                        <TableCell>
-                                            {globalIndex++} {/* Menggunakan globalIndex */}
-                                        </TableCell>
-                                        <TableCell>
-                                            {citem?.komoditas.nama}
-                                        </TableCell>
-                                        <TableCell>
-                                            {citem?.minggu1}
-                                        </TableCell>
-                                        <TableCell>
-                                            {citem?.minggu2}
-                                        </TableCell>
-                                        <TableCell>
-                                            {citem?.minggu3}
-                                        </TableCell>
-                                        <TableCell>
-                                            {citem?.minggu4}
-                                        </TableCell>
-                                        <TableCell>
-                                            {citem?.minggu5}
-                                        </TableCell>
-                                        <TableCell>
-                                            {(citem?.minggu1 + citem?.minggu2 + citem?.minggu3 + citem?.minggu4 + citem?.minggu5) / 5}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="flex items-center gap-4">
-                                                <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/detail/${citem?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/edit/${citem?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
-                                            </div>
-                                        </TableCell>
+                                        {visibleColumns.includes('no') && (
+                                            <TableCell>
+                                                {globalIndex++} {/* Menggunakan globalIndex */}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('nkomoditaso') && (
+                                            <TableCell>
+                                                {citem?.komoditas.nama}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('mg1') && (
+                                            <TableCell>
+                                                {citem?.minggu1}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('mg2') && (
+                                            <TableCell>
+                                                {citem?.minggu2}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('mg3') && (
+                                            <TableCell>
+                                                {citem?.minggu3}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('mg4') && (
+                                            <TableCell>
+                                                {citem?.minggu4}
+                                            </TableCell>)}
+                                        {visibleColumns.includes('mg5') && (
+                                            <TableCell>
+                                                {citem?.minggu5}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('rataRata') && (
+                                            <TableCell>
+                                                {(citem?.minggu1 + citem?.minggu2 + citem?.minggu3 + citem?.minggu4 + citem?.minggu5) / 5}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('aksi') && (
+                                            <TableCell>
+                                                <div className="flex items-center gap-4">
+                                                    <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/detail/${citem?.id}`}>
+                                                        <EyeIcon />
+                                                    </Link>
+                                                    <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/edit/${citem?.id}`}>
+                                                        <EditIcon />
+                                                    </Link>
+                                                    <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
+                                                </div>
+                                            </TableCell>
+                                        )}
                                     </TableRow>
                                 ))
                             ));

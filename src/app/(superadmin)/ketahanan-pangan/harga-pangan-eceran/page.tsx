@@ -188,7 +188,6 @@ const HargaPanganEceran = () => {
     // Get unique commodity names
     const komoditasNames = Object.keys(monthPricesMap);
 
-
     return (
         <div>
             {/* title */}
@@ -218,11 +217,11 @@ const HargaPanganEceran = () => {
                             Print
                         </div>
                     </Button>
-                    <div className="hidden m filter-table w-[40px] h-[40px]">
+                    {/* <div className="hidden m filter-table w-[40px] h-[40px]">
                         <Button variant="outlinePrimary" className=''>
                             <FilterIcon />
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             {/*  */}
@@ -246,11 +245,11 @@ const HargaPanganEceran = () => {
                         </Select>
                     </div>
                 </div>
-                <div className="w-[40px] h-[40px]">
+                {/* <div className="w-[40px] h-[40px]">
                     <Button variant="outlinePrimary" className=''>
                         <FilterIcon />
                     </Button>
-                </div>
+                </div> */}
             </div>
             {/* top */}
 

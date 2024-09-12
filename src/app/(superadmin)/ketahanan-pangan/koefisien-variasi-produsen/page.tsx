@@ -205,11 +205,11 @@ const KoefisienVariasiProdusen = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="w-[40px] h-[40px]">
+                    {/* <div className="w-[40px] h-[40px]">
                         <Button variant="outlinePrimary" className=''>
                             <FilterIcon />
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="w-full mt-4 lg:mt-0">
                     <div className="flex justify-end">

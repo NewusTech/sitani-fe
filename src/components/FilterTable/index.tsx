@@ -43,18 +43,19 @@ const FilterTable: React.FC<FilterTableProps> = ({ columns, defaultCheckedKeys, 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outlinePrimary" className="">
+                <Button variant="outlinePrimary" className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                     <FilterIcon />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Filter Header Table</DropdownMenuLabel>
-                <DropdownMenuSeparator />
+            <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md">
+                <DropdownMenuLabel className="px-4 py-2 font-semibold">Filter Header Table</DropdownMenuLabel>
+                <DropdownMenuSeparator className="my-2 border-gray-300" />
                 {columns.map(column => (
                     <DropdownMenuCheckboxItem
                         key={column.key}
                         checked={checkedColumns[column.key]}
                         onCheckedChange={(checked) => handleCheckedChange(column.key, checked)}
+                        className="px-6 py-2 hover:bg-gray-100 rounded-md transition-colors duration-300"
                     >
                         {column.label}
                     </DropdownMenuCheckboxItem>

@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -36,6 +36,7 @@ import useSWR, { mutate, SWRResponse } from 'swr'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import PaginationTable from '@/components/PaginationTable'
+import FilterTable from '@/components/FilterTable'
 
 interface Komoditas {
   id: number;
@@ -174,6 +175,52 @@ const ProdusenDanEceran = () => {
     }
   };
 
+  // Filter table
+  const columns = [
+    { label: "No", key: "no" },
+    { label: "Tanggal", key: "tanggal" },
+    { label: "Komoditas", key: "komoditas" },
+    { label: "Satuan", key: "satuan" },
+    { label: "Harga Komoditasl", key: "hargaKomoditas" },
+    { label: "Keterangan", key: "keterangan" },
+    { label: "Aksi", key: "aksi" }
+  ];
+
+  const getDefaultCheckedKeys = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth <= 768) {
+        return ["no", "tanggal", "komoditas", "aksi"];
+      } else {
+        return ["no", "tanggal", "komoditas", "satuan", "hargaKomoditas", "keterangan", "aksi"];
+      }
+    }
+    return [];
+  };
+
+  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setVisibleColumns(getDefaultCheckedKeys());
+    const handleResize = () => {
+      setVisibleColumns(getDefaultCheckedKeys());
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  const handleFilterChange = (key: string, checked: boolean) => {
+    setVisibleColumns(prev =>
+      checked ? [...prev, key] : prev.filter(col => col !== key)
+    );
+  };
+  // Filter Table
+
   let num = 1;
 
   return (
@@ -213,9 +260,11 @@ const ProdusenDanEceran = () => {
       <div className="wrap-filter flex justify-between items-center mt-2 md:mt-4 " >
         <div className="left gap-2 flex justify-start items-center">
           <div className="filter-table w-[40px] h-[40px]">
-            <Button variant="outlinePrimary" className=''>
-              <FilterIcon />
-            </Button>
+            <FilterTable
+              columns={columns}
+              defaultCheckedKeys={getDefaultCheckedKeys()}
+              onFilterChange={handleFilterChange}
+            />
           </div>
         </div>
         <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
@@ -230,13 +279,27 @@ const ProdusenDanEceran = () => {
       <Table className='border border-slate-200 mt-4'>
         <TableHeader className='bg-primary-600'>
           <TableRow >
-            <TableHead className="text-primary py-3">No</TableHead>
-            <TableHead className="text-primary py-3">Tanggal</TableHead>
-            <TableHead className="text-primary py-3">Komoditas</TableHead>
-            <TableHead className="text-primary py-3">Satuan</TableHead>
-            <TableHead className="text-primary py-3">Harga Komoditas</TableHead>
-            <TableHead className="text-primary py-3">Keterangan</TableHead>
-            <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
+            {visibleColumns.includes('no') && (
+              <TableHead className="text-primary py-3">No</TableHead>
+            )}
+            {visibleColumns.includes('tanggal') && (
+              <TableHead className="text-primary py-3">Tanggal</TableHead>
+            )}
+            {visibleColumns.includes('komoditas') && (
+              <TableHead className="text-primary py-3">Komoditas</TableHead>
+            )}
+            {visibleColumns.includes('satuan') && (
+              <TableHead className="text-primary py-3">Satuan</TableHead>
+            )}
+            {visibleColumns.includes('hargaKomoditas') && (
+              <TableHead className="text-primary py-3">Harga Komoditas</TableHead>
+            )}
+            {visibleColumns.includes('keterangan') && (
+              <TableHead className="text-primary py-3">Keterangan</TableHead>
+            )}
+            {visibleColumns.includes('aksi') && (
+              <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -244,40 +307,54 @@ const ProdusenDanEceran = () => {
             dataProdusenEceran.data.data.map((item, index) => (
               item?.list?.map((citem, cindex) => (
                 <TableRow key={citem.id}>
-                  <TableCell>
-                    {num++}
-                  </TableCell>
-                  <TableCell>
-                    {/* {item.tanggal} */}
-                    {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    }) : 'Tanggal tidak tersedia'}
-                  </TableCell>
-                  <TableCell>
-                    {citem?.komoditas.nama}
-                  </TableCell>
-                  <TableCell>
-                    {citem?.satuan}
-                  </TableCell>
-                  <TableCell>
-                    Rp. {citem?.harga}
-                  </TableCell>
-                  <TableCell>
-                    {citem?.keterangan} {/* Menampilkan keterangan dari item pertama dalam list */}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-4">
-                      <Link href={`/ketahanan-pangan/produsen-dan-eceran/detail/${citem?.id}`}>
-                        <EyeIcon />
-                      </Link>
-                      <Link href={`/ketahanan-pangan/produsen-dan-eceran/edit/${citem?.id}`}>
-                        <EditIcon />
-                      </Link>
-                      <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
-                    </div>
-                  </TableCell>
+                  {visibleColumns.includes('no') && (
+                    <TableCell>
+                      {num++}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('tanggal') && (
+                    <TableCell>
+                      {/* {item.tanggal} */}
+                      {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      }) : 'Tanggal tidak tersedia'}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('komoditas') && (
+                    <TableCell>
+                      {citem?.komoditas.nama}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('satuan') && (
+                    <TableCell>
+                      {citem?.satuan}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('hargaKomoditas') && (
+                    <TableCell>
+                      Rp. {citem?.harga}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('keterangan') && (
+                    <TableCell>
+                      {citem?.keterangan}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('aksi') && (
+                    <TableCell>
+                      <div className="flex items-center gap-4">
+                        <Link href={`/ketahanan-pangan/produsen-dan-eceran/detail/${citem?.id}`}>
+                          <EyeIcon />
+                        </Link>
+                        <Link href={`/ketahanan-pangan/produsen-dan-eceran/edit/${citem?.id}`}>
+                          <EditIcon />
+                        </Link>
+                        <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
+                      </div>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             ))

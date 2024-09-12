@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -183,7 +183,53 @@ const DataPegawaiPage = () => {
     } mutate(`/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`);
   };
 
+  // const columns = [
+  //   { label: "No", key: "no" },
+  //   { label: "Nama/NIP Tempat/Tgl Lahir", key: "namaNip" },
+  //   { label: "Pangkat/Gol Ruang TMT Pangkat", key: "pangkat" },
+  //   { label: "Jabatan", key: "jabatan" },
+  //   { label: "Diklat Struktural", key: "diklat" },
+  //   { label: "Pendidikan Umum", key: "pendidikan" },
+  //   { label: "Usia", key: "usia" },
+  //   { label: "Masa Kerja", key: "masaKerja" },
+  //   { label: "Ket", key: "keterangan" },
+  //   { label: "Status", key: "status" },
+  //   { label: "Aksi", key: "aksi" }
+  // ];
+
+  // const getDefaultCheckedKeys = () => {
+  //   if (window.innerWidth <= 768) {
+  //     return ["no", "namaNip", "status", "aksi"];
+  //   } else {
+  //     return ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja", "keterangan", "status", "aksi"];
+  //   }
+  // };
+
+  // let defaultCheckedKeys = getDefaultCheckedKeys();
+  // window.addEventListener('resize', () => {
+  //   defaultCheckedKeys = getDefaultCheckedKeys();
+  //   console.log(defaultCheckedKeys);
+  // });
+
+  // const [visibleColumns, setVisibleColumns] = useState<string[]>(getDefaultCheckedKeys());
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setVisibleColumns(getDefaultCheckedKeys());
+  //   };
+  //   handleResize();
+  //   window.addEventListener('resize', handleResize);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
+
+  // const handleFilterChange = (key: string, checked: boolean) => {
+  //   setVisibleColumns(prev =>
+  //     checked ? [...prev, key] : prev.filter(col => col !== key)
+  //   );
+  // };
+
   // Filter table
+  // const defaultCheckedKeys = ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja", "keterangan", "status", "aksi"];
   const columns = [
     { label: "No", key: "no" },
     { label: "Nama/NIP Tempat/Tgl Lahir", key: "namaNip" },
@@ -198,15 +244,40 @@ const DataPegawaiPage = () => {
     { label: "Aksi", key: "aksi" }
   ];
 
-  const defaultCheckedKeys = ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja", "keterangan", "status", "aksi"];
+  const getDefaultCheckedKeys = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth <= 768) {
+        return ["no", "namaNip", "status", "aksi"];
+      } else {
+        return ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja", "keterangan", "status", "aksi"];
+      }
+    }
+    return [];
+  };
 
-  const [visibleColumns, setVisibleColumns] = React.useState<string[]>(defaultCheckedKeys);
+  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setVisibleColumns(getDefaultCheckedKeys());
+    const handleResize = () => {
+      setVisibleColumns(getDefaultCheckedKeys());
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
 
   const handleFilterChange = (key: string, checked: boolean) => {
     setVisibleColumns(prev =>
       checked ? [...prev, key] : prev.filter(col => col !== key)
     );
   };
+  // Filter Table
 
   return (
     <div>
@@ -239,11 +310,6 @@ const DataPegawaiPage = () => {
               Print
             </div>
           </Button>
-          <div className="hidden m filter-table w-[40px] h-[40px]">
-            <Button variant="outlinePrimary" className=''>
-              <FilterIcon />
-            </Button>
-          </div>
         </div>
       </div>
       {/*  */}
@@ -260,7 +326,11 @@ const DataPegawaiPage = () => {
           {/* <Button variant="outlinePrimary" className=''>
             <FilterIcon />
           </Button> */}
-          <FilterTable columns={columns} defaultCheckedKeys={defaultCheckedKeys} onFilterChange={handleFilterChange} />
+          <FilterTable
+            columns={columns}
+            defaultCheckedKeys={getDefaultCheckedKeys()}
+            onFilterChange={handleFilterChange}
+          />
         </div>
       </div>
       {/* top */}
@@ -293,23 +363,23 @@ const DataPegawaiPage = () => {
               </TableHead>
             )}
             {visibleColumns.includes('diklat') && (
-              <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">
+              <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
                 Diklat Struktural
               </TableHead>
             )}
             {visibleColumns.includes('pendidikan') && (
-              <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">
+              <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
                 Pendidikan Umum
               </TableHead>
             )}
             {visibleColumns.includes('usia') && (
-              <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Usia</TableHead>
+              <TableHead rowSpan={2} className="text-primary py-1 ">Usia</TableHead>
             )}
             {visibleColumns.includes('masaKerja') && (
-              <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Masa Kerja</TableHead>
+              <TableHead rowSpan={2} className="text-primary py-1 ">Masa Kerja</TableHead>
             )}
             {visibleColumns.includes('keterangan') && (
-              <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Ket</TableHead>
+              <TableHead rowSpan={2} className="text-primary py-1 ">Ket</TableHead>
             )}
             {visibleColumns.includes('status') && (
               <TableHead rowSpan={2} className="text-primary py-1">Status</TableHead>
@@ -320,32 +390,32 @@ const DataPegawaiPage = () => {
           </TableRow>
           <TableRow>
             {visibleColumns.includes('diklat') && (
-              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              <TableHead className="text-primary py-1  border border-slate-200 text-center">
                 Nama  DIklat
               </TableHead>
             )}
             {visibleColumns.includes('diklat') && (
-              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              <TableHead className="text-primary py-1  border border-slate-200 text-center">
                 Tanggal
               </TableHead>
             )}
             {visibleColumns.includes('diklat') && (
-              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              <TableHead className="text-primary py-1  border border-slate-200 text-center">
                 Jam
               </TableHead>
             )}
             {visibleColumns.includes('pendidikan') && (
-              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              <TableHead className="text-primary py-1  border border-slate-200 text-center">
                 Nama
               </TableHead>
             )}
             {visibleColumns.includes('pendidikan') && (
-              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              <TableHead className="text-primary py-1  border border-slate-200 text-center">
                 Tahun Lulus
               </TableHead>
             )}
             {visibleColumns.includes('pendidikan') && (
-              <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">
+              <TableHead className="text-primary py-1  border border-slate-200 text-center">
                 Jenjang
               </TableHead>
             )}
@@ -391,12 +461,12 @@ const DataPegawaiPage = () => {
                   </TableCell>
                 )}
                 {visibleColumns.includes('diklat') && (
-                  <TableCell className='hidden md:table-cell'>
+                  <TableCell className=''>
                     {item.namaDiklat} <br />
                   </TableCell>
                 )}
                 {visibleColumns.includes('diklat') && (
-                  <TableCell className='hidden md:table-cell'>
+                  <TableCell className=''>
                     {item.tglDiklat ?
                       new Date(item.tglDiklat).toLocaleDateString('id-ID', {
                         day: 'numeric',
@@ -407,33 +477,33 @@ const DataPegawaiPage = () => {
                   </TableCell>
                 )}
                 {visibleColumns.includes('diklat') && (
-                  <TableCell className='hidden md:table-cell'>
+                  <TableCell className=''>
                     {item.totalJam} Jam
                   </TableCell>
                 )}
                 {visibleColumns.includes('pendidikan') && (
-                  <TableCell className='hidden md:table-cell'>
+                  <TableCell className=''>
                     {item.namaPendidikan} <br />
                   </TableCell>
                 )}
                 {visibleColumns.includes('pendidikan') && (
-                  <TableCell className='hidden md:table-cell'>
+                  <TableCell className=''>
                     {item.tahunLulus} <br />
                   </TableCell>
                 )}
                 {visibleColumns.includes('pendidikan') && (
-                  <TableCell className='hidden md:table-cell'>
+                  <TableCell className=''>
                     {item.jenjangPendidikan}
                   </TableCell>
                 )}
                 {visibleColumns.includes('usia') && (
-                  <TableCell className='hidden md:table-cell'>{item.usia}</TableCell>
+                  <TableCell className=''>{item.usia}</TableCell>
                 )}
                 {visibleColumns.includes('masaKerja') && (
-                  <TableCell className='hidden md:table-cell'>{item.masaKerja}</TableCell>
+                  <TableCell className=''>{item.masaKerja}</TableCell>
                 )}
                 {visibleColumns.includes('keterangan') && (
-                  <TableCell className='hidden md:table-cell'>{item.keterangan}</TableCell>
+                  <TableCell className=''>{item.keterangan}</TableCell>
                 )}
                 {visibleColumns.includes('status') && (
                   <TableCell className=''>

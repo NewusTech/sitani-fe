@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -55,6 +55,7 @@ import {
 import Swal from 'sweetalert2';
 import PaginationTable from '@/components/PaginationTable';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
+import FilterTable from '@/components/FilterTable';
 
 const DataPenerimaUppo = () => {
     // TES
@@ -214,6 +215,50 @@ const DataPenerimaUppo = () => {
         mutate(`/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
     };
 
+    // Filter table
+    const columns = [
+        { label: "Kecamtan", key: "kecamatan" },
+        { label: "Desa", key: "desa" },
+        { label: "Nama Poktan", key: "namaPoktan" },
+        { label: "Nama Ketua", key: "namaKetua" },
+        { label: "Titik Koordinat", key: "titikKoordinat" },
+        { label: "Aksi", key: "aksi" }
+    ];
+
+    const getDefaultCheckedKeys = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth <= 768) {
+                return ["kecamatan", "desa", "namaPoktan", "aksi"];
+            } else {
+                return ["kecamatan", "desa", "namaPoktan", "namaKetua", "titikKoordinat", "aksi"];
+            }
+        }
+        return [];
+    };
+
+    const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        setVisibleColumns(getDefaultCheckedKeys());
+        const handleResize = () => {
+            setVisibleColumns(getDefaultCheckedKeys());
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    if (!isClient) {
+        return null;
+    }
+
+    const handleFilterChange = (key: string, checked: boolean) => {
+        setVisibleColumns(prev =>
+            checked ? [...prev, key] : prev.filter(col => col !== key)
+        );
+    };
+    // Filter Table
 
     return (
         <div>
@@ -302,9 +347,11 @@ const DataPenerimaUppo = () => {
                         </Popover>
                     </div>
                     <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
+                        <FilterTable
+                            columns={columns}
+                            defaultCheckedKeys={getDefaultCheckedKeys()}
+                            onFilterChange={handleFilterChange}
+                        />
                     </div>
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
@@ -328,12 +375,24 @@ const DataPenerimaUppo = () => {
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
                         <TableHead className="text-primary py-1">No</TableHead>
-                        <TableHead className="text-primary py-1">Kecamatan</TableHead>
-                        <TableHead className="text-primary py-1">Desa</TableHead>
-                        <TableHead className="text-primary py-1 ">Nama Poktan</TableHead>
-                        <TableHead className="text-primary py-1 hidden md:table-cell">Nama Ketua</TableHead>
-                        <TableHead className="text-primary py-1 hidden md:table-cell">Titik Koordinat</TableHead>
-                        <TableHead className="text-primary py-1">Aksi</TableHead>
+                        {visibleColumns.includes('kecamatan') && (
+                            <TableHead className="text-primary py-1">Kecamatan</TableHead>
+                        )}
+                        {visibleColumns.includes('desa') && (
+                            <TableHead className="text-primary py-1">Desa</TableHead>
+                        )}
+                        {visibleColumns.includes('namaPoktan') && (
+                            <TableHead className="text-primary py-1 ">Nama Poktan</TableHead>
+                        )}
+                        {visibleColumns.includes('namaKetua') && (
+                            <TableHead className="text-primary py-1 hidden md:table-cell">Nama Ketua</TableHead>
+                        )}
+                        {visibleColumns.includes('titikKoordinat') && (
+                            <TableHead className="text-primary py-1 hidden md:table-cell">Titik Koordinat</TableHead>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableHead className="text-primary py-1">Aksi</TableHead>
+                        )}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -343,32 +402,44 @@ const DataPenerimaUppo = () => {
                                 <TableCell>
                                     {(currentPage - 1) * limit + (index + 1)}
                                 </TableCell>
-                                <TableCell>
-                                    {item.kecamatan.nama}
-                                </TableCell>
-                                <TableCell>
-                                    {item.desa.nama}
-                                </TableCell>
-                                <TableCell>
-                                    {item.namaPoktan}
-                                </TableCell>
-                                <TableCell className='hidden md:table-cell'>
-                                    {item.ketuaPoktan}
-                                </TableCell>
-                                <TableCell className='hidden md:table-cell'>
-                                    {item.titikKoordinat}
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link className='' href={`/psp/data-penerima-uppo/detail/${item.id}`}>
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link className='' href={`/psp/data-penerima-uppo/edit/${item.id}`}>
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
-                                    </div>
-                                </TableCell>
+                                {visibleColumns.includes('kecamatan') && (
+                                    <TableCell>
+                                        {item.kecamatan.nama}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('desa') && (
+                                    <TableCell>
+                                        {item.desa.nama}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('namaPoktan') && (
+                                    <TableCell>
+                                        {item.namaPoktan}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('ketuaPoktan') && (
+                                    <TableCell className='hidden md:table-cell'>
+                                        {item.ketuaPoktan}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('titikKoordinat') && (
+                                    <TableCell className='hidden md:table-cell'>
+                                        {item.titikKoordinat}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('aksi') && (
+                                    <TableCell>
+                                        <div className="flex items-center gap-4">
+                                            <Link className='' href={`/psp/data-penerima-uppo/detail/${item.id}`}>
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link className='' href={`/psp/data-penerima-uppo/edit/${item.id}`}>
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
+                                        </div>
+                                    </TableCell>
+                                )}
                             </TableRow>
                         ))
                     ) : (

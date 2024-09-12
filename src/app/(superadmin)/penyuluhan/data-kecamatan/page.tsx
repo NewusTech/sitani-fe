@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -35,6 +35,7 @@ import DeletePopup from '@/components/superadmin/PopupDelete'
 import PaginationTable from '@/components/PaginationTable'
 import Swal from 'sweetalert2';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan'
+import FilterTable from '@/components/FilterTable'
 
 
 
@@ -165,10 +166,57 @@ const PenyuluhDataKecamatan = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        }mutate(`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`);
+        } mutate(`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`);
     };
 
     // console.log(dataKecamatan);
+
+    // Filter table
+    const columns = [
+        { label: "Kecamatan", key: "kecamatanData" },
+        { label: "Wilayah Desa Binaan", key: "wilayah" },
+        { label: "Nama", key: "nama" },
+        { label: "NIP", key: "nip" },
+        { label: "Pangkat", key: "pangkat" },
+        { label: "Golongan", key: "golongan" },
+        { label: "Keterangan", key: "keterangan" },
+        { label: "Aksi", key: "aksi" }
+    ];
+
+    const getDefaultCheckedKeys = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth <= 768) {
+                return ["kecamatanData", "wilayah", "aksi"];
+            } else {
+                return ["kecamatanData", "wilayah", "nama", "nip", "pangkat", "golongan", "keterangan", "aksi"];
+            }
+        }
+        return [];
+    };
+
+    const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        setVisibleColumns(getDefaultCheckedKeys());
+        const handleResize = () => {
+            setVisibleColumns(getDefaultCheckedKeys());
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    if (!isClient) {
+        return null;
+    }
+
+    const handleFilterChange = (key: string, checked: boolean) => {
+        setVisibleColumns(prev =>
+            checked ? [...prev, key] : prev.filter(col => col !== key)
+        );
+    };
+    // Filter Table
 
     return (
         <div>
@@ -189,9 +237,9 @@ const PenyuluhDataKecamatan = () => {
                     />
                 </div>
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <UnduhIcon />
-                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                        <div className="hidden md:block">
                             Download
                         </div>
                     </Button>
@@ -215,13 +263,15 @@ const PenyuluhDataKecamatan = () => {
                         />
                     </div>
                     <div className="filter-table w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
+                        <FilterTable
+                            columns={columns}
+                            defaultCheckedKeys={getDefaultCheckedKeys()}
+                            onFilterChange={handleFilterChange}
+                        />
                     </div>
                 </div>
-                <div className="right">
-                    <Link href="/penyuluhan/data-kecamatan/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium w-full transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                    <Link href="/penyuluhan/data-kecamatan/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium w-full'>
                         Tambah Data
                     </Link>
                 </div>
@@ -233,16 +283,32 @@ const PenyuluhDataKecamatan = () => {
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
                         <TableHead className="text-primary py-3">No</TableHead>
-                        <TableHead className="text-primary py-3 hidden md:table-cell">Kecamatan</TableHead>
-                        <TableHead className="text-primary py-3 hidden md:table-cell">Wilayah Desa Binaan</TableHead>
-                        <TableHead className="text-primary py-3">Nama</TableHead>
-                        <TableHead className="text-primary py-3">NIP</TableHead>
-                        <TableHead className="text-primary py-3 hidden md:table-cell">
-                            Pangkat
-                        </TableHead>
-                        <TableHead className="text-primary py-3 hidden md:table-cell">Gol</TableHead>
-                        <TableHead className="text-primary py-3 hidden md:table-cell ">Keterangan</TableHead>
-                        <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
+                        {visibleColumns.includes('kecamatanData') && (
+                            <TableHead className="text-primary py-3 ">Kecamatan</TableHead>
+                        )}
+                        {visibleColumns.includes('wilayah') && (
+                            <TableHead className="text-primary py-3 ">Wilayah Desa Binaan</TableHead>
+                        )}
+                        {visibleColumns.includes('nama') && (
+                            <TableHead className="text-primary py-3">Nama</TableHead>
+                        )}
+                        {visibleColumns.includes('nip') && (
+                            <TableHead className="text-primary py-3">NIP</TableHead>
+                        )}
+                        {visibleColumns.includes('pangkat') && (
+                            <TableHead className="text-primary py-3 ">
+                                Pangkat
+                            </TableHead>
+                        )}
+                        {visibleColumns.includes('golongan') && (
+                            <TableHead className="text-primary py-3 ">Gol</TableHead>
+                        )}
+                        {visibleColumns.includes('keterangan') && (
+                            <TableHead className="text-primary py-3  ">Keterangan</TableHead>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
+                        )}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -252,45 +318,61 @@ const PenyuluhDataKecamatan = () => {
                                 <TableCell>
                                     {(currentPage - 1) * limit + (index + 1)}
                                 </TableCell>
-                                <TableCell className='hidden md:table-cell'>
-                                    {item?.kecamatan?.nama}
-                                </TableCell>
-                                <TableCell className="hidden md:table-cell">
-                                    {item?.desa?.map((desa, index) => (
-                                        <span key={desa.id}>
-                                            {desa.nama}
-                                            {index < (item?.desa?.length ?? 0) - 1 && ", "}
-                                        </span>
-                                    ))}
-                                </TableCell>
-                                <TableCell>
-                                    {item.nama}
-                                </TableCell>
-                                <TableCell>
-                                    {item.nip}
-                                </TableCell>
-                                <TableCell className='hidden md:table-cell'>
-                                    {item.pangkat}
-                                </TableCell>
-                                <TableCell className='hidden md:table-cell'>
-                                    {item.golongan}
-                                </TableCell>
-                                <TableCell className='hidden md:table-cell'>
-                                    {item.keterangan}
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link className='' href="/penyuluhan/data-kecamatan/detail">
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link
-                                            href={`/penyuluhan/data-kecamatan/edit/${item.id}`}
-                                        >
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => handleDelete(item.id || '')} />
-                                    </div>
-                                </TableCell>
+                                {visibleColumns.includes('kecamatanData') && (
+                                    <TableCell className=''>
+                                        {item?.kecamatan?.nama}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('wilayah') && (
+                                    <TableCell className="">
+                                        {item?.desa?.map((desa, index) => (
+                                            <span key={desa.id}>
+                                                {desa.nama}
+                                                {index < (item?.desa?.length ?? 0) - 1 && ", "}
+                                            </span>
+                                        ))}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('nama') && (
+                                    <TableCell>
+                                        {item.nama}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('nip') && (
+                                    <TableCell>
+                                        {item.nip}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('pangkat') && (
+                                    <TableCell className=''>
+                                        {item.pangkat}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('golongan') && (
+                                    <TableCell className=''>
+                                        {item.golongan}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('keterangan') && (
+                                    <TableCell className=''>
+                                        {item.keterangan}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('aksi') && (
+                                    <TableCell>
+                                        <div className="flex items-center gap-4">
+                                            <Link className='' href="/penyuluhan/data-kecamatan/detail">
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link
+                                                href={`/penyuluhan/data-kecamatan/edit/${item.id}`}
+                                            >
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup onDelete={() => handleDelete(item.id || '')} />
+                                        </div>
+                                    </TableCell>
+                                )}
                             </TableRow>
                         ))
                     ) : (
