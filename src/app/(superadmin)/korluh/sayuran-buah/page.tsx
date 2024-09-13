@@ -339,7 +339,6 @@ const KorluhSayuranBuah = () => {
             <div className="text-2xl mb-5 font-semibold text-primary uppercase">Korluh Sayuran Buah</div>
             {/* title */}
 
-
             {/* top */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-2 lg:gap-2 flex justify-start items-center w-full">
@@ -538,10 +537,6 @@ const KorluhSayuranBuah = () => {
                                                         <EditIcon />
                                                     </Link>
                                                     <DeletePopup onDelete={() => handleDelete(String(tanaman.id))} />
-                                                </div>
-                                                <div className="flex gap-3 justify-center items-center">
-                                                    <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(tanaman.id))} />
-                                                    <TolakPopup onTolak={(alasan) => handleTolak(String(tanaman.id), alasan)} />
                                                 </div>
                                             </div>
                                         </TableCell>
