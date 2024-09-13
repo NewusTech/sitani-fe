@@ -91,25 +91,25 @@ const DetailLahanSawahPage = () => {
                 <div className="wrap-detail bg-slate-100 p-6 mt-5 rounded-lg">
                     <div className="font-semibold mb-2 text-lg uppercase">Data Lahan Sawah</div>
                     <div className="wrap">
-                        {/* <div className="wr">
+                        <div className="wr">
                             <div className="font-semibold mb-2 text-lg mt-5 uppercase">Kecamatan</div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-                                <LabelDetail label='Nama' name={dataLahanSawah.data.kecamatan.nama} />
+                                <LabelDetail label='Nama' name={dataLahanSawah?.data.kecamatan.nama} />
                             </div>
-                        </div> */}
+                        </div>
                         <div className="wr">
                             <div className="font-semibold text-lg mb-2 mt-3 uppercase">Luas Lahan Sawah (Ha)</div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-                                <LabelDetail label='Irigasi Teknis' name={dataLahanSawah.data.irigasiTeknis.toString()} />
-                                <LabelDetail label='Irigasi 1/2 Teknis' name={dataLahanSawah.data.irigasiSetengahTeknis.toString()} />
-                                <LabelDetail label='Irigasi Sederhana' name={dataLahanSawah.data.irigasiSederhana.toString()} />
-                                <LabelDetail label='Irigasi Desa/Non PU' name={dataLahanSawah.data.irigasiDesa.toString()} />
-                                <LabelDetail label='Tadah Hujan' name={dataLahanSawah.data.tadahHujan.toString()} />
-                                <LabelDetail label='Pasang Surut' name={dataLahanSawah.data.pasangSurut.toString()} />
-                                <LabelDetail label='Lebak' name={dataLahanSawah.data.lebak.toString()} />
-                                <LabelDetail label='Lainnya' name={dataLahanSawah.data.lainnya.toString()} />
-                                <LabelDetail label='Jumlah' name={dataLahanSawah.data.jumlah.toString()} />
-                                <LabelDetail label='Keterangan' name={dataLahanSawah.data.keterangan} />
+                                <LabelDetail label='Irigasi Teknis' name={dataLahanSawah?.data.irigasiTeknis.toString()} />
+                                <LabelDetail label='Irigasi 1/2 Teknis' name={dataLahanSawah?.data.irigasiSetengahTeknis.toString()} />
+                                <LabelDetail label='Irigasi Sederhana' name={dataLahanSawah?.data.irigasiSederhana.toString()} />
+                                <LabelDetail label='Irigasi Desa/Non PU' name={dataLahanSawah?.data.irigasiDesa.toString()} />
+                                <LabelDetail label='Tadah Hujan' name={dataLahanSawah?.data.tadahHujan.toString()} />
+                                <LabelDetail label='Pasang Surut' name={dataLahanSawah?.data.pasangSurut.toString()} />
+                                <LabelDetail label='Lebak' name={dataLahanSawah?.data.lebak.toString()} />
+                                <LabelDetail label='Lainnya' name={dataLahanSawah?.data.lainnya.toString()} />
+                                <LabelDetail label='Jumlah' name={dataLahanSawah?.data.jumlah.toString()} />
+                                <LabelDetail label='Keterangan' name={dataLahanSawah?.data.keterangan} />
                             </div>
                         </div>
                     </div>

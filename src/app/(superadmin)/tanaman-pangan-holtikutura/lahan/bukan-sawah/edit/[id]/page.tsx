@@ -118,8 +118,8 @@ const EditLahanBukanSawahPage = () => {
 
     useEffect(() => {
         if (dataLahanSawah && dataLahanSawah.data) {
-            const {tegal, ladang, perkebunan, hutanRakyat, padangPengembalaanRumput, hutanNegara, smtTidakDiusahakan, lainnya, lahanBukanPertanian } = dataLahanSawah.data;
-         
+            const { tegal, ladang, perkebunan, hutanRakyat, padangPengembalaanRumput, hutanNegara, smtTidakDiusahakan, lainnya, lahanBukanPertanian } = dataLahanSawah.data;
+
             setValue('tegal', tegal);
             setValue('ladang', ladang);
             setValue('perkebunan', perkebunan);
@@ -188,6 +188,28 @@ const EditLahanBukanSawahPage = () => {
             {/* Nama NIP Tempat Tanggal Lahir */}
             <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
                 <div className="wrap-form">
+                    <div className="mb-2">
+                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex flex-col mb-2 w-full">
+                                <Label className='text-sm mb-1' label="Tahun" />
+                                <Input
+                                    autoFocus
+                                    type="number"
+                                    placeholder="Tahun"
+                                    value={dataLahanSawah?.data.tphLahanBukanSawah.tahun}
+                                    disabled
+                                />
+                            </div>
+                            <div className="flex flex-col mb-2 w-full">
+                                <Label className='text-sm mb-1' label="Pilih Kecamatan" />
+                                <KecValue
+                                    disabled
+                                    value={dataLahanSawah?.data.kecamatanId}
+                                    onChange={() => { }} // Empty function for onChange
+                                />
+                            </div>
+                        </div>
+                    </div>
                     {/* irigasi teknis - 1/2 */}
                     <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
