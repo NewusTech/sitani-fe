@@ -118,7 +118,7 @@ const Palawija1 = () => {
     const [tahun, setTahun] = React.useState("2024");
     const [bulan, setBulan] = React.useState("1");
     // filter tahun bulan
-    
+
     // GETALL
     const { data: dataPalawija1 }: SWRResponse<Response> = useSWR(
         `/tph/realisasi-palawija-1/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`,
