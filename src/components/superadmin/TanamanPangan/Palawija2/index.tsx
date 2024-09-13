@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -52,6 +52,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useSWR, { mutate, SWRResponse } from 'swr'
 import Swal from 'sweetalert2'
 import KecamatanSelect from '../../SelectComponent/SelectKecamatan'
+import FilterTable from '@/components/FilterTable'
 
 interface Kecamatan {
     id: number;
@@ -193,6 +194,51 @@ const Palawija2 = () => {
         } mutate(`/tph/realisasi-palawija-2/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`);
     };
 
+    // Filter table
+    const columns = [
+        { label: "No", key: "no" },
+        { label: "Kecamatan", key: "kecamatan" },
+        { label: "Kacang Hijau", key: "kacangHijau" },
+        { label: "Ubi Kayu", key: "ubiKayu" },
+        { label: "Ubi Jalar", key: "ubiJalar" },
+        { label: "Aksi", key: "aksi" }
+    ];
+
+    const getDefaultCheckedKeys = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth <= 768) {
+                return ["no", "kecamatan", "aksi"];
+            } else {
+                return ["no", "kecamatan", "kacangHijau", "ubiKayu", "ubiJalar", "aksi"];
+            }
+        }
+        return [];
+    };
+
+    const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        setVisibleColumns(getDefaultCheckedKeys());
+        const handleResize = () => {
+            setVisibleColumns(getDefaultCheckedKeys());
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    if (!isClient) {
+        return null;
+    }
+
+    const handleFilterChange = (key: string, checked: boolean) => {
+        setVisibleColumns(prev =>
+            checked ? [...prev, key] : prev.filter(col => col !== key)
+        );
+    };
+    // Filter Table
+
     return (
         <div>
             {/* top */}
@@ -264,9 +310,11 @@ const Palawija2 = () => {
                         </Select>
                     </div>
                     <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
+                        <FilterTable
+                            columns={columns}
+                            defaultCheckedKeys={getDefaultCheckedKeys()}
+                            onFilterChange={handleFilterChange}
+                        />
                     </div>
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
@@ -301,103 +349,145 @@ const Palawija2 = () => {
             <Table className='border border-slate-200 mt-4'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            No
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            Kecamatan
-                        </TableHead>
-                        <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
-                            Kacang Hijau
-                        </TableHead>
-                        <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
-                            Ubi Kayu
-                        </TableHead>
-                        <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
-                            Ubi Jalar Panen
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                            Aksi
-                        </TableHead>
+                        {visibleColumns.includes('no') && (
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                No
+                            </TableHead>
+                        )}
+                        {visibleColumns.includes('kecamatan') && (
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                Kecamatan
+                            </TableHead>
+                        )}
+                        {visibleColumns.includes('kacangHijau') && (
+                            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
+                                Kacang Hijau
+                            </TableHead>
+                        )}
+                        {visibleColumns.includes('ubiKayu') && (
+                            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
+                                Ubi Kayu
+                            </TableHead>
+                        )}
+                        {visibleColumns.includes('ubiJalar') && (
+                            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
+                                Ubi Jalar
+                            </TableHead>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                Aksi
+                            </TableHead>
+                        )}
                     </TableRow>
                     <TableRow>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Panen <br /> (ha)
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Produktivitas <br /> (ku/ha)
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Produksi <br /> (ton)
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Panen <br /> (ha)
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Produktivitas <br /> (ku/ha)
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Produksi <br /> (ton)
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Panen <br /> (ha)
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Produktivitas <br /> (ku/ha)
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            Produksi <br /> (ton)
-                        </TableHead>
+                        {visibleColumns.includes('kacangHijau') && (
+                            <>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    Panen <br /> (ha)
+                                </TableHead>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    Produktivitas <br /> (ku/ha)
+                                </TableHead>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    Produksi <br /> (ton)
+                                </TableHead>
+                            </>
+                        )}
+                        {visibleColumns.includes('ubiKayu') && (
+                            <>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    Panen <br /> (ha)
+                                </TableHead>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    Produktivitas <br /> (ku/ha)
+                                </TableHead>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    Produksi <br /> (ton)
+                                </TableHead>
+                            </>
+                        )}
+                        {visibleColumns.includes('ubiJalar') && (
+                            <>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    Panen <br /> (ha)
+                                </TableHead>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    Produktivitas <br /> (ku/ha)
+                                </TableHead>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    Produksi <br /> (ton)
+                                </TableHead>
+                            </>
+                        )}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {dataPalawija2?.data && dataPalawija2?.data?.detail?.list?.length > 0 ? (
                         dataPalawija2?.data?.detail?.list.map((item, index) => (
                             <TableRow key={item.id}>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell className='border border-slate-200'>
-                                    {item.kecamatan.nama}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {item.kacangHijauPanen}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {item.kacangHijauProduktivitas}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {item.kacangHijauProduksi}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {item.ubiKayuPanen}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {item.ubiKayuProduktivitas}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {item.ubiKayuProduksi}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {item.ubiJalarPanen}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {item.ubiJalarProduktivitas}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {item.ubiJalarProduksi}
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link className='' href={`/tanaman-pangan-holtikutura/realisasi/palawija-2/detail/${item.id}`}>
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link className='' href={`/tanaman-pangan-holtikutura/realisasi/palawija-2/edit/${item.id}`}>
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={async () => { }} />
-                                    </div>
-                                </TableCell>
+                                {visibleColumns.includes('no') && (
+                                    <TableCell className='border border-slate-200 text-center'>
+                                        {index + 1}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('kecamatan') && (
+                                    <TableCell className='border border-slate-200'>
+                                        {item.kecamatan.nama}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('kacangHijau') && (
+                                    <>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.kacangHijauPanen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.kacangHijauProduktivitas}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.kacangHijauProduksi}
+                                        </TableCell>
+                                    </>
+                                )}
+                                {visibleColumns.includes('ubiKayu') && (
+                                    <>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.ubiKayuPanen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.ubiKayuProduktivitas}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.ubiKayuProduksi}
+                                        </TableCell>
+                                    </>
+                                )}
+                                {visibleColumns.includes('ubiJalar') && (
+                                    <>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.ubiJalarPanen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.ubiJalarProduktivitas}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.ubiJalarProduksi}
+                                        </TableCell>
+                                    </>
+                                )}
+                                {visibleColumns.includes('aksi') && (
+                                    <TableCell>
+                                        <div className="flex items-center gap-4">
+                                            <Link className='' href={`/tanaman-pangan-holtikutura/realisasi/palawija-2/detail/${item.id}`}>
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link className='' href={`/tanaman-pangan-holtikutura/realisasi/palawija-2/edit/${item.id}`}>
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup onDelete={async () => { }} />
+                                        </div>
+                                    </TableCell>
+                                )}
                             </TableRow>
                         ))
                     ) : (
@@ -408,71 +498,58 @@ const Palawija2 = () => {
                         </TableRow>
                     )}
                     <TableRow>
-                        <TableCell className='border border-slate-200'>
-
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            Jumlah
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
+                        {visibleColumns.includes('no') && (
+                            <TableCell className='border border-slate-200'>
+                            </TableCell>
+                        )}
+                        {visibleColumns.includes('kecamatan') && (
+                            <TableCell className='border font-semibold border-slate-200 text-center'>
+                                Jumlah
+                            </TableCell>
+                        )}
+                        {visibleColumns.includes('kacangHijau') && (
+                            <>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    234
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    234
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    234
+                                </TableCell>
+                            </>
+                        )}
+                        {visibleColumns.includes('ubiKayu') && (
+                            <>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    234
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    234
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    234
+                                </TableCell>
+                            </>
+                        )}
+                        {visibleColumns.includes('ubiJalar') && (
+                            <>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    234
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    234
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    234
+                                </TableCell>
+                            </>
+                        )}
                     </TableRow>
                 </TableBody>
             </Table>
             {/* table */}
-            {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </div>
-            {/* pagination */}
         </div>
     )
 }
