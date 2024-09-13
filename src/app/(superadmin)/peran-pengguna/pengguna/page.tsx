@@ -26,6 +26,7 @@ interface Data {
   email?: string;
   nip?: number;
   pangkat?: string;
+  golongan?: string;
 }
 
 const PenggunaPage = () => {
@@ -37,7 +38,8 @@ const PenggunaPage = () => {
       nama: "Hardono, S.P",
       email: "hardono@gmail.com",
       nip: 23432425345,
-      pangkat: "Penata 1"
+      pangkat: "Penata 1",
+      golongan: "IV/a"
     },
     {
       id: 2,
@@ -46,7 +48,8 @@ const PenggunaPage = () => {
       bidang: "Ketahanan Pangan",
       email: "hardono@gmail.com",
       nip: 23432425345,
-      pangkat: "Penata 1"
+      pangkat: "Penata 1",
+      golongan: "IV/a"
     },
     {
       id: 3,
@@ -55,7 +58,8 @@ const PenggunaPage = () => {
       bidang: "Ketahanan Pangan",
       email: "hardono@gmail.com",
       nip: 23432425345,
-      pangkat: "Penata 1"
+      pangkat: "Penata 1",
+      golongan: "IV/a"
     },
   ];
   return (
@@ -104,6 +108,9 @@ const PenggunaPage = () => {
             <TableHead className="text-primary py-3 hidden md:table-cell">
               Pangkat
             </TableHead>
+            <TableHead className="text-primary py-3 hidden md:table-cell">
+              Gol
+            </TableHead>
             <TableHead className="text-primary py-3 text-center">
               Aksi
             </TableHead>
@@ -132,6 +139,9 @@ const PenggunaPage = () => {
               </TableCell>
               <TableCell className='hidden md:table-cell'>
                 {item.pangkat}
+              </TableCell>
+              <TableCell className='hidden md:table-cell'>
+                {item.golongan}
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-4">

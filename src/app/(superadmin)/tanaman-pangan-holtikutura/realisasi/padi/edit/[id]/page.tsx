@@ -1,18 +1,60 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import Swal from "sweetalert2";
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
 import Loading from '@/components/ui/Loading';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useSWR from 'swr';
+import { useRouter, useParams } from "next/navigation";
+
+
+interface TphRealisasiPadi {
+  id: number;
+  bulan: string; // "2024-02-01T07:00:00.000Z"
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Kecamatan {
+  id: number;
+  nama: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface RealisasiPadiData {
+  id: number;
+  tphRealisasiPadiId: number;
+  kecamatanId: number;
+  panenLahanSawah: number;
+  produktivitasLahanSawah: number;
+  produksiLahanSawah: number;
+  panenLahanKering: number;
+  produktivitasLahanKering: number;
+  produksiLahanKering: number;
+  panenTotal: number;
+  produktivitasTotal: number;
+  produksiTotal: number;
+  createdAt: string;
+  updatedAt: string;
+  tphRealisasiPadi: TphRealisasiPadi;
+  kecamatan: Kecamatan;
+}
+
+interface Response {
+  status: number;
+  message: string;
+  data: RealisasiPadiData;
+}
+
 
 function formatDate(date: string): string {
   const [year, month] = date.split("-");
@@ -23,14 +65,7 @@ function formatDate(date: string): string {
 
 
 const formSchema = z.object({
-  kecamatan_id: z
-    .number()
-    .min(1, "Kecamatan wajib disi")
-    .transform((value) => Number(value)), // Convert string to number
-  bulan: z.preprocess(
-    (val) => typeof val === "string" ? formatDate(val) : val,
-    z.string().min(1, { message: "Bulan wajib diisi" })
-  ),
+
   panen_lahan_sawah: z
     .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
   produktivitas_lahan_sawah: z
@@ -47,8 +82,12 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahRealisasiPadiPage = () => {
-  const [date, setDate] = React.useState<Date>()
+const EditRealisasiPadiPage = () => {
+  const [loading, setLoading] = useState(false);
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useRouter();
+  const params = useParams();
+  const { id } = params;
 
   const {
     register,
@@ -61,15 +100,44 @@ const TambahRealisasiPadiPage = () => {
     resolver: zodResolver(formSchema),
   });
 
-  // const onSubmit = (data: FormSchemaType) => {
-  //   console.log(data);
-  // };
+  const { data: dataLahanSawah, error } = useSWR<Response>(
+    `tph/lahan-sawah/get/${id}`,
+    async (url: string) => {
+      try {
+        const response = await axiosPrivate.get(url);
+        return response.data;
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+        return null;
+      }
+    }
+  );
+
+  useEffect(() => {
+    if (dataLahanSawah && dataLahanSawah.data) {
+      const {
+        kecamatanId,
+        tphRealisasiPadi: { bulan },
+        panenLahanSawah,
+        produktivitasLahanSawah,
+        produksiLahanSawah,
+        panenLahanKering,
+        produktivitasLahanKering,
+        produksiLahanKering,
+      } = dataLahanSawah.data;
+
+      // Set the form values with fetched data
+      setValue("panen_lahan_sawah", panenLahanSawah);
+      setValue("produktivitas_lahan_sawah", produktivitasLahanSawah);
+      setValue("produksi_lahan_sawah", produksiLahanSawah);
+      setValue("panen_lahan_kering", panenLahanKering);
+      setValue("produktivitas_lahan_kering", produktivitasLahanKering);
+      setValue("produksi_lahan_kering", produksiLahanKering);
+    }
+  }, [dataLahanSawah, setValue]);
 
   // Submit handler for form
-  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("padi");
-  const axiosPrivate = useAxiosPrivate();
-  const navigate = useRouter();
 
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
@@ -133,34 +201,22 @@ const TambahRealisasiPadiPage = () => {
           <div className="mb-2">
             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
               <div className="flex flex-col mb-2 w-full">
-                <Label className='text-sm mb-1' label="Pilih Bulan" />
+                <Label className='text-sm mb-1' label="Bulan" />
                 <Input
                   autoFocus
-                  type="month"
-                  placeholder="bulan"
-                  {...register('bulan')}
-                  className={`${errors.bulan ? 'border-red-500' : ''}`}
+                  type="text"
+                  placeholder="Bulan"
+                  value={dataLahanSawah?.data.tphRealisasiPadi.bulan.toString()}
+                  disabled
                 />
-                {errors.bulan && (
-                  <HelperError>{errors.bulan.message}</HelperError>
-                )}
               </div>
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Pilih Kecamatan" />
-                <Controller
-                  name="kecamatan_id"
-                  control={control}
-                  render={({ field }) => (
-                    <KecValue
-                      // kecamatanItems={kecamatanItems}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  )}
+                <KecValue
+                  disabled
+                  value={dataLahanSawah?.data.kecamatanId}
+                  onChange={() => { }} // Empty function for onChange
                 />
-                {errors.kecamatan_id && (
-                  <p className="text-red-500">{errors.kecamatan_id.message}</p>
-                )}
               </div>
             </div>
           </div>
@@ -274,7 +330,7 @@ const TambahRealisasiPadiPage = () => {
             {loading ? (
               <Loading />
             ) : (
-              "Tambah"
+              "Simpan"
             )}
           </Button>
         </div>
@@ -283,4 +339,4 @@ const TambahRealisasiPadiPage = () => {
   )
 }
 
-export default TambahRealisasiPadiPage
+export default EditRealisasiPadiPage
