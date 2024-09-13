@@ -101,7 +101,7 @@ const EditRealisasiPadiPage = () => {
   });
 
   const { data: dataLahanSawah, error } = useSWR<Response>(
-    `tph/lahan-sawah/get/${id}`,
+    `/tph/realisasi-padi/get/${id}`,
     async (url: string) => {
       try {
         const response = await axiosPrivate.get(url);
@@ -116,8 +116,6 @@ const EditRealisasiPadiPage = () => {
   useEffect(() => {
     if (dataLahanSawah && dataLahanSawah.data) {
       const {
-        kecamatanId,
-        tphRealisasiPadi: { bulan },
         panenLahanSawah,
         produktivitasLahanSawah,
         produksiLahanSawah,
@@ -136,6 +134,15 @@ const EditRealisasiPadiPage = () => {
     }
   }, [dataLahanSawah, setValue]);
 
+  // Function to format the date to "Januari 2024"
+  const formatDateToMonthYear = (dateString: string): string => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric' }).format(date);
+  };
+
+  // Use the function to get the formatted date
+  const formattedDate = dataLahanSawah ? formatDateToMonthYear(dataLahanSawah.data.tphRealisasiPadi.bulan) : '';
+
   // Submit handler for form
   const [activeTab, setActiveTab] = useState("padi");
 
@@ -143,8 +150,8 @@ const EditRealisasiPadiPage = () => {
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setLoading(true); // Set loading to true when the form is submitted
     try {
-      await axiosPrivate.post("/tph/realisasi-padi/create", data);
-      // console.log("data= ", data)
+      await axiosPrivate.put(`/tph/realisasi-padi/update/${id}`, data);
+      console.log("data= ", data)
       localStorage.setItem('activeTab', activeTab);
 
       // Success alert
@@ -171,6 +178,7 @@ const EditRealisasiPadiPage = () => {
 
       navigate.push("/tanaman-pangan-holtikutura/realisasi");
     } catch (error: any) {
+      console.log("data= ", data)
       // Extract error message from API response
       const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
       Swal.fire({
@@ -203,10 +211,9 @@ const EditRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Bulan" />
                 <Input
-                  autoFocus
                   type="text"
                   placeholder="Bulan"
-                  value={dataLahanSawah?.data.tphRealisasiPadi.bulan.toString()}
+                  value={formattedDate}
                   disabled
                 />
               </div>
@@ -227,7 +234,6 @@ const EditRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Panen" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Panen"
                   {...register('panen_lahan_sawah')}
@@ -240,7 +246,6 @@ const EditRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Produktivitas" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produktivitas"
                   {...register('produktivitas_lahan_sawah')}
@@ -258,7 +263,6 @@ const EditRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 md:w-1/2 md:pr-3 w-full">
                 <Label className='text-sm mb-1' label="Produksi" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produksi"
                   {...register('produksi_lahan_sawah')}
@@ -277,7 +281,6 @@ const EditRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Panen" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Panen"
                   {...register('panen_lahan_kering')}
@@ -290,7 +293,6 @@ const EditRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Produktivitas" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produktivitas"
                   {...register('produktivitas_lahan_kering')}
@@ -308,7 +310,6 @@ const EditRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 md:w-1/2 md:pr-3 w-full">
                 <Label className='text-sm mb-1' label="Produksi" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produksi"
                   {...register('produksi_lahan_kering')}

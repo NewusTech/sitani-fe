@@ -136,11 +136,15 @@ const EditLahanSawahPage = () => {
       setValue("keterangan", keterangan);
     }
   }, [dataLahanSawah, setValue]);
+  const [activeTab, setActiveTab] = useState("lahanSawah");
+
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setLoading(true);
     try {
       await axiosPrivate.put(`/tph/lahan-sawah/update/${id}`, data);
+      localStorage.setItem('activeTab', activeTab);
+
 
       Swal.fire({
         icon: "success",

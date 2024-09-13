@@ -134,7 +134,7 @@ const Padi = () => {
     // DELETE
     const handleDelete = async (id: string) => {
         try {
-            await axiosPrivate.delete(`/tph/lahan-sawah/delete/${id}`, {
+            await axiosPrivate.delete(`/tph/realisasi-padi/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -181,7 +181,7 @@ const Padi = () => {
             });
             console.error("Failed to create user:", error);
         }
-        mutate(`tph/lahan-sawah/get?year=${tahun}&kecamatan=${selectedKecamatan}`);
+        mutate(`tph/realisasi-padi/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`);
     };
     // DELETE
 
@@ -361,10 +361,10 @@ const Padi = () => {
                                 </TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-4">
-                                        <Link href={`/tanaman-pangan-holtikultura/realisasi/detail/${item?.id}`}>
+                                        <Link href={`/tanaman-pangan-holtikutura/realisasi/padi/detail/${item?.id}`}>
                                             <EyeIcon />
                                         </Link>
-                                        <Link href={`/tanaman-pangan-holtikultura/realisasi/edit/${item?.id}`}>
+                                        <Link href={`/tanaman-pangan-holtikutura/realisasi/padi/edit/${item?.id}`}>
                                             <EditIcon />
                                         </Link>
                                         <DeletePopup onDelete={() => handleDelete(String(item?.id))} />

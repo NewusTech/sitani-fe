@@ -121,6 +121,8 @@ const BukanSawah = () => {
     // const data = responseData?.data?.list || [];
 
     // DELETE
+    const [activeTab, setActiveTab] = useState("bukanSawah");
+
     const handleDelete = async (id: string) => {
         try {
             await axiosPrivate.delete(`/tph/lahan-bukan-sawah/delete/${id}`, {
@@ -128,7 +130,7 @@ const BukanSawah = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            console.log(id)
+            localStorage.setItem('activeTab', activeTab);
             // alert
             Swal.fire({
                 icon: 'success',
@@ -357,7 +359,7 @@ const BukanSawah = () => {
                             Jumlah
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
-                        {responseData?.data?.tegal}
+                            {responseData?.data?.tegal}
                         </TableCell>
                         <TableCell className='border font-semibold border-slate-200 text-center'>
                             {responseData?.data?.ladang}

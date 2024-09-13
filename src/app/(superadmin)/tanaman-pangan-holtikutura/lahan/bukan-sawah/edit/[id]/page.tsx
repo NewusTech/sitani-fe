@@ -102,6 +102,8 @@ const EditLahanBukanSawahPage = () => {
     const navigate = useRouter();
     const params = useParams();
     const { id } = params;
+    const [activeTab, setActiveTab] = useState("bukanSawah");
+
 
     const { data: dataLahanSawah, error } = useSWR<Response>(
         `tph/lahan-bukan-sawah/get/${id}`,
@@ -136,6 +138,8 @@ const EditLahanBukanSawahPage = () => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
             await axiosPrivate.put(`/tph/lahan-bukan-sawah/update/${id}`, data);
+            localStorage.setItem('activeTab', activeTab);
+
             // console.log("data= ", data)
 
             // Success alert

@@ -135,7 +135,6 @@ const TambahRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Pilih Bulan" />
                 <Input
-                  autoFocus
                   type="month"
                   placeholder="bulan"
                   {...register('bulan')}
@@ -171,7 +170,6 @@ const TambahRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Panen" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Panen"
                   {...register('panen_lahan_sawah')}
@@ -184,7 +182,6 @@ const TambahRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Produktivitas" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produktivitas"
                   {...register('produktivitas_lahan_sawah')}
@@ -202,7 +199,6 @@ const TambahRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 md:w-1/2 md:pr-3 w-full">
                 <Label className='text-sm mb-1' label="Produksi" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produksi"
                   {...register('produksi_lahan_sawah')}
@@ -221,7 +217,6 @@ const TambahRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Panen" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Panen"
                   {...register('panen_lahan_kering')}
@@ -234,7 +229,6 @@ const TambahRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 w-full">
                 <Label className='text-sm mb-1' label="Produktivitas" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produktivitas"
                   {...register('produktivitas_lahan_kering')}
@@ -252,7 +246,6 @@ const TambahRealisasiPadiPage = () => {
               <div className="flex flex-col mb-2 md:w-1/2 md:pr-3 w-full">
                 <Label className='text-sm mb-1' label="Produksi" />
                 <Input
-                  autoFocus
                   type="number"
                   placeholder="Produksi"
                   {...register('produksi_lahan_kering')}

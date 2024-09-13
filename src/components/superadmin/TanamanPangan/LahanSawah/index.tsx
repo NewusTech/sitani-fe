@@ -98,6 +98,8 @@ const LahanSawah = () => {
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
     const [tahun, setTahun] = React.useState("2024");
+    const [activeTab, setActiveTab] = useState("lahanSawah");
+
 
 
     // GETALL
@@ -126,7 +128,8 @@ const LahanSawah = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            console.log(id)
+            localStorage.setItem('activeTab', activeTab);
+
             // alert
             Swal.fire({
                 icon: 'success',

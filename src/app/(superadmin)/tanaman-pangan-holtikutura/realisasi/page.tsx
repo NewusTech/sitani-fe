@@ -21,18 +21,23 @@ import Palawija2 from '@/components/superadmin/TanamanPangan/Palawija2';
 import Padi from '@/components/superadmin/TanamanPangan/Padi';
 
 const RealisasiPage = () => {
-    const [activeTab, setActiveTab] = useState('palawija1'); // default tab
+    const defaultTab = 'palawija1'; // Default tab
+    const [activeTab, setActiveTab] = useState(defaultTab);
 
     // Load the last active tab from localStorage when the component mounts
     useEffect(() => {
         const savedTab = localStorage.getItem('activeTab');
-        if (savedTab) {
+        if (savedTab && (savedTab === 'palawija1' || savedTab === 'palawija2' || savedTab === 'padi')) {
             setActiveTab(savedTab);
+        } else {
+            // If no saved tab or invalid tab, use the default value
+            localStorage.setItem('activeTab', defaultTab);
+            setActiveTab(defaultTab);
         }
     }, []);
 
     // Update localStorage whenever the active tab changes
-    const handleTabChange = (tab:any) => {
+    const handleTabChange = (tab: string) => {
         setActiveTab(tab);
         localStorage.setItem('activeTab', tab);
     };

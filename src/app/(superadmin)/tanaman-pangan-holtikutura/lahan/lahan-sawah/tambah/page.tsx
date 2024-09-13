@@ -68,13 +68,15 @@ const TambahLahanSawahPage = () => {
   const [loading, setLoading] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useRouter();
+  const [activeTab, setActiveTab] = useState("lahanSawah");
+
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setLoading(true); // Set loading to true when the form is submitted
     try {
       await axiosPrivate.post("/tph/lahan-sawah/create", data);
       // console.log("data= ", data)
-
+      localStorage.setItem('activeTab', activeTab);
       // Success alert
       Swal.fire({
         icon: "success",
