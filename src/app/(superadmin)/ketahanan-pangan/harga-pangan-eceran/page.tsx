@@ -289,35 +289,6 @@ const HargaPanganEceran = () => {
             </Table>
             {/* table */}
 
-            {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[111px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </div>
-            {/* pagination */}
-
             {/* title */}
             <div className="text-2xl mt-4 mb-4 font-semibold text-primary uppercase">Grafik Tiap Komoditas</div>
             {/* title */}
@@ -330,7 +301,6 @@ const HargaPanganEceran = () => {
                             <CardTitle className="text-sm">
                                 Harga Rata-rata Beras Premium & Medium Tingkat Pedagang Eceran
                             </CardTitle>
-                            {/* <CardDescription>January - June 2024</CardDescription> */}
                         </CardHeader>
                         <CardContent>
                             <ChartContainer config={chartConfig}>

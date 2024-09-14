@@ -204,9 +204,9 @@ const KuisionerPedagangEceran = () => {
     const getDefaultCheckedKeys = () => {
         if (typeof window !== 'undefined') {
             if (window.innerWidth <= 768) {
-                return ["no", "komoditas", "mg1", "aksi"];
+                return ["no", "komoditas", "rataRata", "aksi"];
             } else {
-                return ["no", "komoditas", "mg1", "mg2", "mg3", "mg4", "mg5", "aksi"];
+                return ["no", "komoditas", "mg1", "mg2", "mg3", "mg4", "mg5", "rataRata", "aksi"];
             }
         }
         return [];
@@ -239,7 +239,7 @@ const KuisionerPedagangEceran = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Harian Panel Pedagangan Eceran</div>
+            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Kuesioner Data Harian Panel Pedagangan Eceran</div>
             {/* title */}
             {/* top */}
             <div className="header flex gap-2 justify-between items-center">
@@ -280,7 +280,7 @@ const KuisionerPedagangEceran = () => {
                                     )}
                                 >
                                     <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {startDate ? format(startDate, "PPP") : <span>mg1 Awal</span>}
+                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
@@ -305,7 +305,7 @@ const KuisionerPedagangEceran = () => {
                                     )}
                                 >
                                     <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {endDate ? format(endDate, "PPP") : <span>mg1 Akhir</span>}
+                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
@@ -341,7 +341,6 @@ const KuisionerPedagangEceran = () => {
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
                         {visibleColumns.includes('no') && (
-
                             <TableHead className="text-primary py-3">No</TableHead>
                         )}
                         {visibleColumns.includes('komoditas') && (
@@ -365,8 +364,7 @@ const KuisionerPedagangEceran = () => {
                         {visibleColumns.includes('rataRata') && (
                             <TableHead className="text-primary py-3">Rata2 Per Bulan</TableHead>
                         )}
-                        {visibleColumns.includes('mg5') && (
-
+                        {visibleColumns.includes('aksi') && (
                             <TableHead className="text-primary py-3">Aksi</TableHead>
                         )}
                     </TableRow>
@@ -442,7 +440,6 @@ const KuisionerPedagangEceran = () => {
                         </TableRow>
                     )}
                 </TableBody>
-
             </Table>
             {/* table */}
 

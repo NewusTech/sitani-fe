@@ -217,7 +217,7 @@ const KoefisienVariasiProduksi = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Coefesien Variasi CV Tingkat Produksi</div>
+            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Coefesien Variansi (CV) Tk. Produksi</div>
             {/* title */}
             {/* top */}
             <div className="header flex gap-2 justify-between items-center">
@@ -606,35 +606,6 @@ const KoefisienVariasiProduksi = () => {
                 </TableFooter>
             </Table>
             {/* table */}
-
-            {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
-                <Pagination className='md:justify-end'>
-                    <PaginationContent>
-                        <PaginationItem>
-                            <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#" isActive>
-                                2
-                            </PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                            <PaginationNext href="#" />
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </div>
-            {/* pagination */}
         </div>
     )
 }
