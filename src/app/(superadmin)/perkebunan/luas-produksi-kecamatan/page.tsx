@@ -41,6 +41,8 @@ import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
+import Swal from 'sweetalert2';
+
 
 interface Response {
     status: number;
@@ -98,119 +100,6 @@ interface Links {
     next: string | null;
 }
 
-// const dataProduksi = {
-//     "status": 200,
-//     "message": "Get perkebunan successfully",
-//     "data": {
-//         "data": [
-//             {
-//                 "tahun": 2024,
-//                 "kecamatan": "Metro Kibang",
-//                 "list": [
-//                     {
-//                         "kategori": "TAN. SEMUSIM",
-//                         "sumJumlah": 6,
-//                         "sumTbm": 2,
-//                         "sumTm": 2,
-//                         "sumTr": 2,
-//                         "sumJmlPetaniPekebun": 2,
-//                         "sumProduktivitas": 2,
-//                         "sumProduksi": 2,
-//                         "list": [
-//                             {
-//                                 "id": 1,
-//                                 "komoditas": "Jagung",
-//                                 "tbm": 4324,
-//                                 "tm": 4324,
-//                                 "tr": 4324,
-//                                 "jumlah": 4324,
-//                                 "produksi": 4324,
-//                                 "produktivitas": 4324,
-//                                 "jmlPetaniPekebun": 4324,
-//                                 "bentukHasil": "Jagung pipilan",
-//                                 "keterangan": "Keterangan"
-//                             },
-//                             {
-//                                 "id": 2,
-//                                 "komoditas": "Kedelai",
-//                                 "tbm": 4324,
-//                                 "tm": 4324,
-//                                 "tr": 4324,
-//                                 "jumlah": 4324,
-//                                 "produksi": 4324,
-//                                 "produktivitas": 4324,
-//                                 "jmlPetaniPekebun": 4324,
-//                                 "bentukHasil": "Kedelai",
-//                                 "keterangan": "Keterangan"
-//                             }
-//                         ]
-//                     },
-//                     {
-//                         "kategori": "TAN. TAHUNAN",
-//                         "sumJumlah": 3,
-//                         "sumTbm": 1,
-//                         "sumTm": 1,
-//                         "sumTr": 1,
-//                         "sumJmlPetaniPekebun": 1,
-//                         "sumProduktivitas": 1,
-//                         "sumProduksi": 1,
-//                         "list": [
-//                             {
-//                                 "id": 3,
-//                                 "komoditas": "Aren",
-//                                 "tbm": 4324,
-//                                 "tm": 4324,
-//                                 "tr": 4324,
-//                                 "jumlah": 4324,
-//                                 "produksi": 4324,
-//                                 "produktivitas": 4324,
-//                                 "jmlPetaniPekebun": 4324,
-//                                 "bentukHasil": "Gula merah",
-//                                 "keterangan": "Keterangan"
-//                             }
-//                         ]
-//                     },
-//                     {
-//                         "kategori": "TAN. REMPAH DAN PENYEGAR",
-//                         "sumJumlah": 3,
-//                         "sumTbm": 1,
-//                         "sumTm": 1,
-//                         "sumTr": 1,
-//                         "sumJmlPetaniPekebun": 1,
-//                         "sumProduktivitas": 1,
-//                         "sumProduksi": 1,
-//                         "list": [
-//                             {
-//                                 "id": 4,
-//                                 "komoditas": "Jahe",
-//                                 "tbm": 4324,
-//                                 "tm": 4324,
-//                                 "tr": 4324,
-//                                 "jumlah": 4324,
-//                                 "produksi": 4324,
-//                                 "produktivitas": 4324,
-//                                 "jmlPetaniPekebun": 4324,
-//                                 "bentukHasil": "Jahe segar",
-//                                 "keterangan": "Keterangan"
-//                             }
-//                         ]
-//                     }
-//                 ]
-//             }
-//         ],
-//         "pagination": {
-//             "page": 1,
-//             "perPage": 10,
-//             "totalPages": 1,
-//             "totalCount": 1,
-//             "links": {
-//                 "prev": null,
-//                 "next": null
-//             }
-//         }
-//     }
-// }
-
 
 const LuasKecPage = () => {
     const [startDate, setstartDate] = React.useState<Date>()
@@ -238,6 +127,58 @@ const LuasKecPage = () => {
                 })
         // .then((res: any) => res.data)
     );
+    // DELETE
+    const handleDelete = async (id: string) => {
+        try {
+            await axiosPrivate.delete(`/perkebunan/kecamatan/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil dihapus!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+            console.log(id)
+            // Update the local data after successful deletion
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        } mutate(`/perkebunan/kecamatan/get`);
+    };
+
 
     return (
         <div>
@@ -407,7 +348,7 @@ const LuasKecPage = () => {
                                 <>
                                     <TableRow key={`kategori-${kecamatanIndex}-${kategoriIndex}`}>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            
+
                                         </TableCell>
                                         <TableCell className='border border-slate-200 font-semibold'>{kategori.kategori}</TableCell>
                                         <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
@@ -433,7 +374,7 @@ const LuasKecPage = () => {
                                                     <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${komoditas.id}`}>
                                                         <EditIcon />
                                                     </Link>
-                                                    <DeletePopup onDelete={async () => { }} />
+                                                    <DeletePopup onDelete={() => handleDelete(String(komoditas?.id))} />
                                                 </div>
                                             </TableCell>
                                         </TableRow>
