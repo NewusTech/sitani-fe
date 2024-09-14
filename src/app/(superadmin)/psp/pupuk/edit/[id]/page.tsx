@@ -239,7 +239,7 @@ const PupukTambah = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Simpan"
+                            "Edit"
                         )}
                     </Button>
                 </div>

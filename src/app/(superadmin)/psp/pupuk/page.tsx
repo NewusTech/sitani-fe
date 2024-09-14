@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -24,25 +24,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination"
 import DeletePopup from '@/components/superadmin/PopupDelete'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
@@ -54,7 +36,7 @@ import {
 } from "@/components/ui/popover"
 import PaginationTable from '@/components/PaginationTable';
 import Swal from 'sweetalert2';
-
+import FilterTable from '@/components/FilterTable';
 
 const Pupuk = () => {
     // TES
@@ -187,6 +169,51 @@ const Pupuk = () => {
 
     console.log(dataUser);
 
+    // Filter table
+    const columns = [
+        { label: "No", key: "no" },
+        { label: "Jenis Pupuk", key: "jenisPupuk" },
+        { label: "Kandungan Pupuk", key: "kandunganPupuk" },
+        { label: "keterangan", key: "keterangan" },
+        { label: "Harga Pupuk", key: "hargaPupuk" },
+        { label: "Aksi", key: "aksi" }
+    ];
+
+    const getDefaultCheckedKeys = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth <= 768) {
+                return ["no", "jenisPupuk", "aksi"];
+            } else {
+                return ["no", "jenisPupuk", "kandunganPupuk", "keterangan", "hargaPupuk", "aksi"];
+            }
+        }
+        return [];
+    };
+
+    const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        setVisibleColumns(getDefaultCheckedKeys());
+        const handleResize = () => {
+            setVisibleColumns(getDefaultCheckedKeys());
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    if (!isClient) {
+        return null;
+    }
+
+    const handleFilterChange = (key: string, checked: boolean) => {
+        setVisibleColumns(prev =>
+            checked ? [...prev, key] : prev.filter(col => col !== key)
+        );
+    };
+    // Filter Table
+
     return (
         <div>
             {/* title */}
@@ -207,13 +234,13 @@ const Pupuk = () => {
                     />
                 </div>
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         <UnduhIcon />
                         <div className="hidden md:block">
                             Download
                         </div>
                     </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         <PrintIcon />
                         <div className="hidden md:block">
                             Print
@@ -274,13 +301,15 @@ const Pupuk = () => {
                         </Popover>
                     </div>
                     <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
+                        <FilterTable
+                            columns={columns}
+                            defaultCheckedKeys={getDefaultCheckedKeys()}
+                            onFilterChange={handleFilterChange}
+                        />
                     </div>
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                    <Link href="/psp/pupuk/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[140px]'>
+                    <Link href="/psp/pupuk/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[140px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         Tambah Data
                     </Link>
                 </div>
@@ -291,44 +320,68 @@ const Pupuk = () => {
             <Table className='border border-slate-200 mt-4'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
-                        <TableHead className="text-primary py-1">No</TableHead>
-                        <TableHead className="text-primary py-1">Jenis Pupuk</TableHead>
-                        <TableHead className="text-primary py-1">Kandungan Pupuk</TableHead>
-                        <TableHead className="text-primary py-1">Keterangan</TableHead>
-                        <TableHead className="text-primary py-1">Harga Pupuk</TableHead>
-                        <TableHead className="text-primary py-1 text-center">Aksi</TableHead>
+                        {visibleColumns.includes('no') && (
+                            <TableHead className="text-primary py-1">No</TableHead>
+                        )}
+                        {visibleColumns.includes('jenisPupuk') && (
+                            <TableHead className="text-primary py-1">Jenis Pupuk</TableHead>
+                        )}
+                        {visibleColumns.includes('kandunganPupuk') && (
+                            <TableHead className="text-primary py-1">Kandungan Pupuk</TableHead>
+                        )}
+                        {visibleColumns.includes('keterangan') && (
+                            <TableHead className="text-primary py-1">Keterangan</TableHead>
+                        )}
+                        {visibleColumns.includes('hargaPupuk') && (
+                            <TableHead className="text-primary py-1">Harga Pupuk</TableHead>
+                        )}
+                        {visibleColumns.includes('aksi') && (
+                            <TableHead className="text-primary py-1 text-center">Aksi</TableHead>
+                        )}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
                         dataUser.data.data.map((item, index) => (
                             <TableRow key={item.id}>
-                                <TableCell>
-                                    {(currentPage - 1) * limit + (index + 1)}
-                                </TableCell>
-                                <TableCell>
-                                    {item.jenisPupuk}
-                                </TableCell>
-                                <TableCell>
-                                    {item.kandunganPupuk}
-                                </TableCell>
-                                <TableCell>
-                                    {item.keterangan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.hargaPupuk}
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4 justify-center">
-                                        <Link className='' href={`/psp/pupuk/detail/${item.id}`}>
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link className='' href={`/psp/pupuk/edit/${item.id}`}>
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => handleDelete(item.id || 0)} />
-                                    </div>
-                                </TableCell>
+                                {visibleColumns.includes('no') && (
+                                    <TableCell>
+                                        {(currentPage - 1) * limit + (index + 1)}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('jenisPupuk') && (
+                                    <TableCell>
+                                        {item.jenisPupuk}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('kandunganPupuk') && (
+                                    <TableCell>
+                                        {item.kandunganPupuk}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('keterangan') && (
+                                    <TableCell>
+                                        {item.keterangan}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('hargaPupuk') && (
+                                    <TableCell>
+                                        {item.hargaPupuk}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('aksi') && (
+                                    <TableCell>
+                                        <div className="flex items-center gap-4 justify-center">
+                                            <Link className='' href={`/psp/pupuk/detail/${item.id}`}>
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link className='' href={`/psp/pupuk/edit/${item.id}`}>
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup onDelete={() => handleDelete(item.id || 0)} />
+                                        </div>
+                                    </TableCell>
+                                )}
                             </TableRow>
                         ))
                     ) : (

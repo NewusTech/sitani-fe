@@ -5,7 +5,6 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter, useParams } from 'next/navigation';
-import { SWRResponse, mutate } from "swr";
 
 interface LabelProps {
     label?: string;

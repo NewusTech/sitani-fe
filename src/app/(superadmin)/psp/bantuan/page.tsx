@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
@@ -55,6 +55,7 @@ import {
 import PaginationTable from '@/components/PaginationTable';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 import Swal from 'sweetalert2';
+import FilterTable from '@/components/FilterTable';
 
 const Bantuan = () => {
     // TES
@@ -120,9 +121,9 @@ const Bantuan = () => {
         setSearch(event.target.value);
     };
     // serach
-      // limit
-      const [limit, setLimit] = useState(10);
-      // limit
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
     const { data: dataPSP }: SWRResponse<Response> = useSWR(
@@ -187,8 +188,54 @@ const Bantuan = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        }  mutate(`/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
+        } mutate(`/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
     };
+
+    // Filter table
+    const columns = [
+        { label: "No", key: "no" },
+        { label: "Kecamatan", key: "kecamatan" },
+        { label: "Desa", key: "desa" },
+        { label: "Jenis Bantuan", key: "jenisBantuan" },
+        { label: "Periode", key: "periode" },
+        { label: "Keterangan", key: "keterangan" },
+        { label: "Aksi", key: "aksi" }
+    ];
+
+    const getDefaultCheckedKeys = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth <= 768) {
+                return ["no", "kecamatan", "desa", "aksi"];
+            } else {
+                return ["no", "kecamatan", "desa", "jenisBantuan", "periode", "keterangan", "aksi"];
+            }
+        }
+        return [];
+    };
+
+    const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        setVisibleColumns(getDefaultCheckedKeys());
+        const handleResize = () => {
+            setVisibleColumns(getDefaultCheckedKeys());
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    if (!isClient) {
+        return null;
+    }
+
+    const handleFilterChange = (key: string, checked: boolean) => {
+        setVisibleColumns(prev =>
+            checked ? [...prev, key] : prev.filter(col => col !== key)
+        );
+    };
+    // Filter Table
 
     return (
         <div>
@@ -210,13 +257,13 @@ const Bantuan = () => {
                     />
                 </div>
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         <UnduhIcon />
                         <div className="hidden md:block">
                             Download
                         </div>
                     </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         <PrintIcon />
                         <div className="hidden md:block">
                             Print
@@ -277,9 +324,11 @@ const Bantuan = () => {
                         </Popover>
                     </div>
                     <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
+                        <FilterTable
+                            columns={columns}
+                            defaultCheckedKeys={getDefaultCheckedKeys()}
+                            onFilterChange={handleFilterChange}
+                        />
                     </div>
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
@@ -293,7 +342,7 @@ const Bantuan = () => {
                             }}
                         />
                     </div>
-                    <Link href="/psp/bantuan/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                    <Link href="/psp/bantuan/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         Tambah Data
                     </Link>
                 </div>
@@ -304,52 +353,80 @@ const Bantuan = () => {
             <Table className='border border-slate-200 mt-4'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
-                        <TableHead className="text-primary py-1">No</TableHead>
-                        <TableHead className="text-primary py-1">Kecamatan</TableHead>
-                        <TableHead className="text-primary py-1">Desa</TableHead>
-                        <TableHead className="text-primary py-1">Jenis Bantuan</TableHead>
-                        <TableHead className="text-primary py-1">Periode</TableHead>
-                        <TableHead className="text-primary py-1">Keterangan</TableHead>
-                        <TableHead className="text-primary py-1">Aksi</TableHead>
+                        {visibleColumns.includes('no') && (
+                            <TableHead className="text-primary py-1">No</TableHead>
+                        )}
+                        {visibleColumns.includes('kecamatan') && (
+                            <TableHead className="text-primary py-1">Kecamatan</TableHead>
+                        )}
+                        {visibleColumns.includes('desa') && (
+                            <TableHead className="text-primary py-1">Desa</TableHead>
+                        )}
+                        {visibleColumns.includes('jenisBantuan') && (
+                            <TableHead className="text-primary py-1">Jenis Bantuan</TableHead>
+                        )}
+                        {visibleColumns.includes('periode') && (
+                            <TableHead className="text-primary py-1">Periode</TableHead>
+                        )}
+                        {visibleColumns.includes('keterangan') && (
+                            <TableHead className="text-primary py-1">Keterangan</TableHead>
+                        )}
+                        {visibleColumns.includes('akksi') && (
+                            <TableHead className="text-primary py-1">Aksi</TableHead>
+                        )}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {dataPSP?.data?.data && dataPSP.data.data.length > 0 ? (
                         dataPSP?.data?.data.map((item, index) => (
                             <TableRow key={item.id}>
-                                <TableCell>
-                                {(currentPage - 1) * limit + (index + 1)}
-                                </TableCell>
-                                <TableCell>
-                                    {item?.kecamatan?.nama}
-                                </TableCell>
-                                <TableCell>
-                                    {item?.desa?.nama}
-                                </TableCell>
-                                <TableCell>
-                                    {item.jenisBantuan}
-                                </TableCell>
-                                <TableCell>
-                                    {item.periode ? new Date(item.periode).toLocaleDateString('id-ID', {
-                                        day: 'numeric',
-                                        month: 'long',
-                                        year: 'numeric',
-                                    }) : 'Tanggal tidak tersedia'}
-                                </TableCell>
-                                <TableCell>
-                                    {item.keterangan}
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <Link className='' href={`/psp/bantuan/detail/${item.id}`}>
-                                            <EyeIcon />
-                                        </Link>
-                                        <Link className='' href={`/psp/bantuan/edit/${item.id}`}>
-                                            <EditIcon />
-                                        </Link>
-                                        <DeletePopup onDelete={() => handleDelete(item.id || '')} />
-                                    </div>
-                                </TableCell>
+                                {visibleColumns.includes('no') && (
+                                    <TableCell>
+                                        {(currentPage - 1) * limit + (index + 1)}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('kecamatan') && (
+                                    <TableCell>
+                                        {item?.kecamatan?.nama}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('desa') && (
+                                    <TableCell>
+                                        {item?.desa?.nama}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('jenisBantuan') && (
+                                    <TableCell>
+                                        {item.jenisBantuan}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('periode') && (
+                                    <TableCell>
+                                        {item.periode ? new Date(item.periode).toLocaleDateString('id-ID', {
+                                            day: 'numeric',
+                                            month: 'long',
+                                            year: 'numeric',
+                                        }) : 'Tanggal tidak tersedia'}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('keterangan') && (
+                                    <TableCell>
+                                        {item.keterangan}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('aksi') && (
+                                    <TableCell>
+                                        <div className="flex items-center gap-4">
+                                            <Link className='' href={`/psp/bantuan/detail/${item.id}`}>
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link className='' href={`/psp/bantuan/edit/${item.id}`}>
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup onDelete={() => handleDelete(item.id || '')} />
+                                        </div>
+                                    </TableCell>
+                                )}
                             </TableRow>
                         ))
                     ) : (

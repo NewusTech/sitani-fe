@@ -274,7 +274,7 @@ const BantuanEdit = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Simpan"
+                            "Edit"
                         )}
                     </Button>
                 </div>
