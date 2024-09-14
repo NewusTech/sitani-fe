@@ -180,9 +180,11 @@ const DataPegawaiPagePensiun = () => {
             </div>
           </Button>
           <div className="hidden m filter-table w-[40px] h-[40px]">
-            <Button variant="outlinePrimary" className=''>
-              <FilterIcon />
-            </Button>
+            {/* <FilterTable
+              columns={columns}
+              defaultCheckedKeys={getDefaultCheckedKeys()}
+              onFilterChange={handleFilterChange}
+            /> */}
           </div>
         </div>
       </div>
