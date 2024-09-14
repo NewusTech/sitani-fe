@@ -88,7 +88,7 @@ const DetailBukanLahanSawahPage = () => {
             <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail Bukan Lahan Sawah</div>
             {/* title */}
             <div className="mb-10 flex justify-start gap-2 md:gap-3 mt-4">
-                <Link href="/tanaman-pangan-holtikutura/lahan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                <Link href="/tanaman-pangan-holtikutura/lahan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                     Kembali
                 </Link>
             </div>

@@ -308,10 +308,10 @@ const TambahLahanBukanSawahPage = () => {
         </div>
         {/* Button */}
         <div className="flex justify-end gap-3">
-          <Link href="/tanaman-pangan-holtikutura/lahan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+          <Link href="/tanaman-pangan-holtikutura/lahan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
             Batal
           </Link>
-          <Button type="submit" variant="primary" size="lg" className="w-[120px]">
+          <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer">
             {loading ? (
               <Loading />
             ) : (
