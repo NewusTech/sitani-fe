@@ -37,10 +37,207 @@ import {
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
+
+interface Response {
+    status: number;
+    message: string;
+    data: PerkebunanData;
+}
+
+interface PerkebunanData {
+    data: KecamatanData[];
+    pagination: Pagination;
+}
+
+interface KecamatanData {
+    tahun: number;
+    kecamatan: string;
+    list: KategoriData[];
+}
+
+interface KategoriData {
+    kategori: string;
+    sumJumlah: number;
+    sumTbm: number;
+    sumTm: number;
+    sumTr: number;
+    sumJmlPetaniPekebun: number;
+    sumProduktivitas: number;
+    sumProduksi: number;
+    list: KomoditasData[];
+}
+
+interface KomoditasData {
+    id: number;
+    komoditas: string;
+    tbm: number;
+    tm: number;
+    tr: number;
+    jumlah: number;
+    produksi: number;
+    produktivitas: number;
+    jmlPetaniPekebun: number;
+    bentukHasil: string;
+    keterangan: string;
+}
+
+interface Pagination {
+    page: number;
+    perPage: number;
+    totalPages: number;
+    totalCount: number;
+    links: Links;
+}
+
+interface Links {
+    prev: string | null;
+    next: string | null;
+}
+
+// const dataProduksi = {
+//     "status": 200,
+//     "message": "Get perkebunan successfully",
+//     "data": {
+//         "data": [
+//             {
+//                 "tahun": 2024,
+//                 "kecamatan": "Metro Kibang",
+//                 "list": [
+//                     {
+//                         "kategori": "TAN. SEMUSIM",
+//                         "sumJumlah": 6,
+//                         "sumTbm": 2,
+//                         "sumTm": 2,
+//                         "sumTr": 2,
+//                         "sumJmlPetaniPekebun": 2,
+//                         "sumProduktivitas": 2,
+//                         "sumProduksi": 2,
+//                         "list": [
+//                             {
+//                                 "id": 1,
+//                                 "komoditas": "Jagung",
+//                                 "tbm": 4324,
+//                                 "tm": 4324,
+//                                 "tr": 4324,
+//                                 "jumlah": 4324,
+//                                 "produksi": 4324,
+//                                 "produktivitas": 4324,
+//                                 "jmlPetaniPekebun": 4324,
+//                                 "bentukHasil": "Jagung pipilan",
+//                                 "keterangan": "Keterangan"
+//                             },
+//                             {
+//                                 "id": 2,
+//                                 "komoditas": "Kedelai",
+//                                 "tbm": 4324,
+//                                 "tm": 4324,
+//                                 "tr": 4324,
+//                                 "jumlah": 4324,
+//                                 "produksi": 4324,
+//                                 "produktivitas": 4324,
+//                                 "jmlPetaniPekebun": 4324,
+//                                 "bentukHasil": "Kedelai",
+//                                 "keterangan": "Keterangan"
+//                             }
+//                         ]
+//                     },
+//                     {
+//                         "kategori": "TAN. TAHUNAN",
+//                         "sumJumlah": 3,
+//                         "sumTbm": 1,
+//                         "sumTm": 1,
+//                         "sumTr": 1,
+//                         "sumJmlPetaniPekebun": 1,
+//                         "sumProduktivitas": 1,
+//                         "sumProduksi": 1,
+//                         "list": [
+//                             {
+//                                 "id": 3,
+//                                 "komoditas": "Aren",
+//                                 "tbm": 4324,
+//                                 "tm": 4324,
+//                                 "tr": 4324,
+//                                 "jumlah": 4324,
+//                                 "produksi": 4324,
+//                                 "produktivitas": 4324,
+//                                 "jmlPetaniPekebun": 4324,
+//                                 "bentukHasil": "Gula merah",
+//                                 "keterangan": "Keterangan"
+//                             }
+//                         ]
+//                     },
+//                     {
+//                         "kategori": "TAN. REMPAH DAN PENYEGAR",
+//                         "sumJumlah": 3,
+//                         "sumTbm": 1,
+//                         "sumTm": 1,
+//                         "sumTr": 1,
+//                         "sumJmlPetaniPekebun": 1,
+//                         "sumProduktivitas": 1,
+//                         "sumProduksi": 1,
+//                         "list": [
+//                             {
+//                                 "id": 4,
+//                                 "komoditas": "Jahe",
+//                                 "tbm": 4324,
+//                                 "tm": 4324,
+//                                 "tr": 4324,
+//                                 "jumlah": 4324,
+//                                 "produksi": 4324,
+//                                 "produktivitas": 4324,
+//                                 "jmlPetaniPekebun": 4324,
+//                                 "bentukHasil": "Jahe segar",
+//                                 "keterangan": "Keterangan"
+//                             }
+//                         ]
+//                     }
+//                 ]
+//             }
+//         ],
+//         "pagination": {
+//             "page": 1,
+//             "perPage": 10,
+//             "totalPages": 1,
+//             "totalCount": 1,
+//             "links": {
+//                 "prev": null,
+//                 "next": null
+//             }
+//         }
+//     }
+// }
+
 
 const LuasKecPage = () => {
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
+
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    const { data: dataProduksi }: SWRResponse<Response> = useSWR(
+        `/perkebunan/kecamatan/get`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => {
+                    return res.data;
+                })
+                .catch((error) => {
+                    console.error("Failed to fetch data:", error);
+                    return { status: "error", message: "Failed to fetch data" };
+                })
+        // .then((res: any) => res.data)
+    );
 
     return (
         <div>
@@ -150,10 +347,11 @@ const LuasKecPage = () => {
                 </div>
             </div>
             {/* top */}
+
             {/* table */}
             <Table className='border border-slate-200 mt-4'>
                 <TableHeader className='bg-primary-600'>
-                    <TableRow >
+                    <TableRow>
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
                             No
                         </TableHead>
@@ -198,279 +396,69 @@ const LuasKecPage = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {/* tan1 */}
-                    <TableRow >
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            I
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold'>
-                            Tan. Tahunan
-                        </TableCell>
-                        <TableCell colSpan={9} className='border border-slate-200 font-semibold'>
-                        </TableCell>
-                        <TableCell>
-                            <div className="flex items-center gap-4">
-                                <Link className='' href="/perkebunan/luas-produksi-kecamatan/detail">
-                                    <EyeIcon />
-                                </Link>
-                                <Link className='' href="/perkebunan/luas-produksi-kecamatan/edit">
-                                    <EditIcon />
-                                </Link>
-                                <DeletePopup onDelete={async () => { }} />
-                            </div>
-                        </TableCell>
-                    </TableRow>
-                    {/* isi */}
-                    <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
-
-                        </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            Aren
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            Gula merah
-                        </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            Keterangan
-                        </TableCell>
-                    </TableRow>
-                    {/* jumlah */}
-                    <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
-
-                        </TableCell>
-                        <TableCell className='border italic font-semibold border-slate-200'>
-                            Jumlah I
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                    </TableRow>
-                    {/* tan1 */}
-                    {/* tan2 */}
-                    <TableRow >
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            II
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold'>
-                            Tan. Semusim
-                        </TableCell>
-                    </TableRow>
-                    {/* isi */}
-                    <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
-
-                        </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            Aren
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            Gula merah
-                        </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            Keterangan
-                        </TableCell>
-                    </TableRow>
-                    {/* jumlah */}
-                    <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
-
-                        </TableCell>
-                        <TableCell className='border italic font-semibold border-slate-200'>
-                            Jumlah II
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                    </TableRow>
-                    {/* tan2 */}
-                    {/* tan3 */}
-                    <TableRow >
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            III
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold'>
-                            Tan. Semusim
-                        </TableCell>
-                    </TableRow>
-                    {/* isi */}
-                    <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
-
-                        </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            Aren
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            Gula merah
-                        </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            Keterangan
-                        </TableCell>
-                    </TableRow>
-                    {/* jumlah */}
-                    <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
-
-                        </TableCell>
-                        <TableCell className='border italic font-semibold border-slate-200'>
-                            Jumlah III
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                    </TableRow>
-                    {/* tan2 */}
-                    {/* jumlah TOTAL I II III*/}
-                    <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
-
-                        </TableCell>
-                        <TableCell className='border italic font-semibold border-slate-200'>
-                            Jumlah I+II+III
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                        <TableCell className='border text-center border-slate-200'>
-                            4324
-                        </TableCell>
-                    </TableRow>
+                    {dataProduksi?.data.data.map((kecamatan, kecamatanIndex) => (
+                        <>
+                            <TableRow key={`kecamatan-${kecamatanIndex}`}>
+                                <TableCell className='border border-slate-200 text-center'>{kecamatanIndex + 1}</TableCell>
+                                <TableCell className='border border-slate-200 font-semibold uppercase'>{kecamatan.kecamatan}</TableCell>
+                                <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
+                            </TableRow>
+                            {kecamatan.list.map((kategori, kategoriIndex) => (
+                                <>
+                                    <TableRow key={`kategori-${kecamatanIndex}-${kategoriIndex}`}>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 font-semibold'>{kategori.kategori}</TableCell>
+                                        <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
+                                    </TableRow>
+                                    {kategori.list.map((komoditas, komoditasIndex) => (
+                                        <TableRow key={`komoditas-${kecamatanIndex}-${kategoriIndex}-${komoditasIndex}`}>
+                                            <TableCell className='border border-slate-200 text-center'></TableCell>
+                                            <TableCell className='border border-slate-200'>{komoditas.komoditas}</TableCell>
+                                            <TableCell className='border text-center border-slate-200'>{komoditas.tbm}</TableCell>
+                                            <TableCell className='border text-center border-slate-200'>{komoditas.tm}</TableCell>
+                                            <TableCell className='border text-center border-slate-200'>{komoditas.tr}</TableCell>
+                                            <TableCell className='border text-center border-slate-200'>{komoditas.jumlah}</TableCell>
+                                            <TableCell className='border text-center border-slate-200'>{komoditas.produksi}</TableCell>
+                                            <TableCell className='border text-center border-slate-200'>{komoditas.produktivitas}</TableCell>
+                                            <TableCell className='border text-center border-slate-200'>{komoditas.jmlPetaniPekebun}</TableCell>
+                                            <TableCell className='border border-slate-200'>{komoditas.bentukHasil}</TableCell>
+                                            <TableCell className='border border-slate-200'>{komoditas.keterangan}</TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center gap-4">
+                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${komoditas.id}`}>
+                                                        <EyeIcon />
+                                                    </Link>
+                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${komoditas.id}`}>
+                                                        <EditIcon />
+                                                    </Link>
+                                                    <DeletePopup onDelete={async () => { }} />
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                    <TableRow key={`jumlah-${kecamatanIndex}-${kategoriIndex}`}>
+                                        <TableCell className='border border-slate-200 text-center'></TableCell>
+                                        <TableCell className='border italic font-semibold border-slate-200'>
+                                            Jumlah {kategori.kategori}
+                                        </TableCell>
+                                        <TableCell className='border text-center border-slate-200'>{kategori.sumTbm}</TableCell>
+                                        <TableCell className='border text-center border-slate-200'>{kategori.sumTm}</TableCell>
+                                        <TableCell className='border text-center border-slate-200'>{kategori.sumTr}</TableCell>
+                                        <TableCell className='border text-center border-slate-200'>{kategori.sumJumlah}</TableCell>
+                                        <TableCell className='border text-center border-slate-200'>{kategori.sumProduksi}</TableCell>
+                                        <TableCell className='border text-center border-slate-200'>{kategori.sumProduktivitas}</TableCell>
+                                        <TableCell className='border text-center border-slate-200'>{kategori.sumJmlPetaniPekebun}</TableCell>
+                                        <TableCell className='border border-slate-200' colSpan={2} />
+                                    </TableRow>
+                                </>
+                            ))}
+                        </>
+                    ))}
                 </TableBody>
             </Table>
+
             {/* table */}
         </div>
     )

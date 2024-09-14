@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
@@ -19,25 +19,24 @@ import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
 // 
 import Swal from 'sweetalert2';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import useSWR, { mutate, SWRResponse } from "swr";
 import useLocalStorage from '@/hooks/useLocalStorage';
 import Loading from '@/components/ui/Loading';
+import InputComponent from '@/components/ui/InputKecDesa';
 
 const formSchema = z.object({
-    kecamatan_id: z
-        .number()
-        .min(1, "Kecamatan is required")
-        .transform((value) => Number(value)), // Convert string to number
-    tahun: z
-        .string()
-        .min(1, { message: "master_komoditas_id Teknis wajib diisi" }),
+    // kecamatan_id: z
+    //     .number()
+    //     .min(1, "Kecamatan is required")
+    //     .transform((value) => Number(value)), // Convert string to number
+    // tahun: z
+    //     .string()
+    //     .min(1, { message: "master_komoditas_id Teknis wajib diisi" }),
     master_kategori_komoditas_id: z
-        .string()
-        .min(1, { message: "Kategori wajib diisi" }),
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" })),
     master_komoditas_id: z
-        .string()
-        .min(1, { message: "master_komoditas_id Teknis wajib diisi" }),
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" })),
     tbm: z
         .preprocess((val) => Number(val), z.number().min(0, { message: "GKP TK Penggilingan wajib diisi" })),
     tm: z
@@ -60,7 +59,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahKecPage = () => {
+const EditKecPage = () => {
     const [date, setDate] = React.useState<Date>()
     // GET ALL MASTER KATEGORI
     interface Master {
@@ -113,18 +112,107 @@ const TambahKecPage = () => {
         resolver: zodResolver(formSchema),
     });
 
+
+    const params = useParams();
+    const { id } = params;
+    // GET ONE
+    interface KategoriKomoditas {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Komoditas {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Perkebunan {
+        id: number;
+        perkebunanKecamatanId: number;
+        masterKategoriKomoditasId: number;
+        masterKomoditasId: number;
+        tbm: number;
+        tm: number;
+        tr: number;
+        jumlah: number;
+        produksi: number;
+        produktivitas: number;
+        jmlPetaniPekebun: number;
+        bentukHasil: string;
+        keterangan: string;
+        createdAt: string;
+        updatedAt: string;
+        kategoriKomoditas: KategoriKomoditas;
+        komoditas: Komoditas;
+    }
+
+    interface ApiResponse {
+        status: number;
+        message: string;
+        data: Perkebunan;
+    }
+
+    // GET O
+
+    const { data: dataUser }: SWRResponse<ApiResponse> = useSWR(
+        `perkebunan/kecamatan/get/${id}`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+    useEffect(() => {
+        if (dataUser) {
+            const timeoutId = setTimeout(() => {
+                setValue("master_kategori_komoditas_id", dataUser.data.masterKategoriKomoditasId);
+                setValue("master_komoditas_id", dataUser.data.masterKomoditasId);
+                setValue("tbm", dataUser.data.tbm);
+                setValue("tm", dataUser.data.tm);
+                setValue("tr", dataUser.data.tr);
+                setValue("jml_petani_pekebun", dataUser.data.jmlPetaniPekebun);
+                setValue("produksi", dataUser.data.produksi);
+                setValue("produktivitas", dataUser.data.produktivitas);
+                setValue("bentuk_hasil", dataUser.data.bentukHasil);
+                setValue("keterangan", dataUser.data.keterangan);
+            }, 200); // Adjust the delay as needed
+
+            return () => clearTimeout(timeoutId); // Clean up timeout on component unmount
+        }
+    }, [dataUser, setValue]);
+
+
+    // GET ONE
+
+    const masterOptions = dataMaster?.data.map(master => ({
+        id: master.id.toString(),
+        name: master.nama,
+    }));
+    const komoditasOptions = dataKomoditas?.data.map(master => ({
+        id: master.id.toString(),
+        name: master.nama,
+    }));
+
     // TAMBAH
     const navigate = useRouter();
     const [loading, setLoading] = useState(false);
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         try {
             setLoading(true);
-            await axiosPrivate.post("/perkebunan/kecamatan/create", data);
+            await axiosPrivate.put(`/perkebunan/kecamatan/update/${id}`, data);
             console.log(data)
             // alert
             Swal.fire({
                 icon: 'success',
-                title: 'Data berhasil ditambahkan!',
+                title: 'Data berhasil diperbarui!',
                 text: 'Data sudah disimpan sistem!',
                 timer: 1500,
                 timerProgressBar: true,
@@ -149,7 +237,7 @@ const TambahKecPage = () => {
             reset()
         } catch (error: any) {
             // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
             Swal.fire({
                 icon: 'error',
                 title: 'Terjadi kesalahan!',
@@ -172,87 +260,74 @@ const TambahKecPage = () => {
     // TAMBAH
     return (
         <>
-            <div className="text-primary md:text-2xl text-xl font-bold mb-5">Tambah Data Luas Produksi Kecamatan</div>
+            <div className="text-primary md:text-2xl text-xl font-bold mb-5">Edit Data Luas Produksi Kecamatan</div>
             {/* Nama NIP Tempat Tanggal Lahir */}
             <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
                 <div className="wrap-form">
                     {/* pilih kecamatan - katagori panen */}
-                    <div className="mb-2">
+                    {/* <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Pilih Kecamatan" />
-                                <Controller
-                                    name="kecamatan_id"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <KecValue
-                                            // kecamatanItems={kecamatanItems}
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                    )}
+                                <KecValue
+                                    disabled
+                                    value={dataLahanSawah?.data.kecamatanId}
+                                    onChange={() => { }} // Empty function for onChange
                                 />
-                                {errors.kecamatan_id && (
-                                    <p className="text-red-500">{errors.kecamatan_id.message}</p>
-                                )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Tahun" />
-                                <Select
-                                    onValueChange={(value) => setValue("tahun", value)}
-                                >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Tahun" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="2023">2023</SelectItem>
-                                        <SelectItem value="2024">2024</SelectItem>
-                                        <SelectItem value="2025">2025</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                {errors.tahun && (
-                                    <HelperError>{errors.tahun.message}</HelperError>
-                                )}
+                                <Input
+                                    autoFocus
+                                    type="number"
+                                    placeholder="Tahun"
+                                    value={dataLahanSawah?.data.tphLahanBukanSawah.tahun}
+                                    disabled
+                                />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* pilih master_komoditas_id */}
                     <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Pilih Kategori Panen" />
-                                <Select
-                                    onValueChange={(value) => setValue("master_kategori_komoditas_id", value)}
-                                >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Pilih Kategori Panen" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {dataMaster?.data?.map((item) => (
-                                            <SelectItem key={item.id} value={item.id.toString()}>{item.nama}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                <Controller
+                                    name="master_kategori_komoditas_id"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <InputComponent
+                                            typeInput="selectSearch"
+                                            placeholder="Pilih Kategori Panen"
+                                            label="Kategori Panen"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            items={masterOptions}
+                                        />
+                                    )}
+                                />
                                 {errors.master_kategori_komoditas_id && (
-                                    <HelperError>{errors.master_kategori_komoditas_id.message}</HelperError>
+                                    <p className="text-red-500">{errors.master_kategori_komoditas_id.message}</p>
                                 )}
                             </div>
                             <div className="flex flex-col mb-2  w-full">
                                 <Label className='text-sm mb-1' label="Pilih Komoditi" />
-                                <Select
-                                    onValueChange={(value) => setValue("master_komoditas_id", value)}
-                                >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Pilih Komoditi" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {dataKomoditas?.data?.map((item) => (
-                                            <SelectItem key={item.id} value={item.id.toString()}>{item.nama}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                <Controller
+                                    name="master_komoditas_id"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <InputComponent
+                                            typeInput="selectSearch"
+                                            placeholder="Pilih Komoditi"
+                                            label="Komoditi"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            items={komoditasOptions}
+                                        />
+                                    )}
+                                />
                                 {errors.master_komoditas_id && (
-                                    <HelperError>{errors.master_komoditas_id.message}</HelperError>
+                                    <p className="text-red-500">{errors.master_komoditas_id.message}</p>
                                 )}
                             </div>
                         </div>
@@ -393,7 +468,7 @@ const TambahKecPage = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Tambah"
+                            "Simpan"
                         )}
                     </Button>
                 </div>
@@ -402,4 +477,4 @@ const TambahKecPage = () => {
     )
 }
 
-export default TambahKecPage
+export default EditKecPage
