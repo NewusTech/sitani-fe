@@ -36,6 +36,7 @@ import PaginationTable from '@/components/PaginationTable'
 import Swal from 'sweetalert2';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan'
 import FilterTable from '@/components/FilterTable'
+import PenyuluhKecPrint from '@/components/Print/Penyuluhan/PenyuluhanKec'
 
 
 
@@ -236,20 +237,9 @@ const PenyuluhDataKecamatan = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                {/* print */}
+                <PenyuluhKecPrint urlApi={`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`} />
+                {/* print */}
             </div>
             {/*  */}
             <div className="wrap-filter flex justify-between items-center mt-4 ">

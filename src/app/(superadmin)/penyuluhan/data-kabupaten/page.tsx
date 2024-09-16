@@ -37,6 +37,7 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import Swal from 'sweetalert2';
 import PaginationTable from '@/components/PaginationTable'
 import FilterTable from '@/components/FilterTable'
+import PenyuluhKabPrint from '@/components/Print/Penyuluhan/PenyuluhanKab'
 
 
 const PenyuluhDataKabupaten = () => {
@@ -223,20 +224,9 @@ const PenyuluhDataKabupaten = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                {/* unduh */}
+                <PenyuluhKabPrint />
+                {/* unduh */}
             </div>
             {/*  */}
             <div className="wrap-filter flex justify-between items-center mt-4 ">
@@ -262,9 +252,6 @@ const PenyuluhDataKabupaten = () => {
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
                         <TableHead className="text-primary py-3">No</TableHead>
-                        {visibleColumns.includes('wilayah') && (
-                            <TableHead className="text-primary py-3 ">Wilayah Desa Binaan</TableHead>
-                        )}
                         {visibleColumns.includes('nama') && (
                             <TableHead className="text-primary py-3">Nama</TableHead>
                         )}
@@ -275,6 +262,9 @@ const PenyuluhDataKabupaten = () => {
                             <TableHead className="text-primary py-3 ">
                                 Pangkat/Gol
                             </TableHead>
+                        )}
+                        {visibleColumns.includes('wilayah') && (
+                            <TableHead className="text-primary py-3 ">Wilayah Desa Binaan (Kecamatan)</TableHead>
                         )}
                         {visibleColumns.includes('keterangan') && (
                             <TableHead className="text-primary py-3 ">Keterangan</TableHead>
@@ -291,16 +281,6 @@ const PenyuluhDataKabupaten = () => {
                                 <TableCell>
                                     {(currentPage - 1) * limit + (index + 1)}
                                 </TableCell>
-                                {visibleColumns.includes('wilayah') && (
-                                    <TableCell className=''>
-                                        {item.kecamatan.map((kec, index) => (
-                                            <span key={kec.id}>
-                                                {kec.nama}
-                                                {index < item.kecamatan.length - 1 && ", "}
-                                            </span>
-                                        ))}
-                                    </TableCell>
-                                )}
                                 {visibleColumns.includes('nama') && (
                                     <TableCell>
                                         {item.nama}
@@ -314,6 +294,16 @@ const PenyuluhDataKabupaten = () => {
                                 {visibleColumns.includes('pangkat') && (
                                     <TableCell className=''>
                                         {item.pangkat}, {item.golongan}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('wilayah') && (
+                                    <TableCell className=''>
+                                        {item.kecamatan.map((kec, index) => (
+                                            <span key={kec.id}>
+                                                {kec.nama}
+                                                {index < item.kecamatan.length - 1 && ", "}
+                                            </span>
+                                        ))}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('keterangan') && (

@@ -211,7 +211,7 @@ const PenyuluhanTambahDataKabupaten = () => {
                 <div className="mb-10 flex justify-end gap-3">
                     <Link
                         href="/penyuluhan/data-kabupaten"
-                        className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
+                        className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'
                     >
                         Batal
                     </Link>
@@ -219,7 +219,7 @@ const PenyuluhanTambahDataKabupaten = () => {
                         type="submit"
                         variant="primary"
                         size="lg"
-                        className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
+                        className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
                     >
                         {loading ? <Loading /> : "Simpan"}
                     </Button>
