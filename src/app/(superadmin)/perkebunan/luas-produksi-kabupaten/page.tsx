@@ -38,54 +38,99 @@ import {
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
+import useLocalStorage from '@/hooks/useLocalStorage'
+import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import useSWR, { SWRResponse } from 'swr'
 
-interface Data {
-    kecamatan?: string;
-    desa?: string;
-    hasilProduksi?: string;
-    namaTanaman?: string;
-    luasTanamanAkhirBulanLalu?: string;
-    luasPanen: {
-        habisDibongkar?: number;
-        belumHabis?: number;
-    }
-    luasRusak?: string;
-    luasPenanamanBaru?: string;
-    luasTanamanAkhirBulanLaporan?: string;
-    produksiKuintal: {
-        dipanenHabis?: number;
-        belumHabis?: number;
-    }
-    rataRataHargaJual?: string;
-    keterangan?: string;
+interface ResponseData {
+    status: number;
+    message: string;
+    data: {
+        yearBefore: number;
+        currentYear: number;
+        before: CategoryData[];
+        current: CategoryData[];
+    };
+}
+
+interface CategoryData {
+    kategori: string;
+    sumJumlah: number;
+    sumTbm: number;
+    sumTm: number;
+    sumTr: number;
+    sumJmlPetaniPekebun: number;
+    sumProduktivitas: number;
+    sumProduksi: number;
+    list: Commodity[];
+}
+
+interface Commodity {
+    id: number;
+    komoditas: string;
+    tbm: number;
+    tm: number;
+    tr: number;
+    jumlah: number;
+    produksi: number;
+    produktivitas: number;
+    jmlPetaniPekebun: number;
+    bentukHasil: string;
+    keterangan: string;
 }
 
 const LuasKabPage = () => {
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
 
-    const data: Data[] = [
-        {
-            kecamatan: "Metro Kibang",
-            desa: "Metro",
-            hasilProduksi: "12000",
-            namaTanaman: "50000",
-            luasTanamanAkhirBulanLalu: "100000",
-            luasPanen: {
-                habisDibongkar: 23,
-                belumHabis: 345,
-            },
-            luasRusak: "100",
-            luasPenanamanBaru: "100",
-            luasTanamanAkhirBulanLaporan: "100",
-            produksiKuintal: {
-                dipanenHabis: 23,
-                belumHabis: 345,
-            },
-            rataRataHargaJual: "100",
-            keterangan: "100",
-        },
-    ];
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    const { data: dataProduksiKab }: SWRResponse<ResponseData> = useSWR(
+        `/perkebunan/kabupaten/get`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res) => res.data)
+                .catch((error) => {
+                    console.error("Failed to fetch data:", error);
+                    return { status: 500, message: "Failed to fetch data", data: { yearBefore: 0, currentYear: 0, before: [], current: [] } };
+                })
+    );
+
+    // if (error) return <div>Error loading data...</div>;
+    if (!dataProduksiKab) return <div>Loading...</div>;
+
+    const toRoman = (num: number) => {
+        const romanNumerals = [
+            { value: 1000, symbol: 'M' },
+            { value: 900, symbol: 'CM' },
+            { value: 500, symbol: 'D' },
+            { value: 400, symbol: 'CD' },
+            { value: 100, symbol: 'C' },
+            { value: 90, symbol: 'XC' },
+            { value: 50, symbol: 'L' },
+            { value: 40, symbol: 'XL' },
+            { value: 10, symbol: 'X' },
+            { value: 9, symbol: 'IX' },
+            { value: 5, symbol: 'V' },
+            { value: 4, symbol: 'IV' },
+            { value: 1, symbol: 'I' },
+        ];
+
+        let result = '';
+        for (let i = 0; i < romanNumerals.length; i++) {
+            while (num >= romanNumerals[i].value) {
+                result += romanNumerals[i].symbol;
+                num -= romanNumerals[i].value;
+            }
+        }
+        return result;
+    };
 
     return (
         <div>
@@ -197,252 +242,244 @@ const LuasKabPage = () => {
             {/* top */}
 
             {/* table */}
-            <Table className='border border-slate-200 mt-4'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow >
-                        <TableHead colSpan={10} className='text-primary py-1 border border-slate-200 text-center'>
-                            Atap 2022
-                        </TableHead>
-                        <TableHead colSpan={9} className='text-primary py-1 border border-slate-200 text-center'>
-                            Asem 2023
-                        </TableHead>
-                    </TableRow>
-                    <TableRow >
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            No
-                        </TableHead>
-
-                        {/* Atap */}
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            <div className="text-center items-center">
-                                Komoditi
-                            </div>
-                        </TableHead>
-                        <TableHead colSpan={3} className="text-primary py-1 border border-slate-200">
-                            <div className="w-[150px] text-center items-center">
-                                Komposisi Luas Areal
-                            </div>
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                            <div className="text-center items-center">
-                                Jumlah
-                            </div>
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                            <div className="text-center items-center">
-                                Produksi (TON)
-                            </div>
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            <div className="w-[150px] text-center items-center">
-                                Produktivitas Kg/Ha
-                            </div>
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            <div className="w-[150px] text-center items-center">
-                                Jumlah Petani Perkebunan (KK)
-                            </div>
-                        </TableHead>
-
-                        {/* Asem */}
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            <div className="text-center items-center">
-                                Komoditi
-                            </div>
-                        </TableHead>
-                        <TableHead colSpan={3} className="text-primary py-1 border border-slate-200">
-                            <div className="w-[150px] text-center items-center">
-                                Komposisi Luas Areal
-                            </div>
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                            <div className="text-center items-center">
-                                Jumlah
-                            </div>
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                            <div className="text-center items-center">
-                                Produksi (TON)
-                            </div>
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            <div className="w-[150px] text-center items-center">
-                                Produktivitas Kg/Ha
-                            </div>
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            <div className="w-[150px] text-center items-center">
-                                Jumlah Petani Perkebunan (KK)
-                            </div>
-                        </TableHead>
-
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            Aksi
-                        </TableHead>
-                    </TableRow>
-                    <TableRow>
-                        {/* Atap */}
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            TBM
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            TM
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            TR
-                        </TableHead>
-
-                        {/* Asem */}
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            TBM
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            TM
-                        </TableHead>
-                        <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                            TR
-                        </TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    <TableRow >
-                        <TableCell className='border border-slate-200 text-center'>
-                            I
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold'>
-                            Tan. Tahunan
-                        </TableCell>
-                    </TableRow>
-                    {data.map((item, index) => (
-                        <TableRow key={index}>
-                            {/* Atap */}
-
-                            <TableCell className='border border-slate-200 text-center'>
-                            </TableCell>
-                            <TableCell className='border border-slate-200'>
-                                {item.namaTanaman}
-                            </TableCell>
-                            <TableCell className='border border-slate-200'>
-                                {item.hasilProduksi}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasTanamanAkhirBulanLalu}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPanen.habisDibongkar}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPanen.belumHabis}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasRusak}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPenanamanBaru}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasTanamanAkhirBulanLaporan}
-                            </TableCell>
-
-                            {/* Asam */}
-                            <TableCell className='border border-slate-200 text-center'>
-                                {index + 1}
-                            </TableCell>
-                            <TableCell className='border border-slate-200'>
-                                {item.namaTanaman}
-                            </TableCell>
-                            <TableCell className='border border-slate-200'>
-                                {item.hasilProduksi}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasTanamanAkhirBulanLalu}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPanen.habisDibongkar}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPanen.belumHabis}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasRusak}
-                            </TableCell>
-                            <TableCell className='border border-slate-200 text-center'>
-                                {item.luasPenanamanBaru}
-                            </TableCell>
-
-                            <TableCell>
-                                <div className="flex items-center gap-4">
-                                    <Link className='' href="/perkebunan/luas-produksi-kabupaten/detail">
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link className='' href="/perkebunan/luas-produksi-kabupaten/edit">
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup onDelete={async () => { }} />
-                                </div>
-                            </TableCell>
+            <div className="flex space-x-0">
+                {/* Tabel Atap */}
+                <Table className="border border-slate-200 mt-4 w-full">
+                    <TableHeader className="bg-primary-600">
+                        <TableRow>
+                            <TableHead colSpan={9} className="text-primary py-1 border border-slate-200 text-center">
+                                {`Atap ${dataProduksiKab.data.yearBefore}`}
+                            </TableHead>
                         </TableRow>
-                    ))}
-                    <TableRow>
-                        <TableCell className='border border-slate-200'>
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            Jumlah
-                        </TableCell>
+                        <TableRow>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                No
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                Komoditi
+                            </TableHead>
+                            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200">
+                                Komposisi Luas Areal
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                Jumlah
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                Produksi (TON)
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                Produktivitas Kg/Ha
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                Jml. Petani Perkebun (KK)
+                            </TableHead>
+                        </TableRow>
+                        <TableRow>
+                            <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                TBM
+                            </TableHead>
+                            <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                TM
+                            </TableHead>
+                            <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                TR
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {dataProduksiKab.data.before.map((category, index) => (
+                            <React.Fragment key={index}>
+                                <TableRow>
+                                    <TableCell className="border border-slate-200 text-left">
+                                        {toRoman(index + 1)}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 font-semibold">
+                                        {category.kategori}
+                                    </TableCell>
+                                </TableRow>
+                                {category.list.map((commodity, idx) => (
+                                    <TableRow key={idx}>
+                                        <TableCell className="border border-slate-200 text-right">
+                                            {idx + 1}
+                                        </TableCell>
+                                        <TableCell className="border border-slate-200">
+                                            {commodity.komoditas}
+                                        </TableCell>
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {commodity.tbm}
+                                        </TableCell>
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {commodity.tm}
+                                        </TableCell>
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {commodity.tr}
+                                        </TableCell>
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {commodity.jumlah}
+                                        </TableCell>
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {commodity.produksi}
+                                        </TableCell>
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {commodity.produktivitas}
+                                        </TableCell>
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {commodity.jmlPetaniPekebun}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                                <TableRow>
+                                    <TableCell className="border border-slate-200"></TableCell>
+                                    <TableCell className="border font-semibold border-slate-200 text-center">
+                                        Jumlah {category.kategori}
+                                    </TableCell>
+                                    <TableCell className="border font-semibold border-slate-200 text-center">
+                                        {category.sumTbm}
+                                    </TableCell>
+                                    <TableCell className="border font-semibold border-slate-200 text-center">
+                                        {category.sumTm}
+                                    </TableCell>
+                                    <TableCell className="border font-semibold border-slate-200 text-center">
+                                        {category.sumTr}
+                                    </TableCell>
+                                    <TableCell className="border font-semibold border-slate-200 text-center">
+                                        {category.sumJumlah}
+                                    </TableCell>
+                                    <TableCell className="border font-semibold border-slate-200 text-center">
+                                        {category.sumProduksi}
+                                    </TableCell>
+                                    <TableCell className="border font-semibold border-slate-200 text-center">
+                                        {category.sumProduktivitas}
+                                    </TableCell>
+                                    <TableCell className="border font-semibold border-slate-200 text-center">
+                                        {category.sumJmlPetaniPekebun}
+                                    </TableCell>
+                                </TableRow>
+                            </React.Fragment>
+                        ))}
+                    </TableBody>
+                </Table>
 
-                        {/* jumlah */}
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        {/* Jumlah */}
-
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            234
-                        </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+                {/* Tabel Asem */}
+                <div className="overflow-x-auto">
+                    {/* <!-- Tabel Asem --> */}
+                    <Table className="border border-slate-200 mt-4 w-full">
+                        <TableHeader className="bg-primary-600">
+                            <TableRow>
+                                <TableHead colSpan={9} className="text-primary py-1 border border-slate-200 text-center">
+                                    {`Asem ${dataProduksiKab.data.currentYear}`}
+                                </TableHead>
+                            </TableRow>
+                            <TableRow>
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                    No
+                                </TableHead>
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                    Komoditi
+                                </TableHead>
+                                <TableHead colSpan={3} className="text-primary py-1 border border-slate-200">
+                                    Komposisi Luas Areal
+                                </TableHead>
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Jumlah
+                                </TableHead>
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Produksi (TON)
+                                </TableHead>
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                    Produktivitas Kg/Ha
+                                </TableHead>
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                    Jml. Petani Perkebun (KK)
+                                </TableHead>
+                            </TableRow>
+                            <TableRow>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    TBM
+                                </TableHead>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    TM
+                                </TableHead>
+                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                    TR
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {dataProduksiKab.data.current.map((category, index) => (
+                                <React.Fragment key={index}>
+                                    <TableRow>
+                                        <TableCell className="border border-slate-200 text-left">
+                                            {toRoman(index + 1)}
+                                        </TableCell>
+                                        <TableCell className="border border-slate-200 font-semibold">
+                                            {category.kategori}
+                                        </TableCell>
+                                    </TableRow>
+                                    {category.list.map((commodity, idx) => (
+                                        <TableRow key={idx}>
+                                            <TableCell className="border border-slate-200 text-right">
+                                                {idx + 1}
+                                            </TableCell>
+                                            <TableCell className="border border-slate-200">
+                                                {commodity.komoditas}
+                                            </TableCell>
+                                            <TableCell className="border border-slate-200 text-center">
+                                                {commodity.tbm}
+                                            </TableCell>
+                                            <TableCell className="border border-slate-200 text-center">
+                                                {commodity.tm}
+                                            </TableCell>
+                                            <TableCell className="border border-slate-200 text-center">
+                                                {commodity.tr}
+                                            </TableCell>
+                                            <TableCell className="border border-slate-200 text-center">
+                                                {commodity.jumlah}
+                                            </TableCell>
+                                            <TableCell className="border border-slate-200 text-center">
+                                                {commodity.produksi}
+                                            </TableCell>
+                                            <TableCell className="border border-slate-200 text-center">
+                                                {commodity.produktivitas}
+                                            </TableCell>
+                                            <TableCell className="border border-slate-200 text-center">
+                                                {commodity.jmlPetaniPekebun}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                    <TableRow>
+                                        <TableCell className="border border-slate-200"></TableCell>
+                                        <TableCell className="border font-semibold border-slate-200 text-center">
+                                            Jumlah {category.kategori}
+                                        </TableCell>
+                                        <TableCell className="border font-semibold border-slate-200 text-center">
+                                            {category.sumTbm}
+                                        </TableCell>
+                                        <TableCell className="border font-semibold border-slate-200 text-center">
+                                            {category.sumTm}
+                                        </TableCell>
+                                        <TableCell className="border font-semibold border-slate-200 text-center">
+                                            {category.sumTr}
+                                        </TableCell>
+                                        <TableCell className="border font-semibold border-slate-200 text-center">
+                                            {category.sumJumlah}
+                                        </TableCell>
+                                        <TableCell className="border font-semibold border-slate-200 text-center">
+                                            {category.sumProduksi}
+                                        </TableCell>
+                                        <TableCell className="border font-semibold border-slate-200 text-center">
+                                            {category.sumProduktivitas}
+                                        </TableCell>
+                                        <TableCell className="border font-semibold border-slate-200 text-center">
+                                            {category.sumJmlPetaniPekebun}
+                                        </TableCell>
+                                    </TableRow>
+                                </React.Fragment>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            </div>
             {/* table */}
         </div>
     )
