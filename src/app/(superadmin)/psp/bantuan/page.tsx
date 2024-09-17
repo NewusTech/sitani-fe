@@ -56,6 +56,7 @@ import PaginationTable from '@/components/PaginationTable';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 import Swal from 'sweetalert2';
 import FilterTable from '@/components/FilterTable';
+import PSPBantuan from '@/components/Print/PSP/Bantuan';
 
 const Bantuan = () => {
     // TES
@@ -256,20 +257,14 @@ const Bantuan = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                {/* print */}
+                <PSPBantuan
+                    urlApi={`/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`}
+                    startDate={filterStartDate} 
+                    endDate={filterEndDate}
+                    kecamatan={selectedKecamatan}
+                />
+                {/* print */}
             </div>
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
@@ -371,7 +366,7 @@ const Bantuan = () => {
                         {visibleColumns.includes('keterangan') && (
                             <TableHead className="text-primary py-1">Keterangan</TableHead>
                         )}
-                        {visibleColumns.includes('akksi') && (
+                        {visibleColumns.includes('aksi') && (
                             <TableHead className="text-primary py-1">Aksi</TableHead>
                         )}
                     </TableRow>
