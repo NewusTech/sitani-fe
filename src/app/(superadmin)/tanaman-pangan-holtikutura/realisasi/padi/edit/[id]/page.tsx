@@ -235,6 +235,7 @@ const EditRealisasiPadiPage = () => {
                 <Label className='text-sm mb-1' label="Panen" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Panen"
                   {...register('panen_lahan_sawah')}
                   className={`${errors.panen_lahan_sawah ? 'border-red-500' : ''}`}
@@ -247,6 +248,7 @@ const EditRealisasiPadiPage = () => {
                 <Label className='text-sm mb-1' label="Produktivitas" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Produktivitas"
                   {...register('produktivitas_lahan_sawah')}
                   className={`${errors.produktivitas_lahan_sawah ? 'border-red-500' : ''}`}
@@ -264,6 +266,7 @@ const EditRealisasiPadiPage = () => {
                 <Label className='text-sm mb-1' label="Produksi" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Produksi"
                   {...register('produksi_lahan_sawah')}
                   className={`${errors.produksi_lahan_sawah ? 'border-red-500' : ''}`}
@@ -282,6 +285,7 @@ const EditRealisasiPadiPage = () => {
                 <Label className='text-sm mb-1' label="Panen" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Panen"
                   {...register('panen_lahan_kering')}
                   className={`${errors.panen_lahan_kering ? 'border-red-500' : ''}`}
@@ -294,6 +298,7 @@ const EditRealisasiPadiPage = () => {
                 <Label className='text-sm mb-1' label="Produktivitas" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Produktivitas"
                   {...register('produktivitas_lahan_kering')}
                   className={`${errors.produktivitas_lahan_kering ? 'border-red-500' : ''}`}
@@ -311,6 +316,7 @@ const EditRealisasiPadiPage = () => {
                 <Label className='text-sm mb-1' label="Produksi" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Produksi"
                   {...register('produksi_lahan_kering')}
                   className={`${errors.produksi_lahan_kering ? 'border-red-500' : ''}`}

@@ -178,6 +178,7 @@ const TambahPalawija2Page = () => {
                 <Label className='text-sm mb-1' label="Kacang Hijau Panen" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Kacang Hijau Panen"
                   {...register('kacang_hijau_panen')}
                   className={`${errors.kacang_hijau_panen ? 'border-red-500' : ''}`}
@@ -190,6 +191,7 @@ const TambahPalawija2Page = () => {
                 <Label className='text-sm mb-1' label="Kacang Hijau Produktivitas" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Kacang Hijau Produktivitas"
                   {...register('kacang_hijau_produktivitas')}
                   className={`${errors.kacang_hijau_produktivitas ? 'border-red-500' : ''}`}
@@ -202,6 +204,7 @@ const TambahPalawija2Page = () => {
                 <Label className='text-sm mb-1' label="Kacang Hijau Produksi" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Kacang Hijau Produksi"
                   {...register('kacang_hijau_produksi')}
                   className={`${errors.kacang_hijau_produksi ? 'border-red-500' : ''}`}
@@ -218,6 +221,7 @@ const TambahPalawija2Page = () => {
                 <Label className='text-sm mb-1' label="Ubi Kayu Panen" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Ubi Kayu Panen"
                   {...register('ubi_kayu_panen')}
                   className={`${errors.ubi_kayu_panen ? 'border-red-500' : ''}`}
@@ -230,6 +234,7 @@ const TambahPalawija2Page = () => {
                 <Label className='text-sm mb-1' label="Ubi Kayu Produktivitas" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Ubi Kayu Produktivitas"
                   {...register('ubi_kayu_produktivitas')}
                   className={`${errors.ubi_kayu_produktivitas ? 'border-red-500' : ''}`}
@@ -242,6 +247,7 @@ const TambahPalawija2Page = () => {
                 <Label className='text-sm mb-1' label="Ubi Kayu Produksi" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Ubi Kayu Produksi"
                   {...register('ubi_kayu_produksi')}
                   className={`${errors.ubi_kayu_produksi ? 'border-red-500' : ''}`}
@@ -259,6 +265,7 @@ const TambahPalawija2Page = () => {
                 <Label className='text-sm mb-1' label="Ubi Jalar Panen" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Ubi Jalar Panen"
                   {...register('ubi_jalar_panen')}
                   className={`${errors.ubi_jalar_panen ? 'border-red-500' : ''}`}
@@ -271,6 +278,7 @@ const TambahPalawija2Page = () => {
                 <Label className='text-sm mb-1' label="Ubi Jalur Produktivitas" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Ubi Jalur Produktivitas"
                   {...register('ubi_jalar_produktivitas')}
                   className={`${errors.ubi_jalar_produktivitas ? 'border-red-500' : ''}`}
@@ -283,6 +291,7 @@ const TambahPalawija2Page = () => {
                 <Label className='text-sm mb-1' label="Ubi Jalar Produksi" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Ubi Jalar Produksi"
                   {...register('ubi_jalar_produksi')}
                   className={`${errors.ubi_jalar_produksi ? 'border-red-500' : ''}`}

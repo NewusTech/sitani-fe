@@ -220,6 +220,7 @@ const EditPalawija1Page = () => {
                 <Label className='text-sm mb-1' label="Jagung Panen" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Jagung Panen"
                   {...register('jagung_panen')}
                   className={`${errors.jagung_panen ? 'border-red-500' : ''}`}
@@ -232,6 +233,7 @@ const EditPalawija1Page = () => {
                 <Label className='text-sm mb-1' label="Jagung Produktivitas" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Jagung Produktivitas"
                   {...register('jagung_produktivitas')}
                   className={`${errors.jagung_produktivitas ? 'border-red-500' : ''}`}
@@ -244,6 +246,7 @@ const EditPalawija1Page = () => {
                 <Label className='text-sm mb-1' label="Jagung Produksi" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Jagung Produksi"
                   {...register('jagung_produksi')}
                   className={`${errors.jagung_produksi ? 'border-red-500' : ''}`}
@@ -260,6 +263,7 @@ const EditPalawija1Page = () => {
                 <Label className='text-sm mb-1' label="Kedelai Panen" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Kedelai Panen"
                   {...register('kedelai_panen')}
                   className={`${errors.kedelai_panen ? 'border-red-500' : ''}`}
@@ -272,6 +276,7 @@ const EditPalawija1Page = () => {
                 <Label className='text-sm mb-1' label="Kedelai Produktivitas" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Kedelai Produktivitas"
                   {...register('kedelai_produktivitas')}
                   className={`${errors.kedelai_produktivitas ? 'border-red-500' : ''}`}
@@ -284,6 +289,7 @@ const EditPalawija1Page = () => {
                 <Label className='text-sm mb-1' label="Kedelai Produksi" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Kedelai Produksi"
                   {...register('kedelai_produksi')}
                   className={`${errors.kedelai_produksi ? 'border-red-500' : ''}`}
@@ -301,6 +307,7 @@ const EditPalawija1Page = () => {
                 <Label className='text-sm mb-1' label="Kacang Tanah Panen" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Kacang Tanah Panen"
                   {...register('kacang_tanah_panen')}
                   className={`${errors.kacang_tanah_panen ? 'border-red-500' : ''}`}
@@ -313,6 +320,7 @@ const EditPalawija1Page = () => {
                 <Label className='text-sm mb-1' label="Kacang Tanah Produktivitas" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Kacang Tanah Produktivitas"
                   {...register('kacang_tanah_produktivitas')}
                   className={`${errors.kacang_tanah_produktivitas ? 'border-red-500' : ''}`}
@@ -325,6 +333,7 @@ const EditPalawija1Page = () => {
                 <Label className='text-sm mb-1' label="Kacang Tanah Produksi" />
                 <Input
                   type="number"
+                  step="0.00005"
                   placeholder="Kacang Tanah Produksi"
                   {...register('kacang_tanah_produksi')}
                   className={`${errors.kacang_tanah_produksi ? 'border-red-500' : ''}`}
