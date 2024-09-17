@@ -44,6 +44,7 @@ import { SWRResponse, mutate } from "swr";
 import Swal from 'sweetalert2';
 import KecamatanSelect from '../../SelectComponent/SelectKecamatan'
 import FilterTable from '@/components/FilterTable'
+import TPHBukanSawah from '@/components/Print/Holtilultura/BukanSawah'
 
 interface Kecamatan {
     id: number;
@@ -97,11 +98,11 @@ const BukanSawah = () => {
     // INTERGASI
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+    const currentYear = new Date().getFullYear();
 
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
-    const [tahun, setTahun] = React.useState("2024");
-
+    const [tahun, setTahun] = React.useState(`${currentYear}`);
 
     // GETALL
     const { data: responseData, error } = useSWR<Response>(
@@ -226,16 +227,13 @@ const BukanSawah = () => {
         <div>
             {/* top */}
             <div className="header flex gap-2 justify-end items-center mt-4">
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">Download</div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
-                        <PrintIcon />
-                        <div className="hidden md:block">Print</div>
-                    </Button>
-                </div>
+                {/* print */}
+                <TPHBukanSawah
+                    urlApi={`tph/lahan-bukan-sawah/get?year=${tahun}&kecamatan=${selectedKecamatan}`}
+                    kecamatan={selectedKecamatan}
+                    tahun={tahun}
+                />
+                {/* print */}
             </div>
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
