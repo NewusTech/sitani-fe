@@ -31,9 +31,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Swal from 'sweetalert2';
+
 
 interface PrintProps {
     urlApi?: string;
+    kecamatan?: string;
 }
 
 const PenyuluhKecPrint = (props: PrintProps) => {
@@ -115,6 +118,31 @@ const PenyuluhKecPrint = (props: PrintProps) => {
     );
     // GET LIST
 
+    // INTEGRASI
+    interface Kecamatan {
+        id: number;
+        nama: string;
+    }
+
+    interface ResponseFilter {
+        status: string;
+        data: Kecamatan;
+        message: string;
+    }
+
+    // DATA FILTER PDF
+    const { data: dataFilter, error } = useSWR<ResponseFilter>(
+        `/kecamatan/get/${props.kecamatan}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch user data:', error);
+                return null;
+            }
+        }
+    );
     //PRINT
     // print
     const printRef = useRef<HTMLDivElement>(null);
@@ -123,25 +151,90 @@ const PenyuluhKecPrint = (props: PrintProps) => {
         content: () => printRef.current,
     });
 
-    // download PDF
-    const handleDownloadPDF = async () => {
-        if (printRef.current) {
-            const canvas = await html2canvas(printRef.current, { scale: 2 });
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF({
-                orientation: 'landscape',
-                unit: 'pt',
-                format: 'a4',
+    // download Excel
+    const handleDownloadExcel = async () => {
+        const url = `https://backend-sitani.newus.id/api/download/penyuluh-kecamatan?kecamatan=${props.kecamatan}`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/vnd.ms-excel',
+                },
             });
 
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            if (!response.ok) {
+                throw new Error('Failed to download file');
+            }
 
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('laporan.pdf');
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.setAttribute('download', `Penyuluhan Kecamatan ${dataFilter?.data.nama || "Semua Kecamatan"}.xlsx`); // Nama file yang diunduh
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode?.removeChild(link); // Hapus elemen setelah di-click
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil download",
+                timer: 2000,
+                showConfirmButton: false,
+                position: "center",
+            });
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Gagal download!",
+                timer: 2000,
+                showConfirmButton: false,
+                position: "center",
+            });
+            console.error('Error downloading the file:', error);
         }
     };
+
+    // download PDF
+    const handleDownloadPDF = async () => {
+        try {
+            if (printRef.current) {
+                const canvas = await html2canvas(printRef.current, { scale: 2 });
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'pt',
+                    format: 'a4',
+                });
+
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save(`Penyuluhan Kecamatan ${dataFilter?.data.nama || "Semua Kecamatan"}.pdf`);
+
+                // Notifikasi Swal sukses
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil download",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    position: "center",
+                });
+            }
+        } catch (error) {
+            // Notifikasi Swal error
+            Swal.fire({
+                icon: "error",
+                title: "Gagal download!",
+                timer: 2000,
+                showConfirmButton: false,
+                position: "center",
+            });
+            console.error('Error downloading the PDF:', error);
+        }
+    };
+
     //PRINT 
     const currentYear = new Date().getFullYear();
     return (
@@ -163,7 +256,7 @@ const PenyuluhKecPrint = (props: PrintProps) => {
                             <DropdownMenuItem onClick={handleDownloadPDF}>
                                 Unduh PDF
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={handlePrint}>
+                            <DropdownMenuItem onClick={handleDownloadExcel}>
                                 Unduh Excel
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
@@ -199,43 +292,36 @@ const PenyuluhKecPrint = (props: PrintProps) => {
                         Daftar Penempatan Penyuluh Pertanian Kabupaten Lampung Timur Tahun {currentYear}
                     </div>
                     {/* title */}
-                    <div className="uppercase">Kecamatan : </div>
+                    <div className="uppercase">Kecamatan : {dataFilter?.data.nama || "Semua Kecamatan"}</div>
                     {/* table */}
                     <Table className='border border-black p-2 mt-1'>
                         <TableHeader className='bg-white text-black'>
-                            <TableRow >
-                                <TableHead className="border border-black p-2 text-black  uppercase text-center font-semibold">No</TableHead>
-                                <TableHead className="border border-black p-2 text-black  uppercase text-center font-semibold ">Kecamatan</TableHead>
-                                <TableHead className="border border-black p-2 text-black  uppercase text-center font-semibold">Nama</TableHead>
-                                <TableHead className="border border-black p-2 text-black  uppercase text-center font-semibold">NIP</TableHead>
-                                <TableHead className="border border-black p-2 text-black  uppercase text-center font-semibold ">
-                                    Pangkat/Gol
-                                </TableHead>
-                                <TableHead className="border border-black p-2 text-black  uppercase text-center font-semibold ">Wilayah Desa Binaan</TableHead>
-                                <TableHead className="border border-black p-2 text-black  uppercase text-center font-semibold  ">Keterangan</TableHead>
+                            <TableRow>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">No</TableHead>
+                                {/* Conditionally render the Kecamatan header if kecamatan prop is not provided */}
+                                {!props.kecamatan && (
+                                    <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Kecamatan</TableHead>
+                                )}
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Nama</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">NIP</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Pangkat/Gol</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Wilayah Desa Binaan</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Keterangan</TableHead>
                             </TableRow>
-
                         </TableHeader>
                         <TableBody>
-                            <TableRow >
-                                <TableCell className="border border-black p-2 text-black  text-center">1</TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center">2</TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center">3</TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center ">
-                                    4
-                                </TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center ">5</TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center ">6</TableCell>
-                            </TableRow>
                             {dataKecamatan?.data?.data && dataKecamatan?.data?.data?.length > 0 ? (
                                 dataKecamatan.data.data.map((item, index) => (
                                     <TableRow key={index}>
                                         <TableCell className='border border-black p-2 text-black text-center'>
                                             {(currentPage - 1) * limit + (index + 1)}
                                         </TableCell>
-                                        <TableCell className='border border-black p-2 text-black'>
-                                            {item?.kecamatan?.nama}
-                                        </TableCell>
+                                        {/* Conditionally render the Kecamatan cell if kecamatan prop is not provided */}
+                                        {!props.kecamatan && (
+                                            <TableCell className='border border-black p-2 text-black'>
+                                                {item?.kecamatan?.nama}
+                                            </TableCell>
+                                        )}
                                         <TableCell className='border border-black p-2 text-black'>
                                             {item.nama}
                                         </TableCell>
@@ -265,6 +351,7 @@ const PenyuluhKecPrint = (props: PrintProps) => {
                             )}
                         </TableBody>
                     </Table>
+
                     {/* table */}
                 </div>
             </div>

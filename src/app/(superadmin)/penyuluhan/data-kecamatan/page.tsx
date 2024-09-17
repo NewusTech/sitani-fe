@@ -238,7 +238,10 @@ const PenyuluhDataKecamatan = () => {
                     />
                 </div>
                 {/* print */}
-                <PenyuluhKecPrint urlApi={`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`} />
+                <PenyuluhKecPrint 
+                urlApi={`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`} 
+                kecamatan={selectedKecamatan}
+                />
                 {/* print */}
             </div>
             {/*  */}
