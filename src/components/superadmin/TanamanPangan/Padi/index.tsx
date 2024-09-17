@@ -53,6 +53,7 @@ import { SWRResponse, mutate } from "swr";
 import Swal from 'sweetalert2';
 import KecamatanSelect from '../../SelectComponent/SelectKecamatan'
 import FilterTable from '@/components/FilterTable'
+import TPHPadi from '@/components/Print/Holtilultura/Padi'
 
 
 interface Kecamatan {
@@ -235,20 +236,12 @@ const Padi = () => {
         <div>
             {/* top */}
             <div className="header flex gap-2 justify-end items-center mt-4">
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                <TPHPadi
+                    urlApi={`/tph/realisasi-padi/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`}
+                    kecamatan={selectedKecamatan}
+                    tahun={tahun}
+                    bulan={bulan}
+                />
             </div>
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
