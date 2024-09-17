@@ -64,6 +64,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import KepangPerbandingan from '@/components/Print/KetahananPangan/PerbandinganHarga'
 
 interface Komoditas {
     id: number;
@@ -121,8 +122,9 @@ interface Response {
 const HargaPanganEceran = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+    const currentYear = new Date().getFullYear();
 
-    const [tahun, setTahun] = React.useState("2024");
+    const [tahun, setTahun] = React.useState(`${currentYear}`);
     const { data: dataKomoditas, error } = useSWR<Response>(
         `/kepang/perbandingan-harga/get?year=${tahun}`,
         (url: string) =>
@@ -204,25 +206,12 @@ const HargaPanganEceran = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                    {/* <div className="hidden m filter-table w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
-                    </div> */}
-                </div>
+                {/* print */}
+                <KepangPerbandingan
+                    urlApi={`/kepang/perbandingan-harga/get?year=${tahun}`}
+                    tahun={tahun}
+                />
+                {/* print */}
             </div>
             {/*  */}
             <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
