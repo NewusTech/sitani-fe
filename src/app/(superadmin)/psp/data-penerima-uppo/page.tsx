@@ -56,6 +56,7 @@ import Swal from 'sweetalert2';
 import PaginationTable from '@/components/PaginationTable';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 import FilterTable from '@/components/FilterTable';
+import PSPPenerimaUPPO from '@/components/Print/PSP/PenerimaUppo';
 
 const DataPenerimaUppo = () => {
     // TES
@@ -230,7 +231,7 @@ const DataPenerimaUppo = () => {
             if (window.innerWidth <= 768) {
                 return ["kecamatan", "desa", "namaPoktan", "aksi"];
             } else {
-                return ["kecamatan", "desa", "namaPoktan", "namaKetua", "titikKoordinat", "aksi"];
+                return ["kecamatan", "desa", "namaPoktan", "namaKetua", "ketuaPoktan", "titikKoordinat", "aksi"];
             }
         }
         return [];
@@ -279,20 +280,12 @@ const DataPenerimaUppo = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                {/* print */}
+                <PSPPenerimaUPPO
+                    urlApi={`/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`}
+                    kecamatan={selectedKecamatan}
+                />
+                {/* print */}
             </div>
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
