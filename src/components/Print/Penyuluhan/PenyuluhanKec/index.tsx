@@ -270,7 +270,7 @@ const PenyuluhKecPrint = (props: PrintProps) => {
                 </Button>
             </div>
             {/* KONTEN PRINT */}
-            <div className="absolute w-full left-[99999px]">
+            <div className="absolute -left-full w-full">
                 {/* <div className=""> */}
                 <div ref={printRef} className='p-[50px]'>
                     <div className="ata mb-4 text-base flex justify-end">
