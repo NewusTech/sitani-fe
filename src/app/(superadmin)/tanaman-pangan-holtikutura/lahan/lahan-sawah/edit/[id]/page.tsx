@@ -184,6 +184,7 @@ const EditLahanSawahPage = () => {
                 <Input
                   autoFocus
                   type="number"
+                  step="0.000001"
                   placeholder="Tahun"
                   value={dataLahanSawah?.data.tphLahanSawah.tahun.toString()}
                   disabled
@@ -207,6 +208,7 @@ const EditLahanSawahPage = () => {
                 <Input
                   autoFocus
                   type="number"
+                  step="0.000001"
                   placeholder="Irigasi Teknis"
                   {...register('irigasi_teknis')}
                   className={`${errors.irigasi_teknis ? 'border-red-500' : ''}`}
@@ -220,6 +222,7 @@ const EditLahanSawahPage = () => {
                 <Input
                   autoFocus
                   type="number"
+                  step="0.000001"
                   placeholder="Irigasi 1/2 Teknis"
                   {...register('irigasi_setengah_teknis')}
                   className={`${errors.irigasi_setengah_teknis ? 'border-red-500' : ''}`}
@@ -238,6 +241,7 @@ const EditLahanSawahPage = () => {
                 <Input
                   autoFocus
                   type="number"
+                  step="0.000001"
                   placeholder="Irigasi Sederhana"
                   {...register('irigasi_sederhana')}
                   className={`${errors.irigasi_sederhana ? 'border-red-500' : ''}`}
@@ -251,6 +255,7 @@ const EditLahanSawahPage = () => {
                 <Input
                   autoFocus
                   type="number"
+                  step="0.000001"
                   placeholder="Irigasi Desa"
                   {...register('irigasi_desa')}
                   className={`${errors.irigasi_desa ? 'border-red-500' : ''}`}
@@ -269,6 +274,7 @@ const EditLahanSawahPage = () => {
                 <Input
                   autoFocus
                   type="number"
+                  step="0.000001"
                   placeholder="Tadah Hujan"
                   {...register('tadah_hujan')}
                   className={`${errors.tadah_hujan ? 'border-red-500' : ''}`}
@@ -282,6 +288,7 @@ const EditLahanSawahPage = () => {
                 <Input
                   autoFocus
                   type="number"
+                  step="0.000001"
                   placeholder="Pasang Surut"
                   {...register('pasang_surut')}
                   className={`${errors.pasang_surut ? 'border-red-500' : ''}`}
@@ -300,6 +307,7 @@ const EditLahanSawahPage = () => {
                 <Input
                   autoFocus
                   type="number"
+                  step="0.000001"
                   placeholder="Lebak"
                   {...register('lebak')}
                   className={`${errors.lebak ? 'border-red-500' : ''}`}
@@ -313,6 +321,7 @@ const EditLahanSawahPage = () => {
                 <Input
                   autoFocus
                   type="number"
+                  step="0.000001"
                   placeholder="Lainnya"
                   {...register('lainnya')}
                   className={`${errors.lainnya ? 'border-red-500' : ''}`}
