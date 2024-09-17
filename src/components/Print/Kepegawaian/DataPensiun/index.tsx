@@ -32,7 +32,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-const KepegawaianDataPensiunPrint = () => {
+interface PrintProps {
+    urlApi?: string;
+    startDate?: string;
+    endDate?: string;
+    kecamatan?: string;
+    bidang?: string;
+}
+
+const KepegawaianDataPensiunPrint = (props: PrintProps) => {
 
     // INTEGRASI
     // GET LIST
@@ -121,16 +129,17 @@ const KepegawaianDataPensiunPrint = () => {
     // const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
     const [selectedBidang, setSelectedBidang] = useState<string>("");
 
-    const { data: dataKepegawaian, error }: SWRResponse<Response> = useSWR(
-        `/kepegawaian/data-pensiun?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`,
-        (url) =>
+    const { data: dataKepegawaian }: SWRResponse<Response> = useSWR(
+        // `/psp/pupuk/get`,
+        `${props.urlApi}`,
+        (url: string) =>
             axiosPrivate
                 .get(url, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 })
-                .then((res: any) => res?.data)
+                .then((res: any) => res.data)
     );
 
     //PRINT
@@ -157,7 +166,7 @@ const KepegawaianDataPensiunPrint = () => {
             const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('laporan.pdf');
+            pdf.save('DATA_PENSIUN_APARATUR_SIPIL_NEGARA.pdf');
         }
     };
     //PRINT 

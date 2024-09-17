@@ -299,7 +299,10 @@ const DataPegawaiPage = () => {
           />
         </div>
         {/* unduh */}
-        <KepegawaianDataPegawaiPrint />
+        {/* <KepegawaianDataPegawaiPrint /> */}
+        <KepegawaianDataPegawaiPrint
+          urlApi={`/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`}
+        />
         {/* unduh */}
       </div>
       {/*  */}

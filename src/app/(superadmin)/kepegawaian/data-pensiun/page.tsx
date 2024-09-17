@@ -168,7 +168,9 @@ const DataPegawaiPagePensiun = () => {
           />
         </div>
         {/* unduh */}
-        <KepegawaianDataPensiunPrint />
+        <KepegawaianDataPensiunPrint
+          urlApi={`/kepegawaian/data-pensiun?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`}
+        />
         {/* unduh */}
       </div>
       {/*  */}

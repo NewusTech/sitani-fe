@@ -32,7 +32,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-const KepegawaianDataPegawaiPrint = () => {
+interface PrintProps {
+    urlApi?: string;
+    startDate?: string;
+    endDate?: string;
+    kecamatan?: string;
+    bidang?: string;
+}
+
+const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
 
     // INTEGRASI
     // GET LIST
@@ -124,15 +132,16 @@ const KepegawaianDataPegawaiPrint = () => {
     const [selectedBidang, setSelectedBidang] = useState<string>("");
 
     const { data: dataKepegawaian }: SWRResponse<Response> = useSWR(
-        `/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`,
-        (url) =>
+        // `/psp/pupuk/get`,
+        `${props.urlApi}`,
+        (url: string) =>
             axiosPrivate
                 .get(url, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 })
-                .then((res: any) => res?.data)
+                .then((res: any) => res.data)
     );
 
     //PRINT
@@ -159,7 +168,7 @@ const KepegawaianDataPegawaiPrint = () => {
             const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('laporan.pdf');
+            pdf.save('DATA_APARATUR_SIPIL_NEGARA.pdf');
         }
     };
     //PRINT 
@@ -272,7 +281,7 @@ const KepegawaianDataPegawaiPrint = () => {
                                     dataKepegawaian?.data.data.map((item, index) => (
                                         <TableRow key={item.id}>
                                             <TableCell className='text-black border border-zinc-400'>{index + 1}</TableCell>
-                                            <TableCell className=''>
+                                            <TableCell className='text-black border border-zinc-400'>
                                                 {item.nama} <br />
                                                 {item.nip} <br />
                                                 {item.tempatLahir}, {item.tglLahir}
