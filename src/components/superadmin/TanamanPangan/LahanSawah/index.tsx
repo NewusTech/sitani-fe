@@ -44,6 +44,7 @@ import { SWRResponse, mutate } from "swr";
 import Swal from 'sweetalert2';
 import KecamatanSelect from '../../SelectComponent/SelectKecamatan'
 import FilterTable from '@/components/FilterTable'
+import TPHLahanSawah from '@/components/Print/Holtilultura/LahanSawah'
 
 // Define the types
 interface Kecamatan {
@@ -95,10 +96,11 @@ const LahanSawah = () => {
     // INTERGASI
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
+    const currentYear = new Date().getFullYear();
 
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
-    const [tahun, setTahun] = React.useState("2024");
+    const [tahun, setTahun] = React.useState(`${currentYear}`);
     const [activeTab, setActiveTab] = useState("lahanSawah");
 
     // GETALL
@@ -217,20 +219,19 @@ const LahanSawah = () => {
     };
     // Filter Table
 
+
+
     return (
         <div>
             {/* top */}
             <div className="header flex gap-2 justify-end items-center mt-4">
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">Download</div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                        <PrintIcon />
-                        <div className="hidden md:block">Print</div>
-                    </Button>
-                </div>
+                {/* print */}
+                <TPHLahanSawah
+                    urlApi={`tph/lahan-sawah/get?year=${tahun}&kecamatan=${selectedKecamatan}`}
+                    kecamatan={selectedKecamatan}
+                    tahun={tahun}
+                />
+                {/* print */}
             </div>
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
