@@ -280,7 +280,7 @@ const TPHBukanSawah = (props: PrintProps) => {
                 <div ref={printRef} className='p-[50px]'>
                     {/* title */}
                     <div className="text-xl mb-4 font-semibold text-black mx-auto uppercase flex justify-center text-center">
-                        DATA LUAS LAHAN SAWAH MENURUT PENGGUNAANNYA <br />
+                        DATA LUAS LAHAN BUKAN SAWAH MENURUT PENGGUNAANNYA <br />
                         Dinas Tanaman Pangan, Hortikultura dan Perkebunan Kabupaten Lampung Timur / Laporan Tahun {props.tahun || currentYear}
                     </div>
                     {/* title */}
