@@ -53,6 +53,7 @@ import useSWR, { mutate, SWRResponse } from 'swr'
 import Swal from 'sweetalert2'
 import KecamatanSelect from '../../SelectComponent/SelectKecamatan'
 import FilterTable from '@/components/FilterTable'
+import TPHPalawija2 from '@/components/Print/Holtilultura/Palawija2'
 
 interface Kecamatan {
     id: number;
@@ -251,20 +252,14 @@ const Palawija2 = () => {
                         className='border-primary py-2'
                     /> */}
                 </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                {/* print */}
+                <TPHPalawija2
+                    urlApi={`/tph/realisasi-palawija-2/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`}
+                    kecamatan={selectedKecamatan}
+                    tahun={tahun}
+                    bulan={bulan}
+                />
+                {/* print */}
             </div>
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
@@ -510,39 +505,39 @@ const Palawija2 = () => {
                         {visibleColumns.includes('kacangHijau') && (
                             <>
                                 <TableCell className='border font-semibold border-slate-200 text-center'>
-                                    234
+                                    {dataPalawija2?.data.kacangHijauPanen}
                                 </TableCell>
                                 <TableCell className='border font-semibold border-slate-200 text-center'>
-                                    234
+                                    {dataPalawija2?.data?.kacangHijauProduktivitas}
                                 </TableCell>
                                 <TableCell className='border font-semibold border-slate-200 text-center'>
-                                    234
+                                    {dataPalawija2?.data?.kacangHijauProduksi}
                                 </TableCell>
                             </>
                         )}
                         {visibleColumns.includes('ubiKayu') && (
                             <>
                                 <TableCell className='border font-semibold border-slate-200 text-center'>
-                                    234
+                                    {dataPalawija2?.data?.ubiKayuPanen}
                                 </TableCell>
                                 <TableCell className='border font-semibold border-slate-200 text-center'>
-                                    234
+                                    {dataPalawija2?.data?.ubiKayuProduktivitas}
                                 </TableCell>
                                 <TableCell className='border font-semibold border-slate-200 text-center'>
-                                    234
+                                    {dataPalawija2?.data?.ubiKayuProduksi}
                                 </TableCell>
                             </>
                         )}
                         {visibleColumns.includes('ubiJalar') && (
                             <>
                                 <TableCell className='border font-semibold border-slate-200 text-center'>
-                                    234
+                                    {dataPalawija2?.data?.ubiJalarPanen}
                                 </TableCell>
                                 <TableCell className='border font-semibold border-slate-200 text-center'>
-                                    234
+                                    {dataPalawija2?.data?.ubiJalarProduktivitas}
                                 </TableCell>
                                 <TableCell className='border font-semibold border-slate-200 text-center'>
-                                    234
+                                    {dataPalawija2?.data?.ubiJalarProduksi}
                                 </TableCell>
                             </>
                         )}
