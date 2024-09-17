@@ -153,7 +153,7 @@ const PenyuluhKecPrint = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `https://backend-sitani.newus.id/api/download/penyuluh-kecamatan?kecamatan=${props.kecamatan}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/penyuluh-kecamatan?kecamatan=${props.kecamatan}`;
 
         try {
             const response = await fetch(url, {

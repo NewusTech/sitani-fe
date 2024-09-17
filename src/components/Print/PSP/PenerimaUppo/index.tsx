@@ -158,7 +158,7 @@ const PSPPenerimaUPPO = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `https://backend-sitani.newus.id/api/download/psp-penerima-uppo?kecamatan=${props.kecamatan}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/psp-penerima-uppo?kecamatan=${props.kecamatan}`;
 
         try {
             const response = await fetch(url, {

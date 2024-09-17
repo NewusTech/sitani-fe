@@ -34,41 +34,40 @@ import {
 import Swal from 'sweetalert2';
 
 
-const PenyuluhKabPrint = () => {
+interface PrintProps {
+    urlApi?: string;
+    startDate?: string;
+    endDate?: string;
+    kecamatan?: string;
+}
+
+const PSPPupuk = (props: PrintProps) => {
 
     // INTEGRASI
     // GET LIST
-    interface Kecamatan {
-        id: string;
-        nama: string
-    }
-    interface User {
-        id?: string; // Ensure id is a string
-        nama: string;
-        nip: string;
-        pangkat: string;
-        golongan: string;
-        keterangan: string;
-        kecamatan: Kecamatan[];
+    interface Data {
+        id?: number; // Ensure id is a number
+        jenisPupuk?: string;
+        kandunganPupuk?: string;
+        keterangan?: string;
+        hargaPupuk?: number; // Change to number
     }
 
     interface Response {
-        status: string,
+        status: number;
+        message: string;
         data: {
-            data: User[];
-            pagination: Pagination;
-        },
-        message: string
-    }
-
-    interface Pagination {
-        page: number;
-        perPage: number;
-        totalPages: number;
-        totalCount: number;
-        links: {
-            prev: string | null;
-            next: string | null;
+            data: Data[];
+            pagination: {
+                page: number;
+                perPage: number;
+                totalPages: number;
+                totalCount: number;
+                links: {
+                    prev: string | null;
+                    next: string | null;
+                };
+            };
         };
     }
 
@@ -89,9 +88,11 @@ const PenyuluhKabPrint = () => {
     // limit
     const [limit, setLimit] = useState(10);
     // limit
-    const { data: dataKabupaten }: SWRResponse<Response> = useSWR(
-        `/penyuluh-kabupaten/get?page=${currentPage}&search=${search}&limit=${limit}`,
-        (url) =>
+    //   
+    const { data: dataUser }: SWRResponse<Response> = useSWR(
+        // `/psp/pupuk/get`,
+        `${props.urlApi}`,
+        (url: string) =>
             axiosPrivate
                 .get(url, {
                     headers: {
@@ -102,6 +103,31 @@ const PenyuluhKabPrint = () => {
     );
     // GET LIST
 
+    // INTEGRASI
+    interface Kecamatan {
+        id: number;
+        nama: string;
+    }
+
+    interface ResponseFilter {
+        status: string;
+        data: Kecamatan;
+        message: string;
+    }
+
+    // DATA FILTER PDF
+    const { data: dataFilter, error } = useSWR<ResponseFilter>(
+        `/kecamatan/get/${props.kecamatan}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch user data:', error);
+                return null;
+            }
+        }
+    );
     //PRINT
     // print
     const printRef = useRef<HTMLDivElement>(null);
@@ -110,9 +136,9 @@ const PenyuluhKabPrint = () => {
         content: () => printRef.current,
     });
 
-    // download PDF
+    // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/penyuluh-kabupaten`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/psp-pupuk?kecamatan=${props.kecamatan}&startDate=${props.startDate}&endDate=${props.endDate}`;
 
         try {
             const response = await fetch(url, {
@@ -130,7 +156,7 @@ const PenyuluhKabPrint = () => {
             const downloadUrl = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.setAttribute('download', 'Penyuluhan Kabupaten.xlsx'); // Nama file yang diunduh
+            link.setAttribute('download', `Data Pupuk Kabupaten Lampung Timur.xlsx`); // Nama file yang diunduh
             document.body.appendChild(link);
             link.click();
             link.parentNode?.removeChild(link); // Hapus elemen setelah di-click
@@ -170,7 +196,7 @@ const PenyuluhKabPrint = () => {
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save('Penyuluhan Kabupaten.pdf');
+                pdf.save(`Data Pupuk Kabupaten Lampung Timur.pdf`);
 
                 // Notifikasi Swal sukses
                 Swal.fire({
@@ -193,9 +219,9 @@ const PenyuluhKabPrint = () => {
             console.error('Error downloading the PDF:', error);
         }
     };
+
     //PRINT 
     const currentYear = new Date().getFullYear();
-
     return (
         <div className="">
             <div className="btn flex gap-2">
@@ -230,89 +256,55 @@ const PenyuluhKabPrint = () => {
             </div>
             {/* KONTEN PRINT */}
             <div className="absolute w-full left-[99999px]">
+                {/* <div className=""> */}
                 <div ref={printRef} className='p-[50px]'>
-                    <div className="ata mb-4 text-base flex justify-end">
-                        <div className="wr w-[300px] flex gap-1">
-                            <div className="">
-                                <div className="">Lampiran</div>
-                                <div className="">Nomor</div>
-                                <div className="">Tanggal</div>
-                            </div>
-                            <div className="">
-                                <div className="">:</div>
-                                <div className="">:</div>
-                                <div className="">:</div>
-                            </div>
-                        </div>
-                    </div>
                     {/* title */}
                     <div className="text-xl mb-4 font-semibold text-black mx-auto uppercase flex justify-center">
-                        Daftar Penempatan Penyuluh Pertanian Kabupaten Lampung Timur Tahun {currentYear}
+                        Data Pupuk Kabupaten Lampung Timur Tahun {currentYear}
                     </div>
                     {/* title */}
-                    <div className="uppercase">Kabupaten</div>
                     {/* table */}
-                    <Table className='border border-black mt-1'>
+                    <Table className='border border-black p-2 mt-1'>
                         <TableHeader className='bg-white text-black'>
                             <TableRow >
-                                <TableHead className="border border-black text-black py-3 uppercase text-center font-semibold">No</TableHead>
-                                <TableHead className="border border-black text-black py-3 uppercase text-center font-semibold">Nama</TableHead>
-                                <TableHead className="border border-black text-black py-3 uppercase text-center font-semibold">NIP</TableHead>
-                                <TableHead className="border border-black text-black py-3 uppercase text-center font-semibold ">
-                                    Pangkat/Gol
-                                </TableHead>
-                                <TableHead className="border border-black text-black py-3 uppercase text-center font-semibold ">Wilayah Desa Binaan</TableHead>
-                                <TableHead className="border border-black text-black py-3 uppercase text-center font-semibold ">Keterangan</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">No</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Jenis Pupuk</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Kandungan Pupuk</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold ">Harga Pupuk</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold ">Keterangan</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow >
-                                <TableCell className="border border-black p-2 text-black  text-center">1</TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center">2</TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center">3</TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center ">
-                                    4
-                                </TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center ">5</TableCell>
-                                <TableCell className="border border-black p-2 text-black  text-center ">6</TableCell>
-                            </TableRow>
-                            {dataKabupaten?.data?.data && dataKabupaten?.data?.data?.length > 0 ? (
-                                dataKabupaten?.data?.data?.map((item, index) => (
-                                    <TableRow key={index}>
+                            {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
+                                dataUser.data.data.map((item, index) => (
+                                    <TableRow key={item.id}>
                                         <TableCell className='border border-black p-2 text-black text-center'>
                                             {(currentPage - 1) * limit + (index + 1)}
                                         </TableCell>
-                                        <TableCell className='border border-black p-2 text-black '>
-                                            {item.nama}
+                                        <TableCell className='border border-black p-2 text-black text-center'>
+                                            {item.jenisPupuk}
                                         </TableCell>
-                                        <TableCell className='border border-black p-2 text-black '>
-                                            {item.nip}
+                                        <TableCell className='border border-black p-2 text-black text-center'>
+                                            {item.kandunganPupuk}
                                         </TableCell>
-                                        <TableCell className='border border-black p-2 text-black '>
-                                            {item.pangkat}, {item.golongan}
+                                        <TableCell className='border border-black p-2 text-black text-center'>
+                                            Rp. {item?.hargaPupuk?.toLocaleString('id-ID')}
                                         </TableCell>
-                                        <TableCell className='border border-black p-2 text-black'>
-                                            {item.kecamatan.map((kec, index) => (
-                                                <span key={kec.id}>
-                                                    {kec.nama}
-                                                    {index < item.kecamatan.length - 1 && ", "}
-                                                </span>
-                                            ))}
-                                        </TableCell>
-                                        <TableCell className='border border-black p-2 text-black '>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.keterangan}
                                         </TableCell>
                                     </TableRow>
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={7} className="text-center">
+                                    <TableCell colSpan={6} className="text-center">
                                         Tidak ada data
                                     </TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
                     </Table>
+
                     {/* table */}
                 </div>
             </div>
@@ -321,4 +313,4 @@ const PenyuluhKabPrint = () => {
     )
 }
 
-export default PenyuluhKabPrint
+export default PSPPupuk
