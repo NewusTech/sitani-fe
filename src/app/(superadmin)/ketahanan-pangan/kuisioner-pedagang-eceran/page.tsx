@@ -47,6 +47,7 @@ import useSWR, { mutate, SWRResponse } from 'swr'
 import Swal from 'sweetalert2'
 import PaginationTable from '@/components/PaginationTable'
 import FilterTable from '@/components/FilterTable'
+import KuisionerPedagangEceranPrint from '@/components/Print/KetahananPangan/Kuisioner-Pedagang-Eceran'
 
 interface Komoditas {
     id: number;
@@ -251,20 +252,11 @@ const KuisionerPedagangEceran = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                {/* print */}
+                <KuisionerPedagangEceranPrint
+                    urlApi={`/kepang/pedagang-eceran/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`}
+                />
+                {/* print */}
             </div>
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-4">
@@ -381,7 +373,7 @@ const KuisionerPedagangEceran = () => {
                                                 {globalIndex++} {/* Menggunakan globalIndex */}
                                             </TableCell>
                                         )}
-                                        {visibleColumns.includes('nkomoditaso') && (
+                                        {visibleColumns.includes('komoditas') && (
                                             <TableCell>
                                                 {citem?.komoditas.nama}
                                             </TableCell>
