@@ -46,6 +46,7 @@ import Swal from 'sweetalert2';
 import PaginationTable from '@/components/PaginationTable';
 import BidangSelect from '@/components/superadmin/SelectComponent/BidangValue';
 import FilterTable from '@/components/FilterTable';
+import KepegawaianDataPegawaiPrint from '@/components/Print/Kepegawaian/DataPegawai';
 
 interface Response {
   status: string,
@@ -297,20 +298,9 @@ const DataPegawaiPage = () => {
             className='border-primary py-2'
           />
         </div>
-        <div className="btn flex gap-2">
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-            <UnduhIcon />
-            <div className="hidden md:block">
-              Download
-            </div>
-          </Button>
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-            <PrintIcon />
-            <div className="hidden md:block">
-              Print
-            </div>
-          </Button>
-        </div>
+        {/* unduh */}
+        <KepegawaianDataPegawaiPrint />
+        {/* unduh */}
       </div>
       {/*  */}
       <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">

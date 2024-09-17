@@ -35,6 +35,7 @@ import Swal from 'sweetalert2';
 import PaginationTable from '@/components/PaginationTable';
 import BidangSelect from '@/components/superadmin/SelectComponent/BidangValue';
 import { Skeleton } from '@/components/ui/skeleton';
+import KepegawaianDataPensiunPrint from '@/components/Print/Kepegawaian/DataPensiun';
 
 interface Bidang {
   id: number;
@@ -135,23 +136,23 @@ const DataPegawaiPagePensiun = () => {
         .then((res: any) => res?.data)
   );
 
-  if (error) return <div>Error loading data</div>;
-  if (!dataKepegawaian) return <div>
-    <div className="flex justify-center lg:justify-start gap-2 lg:gap-10">
-      <div className="flex flex-col space-y-3">
-        <Skeleton className="lg:h-[250px] h-[50px] lg:w-[250px] w-[50px] rounded-xl" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[200px]" />
-        </div>
-      </div>
-    </div>
-  </div>;
+  // if (error) return <div>Error loading data</div>;
+  // if (!dataKepegawaian) return <div>
+  //   <div className="flex justify-center lg:justify-start gap-2 lg:gap-10">
+  //     <div className="flex flex-col space-y-3">
+  //       <Skeleton className="lg:h-[250px] h-[50px] lg:w-[250px] w-[50px] rounded-xl" />
+  //       <div className="space-y-2">
+  //         <Skeleton className="h-4 w-[250px]" />
+  //         <Skeleton className="h-4 w-[200px]" />
+  //       </div>
+  //     </div>
+  //   </div>
+  // </div>;
 
   return (
     <div>
       {/* title */}
-      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Pegawai</div>
+      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Pegawai Pensiun</div>
       {/* title */}
 
       {/* top */}
@@ -166,27 +167,9 @@ const DataPegawaiPagePensiun = () => {
             className='border-primary py-2'
           />
         </div>
-        <div className="btn flex gap-2">
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-            <UnduhIcon />
-            <div className="hidden md:block">
-              Download
-            </div>
-          </Button>
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-            <PrintIcon />
-            <div className="hidden md:block">
-              Print
-            </div>
-          </Button>
-          <div className="hidden m filter-table w-[40px] h-[40px]">
-            {/* <FilterTable
-              columns={columns}
-              defaultCheckedKeys={getDefaultCheckedKeys()}
-              onFilterChange={handleFilterChange}
-            /> */}
-          </div>
-        </div>
+        {/* unduh */}
+        <KepegawaianDataPensiunPrint />
+        {/* unduh */}
       </div>
       {/*  */}
       <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
@@ -278,7 +261,6 @@ const DataPegawaiPagePensiun = () => {
           )}
         </TableBody>
       </Table>
-
       {/* table */}
 
       {/* pagination */}
