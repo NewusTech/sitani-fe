@@ -1,16 +1,10 @@
-import TPHBukanSawah from '@/components/Print/Holtilultura/BukanSawah'
-import TPHLahanSawah from '@/components/Print/Holtilultura/LahanSawah'
-import PenyuluhKecPrint from '@/components/Print/Penyuluhan/PenyuluhanKec'
-import PSPPenerimaUPPO from '@/components/Print/PSP/PenerimaUppo'
+import TPHPalawija1 from '@/components/Print/Holtilultura/Palawija1'
 import React from 'react'
 
 const Tampilan = () => {
   return (
     <div>
-      {/* <PenyuluhKecPrint /> */}
-      {/* <PSPPenerimaUPPO /> */}
-      {/* <TPHLahanSawah /> */}
-      <TPHBukanSawah />
+      <TPHPalawija1 />
     </div>
   )
 }

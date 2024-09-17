@@ -43,6 +43,7 @@ import useSWR, { mutate, SWRResponse } from 'swr';
 import Swal from 'sweetalert2';
 import KecamatanSelect from '../../SelectComponent/SelectKecamatan';
 import FilterTable from '@/components/FilterTable';
+import TPHPalawija1 from '@/components/Print/Holtilultura/Palawija1';
 
 interface Kecamatan {
     id: number;
@@ -116,7 +117,8 @@ const Palawija1 = () => {
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
     // filter tahun bulan
-    const [tahun, setTahun] = React.useState("2024");
+    const currentYear = new Date().getFullYear();
+    const [tahun, setTahun] = React.useState(`${currentYear}`);
     const [bulan, setBulan] = React.useState("1");
     // filter tahun bulan
 
@@ -241,20 +243,14 @@ const Palawija1 = () => {
                         className='border-primary py-2'
                     /> */}
                 </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                {/* print */}
+                <TPHPalawija1
+                    urlApi={`/tph/realisasi-palawija-1/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`}
+                    kecamatan={selectedKecamatan}
+                    tahun={tahun}
+                    bulan={bulan}
+                />
+                {/* print */}
             </div>
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
@@ -268,6 +264,7 @@ const Palawija1 = () => {
                                 <SelectValue placeholder="Tahun" className='text-2xl' />
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value="2023">2023</SelectItem>
                                 <SelectItem value="2024">2024</SelectItem>
                                 <SelectItem value="2025">2025</SelectItem>
                                 <SelectItem value="2026">2026</SelectItem>
@@ -490,23 +487,41 @@ const Palawija1 = () => {
                         )}
                         {visibleColumns.includes('jagung') && (
                             <>
-                                <TableCell className='border font-semibold border-slate-200 text-center'>234</TableCell>
-                                <TableCell className='border font-semibold border-slate-200 text-center'>234</TableCell>
-                                <TableCell className='border font-semibold border-slate-200 text-center'>234</TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    {dataPalawija1?.data.jagungPanen}
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    {dataPalawija1?.data?.jagungProduktivitas}
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    {dataPalawija1?.data?.jagungProduksi}
+                                </TableCell>
                             </>
                         )}
                         {visibleColumns.includes('kedelai') && (
                             <>
-                                <TableCell className='border font-semibold border-slate-200 text-center'>234</TableCell>
-                                <TableCell className='border font-semibold border-slate-200 text-center'>234</TableCell>
-                                <TableCell className='border font-semibold border-slate-200 text-center'>234</TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    {dataPalawija1?.data?.kedelaiPanen}
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    {dataPalawija1?.data?.kedelaiProduktivitas}
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    {dataPalawija1?.data?.kedelaiProduksi}
+                                </TableCell>
                             </>
                         )}
                         {visibleColumns.includes('kacangTanah') && (
                             <>
-                                <TableCell className='border font-semibold border-slate-200 text-center'>234</TableCell>
-                                <TableCell className='border font-semibold border-slate-200 text-center'>234</TableCell>
-                                <TableCell className='border font-semibold border-slate-200 text-center'>234</TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    {dataPalawija1?.data?.kacangTanahPanen}
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    {dataPalawija1?.data?.kacangTanahProduktivitas}
+                                </TableCell>
+                                <TableCell className='border font-semibold border-slate-200 text-center'>
+                                    {dataPalawija1?.data?.kacangTanahProduksi}
+                                </TableCell>
                             </>
                         )}
                     </TableRow>
