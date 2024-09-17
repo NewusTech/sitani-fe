@@ -37,6 +37,7 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import PaginationTable from '@/components/PaginationTable'
 import FilterTable from '@/components/FilterTable'
+import KetahananPanganProdusenEceranPrint from '@/components/Print/KetahananPangan/Produsen-Dan-Eceran'
 
 interface Komoditas {
   id: number;
@@ -241,20 +242,11 @@ const ProdusenDanEceran = () => {
             className='border-primary py-2'
           />
         </div>
-        <div className="btn flex gap-2">
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-            <UnduhIcon />
-            <div className="hidden md:block">
-              Download
-            </div>
-          </Button>
-          <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-            <PrintIcon />
-            <div className="hidden md:block">
-              Print
-            </div>
-          </Button>
-        </div>
+        {/* print */}
+        <KetahananPanganProdusenEceranPrint
+          urlApi={`/kepang/produsen-eceran/get?page=${currentPage}&search=${search}`}
+        />
+        {/* print */}
       </div>
       {/*  */}
       <div className="wrap-filter flex justify-between items-center mt-2 md:mt-4 " >
@@ -334,7 +326,7 @@ const ProdusenDanEceran = () => {
                   )}
                   {visibleColumns.includes('hargaKomoditas') && (
                     <TableCell>
-                      Rp. {citem?.harga}
+                      {citem?.harga?.toLocaleString('id-ID')}
                     </TableCell>
                   )}
                   {visibleColumns.includes('keterangan') && (
