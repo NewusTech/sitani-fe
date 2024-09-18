@@ -306,19 +306,16 @@ const DataPegawaiPage = () => {
         {/* unduh */}
       </div>
       {/*  */}
-      <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
-        <div className="w-1/4">
+      <div className="wrap-filter left gap-2 lg:gap-2 flex lg:justify-start justify-between items-center w-full mt-4">
+        <div className="w-full lg:w-1/4">
           <BidangSelect
             value={selectedBidang}
             onChange={(value) => {
-              setSelectedBidang(value); // Update state with selected value
+              setSelectedBidang(value);
             }}
           />
         </div>
-        <div className="w-[40px] h-[40px]">
-          {/* <Button variant="outlinePrimary" className=''>
-            <FilterIcon />
-          </Button> */}
+        <div className="w-[50px] h-full lg:w-[40px] lg:h-[40px]">
           <FilterTable
             columns={columns}
             defaultCheckedKeys={getDefaultCheckedKeys()}

@@ -174,8 +174,8 @@ const DataPegawaiPagePensiun = () => {
         {/* unduh */}
       </div>
       {/*  */}
-      <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
-        <div className="w-1/4">
+      <div className="wrap-filter left gap-2 lg:gap-2 flex lg:justify-start justify-between items-center w-full mt-4">
+        <div className="w-full lg:w-1/4">
           <BidangSelect
             value={selectedBidang}
             onChange={(value) => {
@@ -183,10 +183,10 @@ const DataPegawaiPagePensiun = () => {
             }}
           />
         </div>
-        <div className="w-[40px] h-[40px]">
-          <Button variant="outlinePrimary" className=''>
+        <div className="w-[50px] h-full lg:w-[40px] lg:h-[40px]">
+          {/* <Button variant="outlinePrimary" className=''>
             <FilterIcon />
-          </Button>
+          </Button> */}
         </div>
       </div>
       {/* top */}
@@ -199,18 +199,18 @@ const DataPegawaiPagePensiun = () => {
             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">Nama/NIP <br /> Tempat/Tgl Lahir</TableHead>
             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">Pangkat/Gol Ruang <br /> TMT Pangkat</TableHead>
             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">Jabatan <br /> TMT Jabatan</TableHead>
-            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">Diklat Struktural</TableHead>
-            <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center hidden md:table-cell">Pendidikan Umum</TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Usia</TableHead>
-            <TableHead rowSpan={2} className="text-primary py-1 hidden md:table-cell">Masa Kerja</TableHead>
+            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">Diklat Struktural</TableHead>
+            <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center ">Pendidikan Umum</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 ">Usia</TableHead>
+            <TableHead rowSpan={2} className="text-primary py-1 ">Masa Kerja</TableHead>
             {/* <TableHead rowSpan={2} className="text-primary py-1">Aksi</TableHead> */}
           </TableRow>
           <TableRow>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Nama Diklat</TableHead>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Tanggal</TableHead>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Jam</TableHead>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Nama</TableHead>
-            <TableHead className="text-primary py-1 hidden md:table-cell border border-slate-200 text-center">Tahun Lulus</TableHead>
+            <TableHead className="text-primary py-1  border border-slate-200 text-center">Nama Diklat</TableHead>
+            <TableHead className="text-primary py-1  border border-slate-200 text-center">Tanggal</TableHead>
+            <TableHead className="text-primary py-1  border border-slate-200 text-center">Jam</TableHead>
+            <TableHead className="text-primary py-1  border border-slate-200 text-center">Nama</TableHead>
+            <TableHead className="text-primary py-1  border border-slate-200 text-center">Tahun Lulus</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -239,19 +239,19 @@ const DataPegawaiPagePensiun = () => {
                     year: 'numeric',
                   })}
                 </TableCell>
-                <TableCell className='hidden md:table-cell'>{item.nama_diklat}</TableCell>
-                <TableCell className='hidden md:table-cell'>
+                <TableCell className=''>{item.nama_diklat}</TableCell>
+                <TableCell className=''>
                   {new Date(item.tgl_diklat).toLocaleDateString('id-ID', {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric',
                   })}
                 </TableCell>
-                <TableCell className='hidden md:table-cell'>{item.total_jam} Jam</TableCell>
-                <TableCell className='hidden md:table-cell'>{item.nama_pendidikan}</TableCell>
-                <TableCell className='hidden md:table-cell'>{item.tahun_lulus}</TableCell>
-                <TableCell className='hidden md:table-cell'>{item.usia}</TableCell>
-                <TableCell className='hidden md:table-cell'>{item.masa_kerja}</TableCell>
+                <TableCell className=''>{item.total_jam} Jam</TableCell>
+                <TableCell className=''>{item.nama_pendidikan}</TableCell>
+                <TableCell className=''>{item.tahun_lulus}</TableCell>
+                <TableCell className=''>{item.usia}</TableCell>
+                <TableCell className=''>{item.masa_kerja}</TableCell>
               </TableRow>
             ))
           ) : (
