@@ -40,15 +40,22 @@ const formSchema = z.object({
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(0, { message: "Tanggal wajib diisi" })),
     korluh_master_tanaman_hias_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Tanaman hias wajib diisi" })),
-    satuan_produksi: z.string().min(0, { message: "Hasil produksi wajib diisi" }),
-    luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
-    luas_panen_belum_habis: z.coerce.number().min(0, { message: "Luas panen belum habis wajib diisi" }),
-    luas_rusak: z.coerce.number().min(0, { message: "Luas rusak wajib diisi" }),
-    luas_penanaman_baru: z.coerce.number().min(0, { message: "Luas penanaman baru wajib diisi" }),
-    produksi_habis: z.coerce.number().min(0, { message: "Produksi habis wajib diisi" }),
-    produksi_belum_habis: z.coerce.number().min(0, { message: "Produksi belum habis wajib diisi" }),
-    rerata_harga: z.coerce.number().min(0, { message: "Rata-rata harga wajib diisi" }),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Tanaman hias wajib diisi" })),
+    satuan_produksi: z.string().min(0, { message: "Satuan Produksi wajib diisi" }),
+    luas_panen_habis: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    luas_panen_belum_habis: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    luas_rusak: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    luas_penanaman_baru: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    produksi_habis: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    produksi_belum_habis: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    rerata_harga: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
     keterangan: z.string().optional(),
 });
 

@@ -216,7 +216,7 @@ const KorlubTanamanHias = () => {
             });
             // alert
             // Update the local data after successful deletion
-            mutate('/korluh/tanaman-hias/get');
+            // mutate('/korluh/tanaman-hias/get');
         } catch (error: any) {
             // Extract error message from API response
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
@@ -237,7 +237,7 @@ const KorlubTanamanHias = () => {
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/korluh/tanaman-hias/get`);
+        mutate(`korluh/tanaman-hias/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
     };
     // DELETE
 
