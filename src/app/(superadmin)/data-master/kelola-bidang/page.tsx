@@ -16,15 +16,12 @@ import {
 } from "@/components/ui/table"
 import EditIcon from '../../../../../public/icons/EditIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
-// 
 import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import PaginationTable from '@/components/PaginationTable';
 import Swal from 'sweetalert2';
-import EyeIcon from '../../../../../public/icons/EyeIcon';
-
 
 const KelolaBidangPage = () => {
 
