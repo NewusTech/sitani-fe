@@ -315,6 +315,9 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                         <Menu link="/data-master/kelola-galeri">
                                             <span className='text-sm'>Kelola Galeri</span>
                                         </Menu>
+                                        <Menu link="/data-master/kelola-bidang">
+                                            <span className='text-sm'>Kelola Bidang</span>
+                                        </Menu>
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/*data-master */}
@@ -342,7 +345,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                                     <Badge variant="destructive">2</Badge>
                                 </Link>
                                 {/*status laporan */}
-                                
+
                             </Accordion>
                             <Link href="/" className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] text-primary hover:text-white bg-transparent hover:bg-primary ease-in duration-300 mt-1">
                                 <LogoutDashboard />
