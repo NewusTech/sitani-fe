@@ -15,6 +15,8 @@ import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
 import DesaValue from '@/components/superadmin/SelectComponent/DesaValue';
 import Loading from '@/components/ui/Loading';
 import Swal from 'sweetalert2';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import InputComponent from '@/components/ui/InputKecDesa';
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
 const formatDate = (dateString: string) => {
@@ -37,7 +39,8 @@ const formSchema = z.object({
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(0, { message: "Tanggal wajib diisi" })),
-    nama_tanaman: z.string().min(0, { message: "Nama tanaman wajib diisi" }),
+    korluh_master_tanaman_biofarmaka_id: z
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Tanaman biofarmaka wajib diisi" })),
     luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
     luas_panen_belum_habis: z.coerce.number().min(0, { message: "Luas panen belum habis wajib diisi" }),
     luas_rusak: z.coerce.number().min(0, { message: "Luas rusak wajib diisi" }),
@@ -70,6 +73,9 @@ const EditTanamanBiofarmaka = () => {
         produksiBelumHabis: number;
         rerataHarga: number;
         keterangan: string;
+        master: {
+            id: number;
+        }
         createdAt: string;
         updatedAt: string;
         korluhTanamanBiofarmaka: DetailItem;
@@ -141,7 +147,7 @@ const EditTanamanBiofarmaka = () => {
 
     useEffect(() => {
         if (dataTanaman) {
-            setValue("nama_tanaman", dataTanaman.data.namaTanaman);
+            setValue("korluh_master_tanaman_biofarmaka_id", dataTanaman.data.master.id);
             setValue("tanggal", new Date(dataTanaman.data.korluhTanamanBiofarmaka.tanggal).toISOString().split('T')[0]);
             setValue("luas_panen_habis", dataTanaman.data.luasPanenHabis);
             setValue("luas_panen_belum_habis", dataTanaman.data.luasPanenBelumHabis);
@@ -224,9 +230,38 @@ const EditTanamanBiofarmaka = () => {
         mutate(`/korluh/tanaman-biofarmaka/get`);
     };
 
-    const [open, setOpen] = React.useState(false)
-    const [value, setValueSelect] = React.useState("")
+    // GET ALL 
+    interface Master {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
 
+    interface ResponseMaster {
+        status: string;
+        data: Master[];
+        message: string;
+    }
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+
+    const { data: dataMaster }: SWRResponse<ResponseMaster> = useSWR(
+        `/korluh/master-tanaman-biofarmaka/get`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    const masterOptions = dataMaster?.data.map(master => ({
+        id: master.id.toString(),
+        name: master.nama,
+    }))
+    //
     return (
         <>
             <div className="text-primary text-xl md:text-2xl font-bold mb-4">Edit Data Tanaman Biofarmaka</div>
@@ -241,6 +276,7 @@ const EditTanamanBiofarmaka = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <KecValue
+                                        disabled
                                             // kecamatanItems={kecamatanItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -258,6 +294,7 @@ const EditTanamanBiofarmaka = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <DesaValue
+                                        disabled
                                             // desaItems={filteredDesaItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -273,19 +310,29 @@ const EditTanamanBiofarmaka = () => {
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Nama Tanaman" />
-                                <Input
-                                    type="text"
-                                    placeholder="Nama Tanaman"
-                                    {...register('nama_tanaman')}
-                                    className={`${errors.nama_tanaman ? 'border-red-500' : 'py-5 text-sm'}`}
+                                <Controller
+                                    name="korluh_master_tanaman_biofarmaka_id"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <InputComponent
+                                            disabled
+                                            typeInput="selectSearch"
+                                            placeholder="Pilih Tanaman Biofarmaka"
+                                            label="Tanaman Biofarmaka"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            items={masterOptions}
+                                        />
+                                    )}
                                 />
-                                {errors.nama_tanaman && (
-                                    <HelperError>{errors.nama_tanaman.message}</HelperError>
+                                {errors.korluh_master_tanaman_biofarmaka_id && (
+                                    <HelperError>{errors.korluh_master_tanaman_biofarmaka_id.message}</HelperError>
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Tanggal" />
                                 <Input
+                                    disabled
                                     type="date"
                                     placeholder="Tanggal"
                                     {...register('tanggal')}

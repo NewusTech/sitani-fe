@@ -109,6 +109,10 @@ const KorlubTanamanHias = () => {
         produksiHabis: number;
         produksiBelumHabis: number;
         rerataHarga: number;
+        master: {
+            id: number;
+            nama:string;
+        }
         keterangan: string;
         createdAt: string;
         updatedAt: string;
@@ -559,13 +563,13 @@ const KorlubTanamanHias = () => {
                                     {index + 1}
                                 </TableCell>
                                 <TableCell className='border border-slate-200'>
-                                    {tanaman.namaTanaman}
+                                    {tanaman.master.nama}
                                 </TableCell>
                                 <TableCell className='border border-slate-200 text-center'>
                                     belum ada
                                 </TableCell>
                                 <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.luasPanenHabis} hd
+                                    {tanaman.luasPanenHabis}
                                 </TableCell>
                                 <TableCell className='border border-slate-200 text-center'>
                                     {tanaman.luasPanenBelumHabis}

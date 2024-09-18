@@ -15,6 +15,8 @@ import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
 import DesaValue from '@/components/superadmin/SelectComponent/DesaValue';
 import Loading from '@/components/ui/Loading';
 import Swal from 'sweetalert2';
+import InputComponent from '@/components/ui/InputKecDesa';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
 const formatDate = (dateString: string) => {
@@ -37,7 +39,8 @@ const formSchema = z.object({
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(0, { message: "Tanggal wajib diisi" })),
-    nama_tanaman: z.string().min(0, { message: "Nama tanaman wajib diisi" }),
+    korluh_master_sayur_buah_id: z
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Sayuran dan buah wajib diisi" })),
     hasil_produksi: z.string().min(0, { message: "Hasil produksi wajib diisi" }),
     luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
     luas_panen_belum_habis: z.coerce.number().min(0, { message: "Luas panen belum habis wajib diisi" }),
@@ -89,6 +92,9 @@ const EditSayuranBuah = () => {
             kecamatanId: number,
             desaId: number,
         }
+        master: {
+            id: number;
+        }
     }
 
     interface Response {
@@ -121,7 +127,6 @@ const EditSayuranBuah = () => {
 
     useEffect(() => {
         if (dataSayuran) {
-            setValue("nama_tanaman", dataSayuran.data.namaTanaman);
             setValue("tanggal", new Date(dataSayuran.data.korluhSayurBuah.tanggal).toISOString().split('T')[0]);
             setValue("hasil_produksi", dataSayuran.data.hasilProduksi);
             setValue("luas_panen_habis", dataSayuran.data.luasPanenHabis);
@@ -132,6 +137,7 @@ const EditSayuranBuah = () => {
             setValue("produksi_belum_habis", dataSayuran.data.produksiBelumHabis);
             setValue("rerata_harga", dataSayuran.data.rerataHarga);
             setValue("keterangan", dataSayuran.data.keterangan);
+            setValue("korluh_master_sayur_buah_id", dataSayuran.data.master.id);
             setValue("kecamatan_id", dataSayuran.data.korluhSayurBuah.kecamatanId);
             setInitialDesaId(dataSayuran.data.korluhSayurBuah.desaId); // Save initial desa_id
             setValue("desa_id", dataSayuran.data.korluhSayurBuah.desaId); // Set default value
@@ -204,9 +210,38 @@ const EditSayuranBuah = () => {
         mutate(`/korluh/sayur-buah/get`);
     };
 
-    const [open, setOpen] = React.useState(false)
-    const [value, setValueSelect] = React.useState("")
+    // GET ALL 
+    interface Master {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
 
+    interface ResponseMaster {
+        status: string;
+        data: Master[];
+        message: string;
+    }
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+
+    const { data: dataMaster }: SWRResponse<ResponseMaster> = useSWR(
+        `/korluh/master-sayur-buah/get`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    const masterOptions = dataMaster?.data.map(master => ({
+        id: master.id.toString(),
+        name: master.nama,
+    }))
+    //
     return (
         <>
             <div className="text-primary text-xl md:text-2xl font-bold mb-4">Tambah Data</div>
@@ -255,19 +290,29 @@ const EditSayuranBuah = () => {
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Nama Tanaman" />
-                                <Input
-                                    type="text"
-                                    placeholder="Nama Tanaman"
-                                    {...register('nama_tanaman')}
-                                    className={`${errors.nama_tanaman ? 'border-red-500' : 'py-5 text-sm'}`}
+                                <Controller
+                                    name="korluh_master_sayur_buah_id"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <InputComponent
+                                            disabled
+                                            typeInput="selectSearch"
+                                            placeholder="Pilih Sayuran dan Buah"
+                                            label="Sayuran dan Buah"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            items={masterOptions}
+                                        />
+                                    )}
                                 />
-                                {errors.nama_tanaman && (
-                                    <HelperError>{errors.nama_tanaman.message}</HelperError>
+                                {errors.korluh_master_sayur_buah_id && (
+                                    <HelperError>{errors.korluh_master_sayur_buah_id.message}</HelperError>
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Tanggal" />
                                 <Input
+                                    disabled
                                     type="date"
                                     placeholder="Tanggal"
                                     {...register('tanggal')}

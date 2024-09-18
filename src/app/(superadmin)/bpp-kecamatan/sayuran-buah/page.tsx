@@ -110,6 +110,10 @@ const KorlubSayuranBuah = () => {
         produksiBelumHabis: number;
         rerataHarga: number;
         keterangan: string;
+        master: {
+            id: number;
+            nama: string;
+        }
         createdAt: string;
         updatedAt: string;
     }
@@ -557,7 +561,7 @@ const KorlubSayuranBuah = () => {
                             item.list.map((tanaman) => (
                                 <TableRow key={tanaman.id}>
                                     <TableCell className="border border-slate-200 text-center">{index + 1}</TableCell>
-                                    <TableCell className="border border-slate-200">{tanaman.namaTanaman}</TableCell>
+                                    <TableCell className="border border-slate-200">{tanaman.master.nama}</TableCell>
                                     <TableCell className="border border-slate-200">{tanaman.hasilProduksi}</TableCell>
                                     <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
                                     <TableCell className="border border-slate-200 text-center">{tanaman.luasPanenHabis}</TableCell>

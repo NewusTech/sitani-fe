@@ -109,6 +109,10 @@ const KorlubTanamanBiofarmaka = () => {
         produksiBelumHabis: number;
         rerataHarga: number;
         keterangan: string;
+        master: {
+            id: number;
+            nama: string;
+        }
         createdAt: string;
         updatedAt: string;
     }
@@ -553,7 +557,7 @@ const KorlubTanamanBiofarmaka = () => {
                                     {index + 1}
                                 </TableCell>
                                 <TableCell className='border border-slate-200'>
-                                    {tanaman.namaTanaman}
+                                    {tanaman.master.nama}
                                 </TableCell>
                                 {/* <TableCell className='border border-slate-200 text-center'>
                                     luas tanaman akhir triwulan

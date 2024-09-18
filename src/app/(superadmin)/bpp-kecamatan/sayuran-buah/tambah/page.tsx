@@ -8,13 +8,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter } from 'next/navigation';
-import { SWRResponse, mutate } from "swr";
+import useSWR, { SWRResponse, mutate } from "swr";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import KecValue from '@/components/superadmin/SelectComponent/KecamatanValue';
 import DesaValue from '@/components/superadmin/SelectComponent/DesaValue';
 import Loading from '@/components/ui/Loading';
 import Swal from 'sweetalert2';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import InputComponent from '@/components/ui/InputKecDesa';
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
 const formatDate = (dateString: string) => {
@@ -37,7 +39,8 @@ const formSchema = z.object({
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(1, { message: "Tanggal wajib diisi" })),
-    nama_tanaman: z.string().min(1, { message: "Nama tanaman wajib diisi" }),
+    korluh_master_sayur_buah_id: z
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Sayuran dan buah wajib diisi" })),
     hasil_produksi: z.string().min(1, { message: "Hasil produksi wajib diisi" }),
     luas_panen_habis: z.coerce.number().min(0, { message: "Luas panen habis wajib diisi" }),
     luas_panen_belum_habis: z.coerce.number().min(0, { message: "Luas panen belum habis wajib diisi" }),
@@ -130,8 +133,40 @@ const TambahSayuranBuah = () => {
         mutate(`/sayur-buah/get`);
     };
 
-    const [open, setOpen] = React.useState(false)
-    const [value, setValueSelect] = React.useState("")
+    // 
+    // GET ALL 
+    interface Master {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface Response {
+        status: string;
+        data: Master[];
+        message: string;
+    }
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+
+    const { data: dataMaster }: SWRResponse<Response> = useSWR(
+        `/korluh/master-sayur-buah/get`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    const masterOptions = dataMaster?.data.map(master => ({
+        id: master.id.toString(),
+        name: master.nama,
+    }))
+    // 
+
 
     return (
         <>
@@ -179,14 +214,22 @@ const TambahSayuranBuah = () => {
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Nama Tanaman" />
-                                <Input
-                                    type="text"
-                                    placeholder="Nama Tanaman"
-                                    {...register('nama_tanaman')}
-                                    className={`${errors.nama_tanaman ? 'border-red-500' : 'py-5 text-sm'}`}
+                                <Controller
+                                    name="korluh_master_sayur_buah_id"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <InputComponent
+                                            typeInput="selectSearch"
+                                            placeholder="Pilih Sayuran dan Buah"
+                                            label="Sayuran dan Buah"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            items={masterOptions}
+                                        />
+                                    )}
                                 />
-                                {errors.nama_tanaman && (
-                                    <HelperError>{errors.nama_tanaman.message}</HelperError>
+                                {errors.korluh_master_sayur_buah_id && (
+                                    <HelperError>{errors.korluh_master_sayur_buah_id.message}</HelperError>
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
