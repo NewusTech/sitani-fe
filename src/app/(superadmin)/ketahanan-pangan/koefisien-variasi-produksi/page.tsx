@@ -56,6 +56,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import FilterTable from '@/components/FilterTable'
+import KoefisienVariasiProduksiPrint from '@/components/Print/KetahananPangan/Koefisien-Variasi-Produksi/Index'
 
 
 const KoefisienVariasiProduksi = () => {
@@ -229,20 +230,12 @@ const KoefisienVariasiProduksi = () => {
                         className='border-primary py-2'
                     />
                 </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                {/* print */}
+                <KoefisienVariasiProduksiPrint
+                    urlApi={`/kepang/cv-produksi/get?year=${tahun}`}
+                    tahun={tahun}
+                />
+                {/* print */}
             </div>
             {/* top */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-4">
@@ -256,6 +249,12 @@ const KoefisienVariasiProduksi = () => {
                                 <SelectValue placeholder="Tahun" className='text-2xl' />
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value="2018">2018</SelectItem>
+                                <SelectItem value="2019">2019</SelectItem>
+                                <SelectItem value="2020">2020</SelectItem>
+                                <SelectItem value="2021">2021</SelectItem>
+                                <SelectItem value="2022">2022</SelectItem>
+                                <SelectItem value="2023">2023</SelectItem>
                                 <SelectItem value="2024">2024</SelectItem>
                                 <SelectItem value="2025">2025</SelectItem>
                                 <SelectItem value="2026">2026</SelectItem>

@@ -262,12 +262,12 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
                     <Table className='border border-black p-2 mt-1'>
                         <TableHeader className='bg-white text-black'>
                             <TableRow>
-                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">No</TableHead>
-                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Bulan</TableHead>
+                                <TableHead className="border border-black p-2 text-black text-center font-semibold">No</TableHead>
+                                <TableHead className="border border-black p-2 text-black text-center font-semibold">Bulan</TableHead>
                                 {uniqueKomoditas.map((komoditas) => (
-                                    <TableHead key={komoditas} className="border border-black p-2 text-black uppercase text-center font-semibold">{komoditas}</TableHead>
+                                    <TableHead key={komoditas} className="border border-black p-2 text-black text-center font-semibold">{komoditas}</TableHead>
                                 ))}
-                                {/* <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Aksi</TableHead> */}
+                                {/* <TableHead className="border border-black p-2 text-black text-center font-semibold">Aksi</TableHead> */}
                             </TableRow>
                         </TableHeader>
 
@@ -307,29 +307,29 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
                         </TableBody>
                         {/* <TableFooter className='bg-primary-600'>
                     <TableRow>
-                        <TableCell className='border border-black p-2 text-black uppercase text-center font-semibold' colSpan={2}>Rata-rata</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
+                        <TableCell className='border border-black p-2 text-black text-center font-semibold' colSpan={2}>Rata-rata</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className='border border-black p-2 text-black uppercase text-center font-semibold' colSpan={2}>Maksimum</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
+                        <TableCell className='border border-black p-2 text-black text-center font-semibold' colSpan={2}>Maksimum</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className='border border-black p-2 text-black uppercase text-center font-semibold' colSpan={2}>Minimum</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
+                        <TableCell className='border border-black p-2 text-black text-center font-semibold' colSpan={2}>Minimum</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className='border border-black p-2 text-black uppercase text-center font-semibold' colSpan={2}>Target CV</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
+                        <TableCell className='border border-black p-2 text-black text-center font-semibold' colSpan={2}>Target CV</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className='border border-black p-2 text-black uppercase text-center font-semibold' colSpan={2}>CV (%)</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
-                        <TableCell className="border border-black p-2 text-black uppercase text-center font-semibold">49000</TableCell>
+                        <TableCell className='border border-black p-2 text-black text-center font-semibold' colSpan={2}>CV (%)</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
+                        <TableCell className="border border-black p-2 text-black text-center font-semibold">49000</TableCell>
                     </TableRow>
                 </TableFooter> */}
                     </Table>
