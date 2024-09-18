@@ -207,7 +207,7 @@ const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
                 </Button>
             </div>
             {/* KONTEN PRINT */}
-            <div className="absolute w-full left-[99999px]">
+            <div className="absolute -left-[700%] min-w-[39.7cm] w-full">
                 <div ref={printRef} className='p-2'>
                     <div className="ata mb-4 flex justify-start">
                         <div className="wr w-full text-sm">

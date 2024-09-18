@@ -229,7 +229,8 @@ const PenyuluhKabPrint = () => {
                 </Button>
             </div>
             {/* KONTEN PRINT */}
-            <div className="absolute -left-full w-full">
+            <div className="absolute -left-[700%] min-w-[39.7cm] w-full">
+            {/* <div className=""> */}
                 <div ref={printRef} className='p-[50px]'>
                     <div className="ata mb-4 text-base flex justify-end">
                         <div className="wr w-[300px] flex gap-1">

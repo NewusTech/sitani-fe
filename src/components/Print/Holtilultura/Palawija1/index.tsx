@@ -280,7 +280,7 @@ const TPHPalawija1 = (props: PrintProps) => {
                 </Button>
             </div>
             {/* KONTEN PRINT */}
-            <div className="absolute -left-full w-full">
+            <div className="absolute -left-[700%] min-w-[39.7cm] w-full">
                 {/* <div className=""> */}
                 <div ref={printRef} className='p-[50px]'>
                     {/* title */}
