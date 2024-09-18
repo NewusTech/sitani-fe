@@ -1,8 +1,6 @@
 'use client'
 
 import NavMobile from '@/components/landing-page/NavMobile';
-import { NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuTrigger, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
-import { NavigationMenu, NavigationMenuList } from '@radix-ui/react-navigation-menu';
 import Image from 'next/image'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -100,33 +98,29 @@ const Layout = (props: LayoutProps) => {
                                         <ChevronDownIcon className="h-5 w-5 inline-block ml-2" />
                                     )}
                                 </PopoverTrigger>
-                                <PopoverContent className="shadow-lg w-[60%] border-primary border-double border-4 opacity-90 p-0">
+                                <PopoverContent className="shadow-lg w-[60%] border-primary border-double border-4 opacity-90 p-0 rounded-lg">
                                     <Link href={"/data/harga-produsen-dan-eceran"} className="opacity-1">
-                                        <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold text-primary">
-                                            Daftar harga produsen
-                                            dan eceran
+                                        <div className="p-4 transition-all ease-in-out duration-300 hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105 rounded-lg">
+                                            Daftar harga produsen dan eceran
                                         </div>
                                     </Link>
                                     <Link href={"/data/koefisien-variasi-produksi"} className="opacity-1">
-                                        <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold text-primary">
-                                            Koefesian variasi tingkat
-                                            produksi
+                                        <div className="p-4 transition-all ease-in-out duration-300 hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105 rounded-lg">
+                                            Koefesian variasi tingkat produksi
                                         </div>
                                     </Link>
                                     <Link href={"/data/koefisien-variasi-produsen"} className="opacity-1">
-                                        <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold text-primary">
-                                            Koefesian variasi tingkat
-                                            produsen
+                                        <div className="p-4 transition-all ease-in-out duration-300 hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105 rounded-lg">
+                                            Koefesian variasi tingkat produsen
                                         </div>
                                     </Link>
                                     <Link href={"/data/perbandingan-komoditas-harga-panen"} className="opacity-1">
-                                        <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold text-primary">
-                                            Perbandingan komoditas
-                                            harga panen tingkat
-                                            eceran
+                                        <div className="p-4 transition-all ease-in-out duration-300 hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105 rounded-lg">
+                                            Perbandingan komoditas harga panen tingkat eceran
                                         </div>
                                     </Link>
                                 </PopoverContent>
+
                             </Popover>
                         </Menu>
                         <Link href="/login" className='text-xl p-2 px-10 rounded-full bg-primary text-white'>Login</Link>

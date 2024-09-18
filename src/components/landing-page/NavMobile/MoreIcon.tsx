@@ -11,6 +11,12 @@ import {
 } from "@/components/ui/sheet"
 import Link from 'next/link';
 
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
 
 const MoreIcon = () => {
     const pathname = usePathname();
@@ -24,42 +30,44 @@ const MoreIcon = () => {
                         <path d="M12.8198 12.3904H20.0998M16.4598 16.0304H20.0998M12.8198 19.6704H20.0998" strokeWidth="1.89803" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </SheetTrigger>
-                <SheetContent className='bg-primary-600'>
+                <SheetContent className="bg-primary-600 p-6">
+                    
                     <SheetHeader>
-                        {/* <SheetTitle className='mt-10'>Menu Lainnya</SheetTitle> */}
-                        <SheetDescription className='mt-10'>
-                            <div className="flex flex-col items-end gap-3">
-                                <Link href={"/data/harga-produsen-dan-eceran"} className="opacity-1 w-full">
-                                    <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold bg-white w-full rounded-full  text-primary">
-                                        Daftar harga produsen
-                                        dan eceran
-                                    </div>
-                                </Link>
-                                <Link href={"/data/koefisien-variasi-produksi"} className="opacity-1 w-full">
-                                    <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold bg-white w-full rounded-full  text-primary">
-                                        Koefesian variasi tingkat
-                                        produksi
-                                    </div>
-                                </Link>
-                                <Link href={"/data/koefisien-variasi-produsen"} className="opacity-1 w-full">
-                                    <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold bg-white w-full rounded-full  text-primary">
-                                        Koefesian variasi tingkat
-                                        produsen
-                                    </div>
-                                </Link>
-                                <Link href={"/data/perbandingan-komoditas-harga-panen"} className="opacity-1 w-full">
-                                    <div className="p-3 ease-in duration-300 hover:bg-primary hover:text-white hover:font-semibold bg-white w-full rounded-full  text-primary">
-                                        Perbandingan komoditas
-                                        harga panen tingkat
-                                        eceran
-                                    </div>
-                                </Link>
-                                <Link href={"/login"} className='mt-5 bg-primary w-full rounded-full  text-white p-3'>
-                                    Login
-                                </Link>
-                            </div>
-                        </SheetDescription>
+                        {/* ketahanan-pangan */}
+                        <Accordion className='' type="single" collapsible>
+                            <AccordionItem className='' value="item-1">
+                                <AccordionTrigger className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] 
+                                w-full mt-5 py-3 px-[10px] ${pathname.startsWith('/ketahanan-pangan') ? "bg-primary text-white" : "bg-white text-primary"}`}>
+                                    Ketahanan Pangan
+                                </AccordionTrigger>
+                                <AccordionContent className='bg-primary-600/25 mb-2 rounded-md'>
+                                    <SheetDescription className="mt-2">
+                                        <div className="flex flex-col items-end gap-4">
+                                            {[
+                                                { href: "/data/harga-produsen-dan-eceran", text: "Daftar Harga Produsen dan Eceran" },
+                                                { href: "/data/koefisien-variasi-produksi", text: "Koefisien Variasi Tingkat Produksi" },
+                                                { href: "/data/koefisien-variasi-produsen", text: "Koefisien Variasi Tingkat Produsen" },
+                                                { href: "/data/perbandingan-komoditas-harga-panen", text: "Perbandingan Komoditas Harga Panen Tingkat Eceran" },
+                                            ].map((link, index) => (
+                                                <Link key={index} href={link.href} className="w-full">
+                                                    <div className="p-4 bg-white shadow-md rounded-lg text-primary transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-lg transform hover:scale-105">
+                                                        {link.text}
+                                                    </div>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </SheetDescription>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        {/* ketahanan-pangan */}
+                        {/* login */}
+                        <Link href="/login" className="mt-6 bg-primary text-white w-full rounded-lg py-3 text-center transition-all duration-300 hover:bg-primary-700 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Login
+                        </Link>
+                        {/* login */}
                     </SheetHeader>
+                    
                 </SheetContent>
             </Sheet>
         </>
