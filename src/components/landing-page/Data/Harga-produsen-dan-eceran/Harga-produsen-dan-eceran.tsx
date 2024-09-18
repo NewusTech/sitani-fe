@@ -29,6 +29,7 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import PaginationTable from '@/components/PaginationTable'
 import KetahananPanganProdusenEceranPrint from '@/components/Print/KetahananPangan/Produsen-Dan-Eceran'
+import FilterTable from '@/components/FilterTable'
 
 interface Komoditas {
     id: number;
@@ -226,11 +227,8 @@ const KomponenHargaProdusenDanEceran = () => {
                     <div className="header flex gap-2 justify-between items-center mt-4">
                         <div className="search md:w-[50%]">
                             <Input
-                                autoFocus
                                 type="text"
                                 placeholder="Cari"
-                                value={search}
-                                onChange={handleSearchChange}
                                 rightIcon={<SearchIcon />}
                                 className='border-primary py-2'
                             />
@@ -241,7 +239,15 @@ const KomponenHargaProdusenDanEceran = () => {
                         />
                         {/* print */}
                     </div>
-                    {/*  */}
+                    {/* top */}
+                </div>
+                {/* print */}
+                <div className="filter-table w-[40px] h-[40px] mt-4">
+                    <FilterTable
+                        columns={columns}
+                        defaultCheckedKeys={getDefaultCheckedKeys()}
+                        onFilterChange={handleFilterChange}
+                    />
                 </div>
                 {/* header */}
 
