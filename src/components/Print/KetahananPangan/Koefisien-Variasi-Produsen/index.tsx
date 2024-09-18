@@ -110,6 +110,13 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
                 })
                 .then((res) => res.data)
     );
+    
+    // print
+    const printRef = useRef<HTMLDivElement>(null);
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current,
+    });
+    // print
 
     if (error) return <div>Error loading data</div>;
     if (!data) return <div>Loading...</div>;
@@ -121,13 +128,6 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
         });
     });
     const uniqueKomoditas = Array.from(allKomoditas);
-
-    // print
-    const printRef = useRef<HTMLDivElement>(null);
-    const handlePrint = useReactToPrint({
-        content: () => printRef.current,
-    });
-    // print
 
     // download Excel
     const handleDownloadExcel = async () => {
