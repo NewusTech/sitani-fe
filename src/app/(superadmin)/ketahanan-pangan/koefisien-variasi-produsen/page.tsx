@@ -165,14 +165,14 @@ const KoefisienVariasiProdusen = () => {
             {/* title */}
             {/* top */}
             <div className="header flex gap-2 justify-between items-center">
-                <div className="search md:w-[50%]">
+                {/* <div className="search md:w-[50%]">
                     <Input
                         type="text"
                         placeholder="Cari"
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     />
-                </div>
+                </div> */}
                 {/* print */}
                 <KoefisienVariasiProdusenPrint
                     urlApi={`/kepang/cv-produsen/get?year=${tahun}`}

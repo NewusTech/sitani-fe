@@ -99,28 +99,39 @@ const Layout = (props: LayoutProps) => {
                                     )}
                                 </PopoverTrigger>
                                 <PopoverContent className="shadow-lg w-[60%] border-primary border-double border-4 opacity-90 p-0 rounded-lg">
-                                    <Link href={"/data/harga-produsen-dan-eceran"} className="opacity-1">
-                                        <div className="p-4 transition-all ease-in-out duration-300 hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105 rounded-lg">
-                                            Daftar harga produsen dan eceran
+                                    <Link href={"/data/harga-produsen-dan-eceran"} className={`opacity-1`}>
+                                        <div className={`p-4 transition-all ease-in-out duration-300 ${pathname === "/data/harga-produsen-dan-eceran"
+                                            ? "bg-primary text-white font-semibold shadow-xl scale-100"  // Active link styles
+                                            : "hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105"}  // Hover effect for inactive link
+        rounded-lg`}>
+                                            Daftar Harga Produsen <br /> dan Eceran
                                         </div>
                                     </Link>
-                                    <Link href={"/data/koefisien-variasi-produksi"} className="opacity-1">
-                                        <div className="p-4 transition-all ease-in-out duration-300 hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105 rounded-lg">
-                                            Koefesian variasi tingkat produksi
+                                    <Link href={"/data/koefisien-variasi-produksi"} className={`opacity-1`}>
+                                        <div className={`p-4 transition-all ease-in-out duration-300 ${pathname === "/data/koefisien-variasi-produksi"
+                                            ? "bg-primary text-white font-semibold shadow-xl scale-100"  // Active link styles
+                                            : "hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105"}  // Hover effect for inactive link
+        rounded-lg`}>
+                                            Data Coefesien Variansi (CV) Tk. Produksi
                                         </div>
                                     </Link>
-                                    <Link href={"/data/koefisien-variasi-produsen"} className="opacity-1">
-                                        <div className="p-4 transition-all ease-in-out duration-300 hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105 rounded-lg">
-                                            Koefesian variasi tingkat produsen
+                                    <Link href={"/data/koefisien-variasi-produsen"} className={`opacity-1`}>
+                                        <div className={`p-4 transition-all ease-in-out duration-300 ${pathname === "/data/koefisien-variasi-produsen"
+                                            ? "bg-primary text-white font-semibold shadow-xl scale-100"  // Active link styles
+                                            : "hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105"}  // Hover effect for inactive link
+        rounded-lg`}>
+                                            Data Coefesien Variansi (CV) Tk. Produsen
                                         </div>
                                     </Link>
-                                    <Link href={"/data/perbandingan-komoditas-harga-panen"} className="opacity-1">
-                                        <div className="p-4 transition-all ease-in-out duration-300 hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105 rounded-lg">
-                                            Perbandingan komoditas harga panen tingkat eceran
+                                    <Link href={"/data/perbandingan-komoditas-harga-panen"} className={`opacity-1`}>
+                                        <div className={`p-4 transition-all ease-in-out duration-300 ${pathname === "/data/perbandingan-komoditas-harga-panen"
+                                            ? "bg-primary text-white font-semibold shadow-xl scale-100"  // Active link styles
+                                            : "hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105"}  // Hover effect for inactive link
+        rounded-lg`}>
+                                            Perbandingan Komoditas Harga Pangan Tingkat Pedagang Eceran
                                         </div>
                                     </Link>
                                 </PopoverContent>
-
                             </Popover>
                         </Menu>
                         <Link href="/login" className='text-xl p-2 px-10 rounded-full bg-primary text-white'>Login</Link>

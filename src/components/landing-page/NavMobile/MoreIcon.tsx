@@ -45,9 +45,9 @@ const MoreIcon = () => {
                                         <div className="flex flex-col items-end gap-4">
                                             {[
                                                 { href: "/data/harga-produsen-dan-eceran", text: "Daftar Harga Produsen dan Eceran" },
-                                                { href: "/data/koefisien-variasi-produksi", text: "Koefisien Variasi Tingkat Produksi" },
-                                                { href: "/data/koefisien-variasi-produsen", text: "Koefisien Variasi Tingkat Produsen" },
-                                                { href: "/data/perbandingan-komoditas-harga-panen", text: "Perbandingan Komoditas Harga Panen Tingkat Eceran" },
+                                                { href: "/data/koefisien-variasi-produksi", text: "Data Coefesien Variansi (CV) Tk. Produksi" },
+                                                { href: "/data/koefisien-variasi-produsen", text: "Data Coefesien Variansi (CV) Tk. Produsen" },
+                                                { href: "/data/perbandingan-komoditas-harga-panen", text: "Perbandingan Komoditas Harga Pangan Tingkat Pedagang Eceran" },
                                             ].map((link, index) => (
                                                 <Link key={index} href={link.href} className="w-full">
                                                     <div className="p-4 bg-white shadow-md rounded-lg text-primary transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-lg transform hover:scale-105">
