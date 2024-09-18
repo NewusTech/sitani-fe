@@ -429,6 +429,11 @@ const Palawija1 = () => {
                                 )}
                                 {visibleColumns.includes('jagung') && (
                                     <TableCell className='border border-slate-200 text-center'>
+                                        {item.jagungProduksi}
+                                    </TableCell>
+                                )}
+                                {visibleColumns.includes('kedelai') && (
+                                    <TableCell className='border border-slate-200 text-center'>
                                         {item.kedelaiPanen}
                                     </TableCell>
                                 )}
@@ -440,11 +445,6 @@ const Palawija1 = () => {
                                 {visibleColumns.includes('kedelai') && (
                                     <TableCell className='border border-slate-200 text-center'>
                                         {item.kedelaiProduksi}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('kedelai') && (
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.jagungProduksi}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('kacangTanah') && (
