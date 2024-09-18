@@ -400,7 +400,7 @@ const BukanSawah = () => {
                                         </TableCell>
                                     </>
                                 )}
-                                {visibleColumns.includes('lahanBukanPertenian') && (
+                                {visibleColumns.includes('lahanBukanPertanian') && (
                                     <TableCell className='border border-slate-200 text-center'>
                                         {item?.lahanBukanPertanian}
                                     </TableCell>
