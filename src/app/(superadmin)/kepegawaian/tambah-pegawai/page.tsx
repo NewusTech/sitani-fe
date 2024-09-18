@@ -26,41 +26,41 @@ const formatDate = (dateString: string) => {
 };
 
 const formSchema = z.object({
-  nama: z.string().min(1, { message: "Nama wajib diisi" }),
+  nama: z.string().min(0, { message: "Nama wajib diisi" }),
   nip: z
-    .preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
-  tempat_lahir: z.string().min(1, { message: "Tempat Lahir wajib diisi" }),
+    .preprocess((val) => Number(val), z.number().min(0, { message: "NIP wajib diisi" })),
+  tempat_lahir: z.string().min(0, { message: "Tempat Lahir wajib diisi" }),
   tgl_lahir: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
-    z.string().min(1, { message: "Tanggal Lahir wajib diisi" })
+    z.string().min(0, { message: "Tanggal Lahir wajib diisi" })
   ),
-  pangkat: z.string().min(1, { message: "Pangkat wajib diisi" }),
-  golongan: z.string().min(1, { message: "Golongan wajib diisi" }),
+  pangkat: z.string().min(0, { message: "Pangkat wajib diisi" }),
+  golongan: z.string().min(0, { message: "Golongan wajib diisi" }),
   tmt_pangkat: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
-    z.string().min(1, { message: "TMT Pangkat wajib diisi" })
+    z.string().min(0, { message: "TMT Pangkat wajib diisi" })
   ),
-  jabatan: z.string().min(1, { message: "Jabatan wajib diisi" }),
+  jabatan: z.string().min(0, { message: "Jabatan wajib diisi" }),
   tmt_jabatan: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
-    z.string().min(1, { message: "TMT Jabatan wajib diisi" })
+    z.string().min(0, { message: "TMT Jabatan wajib diisi" })
   ),
-  nama_diklat: z.string().min(1, { message: "Nama Diklat wajib diisi" }),
+  nama_diklat: z.string().min(0, { message: "Nama Diklat wajib diisi" }),
   tgl_diklat: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
-    z.string().min(1, { message: "Tanggal Diklat wajib diisi" })
+    z.string().min(0, { message: "Tanggal Diklat wajib diisi" })
   ),
   total_jam: z
-    .preprocess((val) => Number(val), z.number().min(1, { message: "Total Jam wajib diisi" })),
-  nama_pendidikan: z.string().min(1, { message: "Nama Pendidikan wajib diisi" }),
+    .preprocess((val) => Number(val), z.number().min(0, { message: "Total Jam wajib diisi" }).optional()),
+  nama_pendidikan: z.string().min(0, { message: "Nama Pendidikan wajib diisi" }),
   tahun_lulus: z
-    .preprocess((val) => Number(val), z.number().min(1, { message: "Tahun Lulus wajib diisi" })),
-  jenjang_pendidikan: z.string().min(1, { message: "Jenjang Pendidikan wajib diisi" }),
-  usia: z.string().min(1, { message: "Usia wajib diisi" }),
-  masa_kerja: z.string().min(1, { message: "Masa Kerja wajib diisi" }),
-  keterangan: z.string().min(1, { message: "Keterangan wajib diisi" }),
+    .preprocess((val) => Number(val), z.number().min(0, { message: "Tahun Lulus wajib diisi" })),
+  jenjang_pendidikan: z.string().min(0, { message: "Jenjang Pendidikan wajib diisi" }),
+  usia: z.string().min(0, { message: "Usia wajib diisi" }),
+  masa_kerja: z.string().min(0, { message: "Masa Kerja wajib diisi" }),
+  keterangan: z.string().min(0, { message: "Keterangan wajib diisi" }),
   bidang_id: z
-    .preprocess((val) => Number(val), z.number().min(1, { message: "Bidang wajib diisi" })),
+    .preprocess((val) => Number(val), z.number().min(0, { message: "Bidang wajib diisi" })),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
