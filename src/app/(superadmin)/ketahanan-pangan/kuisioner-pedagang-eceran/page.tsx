@@ -98,7 +98,6 @@ interface Response {
     };
 }
 
-
 const KuisionerPedagangEceran = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();

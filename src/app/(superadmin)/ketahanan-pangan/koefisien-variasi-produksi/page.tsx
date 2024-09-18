@@ -223,12 +223,12 @@ const KoefisienVariasiProduksi = () => {
             {/* top */}
             <div className="header flex gap-2 justify-between items-center">
                 <div className="search md:w-[50%]">
-                    <Input
+                    {/* <Input
                         type="text"
                         placeholder="Cari"
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
-                    />
+                    /> */}
                 </div>
                 {/* print */}
                 <KoefisienVariasiProduksiPrint
@@ -238,7 +238,7 @@ const KoefisienVariasiProduksi = () => {
                 {/* print */}
             </div>
             {/* top */}
-            <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-4">
+            <div className="flex gap-2 lg:justify-between lg:items-center w-full mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                     <div className="w-auto">
                         <Select
@@ -269,7 +269,7 @@ const KoefisienVariasiProduksi = () => {
                         />
                     </div>
                 </div>
-                <div className="w-full mt-4 lg:mt-0">
+                <div className="w-full">
                     <div className="flex justify-end">
                         <Link href="/ketahanan-pangan/koefisien-variasi-produksi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                             Tambah Data

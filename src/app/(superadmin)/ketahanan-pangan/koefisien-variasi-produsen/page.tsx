@@ -164,7 +164,7 @@ const KoefisienVariasiProdusen = () => {
             <div className="text-xl md:text-2xl md:mb-4 mb-3 font-semibold text-primary uppercase">Data Coefesien Variansi (CV) Tk. Produsen</div>
             {/* title */}
             {/* top */}
-            <div className="header flex gap-2 justify-between items-center">
+            <div className="header flex gap-2 justify-between lg:justify-end items-center">
                 {/* <div className="search md:w-[50%]">
                     <Input
                         type="text"
@@ -181,7 +181,7 @@ const KoefisienVariasiProdusen = () => {
                 {/* print */}
             </div>
             {/* top */}
-            <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-4">
+            <div className="flex gap-2 lg:justify-between lg:items-center w-full mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                     <div className="w-auto">
                         <Select
@@ -210,7 +210,7 @@ const KoefisienVariasiProdusen = () => {
                         </Button>
                     </div> */}
                 </div>
-                <div className="w-full mt-4 lg:mt-0">
+                <div className="w-full">
                     <div className="flex justify-end">
                         <Link href="/ketahanan-pangan/koefisien-variasi-produsen/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                             Tambah Data
@@ -256,11 +256,8 @@ const KoefisienVariasiProdusen = () => {
                                                         </div>
                                                     </Link>
                                                     <DeletePopup onDelete={() => handleDelete(String(foundCommodity?.id))} />
-                                                    <div className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
-                                                        <Badge variant="primary">
-                                                            {/* {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(foundCommodity.nilai)} */}
-                                                            {foundCommodity.nilai}
-                                                        </Badge>
+                                                    <div className="nav flex pr-4 text-sm items-center gap-4 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
+                                                        {new Intl.NumberFormat('id-ID').format(foundCommodity.nilai)}
                                                     </div>
                                                 </div>
                                             ) : (
