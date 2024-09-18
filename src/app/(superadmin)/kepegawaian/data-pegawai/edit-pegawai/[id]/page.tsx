@@ -19,8 +19,10 @@ import Swal from 'sweetalert2';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import InputComponent from '@/components/ui/InputKecDesa';
 
-const formatDate = (dateString: string) => {
+const formatDate = (dateString: string | undefined) => {
+  if (!dateString) return ''; // Kembalikan string kosong jika tidak ada input
   const date = new Date(dateString);
+  if (isNaN(date.getTime())) return ''; // Kembalikan string kosong jika tanggal tidak valid
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
@@ -31,40 +33,39 @@ const formSchema = z.object({
   nama: z.string().min(1, { message: "Nama wajib diisi" }),
   nip: z
     .preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
-  tempat_lahir: z.string().min(1, { message: "Tempat Lahir wajib diisi" }),
+  tempat_lahir: z.string().min(0).optional(),
   tgl_lahir: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
-    z.string().min(1, { message: "Tanggal Lahir wajib diisi" })
+    z.string().optional()
   ),
-  pangkat: z.string().min(1, { message: "Pangkat wajib diisi" }),
-  golongan: z.string().min(1, { message: "Golongan wajib diisi" }),
+  pangkat: z.string().optional(),
+  golongan: z.string().optional(),
   tmt_pangkat: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
-    z.string().min(1, { message: "TMT Pangkat wajib diisi" })
+    z.string().optional()
   ),
-  jabatan: z.string().min(1, { message: "Jabatan wajib diisi" }),
+  jabatan: z.string().optional(),
   tmt_jabatan: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
-    z.string().min(1, { message: "TMT Jabatan wajib diisi" })
+    z.string().optional()
   ),
-  nama_diklat: z.string().min(1, { message: "Nama Diklat wajib diisi" }),
+  nama_diklat: z.string().optional(),
   tgl_diklat: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
-    z.string().min(1, { message: "Tanggal Diklat wajib diisi" })
+    z.string().optional()
   ),
   total_jam: z
-    .preprocess((val) => Number(val), z.number().min(1, { message: "Total Jam wajib diisi" })),
-  nama_pendidikan: z.string().min(1, { message: "Nama Pendidikan wajib diisi" }),
+    .preprocess((val) => Number(val), z.number().optional()),
+  nama_pendidikan: z.string().optional(),
   tahun_lulus: z
-    .preprocess((val) => Number(val), z.number().min(1, { message: "Tahun Lulus wajib diisi" })),
-  jenjang_pendidikan: z.string().min(1, { message: "Jenjang Pendidikan wajib diisi" }),
-  usia: z.string().min(1, { message: "Usia wajib diisi" }),
-  masa_kerja: z.string().min(1, { message: "Masa Kerja wajib diisi" }),
-  keterangan: z.string().min(1, { message: "Keterangan wajib diisi" }),
+    .preprocess((val) => Number(val), z.number().optional()),
+  jenjang_pendidikan: z.string().optional(),
+  usia: z.string().optional(),
+  masa_kerja: z.string().optional(),
+  keterangan: z.string().optional(),
   bidang_id: z
     .preprocess((val) => Number(val), z.number().min(1, { message: "Bidang wajib diisi" })),
 });
-
 
 const EdithPegawaiPage = () => {
   // GET ALL Bidang
@@ -199,7 +200,6 @@ const EdithPegawaiPage = () => {
     }
   }, [dataKepegawaian, setValue]);
 
-
   const [loading, setLoading] = useState(false);
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setLoading(true); // Set loading to true when the form is submitted
@@ -227,11 +227,24 @@ const EdithPegawaiPage = () => {
         backdrop: `rgba(0, 0, 0, 0.4)`,
       });
       // alert
-      console.log("Success to update user:", data);
+      console.log("Success to update:", data);
       navigate.push('/kepegawaian/data-pegawai');
       reset();
     } catch (error) {
-      console.error('Failed to update user:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Terjadi kesalahan!',
+        text: 'Gagal Edit data!',
+        showConfirmButton: true,
+        showClass: { popup: 'animate__animated animate__fadeInDown' },
+        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+        customClass: {
+          title: 'text-2xl font-semibold text-red-600',
+          icon: 'text-red-500 animate-bounce',
+        },
+        backdrop: 'rgba(0, 0, 0, 0.4)',
+      });
+      console.error("Failed to create:", error);
     }
     mutate(`/kepegawaian/get`);
   };
@@ -246,29 +259,29 @@ const EdithPegawaiPage = () => {
       <div className="text-primary text-xl md:text-2xl font-bold mb-5">Edit Data Pegawai</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="">
-        <div className="flex flex-col mb-2 w-full">
-          <Label className='text-sm mb-1' label="Bidang Kepegawaian" />
-          <Controller
-            name="bidang_id"
-            control={control}
-            render={({ field }) => (
-              <InputComponent
-                typeInput="selectSearch"
-                placeholder="Pilih Bidang"
-                label="Tidak ada bidang"
-                value={field.value}
-                onChange={field.onChange}
-                items={bidangOptions}
-              />
-            )}
-          />
-          {errors.bidang_id && (
-            <p className="text-red-500">{errors.bidang_id.message}</p>
-          )}
-        </div>
         <div className="mb-2">
           {/* <div className="text-primary text-lg font-bold mb-2">Nama, NIP, Tempat, Tanggal Lahir</div> */}
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex flex-col mb-2 w-full">
+              <Label className='text-sm mb-1' label="Bidang Kepegawaian" />
+              <Controller
+                name="bidang_id"
+                control={control}
+                render={({ field }) => (
+                  <InputComponent
+                    typeInput="selectSearch"
+                    placeholder="Pilih Bidang"
+                    label="Tidak ada bidang"
+                    value={field.value}
+                    onChange={field.onChange}
+                    items={bidangOptions}
+                  />
+                )}
+              />
+              {errors.bidang_id && (
+                <p className="text-red-500">{errors.bidang_id.message}</p>
+              )}
+            </div>
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Nama Lengkap" />
               <Input
@@ -281,6 +294,8 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.nama.message}</HelperError>
               )}
             </div>
+          </div>
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="NIP" />
               <Input
@@ -293,8 +308,6 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.nip.message}</HelperError>
               )}
             </div>
-          </div>
-          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Tempat Lahir" />
               <Input
@@ -307,6 +320,8 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.tempat_lahir.message}</HelperError>
               )}
             </div>
+          </div>
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Tanggal Lahir" />
               <Input
@@ -319,13 +334,6 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.tgl_lahir.message}</HelperError>
               )}
             </div>
-          </div>
-        </div>
-
-        {/* Pangkat/Gol Ruang Tmt Pangkat */}
-        <div className="mb-2">
-          {/* <div className="text-primary text-lg font-bold mb-2">Pangkat / Gol, Ruang, TMT Pangkat</div> */}
-          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Pangkat" />
               <Input
@@ -338,6 +346,13 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.pangkat.message}</HelperError>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Pangkat/Gol Ruang Tmt Pangkat */}
+        <div className="mb-2">
+          {/* <div className="text-primary text-lg font-bold mb-2">Pangkat / Gol, Ruang, TMT Pangkat</div> */}
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Golongan" />
               <Input
@@ -424,18 +439,18 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.tgl_diklat.message}</HelperError>
               )}
             </div>
-            <div className="flex flex-col w-full">
-              <Label className='text-sm mb-1' label="Jam Diklat" />
-              <Input
-                type="number"
-                placeholder="Jam Diklat"
-                {...register('total_jam')}
-                className={`${errors.total_jam ? 'border-red-500' : 'py-5 text-sm'}`}
-              />
-              {errors.total_jam && (
-                <HelperError>{errors.total_jam.message}</HelperError>
-              )}
-            </div>
+          </div>
+          <div className="flex flex-col w-full lg:w-1/2">
+            <Label className='text-sm mb-1' label="Jam Diklat" />
+            <Input
+              type="number"
+              placeholder="Jam Diklat"
+              {...register('total_jam')}
+              className={`${errors.total_jam ? 'border-red-500' : 'py-5 text-sm'}`}
+            />
+            {errors.total_jam && (
+              <HelperError>{errors.total_jam.message}</HelperError>
+            )}
           </div>
         </div>
 
@@ -467,6 +482,13 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.tahun_lulus.message}</HelperError>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Usia Masa Kerja */}
+        <div className="mb-2">
+          {/* <div className="text-primary text-lg font-bold mb-2">Bidang Status Aktif</div> */}
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Jenjang" />
               <Input
@@ -479,13 +501,6 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.jenjang_pendidikan.message}</HelperError>
               )}
             </div>
-          </div>
-        </div>
-
-        {/* Usia Masa Kerja */}
-        <div className="mb-2">
-          {/* <div className="text-primary text-lg font-bold mb-2">Bidang Status Aktif</div> */}
-          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Usia" />
               <Input
@@ -498,6 +513,12 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.usia.message}</HelperError>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Keterangan */}
+        <div className="mb-2">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Masa Kerja" />
               <Input
@@ -510,12 +531,6 @@ const EdithPegawaiPage = () => {
                 <HelperError>{errors.masa_kerja.message}</HelperError>
               )}
             </div>
-          </div>
-        </div>
-
-        {/* Keterangan */}
-        <div className="mb-2">
-          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="Keterangan" />
               <Textarea  {...register('keterangan')}

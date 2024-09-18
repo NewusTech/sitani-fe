@@ -31,6 +31,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Swal from 'sweetalert2'
 
 interface PrintProps {
     urlApi?: string;
@@ -99,10 +100,10 @@ const KepegawaianDataPensiunPrint = (props: PrintProps) => {
     const formatDate = (date?: Date): string => {
         if (!date) return ''; // Return an empty string if the date is undefined
         const year = date.getFullYear();
-        const month = date.getMonth() + 1; // getMonth() is zero-based
-        const day = date.getDate();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure two-digit month
+        const day = date.getDate().toString().padStart(2, '0'); // Ensure two-digit day
 
-        return `${year}/${month}/${day}`;
+        return `${year}-${month}-${day}`;
     };
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
@@ -152,23 +153,88 @@ const KepegawaianDataPensiunPrint = (props: PrintProps) => {
 
     // download PDF
     const handleDownloadPDF = async () => {
-        if (printRef.current) {
-            const canvas = await html2canvas(printRef.current, { scale: 2 });
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF({
-                orientation: 'landscape',
-                unit: 'pt',
-                format: 'a4',
+        try {
+            if (printRef.current) {
+                const canvas = await html2canvas(printRef.current, { scale: 2 });
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'pt',
+                    format: 'a4',
+                });
+
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save(`DATA_PENSIUN_APARATUR_SIPIL_NEGARA.pdf`);
+
+                // Notifikasi Swal sukses
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil download",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    position: "center",
+                });
+            }
+        } catch (error) {
+            // Notifikasi Swal error
+            Swal.fire({
+                icon: "error",
+                title: "Gagal download!",
+                timer: 2000,
+                showConfirmButton: false,
+                position: "center",
             });
-
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('DATA_PENSIUN_APARATUR_SIPIL_NEGARA.pdf');
+            console.error('Error downloading the PDF:', error);
         }
     };
+
+    // download Excel
+    const handleDownloadExcel = async () => {
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepegawaian`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/vnd.ms-excel',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to download file');
+            }
+
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.setAttribute('download', `DATA_APARATUR_SIPIL_NEGARA.xlsx`); // Nama file yang diunduh
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode?.removeChild(link); // Hapus elemen setelah di-click
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil download",
+                timer: 2000,
+                showConfirmButton: false,
+                position: "center",
+            });
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Gagal download!",
+                timer: 2000,
+                showConfirmButton: false,
+                position: "center",
+            });
+            console.error('Error downloading the file:', error);
+        }
+    };
+
     //PRINT 
     const currentYear = new Date().getFullYear();
 
@@ -191,7 +257,7 @@ const KepegawaianDataPensiunPrint = (props: PrintProps) => {
                             <DropdownMenuItem onClick={handleDownloadPDF}>
                                 Unduh PDF
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={handlePrint}>
+                            <DropdownMenuItem onClick={handleDownloadExcel}>
                                 Unduh Excel
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
@@ -255,32 +321,31 @@ const KepegawaianDataPensiunPrint = (props: PrintProps) => {
                                                 {item.tempat_lahir}, {item.tgl_lahir}
                                             </TableCell>
                                             <TableCell>
-                                                {item.pangkat} / {item.golongan} <br />
-                                                TMT: {new Date(item.tmt_pangkat).toLocaleDateString('id-ID', {
-                                                    day: 'numeric',
-                                                    month: 'long',
-                                                    year: 'numeric',
-                                                })}
+                                                TMT : {item.pangkat ? formatDate(new Date(item.pangkat)) : '-'}
                                             </TableCell>
                                             <TableCell>
                                                 {item.jabatan} <br />
-                                                TMT: {new Date(item.tmt_jabatan).toLocaleDateString('id-ID', {
-                                                    day: 'numeric',
-                                                    month: 'long',
-                                                    year: 'numeric',
-                                                })}
+                                                TMT : {item.tmt_jabatan ? formatDate(new Date(item.tmt_jabatan)) : '-'}
                                             </TableCell>
                                             <TableCell className='hidden md:table-cell'>{item.nama_diklat}</TableCell>
                                             <TableCell className='hidden md:table-cell'>
-                                                {new Date(item.tgl_diklat).toLocaleDateString('id-ID', {
-                                                    day: 'numeric',
-                                                    month: 'long',
-                                                    year: 'numeric',
-                                                })}
+                                                TMT : {item.tgl_diklat ? formatDate(new Date(item.tgl_diklat)) : '-'}
                                             </TableCell>
-                                            <TableCell className='hidden md:table-cell'>{item.total_jam} Jam</TableCell>
+                                            <TableCell className='hidden md:table-cell'>
+                                                {item.total_jam === 0 ? (
+                                                    <span></span>
+                                                ) : (
+                                                    <span>{item.total_jam} Jam</span>
+                                                )}
+                                            </TableCell>
                                             <TableCell className='hidden md:table-cell'>{item.nama_pendidikan}</TableCell>
-                                            <TableCell className='hidden md:table-cell'>{item.tahun_lulus}</TableCell>
+                                            <TableCell className='hidden md:table-cell'>
+                                                {item.tahun_lulus === 0 ? (
+                                                    <span></span>
+                                                ) : (
+                                                    <span>{item.tahun_lulus}</span>
+                                                )}
+                                            </TableCell>
                                             <TableCell className='hidden md:table-cell'>{item.usia}</TableCell>
                                             <TableCell className='hidden md:table-cell'>{item.masa_kerja}</TableCell>
                                         </TableRow>

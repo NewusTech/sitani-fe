@@ -85,7 +85,6 @@ interface Response {
   };
 }
 
-
 const DataPegawaiPagePensiun = () => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
@@ -94,10 +93,10 @@ const DataPegawaiPagePensiun = () => {
   const formatDate = (date?: Date): string => {
     if (!date) return ''; // Return an empty string if the date is undefined
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; // getMonth() is zero-based
-    const day = date.getDate();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure two-digit month
+    const day = date.getDate().toString().padStart(2, '0'); // Ensure two-digit day
 
-    return `${year}/${month}/${day}`;
+    return `${year}-${month}-${day}`;
   };
   const [startDate, setstartDate] = React.useState<Date>()
   const [endDate, setendDate] = React.useState<Date>()
@@ -224,28 +223,15 @@ const DataPegawaiPagePensiun = () => {
                   {item.tempat_lahir}, {item.tgl_lahir}
                 </TableCell>
                 <TableCell>
-                  {item.pangkat} / {item.golongan} <br />
-                  TMT: {new Date(item.tmt_pangkat).toLocaleDateString('id-ID', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
+                  TMT : {item.pangkat ? formatDate(new Date(item.pangkat)) : '-'}
                 </TableCell>
                 <TableCell>
                   {item.jabatan} <br />
-                  TMT: {new Date(item.tmt_jabatan).toLocaleDateString('id-ID', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
+                  TMT : {item.tmt_jabatan ? formatDate(new Date(item.tmt_jabatan)) : '-'}
                 </TableCell>
                 <TableCell className=''>{item.nama_diklat}</TableCell>
                 <TableCell className=''>
-                  {new Date(item.tgl_diklat).toLocaleDateString('id-ID', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
+                  TMT : {item.tgl_diklat ? formatDate(new Date(item.tgl_diklat)) : '-'}
                 </TableCell>
                 <TableCell className=''>{item.total_jam} Jam</TableCell>
                 <TableCell className=''>{item.nama_pendidikan}</TableCell>

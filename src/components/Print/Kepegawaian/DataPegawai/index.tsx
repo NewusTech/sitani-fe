@@ -31,6 +31,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Swal from 'sweetalert2'
 
 interface PrintProps {
     urlApi?: string;
@@ -101,10 +102,10 @@ const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
     const formatDate = (date?: Date): string => {
         if (!date) return ''; // Return an empty string if the date is undefined
         const year = date.getFullYear();
-        const month = date.getMonth() + 1; // getMonth() is zero-based
-        const day = date.getDate();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure two-digit month
+        const day = date.getDate().toString().padStart(2, '0'); // Ensure two-digit day
 
-        return `${year}/${month}/${day}`;
+        return `${year}-${month}-${day}`;
     };
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
@@ -144,7 +145,6 @@ const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
                 .then((res: any) => res.data)
     );
 
-    //PRINT
     // print
     const printRef = useRef<HTMLDivElement>(null);
 
@@ -154,24 +154,88 @@ const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
 
     // download PDF
     const handleDownloadPDF = async () => {
-        if (printRef.current) {
-            const canvas = await html2canvas(printRef.current, { scale: 2 });
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF({
-                orientation: 'landscape',
-                unit: 'pt',
-                format: 'a4',
+        try {
+            if (printRef.current) {
+                const canvas = await html2canvas(printRef.current, { scale: 2 });
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'pt',
+                    format: 'a4',
+                });
+
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save(`DATA_APARATUR_SIPIL_NEGARA.pdf`);
+
+                // Notifikasi Swal sukses
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil download",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    position: "center",
+                });
+            }
+        } catch (error) {
+            // Notifikasi Swal error
+            Swal.fire({
+                icon: "error",
+                title: "Gagal download!",
+                timer: 2000,
+                showConfirmButton: false,
+                position: "center",
             });
-
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('DATA_APARATUR_SIPIL_NEGARA.pdf');
+            console.error('Error downloading the PDF:', error);
         }
     };
-    //PRINT 
+
+    // download Excel
+    const handleDownloadExcel = async () => {
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepegawaian`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/vnd.ms-excel',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to download file');
+            }
+
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.setAttribute('download', `DATA_APARATUR_SIPIL_NEGARA.xlsx`); // Nama file yang diunduh
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode?.removeChild(link); // Hapus elemen setelah di-click
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil download",
+                timer: 2000,
+                showConfirmButton: false,
+                position: "center",
+            });
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Gagal download!",
+                timer: 2000,
+                showConfirmButton: false,
+                position: "center",
+            });
+            console.error('Error downloading the file:', error);
+        }
+    };
+
     const currentYear = new Date().getFullYear();
 
     return (
@@ -193,7 +257,7 @@ const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
                             <DropdownMenuItem onClick={handleDownloadPDF}>
                                 Unduh PDF
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={handlePrint}>
+                            <DropdownMenuItem onClick={handleDownloadExcel}>
                                 Unduh Excel
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
@@ -283,50 +347,44 @@ const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
                                             <TableCell className='text-black border border-zinc-400'>{index + 1}</TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
                                                 {item.nama} <br />
-                                                {item.nip} <br />
+                                                {item.nip === 0 ? (
+                                                    <span></span>
+                                                ) : (
+                                                    <span>{item.nip}</span>
+                                                )}
+                                                <br />
                                                 {item.tempatLahir}, {item.tglLahir}
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
                                                 {item.pangkat} / {item.golongan} <br />
-                                                TMT: {item.tmtPangkat ?
-                                                    new Date(item.tmtPangkat).toLocaleDateString('id-ID', {
-                                                        day: 'numeric',
-                                                        month: 'long',
-                                                        year: 'numeric',
-                                                    })
-                                                    : '-'}
+                                                TMT : {item.tmtPangkat ? formatDate(new Date(item.tmtPangkat)) : '-'}
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
                                                 {item.jabatan} <br />
-                                                TMT:
-                                                {item.tmtJabatan ?
-                                                    new Date(item.tmtJabatan).toLocaleDateString('id-ID', {
-                                                        day: 'numeric',
-                                                        month: 'long',
-                                                        year: 'numeric',
-                                                    })
-                                                    : '-'}
+                                                TMT : {item.tmtJabatan ? formatDate(new Date(item.tmtJabatan)) : '-'}
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
                                                 {item.namaDiklat} <br />
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
-                                                {item.tglDiklat ?
-                                                    new Date(item.tglDiklat).toLocaleDateString('id-ID', {
-                                                        day: 'numeric',
-                                                        month: 'long',
-                                                        year: 'numeric',
-                                                    })
-                                                    : '-'}
+                                                {item.tglDiklat ? formatDate(new Date(item.tglDiklat)) : '-'}
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
-                                                {item.totalJam} Jam
+                                                {item.totalJam === 0 ? (
+                                                    <span></span>
+                                                ) : (
+                                                    <span>{item.totalJam} Jam</span>
+                                                )}
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
-                                                {item.namaPendidikan} <br />
+                                                {item.namaPendidikan}
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
-                                                {item.tahunLulus} <br />
+                                                {item.tahunLulus === 0 ? (
+                                                    <span></span>
+                                                ) : (
+                                                    <span>{item.tahunLulus}</span>
+                                                )}
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
                                                 {item.jenjangPendidikan}

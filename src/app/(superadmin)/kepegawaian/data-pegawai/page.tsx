@@ -106,10 +106,10 @@ const DataPegawaiPage = () => {
   const formatDate = (date?: Date): string => {
     if (!date) return ''; // Return an empty string if the date is undefined
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; // getMonth() is zero-based
-    const day = date.getDate();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure two-digit month
+    const day = date.getDate().toString().padStart(2, '0'); // Ensure two-digit day
 
-    return `${year}/${month}/${day}`;
+    return `${year}-${month}-${day}`;
   };
   const [startDate, setstartDate] = React.useState<Date>()
   const [endDate, setendDate] = React.useState<Date>()
@@ -173,7 +173,7 @@ const DataPegawaiPage = () => {
         customClass: {
           title: 'text-2xl font-semibold text-green-600',
           icon: 'text-green-500 animate-bounce',
-          timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+          timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400',
         },
         backdrop: `rgba(0, 0, 0, 0.4)`,
       });
@@ -299,7 +299,6 @@ const DataPegawaiPage = () => {
           />
         </div>
         {/* unduh */}
-        {/* <KepegawaianDataPegawaiPrint /> */}
         <KepegawaianDataPegawaiPrint
           urlApi={`/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`}
         />
@@ -421,33 +420,25 @@ const DataPegawaiPage = () => {
                 {visibleColumns.includes('namaNip') && (
                   <TableCell className=''>
                     {item.nama} <br />
-                    {item.nip} <br />
+                    {item.nip === 0 ? (
+                      <span></span>
+                    ) : (
+                      <span>{item.nip}</span>
+                    )}
+                    <br />
                     {item.tempatLahir}, {item.tglLahir}
                   </TableCell>
                 )}
                 {visibleColumns.includes('pangkat') && (
                   <TableCell className=''>
                     {item.pangkat} / {item.golongan} <br />
-                    TMT: {item.tmtPangkat ?
-                      new Date(item.tmtPangkat).toLocaleDateString('id-ID', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })
-                      : '-'}
+                    TMT : {item.tmtPangkat ? formatDate(new Date(item.tmtPangkat)) : '-'}
                   </TableCell>
                 )}
                 {visibleColumns.includes('jabatan') && (
                   <TableCell className=''>
                     {item.jabatan} <br />
-                    TMT:
-                    {item.tmtJabatan ?
-                      new Date(item.tmtJabatan).toLocaleDateString('id-ID', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })
-                      : '-'}
+                    TMT : {item.tmtJabatan ? formatDate(new Date(item.tmtJabatan)) : '-'}
                   </TableCell>
                 )}
                 {visibleColumns.includes('diklat') && (
@@ -457,18 +448,16 @@ const DataPegawaiPage = () => {
                 )}
                 {visibleColumns.includes('diklat') && (
                   <TableCell className=''>
-                    {item.tglDiklat ?
-                      new Date(item.tglDiklat).toLocaleDateString('id-ID', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })
-                      : '-'}
+                    {item.tglDiklat ? formatDate(new Date(item.tglDiklat)) : '-'}
                   </TableCell>
                 )}
                 {visibleColumns.includes('diklat') && (
                   <TableCell className=''>
-                    {item.totalJam} Jam
+                    {item.totalJam === 0 ? (
+                      <span></span>
+                    ) : (
+                      <span>{item.totalJam} Jam</span>
+                    )}
                   </TableCell>
                 )}
                 {visibleColumns.includes('pendidikan') && (
@@ -478,7 +467,11 @@ const DataPegawaiPage = () => {
                 )}
                 {visibleColumns.includes('pendidikan') && (
                   <TableCell className=''>
-                    {item.tahunLulus} <br />
+                    {item.tahunLulus === 0 ? (
+                      <span></span>
+                    ) : (
+                      <span>{item.tahunLulus}</span>
+                    )}
                   </TableCell>
                 )}
                 {visibleColumns.includes('pendidikan') && (
