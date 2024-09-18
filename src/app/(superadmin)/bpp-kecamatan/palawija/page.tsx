@@ -20,7 +20,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
 import {
     Pagination,
     PaginationContent,
@@ -38,7 +37,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
@@ -48,54 +46,69 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+// 
+import useSWR from 'swr';
+import { SWRResponse, mutate } from "swr";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage'
+import Swal from 'sweetalert2';
 
-interface Data {
-    kecamatan?: string;
-    desa?: string;
-    hasilProduksi?: string;
-    namaTanaman?: string;
-    luasTanamanAkhirBulanLalu?: string;
-    luasPanen: {
-        habisDibongkar?: number;
-        belumHabis?: number;
-    }
-    luasRusak?: string;
-    luasPenanamanBaru?: string;
-    luasTanamanAkhirBulanLaporan?: string;
-    produksiKuintal: {
-        dipanenHabis?: number;
-        belumHabis?: number;
-    }
-    rataRataHargaJual?: string;
-    keterangan?: string;
+interface KorluhPalawijaData {
+    [key: number]: KorluhPalawijaItem;
+    bulan: number;
+    tahun: number;
+    kecamatan: number;
+    validasi: string;
+    masterIds: number[];
 }
+
+interface KorluhPalawijaItem {
+    nama: string;
+    lahanSawahPanen: number;
+    lahanSawahPanenMuda: number;
+    lahanSawahPanenHijauanPakanTernak: number;
+    lahanSawahTanam: number;
+    lahanSawahPuso: number;
+    lahanBukanSawahPanen: number;
+    lahanBukanSawahPanenMuda: number;
+    lahanBukanSawahPanenHijauanPakanTernak: number;
+    lahanBukanSawahTanam: number;
+    lahanBukanSawahPuso: number;
+    bulanLaluLahanSawah: number;
+    bulanLaluLahanBukanSawah: number;
+    akhirLahanSawah: number;
+    akhirLahanBukanSawah: number;
+}
+
+interface GetKorluhPalawijaResponse {
+    status: number;
+    message: string;
+    data: KorluhPalawijaData;
+}
+
 
 const KorluPalawija = () => {
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
 
-    const data: Data[] = [
-        {
-            kecamatan: "Metro Kibang",
-            desa: "Metro",
-            hasilProduksi: "Palawija",
-            namaTanaman: "Padi",
-            luasTanamanAkhirBulanLalu: "100 hektar",
-            luasPanen: {
-                habisDibongkar: 23,
-                belumHabis: 345,
-            },
-            luasRusak: "100 hektar",
-            luasPenanamanBaru: "100 hektar",
-            luasTanamanAkhirBulanLaporan: "100 hektar",
-            produksiKuintal: {
-                dipanenHabis: 23,
-                belumHabis: 345,
-            },
-            rataRataHargaJual: "100 hektar",
-            keterangan: "100 hektar",
-        },
-    ];
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    // GETALL
+    const { data: dataPalawija }: SWRResponse<any> = useSWR(
+        // `korluh/padi/get?limit=1`,
+        `/validasi/korluh-palawija/kec?kecamatan=1&bulan=2024/9`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+
 
     return (
         <div>
@@ -339,50 +352,7 @@ const KorluPalawija = () => {
                         <TableCell className='border border-slate-200 font-semibold text-center'>
                             Jumlah Jagung
                         </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center'>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center'>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center'>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center'>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center'>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center'>
-                            455
-                        </TableCell>
-                        <TableCell className=' font-semibold text-center border border-slate-200'>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center '>
-                            455
-                        </TableCell>
-                        <TableCell className=' font-semibold text-center border border-slate-200'>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center '>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center '>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center '>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center '>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center '>
-                            455
-                        </TableCell>
-                        <TableCell className='border border-slate-200 font-semibold text-center '>
-                            455
+                        <TableCell colSpan={15} className='border border-slate-200 font-semibold text-center '>
                         </TableCell>
                         <TableCell>
                             <div className="flex items-center gap-4">
@@ -410,19 +380,49 @@ const KorluPalawija = () => {
                             1). Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[1]?.bulanLaluLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[1]?.lahanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[1]?.lahanSawahPanenMuda}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[1]?.lahanSawahPanenHijauanPakanTernak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[1]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[1]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[1]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[1]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[1]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[1]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[1]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[1]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[1]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[1]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -432,19 +432,49 @@ const KorluPalawija = () => {
                             2). Non Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[2]?.bulanLaluLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[2]?.lahanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[2]?.lahanSawahPanenMuda}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[2]?.lahanSawahPanenHijauanPakanTernak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[2]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[2]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[2]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[2]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[2]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[2]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[2]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[2]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[2]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[2]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -453,12 +483,102 @@ const KorluPalawija = () => {
                         <TableCell className='border border-slate-200 font-semibold '>
                             B. Komplit
                         </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[3]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell>
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold '>
                             C. Lokal
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[4]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     {/* jumlah jagung */}
@@ -470,6 +590,7 @@ const KorluPalawija = () => {
                         <TableCell className='border border-slate-200 font-semibold '>
                             Kedelai
                         </TableCell>
+
                     </TableRow>
                     {/* Kedelai */}
                     <TableRow>
@@ -479,34 +600,49 @@ const KorluPalawija = () => {
                             a. Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.bulanLaluLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.lahanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.lahanSawahPanenMuda}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.lahanSawahPanenHijauanPakanTernak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.lahanSawahTanam}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.lahanSawahPuso}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.akhirLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.bulanLaluLahanBukanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.lahanBukanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[5]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[5]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[5]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[5]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[5]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -516,47 +652,116 @@ const KorluPalawija = () => {
                             b. Non Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.bulanLaluLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.lahanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.lahanSawahPanenMuda}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.lahanSawahPanenHijauanPakanTernak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.lahanSawahTanam}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.lahanSawahPuso}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.akhirLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.bulanLaluLahanBukanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.lahanBukanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[6]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[6]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[6]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[6]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[6]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     {/* Kedelai */}
+                     {/* Kacang Tanah */}
+                     <TableRow>
+                        <TableCell className='border border-slate-200 font-semibold text-center'>
+                            3.
+                        </TableCell>
+                        <TableCell className='border border-slate-200 font-semibold'>
+                            Kacang Tanah
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[7]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
+                        </TableCell>
+                    </TableRow>
                     {/* Kacang Tanah */}
+                    {/* Jumlah Ubi Kayusingkong */}
                     <TableRow>
                         <TableCell className='border border-slate-200 font-semibold text-center'>
                             4.
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold'>
-                            Jumlah Ubi Kayusingkong
+                            Jumlah Ubi Kayu Singkong
                         </TableCell>
                     </TableRow>
-                    {/* Kacang Tanah */}
                     {/* Jumlah Ubi Kayusingkong */}
                     <TableRow>
                         <TableCell>
@@ -565,34 +770,49 @@ const KorluPalawija = () => {
                             a. Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.bulanLaluLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.lahanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.lahanSawahPanenMuda}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.lahanSawahPanenHijauanPakanTernak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.lahanSawahTanam}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.lahanSawahPuso}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.akhirLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.bulanLaluLahanBukanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.lahanBukanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[8]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[8]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[8]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[8]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[8]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -602,34 +822,49 @@ const KorluPalawija = () => {
                             b. Non Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.bulanLaluLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.lahanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.lahanSawahPanenMuda}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.lahanSawahPanenHijauanPakanTernak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.lahanSawahTanam}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.lahanSawahPuso}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.akhirLahanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.bulanLaluLahanBukanSawah}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.lahanBukanSawahPanen}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            234234
+                            {dataPalawija?.data[9]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[9]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[9]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[9]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[9]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     {/* Jumlah Ubi Kayusingkong */}
@@ -639,7 +874,52 @@ const KorluPalawija = () => {
                             5.
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold'>
-                            UbiJalar Ketela/Ketela Rambat
+                            Ubi Jalar Ketela/Ketela Rambat
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[10]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     {/* Ubi Jalar/Ketela Rambat */}
@@ -651,6 +931,51 @@ const KorluPalawija = () => {
                         <TableCell className='border border-slate-200 font-semibold'>
                             Kacang Hijau
                         </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[11]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
+                        </TableCell>
                     </TableRow>
                     {/* Kacang Hujau */}
                     {/* Sorgum Centel */}
@@ -659,7 +984,52 @@ const KorluPalawija = () => {
                             7.
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold'>
-                            Sorgumcantel
+                            Sorgum / Cantel
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[12]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     {/* Sorgum Centel */}
@@ -671,6 +1041,51 @@ const KorluPalawija = () => {
                         <TableCell className='border border-slate-200 font-semibold'>
                             Gandum
                         </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[13]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
+                        </TableCell>
                     </TableRow>
                     {/* Gandum */}
                     {/* Talas */}
@@ -680,6 +1095,51 @@ const KorluPalawija = () => {
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold'>
                             Talas
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[14]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     {/* Talas */}
@@ -691,6 +1151,51 @@ const KorluPalawija = () => {
                         <TableCell className='border border-slate-200 font-semibold'>
                             Ganyong
                         </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[15]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
+                        </TableCell>
                     </TableRow>
                     {/* Ganyong */}
                     {/* umbi lainnya */}
@@ -700,6 +1205,51 @@ const KorluPalawija = () => {
                         </TableCell>
                         <TableCell className='border border-slate-200 font-semibold'>
                             Umbi Lainnya
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.bulanLaluLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.akhirLahanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.bulanLaluLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanBukanSawahPanen}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanBukanSawahPanenMuda}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanBukanSawahPanenHijauanPakanTernak}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanBukanSawahTanam}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.lahanBukanSawahPuso}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataPalawija?.data[16]?.akhirLahanBukanSawah}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            produksi belum ada
                         </TableCell>
                     </TableRow>
                     {/* Umbi lainnya */}
