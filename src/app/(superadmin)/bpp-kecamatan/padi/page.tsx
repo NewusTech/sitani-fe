@@ -60,16 +60,45 @@ import VerifikasiIcon from '../../../../../public/icons/VerifikasiIcon';
 import TolakIcon from '../../../../../public/icons/TolakIcon';
 import VerifikasiPopup from '@/components/superadmin/PopupVerifikasi';
 import TolakPopup from '@/components/superadmin/TolakVerifikasi';
+import KecamatanSelectNo from '@/components/superadmin/SelectComponent/SelectKecamatanNo';
 const KorlubPadi = () => {
     // INTEGRASI
-    interface Padi {
-        id: number;
-        kecamatanId: number;
-        desaId: number;
-        tanggal: string;
-        kecamatan: {
-            nama: string;
-        };
+    interface Response {
+        status: number;
+        message: string;
+        data: KorluhPadiData;
+    }
+
+    interface KorluhPadiData {
+        bulan_lalu_hibrida_bantuan_pemerintah_lahan_sawah: number;
+        bulan_lalu_hibrida_non_bantuan_pemerintah_lahan_sawah: number;
+        bulan_lalu_unggul_bantuan_pemerintah_lahan_sawah: number;
+        bulan_lalu_unggul_bantuan_pemerintah_lahan_bukan_sawah: number;
+        bulan_lalu_unggul_non_bantuan_pemerintah_lahan_sawah: number;
+        bulan_lalu_unggul_non_bantuan_pemerintah_lahan_bukan_sawah: number;
+        bulan_lalu_lokal_lahan_sawah: number;
+        bulan_lalu_lokal_lahan_bukan_sawah: number;
+        bulan_lalu_sawah_irigasi_lahan_sawah: number;
+        bulan_lalu_sawah_tadah_hujan_lahan_sawah: number;
+        bulan_lalu_sawah_rawa_pasang_surut_lahan_sawah: number;
+        bulan_lalu_sawah_rawa_lebak_lahan_sawah: number;
+        akhir_hibrida_bantuan_pemerintah_lahan_sawah: number;
+        akhir_hibrida_non_bantuan_pemerintah_lahan_sawah: number;
+        akhir_unggul_bantuan_pemerintah_lahan_sawah: number;
+        akhir_unggul_bantuan_pemerintah_lahan_bukan_sawah: number;
+        akhir_unggul_non_bantuan_pemerintah_lahan_sawah: number;
+        akhir_unggul_non_bantuan_pemerintah_lahan_bukan_sawah: number;
+        akhir_lokal_lahan_sawah: number;
+        akhir_lokal_lahan_bukan_sawah: number;
+        akhir_sawah_irigasi_lahan_sawah: number;
+        akhir_sawah_tadah_hujan_lahan_sawah: number;
+        akhir_sawah_rawa_pasang_surut_lahan_sawah: number;
+        akhir_sawah_rawa_lebak_lahan_sawah: number;
+        bulan: number;
+        tahun: number;
+        kecamatanId: any;
+        kecamatan: string;
+        validasi: string;
         hibrida_bantuan_pemerintah_lahan_sawah_panen: number;
         hibrida_bantuan_pemerintah_lahan_sawah_tanam: number;
         hibrida_bantuan_pemerintah_lahan_sawah_puso: number;
@@ -108,79 +137,41 @@ const KorlubPadi = () => {
         sawah_rawa_lebak_lahan_sawah_puso: number;
     }
 
-    interface Kecamatan {
-        id: number;
-        nama: string;
-        createdAt: string; // ISO Date string
-        updatedAt: string; // ISO Date string
-    }
 
-    interface Desa {
-        id: number;
-        nama: string;
-        kecamatanId: number;
-        tanggal: string;
-        createdAt: string; // ISO Date string
-        updatedAt: string; // ISO Date string
-    }
-
-    interface Pagination {
-        page: number,
-        perPage: number,
-        totalPages: number,
-        totalCount: number,
-    }
-
-    interface ResponseData {
-        data: Padi[];
-        pagination: Pagination;
-    }
-
-    interface Response {
-        status: string,
-        data: ResponseData,
-        message: string
-    }
-    const [accessToken] = useLocalStorage("accessToken", "");
-    const axiosPrivate = useAxiosPrivate();
-
-    // filter date
-    const formatDate = (date?: Date): string => {
-        if (!date) return ''; // Return an empty string if the date is undefined
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1; // getMonth() is zero-based
-        const day = date.getDate();
-
-        return `${year}/${month}/${day}`;
-    };
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
-    // Memoize the formatted date to avoid unnecessary recalculations on each render
-    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
-    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
-    // filter date   
-    // pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const onPageChange = (page: number) => {
-        setCurrentPage(page)
-    };
-    // pagination
-    // serach
-    const [search, setSearch] = useState("");
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(event.target.value);
-    };
-    // serach
-    // limit
-    const [limit, setLimit] = useState(10);
-    // limit
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
     // State untuk menyimpan id kecamatan yang dipilih
-    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("12");
+
+    function getPreviousMonth(): number {
+        const now = new Date();
+        let month = now.getMonth(); // 0 = January, 11 = December
+
+        if (month === 0) {
+            // Jika bulan adalah Januari (0), set bulan ke Desember (11)
+            month = 11;
+        } else {
+            month -= 1;
+        }
+
+        return month + 1; // +1 untuk menyesuaikan hasil ke format 1 = Januari
+    }
+
+    const previousMonth = getPreviousMonth();
+
+    // filter tahun bulan
+    const currentYear = new Date().getFullYear();
+    const [tahun, setTahun] = React.useState(`${currentYear}`);
+    const [bulan, setBulan] = React.useState(`${previousMonth}`);
+    // filter tahun bulan
 
     // GETALL
     const { data: dataPadi }: SWRResponse<Response> = useSWR(
         // `korluh/padi/get?limit=1`,
-        `korluh/padi/get?page=${currentPage}&search=${search}&limit=1&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
+        `/validasi/korluh-padi/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -190,20 +181,31 @@ const KorlubPadi = () => {
                 })
                 .then((res: any) => res.data)
     );
-    console.log(dataPadi)
 
-    const handleDelete = async (id: string) => {
+    // Bulan
+    function getMonthName(monthNumber: number): string {
+        const monthNames = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+
+        // Kurangi 1 dari monthNumber karena array dimulai dari indeks 0
+        return monthNames[monthNumber - 1] || "Invalid Month";
+    }
+    const monthNumber = dataPadi?.data?.bulan; // Ambil bulan dari data API
+    const monthName = monthNumber ? getMonthName(monthNumber) : "";
+    // Bulan
+
+    // handle tolak
+    // handle tolak
+    // Fungsi untuk mengirim data ke API
+    const handleTolak = async (payload: { kecamatan_id: number; bulan: string; status: string; keterangan: string; }) => {
         try {
-            await axiosPrivate.delete(`/korluh/padi/delete/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            console.log(id)
+            await axiosPrivate.post("/validasi/korluh-padi/kec", payload);
             // alert
             Swal.fire({
                 icon: 'success',
-                title: 'Data berhasil dihapus!',
+                title: 'Data berhasil ditolak!',
                 text: 'Data sudah disimpan sistem!',
                 timer: 1500,
                 timerProgressBar: true,
@@ -222,110 +224,9 @@ const KorlubPadi = () => {
                 backdrop: `rgba(0, 0, 0, 0.4)`,
             });
             // alert
-        } catch (error: any) {
-            // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi kesalahan!',
-                text: errorMessage,
-                showConfirmButton: true,
-                showClass: { popup: 'animate__animated animate__fadeInDown' },
-                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-                customClass: {
-                    title: 'text-2xl font-semibold text-red-600',
-                    icon: 'text-red-500 animate-bounce',
-                },
-                backdrop: 'rgba(0, 0, 0, 0.4)',
-            });
-            console.error("Failed to create user:", error);
-        } mutate(`korluh/padi/get?page=${currentPage}&search=${search}&limit=1&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
-    };
-
-    const handleVerifikasi = async (id: string) => {
-        try {
-            // await axiosPrivate.delete(`/korluh/padi/delete/${id}`, {
-            //     headers: {
-            //         Authorization: `Bearer ${accessToken}`,
-            //     },
-            // });
-            console.log(id)
-            // alert
-            Swal.fire({
-                icon: 'success',
-                title: 'Data berhasil diverifikasi!',
-                text: 'Data sudah disimpan sistem!',
-                timer: 2500,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
-                },
-                customClass: {
-                    title: 'text-2xl font-semibold text-green-600',
-                    icon: 'text-green-500 animate-bounce',
-                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
-                },
-                backdrop: `rgba(0, 0, 0, 0.4)`,
-            });
-            // alert
-        } catch (error: any) {
-            // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memverifikasi data!';
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi kesalahan!',
-                text: errorMessage,
-                showConfirmButton: true,
-                showClass: { popup: 'animate__animated animate__fadeInDown' },
-                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-                customClass: {
-                    title: 'text-2xl font-semibold text-red-600',
-                    icon: 'text-red-500 animate-bounce',
-                },
-                backdrop: 'rgba(0, 0, 0, 0.4)',
-            });
-            console.error("Failed to create user:", error);
-        }
-    };
-
-    const handleTolak = async (id: string, alasan: string) => {
-        try {
-            // await axiosPrivate.post(`/korluh/padi/tolak/${id}`,
-            //     {
-            //         alasan: alasan  // Mengirimkan alasan dalam body request
-            //     },
-            //     {
-            //         headers: {
-            //             Authorization: `Bearer ${accessToken}`,
-            //         },
-            //     });
-            console.log(`Data dengan ID ${id} ditolak dengan alasan: ${alasan}`);
-            // alert
-            Swal.fire({
-                icon: 'success',
-                title: 'Data berhasil ditolak!',
-                text: 'Data sudah disimpan sistem!',
-                timer: 2500,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
-                },
-                customClass: {
-                    title: 'text-2xl font-semibold text-green-600',
-                    icon: 'text-green-500 animate-bounce',
-                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
-                },
-                backdrop: `rgba(0, 0, 0, 0.4)`,
-            });
-            // alert
+            console.log(payload)
+            // push
+            console.log("Success to validasi Padi:");
         } catch (error: any) {
             // Extract error message from API response
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menolak data!';
@@ -343,8 +244,79 @@ const KorlubPadi = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
+        } finally {
+            // setLoading(false); // Set loading to false once the process is complete
+        }
+        mutate(`/validasi/korluh-padi/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`);
+    };
+
+    // Fungsi untuk mengirim data ke API
+    const handleVerifikasi = async (payload: { kecamatan_id: number; bulan: string; status: string }) => {
+        try {
+            await axiosPrivate.post("/validasi/korluh-padi/kec", payload);
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil divalidasi!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+            console.log(payload)
+            // push
+            console.log("Success to validasi Padi:");
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memvalidasi data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        } finally {
+            // setLoading(false); // Set loading to false once the process is complete
+        }
+        mutate(`/validasi/korluh-padi/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`);
+    };
+
+    // validasi
+    const getValidationText = (validasi: any) => {
+        switch (validasi) {
+            case 'terima':
+                return 'Sudah divalidasi';
+            case 'tolak':
+                return 'Validasi ditolak';
+            case 'belum':
+                return 'Belum divalidasi';
+            default:
+                return 'Status tidak diketahui';
         }
     };
+    const validationText = getValidationText(dataPadi?.data?.validasi);
+    // validasi
 
 
     return (
@@ -355,14 +327,6 @@ const KorlubPadi = () => {
 
             {/* top */}
             <div className="header flex gap-2 justify-end items-center mt-4">
-                {/* <div className="search md:w-[50%]">
-                    <Input
-                        type="text"
-                        placeholder="Cari"
-                        rightIcon={<SearchIcon />}
-                        className='border-primary py-2'
-                    />
-                </div> */}
                 <div className="btn flex gap-2">
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <UnduhIcon />
@@ -381,108 +345,116 @@ const KorlubPadi = () => {
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !startDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar className=''
-                                    mode="single"
-                                    selected={startDate}
-                                    onSelect={setstartDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
+                    <div className="w-[80px]">
+                        <Select
+                            onValueChange={(value) => setTahun(value)}
+                            value={tahun}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Tahun" className='text-2xl' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="2017">2017</SelectItem>
+                                <SelectItem value="2018">2018</SelectItem>
+                                <SelectItem value="2019">2019</SelectItem>
+                                <SelectItem value="2020">2020</SelectItem>
+                                <SelectItem value="2021">2021</SelectItem>
+                                <SelectItem value="2022">2022</SelectItem>
+                                <SelectItem value="2023">2023</SelectItem>
+                                <SelectItem value="2024">2024</SelectItem>
+                                <SelectItem value="2025">2025</SelectItem>
+                                <SelectItem value="2026">2026</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
                     <div className="">-</div>
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !endDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={endDate}
-                                    onSelect={setendDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
+                    <div className="w-[130px]">
+                        <Select
+                            onValueChange={(value) => setBulan(value)}
+                            value={bulan}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Bulan" className='text-2xl' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="1">Januari</SelectItem>
+                                <SelectItem value="2">Februari</SelectItem>
+                                <SelectItem value="3">Maret</SelectItem>
+                                <SelectItem value="4">April</SelectItem>
+                                <SelectItem value="5">Mei</SelectItem>
+                                <SelectItem value="6">Juni</SelectItem>
+                                <SelectItem value="7">Juli</SelectItem>
+                                <SelectItem value="8">Agustus</SelectItem>
+                                <SelectItem value="9">September</SelectItem>
+                                <SelectItem value="10">Oktober</SelectItem>
+                                <SelectItem value="11">November</SelectItem>
+                                <SelectItem value="12">Desember</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
-                    <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
-                    </div>
+                    {/* <div className="w-[40px] h-[40px]">
+                        <FilterTable
+                            columns={columns}
+                            defaultCheckedKeys={getDefaultCheckedKeys()}
+                            onFilterChange={handleFilterChange}
+                        />
+                    </div> */}
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                    <div className="w-full">
-                        <KecamatanSelect
+                    <div className="w-[230px]">
+                        <KecamatanSelectNo
                             value={selectedKecamatan}
                             onChange={(value) => {
-                                setSelectedKecamatan(value); // Update state with selected value
+                                setSelectedKecamatan(value);
                             }}
                         />
                     </div>
-                    <Link href="/bpp-kecamatan/padi/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/bpp-kecamatan/palawija/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         Tambah Data
                     </Link>
                 </div>
             </div>
             {/* top */}
-            {/* bulan */}
-            <div className="mt-2 flex items-center gap-2">
-                <div className="font-semibold">
-                    Tanggal:
-                </div>
-                {dataPadi?.data?.data.map((item, index) => (
-                    <div key={index}>
-                        {item.tanggal
-                            ? new Date(item.tanggal).toLocaleDateString('id-ID', {
-                                weekday: 'long',
-                                day: 'numeric',
-                                month: 'long',
-                                year: 'numeric',
-                            })
-                            : 'Tanggal tidak tersedia'}
+            {/* keterangan */}
+            <div className="keterangan flex gap-2 mt-2">
+                <div className="nama font-semibold">
+                    <div className="">
+                        Kecamatan
                     </div>
-
-                ))}
-            </div>
-            {/* bulan */}
-            {/* kecamatan */}
-            <div className="mt-2 flex items-center gap-2">
-                <div className="font-semibold">
-                    Kecamatan:
-                </div>
-                {dataPadi?.data?.data.map((item, index) => (
-                    <div key={index}>
-                        {item?.kecamatan.nama || "Tidak ada data"}
+                    <div className="">
+                        Tanggal
                     </div>
-                ))}
+                    <div className="">
+                        Status
+                    </div>
+                    <div className="">
+                        Validasi
+                    </div>
+                </div>
+                <div className="font-semibold">
+                    <div className="">:</div>
+                    <div className="">:</div>
+                    <div className="">:</div>
+                    <div className="">:</div>
+                </div>
+                <div className="bulan">
+                    <div className="">{dataPadi?.data?.kecamatan}</div>
+                    <div className="">{monthName} {dataPadi?.data?.tahun}</div>
+                    <div className="capitalize">{validationText}</div>
+                    <div className="flex gap-3">
+                        <VerifikasiPopup
+                            kecamatanId={dataPadi?.data?.kecamatanId}
+                            bulan={`${dataPadi?.data?.tahun}/${dataPadi?.data?.bulan}`}
+                            onVerifikasi={handleVerifikasi}
+                        />
+                        <TolakPopup
+                            kecamatanId={dataPadi?.data?.kecamatanId}
+                            bulan={`${dataPadi?.data?.tahun}/${dataPadi?.data?.bulan}`}
+                            onTolak={handleTolak}
+                        />
+                    </div>
+                </div>
             </div>
-            {/* kecamatan */}
             {/* table */}
             <Table className='border border-slate-200 mt-1'>
                 <TableHeader className='bg-primary-600'>
@@ -498,9 +470,6 @@ const KorlubPadi = () => {
                         </TableHead>
                         <TableHead colSpan={5} className="text-primary border border-slate-200 text-center py-1">
                             Laha Bukan Sawah
-                        </TableHead>
-                        <TableHead rowSpan={3} className="text-primary py-1 text-center">
-                            Aksi
                         </TableHead>
                     </TableRow>
                     <TableRow >
@@ -576,380 +545,343 @@ const KorlubPadi = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataPadi?.data.data && dataPadi.data.data.length > 0 ? (
-                        dataPadi.data.data.map((item, index) => (
-                            <>
-                                {/* jumlah padi */}
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        Jumlah Padi
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        455
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        455
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        455
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        455
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        455
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        455
-                                    </TableCell>
-                                    <TableCell className=' font-semibold text-center border border-slate-200'>
-                                        455
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold text-center '>
-                                        455
-                                    </TableCell>
-                                    <TableCell className=' font-semibold text-center border border-slate-200'>
-                                        455
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold text-center '>
-                                        455
-                                    </TableCell>
-
-                                </TableRow>
-                                {/* jumlah padi */}
-                                {/* jenis padi */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        1.
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold'>
-                                        Jenis Padi
-                                    </TableCell>
-                                    <TableCell colSpan={10} className='border border-slate-200 font-semibold'>
-                                    </TableCell>
-                                    <TableCell rowSpan={2} className='border border-slate-200 font-semibold'>
-                                        <div className="flex flex-col gap-3">
-                                            <div className="flex gap-3 justify-center">
-                                                <Link title='Detail' className='' href={`/bpp-kecamatan/padi/detail/${item.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title='Edit' className='' href={`/bpp-kecamatan/padi/edit/${item.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
-                                            </div>
-                                            <div className="flex gap-3 justify-center items-center">
-                                                <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(item.id) || "")} />
-                                                <TolakPopup onTolak={(alasan) => handleTolak(String(item.id), alasan)} />
-                                            </div>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                                {/* hibrida */}
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold '>
-                                        A. Hibrida
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 '>
-                                        1). Bantuan Pemerintah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        bulan lalu
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_bantuan_pemerintah_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_bantuan_pemerintah_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_bantuan_pemerintah_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        akhir bulan
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 '>
-                                        2). Non Bantuan Pemerintah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        bulan lalu
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_non_bantuan_pemerintah_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.hibrida_non_bantuan_pemerintah_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        akhir bulan
-                                    </TableCell>
-                                </TableRow>
-                                {/* hibrida */}
-                                {/* Non hibrida */}
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold '>
-                                        B. Unggul (Non Hibrida)
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 '>
-                                        1). Bantuan Pemerintah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        lalu sawah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        akhir sawah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        lalu bkn sawah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_bantuan_pemerintah_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        akhir bkn sawah
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 '>
-                                        2). Non Bantuan Pemerintah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        lalu sawah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        akhir sawah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        lahan bkn sawah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        akhir bkn sawah
-                                    </TableCell>
-                                </TableRow>
-                                {/* Non hibrida */}
-                                {/* Lokal */}
-                                <TableRow>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold '>
-                                        C. Lokal
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        lalu sawah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        akhir sawah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        lalu bkn sawah
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_bukan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_bukan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {item.lokal_lahan_bukan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        akhir bkn sawah
-                                    </TableCell>
-                                </TableRow>
-                                {/* jenis padi */}
-                                {/* Jenis pengairan */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200 font-semibold text-center'>
-                                        2.
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 font-semibold'>
-                                        Jenis Pengairan
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah irigasi */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200'>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        A. Sawah Irigasi
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        lalu sawah
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_irigasi_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_irigasi_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_irigasi_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        akhir sawah
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah irigasi */}
-                                {/* sawah tadah hujan */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200'>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        B. Sawah Tadah Hujan
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        lalu sawah
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_tadah_hujan_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_tadah_hujan_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_tadah_hujan_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        akhir sawah
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah tadah hujan */}
-                                {/* sawah Rawa Pasang Surut */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200'>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        C. Sawah Rawa Pasang Surut
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        lalu sawah
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_pasang_surut_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_pasang_surut_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_pasang_surut_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        akhir sawah
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah Rawa Pasang Surut */}
-                                {/* sawah Rawa Lebak */}
-                                <TableRow>
-                                    <TableCell className='border border-slate-200'>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        D. Sawah Rawa Lebak
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        lalu sawah
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_lebak_lahan_sawah_panen}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_lebak_lahan_sawah_tanam}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        {item.sawah_rawa_lebak_lahan_sawah_puso}
-                                    </TableCell>
-                                    <TableCell className='border text-center border-slate-200'>
-                                        akhir sawah
-                                    </TableCell>
-                                </TableRow>
-                                {/* sawah Rawa Lebak */}
-                                {/* Jenis pengairan */}
-                            </>))
-                    ) : (
+                    <>
+                        {/* jumlah padi */}
                         <TableRow>
-                            <TableCell colSpan={12} className="text-center">
-                                Tidak ada data
+                            <TableCell>
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                Jumlah Padi
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                455
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                455
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                455
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                455
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                455
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                455
+                            </TableCell>
+                            <TableCell className=' font-semibold text-center border border-slate-200'>
+                                455
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold text-center '>
+                                455
+                            </TableCell>
+                            <TableCell className=' font-semibold text-center border border-slate-200'>
+                                455
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold text-center '>
+                                455
+                            </TableCell>
+
+                        </TableRow>
+                        {/* jumlah padi */}
+                        {/* jenis padi */}
+                        <TableRow>
+                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                1.
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold'>
+                                Jenis Padi
+                            </TableCell>
+                            <TableCell colSpan={10} className='border border-slate-200 font-semibold'>
                             </TableCell>
                         </TableRow>
-                    )}
+                        {/* hibrida */}
+                        <TableRow>
+                            <TableCell>
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold '>
+                                A. Hibrida
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                            </TableCell>
+                            <TableCell className='border border-slate-200 '>
+                                1). Bantuan Pemerintah
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.bulan_lalu_hibrida_bantuan_pemerintah_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.hibrida_bantuan_pemerintah_lahan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.hibrida_bantuan_pemerintah_lahan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.hibrida_bantuan_pemerintah_lahan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.akhir_hibrida_bantuan_pemerintah_lahan_sawah}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                            </TableCell>
+                            <TableCell className='border border-slate-200 '>
+                                2). Non Bantuan Pemerintah
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.bulan_lalu_hibrida_non_bantuan_pemerintah_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.hibrida_non_bantuan_pemerintah_lahan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.hibrida_non_bantuan_pemerintah_lahan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.akhir_hibrida_non_bantuan_pemerintah_lahan_sawah}
+                            </TableCell>
+                        </TableRow>
+                        {/* hibrida */}
+                        {/* Non hibrida */}
+                        <TableRow>
+                            <TableCell>
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold '>
+                                B. Unggul (Non Hibrida)
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                            </TableCell>
+                            <TableCell className='border border-slate-200 '>
+                                1). Bantuan Pemerintah
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.bulan_lalu_unggul_bantuan_pemerintah_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.akhir_unggul_bantuan_pemerintah_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.bulan_lalu_unggul_bantuan_pemerintah_lahan_bukan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.akhir_unggul_bantuan_pemerintah_lahan_bukan_sawah}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                            </TableCell>
+                            <TableCell className='border border-slate-200 '>
+                                2). Non Bantuan Pemerintah
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.bulan_lalu_unggul_non_bantuan_pemerintah_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.akhir_unggul_non_bantuan_pemerintah_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.bulan_lalu_unggul_non_bantuan_pemerintah_lahan_bukan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.akhir_unggul_non_bantuan_pemerintah_lahan_bukan_sawah}
+                            </TableCell>
+                        </TableRow>
+                        {/* Non hibrida */}
+                        {/* Lokal */}
+                        <TableRow>
+                            <TableCell>
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold '>
+                                C. Lokal
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.bulan_lalu_lokal_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.lokal_lahan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.lokal_lahan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.lokal_lahan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.akhir_lokal_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.bulan_lalu_lokal_lahan_bukan_sawah}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.lokal_lahan_bukan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.lokal_lahan_bukan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.lokal_lahan_bukan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border border-slate-200 text-center'>
+                                {dataPadi?.data?.akhir_lokal_lahan_bukan_sawah}
+                            </TableCell>
+                        </TableRow>
+                        {/* jenis padi */}
+                        {/* Jenis pengairan */}
+                        <TableRow>
+                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                2.
+                            </TableCell>
+                            <TableCell className='border border-slate-200 font-semibold'>
+                                Jenis Pengairan
+                            </TableCell>
+                        </TableRow>
+                        {/* sawah irigasi */}
+                        <TableRow>
+                            <TableCell className='border border-slate-200'>
+                            </TableCell>
+                            <TableCell className='border border-slate-200'>
+                                A. Sawah Irigasi
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.bulan_lalu_sawah_irigasi_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_irigasi_lahan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_irigasi_lahan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_irigasi_lahan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.akhir_sawah_irigasi_lahan_sawah}
+                            </TableCell>
+                        </TableRow>
+                        {/* sawah irigasi */}
+                        {/* sawah tadah hujan */}
+                        <TableRow>
+                            <TableCell className='border border-slate-200'>
+                            </TableCell>
+                            <TableCell className='border border-slate-200'>
+                                B. Sawah Tadah Hujan
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.bulan_lalu_sawah_tadah_hujan_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_tadah_hujan_lahan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_tadah_hujan_lahan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_tadah_hujan_lahan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.akhir_sawah_tadah_hujan_lahan_sawah}
+                            </TableCell>
+                        </TableRow>
+                        {/* sawah tadah hujan */}
+                        {/* sawah Rawa Pasang Surut */}
+                        <TableRow>
+                            <TableCell className='border border-slate-200'>
+                            </TableCell>
+                            <TableCell className='border border-slate-200'>
+                                C. Sawah Rawa Pasang Surut
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.bulan_lalu_sawah_rawa_pasang_surut_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_rawa_pasang_surut_lahan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_rawa_pasang_surut_lahan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_rawa_pasang_surut_lahan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.akhir_sawah_rawa_pasang_surut_lahan_sawah}
+                            </TableCell>
+                        </TableRow>
+                        {/* sawah Rawa Pasang Surut */}
+                        {/* sawah Rawa Lebak */}
+                        <TableRow>
+                            <TableCell className='border border-slate-200'>
+                            </TableCell>
+                            <TableCell className='border border-slate-200'>
+                                D. Sawah Rawa Lebak
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.bulan_lalu_sawah_rawa_lebak_lahan_sawah}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_rawa_lebak_lahan_sawah_panen}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_rawa_lebak_lahan_sawah_tanam}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.sawah_rawa_lebak_lahan_sawah_puso}
+                            </TableCell>
+                            <TableCell className='border text-center border-slate-200'>
+                                {dataPadi?.data?.akhir_sawah_rawa_lebak_lahan_sawah}
+                            </TableCell>
+                        </TableRow>
+                        {/* sawah Rawa Lebak */}
+                        {/* Jenis pengairan */}
+                    </>
                 </TableBody>
             </Table>
             {/* table */}
-            {/* pagination */}
-            <div className="pagi flex items-center lg:justify-end justify-center">
-                {dataPadi?.data.pagination.totalCount as number > 1 && (
-                    <PaginationTable
-                        currentPage={currentPage}
-                        totalPages={dataPadi?.data.pagination.totalPages as number}
-                        onPageChange={onPageChange}
-                    />
-                )}
-            </div>
-            {/* pagination */}
         </div>
     )
 }

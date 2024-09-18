@@ -14,18 +14,27 @@ import TolakIcon from '../../../../public/icons/TolakIcon';
 import { Textarea } from '@/components/ui/textarea';
 
 interface VerifikasiPopupProps {
-    onTolak: (alasan: string) => Promise<void>; // onTolak should return a promise
+    kecamatanId: number; // kecamatan_id untuk API
+    bulan: string; // bulan untuk API
+    onTolak: (payload: { kecamatan_id: number; bulan: string; status: string; keterangan: string; }) => Promise<void>; // API function
 }
 
-const TolakPopup: FC<VerifikasiPopupProps> = ({ onTolak }) => {
+const TolakPopup: FC<VerifikasiPopupProps> = ({ kecamatanId, bulan, onTolak }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [alasan, setAlasan] = useState('');
 
     const handleReject = async () => {
         setLoading(true);
+        const payload = {
+            kecamatan_id: kecamatanId,
+            bulan: bulan, // format bulan, e.g., "2024/5"
+            status: 'tolak',
+            keterangan: alasan, // alasan penolakan dari user
+        };
+
         try {
-            await onTolak(alasan); // Wait for the reject action to complete
+            await onTolak(payload); // Mengirim payload ke API
         } catch (error) {
             console.error("Penolakan gagal:", error);
         } finally {
@@ -35,7 +44,7 @@ const TolakPopup: FC<VerifikasiPopupProps> = ({ onTolak }) => {
     };
 
     return (
-        <div title='Tolak Verifikasi' className='flex'>
+        <div title='Tolak Validasi' className='flex'>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                     <button onClick={() => setIsOpen(true)}>
@@ -67,7 +76,7 @@ const TolakPopup: FC<VerifikasiPopupProps> = ({ onTolak }) => {
                                 <Button
                                     className={`w-[100px] ${loading ? 'bg-gray-500' : 'bg-red-500 hover:bg-red-700'}`}
                                     onClick={handleReject}
-                                    disabled={loading || !alasan} // Disable button while loading or if no reason is provided
+                                    disabled={loading || !alasan} // Disable button if loading or no reason provided
                                 >
                                     {loading ? <Loading /> : "Tolak"}
                                 </Button>
@@ -78,6 +87,6 @@ const TolakPopup: FC<VerifikasiPopupProps> = ({ onTolak }) => {
             </Dialog>
         </div>
     );
-}
+};
 
 export default TolakPopup;

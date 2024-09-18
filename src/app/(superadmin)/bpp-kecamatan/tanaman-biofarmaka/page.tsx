@@ -601,8 +601,8 @@ const KorlubTanamanBiofarmaka = () => {
                                             <DeletePopup onDelete={() => handleDelete(String(tanaman.id) || "")} />
                                         </div>
                                         <div className="flex gap-3 justify-center items-center">
-                                            <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(tanaman.id) || "")} />
-                                            <TolakPopup onTolak={(alasan) => handleTolak(String(tanaman.id), alasan)} />
+                                            {/* <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(tanaman.id) || "")} />
+                                            <TolakPopup onTolak={(alasan) => handleTolak(String(tanaman.id), alasan)} /> */}
                                         </div>
                                     </div>
                                     {/*  */}

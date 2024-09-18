@@ -13,27 +13,35 @@ import Loading from '@/components/ui/Loading';
 import VerifikasiIcon from '../../../../public/icons/VerifikasiIcon';
 
 interface VerifikasiPopupProps {
-    onVerifikasi: () => Promise<void>; // onDelete should return a promise
+    kecamatanId: number;
+    bulan: string;
+    onVerifikasi: (payload: { kecamatan_id: number; bulan: string; status: string }) => Promise<void>;
 }
 
-const VerifikasiPopup: FC<VerifikasiPopupProps> = ({ onVerifikasi }) => {
+const VerifikasiPopup: FC<VerifikasiPopupProps> = ({ kecamatanId, bulan, onVerifikasi }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleVerify = async () => {
-        setLoading(true); // Set loading to true when starting the delete operation
+        setLoading(true);
+        const payload = {
+            kecamatan_id: kecamatanId,
+            bulan: bulan,
+            status: "terima"
+        };
+
         try {
-            await onVerifikasi(); // Wait for the delete action to complete
+            await onVerifikasi(payload); // Call the API with the payload
         } catch (error) {
-            console.error("Verifikasi operation failed:", error);
+            console.error("Verifikasi gagal:", error);
         } finally {
-            setLoading(false); // Set loading to false once the operation is complete
-            setIsOpen(false); // Close the dialog
+            setLoading(false);
+            setIsOpen(false); // Close the dialog after operation
         }
     };
 
     return (
-        <div title='Verifikasi' className='flex items-center'>
+        <div title='Terima Validasi' className='flex items-center'>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                     <button onClick={() => setIsOpen(true)}>
@@ -57,7 +65,7 @@ const VerifikasiPopup: FC<VerifikasiPopupProps> = ({ onVerifikasi }) => {
                                     Batal
                                 </Button>
                                 <Button
-                                    className={`w-[100px] ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-700'}`}
+                                    className={`w-[100px] ${loading ? 'bg-gray-500' : 'bg-primary hover:bg-primary-hover'}`}
                                     onClick={handleVerify}
                                     disabled={loading}
                                 >
@@ -69,8 +77,7 @@ const VerifikasiPopup: FC<VerifikasiPopupProps> = ({ onVerifikasi }) => {
                 </DialogContent>
             </Dialog>
         </div>
-
     );
-}
+};
 
 export default VerifikasiPopup;
