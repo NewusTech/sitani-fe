@@ -92,7 +92,7 @@ const KorlubTanamanBiofarmaka = () => {
     // GETALL
     const { data: dataBiofarmaka }: SWRResponse<any> = useSWR(
         // `korluh/padi/get?limit=1`,
-        `/validasi/korluh-tanaman-biofarmaka/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
+        `/validasi/korluh-tanaman-biofarmaka/kec?kecamatan=1&bulan=2024/9`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -322,7 +322,7 @@ const KorlubTanamanBiofarmaka = () => {
                             }}
                         />
                     </div>
-                    <Link href="/bpp-kecamatan/sayuran-buah/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
+                    <Link href="/bpp-kecamatan/tanaman-biofarmaka/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         Tambah Data
                     </Link>
                 </div>
@@ -443,34 +443,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Jahe
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[1]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Jeruk Nipis */}
@@ -482,34 +482,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Jeruk Nipis
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[2]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Kapulaga */}
@@ -518,37 +518,37 @@ const KorlubTanamanBiofarmaka = () => {
                             3.
                         </TableCell>
                         <TableCell className='border border-slate-200'>
-                            Kapulaga
+                            Kepulaga
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[3]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Kencur */}
@@ -560,34 +560,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Kencur
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[4]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Kunyit */}
@@ -599,34 +599,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Kunyit
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[5]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Laos/Lengkuas */}
@@ -638,34 +638,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Laos/Lengkuas
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[6]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Lempuyang */}
@@ -677,34 +677,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Lempuyang
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[7]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Lidah Buaya */}
@@ -716,34 +716,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Lidah Buaya
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[8]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Mahkota Dewa */}
@@ -755,34 +755,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Mahkota Dewa
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[9]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Mengkudu/Pace */}
@@ -794,34 +794,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Mengkudu/Pace
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[10]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Sambiloto */}
@@ -833,34 +833,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Sambiloto
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[11]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Serai */}
@@ -872,34 +872,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Serai
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[12]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Temuireng */}
@@ -911,34 +911,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Temuireng
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[13]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Temukunci */}
@@ -950,34 +950,38 @@ const KorlubTanamanBiofarmaka = () => {
                             Temukunci
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.rerataHarga && dataBiofarmaka?.data[14]?.count
+                                ? Number.isInteger(dataBiofarmaka?.data[14]?.rerataHarga / dataBiofarmaka?.data[14]?.count)
+                                    ? (dataBiofarmaka?.data[14]?.rerataHarga / dataBiofarmaka?.data[14]?.count).toLocaleString()
+                                    : (dataBiofarmaka?.data[14]?.rerataHarga / dataBiofarmaka?.data[14]?.count).toFixed(2)
+                                : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[14]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Temulawak */}
@@ -989,34 +993,34 @@ const KorlubTanamanBiofarmaka = () => {
                             Temulawak
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.produksiBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.rerataHarga}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataBiofarmaka?.data[15]?.keterangan}
                         </TableCell>
                     </TableRow>
                 </TableBody>
