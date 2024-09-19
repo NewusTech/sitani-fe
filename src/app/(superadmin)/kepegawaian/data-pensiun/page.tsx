@@ -220,18 +220,34 @@ const DataPegawaiPagePensiun = () => {
                 <TableCell>
                   {item.nama} <br />
                   {item.nip} <br />
-                  {item.tempat_lahir}, {item.tgl_lahir}
+                  {item.tempat_lahir},
+                  <span>
+                    {item.tgl_lahir && !isNaN(new Date(item.tgl_lahir).getTime())
+                      ? formatDate(new Date(item.tgl_lahir))
+                      : ' - '}
+                  </span>
                 </TableCell>
                 <TableCell>
-                  TMT : {item.pangkat ? formatDate(new Date(item.pangkat)) : '-'}
+                  TMT :
+                  <span>
+                    {item.pangkat && !isNaN(new Date(item.pangkat).getTime())
+                      ? formatDate(new Date(item.pangkat))
+                      : ' - '}
+                  </span>
                 </TableCell>
                 <TableCell>
-                  {item.jabatan} <br />
-                  TMT : {item.tmt_jabatan ? formatDate(new Date(item.tmt_jabatan)) : '-'}
+                  <span>
+                    {item.tmt_jabatan && !isNaN(new Date(item.tmt_jabatan).getTime())
+                      ? formatDate(new Date(item.tmt_jabatan))
+                      : ' - '}
+                  </span>
                 </TableCell>
                 <TableCell className=''>{item.nama_diklat}</TableCell>
                 <TableCell className=''>
-                  TMT : {item.tgl_diklat ? formatDate(new Date(item.tgl_diklat)) : '-'}
+                  TMT :
+                  {item.tgl_diklat && !isNaN(new Date(item.tgl_diklat).getTime())
+                    ? formatDate(new Date(item.tgl_diklat))
+                    : ' - '}
                 </TableCell>
                 <TableCell className=''>{item.total_jam} Jam</TableCell>
                 <TableCell className=''>{item.nama_pendidikan}</TableCell>

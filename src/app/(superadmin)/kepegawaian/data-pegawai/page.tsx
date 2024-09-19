@@ -248,7 +248,7 @@ const DataPegawaiPage = () => {
   const getDefaultCheckedKeys = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth <= 768) {
-        return ["no", "namaNip", "status", "aksi"];
+        return ["no", "namaNip", "jabatan", "usia", "masaKerja", "status"];
       } else {
         return ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja", "keterangan", "status", "aksi"];
       }
@@ -436,7 +436,7 @@ const DataPegawaiPage = () => {
                     <span>
                       {item.tmtPangkat && !isNaN(new Date(item.tmtPangkat).getTime())
                         ? formatDate(new Date(item.tmtPangkat))
-                        : ''}
+                        : ' - '}
                     </span>
                   </TableCell>
                 )}
@@ -447,7 +447,7 @@ const DataPegawaiPage = () => {
                     <span>
                       {item.tmtJabatan && !isNaN(new Date(item.tmtJabatan).getTime())
                         ? formatDate(new Date(item.tmtJabatan))
-                        : ''}
+                        : ' - '}
                     </span>
                   </TableCell>
                 )}
@@ -461,7 +461,7 @@ const DataPegawaiPage = () => {
                     <span>
                       {item.tglDiklat && !isNaN(new Date(item.tglDiklat).getTime())
                         ? formatDate(new Date(item.tglDiklat))
-                        : ''}
+                        : ' - '}
                     </span>
                   </TableCell>
                 )}
