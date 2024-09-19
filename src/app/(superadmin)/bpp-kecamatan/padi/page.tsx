@@ -82,6 +82,11 @@ const KorlubPadi = () => {
         bulan_lalu_sawah_tadah_hujan_lahan_sawah: number;
         bulan_lalu_sawah_rawa_pasang_surut_lahan_sawah: number;
         bulan_lalu_sawah_rawa_lebak_lahan_sawah: number;
+        bulan_lalu_hibrida_lahan_sawah: number;
+        bulan_lalu_unggul_lahan_sawah: number;
+        bulan_lalu_unggul_lahan_bukan_sawah: number;
+        bulan_lalu_jumlah_padi_lahan_sawah: number;
+        bulan_lalu_jumlah_padi_lahan_bukan_sawah: number;
         akhir_hibrida_bantuan_pemerintah_lahan_sawah: number;
         akhir_hibrida_non_bantuan_pemerintah_lahan_sawah: number;
         akhir_unggul_bantuan_pemerintah_lahan_sawah: number;
@@ -94,11 +99,17 @@ const KorlubPadi = () => {
         akhir_sawah_tadah_hujan_lahan_sawah: number;
         akhir_sawah_rawa_pasang_surut_lahan_sawah: number;
         akhir_sawah_rawa_lebak_lahan_sawah: number;
+        akhir_hibrida_lahan_sawah: number;
+        akhir_unggul_lahan_sawah: number;
+        akhir_unggul_lahan_bukan_sawah: number;
+        akhir_jumlah_padi_lahan_sawah: number;
+        akhir_jumlah_padi_lahan_bukan_sawah: number;
         bulan: number;
         tahun: number;
         kecamatanId: any;
         kecamatan: string;
-        validasi: string;
+        validasiKecamatan: string;
+        validasiKabupaten: string;
         hibrida_bantuan_pemerintah_lahan_sawah_panen: number;
         hibrida_bantuan_pemerintah_lahan_sawah_tanam: number;
         hibrida_bantuan_pemerintah_lahan_sawah_puso: number;
@@ -135,6 +146,21 @@ const KorlubPadi = () => {
         sawah_rawa_lebak_lahan_sawah_panen: number;
         sawah_rawa_lebak_lahan_sawah_tanam: number;
         sawah_rawa_lebak_lahan_sawah_puso: number;
+        hibrida_lahan_sawah_panen: number | null;
+        hibrida_lahan_sawah_tanam: number | null;
+        hibrida_lahan_sawah_puso: number | null;
+        unggul_lahan_sawah_panen: number | null;
+        unggul_lahan_sawah_tanam: number | null;
+        unggul_lahan_sawah_puso: number | null;
+        unggul_lahan_bukan_sawah_panen: number | null;
+        unggul_lahan_bukan_sawah_tanam: number | null;
+        unggul_lahan_bukan_sawah_puso: number | null;
+        jumlah_padi_lahan_sawah_panen: number | null;
+        jumlah_padi_lahan_sawah_tanam: number | null;
+        jumlah_padi_lahan_sawah_puso: number | null;
+        jumlah_padi_lahan_bukan_sawah_panen: number | null;
+        jumlah_padi_lahan_bukan_sawah_tanam: number | null;
+        jumlah_padi_lahan_bukan_sawah_puso: number | null;
     }
 
 
@@ -315,7 +341,7 @@ const KorlubPadi = () => {
                 return 'Status tidak diketahui';
         }
     };
-    const validationText = getValidationText(dataPadi?.data?.validasi);
+    const validationText = getValidationText(dataPadi?.data?.validasiKecamatan);
     // validasi
 
 

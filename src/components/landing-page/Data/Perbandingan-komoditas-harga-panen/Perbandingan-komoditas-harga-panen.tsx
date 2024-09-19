@@ -15,12 +15,6 @@ import {
 } from "@/components/ui/table"
 import EyeIcon from '../../../../../public/icons/EyeIcon'
 import DeletePopup from '@/components/superadmin/PopupDelete'
-import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-} from "@/components/ui/chart"
 import useSWR from 'swr';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
@@ -32,6 +26,21 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import KepangPerbandingan from '@/components/Print/KetahananPangan/PerbandinganHarga'
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "@/components/ui/chart"
 
 
 interface Komoditas {
@@ -243,6 +252,325 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                     </TableBody>
                 </Table>
                 {/* table */}
+
+                {/* Card */}
+                <div className="lg:flex flex-col justify-center lg:justify-between gap-4 mt-5">
+                    <div className="wrap flex flex-col md:flex-row gap-3">
+                        <div className="w-full">
+                            {/* Card */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="text-sm">
+                                        Harga Rata-rata Beras Premium & Medium Tingkat Pedagang Eceran
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <ChartContainer config={chartConfig}>
+                                        <LineChart
+                                            accessibilityLayer
+                                            data={chartData}
+                                            margin={{
+                                                left: 2,
+                                                right: 2,
+                                                bottom: 12,
+                                            }}
+                                        >
+                                            <CartesianGrid vertical={false} />
+                                            <XAxis
+                                                dataKey="month"
+                                                tickLine={false}
+                                                axisLine={false}
+                                                tickMargin={8}
+                                                tickFormatter={(value) => value.slice(0, 3)}
+                                                label={{
+                                                    value: 'Bulan',
+                                                    position: 'insideBottom',
+                                                    dy: 12, // Mengatur posisi vertikal label
+                                                    fill: '#666', // Mengatur warna label
+                                                    fontSize: '12px', // Mengatur ukuran font label
+                                                }}
+                                            />
+                                            <YAxis
+                                                label={{
+                                                    value: 'Harga',
+                                                    angle: -90,
+                                                    position: 'insideCenter',
+                                                    dx: -12, // Mengatur posisi vertikal label
+                                                    fontSize: '12px', // Mengatur ukuran font label
+                                                }}
+                                            />
+                                            <ChartTooltip
+                                                cursor={false}
+                                                content={<ChartTooltipContent hideLabel />}
+                                            />
+                                            <Line
+                                                dataKey="desktop"
+                                                type="natural"
+                                                stroke="var(--color-desktop)"
+                                                strokeWidth={2}
+                                                dot={{
+                                                    fill: "var(--color-desktop)",
+                                                }}
+                                                activeDot={{
+                                                    r: 6,
+                                                }}
+                                            />
+                                            <Line
+                                                dataKey="mobile" // Ubah dengan kunci data yang relevan untuk garis kedua
+                                                type="natural"
+                                                stroke="var(--color-mobile)" // Ubah dengan warna yang sesuai untuk garis kedua
+                                                strokeWidth={2}
+                                                dot={{
+                                                    fill: "var(--color-mobile)",
+                                                }}
+                                                activeDot={{
+                                                    r: 6,
+                                                }}
+                                            />
+                                        </LineChart>
+                                    </ChartContainer>
+                                </CardContent>
+                            </Card>
+                            {/* Card */}
+                        </div>
+                        <div className="w-full">
+                            {/* Card */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="text-sm">
+                                        Harga Rata-rata Kedelai Biji Kering Impor (Tingkat Pengrajin Tahu/Tempe)
+                                    </CardTitle>
+                                    {/* <CardDescription>January - June 2024</CardDescription> */}
+                                </CardHeader>
+                                <CardContent>
+                                    <ChartContainer config={chartConfig}>
+                                        <LineChart
+                                            accessibilityLayer
+                                            data={chartData}
+                                            margin={{
+                                                left: 2,
+                                                right: 2,
+                                                bottom: 12,
+                                            }}
+                                        >
+                                            <CartesianGrid vertical={false} />
+                                            <XAxis
+                                                dataKey="month"
+                                                tickLine={false}
+                                                axisLine={false}
+                                                tickMargin={8}
+                                                tickFormatter={(value) => value.slice(0, 3)}
+                                                label={{
+                                                    value: 'Bulan',
+                                                    position: 'insideBottom',
+                                                    dy: 12, // Mengatur posisi vertikal label
+                                                    fill: '#666', // Mengatur warna label
+                                                    fontSize: '12px', // Mengatur ukuran font label
+                                                }}
+                                            />
+                                            <YAxis
+                                                label={{
+                                                    value: 'Harga',
+                                                    angle: -90,
+                                                    position: 'insideCenter',
+                                                    dx: -12, // Mengatur posisi vertikal label
+                                                    fontSize: '12px', // Mengatur ukuran font label
+                                                }}
+                                            />
+                                            <ChartTooltip
+                                                cursor={false}
+                                                content={<ChartTooltipContent hideLabel />}
+                                            />
+                                            <Line
+                                                dataKey="desktop"
+                                                type="natural"
+                                                stroke="var(--color-desktop)"
+                                                strokeWidth={2}
+                                                dot={{
+                                                    fill: "var(--color-desktop)",
+                                                }}
+                                                activeDot={{
+                                                    r: 6,
+                                                }}
+                                            />
+                                            <Line
+                                                dataKey="mobile" // Ubah dengan kunci data yang relevan untuk garis kedua
+                                                type="natural"
+                                                stroke="var(--color-mobile)" // Ubah dengan warna yang sesuai untuk garis kedua
+                                                strokeWidth={2}
+                                                dot={{
+                                                    fill: "var(--color-mobile)",
+                                                }}
+                                                activeDot={{
+                                                    r: 6,
+                                                }}
+                                            />
+                                        </LineChart>
+                                    </ChartContainer>
+                                </CardContent>
+                            </Card>
+                            {/* Card */}
+                        </div>
+                    </div>
+                    <div className="wrap flex flex-col md:flex-row gap-3 mt-3 md:mt-0">
+                        <div className="w-full">
+                            {/* Card */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="text-sm">
+                                        Harga Rata-rata Bawang Merah Eceran Premium & Medium Tingkat Pedagang Eceran
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <ChartContainer config={chartConfig}>
+                                        <LineChart
+                                            accessibilityLayer
+                                            data={chartData}
+                                            margin={{
+                                                left: 2,
+                                                right: 2,
+                                                bottom: 12,
+                                            }}
+                                        >
+                                            <CartesianGrid vertical={false} />
+                                            <XAxis
+                                                dataKey="month"
+                                                tickLine={false}
+                                                axisLine={false}
+                                                tickMargin={8}
+                                                tickFormatter={(value) => value.slice(0, 3)}
+                                                label={{
+                                                    value: 'Bulan',
+                                                    position: 'insideBottom',
+                                                    dy: 12, // Mengatur posisi vertikal label
+                                                    fill: '#666', // Mengatur warna label
+                                                    fontSize: '12px', // Mengatur ukuran font label
+                                                }}
+                                            />
+                                            <YAxis
+                                                label={{
+                                                    value: 'Harga',
+                                                    angle: -90,
+                                                    position: 'insideCenter',
+                                                    dx: -12, // Mengatur posisi vertikal label
+                                                    fontSize: '12px', // Mengatur ukuran font label
+                                                }}
+                                            />
+                                            <ChartTooltip
+                                                cursor={false}
+                                                content={<ChartTooltipContent hideLabel />}
+                                            />
+                                            <Line
+                                                dataKey="desktop"
+                                                type="natural"
+                                                stroke="var(--color-desktop)"
+                                                strokeWidth={2}
+                                                dot={{
+                                                    fill: "var(--color-desktop)",
+                                                }}
+                                                activeDot={{
+                                                    r: 6,
+                                                }}
+                                            />
+                                            <Line
+                                                dataKey="mobile" // Ubah dengan kunci data yang relevan untuk garis kedua
+                                                type="natural"
+                                                stroke="var(--color-mobile)" // Ubah dengan warna yang sesuai untuk garis kedua
+                                                strokeWidth={2}
+                                                dot={{
+                                                    fill: "var(--color-mobile)",
+                                                }}
+                                                activeDot={{
+                                                    r: 6,
+                                                }}
+                                            />
+                                        </LineChart>
+                                    </ChartContainer>
+                                </CardContent>
+                            </Card>
+                            {/* Card */}
+                        </div>
+                        <div className="w-full">
+                            {/* Card */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="text-sm">
+                                        Harga Rata-rata Cabai Merah Keriting Eceran
+                                    </CardTitle>
+                                    {/* <CardDescription>January - June 2024</CardDescription> */}
+                                </CardHeader>
+                                <CardContent>
+                                    <ChartContainer config={chartConfig}>
+                                        <LineChart
+                                            accessibilityLayer
+                                            data={chartData}
+                                            margin={{
+                                                left: 2,
+                                                right: 2,
+                                                bottom: 12,
+                                            }}
+                                        >
+                                            <CartesianGrid vertical={false} />
+                                            <XAxis
+                                                dataKey="month"
+                                                tickLine={false}
+                                                axisLine={false}
+                                                tickMargin={8}
+                                                tickFormatter={(value) => value.slice(0, 3)}
+                                                label={{
+                                                    value: 'Bulan',
+                                                    position: 'insideBottom',
+                                                    dy: 12, // Mengatur posisi vertikal label
+                                                    fill: '#666', // Mengatur warna label
+                                                    fontSize: '12px', // Mengatur ukuran font label
+                                                }}
+                                            />
+                                            <YAxis
+                                                label={{
+                                                    value: 'Harga',
+                                                    angle: -90,
+                                                    position: 'insideCenter',
+                                                    dx: -12, // Mengatur posisi vertikal label
+                                                    fontSize: '12px', // Mengatur ukuran font label
+                                                }}
+                                            />
+                                            <ChartTooltip
+                                                cursor={false}
+                                                content={<ChartTooltipContent hideLabel />}
+                                            />
+                                            <Line
+                                                dataKey="desktop"
+                                                type="natural"
+                                                stroke="var(--color-desktop)"
+                                                strokeWidth={2}
+                                                dot={{
+                                                    fill: "var(--color-desktop)",
+                                                }}
+                                                activeDot={{
+                                                    r: 6,
+                                                }}
+                                            />
+                                            <Line
+                                                dataKey="mobile" // Ubah dengan kunci data yang relevan untuk garis kedua
+                                                type="natural"
+                                                stroke="var(--color-mobile)" // Ubah dengan warna yang sesuai untuk garis kedua
+                                                strokeWidth={2}
+                                                dot={{
+                                                    fill: "var(--color-mobile)",
+                                                }}
+                                                activeDot={{
+                                                    r: 6,
+                                                }}
+                                            />
+                                        </LineChart>
+                                    </ChartContainer>
+                                </CardContent>
+                            </Card>
+                            {/* Card */}
+                        </div>
+                    </div>
+                </div>
+                {/* Card */}
 
             </div>
         </div>

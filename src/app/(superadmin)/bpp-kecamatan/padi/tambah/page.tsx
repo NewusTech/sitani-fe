@@ -288,6 +288,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('hibrida_bantuan_pemerintah_lahan_sawah_panen')}
                                 className={`${errors.hibrida_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -300,6 +301,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('hibrida_bantuan_pemerintah_lahan_sawah_tanam')}
                                 className={`${errors.hibrida_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -312,6 +314,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('hibrida_bantuan_pemerintah_lahan_sawah_puso')}
                                 className={`${errors.hibrida_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -329,6 +332,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('hibrida_non_bantuan_pemerintah_lahan_sawah_panen')}
                                 className={`${errors.hibrida_non_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -341,6 +345,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('hibrida_non_bantuan_pemerintah_lahan_sawah_tanam')}
                                 className={`${errors.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -353,6 +358,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('hibrida_non_bantuan_pemerintah_lahan_sawah_puso')}
                                 className={`${errors.hibrida_non_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -370,6 +376,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('unggul_bantuan_pemerintah_lahan_sawah_panen')}
                                 className={`${errors.unggul_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -382,6 +389,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('unggul_bantuan_pemerintah_lahan_sawah_tanam')}
                                 className={`${errors.unggul_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -394,6 +402,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('unggul_bantuan_pemerintah_lahan_sawah_puso')}
                                 className={`${errors.unggul_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -411,6 +420,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('unggul_bantuan_pemerintah_lahan_bukan_sawah_panen')}
                                 className={`${errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -423,6 +433,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam')}
                                 className={`${errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -435,6 +446,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('unggul_bantuan_pemerintah_lahan_bukan_sawah_puso')}
                                 className={`${errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -452,6 +464,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_sawah_panen')}
                                 className={`${errors.unggul_non_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -464,6 +477,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_sawah_tanam')}
                                 className={`${errors.unggul_non_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -476,6 +490,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_sawah_puso')}
                                 className={`${errors.unggul_non_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -493,6 +508,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen')}
                                 className={`${errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -505,6 +521,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam')}
                                 className={`${errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -517,6 +534,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso')}
                                 className={`${errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -534,6 +552,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('lokal_lahan_sawah_panen')}
                                 className={`${errors.lokal_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -546,6 +565,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('lokal_lahan_sawah_tanam')}
                                 className={`${errors.lokal_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -558,6 +578,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('lokal_lahan_sawah_puso')}
                                 className={`${errors.lokal_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -575,6 +596,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('lokal_lahan_bukan_sawah_panen')}
                                 className={`${errors.lokal_lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -587,6 +609,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('lokal_lahan_bukan_sawah_tanam')}
                                 className={`${errors.lokal_lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -599,6 +622,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('lokal_lahan_bukan_sawah_puso')}
                                 className={`${errors.lokal_lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -617,6 +641,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('sawah_irigasi_lahan_sawah_panen')}
                                 className={`${errors.sawah_irigasi_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -629,6 +654,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('sawah_irigasi_lahan_sawah_tanam')}
                                 className={`${errors.sawah_irigasi_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -641,6 +667,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('sawah_irigasi_lahan_sawah_puso')}
                                 className={`${errors.sawah_irigasi_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -658,6 +685,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('sawah_tadah_hujan_lahan_sawah_panen')}
                                 className={`${errors.sawah_tadah_hujan_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -670,6 +698,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('sawah_tadah_hujan_lahan_sawah_tanam')}
                                 className={`${errors.sawah_tadah_hujan_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -682,6 +711,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('sawah_tadah_hujan_lahan_sawah_puso')}
                                 className={`${errors.sawah_tadah_hujan_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -699,6 +729,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('sawah_rawa_pasang_surut_lahan_sawah_panen')}
                                 className={`${errors.sawah_rawa_pasang_surut_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -711,6 +742,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('sawah_rawa_pasang_surut_lahan_sawah_tanam')}
                                 className={`${errors.sawah_rawa_pasang_surut_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -723,6 +755,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('sawah_rawa_pasang_surut_lahan_sawah_puso')}
                                 className={`${errors.sawah_rawa_pasang_surut_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -740,6 +773,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Panen"
                                 {...register('sawah_rawa_lebak_lahan_sawah_panen')}
                                 className={`${errors.sawah_rawa_lebak_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -752,6 +786,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Tanam"
                                 {...register('sawah_rawa_lebak_lahan_sawah_tanam')}
                                 className={`${errors.sawah_rawa_lebak_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
@@ -764,6 +799,7 @@ const TambahDataPadi = () => {
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
+                                step="0.000001"
                                 placeholder="Puso"
                                 {...register('sawah_rawa_lebak_lahan_sawah_puso')}
                                 className={`${errors.sawah_rawa_lebak_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
