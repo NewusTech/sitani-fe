@@ -31,8 +31,7 @@ const formatDate = (dateString: string | undefined) => {
 
 const formSchema = z.object({
   nama: z.string().min(1, { message: "Nama wajib diisi" }),
-  nip: z
-    .preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
+  nip: z.string().optional(),
   tempat_lahir: z.string().min(0).optional(),
   tgl_lahir: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
@@ -93,7 +92,7 @@ const EdithPegawaiPage = () => {
   interface Data {
     id?: number;
     nama?: string;
-    nip?: number;
+    nip?: string;
     tempatLahir?: string;
     tglLahir?: string;
     pangkat?: string;
@@ -178,7 +177,7 @@ const EdithPegawaiPage = () => {
       const formattedTglDiklat = formatDate(dataKepegawaian.data.tglDiklat || '');
 
       setValue("nama", dataKepegawaian.data.nama || '');
-      setValue("nip", dataKepegawaian.data.nip || 0);
+      setValue("nip", dataKepegawaian.data.nip || "");
       setValue("tempat_lahir", dataKepegawaian.data.tempatLahir || '');
       setValue("tgl_lahir", formattedTglLahir);
       setValue("pangkat", dataKepegawaian.data.pangkat || '');
@@ -299,7 +298,7 @@ const EdithPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="NIP" />
               <Input
-                type="number"
+                type="text"
                 placeholder="NIP"
                 {...register('nip')}
                 className={`${errors.nip ? 'border-red-500' : 'py-5 text-sm'}`}
