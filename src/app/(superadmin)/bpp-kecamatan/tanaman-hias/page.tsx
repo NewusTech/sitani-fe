@@ -93,7 +93,8 @@ const KorlubTanamanHias = () => {
     // GETALL
     const { data: dataTanamanHias }: SWRResponse<any> = useSWR(
         // `korluh/padi/get?limit=1`,
-        `/validasi/korluh-tanaman-hias/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
+        // `/validasi/korluh-tanaman-hias/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
+        `/validasi/korluh-tanaman-hias/kec?kecamatan=1&bulan=2024/9`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -448,37 +449,39 @@ const KorlubTanamanHias = () => {
                             Anggrek Potong
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[1]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[1]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[1]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[1]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[1]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[1]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[1]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[1]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[1]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[1]?.count
+                                ? (dataTanamanHias?.data[1]?.rerataHarga / dataTanamanHias?.data[1]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[1]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Gerbera (Herbras) */}
@@ -490,37 +493,39 @@ const KorlubTanamanHias = () => {
                             Gerbera (Herbras)
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[2]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[2]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[2]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[2]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[2]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[2]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[2]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[2]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[2]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[2]?.count
+                                ? (dataTanamanHias?.data[2]?.rerataHarga / dataTanamanHias?.data[2]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[2]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Krisan */}
@@ -532,37 +537,39 @@ const KorlubTanamanHias = () => {
                             Krisan
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[3]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[3]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[3]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[3]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[3]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[3]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[3]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[3]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[3]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[3]?.count
+                                ? (dataTanamanHias?.data[3]?.rerataHarga / dataTanamanHias?.data[3]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[3]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Mawar */}
@@ -574,37 +581,39 @@ const KorlubTanamanHias = () => {
                             Mawar
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[4]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[4]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[4]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[4]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[4]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[4]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[4]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[4]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[4]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[4]?.count
+                                ? (dataTanamanHias?.data[4]?.rerataHarga / dataTanamanHias?.data[4]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[4]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Sedap Malam */}
@@ -616,37 +625,39 @@ const KorlubTanamanHias = () => {
                             Sedap Malam
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[5]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[5]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[5]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[5]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[5]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[5]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[5]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[5]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[5]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[5]?.count
+                                ? (dataTanamanHias?.data[5]?.rerataHarga / dataTanamanHias?.data[5]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[5]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Aglaonema */}
@@ -658,37 +669,39 @@ const KorlubTanamanHias = () => {
                             Aglaonema
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[6]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[6]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[6]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[6]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[6]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[6]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[6]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[6]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[6]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[6]?.count
+                                ? (dataTanamanHias?.data[6]?.rerataHarga / dataTanamanHias?.data[6]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[6]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Anggrek Pot** */}
@@ -700,37 +713,39 @@ const KorlubTanamanHias = () => {
                             Anggrek Pot**
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[7]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[7]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[7]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[7]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[7]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[7]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[7]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[7]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[7]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[7]?.count
+                                ? (dataTanamanHias?.data[7]?.rerataHarga / dataTanamanHias?.data[7]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[7]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Anthurium Bunga */}
@@ -742,37 +757,39 @@ const KorlubTanamanHias = () => {
                             Anthurium Bunga
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[8]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[8]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[8]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[8]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[8]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[8]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[8]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[8]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[8]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[8]?.count
+                                ? (dataTanamanHias?.data[8]?.rerataHarga / dataTanamanHias?.data[8]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[8]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Bromelia */}
@@ -784,37 +801,39 @@ const KorlubTanamanHias = () => {
                             Bromelia
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[9]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[9]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[9]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[9]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[9]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[9]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[9]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[9]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[9]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[9]?.count
+                                ? (dataTanamanHias?.data[9]?.rerataHarga / dataTanamanHias?.data[9]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[9]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Bugenvil */}
@@ -826,37 +845,39 @@ const KorlubTanamanHias = () => {
                             Bugenvil
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[10]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[10]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[10]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[10]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[10]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[10]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[10]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[10]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[10]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[10]?.count
+                                ? (dataTanamanHias?.data[10]?.rerataHarga / dataTanamanHias?.data[10]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[10]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Cordyline */}
@@ -868,37 +889,39 @@ const KorlubTanamanHias = () => {
                             Cordyline
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[11]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[11]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[11]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[11]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[11]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[11]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[11]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[11]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[11]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[11]?.count
+                                ? (dataTanamanHias?.data[11]?.rerataHarga / dataTanamanHias?.data[11]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[11]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Dracaena */}
@@ -910,37 +933,39 @@ const KorlubTanamanHias = () => {
                             Dracaena
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[12]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[12]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[12]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[12]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[12]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[12]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[12]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[12]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[12]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[12]?.count
+                                ? (dataTanamanHias?.data[12]?.rerataHarga / dataTanamanHias?.data[12]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[12]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Heliconia (Pisang-pisangan) */}
@@ -952,37 +977,39 @@ const KorlubTanamanHias = () => {
                             Heliconia (Pisang-pisangan)
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[13]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[13]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[13]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[13]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[13]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[13]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[13]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[13]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[13]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[13]?.count
+                                ? (dataTanamanHias?.data[13]?.rerataHarga / dataTanamanHias?.data[13]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[13]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Ixora (Soka) */}
@@ -994,37 +1021,39 @@ const KorlubTanamanHias = () => {
                             Ixora (Soka)
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[14]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[14]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[14]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[14]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[14]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[14]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[14]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[14]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[14]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[14]?.count
+                                ? (dataTanamanHias?.data[14]?.rerataHarga / dataTanamanHias?.data[14]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[14]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Pakis */}
@@ -1036,37 +1065,39 @@ const KorlubTanamanHias = () => {
                             Pakis
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[15]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[15]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[15]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[15]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[15]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[15]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[15]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[15]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[15]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[15]?.count
+                                ? (dataTanamanHias?.data[15]?.rerataHarga / dataTanamanHias?.data[15]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[15]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Palem */}
@@ -1078,37 +1109,39 @@ const KorlubTanamanHias = () => {
                             Palem
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[16]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[16]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[16]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[16]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[16]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[16]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[16]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[16]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[16]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[16]?.count
+                                ? (dataTanamanHias?.data[16]?.rerataHarga / dataTanamanHias?.data[16]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[16]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Phylodendron */}
@@ -1120,37 +1153,39 @@ const KorlubTanamanHias = () => {
                             Phylodendron
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[17]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[17]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[17]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[17]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[17]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[17]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[17]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[17]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[17]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[17]?.count
+                                ? (dataTanamanHias?.data[17]?.rerataHarga / dataTanamanHias?.data[17]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[17]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Puring */}
@@ -1162,37 +1197,39 @@ const KorlubTanamanHias = () => {
                             Puring
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[18]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[18]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[18]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[18]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[18]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[18]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[18]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[18]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[18]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[18]?.count
+                                ? (dataTanamanHias?.data[18]?.rerataHarga / dataTanamanHias?.data[18]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[18]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Sansevierie (Lidah mertua) */}
@@ -1204,37 +1241,39 @@ const KorlubTanamanHias = () => {
                             Sansevierie (Lidah mertua)
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[19]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[19]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[19]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[19]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[19]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[19]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[19]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[19]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[19]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[19]?.count
+                                ? (dataTanamanHias?.data[19]?.rerataHarga / dataTanamanHias?.data[19]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[19]?.keterangan}
                         </TableCell>
                     </TableRow>
                     {/* Melati */}
@@ -1246,37 +1285,39 @@ const KorlubTanamanHias = () => {
                             Melati
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[20]?.bulanLalu}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[20]?.luasPanenHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[20]?.luasPanenBelumHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[20]?.luasRusak}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[20]?.luasPenanamanBaru}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[20]?.akhir}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[20]?.produksiHabis}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[20]?.produksiBelumHabis}
                         </TableCell>
-                        <TableCell className='border border-slate-200'>
-                            233
-                        </TableCell>
-                        <TableCell className='border border-slate-200 text-center'>
-                            233
+                        <TableCell className='text-center border border-slate-200'>
+                            {dataTanamanHias?.data[20]?.satuanProduksi}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            233
+                            {dataTanamanHias?.data[20]?.count
+                                ? (dataTanamanHias?.data[20]?.rerataHarga / dataTanamanHias?.data[20]?.count).toFixed(2)
+                                : '-'}
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            {dataTanamanHias?.data[20]?.keterangan}
                         </TableCell>
                     </TableRow>
                 </TableBody>

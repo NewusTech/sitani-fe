@@ -415,7 +415,7 @@ const DataPegawaiPage = () => {
             dataKepegawaian?.data.data.map((item, index) => (
               <TableRow key={item.id}>
                 {visibleColumns.includes('no') && (
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{(currentPage - 1) * limit + (index + 1)}</TableCell>
                 )}
                 {visibleColumns.includes('namaNip') && (
                   <TableCell className=''>

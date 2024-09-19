@@ -580,34 +580,34 @@ const KorlubPadi = () => {
                                 Jumlah Padi
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                455
+                            {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_sawah}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                455
+                                {dataPadi?.data?.jumlah_padi_lahan_sawah_panen}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                455
+                                {dataPadi?.data?.jumlah_padi_lahan_sawah_tanam}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                455
+                                {dataPadi?.data?.jumlah_padi_lahan_sawah_puso}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                455
+                                {dataPadi?.data?.akhir_jumlah_padi_lahan_sawah}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                455
+                                {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_bukan_sawah}
                             </TableCell>
                             <TableCell className=' font-semibold text-center border border-slate-200'>
-                                455
+                                {dataPadi?.data?.jumlah_padi_lahan_bukan_sawah_panen}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center '>
-                                455
+                                {dataPadi?.data?.jumlah_padi_lahan_bukan_sawah_tanam}
                             </TableCell>
                             <TableCell className=' font-semibold text-center border border-slate-200'>
-                                455
+                                {dataPadi?.data?.jumlah_padi_lahan_bukan_sawah_puso}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center '>
-                                455
+                                {dataPadi?.data?.akhir_jumlah_padi_lahan_bukan_sawah}
                             </TableCell>
 
                         </TableRow>
