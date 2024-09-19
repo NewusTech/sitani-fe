@@ -94,13 +94,13 @@ const EditDataPenerimaUppo = () => {
 
     const selectedKecamatan = Number(watch("kecamatan_id"));
 
-    const kecamatanOptions = dataKecamatan?.data.map(kecamatan => ({
+    const kecamatanOptions = dataKecamatan?.data?.map(kecamatan => ({
         id: kecamatan.id.toString(),
         name: kecamatan.nama,
     }));
 
     const desaOptions = dataDesa?.data
-        .filter(desa => desa.kecamatanId === selectedKecamatan)
+        ?.filter(desa => desa.kecamatanId === selectedKecamatan)
         .map(desa => ({
             id: desa.id.toString(),
             name: desa.nama,

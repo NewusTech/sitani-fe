@@ -437,7 +437,7 @@ const Bantuan = () => {
 
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
-                {dataPSP?.data.pagination.totalCount as number > 1 && (
+                {dataPSP?.data?.pagination?.totalCount as number > 1 && (
                     <PaginationTable
                         currentPage={currentPage}
                         totalPages={dataPSP?.data.pagination.totalPages as number}

@@ -117,7 +117,7 @@ const EditPenyuluhDataKecamatan = () => {
     const selectedKecamatanId = watch("kecamatan_id");
 
     const kecamatanOptions: KecamatanOption[] =
-        dataKecamatan?.data.map((kec) => ({
+        dataKecamatan?.data?.map((kec) => ({
             id: kec.id,
             nama: kec.nama,
         })) || [];

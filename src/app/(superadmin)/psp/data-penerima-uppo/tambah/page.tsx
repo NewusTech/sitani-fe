@@ -103,13 +103,13 @@ const TambahDataPenerimaUppo = () => {
     });
     const selectedKecamatan = Number(watch("kecamatan_id")); // Ensure conversion to number
 
-    const kecamatanOptions = dataKecamatan?.data.map(kecamatan => ({
+    const kecamatanOptions = dataKecamatan?.data?.map(kecamatan => ({
         id: kecamatan.id.toString(),
         name: kecamatan.nama,
     }));
 
     const desaOptions = dataDesa?.data
-        .filter(desa => desa.kecamatanId === selectedKecamatan) // Ensure types match here
+        ?.filter(desa => desa.kecamatanId === selectedKecamatan) // Ensure types match here
         .map(desa => ({
             id: desa.id.toString(),
             name: desa.nama,

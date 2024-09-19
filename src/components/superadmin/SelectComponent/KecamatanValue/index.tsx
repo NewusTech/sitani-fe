@@ -67,7 +67,7 @@ import {
   
     const [searchKecamatan, setSearchKecamatan] = useState("");
   
-    const filteredKecamatanItems = dataKecamatan?.data.filter((kecamatan) =>
+    const filteredKecamatanItems = dataKecamatan?.data?.filter((kecamatan) =>
       kecamatan.nama.toLowerCase().includes(searchKecamatan.toLowerCase())
     );
   

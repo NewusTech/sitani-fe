@@ -378,10 +378,10 @@ const PenyuluhDataKecamatan = () => {
             {/* table */}
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
-                {dataKecamatan?.data.pagination.totalCount as number > 1 && (
+                {dataKecamatan?.data?.pagination?.totalCount as number > 1 && (
                     <PaginationTable
                         currentPage={currentPage}
-                        totalPages={dataKecamatan?.data.pagination.totalPages as number}
+                        totalPages={dataKecamatan?.data?.pagination?.totalPages as number}
                         onPageChange={onPageChange}
                     />
                 )}

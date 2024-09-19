@@ -389,7 +389,7 @@ const Pupuk = () => {
 
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
-                {dataUser?.data.pagination.totalCount as number > 1 && (
+                {dataUser?.data?.pagination?.totalCount as number > 1 && (
                     <PaginationTable
                         currentPage={currentPage}
                         totalPages={dataUser?.data.pagination.totalPages as number}
