@@ -29,6 +29,13 @@ import { Input } from '@/components/ui/input'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import FilterTable from '@/components/FilterTable'
 import KoefisienVariasiProduksiPrint from '@/components/Print/KetahananPangan/Koefisien-Variasi-Produksi/Index'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 // GET LIST
 interface Response {
@@ -43,6 +50,7 @@ interface ProduksiData {
     panen: number;
     gkpTkPetani: number;
     gkpTkPenggilingan: number;
+    gkgTkPenggilingan: number;
     jpk: number;
     cabaiMerahKeriting: number;
     berasMedium: number;
@@ -152,6 +160,29 @@ const KomponenKoefisienVariasiPrduksi = () => {
                                 onFilterChange={handleFilterChange}
                             />
                         </div>
+                        <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
+                            <div className="w-auto">
+                                <Select
+                                    onValueChange={(value) => setTahun(value)}
+                                    value={tahun}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Tahun" className='text-2xl' />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="2018">2018</SelectItem>
+                                        <SelectItem value="2019">2019</SelectItem>
+                                        <SelectItem value="2020">2020</SelectItem>
+                                        <SelectItem value="2021">2021</SelectItem>
+                                        <SelectItem value="2022">2022</SelectItem>
+                                        <SelectItem value="2023">2023</SelectItem>
+                                        <SelectItem value="2024">2024</SelectItem>
+                                        <SelectItem value="2025">2025</SelectItem>
+                                        <SelectItem value="2026">2026</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
                         {/* print */}
                         <KoefisienVariasiProduksiPrint
                             urlApi={`/kepang/cv-produksi/get?year=${tahun}`}
@@ -236,7 +267,7 @@ const KomponenKoefisienVariasiPrduksi = () => {
                                     )}
                                     {visibleColumns.includes('gkgPenggilingan') && (
                                         <TableCell>
-                                            belum ada
+                                            {item.gkgTkPenggilingan}
                                         </TableCell>
                                     )}
                                     {visibleColumns.includes('jpk') && (

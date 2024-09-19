@@ -61,6 +61,7 @@ const KoefisienVariasiProduksiPrint = (props: PrintProps) => {
         panen: number;
         gkpTkPetani: number;
         gkpTkPenggilingan: number;
+        gkgTkPenggilingan: number;
         jpk: number;
         cabaiMerahKeriting: number;
         berasMedium: number;
@@ -261,43 +262,43 @@ const KoefisienVariasiProduksiPrint = (props: PrintProps) => {
                                 dataProduksi?.data?.map((item, index) => (
                                     <TableRow key={index}>
                                         {/* {visibleColumns.includes('no') && ( */}
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {index + 1}
                                         </TableCell>
                                         {/* )} */}
                                         {/* {visibleColumns.includes('bulan') && ( */}
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {new Date(item.bulan).toLocaleDateString('id-ID', { month: 'long' })}
                                         </TableCell>
                                         {/* )} */}
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.panen}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.gkpTkPetani}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.gkpTkPenggilingan}
                                         </TableCell>
-                                        <TableCell>
-                                            belum ada
+                                        <TableCell className='border border-black p-2 text-black text-center'>
+                                            {item.gkgTkPenggilingan}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.jpk}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.cabaiMerahKeriting}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.berasMedium}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.berasPremium}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.stokGkg}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className='border border-black p-2 text-black text-center'>
                                             {item.stokBeras}
                                         </TableCell>
                                     </TableRow>
