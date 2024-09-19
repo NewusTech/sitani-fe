@@ -38,6 +38,15 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import PaginationTable from '@/components/PaginationTable'
 import FilterTable from '@/components/FilterTable'
 import KetahananPanganProdusenEceranPrint from '@/components/Print/KetahananPangan/Produsen-Dan-Eceran'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils"
+import { format } from "date-fns"
 
 interface Komoditas {
   id: number;
@@ -124,7 +133,7 @@ const ProdusenDanEceran = () => {
   const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
   const { data: dataProdusenEceran }: SWRResponse<Response> = useSWR(
-    `/kepang/produsen-eceran/get?page=${currentPage}&search=${search}`,
+    `/kepang/produsen-eceran/get?page=${currentPage}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
     (url) =>
       axiosPrivate
         .get(url, {
@@ -250,9 +259,58 @@ const ProdusenDanEceran = () => {
       </div>
       {/*  */}
       <div className="wrap-filter flex justify-between items-center mt-2 md:mt-4 " >
-        <div className="left gap-2 flex justify-start items-center">
-          <div className="filter-table w-[40px] h-[40px]">
-            <FilterTable
+        <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
+          <div className="w-auto">
+            <Popover>
+              <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                    !startDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                  {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar className=''
+                  mode="single"
+                  selected={startDate}
+                  onSelect={setstartDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="">-</div>
+          <div className="w-auto">
+            <Popover>
+              <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                    !endDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                  {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={endDate}
+                  onSelect={setendDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="w-[40px] h-[40px]">
+          <FilterTable
               columns={columns}
               defaultCheckedKeys={getDefaultCheckedKeys()}
               onFilterChange={handleFilterChange}
