@@ -456,10 +456,10 @@ const KorlubSayuranBuah = () => {
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                     </TableRow>
                     {/*  */}
-                    {/* Bawang daun */}
+                    {/* Bawang Merah */}
                     <TableRow>
-                        <TableCell className="border border-slate-200 text-center">A.1</TableCell>
-                        <TableCell className="border border-slate-200">Bawang Daun</TableCell>
+                        <TableCell className="border border-slate-200 text-center">A2.</TableCell>
+                        <TableCell className="border border-slate-200">Bawang Merah</TableCell>
                         <TableCell className="border border-slate-200">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>

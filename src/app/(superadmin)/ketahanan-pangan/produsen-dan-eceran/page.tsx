@@ -317,7 +317,7 @@ const ProdusenDanEceran = () => {
             />
           </div>
         </div>
-        <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+        <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 flex-shrink-0">
           <Link href="/ketahanan-pangan/produsen-dan-eceran/tambah" className='bg-primary text-sm px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
             Tambah Data
           </Link>
