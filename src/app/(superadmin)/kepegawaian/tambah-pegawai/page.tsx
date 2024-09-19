@@ -29,8 +29,7 @@ const formatDate = (dateString: string | undefined) => {
 
 const formSchema = z.object({
   nama: z.string().min(1, { message: "Nama wajib diisi" }),
-  nip: z
-    .preprocess((val) => Number(val), z.number().optional()),
+  nip: z.string().optional(),
   tempat_lahir: z.string().min(0).optional(),
   tgl_lahir: z.preprocess(
     (val) => typeof val === "string" ? formatDate(val) : val,
@@ -170,6 +169,8 @@ const TamabahPegawaiPage = () => {
         backdrop: 'rgba(0, 0, 0, 0.4)',
       });
       console.error("Failed to create user:", error);
+      console.log(data)
+
     } finally {
       setLoading(false); // Set loading to false once the process is complete
     }
@@ -227,7 +228,7 @@ const TamabahPegawaiPage = () => {
             <div className="flex flex-col mb-2 w-full">
               <Label className='text-sm mb-1' label="NIP" />
               <Input
-                type="number"
+                type="text"
                 placeholder="NIP"
                 {...register('nip')}
                 className={`${errors.nip ? 'border-red-500' : 'py-5 text-sm'}`}

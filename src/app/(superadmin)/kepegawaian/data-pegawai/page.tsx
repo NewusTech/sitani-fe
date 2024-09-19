@@ -69,7 +69,7 @@ interface Pagination {
 interface Data {
   id?: number;
   nama?: string;
-  nip?: number;
+  nip?: string;
   tempatLahir?: string;
   tglLahir?: string;
   pangkat?: string;
@@ -420,7 +420,7 @@ const DataPegawaiPage = () => {
                 {visibleColumns.includes('namaNip') && (
                   <TableCell className=''>
                     {item.nama} <br />
-                    {item.nip === 0 ? (
+                    {item.nip === "" ? (
                       <span></span>
                     ) : (
                       <span>{item.nip}</span>
@@ -432,13 +432,23 @@ const DataPegawaiPage = () => {
                 {visibleColumns.includes('pangkat') && (
                   <TableCell className=''>
                     {item.pangkat} / {item.golongan} <br />
-                    TMT : {item.tmtPangkat ? formatDate(new Date(item.tmtPangkat)) : '-'}
+                    TMT :
+                    <span>
+                      {item.tmtPangkat && !isNaN(new Date(item.tmtPangkat).getTime())
+                        ? formatDate(new Date(item.tmtPangkat))
+                        : ''}
+                    </span>
                   </TableCell>
                 )}
                 {visibleColumns.includes('jabatan') && (
                   <TableCell className=''>
                     {item.jabatan} <br />
-                    TMT : {item.tmtJabatan ? formatDate(new Date(item.tmtJabatan)) : '-'}
+                    TMT :
+                    <span>
+                      {item.tmtJabatan && !isNaN(new Date(item.tmtJabatan).getTime())
+                        ? formatDate(new Date(item.tmtJabatan))
+                        : ''}
+                    </span>
                   </TableCell>
                 )}
                 {visibleColumns.includes('diklat') && (
@@ -448,7 +458,11 @@ const DataPegawaiPage = () => {
                 )}
                 {visibleColumns.includes('diklat') && (
                   <TableCell className=''>
-                    {item.tglDiklat ? formatDate(new Date(item.tglDiklat)) : '-'}
+                    <span>
+                      {item.tglDiklat && !isNaN(new Date(item.tglDiklat).getTime())
+                        ? formatDate(new Date(item.tglDiklat))
+                        : ''}
+                    </span>
                   </TableCell>
                 )}
                 {visibleColumns.includes('diklat') && (
