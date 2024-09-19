@@ -91,8 +91,8 @@ const KorlubSayuranBuah = () => {
 
     // GETALL
     const { data: dataSayuran }: SWRResponse<any> = useSWR(
-        // `korluh/padi/get?limit=1`,
-        `/validasi/korluh-palawija/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
+        // `/validasi/korluh-sayur-buah/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
+        `/validasi/korluh-sayur-buah/kec?kecamatan=1&bulan=2024/8`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -121,7 +121,7 @@ const KorlubSayuranBuah = () => {
     // Fungsi untuk mengirim data ke API
     const handleTolak = async (payload: { kecamatan_id: number; bulan: string; status: string; keterangan: string; }) => {
         try {
-            await axiosPrivate.post("/validasi/korluh-palawija/kec", payload);
+            await axiosPrivate.post("/validasi/korluh-sayur-buah/kec", payload);
             // alert
             Swal.fire({
                 icon: 'success',
@@ -167,13 +167,13 @@ const KorlubSayuranBuah = () => {
         } finally {
             // setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/validasi/korluh-palawija/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`);
+        mutate(`/validasi/korluh-sayur-buah/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`);
     };
 
     // Fungsi untuk mengirim data ke API
     const handleVerifikasi = async (payload: { kecamatan_id: number; bulan: string; status: string }) => {
         try {
-            await axiosPrivate.post("/validasi/korluh-palawija/kec", payload);
+            await axiosPrivate.post("/validasi/korluh-sayur-buah/kec", payload);
             // alert
             Swal.fire({
                 icon: 'success',
@@ -262,6 +262,7 @@ const KorlubSayuranBuah = () => {
                 </div>
             </div>
             {/* top */}
+
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
@@ -443,17 +444,39 @@ const KorlubSayuranBuah = () => {
                     <TableRow>
                         <TableCell className="border border-slate-200 text-center">A.1</TableCell>
                         <TableCell className="border border-slate-200">Bawang Daun</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.hasilProduksi}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.bulanLalu}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.luasPanenHabis}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.luasPanenBelumHabis}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.luasRusak}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.luasPenanamanBaru}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.akhir}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.produksiHabis}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.produksiBelumHabis}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.rerataHarga}
+                        </TableCell>
+                        <TableCell className="border border-slate-200 text-center">
+                            {dataSayuran?.data[5]?.keterangan}
+                        </TableCell>
                     </TableRow>
                     {/*  */}
                     {/* Bawang Merah */}

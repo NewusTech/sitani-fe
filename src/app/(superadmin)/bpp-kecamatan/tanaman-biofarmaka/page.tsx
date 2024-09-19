@@ -58,114 +58,41 @@ import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecam
 import PaginationTable from '@/components/PaginationTable';
 import VerifikasiPopup from '@/components/superadmin/PopupVerifikasi';
 import TolakPopup from '@/components/superadmin/TolakVerifikasi';
+import KecamatanSelectNo from '@/components/superadmin/SelectComponent/SelectKecamatanNo';
 
 const KorlubTanamanBiofarmaka = () => {
     // INTEGRASI
-    interface KorluhTanamanBiofarmakaResponse {
-        status: number;
-        message: string;
-        data: {
-            data: KorluhTanamanBiofarmaka[];
-            pagination: Pagination;
-        };
-    }
-
-    interface KorluhTanamanBiofarmaka {
-        id: number;
-        kecamatanId: number;
-        desaId: number;
-        tanggal: string;
-        createdAt: string;
-        updatedAt: string;
-        kecamatan: Kecamatan;
-        desa: Desa;
-        list: Tanaman[];
-    }
-
-    interface Kecamatan {
-        id: number;
-        nama: string;
-        createdAt: string;
-        updatedAt: string;
-    }
-
-    interface Desa {
-        id: number;
-        nama: string;
-        kecamatanId: number;
-        createdAt: string;
-        updatedAt: string;
-    }
-
-    interface Tanaman {
-        id: number;
-        KorluhTanamanBiofarmakaId: number;
-        namaTanaman: string;
-        luasPanenHabis: number;
-        luasPanenBelumHabis: number;
-        luasRusak: number;
-        luasPenanamanBaru: number;
-        produksiHabis: number;
-        produksiBelumHabis: number;
-        rerataHarga: number;
-        keterangan: string;
-        master: {
-            id: number;
-            nama: string;
-        }
-        createdAt: string;
-        updatedAt: string;
-    }
-
-    interface Pagination {
-        page: number;
-        perPage: number;
-        totalPages: number;
-        totalCount: number;
-        links: {
-            prev: string | null;
-            next: string | null;
-        };
-    }
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
-
-    // filter date
-    const formatDate = (date?: Date): string => {
-        if (!date) return ''; // Return an empty string if the date is undefined
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1; // getMonth() is zero-based
-        const day = date.getDate();
-
-        return `${year}/${month}/${day}`;
-    };
-    const [startDate, setstartDate] = React.useState<Date>()
-    const [endDate, setendDate] = React.useState<Date>()
-    // Memoize the formatted date to avoid unnecessary recalculations on each render
-    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
-    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
-    // filter date   
-    // pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const onPageChange = (page: number) => {
-        setCurrentPage(page)
-    };
-    // pagination
-    // serach
-    const [search, setSearch] = useState("");
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(event.target.value);
-    };
-    // serach
-    // limit
-    const [limit, setLimit] = useState(10);
-    // limit
     // State untuk menyimpan id kecamatan yang dipilih
-    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("12");
+
+    function getPreviousMonth(): number {
+        const now = new Date();
+        let month = now.getMonth(); // 0 = January, 11 = December
+
+        if (month === 0) {
+            // Jika bulan adalah Januari (0), set bulan ke Desember (11)
+            month = 11;
+        } else {
+            month -= 1;
+        }
+
+        return month + 1; // +1 untuk menyesuaikan hasil ke format 1 = Januari
+    }
+
+    const previousMonth = getPreviousMonth();
+
+    // filter tahun bulan
+    const currentYear = new Date().getFullYear();
+    const [tahun, setTahun] = React.useState(`${currentYear}`);
+    const [bulan, setBulan] = React.useState(`${previousMonth}`);
+    // filter tahun bulan
 
     // GETALL
-    const { data: dataTanamanBioFarmaka }: SWRResponse<KorluhTanamanBiofarmakaResponse> = useSWR(
-        `/korluh/tanaman-biofarmaka/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
+    const { data: dataBiofarmaka }: SWRResponse<any> = useSWR(
+        // `korluh/padi/get?limit=1`,
+        `/validasi/korluh-tanaman-biofarmaka/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -175,26 +102,30 @@ const KorlubTanamanBiofarmaka = () => {
                 })
                 .then((res: any) => res.data)
     );
-    console.log(dataTanamanBioFarmaka)
 
-    // INTEGRASI
+    // Bulan
+    function getMonthName(monthNumber: number): string {
+        const monthNames = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
 
-    // DELETE
-    const [loading, setLoading] = useState(false);
+        // Kurangi 1 dari monthNumber karena array dimulai dari indeks 0
+        return monthNames[monthNumber - 1] || "Invalid Month";
+    }
+    const monthNumber = dataBiofarmaka?.data?.bulan; // Ambil bulan dari data API
+    const monthName = monthNumber ? getMonthName(monthNumber) : "";
+    // Bulan
 
-    const handleDelete = async (id: string) => {
-        setLoading(true); // Set loading to true when the form is submitted
+    // handle tolak
+    // Fungsi untuk mengirim data ke API
+    const handleTolak = async (payload: { kecamatan_id: number; bulan: string; status: string; keterangan: string; }) => {
         try {
-            await axiosPrivate.delete(`/korluh/tanaman-biofarmaka/delete/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            console.log(id)
+            await axiosPrivate.post("/validasi/korluh-tanaman-biofarmaka/kec", payload);
             // alert
             Swal.fire({
                 icon: 'success',
-                title: 'Data berhasil dihapus!',
+                title: 'Data berhasil ditolak!',
                 text: 'Data sudah disimpan sistem!',
                 timer: 1500,
                 timerProgressBar: true,
@@ -213,116 +144,9 @@ const KorlubTanamanBiofarmaka = () => {
                 backdrop: `rgba(0, 0, 0, 0.4)`,
             });
             // alert
-            // Update the local data after successful deletion
-            mutate('/korluh/tanaman-biofarmaka/get');
-        } catch (error: any) {
-            // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi kesalahan!',
-                text: errorMessage,
-                showConfirmButton: true,
-                showClass: { popup: 'animate__animated animate__fadeInDown' },
-                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-                customClass: {
-                    title: 'text-2xl font-semibold text-red-600',
-                    icon: 'text-red-500 animate-bounce',
-                },
-                backdrop: 'rgba(0, 0, 0, 0.4)',
-            });
-            console.error("Failed to create user:", error);
-        } finally {
-            setLoading(false); // Set loading to false once the process is complete
-        }
-        mutate(`/korluh/tanaman-biofarmaka/get`);
-    };
-    // DELETE
-    // verifikasi
-    const handleVerifikasi = async (id: string) => {
-        try {
-            // await axiosPrivate.delete(`/korluh/padi/delete/${id}`, {
-            //     headers: {
-            //         Authorization: `Bearer ${accessToken}`,
-            //     },
-            // });
-            console.log(id)
-            // alert
-            Swal.fire({
-                icon: 'success',
-                title: 'Data berhasil diverifikasi!',
-                text: 'Data sudah disimpan sistem!',
-                timer: 2500,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
-                },
-                customClass: {
-                    title: 'text-2xl font-semibold text-green-600',
-                    icon: 'text-green-500 animate-bounce',
-                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
-                },
-                backdrop: `rgba(0, 0, 0, 0.4)`,
-            });
-            // alert
-        } catch (error: any) {
-            // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memverifikasi data!';
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi kesalahan!',
-                text: errorMessage,
-                showConfirmButton: true,
-                showClass: { popup: 'animate__animated animate__fadeInDown' },
-                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-                customClass: {
-                    title: 'text-2xl font-semibold text-red-600',
-                    icon: 'text-red-500 animate-bounce',
-                },
-                backdrop: 'rgba(0, 0, 0, 0.4)',
-            });
-            console.error("Failed to create user:", error);
-        }
-    };
-
-    const handleTolak = async (id: string, alasan: string) => {
-        try {
-            // await axiosPrivate.post(`/korluh/padi/tolak/${id}`,
-            //     {
-            //         alasan: alasan  // Mengirimkan alasan dalam body request
-            //     },
-            //     {
-            //         headers: {
-            //             Authorization: `Bearer ${accessToken}`,
-            //         },
-            //     });
-            console.log(`Data dengan ID ${id} ditolak dengan alasan: ${alasan}`);
-            // alert
-            Swal.fire({
-                icon: 'success',
-                title: 'Data berhasil ditolak!',
-                text: 'Data sudah disimpan sistem!',
-                timer: 2500,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
-                },
-                customClass: {
-                    title: 'text-2xl font-semibold text-green-600',
-                    icon: 'text-green-500 animate-bounce',
-                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
-                },
-                backdrop: `rgba(0, 0, 0, 0.4)`,
-            });
-            // alert
+            console.log(payload)
+            // push
+            console.log("Success to validasi Padi:");
         } catch (error: any) {
             // Extract error message from API response
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menolak data!';
@@ -340,9 +164,79 @@ const KorlubTanamanBiofarmaka = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
+        } finally {
+            // setLoading(false); // Set loading to false once the process is complete
+        }
+        mutate(`/validasi/korluh-tanaman-biofarmaka/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`);
+    };
+
+    // Fungsi untuk mengirim data ke API
+    const handleVerifikasi = async (payload: { kecamatan_id: number; bulan: string; status: string }) => {
+        try {
+            await axiosPrivate.post("/validasi/korluh-tanaman-biofarmaka/kec", payload);
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil divalidasi!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+            console.log(payload)
+            // push
+            console.log("Success to validasi Padi:");
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memvalidasi data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        } finally {
+            // setLoading(false); // Set loading to false once the process is complete
+        }
+        mutate(`/validasi/korluh-sayur-buah/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`);
+    };
+
+    // validasi
+    const getValidationText = (validasi: any) => {
+        switch (validasi) {
+            case 'terima':
+                return 'Sudah divalidasi';
+            case 'tolak':
+                return 'Validasi ditolak';
+            case 'belum':
+                return 'Belum divalidasi';
+            default:
+                return 'Status tidak diketahui';
         }
     };
-    // verifikasi
+    const validationText = getValidationText(dataBiofarmaka?.data?.validasi);
+    // validasi
 
     return (
         <div>
@@ -351,15 +245,7 @@ const KorlubTanamanBiofarmaka = () => {
             {/* title */}
 
             {/* top */}
-            <div className="header flex gap-2 justify-between items-center mt-4">
-                <div className="search md:w-[50%]">
-                    <Input
-                        type="text"
-                        placeholder="Cari"
-                        rightIcon={<SearchIcon />}
-                        className='border-primary py-2'
-                    />
-                </div>
+            <div className="header flex gap-2 justify-end items-center mt-4">
                 <div className="btn flex gap-2">
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
@@ -376,111 +262,112 @@ const KorlubTanamanBiofarmaka = () => {
                 </div>
             </div>
             {/* top */}
-            {/* bulan */}
-            <div className="mt-2 flex items-center gap-2">
-                <div className="font-semibold">
-                    Tanggal:
-                </div>
-                {dataTanamanBioFarmaka?.data?.data.map((item, index) => (
-                    <div key={index}>
-                        {item.tanggal
-                            ? new Date(item.tanggal).toLocaleDateString('id-ID', {
-                                weekday: 'long',
-                                day: 'numeric',
-                                month: 'long',
-                                year: 'numeric',
-                            })
-                            : 'Tanggal tidak tersedia'}
-                    </div>
-
-                ))}
-            </div>
-            {/* bulan */}
-            {/* kecamatan */}
-            <div className="mt-2 flex items-center gap-2">
-                <div className="font-semibold">
-                    Kecamatan:
-                </div>
-                {dataTanamanBioFarmaka?.data?.data.map((item, index) => (
-                    <div key={index}>
-                        {item?.kecamatan.nama || "Tidak ada data"}
-                    </div>
-                ))}
-            </div>
-            {/* kecamatan */}
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !startDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar className=''
-                                    mode="single"
-                                    selected={startDate}
-                                    onSelect={setstartDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
+                    <div className="w-[80px]">
+                        <Select
+                            onValueChange={(value) => setTahun(value)}
+                            value={tahun}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Tahun" className='text-2xl' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="2017">2017</SelectItem>
+                                <SelectItem value="2018">2018</SelectItem>
+                                <SelectItem value="2019">2019</SelectItem>
+                                <SelectItem value="2020">2020</SelectItem>
+                                <SelectItem value="2021">2021</SelectItem>
+                                <SelectItem value="2022">2022</SelectItem>
+                                <SelectItem value="2023">2023</SelectItem>
+                                <SelectItem value="2024">2024</SelectItem>
+                                <SelectItem value="2025">2025</SelectItem>
+                                <SelectItem value="2026">2026</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
                     <div className="">-</div>
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !endDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={endDate}
-                                    onSelect={setendDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
+                    <div className="w-[130px]">
+                        <Select
+                            onValueChange={(value) => setBulan(value)}
+                            value={bulan}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Bulan" className='text-2xl' />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="1">Januari</SelectItem>
+                                <SelectItem value="2">Februari</SelectItem>
+                                <SelectItem value="3">Maret</SelectItem>
+                                <SelectItem value="4">April</SelectItem>
+                                <SelectItem value="5">Mei</SelectItem>
+                                <SelectItem value="6">Juni</SelectItem>
+                                <SelectItem value="7">Juli</SelectItem>
+                                <SelectItem value="8">Agustus</SelectItem>
+                                <SelectItem value="9">September</SelectItem>
+                                <SelectItem value="10">Oktober</SelectItem>
+                                <SelectItem value="11">November</SelectItem>
+                                <SelectItem value="12">Desember</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                    <div className="w-full">
-                        <KecamatanSelect
+                    <div className="w-[230px]">
+                        <KecamatanSelectNo
                             value={selectedKecamatan}
                             onChange={(value) => {
-                                setSelectedKecamatan(value); // Update state with selected value
+                                setSelectedKecamatan(value);
                             }}
                         />
                     </div>
-                    <Link href="/bpp-kecamatan/tanaman-biofarmaka/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/bpp-kecamatan/sayuran-buah/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         Tambah Data
                     </Link>
                 </div>
             </div>
             {/* top */}
+            {/* keterangan */}
+            <div className="keterangan flex gap-2 mt-2">
+                <div className="nama font-semibold">
+                    <div className="">
+                        Kecamatan
+                    </div>
+                    <div className="">
+                        Tanggal
+                    </div>
+                    <div className="">
+                        Status
+                    </div>
+                    <div className="">
+                        Validasi
+                    </div>
+                </div>
+                <div className="font-semibold">
+                    <div className="">:</div>
+                    <div className="">:</div>
+                    <div className="">:</div>
+                    <div className="">:</div>
+                </div>
+                <div className="bulan">
+                    <div className="">{dataBiofarmaka?.data?.kecamatan}</div>
+                    <div className="">{monthName} {dataBiofarmaka?.data?.tahun}</div>
+                    <div className="capitalize">{validationText}</div>
+                    <div className="flex gap-3">
+                        <VerifikasiPopup
+                            kecamatanId={dataBiofarmaka?.data?.kecamatanId}
+                            bulan={`${dataBiofarmaka?.data?.tahun}/${dataBiofarmaka?.data?.bulan}`}
+                            onVerifikasi={handleVerifikasi}
+                        />
+                        <TolakPopup
+                            kecamatanId={dataBiofarmaka?.data?.kecamatanId}
+                            bulan={`${dataBiofarmaka?.data?.tahun}/${dataBiofarmaka?.data?.bulan}`}
+                            onTolak={handleTolak}
+                        />
+                    </div>
+                </div>
+            </div>
 
             {/* table */}
             <Table className='border border-slate-200 mt-4'>
@@ -494,11 +381,11 @@ const KorlubTanamanBiofarmaka = () => {
                                 Nama Tanaman
                             </div>
                         </TableHead>
-                        {/* <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
                             <div className="w-[150px] text-center items-center">
                                 Luas Tanaman Akhir Triwulan Yang Lalu (m2)
                             </div>
-                        </TableHead> */}
+                        </TableHead>
                         <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
                             <div className="text-center items-center">
                                 Luas Panen (m2)
@@ -514,11 +401,11 @@ const KorlubTanamanBiofarmaka = () => {
                                 Luas Penanaman Baru / Tambah Tanam (m2)
                             </div>
                         </TableHead>
-                        {/* <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
                             <div className="w-[150px] text-center items-center">
                                 Luas Tanaman Akhir Triwulan Laporan (m2)  (3)-(4)-(6)+(7)
                             </div>
-                        </TableHead> */}
+                        </TableHead>
                         <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
                             Produksi (Kilogram)
                         </TableHead>
@@ -529,9 +416,6 @@ const KorlubTanamanBiofarmaka = () => {
                         </TableHead>
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
                             Keterangan
-                        </TableHead>
-                        <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            Aksi
                         </TableHead>
                     </TableRow>
                     <TableRow>
@@ -550,115 +434,594 @@ const KorlubTanamanBiofarmaka = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataTanamanBioFarmaka?.data.data.map((item, index) => (
-                        item.list.map((tanaman) => (
-                            <TableRow key={tanaman.id}>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell className='border border-slate-200'>
-                                    {tanaman.master.nama}
-                                </TableCell>
-                                {/* <TableCell className='border border-slate-200 text-center'>
-                                    luas tanaman akhir triwulan
-                                </TableCell> */}
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.luasPanenHabis}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.luasPanenBelumHabis}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.luasRusak}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.luasPenanamanBaru}
-                                </TableCell>
-                                {/* <TableCell className='border border-slate-200 text-center'>
-                                    luas tanaman akhir triwulan
-                                </TableCell> */}
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.produksiHabis}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.produksiBelumHabis}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.rerataHarga}
-                                </TableCell>
-                                <TableCell className='border border-slate-200 text-center'>
-                                    {tanaman.keterangan}
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex flex-col gap-3">
-                                        <div className="flex gap-3 justify-center">
-                                            <Link title='Detail' className='' href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${tanaman.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link title='Edit' className='' href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${tanaman.id}`}>
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(String(tanaman.id) || "")} />
-                                        </div>
-                                        <div className="flex gap-3 justify-center items-center">
-                                            {/* <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(tanaman.id) || "")} />
-                                            <TolakPopup onTolak={(alasan) => handleTolak(String(tanaman.id), alasan)} /> */}
-                                        </div>
-                                    </div>
-                                    {/*  */}
-                                </TableCell>
-                            </TableRow>
-                        ))
-                    ))}
-                    <TableRow>
+                    {/* Jahe */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            1.
+                        </TableCell>
                         <TableCell className='border border-slate-200'>
+                            Jahe
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            Jumlah
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            belum
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            belum
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            belum
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            belum
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            belum
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            belum
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            belum
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                            belum
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
-                        <TableCell className='border font-semibold border-slate-200 text-center'>
-
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Jeruk Nipis */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            2.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Jeruk Nipis
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Kapulaga */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            3.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Kapulaga
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Kencur */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            4.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Kencur
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Kunyit */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            5.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Kunyit
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Laos/Lengkuas */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            6.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Laos/Lengkuas
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Lempuyang */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            7.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Lempuyang
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Lidah Buaya */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            8.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Lidah Buaya
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Mahkota Dewa */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            9.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Mahkota Dewa
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Mengkudu/Pace */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            10.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Mengkudu/Pace
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Sambiloto */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            11.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Sambiloto
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Serai */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            12.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Serai
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Temuireng */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            13.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Temuireng
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Temukunci */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            14.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Temukunci
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                    </TableRow>
+                    {/* Temulawak */}
+                    <TableRow >
+                        <TableCell className='border border-slate-200 text-center'>
+                            15.
+                        </TableCell>
+                        <TableCell className='border border-slate-200'>
+                            Temulawak
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
+                        </TableCell>
+                        <TableCell className='border border-slate-200 text-center'>
+                            233
                         </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
             {/* table */}
-
-            {/* pagination */}
-            <div className="pagi flex items-center lg:justify-end justify-center">
-                {dataTanamanBioFarmaka?.data.pagination.totalCount as number > 1 && (
-                    <PaginationTable
-                        currentPage={currentPage}
-                        totalPages={dataTanamanBioFarmaka?.data.pagination.totalPages as number}
-                        onPageChange={onPageChange}
-                    />
-                )}
-            </div>
-            {/* pagination */}
         </div>
     )
 }
