@@ -211,7 +211,7 @@ const PenyuluhKecPrint = (props: PrintProps) => {
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`Penyuluhan Kecamatan ${dataFilter?.data.nama || "Semua Kecamatan"}.pdf`);
+                pdf.save(`Penyuluhan Kecamatan ${dataFilter?.data?.nama || "Semua Kecamatan"}.pdf`);
 
                 // Notifikasi Swal sukses
                 Swal.fire({
@@ -292,7 +292,7 @@ const PenyuluhKecPrint = (props: PrintProps) => {
                         Daftar Penempatan Penyuluh Pertanian Kabupaten Lampung Timur Tahun {currentYear}
                     </div>
                     {/* title */}
-                    <div className="uppercase">Kecamatan : {dataFilter?.data.nama || "Semua Kecamatan"}</div>
+                    <div className="uppercase">Kecamatan : {dataFilter?.data?.nama || "Semua Kecamatan"}</div>
                     {/* table */}
                     <Table className='border border-black p-2 mt-1'>
                         <TableHeader className='bg-white text-black'>

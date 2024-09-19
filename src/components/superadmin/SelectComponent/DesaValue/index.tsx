@@ -66,7 +66,7 @@ const DesaValue: React.FC<SelectDesaProps> = ({
 
   const [searchDesa, setSearchDesa] = useState("");
 
-  const filteredDesaItems = dataDesa?.data.filter(
+  const filteredDesaItems = dataDesa?.data?.filter(
     (desa) =>
       desa.kecamatanId === kecamatanValue && desa.nama.toLowerCase().includes(searchDesa.toLowerCase())
   );

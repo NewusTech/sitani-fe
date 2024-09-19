@@ -108,7 +108,7 @@ const TamabahPenyuluhDataKecamatan = () => {
 
     // Transform fetched data to be used in selectors
     const kecamatanOptions: KecamatanOption[] =
-        dataKecamatan?.data.map((kec) => ({
+        dataKecamatan?.data?.map((kec) => ({
             id: kec.id,
             nama: kec.nama,
         })) || [];

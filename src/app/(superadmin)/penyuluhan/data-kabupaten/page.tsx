@@ -341,10 +341,10 @@ const PenyuluhDataKabupaten = () => {
 
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
-                {dataKabupaten?.data.pagination.totalCount as number > 1 && (
+                {dataKabupaten?.data?.pagination?.totalCount as number > 1 && (
                     <PaginationTable
                         currentPage={currentPage}
-                        totalPages={dataKabupaten?.data.pagination.totalPages as number}
+                        totalPages={dataKabupaten?.data?.pagination?.totalPages as number}
                         onPageChange={onPageChange}
                     />
                 )}
