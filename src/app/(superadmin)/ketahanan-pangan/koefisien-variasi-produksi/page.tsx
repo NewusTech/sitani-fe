@@ -83,6 +83,7 @@ const KoefisienVariasiProduksi = () => {
         panen: number;
         gkpTkPetani: number;
         gkpTkPenggilingan: number;
+        gkgTkPenggilingan: number;
         jpk: number;
         cabaiMerahKeriting: number;
         berasMedium: number;
@@ -355,7 +356,7 @@ const KoefisienVariasiProduksi = () => {
                                 )}
                                 {visibleColumns.includes('gkgPenggilingan') && (
                                     <TableCell>
-                                        belum ada
+                                        {item.gkgTkPenggilingan}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('jpk') && (
