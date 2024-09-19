@@ -91,8 +91,8 @@ const KorlubSayuranBuah = () => {
 
     // GETALL
     const { data: dataSayuran }: SWRResponse<any> = useSWR(
-        // `/validasi/korluh-sayur-buah/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
-        `/validasi/korluh-sayur-buah/kec?kecamatan=1&bulan=2024/8`,
+        `/validasi/korluh-sayur-buah/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
+        // `/validasi/korluh-sayur-buah/kec?kecamatan=1&bulan=2024/8`,
         (url) =>
             axiosPrivate
                 .get(url, {

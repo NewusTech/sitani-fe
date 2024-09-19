@@ -93,8 +93,8 @@ const KorlubTanamanHias = () => {
     // GETALL
     const { data: dataTanamanHias }: SWRResponse<any> = useSWR(
         // `korluh/padi/get?limit=1`,
-        // `/validasi/korluh-tanaman-hias/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
-        `/validasi/korluh-tanaman-hias/kec?kecamatan=1&bulan=2024/9`,
+        `/validasi/korluh-tanaman-hias/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
+        // `/validasi/korluh-tanaman-hias/kec?kecamatan=1&bulan=2024/9`,
         (url) =>
             axiosPrivate
                 .get(url, {
