@@ -235,7 +235,7 @@ const KorlubSayuranBuah = () => {
                 return 'Status tidak diketahui';
         }
     };
-    const validationText = getValidationText(dataSayuran?.data?.validasi);
+    const validationText = getValidationText(dataSayuran?.data?.validasiKecamatan);
     // validasi
 
     return (

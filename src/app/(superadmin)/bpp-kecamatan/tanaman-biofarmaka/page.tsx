@@ -92,7 +92,7 @@ const KorlubTanamanBiofarmaka = () => {
     // GETALL
     const { data: dataBiofarmaka }: SWRResponse<any> = useSWR(
         // `korluh/padi/get?limit=1`,
-        `/validasi/korluh-tanaman-biofarmaka/kec?kecamatan=1&bulan=2024/9`,
+        `/validasi/korluh-tanaman-biofarmaka/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -235,7 +235,7 @@ const KorlubTanamanBiofarmaka = () => {
                 return 'Status tidak diketahui';
         }
     };
-    const validationText = getValidationText(dataBiofarmaka?.data?.validasi);
+    const validationText = getValidationText(dataBiofarmaka?.data?.validasiKecamatan);
     // validasi
 
     return (

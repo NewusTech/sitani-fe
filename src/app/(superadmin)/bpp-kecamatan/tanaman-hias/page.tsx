@@ -237,7 +237,7 @@ const KorlubTanamanHias = () => {
                 return 'Status tidak diketahui';
         }
     };
-    const validationText = getValidationText(dataTanamanHias?.data?.validasi);
+    const validationText = getValidationText(dataTanamanHias?.data?.validasiKecamatan);
     // validasi
 
     return (
