@@ -23,21 +23,22 @@ import { useRouter } from 'next/navigation';
 import useSWR, { mutate, SWRResponse } from "swr";
 import useLocalStorage from '@/hooks/useLocalStorage';
 import Loading from '@/components/ui/Loading';
+import InputComponent from '@/components/ui/InputKecDesa';
 
 const formSchema = z.object({
     kecamatan_id: z
         .number()
-        .min(1, "Kecamatan is required")
+        .min(1, "Kecamatan wajib diisi")
         .transform((value) => Number(value)), // Convert string to number
     tahun: z
         .string()
-        .min(1, { message: "master_komoditas_id Teknis wajib diisi" }),
+        .min(1, { message: "Tahun wajib diisi" }),
     master_kategori_komoditas_id: z
         .string()
         .min(1, { message: "Kategori wajib diisi" }),
     master_komoditas_id: z
         .string()
-        .min(1, { message: "master_komoditas_id Teknis wajib diisi" }),
+        .min(1, { message: "master_komoditas_id wajib diisi" }),
     tbm: z
         .preprocess((val) => Number(val), z.number().min(0, { message: "GKP TK Penggilingan wajib diisi" })),
     tm: z
@@ -63,21 +64,32 @@ type FormSchemaType = z.infer<typeof formSchema>;
 const TambahKecPage = () => {
     const [date, setDate] = React.useState<Date>()
     // GET ALL MASTER KATEGORI
-    interface Master {
+    interface Kategori {
         id: number;
         nama: string;
     }
 
-    interface ResponseMaster {
+    interface ResponseKategori {
         status: string;
-        data: Master[];
+        data: Kategori[];
+        message: string;
+    }
+    interface Komoditi {
+        id: number;
+        nama: string;
+        perkebunanMasterKategoriId: number;
+    }
+
+    interface ResponseKomoditi {
+        status: string;
+        data: Komoditi[];
         message: string;
     }
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
-    const { data: dataMaster }: SWRResponse<ResponseMaster> = useSWR(
+    const { data: dataKategori }: SWRResponse<ResponseKategori> = useSWR(
         `/perkebunan/master-kategori/get`,
         (url: string) =>
             axiosPrivate
@@ -90,8 +102,8 @@ const TambahKecPage = () => {
     );
     // GET ALL KATEGORI
     // GET ALL KOMODITAS
-    const { data: dataKomoditas }: SWRResponse<ResponseMaster> = useSWR(
-        `/kepang/master-komoditas/get`,
+    const { data: dataKomoditi }: SWRResponse<ResponseKomoditi> = useSWR(
+        `/perkebunan/master-komoditas/get`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -106,13 +118,28 @@ const TambahKecPage = () => {
         register,
         handleSubmit,
         reset,
+        watch,
         control,
         formState: { errors },
         setValue
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
+    // get master
+    const selectedKategori = Number(watch("master_kategori_komoditas_id")); // Ensure conversion to number
 
+    const kategoriOptions = dataKategori?.data.map(kategori => ({
+        id: kategori.id.toString(),
+        name: kategori.nama,
+    }));
+
+    const komoditiOptions = dataKomoditi?.data
+        .filter(komoditi => komoditi.perkebunanMasterKategoriId === selectedKategori) // Ensure types match here
+        .map(komoditi => ({
+            id: komoditi.id.toString(),
+            name: komoditi.nama,
+        }));
+    // get master
     // TAMBAH
     const navigate = useRouter();
     const [loading, setLoading] = useState(false);
@@ -170,6 +197,7 @@ const TambahKecPage = () => {
         mutate(`/perkebunan/kecamatan/get`);
     };
     // TAMBAH
+
     return (
         <>
             <div className="text-primary md:text-2xl text-xl font-bold mb-5">Tambah Data Luas Produksi Kecamatan</div>
@@ -198,18 +226,12 @@ const TambahKecPage = () => {
                             </div>
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Tahun" />
-                                <Select
-                                    onValueChange={(value) => setValue("tahun", value)}
-                                >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Tahun" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="2023">2023</SelectItem>
-                                        <SelectItem value="2024">2024</SelectItem>
-                                        <SelectItem value="2025">2025</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                <Input
+                                    type="number"
+                                    placeholder="Tahun"
+                                    {...register('tahun')}
+                                    className={`${errors.tahun ? 'border-red-500' : ''}`}
+                                />
                                 {errors.tahun && (
                                     <HelperError>{errors.tahun.message}</HelperError>
                                 )}
@@ -221,36 +243,40 @@ const TambahKecPage = () => {
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Pilih Kategori Panen" />
-                                <Select
-                                    onValueChange={(value) => setValue("master_kategori_komoditas_id", value)}
-                                >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Pilih Kategori Panen" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {dataMaster?.data?.map((item) => (
-                                            <SelectItem key={item.id} value={item.id.toString()}>{item.nama}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                <Controller
+                                    name="master_kategori_komoditas_id"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <InputComponent
+                                            typeInput="selectSearch"
+                                            placeholder="Pilih Kategori"
+                                            label="Kategori"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            items={kategoriOptions}
+                                        />
+                                    )}
+                                />
                                 {errors.master_kategori_komoditas_id && (
                                     <HelperError>{errors.master_kategori_komoditas_id.message}</HelperError>
                                 )}
                             </div>
                             <div className="flex flex-col mb-2  w-full">
                                 <Label className='text-sm mb-1' label="Pilih Komoditi" />
-                                <Select
-                                    onValueChange={(value) => setValue("master_komoditas_id", value)}
-                                >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Pilih Komoditi" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {dataKomoditas?.data?.map((item) => (
-                                            <SelectItem key={item.id} value={item.id.toString()}>{item.nama}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                <Controller
+                                    name="master_komoditas_id"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <InputComponent
+                                            typeInput="selectSearch"
+                                            placeholder="Pilih Komoditi"
+                                            label="Komoditi"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            items={komoditiOptions}
+                                        />
+                                    )}
+                                />
                                 {errors.master_komoditas_id && (
                                     <HelperError>{errors.master_komoditas_id.message}</HelperError>
                                 )}
@@ -268,6 +294,7 @@ const TambahKecPage = () => {
                                     <Label className='text-sm mb-1' label="Tanaman Belum Menghasilkan" />
                                     <Input
                                         type="number"
+                                        step="0.001"
                                         placeholder="Tanaman Belum Menghasilkan"
                                         {...register('tbm')}
                                         className={`${errors.tbm ? 'border-red-500' : ''}`}
@@ -280,6 +307,7 @@ const TambahKecPage = () => {
                                     <Label className='text-sm mb-1' label="Tanaman Menghasilkan" />
                                     <Input
                                         type="number"
+                                        step="0.001"
                                         placeholder="Tanaman Menghasilkan"
                                         {...register('tm')}
                                         className={`${errors.tm ? 'border-red-500' : ''}`}
@@ -297,6 +325,7 @@ const TambahKecPage = () => {
                                     <Label className='text-sm mb-1' label="Tanaman Rusak" />
                                     <Input
                                         type="number"
+                                        step="0.001"
                                         placeholder="Tanaman Rusak"
                                         {...register('tr')}
                                         className={`${errors.tr ? 'border-red-500' : ''}`}
@@ -314,6 +343,7 @@ const TambahKecPage = () => {
                                     <Label className='text-sm mb-1' label="Produksi (TON)" />
                                     <Input
                                         type="number"
+                                        step="0.001"
                                         placeholder="Produksi (TON)"
                                         {...register('produksi')}
                                         className={`${errors.produksi ? 'border-red-500' : ''}`}
@@ -326,6 +356,7 @@ const TambahKecPage = () => {
                                     <Label className='text-sm mb-1' label="Produktivitas (Kg/Ha)" />
                                     <Input
                                         type="number"
+                                        step="0.001"
                                         placeholder="Produktivitas (Kg/Ha)"
                                         {...register('produktivitas')}
                                         className={`${errors.produktivitas ? 'border-red-500' : ''}`}
@@ -343,6 +374,7 @@ const TambahKecPage = () => {
                                     <Label className='text-sm mb-1' label="Jumlah Petani Perkebun" />
                                     <Input
                                         type="number"
+                                        step="0.001"
                                         placeholder="Jumlah Petani Perkebun"
                                         {...register('jml_petani_pekebun')}
                                         className={`${errors.jml_petani_pekebun ? 'border-red-500' : ''}`}

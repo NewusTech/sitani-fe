@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -42,63 +42,69 @@ import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import Swal from 'sweetalert2';
+import PaginationTable from '@/components/PaginationTable'
 
 
-interface Response {
-    status: number;
-    message: string;
-    data: PerkebunanData;
-}
+// interface PerkebunanItemDetail {
+//     id: number;
+//     komoditas: string;
+//     tbm: number;
+//     tm: number;
+//     tr: number;
+//     jumlah: number;
+//     produksi: number;
+//     produktivitas: number;
+//     jmlPetaniPekebun: number;
+//     bentukHasil: string;
+//     keterangan: string;
+// }
 
-interface PerkebunanData {
-    data: KecamatanData[];
-    pagination: Pagination;
-}
+// interface PerkebunanCategory {
+//     kategori: string;
+//     sumJumlah: number;
+//     sumTbm: number;
+//     sumTm: number;
+//     sumTr: number;
+//     sumJmlPetaniPekebun: number;
+//     sumProduktivitas: number;
+//     sumProduksi: number;
+//     list: Record<number, PerkebunanItemDetail>;
+// }
 
-interface KecamatanData {
-    tahun: number;
-    kecamatan: string;
-    list: KategoriData[];
-}
+// interface PerkebunanList {
+//     [key: string]: PerkebunanCategory | number;
+// }
 
-interface KategoriData {
-    kategori: string;
-    sumJumlah: number;
-    sumTbm: number;
-    sumTm: number;
-    sumTr: number;
-    sumJmlPetaniPekebun: number;
-    sumProduktivitas: number;
-    sumProduksi: number;
-    list: KomoditasData[];
-}
+// interface PerkebunanDataItem {
+//     tahun: number;
+//     kecamatan: string;
+//     list: PerkebunanList;
+// }
 
-interface KomoditasData {
-    id: number;
-    komoditas: string;
-    tbm: number;
-    tm: number;
-    tr: number;
-    jumlah: number;
-    produksi: number;
-    produktivitas: number;
-    jmlPetaniPekebun: number;
-    bentukHasil: string;
-    keterangan: string;
-}
+// interface PaginationLinks {
+//     prev: string | null;
+//     next: string | null;
+// }
 
-interface Pagination {
-    page: number;
-    perPage: number;
-    totalPages: number;
-    totalCount: number;
-    links: Links;
-}
+// interface Pagination {
+//     page: number;
+//     perPage: number;
+//     totalPages: number;
+//     totalCount: number;
+//     links: PaginationLinks;
+// }
 
-interface Links {
-    prev: string | null;
-    next: string | null;
-}
+// interface PerkebunanData {
+//     data: PerkebunanDataItem[];
+//     pagination: Pagination;
+// }
+
+// interface Response {
+//     status: number;
+//     message: string;
+//     data: PerkebunanData;
+// }
+
 
 
 const LuasKecPage = () => {
@@ -109,8 +115,18 @@ const LuasKecPage = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
-    const { data: dataProduksi }: SWRResponse<Response> = useSWR(
-        `/perkebunan/kecamatan/get`,
+    // limit
+    const [limit, setLimit] = useState(1);
+    // limit
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+    // pagination
+
+    const { data: dataProduksi }: SWRResponse<any> = useSWR(
+        `/perkebunan/kecamatan/get?page=${currentPage}&limit=${limit}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -127,6 +143,7 @@ const LuasKecPage = () => {
                 })
         // .then((res: any) => res.data)
     );
+
     // DELETE
     const handleDelete = async (id: string) => {
         try {
@@ -176,7 +193,7 @@ const LuasKecPage = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/perkebunan/kecamatan/get`);
+        } mutate(`/perkebunan/kecamatan/get?page=${currentPage}&limit=${limit}`);
     };
 
 
@@ -288,9 +305,37 @@ const LuasKecPage = () => {
                 </div>
             </div>
             {/* top */}
+            {/* keterangan */}
+            <div className="keterangan flex gap-2 mt-3">
+                <div className="nama font-semibold">
+                    <div className="">
+                        Kecamatan
+                    </div>
+                    <div className="">
+                        Tahun
+                    </div>
+                </div>
+                <div className="font-semibold">
+                    <div className="">:</div>
+                    <div className="">:</div>
+                </div>
+                <div className="bulan">
+                    {dataProduksi?.data?.data.map((item: any, index: any) => (
+                        <div key={index}>
+                            {item?.kecamatan || "Tidak ada data"}
+                        </div>
+                    ))}
+                    {dataProduksi?.data?.data.map((item: any, index: any) => (
+                        <div key={index}>
+                            {item?.tahun || "Tidak ada data"}
+                        </div>
+                    ))}
+                </div>
+            </div>
+            {/* keterangan */}
 
             {/* table */}
-            <Table className='border border-slate-200 mt-4'>
+            <Table className='border border-slate-200 mt-2'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow>
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
@@ -337,71 +382,297 @@ const LuasKecPage = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dataProduksi?.data.data.map((kecamatan, kecamatanIndex) => (
-                        <>
-                            <TableRow key={`kecamatan-${kecamatanIndex}`}>
-                                <TableCell className='border border-slate-200 text-center'>{kecamatanIndex + 1}</TableCell>
-                                <TableCell className='border border-slate-200 font-semibold uppercase'>{kecamatan.kecamatan}</TableCell>
-                                <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
-                            </TableRow>
-                            {kecamatan.list.map((kategori, kategoriIndex) => (
-                                <>
-                                    <TableRow key={`kategori-${kecamatanIndex}-${kategoriIndex}`}>
-                                        <TableCell className='border border-slate-200 text-center'>
-
-                                        </TableCell>
-                                        <TableCell className='border border-slate-200 font-semibold'>{kategori.kategori}</TableCell>
-                                        <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
-                                    </TableRow>
-                                    {kategori.list.map((komoditas, komoditasIndex) => (
-                                        <TableRow key={`komoditas-${kecamatanIndex}-${kategoriIndex}-${komoditasIndex}`}>
-                                            <TableCell className='border border-slate-200 text-center'></TableCell>
-                                            <TableCell className='border border-slate-200'>{komoditas.komoditas}</TableCell>
-                                            <TableCell className='border text-center border-slate-200'>{komoditas.tbm}</TableCell>
-                                            <TableCell className='border text-center border-slate-200'>{komoditas.tm}</TableCell>
-                                            <TableCell className='border text-center border-slate-200'>{komoditas.tr}</TableCell>
-                                            <TableCell className='border text-center border-slate-200'>{komoditas.jumlah}</TableCell>
-                                            <TableCell className='border text-center border-slate-200'>{komoditas.produksi}</TableCell>
-                                            <TableCell className='border text-center border-slate-200'>{komoditas.produktivitas}</TableCell>
-                                            <TableCell className='border text-center border-slate-200'>{komoditas.jmlPetaniPekebun}</TableCell>
-                                            <TableCell className='border border-slate-200'>{komoditas.bentukHasil}</TableCell>
-                                            <TableCell className='border border-slate-200'>{komoditas.keterangan}</TableCell>
-                                            <TableCell>
-                                                <div className="flex items-center gap-4">
-                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${komoditas.id}`}>
-                                                        <EyeIcon />
-                                                    </Link>
-                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${komoditas.id}`}>
-                                                        <EditIcon />
-                                                    </Link>
-                                                    <DeletePopup onDelete={() => handleDelete(String(komoditas?.id))} />
-                                                </div>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                    <TableRow key={`jumlah-${kecamatanIndex}-${kategoriIndex}`}>
+                    {dataProduksi?.data?.data && dataProduksi?.data?.data?.length > 0 ? (
+                        dataProduksi?.data?.data.map((item: any) => (
+                            <>
+                                {/* Tahunan */}
+                                < TableRow >
+                                    <TableCell className='border border-slate-200 font-semibold text-center'>
+                                        I
+                                    </TableCell>
+                                    <TableCell className='border border-slate-200 font-semibold'>
+                                        TAN. TAHUNAN
+                                    </TableCell>
+                                    <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
+                                </TableRow>
+                                {/* komoditas */}
+                                {item?.list[1]?.masterIds?.map((i: number) => (
+                                    <TableRow key={i}>
                                         <TableCell className='border border-slate-200 text-center'></TableCell>
-                                        <TableCell className='border italic font-semibold border-slate-200'>
-                                            Jumlah {kategori.kategori}
+                                        <TableCell className='border border-slate-200'>
+                                            {/* Aren */}
+                                            {item?.list[1]?.list[i]?.komoditas}
                                         </TableCell>
-                                        <TableCell className='border text-center border-slate-200'>{kategori.sumTbm}</TableCell>
-                                        <TableCell className='border text-center border-slate-200'>{kategori.sumTm}</TableCell>
-                                        <TableCell className='border text-center border-slate-200'>{kategori.sumTr}</TableCell>
-                                        <TableCell className='border text-center border-slate-200'>{kategori.sumJumlah}</TableCell>
-                                        <TableCell className='border text-center border-slate-200'>{kategori.sumProduksi}</TableCell>
-                                        <TableCell className='border text-center border-slate-200'>{kategori.sumProduktivitas}</TableCell>
-                                        <TableCell className='border text-center border-slate-200'>{kategori.sumJmlPetaniPekebun}</TableCell>
-                                        <TableCell className='border border-slate-200' colSpan={2} />
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[1]?.list[i]?.tbm}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[1]?.list[i]?.tm}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[1]?.list[i]?.tr}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[1]?.list[i]?.jumlah}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[1]?.list[i]?.produksi}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[1]?.list[i]?.produktivitas}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[1]?.list[i]?.jmlPetaniPekebun}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[1]?.list[i]?.bentukHasil}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[1]?.list[i]?.keterangan}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center gap-4">
+                                                <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[1]?.list[i]?.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[1]?.list[i]?.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(String(item?.list[1]?.list[i]?.id))} />
+                                            </div>
+                                        </TableCell>
                                     </TableRow>
-                                </>
-                            ))}
-                        </>
-                    ))}
-                </TableBody>
-            </Table>
+                                ))}
+                                {/* jumlah I */}
+                                <TableRow >
+                                    <TableCell className='border border-slate-200 text-center'></TableCell>
+                                    <TableCell className='border italic font-semibold border-slate-200'>
+                                        Jumlah I
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[1]?.sumTbm}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[1]?.sumTm}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[1]?.sumTr}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[1]?.sumJumlah}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[1]?.sumProduksi}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[1]?.sumProduktivitas}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[1]?.sumJmlPetaniPekebun}
+                                    </TableCell>
+                                    <TableCell className='border border-slate-200' colSpan={2} />
+                                </TableRow>
+                                {/* Tahunan */}
 
+                                {/* Semusim */}
+                                <TableRow>
+                                    <TableCell className='border font-semibold border-slate-200 text-center'>
+                                        II
+                                    </TableCell>
+                                    <TableCell className='border border-slate-200 font-semibold'>
+                                        TAN. SEMUSIM
+                                    </TableCell>
+                                    <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
+                                </TableRow>
+                                {/* Komoditas */}
+                                {item?.list[2]?.masterIds?.map((i: number) => (
+                                    <TableRow key={i}>
+                                        <TableCell className='border border-slate-200 text-center'></TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            {/* Aren */}
+                                            {item?.list[2]?.list[i]?.komoditas}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[2]?.list[i]?.tbm}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[2]?.list[i]?.tm}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[2]?.list[i]?.tr}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[2]?.list[i]?.jumlah}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[2]?.list[i]?.produksi}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[2]?.list[i]?.produktivitas}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[2]?.list[i]?.jmlPetaniPekebun}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[2]?.list[i]?.bentukHasil}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[2]?.list[i]?.keterangan}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center gap-4">
+                                                <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[2]?.list[i]?.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[2]?.list[i]?.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(String(item?.list[2]?.list[i]?.id))} />
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                                {/* jumlah II */}
+                                <TableRow >
+                                    <TableCell className='border border-slate-200 text-center'></TableCell>
+                                    <TableCell className='border italic font-semibold border-slate-200'>
+                                        Jumlah II
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[2]?.sumTbm}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[2]?.sumTm}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[2]?.sumTr}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[2]?.sumJumlah}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[2]?.sumProduksi}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[2]?.sumProduktivitas}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[2]?.sumJmlPetaniPekebun}
+                                    </TableCell>
+                                    <TableCell className='border border-slate-200' colSpan={2} />
+                                </TableRow>
+                                {/* Semusim */}
+
+                                {/* Rempah */}
+                                <TableRow>
+                                    <TableCell className='border font-semibold border-slate-200 text-center'>
+                                        III
+                                    </TableCell>
+                                    <TableCell className='border border-slate-200 font-semibold'>TAN. REMPAH DAN PENYEGAR</TableCell>
+                                    <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
+                                </TableRow>
+                                {/* Komoditas */}
+                                {item?.list[3]?.masterIds?.map((i: number) => (
+                                    <TableRow key={i}>
+                                        <TableCell className='border border-slate-200 text-center'></TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            {/* Aren */}
+                                            {item?.list[3]?.list[i]?.komoditas}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[3]?.list[i]?.tbm}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[3]?.list[i]?.tm}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[3]?.list[i]?.tr}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[3]?.list[i]?.jumlah}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[3]?.list[i]?.produksi}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[3]?.list[i]?.produktivitas}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[3]?.list[i]?.jmlPetaniPekebun}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[3]?.list[i]?.bentukHasil}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item?.list[3]?.list[i]?.keterangan}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center gap-4">
+                                                <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[3]?.list[i]?.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[3]?.list[i]?.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(String(item?.list[3]?.list[i]?.id))} />
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                                {/* jumlah III */}
+                                <TableRow >
+                                    <TableCell className='border border-slate-200 text-center'></TableCell>
+                                    <TableCell className='border italic font-semibold border-slate-200'>
+                                        Jumlah III
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[3]?.sumTbm}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[3]?.sumTm}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[3]?.sumTr}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[3]?.sumJumlah}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[3]?.sumProduksi}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[3]?.sumProduktivitas}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list[3]?.sumJmlPetaniPekebun}
+                                    </TableCell>
+                                    <TableCell className='border border-slate-200' colSpan={2} />
+                                </TableRow>
+                                {/* Rempah */}
+                            </>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={12} className="text-center">
+                                Tidak ada data
+                            </TableCell>
+                        </TableRow>
+                    )}
+                </TableBody>
+            </Table >
             {/* table */}
-        </div>
+            {/* pagination */}
+            <div className="pagi flex items-center lg:justify-end justify-center">
+                {dataProduksi?.data?.pagination.totalCount as number > 1 && (
+                    <PaginationTable
+                        currentPage={currentPage}
+                        totalPages={dataProduksi?.data.pagination.totalPages as number}
+                        onPageChange={onPageChange}
+                    />
+                )}
+            </div>
+            {/* pagination */}
+        </div >
     )
 }
 
