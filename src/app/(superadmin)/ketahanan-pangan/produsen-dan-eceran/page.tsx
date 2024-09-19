@@ -7,6 +7,8 @@ import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
 import Link from 'next/link'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import {
   Table,
@@ -258,7 +260,7 @@ const ProdusenDanEceran = () => {
         {/* print */}
       </div>
       {/*  */}
-      <div className="wrap-filter flex justify-between items-center mt-2 md:mt-4 " >
+      <div className="wrap-filter lg:flex justify-between items-center mt-2 md:mt-4 " >
         <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
           <div className="w-auto">
             <Popover>
@@ -275,11 +277,15 @@ const ProdusenDanEceran = () => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                <Calendar className=''
-                  mode="single"
+                <DatePicker
+                  inline
                   selected={startDate}
-                  onSelect={setstartDate}
-                  initialFocus
+                  onChange={(date: any) => setstartDate(date)}
+                  showYearDropdown
+                  dateFormat="dd/MM/yyyy"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  yearDropdownItemNumber={15}
+                  scrollableYearDropdown
                 />
               </PopoverContent>
             </Popover>
@@ -300,24 +306,34 @@ const ProdusenDanEceran = () => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                <Calendar
+                {/* <Calendar
                   mode="single"
                   selected={endDate}
                   onSelect={setendDate}
                   initialFocus
+                /> */}
+                <DatePicker
+                  inline
+                  selected={endDate}
+                  onChange={(date: any) => setendDate(date)}
+                  showYearDropdown
+                  dateFormat="dd/MM/yyyy"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  yearDropdownItemNumber={15}
+                  scrollableYearDropdown
                 />
               </PopoverContent>
             </Popover>
           </div>
           <div className="w-[40px] h-[40px]">
-          <FilterTable
+            <FilterTable
               columns={columns}
               defaultCheckedKeys={getDefaultCheckedKeys()}
               onFilterChange={handleFilterChange}
             />
           </div>
         </div>
-        <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 flex-shrink-0">
+        <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 flex-shrink-0 mt-2 lg:mt-0 flex justify-end">
           <Link href="/ketahanan-pangan/produsen-dan-eceran/tambah" className='bg-primary text-sm px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium'>
             Tambah Data
           </Link>

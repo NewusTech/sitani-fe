@@ -48,6 +48,8 @@ import Swal from 'sweetalert2'
 import PaginationTable from '@/components/PaginationTable'
 import FilterTable from '@/components/FilterTable'
 import KuisionerPedagangEceranPrint from '@/components/Print/KetahananPangan/Kuisioner-Pedagang-Eceran'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface Komoditas {
     id: number;
@@ -247,6 +249,8 @@ const KuisionerPedagangEceran = () => {
                     <Input
                         type="text"
                         placeholder="Cari"
+                        value={search}
+                        onChange={handleSearchChange}
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     />
@@ -275,11 +279,15 @@ const KuisionerPedagangEceran = () => {
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
-                                <Calendar className=''
-                                    mode="single"
+                                <DatePicker
+                                    inline
                                     selected={startDate}
-                                    onSelect={setstartDate}
-                                    initialFocus
+                                    onChange={(date: any) => setstartDate(date)}
+                                    showYearDropdown
+                                    dateFormat="dd/MM/yyyy"
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    yearDropdownItemNumber={15}
+                                    scrollableYearDropdown
                                 />
                             </PopoverContent>
                         </Popover>
@@ -300,11 +308,15 @@ const KuisionerPedagangEceran = () => {
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
+                                <DatePicker
+                                    inline
                                     selected={endDate}
-                                    onSelect={setendDate}
-                                    initialFocus
+                                    onChange={(date: any) => setendDate(date)}
+                                    showYearDropdown
+                                    dateFormat="dd/MM/yyyy"
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    yearDropdownItemNumber={15}
+                                    scrollableYearDropdown
                                 />
                             </PopoverContent>
                         </Popover>
@@ -369,7 +381,7 @@ const KuisionerPedagangEceran = () => {
                                     <TableRow key={citem.id}>
                                         {visibleColumns.includes('no') && (
                                             <TableCell>
-                                                {globalIndex++} {/* Menggunakan globalIndex */}
+                                                {globalIndex++}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('komoditas') && (

@@ -42,6 +42,9 @@ import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { Button } from '@/components/ui/button'
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 interface Komoditas {
     id: number;
     nama: string;
@@ -238,8 +241,11 @@ const KomponenHargaProdusenDanEceran = () => {
                     <div className="header flex gap-2 justify-between items-center mt-4">
                         <div className="search md:w-[50%]">
                             <Input
+                                autoFocus
                                 type="text"
                                 placeholder="Cari"
+                                value={search}
+                                onChange={handleSearchChange}
                                 rightIcon={<SearchIcon />}
                                 className='border-primary py-2'
                             />
@@ -269,11 +275,15 @@ const KomponenHargaProdusenDanEceran = () => {
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
-                                <Calendar className=''
-                                    mode="single"
+                                <DatePicker
+                                    inline
                                     selected={startDate}
-                                    onSelect={setstartDate}
-                                    initialFocus
+                                    onChange={(date: any) => setstartDate(date)}
+                                    showYearDropdown
+                                    dateFormat="dd/MM/yyyy"
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    yearDropdownItemNumber={15}
+                                    scrollableYearDropdown
                                 />
                             </PopoverContent>
                         </Popover>
@@ -294,11 +304,15 @@ const KomponenHargaProdusenDanEceran = () => {
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
+                                <DatePicker
+                                    inline
                                     selected={endDate}
-                                    onSelect={setendDate}
-                                    initialFocus
+                                    onChange={(date: any) => setendDate(date)}
+                                    showYearDropdown
+                                    dateFormat="dd/MM/yyyy"
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    yearDropdownItemNumber={15}
+                                    scrollableYearDropdown
                                 />
                             </PopoverContent>
                         </Popover>
