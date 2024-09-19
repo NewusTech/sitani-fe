@@ -436,10 +436,10 @@ const KuisionerPedagangEceran = () => {
 
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
-                {dataProdusenEceran?.data.pagination.totalCount as number > 1 && (
+                {dataProdusenEceran?.data?.pagination.totalCount as number > 1 && (
                     <PaginationTable
                         currentPage={currentPage}
-                        totalPages={dataProdusenEceran?.data.pagination.totalPages as number}
+                        totalPages={dataProdusenEceran?.data?.pagination.totalPages as number}
                         onPageChange={onPageChange}
                     />
                 )}

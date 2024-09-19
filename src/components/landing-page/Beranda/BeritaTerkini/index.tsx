@@ -83,7 +83,7 @@ const BeritaTerkini = () => {
   };
 
   const { data: dataArtikel }: SWRResponse<Response> = useSWR(
-    `article/get?page=1&search=${search}&limit=4`,
+    `article/get?page=1&search=${search}&limit=12`,
     (url) =>
       axiosPrivate
         .get(url, {

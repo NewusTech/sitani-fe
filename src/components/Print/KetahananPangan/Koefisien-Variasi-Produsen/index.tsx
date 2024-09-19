@@ -122,8 +122,8 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
     if (!data) return <div>Loading...</div>;
 
     const allKomoditas = new Set<string>();
-    data.data.forEach((item) => {
-        item.list.forEach((komoditas) => {
+    data.data?.forEach((item) => {
+        item.list?.forEach((komoditas) => {
             allKomoditas.add(komoditas.komoditas.nama);
         });
     });
@@ -272,7 +272,7 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
                         </TableHeader>
 
                         <TableBody>
-                            {data.data.length > 0 ? (
+                            {data?.data?.length > 0 ? (
                                 data.data.map((item, index) => (
                                     <TableRow key={item.id}>
                                         <TableCell className='border border-black p-2 text-black text-center'>{index + 1}</TableCell>

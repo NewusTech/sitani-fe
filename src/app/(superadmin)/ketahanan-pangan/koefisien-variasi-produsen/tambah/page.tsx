@@ -80,7 +80,7 @@ const TamabahPenyuluhDataKecamatan = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const komoditasOptions = dataKomoditas?.data.map(komoditas => ({
+    const komoditasOptions = dataKomoditas?.data?.map(komoditas => ({
         id: komoditas.id.toString(),
         name: komoditas.nama,
     }));

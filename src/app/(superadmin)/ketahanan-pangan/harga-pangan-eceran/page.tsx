@@ -176,19 +176,24 @@ const HargaPanganEceran = () => {
     };
 
     // Create a map of month names to prices
-    const monthPricesMap = dataKomoditas.data.kepangPerbandinganHarga.reduce((acc, item) => {
-        const month = getMonthName(new Date(item.tanggal).getMonth() + 1);
-        item.list.forEach(komoditasItem => {
-            if (!acc[komoditasItem.komoditas.nama]) {
-                acc[komoditasItem.komoditas.nama] = {};
-            }
-            acc[komoditasItem.komoditas.nama][month] = komoditasItem.minggu1; // Example for week 1, adjust as needed
-        });
-        return acc;
-    }, {} as Record<string, Record<string, number>>);
+    // Check if dataKomoditas and kepangPerbandinganHarga are defined
+    const monthPricesMap = dataKomoditas?.data?.kepangPerbandinganHarga
+        ? dataKomoditas?.data?.kepangPerbandinganHarga.reduce((acc, item) => {
+            const month = getMonthName(new Date(item.tanggal).getMonth() + 1);
+            item.list.forEach(komoditasItem => {
+                if (!acc[komoditasItem.komoditas.nama]) {
+                    acc[komoditasItem.komoditas.nama] = {};
+                }
+                acc[komoditasItem.komoditas.nama][month] = komoditasItem.minggu1; // Example for week 1, adjust as needed
+            });
+            return acc;
+        }, {} as Record<string, Record<string, number>>)
+        : {}; // Fallback to empty object if kepangPerbandinganHarga is undefined
 
     // Get unique commodity names
     const komoditasNames = Object.keys(monthPricesMap);
+
+
 
     return (
         <div>

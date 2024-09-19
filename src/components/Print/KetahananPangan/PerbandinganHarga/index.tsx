@@ -151,16 +151,19 @@ const KepangPerbandingan = (props: PrintProps) => {
     };
 
     // Create a map of month names to prices
-    const monthPricesMap = dataKomoditas.data.kepangPerbandinganHarga.reduce((acc, item) => {
-        const month = getMonthName(new Date(item.tanggal).getMonth() + 1);
-        item.list.forEach(komoditasItem => {
-            if (!acc[komoditasItem.komoditas.nama]) {
-                acc[komoditasItem.komoditas.nama] = {};
-            }
-            acc[komoditasItem.komoditas.nama][month] = komoditasItem.minggu1; // Example for week 1, adjust as needed
-        });
-        return acc;
-    }, {} as Record<string, Record<string, number>>);
+    // Check if dataKomoditas and kepangPerbandinganHarga are defined
+    const monthPricesMap = dataKomoditas?.data?.kepangPerbandinganHarga
+        ? dataKomoditas?.data?.kepangPerbandinganHarga.reduce((acc, item) => {
+            const month = getMonthName(new Date(item.tanggal).getMonth() + 1);
+            item.list.forEach(komoditasItem => {
+                if (!acc[komoditasItem.komoditas.nama]) {
+                    acc[komoditasItem.komoditas.nama] = {};
+                }
+                acc[komoditasItem.komoditas.nama][month] = komoditasItem.minggu1; // Example for week 1, adjust as needed
+            });
+            return acc;
+        }, {} as Record<string, Record<string, number>>)
+        : {}; // Fallback to empty object if kepangPerbandinganHarga is undefined
 
     // Get unique commodity names
     const komoditasNames = Object.keys(monthPricesMap);
@@ -287,7 +290,7 @@ const KepangPerbandingan = (props: PrintProps) => {
             </div>
             {/* KONTEN PRINT */}
             <div className="absolute -left-[700%] min-w-[39.7cm] w-full">
-            {/* <div className=""> */}
+                {/* <div className=""> */}
                 <div ref={printRef} className='p-[50px]'>
                     {/* title */}
                     <div className="text-xl mb-4 font-semibold text-black mx-auto capitalize flex justify-center text-center">
@@ -299,7 +302,7 @@ const KepangPerbandingan = (props: PrintProps) => {
                     <Table className='border border-black p-2 mt-1'>
                         <TableHeader className='bg-white text-black'>
                             <TableRow>
-                             
+
                                 <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Periode Waktu</TableHead>
                                 {komoditasNames.map((komoditas, index) => (
                                     <TableHead key={index} className="border border-black p-2 text-black uppercase text-center font-semibold">{komoditas}</TableHead>

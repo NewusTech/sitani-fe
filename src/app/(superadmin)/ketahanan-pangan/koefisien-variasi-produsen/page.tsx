@@ -112,7 +112,7 @@ const KoefisienVariasiProdusen = () => {
     if (!data) return <div>Loading...</div>;
 
     const allKomoditas = new Set<string>();
-    data.data.forEach((item) => {
+    data.data?.forEach((item) => {
         item.list.forEach((komoditas) => {
             allKomoditas.add(komoditas.komoditas.nama);
         });
@@ -234,7 +234,7 @@ const KoefisienVariasiProdusen = () => {
                 </TableHeader>
 
                 <TableBody>
-                    {data.data.length > 0 ? (
+                    {data?.data?.length > 0 ? (
                         data.data.map((item, index) => (
                             <TableRow key={item.id}>
                                 <TableCell>{index + 1}</TableCell>

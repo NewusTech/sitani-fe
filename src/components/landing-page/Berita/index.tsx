@@ -57,7 +57,7 @@ const BeritaLayout = () => {
     };
 
     const { data: dataArtikel }: SWRResponse<Response> = useSWR(
-        `article/get?page=${currentPage}&search=${search}&limit=6`,
+        `article/get?page=${currentPage}&search=${search}&limit=8`,
         (url) =>
             axiosPrivate
                 .get(url, {
