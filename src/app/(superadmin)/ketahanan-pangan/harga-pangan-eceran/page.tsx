@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -119,14 +119,21 @@ interface Response {
     };
 }
 
+
 const HargaPanganEceran = () => {
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearch(event.target.value);
+    };
+    // serach
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const currentYear = new Date().getFullYear();
 
     const [tahun, setTahun] = React.useState(`${currentYear}`);
     const { data: dataKomoditas, error } = useSWR<Response>(
-        `/kepang/perbandingan-harga/get?year=${tahun}`,
+        `/kepang/perbandingan-harga/get?year=${tahun}&search=${search}`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -137,7 +144,7 @@ const HargaPanganEceran = () => {
                 .then((res) => res.data)
     );
 
-    console.log(dataKomoditas)
+    // console.log(dataKomoditas)
 
     // grafik
     const chartData = [
@@ -163,8 +170,8 @@ const HargaPanganEceran = () => {
         },
     } satisfies ChartConfig
     // 
-    if (error) return <div></div>;
-    if (!dataKomoditas) return <div></div>;
+    // if (error) return <div></div>;
+    // if (!dataKomoditas) return <div></div>;
 
     // Utility to format month name
     const getMonthName = (monthNumber: number): string => {
@@ -205,8 +212,11 @@ const HargaPanganEceran = () => {
             <div className="header flex justify-between items-center">
                 <div className="search w-[50%]">
                     <Input
+                        autoFocus
                         type="text"
                         placeholder="Cari"
+                        value={search}
+                        onChange={handleSearchChange}
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     />

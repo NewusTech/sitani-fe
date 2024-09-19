@@ -1,6 +1,6 @@
 "use client"
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import Link from 'next/link'
 import {
@@ -98,13 +98,19 @@ interface Response {
 
 const KomponenPerbandinganKomoditasHargaPanen = () => {
     // INTEGRASI
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+    // serach
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const currentYear = new Date().getFullYear();
 
     const [tahun, setTahun] = React.useState(`${currentYear}`);
     const { data: dataKomoditas, error } = useSWR<Response>(
-        `/kepang/perbandingan-harga/get?year=${tahun}`,
+        `/kepang/perbandingan-harga/get?year=${tahun}&search=${search}`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -141,8 +147,8 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
         },
     } satisfies ChartConfig
     // 
-    if (error) return <div></div>;
-    if (!dataKomoditas) return <div></div>;
+    // if (error) return <div></div>;
+    // if (!dataKomoditas) return <div></div>;
 
     // Utility to format month name
     const getMonthName = (monthNumber: number): string => {
@@ -153,8 +159,7 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
         return months[monthNumber - 1];
     };
 
-    // Create a map of month names to prices
-    const monthPricesMap = dataKomoditas.data.kepangPerbandinganHarga.reduce((acc, item) => {
+    const monthPricesMap = dataKomoditas?.data?.kepangPerbandinganHarga?.reduce((acc, item) => {
         const month = getMonthName(new Date(item.tanggal).getMonth() + 1);
         item.list.forEach(komoditasItem => {
             if (!acc[komoditasItem.komoditas.nama]) {
@@ -165,8 +170,11 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
         return acc;
     }, {} as Record<string, Record<string, number>>);
 
-    // Get unique commodity names
-    const komoditasNames = Object.keys(monthPricesMap);
+    // Ensure monthPricesMap is an object before calling Object.keys()
+    const komoditasNames = Object.keys(monthPricesMap || {});
+
+
+
 
     return (
         <div className='md:pt-[130px] pt-[30px] container mx-auto'>
@@ -180,8 +188,11 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                     <div className="header flex gap-2 justify-between items-center mt-4">
                         <div className="search md:w-[50%]">
                             <Input
+                                autoFocus
                                 type="text"
                                 placeholder="Cari"
+                                value={search}
+                                onChange={handleSearchChange}
                                 rightIcon={<SearchIcon />}
                                 className='border-primary py-2'
                             />
@@ -244,7 +255,7 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                                 <TableCell>{komoditas}</TableCell>
                                 {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
                                     <TableCell key={i}>
-                                        {monthPricesMap[komoditas][month] || "-"}
+                                        {monthPricesMap?.[komoditas]?.[month] || "-"}
                                     </TableCell>
                                 ))}
                             </TableRow>
