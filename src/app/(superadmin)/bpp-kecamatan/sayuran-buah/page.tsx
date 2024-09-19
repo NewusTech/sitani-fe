@@ -443,7 +443,7 @@ const KorlubSayuranBuah = () => {
                     <TableRow>
                         <TableCell className="border border-slate-200 text-center">A.1</TableCell>
                         <TableCell className="border border-slate-200">Bawang Daun</TableCell>
-                        <TableCell className="border border-slate-200">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
@@ -458,26 +458,9 @@ const KorlubSayuranBuah = () => {
                     {/*  */}
                     {/* Bawang Merah */}
                     <TableRow>
-                        <TableCell className="border border-slate-200 text-center">A2.</TableCell>
+                        <TableCell className="border border-slate-200 text-center">2.</TableCell>
                         <TableCell className="border border-slate-200">Bawang Merah</TableCell>
-                        <TableCell className="border border-slate-200">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                        <TableCell className="border border-slate-200 text-center">233</TableCell>
-                    </TableRow>
-                    {/*  */}
-                    {/* Bawang daun */}
-                    <TableRow>
-                        <TableCell className="border border-slate-200 text-center">A.1</TableCell>
-                        <TableCell className="border border-slate-200">Bawang Daun</TableCell>
-                        <TableCell className="border border-slate-200">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
@@ -490,11 +473,11 @@ const KorlubSayuranBuah = () => {
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                     </TableRow>
                     {/*  */}
-                    {/* Bawang daun */}
+                    {/* Bawang Putih */}
                     <TableRow>
-                        <TableCell className="border border-slate-200 text-center">A.1</TableCell>
-                        <TableCell className="border border-slate-200">Bawang Daun</TableCell>
-                        <TableCell className="border border-slate-200">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">3.</TableCell>
+                        <TableCell className="border border-slate-200">Bawang Putih</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
@@ -507,11 +490,11 @@ const KorlubSayuranBuah = () => {
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                     </TableRow>
                     {/*  */}
-                    {/* Bawang daun */}
+                    {/* Kembang Kol */}
                     <TableRow>
-                        <TableCell className="border border-slate-200 text-center">A.1</TableCell>
-                        <TableCell className="border border-slate-200">Bawang Daun</TableCell>
-                        <TableCell className="border border-slate-200">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">4.</TableCell>
+                        <TableCell className="border border-slate-200">Kembang Kol</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
@@ -524,11 +507,11 @@ const KorlubSayuranBuah = () => {
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                     </TableRow>
                     {/*  */}
-                    {/* Bawang daun */}
+                    {/* Kentang */}
                     <TableRow>
-                        <TableCell className="border border-slate-200 text-center">A.1</TableCell>
-                        <TableCell className="border border-slate-200">Bawang Daun</TableCell>
-                        <TableCell className="border border-slate-200">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">5.</TableCell>
+                        <TableCell className="border border-slate-200">Kentang</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
@@ -541,11 +524,11 @@ const KorlubSayuranBuah = () => {
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                     </TableRow>
                     {/*  */}
-                    {/* Bawang daun */}
+                    {/* Kubis */}
                     <TableRow>
-                        <TableCell className="border border-slate-200 text-center">A.1</TableCell>
-                        <TableCell className="border border-slate-200">Bawang Daun</TableCell>
-                        <TableCell className="border border-slate-200">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">6.</TableCell>
+                        <TableCell className="border border-slate-200">Kubis</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
@@ -558,11 +541,316 @@ const KorlubSayuranBuah = () => {
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                     </TableRow>
                     {/*  */}
-                    {/* Bawang daun */}
+                    {/* Petsai/Sawi */}
                     <TableRow>
-                        <TableCell className="border border-slate-200 text-center">A.1</TableCell>
-                        <TableCell className="border border-slate-200">Bawang Daun</TableCell>
-                        <TableCell className="border border-slate-200">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">7.</TableCell>
+                        <TableCell className="border border-slate-200">Petsai/Sawi</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/*  */}
+                    {/* Wortel */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">8.</TableCell>
+                        <TableCell className="border border-slate-200">Wortel</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Bayam */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">9.</TableCell>
+                        <TableCell className="border border-slate-200">Bayam</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Buncis */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">10.</TableCell>
+                        <TableCell className="border border-slate-200">Buncis</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Cabai Besar TW/Teropong */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">11.</TableCell>
+                        <TableCell className="border border-slate-200">Cabai Besar TW/Teropong</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Cabai Keriting */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">12.</TableCell>
+                        <TableCell className="border border-slate-200">Cabai Keriting</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Cabai Rawit */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">13.</TableCell>
+                        <TableCell className="border border-slate-200">Cabai Rawit</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Jamur Tiram */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">14.</TableCell>
+                        <TableCell className="border border-slate-200">Jamur Tiram</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Jamur Merang */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">15.</TableCell>
+                        <TableCell className="border border-slate-200">Jamur Merang</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Jamur Lainnya */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">16.</TableCell>
+                        <TableCell className="border border-slate-200">Jamur Lainnya</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Kacang Panjang */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">17.</TableCell>
+                        <TableCell className="border border-slate-200">Kacang Panjang</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Kangkung */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">18.</TableCell>
+                        <TableCell className="border border-slate-200">Kangkung</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Mentimun */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">19.</TableCell>
+                        <TableCell className="border border-slate-200">Mentimun</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Labu Siam */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">20.</TableCell>
+                        <TableCell className="border border-slate-200">Labu Siam</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Paprika */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">21.</TableCell>
+                        <TableCell className="border border-slate-200">Paprika</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Terung */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">22.</TableCell>
+                        <TableCell className="border border-slate-200">Terung</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Tomat */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">23.</TableCell>
+                        <TableCell className="border border-slate-200">Tomat</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Melon */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">B1.</TableCell>
+                        <TableCell className="border border-slate-200">Melon</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Semangka */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">2.</TableCell>
+                        <TableCell className="border border-slate-200">Semangka</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">belum ada</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
+                    </TableRow>
+                    {/* Stroberi */}
+                    <TableRow>
+                        <TableCell className="border border-slate-200 text-center">3.</TableCell>
+                        <TableCell className="border border-slate-200">Stroberi</TableCell>
+                        <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
                         <TableCell className="border border-slate-200 text-center">233</TableCell>
