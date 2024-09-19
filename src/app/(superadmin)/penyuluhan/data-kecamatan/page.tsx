@@ -238,9 +238,9 @@ const PenyuluhDataKecamatan = () => {
                     />
                 </div>
                 {/* print */}
-                <PenyuluhKecPrint 
-                urlApi={`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`} 
-                kecamatan={selectedKecamatan}
+                <PenyuluhKecPrint
+                    urlApi={`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`}
+                    kecamatan={selectedKecamatan}
                 />
                 {/* print */}
             </div>
@@ -354,7 +354,7 @@ const PenyuluhDataKecamatan = () => {
                                 {visibleColumns.includes('aksi') && (
                                     <TableCell>
                                         <div className="flex items-center gap-4">
-                                            <Link className='' href="/penyuluhan/data-kecamatan/detail">
+                                            <Link className='' href={`/penyuluhan/data-kecamatan/detail/${item.id}`}>
                                                 <EyeIcon />
                                             </Link>
                                             <Link

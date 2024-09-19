@@ -314,7 +314,7 @@ const PenyuluhDataKabupaten = () => {
                                 {visibleColumns.includes('aksi') && (
                                     <TableCell>
                                         <div className="flex items-center gap-4">
-                                            <Link className='' href="/penyuluhan/data-kabupaten/detail">
+                                            <Link className='' href={`/penyuluhan/data-kabupaten/detail/${item.id}`}>
                                                 <EyeIcon />
                                             </Link>
                                             <Link

@@ -26,13 +26,13 @@ const OPTIONS: Option[] = [
 const formSchema = z.object({
     kecamatan_list: z
         .array(z.preprocess(val => Number(val), z.number()))
-        .min(1, { message: "Wilayah Desa Binaan wajib diisi" })
-        .optional(),
+        .min(1, { message: "Wilayah Desa Binaan wajib diisi" }),
     nama: z.string().min(1, { message: "Nama wajib diisi" }),
-    nip: z.preprocess(val => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
-    pangkat: z.string().min(1, { message: "Pangkat wajib diisi" }),
-    golongan: z.string().min(1, { message: "Golongan wajib diisi" }),
-    keterangan: z.string().min(1, { message: "Keterangan wajib diisi" })
+    nip: z
+        .preprocess((val) => Number(val), z.number().optional()),
+    pangkat: z.string().optional(),
+    golongan: z.string().optional(),
+    keterangan: z.string().optional()
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -90,7 +90,7 @@ const PenyuluhanTambahDataKabupaten = () => {
             });
             navigate.push('/penyuluhan/data-kabupaten');
             reset();
-        } catch (error:any) {
+        } catch (error: any) {
             // Extract error message from API response
             const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
             Swal.fire({

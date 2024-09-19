@@ -18,17 +18,28 @@ import useSWR from 'swr';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import SelectMultipleKecamatan from '@/components/superadmin/KecamatanMultiple';
 
+// const formSchema = z.object({
+//     kecamatan_list: z
+//         .array(z.preprocess(val => Number(val), z.number()))
+//         .min(0, { message: "Wilayah Desa Binaan wajib diisi" })
+//         .optional(),
+//     nama: z.string().min(0, { message: "Nama wajib diisi" }),
+//     nip: z
+//         .preprocess((val) => Number(val), z.number().min(0, { message: "NIP wajib diisi" })),
+//     pangkat: z.string().min(0, { message: "Pangkat wajib diisi" }),
+//     golongan: z.string().min(0, { message: "Golongan wajib diisi" }),
+//     keterangan: z.string().min(0, { message: "Keterangan wajib diisi" })
+// });
 const formSchema = z.object({
     kecamatan_list: z
         .array(z.preprocess(val => Number(val), z.number()))
-        .min(0, { message: "Wilayah Desa Binaan wajib diisi" })
-        .optional(),
-    nama: z.string().min(0, { message: "Nama wajib diisi" }),
+        .min(1, { message: "Wilayah Desa Binaan wajib diisi" }),
+    nama: z.string().min(1, { message: "Nama wajib diisi" }),
     nip: z
-        .preprocess((val) => Number(val), z.number().min(0, { message: "NIP wajib diisi" })),
-    pangkat: z.string().min(0, { message: "Pangkat wajib diisi" }),
-    golongan: z.string().min(0, { message: "Golongan wajib diisi" }),
-    keterangan: z.string().min(0, { message: "Keterangan wajib diisi" })
+        .preprocess((val) => Number(val), z.number().optional()),
+    pangkat: z.string().optional(),
+    golongan: z.string().optional(),
+    keterangan: z.string().optional()
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -114,9 +125,6 @@ const PenyuluhanEditDataKabupaten = () => {
             setValue('keterangan', dataPenyuluh.data.keterangan || '');
         }
     }, [dataPenyuluh, setValue]);
-
-
-
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true);
