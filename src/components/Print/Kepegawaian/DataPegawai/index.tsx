@@ -357,17 +357,29 @@ const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
                                                 {item.pangkat} / {item.golongan} <br />
-                                                TMT : {item.tmtPangkat ? formatDate(new Date(item.tmtPangkat)) : '-'}
+                                                TMT :  <span>
+                                                    {item.tmtPangkat && !isNaN(new Date(item.tmtPangkat).getTime())
+                                                        ? formatDate(new Date(item.tmtPangkat))
+                                                        : ''}
+                                                </span>
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
                                                 {item.jabatan} <br />
-                                                TMT : {item.tmtJabatan ? formatDate(new Date(item.tmtJabatan)) : '-'}
+                                                TMT : <span>
+                                                    {item.tmtJabatan && !isNaN(new Date(item.tmtJabatan).getTime())
+                                                        ? formatDate(new Date(item.tmtJabatan))
+                                                        : ''}
+                                                </span>
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
                                                 {item.namaDiklat} <br />
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
-                                                {item.tglDiklat ? formatDate(new Date(item.tglDiklat)) : '-'}
+                                                <span>
+                                                    {item.tglDiklat && !isNaN(new Date(item.tglDiklat).getTime())
+                                                        ? formatDate(new Date(item.tglDiklat))
+                                                        : ''}
+                                                </span>
                                             </TableCell>
                                             <TableCell className='text-black border border-zinc-400'>
                                                 {item.totalJam === 0 ? (
