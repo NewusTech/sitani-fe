@@ -73,7 +73,7 @@ const KecamatanSelectNo: React.FC<KecamatanSelectNoProps> = ({
     const [searchValue, setSearchValue] = useState("");
 
     // Filter items based on the search input
-    const filteredItems = dataKecamatan?.data.filter((item) =>
+    const filteredItems = dataKecamatan?.data?.filter((item) =>
         item.nama.toLowerCase().includes(searchValue.toLowerCase())
     );
 

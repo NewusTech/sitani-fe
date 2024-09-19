@@ -405,6 +405,7 @@ const KorluPalawija = () => {
                     </div>
                 </div>
             </div>
+
             {/* table */}
             <Table className='border border-slate-200 mt-2'>
                 <TableHeader className='bg-primary-600'>
@@ -1607,7 +1608,7 @@ const KorluPalawija = () => {
             {/* table */}
 
             {/* pagination */}
-            <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
+            {/* <div className="pagination md:mb-[0px] mb-[110px] flex md:justify-end justify-center">
                 <Pagination className='md:justify-end'>
                     <PaginationContent>
                         <PaginationItem>
@@ -1632,7 +1633,7 @@ const KorluPalawija = () => {
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
-            </div>
+            </div> */}
             {/* pagination */}
         </div>
     )

@@ -48,7 +48,7 @@ const GaleriLanding = () => {
 
     // GETALL
     const { data: dataGaleri }: SWRResponse<Response> = useSWR(
-        `galeri/get?page=${currentPage}&limit=9`,
+        `galeri/get?page=${currentPage}&limit=12`,
         (url) =>
             axiosPrivate
                 .get(url, {
