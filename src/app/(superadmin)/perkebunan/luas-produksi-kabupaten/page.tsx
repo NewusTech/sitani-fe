@@ -42,43 +42,6 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useSWR, { SWRResponse } from 'swr'
 
-interface ResponseData {
-    status: number;
-    message: string;
-    data: {
-        yearBefore: number;
-        currentYear: number;
-        before: CategoryData[];
-        current: CategoryData[];
-    };
-}
-
-interface CategoryData {
-    kategori: string;
-    sumJumlah: number;
-    sumTbm: number;
-    sumTm: number;
-    sumTr: number;
-    sumJmlPetaniPekebun: number;
-    sumProduktivitas: number;
-    sumProduksi: number;
-    list: Commodity[];
-}
-
-interface Commodity {
-    id: number;
-    komoditas: string;
-    tbm: number;
-    tm: number;
-    tr: number;
-    jumlah: number;
-    produksi: number;
-    produktivitas: number;
-    jmlPetaniPekebun: number;
-    bentukHasil: string;
-    keterangan: string;
-}
-
 const LuasKabPage = () => {
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
@@ -86,13 +49,14 @@ const LuasKabPage = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
-    const { data: dataProduksiKab }: SWRResponse<ResponseData> = useSWR(
+    const { data: dataProduksiKab }: SWRResponse<any> = useSWR(
         `/perkebunan/kabupaten/get`,
         (url) =>
             axiosPrivate
                 .get(url, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
+                        "ngrok-skip-browser-warning": true
                     },
                 })
                 .then((res) => res.data)
@@ -104,33 +68,6 @@ const LuasKabPage = () => {
 
     // if (error) return <div>Error loading data...</div>;
     if (!dataProduksiKab) return <div>Loading...</div>;
-
-    const toRoman = (num: number) => {
-        const romanNumerals = [
-            { value: 1000, symbol: 'M' },
-            { value: 900, symbol: 'CM' },
-            { value: 500, symbol: 'D' },
-            { value: 400, symbol: 'CD' },
-            { value: 100, symbol: 'C' },
-            { value: 90, symbol: 'XC' },
-            { value: 50, symbol: 'L' },
-            { value: 40, symbol: 'XL' },
-            { value: 10, symbol: 'X' },
-            { value: 9, symbol: 'IX' },
-            { value: 5, symbol: 'V' },
-            { value: 4, symbol: 'IV' },
-            { value: 1, symbol: 'I' },
-        ];
-
-        let result = '';
-        for (let i = 0; i < romanNumerals.length; i++) {
-            while (num >= romanNumerals[i].value) {
-                result += romanNumerals[i].symbol;
-                num -= romanNumerals[i].value;
-            }
-        }
-        return result;
-    };
 
     return (
         <div>
@@ -242,13 +179,16 @@ const LuasKabPage = () => {
             {/* top */}
 
             {/* table */}
-            <div className="flex space-x-0">
+            <div className="">
                 {/* Tabel Atap */}
                 <Table className="border border-slate-200 mt-4 w-full">
                     <TableHeader className="bg-primary-600">
                         <TableRow>
                             <TableHead colSpan={9} className="text-primary py-1 border border-slate-200 text-center">
-                                {`Atap ${dataProduksiKab.data.yearBefore}`}
+                                Atap {dataProduksiKab?.data?.yearBefore}
+                            </TableHead>
+                            <TableHead colSpan={9} className="text-primary py-1 border border-slate-200 text-center">
+                                Atap {dataProduksiKab?.data?.yearAfter}
                             </TableHead>
                         </TableRow>
                         <TableRow>
@@ -258,7 +198,22 @@ const LuasKabPage = () => {
                             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
                                 Komoditi
                             </TableHead>
-                            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200">
+                            <TableHead colSpan={3} className="text-primary text-center py-1 border border-slate-200">
+                                Komposisi Luas Areal
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                Jumlah
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                Produksi (TON)
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                Produktivitas Kg/Ha
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                Jml. Petani Perkebun (KK)
+                            </TableHead>
+                            <TableHead colSpan={3} className="text-primary text-center py-1 border border-slate-200">
                                 Komposisi Luas Areal
                             </TableHead>
                             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
@@ -284,86 +239,427 @@ const LuasKabPage = () => {
                             <TableHead className="text-primary py-1 border border-slate-200 text-center">
                                 TR
                             </TableHead>
+                            <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                TBM
+                            </TableHead>
+                            <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                TM
+                            </TableHead>
+                            <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                TR
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {dataProduksiKab.data.before.map((category, index) => (
-                            <React.Fragment key={index}>
-                                <TableRow>
-                                    <TableCell className="border border-slate-200 text-left">
-                                        {toRoman(index + 1)}
+                        <>
+                            {/* TAHUNAN */}
+                            <TableRow>
+                                <TableCell className="border border-slate-200 font-semibold text-center">
+                                    I
+                                </TableCell>
+                                <TableCell className="border border-slate-200 font-semibold">
+                                    TAN. TAHUNAN
+                                </TableCell>
+                            </TableRow>
+                            {/* komoditas */}
+                            {dataProduksiKab?.data?.data[1]?.ids?.map((i: number, index: any) => (
+                                <TableRow key={i}>
+                                    <TableCell className="border border-slate-200 text-right">
+                                        {index + 1}
                                     </TableCell>
-                                    <TableCell className="border border-slate-200 font-semibold">
-                                        {category.kategori}
+                                    <TableCell className="border border-slate-200">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.komoditas}
                                     </TableCell>
-                                </TableRow>
-                                {category.list.map((commodity, idx) => (
-                                    <TableRow key={idx}>
-                                        <TableCell className="border border-slate-200 text-right">
-                                            {idx + 1}
-                                        </TableCell>
-                                        <TableCell className="border border-slate-200">
-                                            {commodity.komoditas}
-                                        </TableCell>
-                                        <TableCell className="border border-slate-200 text-center">
-                                            {commodity.tbm}
-                                        </TableCell>
-                                        <TableCell className="border border-slate-200 text-center">
-                                            {commodity.tm}
-                                        </TableCell>
-                                        <TableCell className="border border-slate-200 text-center">
-                                            {commodity.tr}
-                                        </TableCell>
-                                        <TableCell className="border border-slate-200 text-center">
-                                            {commodity.jumlah}
-                                        </TableCell>
-                                        <TableCell className="border border-slate-200 text-center">
-                                            {commodity.produksi}
-                                        </TableCell>
-                                        <TableCell className="border border-slate-200 text-center">
-                                            {commodity.produktivitas}
-                                        </TableCell>
-                                        <TableCell className="border border-slate-200 text-center">
-                                            {commodity.jmlPetaniPekebun}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                                <TableRow>
-                                    <TableCell className="border border-slate-200"></TableCell>
-                                    <TableCell className="border font-semibold border-slate-200 text-center">
-                                        Jumlah {category.kategori}
+                                    {/* ATAP */}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.atapTbm}
                                     </TableCell>
-                                    <TableCell className="border font-semibold border-slate-200 text-center">
-                                        {category.sumTbm}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.atapTm}
                                     </TableCell>
-                                    <TableCell className="border font-semibold border-slate-200 text-center">
-                                        {category.sumTm}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.atapTr}
                                     </TableCell>
-                                    <TableCell className="border font-semibold border-slate-200 text-center">
-                                        {category.sumTr}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.atapJumlah}
                                     </TableCell>
-                                    <TableCell className="border font-semibold border-slate-200 text-center">
-                                        {category.sumJumlah}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.atapProduksi}
                                     </TableCell>
-                                    <TableCell className="border font-semibold border-slate-200 text-center">
-                                        {category.sumProduksi}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.atapProduktivitas}
                                     </TableCell>
-                                    <TableCell className="border font-semibold border-slate-200 text-center">
-                                        {category.sumProduktivitas}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.atapJmlPetaniPekebun}
                                     </TableCell>
-                                    <TableCell className="border font-semibold border-slate-200 text-center">
-                                        {category.sumJmlPetaniPekebun}
+                                    {/* ASEM */}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.asemTbm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.asemTm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.asemTr}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.asemJumlah}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.asemProduksi}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.asemProduktivitas}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[1]?.list[i]?.asemJmlPetaniPekebun}
                                     </TableCell>
                                 </TableRow>
-                            </React.Fragment>
-                        ))}
+                            ))}
+                            {/* jumlah */}
+                            < TableRow >
+                                <TableCell className="border border-slate-200"></TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    JUMLAH I
+                                </TableCell>
+                                {/* ATAP */}
+                                <TableCell className="border font-semibold border-slate-200 text-center" >
+                                    {dataProduksiKab?.data?.data[1]?.atapSumTbm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.atapSumTm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.atapSumTr}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.atapSumJumlah}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.atapSumProduksi}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.atapSumProduktivitas}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.atapSumJmlPetaniPekebun}
+                                </TableCell>
+                                {/* ASEM */}
+                                <TableCell className="border font-semibold border-slate-200 text-center" >
+                                    {dataProduksiKab?.data?.data[1]?.asemSumTbm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.asemSumTm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.asemSumTr}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.asemSumJumlah}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.asemSumProduksi}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.asemSumProduktivitas}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[1]?.asemSumJmlPetaniPekebun}
+                                </TableCell>
+                            </TableRow>
+
+
+                            {/* SEMSUSIM */}
+                            <TableRow>
+                                <TableCell className="border border-slate-200 font-semibold text-center">
+                                    II
+                                </TableCell>
+                                <TableCell className="border border-slate-200 font-semibold">
+                                    TAN. SEMUSIM
+                                </TableCell>
+                            </TableRow>
+                            {/* komoditas */}
+                            {dataProduksiKab?.data?.data[2]?.ids?.map((i: number, index: any) => (
+                                <TableRow key={i}>
+                                    <TableCell className="border border-slate-200 text-right">
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.komoditas}
+                                    </TableCell>
+                                    {/* ATAP */}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.atapTbm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.atapTm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.atapTr}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.atapJumlah}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.atapProduksi}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.atapProduktivitas}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.atapJmlPetaniPekebun}
+                                    </TableCell>
+                                    {/* ASEM */}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.asemTbm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.asemTm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.asemTr}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.asemJumlah}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.asemProduksi}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.asemProduktivitas}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[2]?.list[i]?.asemJmlPetaniPekebun}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                            {/* jumlah */}
+                            <TableRow >
+                                <TableCell className="border border-slate-200"></TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    JUMLAH II
+                                </TableCell>
+                                {/* ATAP */}
+                                <TableCell className="border font-semibold border-slate-200 text-center" >
+                                    {dataProduksiKab?.data?.data[2]?.atapSumTbm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.atapSumTm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.atapSumTr}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.atapSumJumlah}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.atapSumProduksi}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.atapSumProduktivitas}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.atapSumJmlPetaniPekebun}
+                                </TableCell>
+                                {/* ASEM */}
+                                <TableCell className="border font-semibold border-slate-200 text-center" >
+                                    {dataProduksiKab?.data?.data[2]?.asemSumTbm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.asemSumTm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.asemSumTr}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.asemSumJumlah}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.asemSumProduksi}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.asemSumProduktivitas}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[2]?.asemSumJmlPetaniPekebun}
+                                </TableCell>
+                            </TableRow>
+
+                            {/* TAN. REMPAH DAN PENYEGAR */}
+                            <TableRow>
+                                <TableCell className="border border-slate-200 font-semibold text-center">
+                                    III
+                                </TableCell>
+                                <TableCell className="border border-slate-200 font-semibold">
+                                    TAN. REMPAH DAN PENYEGAR
+                                </TableCell>
+                            </TableRow>
+                            {/* komoditas */}
+                            {dataProduksiKab?.data?.data[3]?.ids?.map((i: number, index: any) => (
+                                <TableRow key={i}>
+                                    <TableCell className="border border-slate-200 text-right">
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.komoditas}
+                                    </TableCell>
+                                    {/* ATAP */}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.atapTbm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.atapTm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.atapTr}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.atapJumlah}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.atapProduksi}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.atapProduktivitas}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.atapJmlPetaniPekebun}
+                                    </TableCell>
+                                    {/* ASEM */}
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.asemTbm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.asemTm}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.asemTr}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.asemJumlah}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.asemProduksi}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.asemProduktivitas}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {dataProduksiKab?.data?.data[3]?.list[i]?.asemJmlPetaniPekebun}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                            {/* jumlah */}
+                            <TableRow >
+                                <TableCell className="border border-slate-200"></TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    JUMLAH III
+                                </TableCell>
+                                {/* ATAP */}
+                                <TableCell className="border font-semibold border-slate-200 text-center" >
+                                    {dataProduksiKab?.data?.data[3]?.atapSumTbm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.atapSumTm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.atapSumTr}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.atapSumJumlah}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.atapSumProduksi}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.atapSumProduktivitas}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.atapSumJmlPetaniPekebun}
+                                </TableCell>
+                                {/* ASEM */}
+                                <TableCell className="border font-semibold border-slate-200 text-center" >
+                                    {dataProduksiKab?.data?.data[3]?.asemSumTbm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.asemSumTm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.asemSumTr}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.asemSumJumlah}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.asemSumProduksi}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.asemSumProduktivitas}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data[3]?.asemSumJmlPetaniPekebun}
+                                </TableCell>
+                            </TableRow>
+
+                            {/* TOTAL JUMLAH SEMUA */}
+                            <TableRow >
+                                <TableCell className="border border-slate-200"></TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                TOTAL I + II + III
+                                </TableCell>
+                                {/* ATAP */}
+                                <TableCell className="border font-semibold border-slate-200 text-center" >
+                                    {dataProduksiKab?.data?.data?.atapSumTbm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.atapSumTm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.atapSumTr}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.atapSumJumlah}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.atapSumProduksi}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.atapSumProduktivitas}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.atapSumJmlPetaniPekebun}
+                                </TableCell>
+                                {/* ASEM */}
+                                <TableCell className="border font-semibold border-slate-200 text-center" >
+                                    {dataProduksiKab?.data?.data?.asemSumTbm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.asemSumTm}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.asemSumTr}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.asemSumJumlah}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.asemSumProduksi}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.asemSumProduktivitas}
+                                </TableCell>
+                                <TableCell className="border font-semibold border-slate-200 text-center">
+                                    {dataProduksiKab?.data?.data?.asemSumJmlPetaniPekebun}
+                                </TableCell>
+                            </TableRow>
+                        </>
                     </TableBody>
                 </Table>
 
                 {/* Tabel Asem */}
                 <div className="overflow-x-auto">
                     {/* <!-- Tabel Asem --> */}
-                    <Table className="border border-slate-200 mt-4 w-full">
+                    {/* <Table className="border border-slate-200 mt-4 w-full">
                         <TableHeader className="bg-primary-600">
                             <TableRow>
                                 <TableHead colSpan={9} className="text-primary py-1 border border-slate-200 text-center">
@@ -477,11 +773,11 @@ const LuasKabPage = () => {
                                 </React.Fragment>
                             ))}
                         </TableBody>
-                    </Table>
+                    </Table> */}
                 </div>
-            </div>
+            </div >
             {/* table */}
-        </div>
+        </div >
     )
 }
 

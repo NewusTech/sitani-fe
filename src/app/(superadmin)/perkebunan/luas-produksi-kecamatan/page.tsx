@@ -45,68 +45,6 @@ import Swal from 'sweetalert2';
 import PaginationTable from '@/components/PaginationTable'
 
 
-// interface PerkebunanItemDetail {
-//     id: number;
-//     komoditas: string;
-//     tbm: number;
-//     tm: number;
-//     tr: number;
-//     jumlah: number;
-//     produksi: number;
-//     produktivitas: number;
-//     jmlPetaniPekebun: number;
-//     bentukHasil: string;
-//     keterangan: string;
-// }
-
-// interface PerkebunanCategory {
-//     kategori: string;
-//     sumJumlah: number;
-//     sumTbm: number;
-//     sumTm: number;
-//     sumTr: number;
-//     sumJmlPetaniPekebun: number;
-//     sumProduktivitas: number;
-//     sumProduksi: number;
-//     list: Record<number, PerkebunanItemDetail>;
-// }
-
-// interface PerkebunanList {
-//     [key: string]: PerkebunanCategory | number;
-// }
-
-// interface PerkebunanDataItem {
-//     tahun: number;
-//     kecamatan: string;
-//     list: PerkebunanList;
-// }
-
-// interface PaginationLinks {
-//     prev: string | null;
-//     next: string | null;
-// }
-
-// interface Pagination {
-//     page: number;
-//     perPage: number;
-//     totalPages: number;
-//     totalCount: number;
-//     links: PaginationLinks;
-// }
-
-// interface PerkebunanData {
-//     data: PerkebunanDataItem[];
-//     pagination: Pagination;
-// }
-
-// interface Response {
-//     status: number;
-//     message: string;
-//     data: PerkebunanData;
-// }
-
-
-
 const LuasKecPage = () => {
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
@@ -132,6 +70,7 @@ const LuasKecPage = () => {
                 .get(url, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
+                        "ngrok-skip-browser-warning" : true,
                     },
                 })
                 .then((res: any) => {
@@ -649,6 +588,36 @@ const LuasKecPage = () => {
                                     <TableCell className='border border-slate-200' colSpan={2} />
                                 </TableRow>
                                 {/* Rempah */}
+
+                                {/* jumlah semua */}
+                                <TableRow >
+                                    <TableCell className='border border-slate-200 text-center'></TableCell>
+                                    <TableCell className='border italic font-semibold border-slate-200'>
+                                    TOTAL I + II + III
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list?.sumTbm}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list?.sumTm}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list?.sumTr}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list?.sumJumlah}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list?.sumProduksi}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list?.sumProduktivitas}
+                                    </TableCell>
+                                    <TableCell className='border text-center border-slate-200'>
+                                        {item?.list?.sumJmlPetaniPekebun}
+                                    </TableCell>
+                                    <TableCell className='border border-slate-200' colSpan={2} />
+                                </TableRow>
                             </>
                         ))
                     ) : (
