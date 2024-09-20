@@ -1,9 +1,9 @@
-import React from 'react';
-import { usePathname } from 'next/navigation';
+import React, { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "@/components/ui/sheet";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { MoreHorizontal, ChevronRight } from 'lucide-react';
+import { MoreHorizontal, ChevronRight, AlignJustify, LogIn } from 'lucide-react';
 
 const MoreIcon = () => {
     const pathname = usePathname();
@@ -16,6 +16,16 @@ const MoreIcon = () => {
     ];
 
     const isKetahananPanganActive = menuItems.some(item => pathname.startsWith(item.href));
+
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+    const handleLoginClick = () => {
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsLoading(false);
+            router.push('/login');
+        }, 500);
+    };
 
     return (
         <Sheet>
@@ -37,19 +47,20 @@ const MoreIcon = () => {
                 <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="ketahanan-pangan">
                         <AccordionTrigger className={`
-              flex items-center justify-between w-full p-4 rounded-lg bg-primary text-white
+              flex items-center justify-between mb-4 w-full p-4 rounded-lg bg-primary text-white
               ${isKetahananPanganActive
                                 ? "bg-primary text-white"
                                 : "hover:bg-primary hover:text-white text-primary font-semibold hover:shadow-xl hover:scale-105"}
               transition-all duration-300 hover:bg-opacity-90
-            `}>
-                            <span className='text-xs text-white font-semibold shadow-xl scale-100'>Ketahanan Pangan</span>
-                            <ChevronRight className={`w-5 h-5 text-white ${isKetahananPanganActive ? 'rotate-90' : 'text-white'} transition-transform animate-bounce`} />
+            `} >
+                            {/* <ChevronRight className={`w-4 h-4 text-white ${isKetahananPanganActive ? 'rotate-90' : 'text-white'}`} /> */}
+                            <AlignJustify className={`w-4 h-4 text-white transition-transform bounce`} />
+                            <span className='text-sm text-white font-semibold shadow-xl scale-100'>Ketahanan Pangan</span>
                         </AccordionTrigger>
                         <AccordionContent className="mt-2 space-y-2 text-white">
                             {menuItems.map((item, index) => (
                                 <Link key={index} href={item.href}>
-                                    <div className={`p-4 rounded-lg transition-all duration-300 mb-2 ${pathname.startsWith(item.href)
+                                    <div className={`p-4 rounded-lg transition-all duration-300 mb-2 text-xs ${pathname.startsWith(item.href)
                                         ? "bg-primary text-white font-semibold shadow-xl scale-100"
                                         : "bg-white text-primary shadow-lg"
                                         }`}>
@@ -60,13 +71,43 @@ const MoreIcon = () => {
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
-                <Link href="/login" className="
-          mt-6 m-auto block w-1/2 py-3 px-4 bg-primary text-white font-semibold 
-          rounded-lg text-center transition-all duration-300 
-          hover:bg-opacity-90 transform hover:scale-105 text-xs
-        ">
-                    Login
-                </Link>
+                <button
+                    onClick={handleLoginClick}
+                    className="
+        mt-4 m-auto block w-full py-4 px-4 bg-primary text-white font-bold 
+        rounded-lg text-center transition-all duration-300 
+        hover:bg-opacity-90 transform hover:scale-105 text-sm
+      "
+                >
+                    {isLoading ? (
+                        <span className="flex justify-center items-center">
+                            <svg
+                                className="animate-spin h-5 w-5 mr-3 text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                ></circle>
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                ></path>
+                            </svg>
+                            Loading...
+                        </span>
+                    ) : (
+                        'Login'
+                    )}
+                </button>
+                {/* <LogIn className='w-4 h-4 text-white items-center' /> */}
             </SheetContent>
         </Sheet>
     );

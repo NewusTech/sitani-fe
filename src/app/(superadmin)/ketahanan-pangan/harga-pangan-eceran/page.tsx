@@ -124,7 +124,6 @@ interface Response {
     };
 }
 
-
 const HargaPanganEceran = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
@@ -161,7 +160,13 @@ const HargaPanganEceran = () => {
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    const [tahun, setTahun] = React.useState("2024");
+    // otomatis hitung tahun
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 5;
+    const endYear = currentYear + 1;
+    const [tahun, setTahun] = React.useState("Semua Tahun");
+    // otomatis hitung tahun
+
     const { data: dataKomoditas, error } = useSWR<Response>(
         `/kepang/perbandingan-harga/get?year=${tahun}&search=${search}`,
         (url: string) =>
@@ -260,28 +265,25 @@ const HargaPanganEceran = () => {
                     </div>
                     {/*  */}
                     <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full mt-4">
-                        <div className="w-auto">
+                        <div className="w-fit">
                             {/* Dropdown Tahun */}
                             <div className="w-auto">
-                                <Select
-                                    onValueChange={(value) => setTahun(value)}
-                                    value={tahun}
-                                >
+                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Tahun" className='text-2xl' />
+                                        <SelectValue placeholder="Tahun">
+                                            {tahun ? tahun : "Tahun"}
+                                        </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectContent>
-                                            <SelectItem value="2018">2018</SelectItem>
-                                            <SelectItem value="2019">2019</SelectItem>
-                                            <SelectItem value="2020">2020</SelectItem>
-                                            <SelectItem value="2021">2021</SelectItem>
-                                            <SelectItem value="2022">2022</SelectItem>
-                                            <SelectItem value="2023">2023</SelectItem>
-                                            <SelectItem value="2024">2024</SelectItem>
-                                            <SelectItem value="2025">2025</SelectItem>
-                                            <SelectItem value="2026">2026</SelectItem>
-                                        </SelectContent>
+                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -305,25 +307,22 @@ const HargaPanganEceran = () => {
 
                             {/* filter tahun */}
                             <div className="w-full">
-                                <Select
-                                    onValueChange={(value) => setTahun(value)}
-                                    value={tahun || ""}
-                                >
+                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Tahun" className='text-2xl'>
+                                        <SelectValue placeholder="Tahun">
                                             {tahun ? tahun : "Tahun"}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="2018">2018</SelectItem>
-                                        <SelectItem value="2019">2019</SelectItem>
-                                        <SelectItem value="2020">2020</SelectItem>
-                                        <SelectItem value="2021">2021</SelectItem>
-                                        <SelectItem value="2022">2022</SelectItem>
-                                        <SelectItem value="2023">2023</SelectItem>
-                                        <SelectItem value="2024">2024</SelectItem>
-                                        <SelectItem value="2025">2025</SelectItem>
-                                        <SelectItem value="2026">2026</SelectItem>
+                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
                                     </SelectContent>
                                 </Select>
                             </div>

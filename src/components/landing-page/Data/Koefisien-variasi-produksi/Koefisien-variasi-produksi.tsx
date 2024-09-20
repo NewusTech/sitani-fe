@@ -62,6 +62,22 @@ interface ProduksiData {
 }
 
 const KomponenKoefisienVariasiPrduksi = () => {
+    // filter date
+    const formatDate = (date?: Date): string => {
+        if (!date) return ''; // Return an empty string if the date is undefined
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // getMonth() is zero-based
+        const day = date.getDate();
+
+        return `${year}/${month}/${day}`;
+    };
+    const [startDate, setstartDate] = React.useState<Date>()
+    const [endDate, setendDate] = React.useState<Date>()
+    // Memoize the formatted date to avoid unnecessary recalculations on each render
+    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+    // filter date   
+    // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
         setCurrentPage(page)
@@ -73,9 +89,18 @@ const KomponenKoefisienVariasiPrduksi = () => {
         setSearch(event.target.value);
     };
     // serach
-    // Tahun
-    const [tahun, setTahun] = React.useState("2024");
-    // tahun
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+
+    // otomatis hitung tahun
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 5;
+    const endYear = currentYear + 1;
+    const [tahun, setTahun] = React.useState("Semua Tahun");
+    // otomatis hitung tahun
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
@@ -146,44 +171,102 @@ const KomponenKoefisienVariasiPrduksi = () => {
     return (
         <div className='md:pt-[130px] pt-[30px] container mx-auto'>
             <div className="galeri md:py-[60px]">
-                {/* header */}
-                <div className="header lg:flex lg:justify-between items-center">
-                    <div className="search w-full lg:w-[70%] mb-2">
-                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left md:hidden">Data Coefesien <br /> Variansi (CV) Tk. Produksi</div>
-                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left hidden md:block">Data Coefesien Variansi (CV) Tk. Produksi</div>
-                    </div>
-                    {/* top */}
-                    <div className="header flex gap-6 justify-between items-center mt-2 lg:mt-0">
-                        <div className="filter-table w-[40px] h-[40px]">
-                            <FilterTable
-                                columns={columns}
-                                defaultCheckedKeys={getDefaultCheckedKeys()}
-                                onFilterChange={handleFilterChange}
-                            />
-                        </div>
-                        <div className="wrap-filter left gap-1 lg:gap-2 flex justify-between lg:justify-start items-center w-full">
-                            <div className="w-auto">
-                                <Select
-                                    onValueChange={(value) => setTahun(value)}
-                                    value={tahun}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Tahun" className='text-2xl' />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="2018">2018</SelectItem>
-                                        <SelectItem value="2019">2019</SelectItem>
-                                        <SelectItem value="2020">2020</SelectItem>
-                                        <SelectItem value="2021">2021</SelectItem>
-                                        <SelectItem value="2022">2022</SelectItem>
-                                        <SelectItem value="2023">2023</SelectItem>
-                                        <SelectItem value="2024">2024</SelectItem>
-                                        <SelectItem value="2025">2025</SelectItem>
-                                        <SelectItem value="2026">2026</SelectItem>
-                                    </SelectContent>
-                                </Select>
+
+                {/* Dekstop */}
+                <div className="hidden md:block">
+                    <>
+                        {/* header */}
+                        <div className="header lg:flex lg:justify-between items-center">
+                            <div className="search w-full lg:w-[60%] mb-2">
+                                <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left md:hidden">Data Coefesien <br /> Variansi (CV) Tk. Produksi</div>
+                                <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left hidden md:block">Data Coefesien Variansi (CV) Tk. Produksi</div>
                             </div>
-                            <div className="div">
+                            {/* top */}
+                            <div className="header flex gap-6 justify-between items-center mt-2 lg:mt-0">
+                                <div className="filter-table w-[40px] h-[40px]">
+                                    <FilterTable
+                                        columns={columns}
+                                        defaultCheckedKeys={getDefaultCheckedKeys()}
+                                        onFilterChange={handleFilterChange}
+                                    />
+                                </div>
+                                <div className="wrap-filter left gap-1 lg:gap-2 flex justify-between lg:justify-start items-center w-full">
+                                    <div className="w-fit">
+                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Tahun">
+                                                    {tahun ? tahun : "Tahun"}
+                                                </SelectValue>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                    const year = startYear + index;
+                                                    return (
+                                                        <SelectItem key={year} value={year.toString()}>
+                                                            {year}
+                                                        </SelectItem>
+                                                    );
+                                                })}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div className="div">
+                                        {/* print */}
+                                        <KoefisienVariasiProduksiPrint
+                                            urlApi={`/kepang/cv-produksi/get?year=${tahun}`}
+                                            tahun={tahun}
+                                        />
+                                        {/* print */}
+                                    </div>
+                                </div>
+                            </div>
+                            {/* top */}
+                        </div>
+                        {/* header */}
+                    </>
+                </div>
+                {/* Dekstop */}
+
+                {/* Mobile */}
+                <div className="md:hidden">
+                    <>
+                        <div className="text-xl mb-4 font-semibold text-primary uppercase">Data Coefesien Variansi (CV) Tk. Produksi</div>
+                        {/* kolom 1 */}
+                        <div className="flex justify-between">
+                            <div className="flex gap-2 w-full">
+
+                                {/* filter tahun */}
+                                <div className="w-full">
+                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Tahun">
+                                                {tahun ? tahun : "Tahun"}
+                                            </SelectValue>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                const year = startYear + index;
+                                                return (
+                                                    <SelectItem key={year} value={year.toString()}>
+                                                        {year}
+                                                    </SelectItem>
+                                                );
+                                            })}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                {/* filter tahun */}
+
+                                {/* filter table */}
+                                <FilterTable
+                                    columns={columns}
+                                    defaultCheckedKeys={getDefaultCheckedKeys()}
+                                    onFilterChange={handleFilterChange}
+                                />
+                                {/* filter table */}
+
                                 {/* print */}
                                 <KoefisienVariasiProduksiPrint
                                     urlApi={`/kepang/cv-produksi/get?year=${tahun}`}
@@ -192,14 +275,14 @@ const KomponenKoefisienVariasiPrduksi = () => {
                                 {/* print */}
                             </div>
                         </div>
-                    </div>
-                    {/* top */}
+                        {/* kolom 1 */}
+                    </>
                 </div>
-                {/* header */}
+                {/* Mobile */}
 
                 {/* table */}
-                <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
-                    <TableHeader className='bg-primary-600 shadow-lg rounded-lg'>
+                <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs md:text-sm rounded-lg'>
+                    <TableHeader className='bg-primary-600 rounded-lg'>
                         <TableRow >
                             {/* {visibleColumns.includes('no') && ( */}
                             <TableHead className="text-primary py-3">No</TableHead>
@@ -508,7 +591,7 @@ const KomponenKoefisienVariasiPrduksi = () => {
                 </Table>
                 {/* table */}
             </div>
-        </div>
+        </div >
     )
 }
 

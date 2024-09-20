@@ -78,11 +78,19 @@ interface Response {
 }
 
 const KoefisienVariasiProdusen = () => {
+    // filter date
+    const formatDate = (date?: Date): string => {
+        if (!date) return '';
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${year}/${month}/${day}`;
+    };
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
-
-    const [accessToken] = useLocalStorage("accessToken", "");
-    const axiosPrivate = useAxiosPrivate();
+    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+    // filter date   
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
@@ -95,8 +103,20 @@ const KoefisienVariasiProdusen = () => {
         setSearch(event.target.value);
     };
     // serach
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+    // otomatis hitung tahun
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 5;
+    const endYear = currentYear + 1;
+    const [tahun, setTahun] = React.useState("Semua Tahun");
+    // otomatis hitung tahun
 
-    const [tahun, setTahun] = React.useState("2024");
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
     const { data, error } = useSWR<Response>(
         `/kepang/cv-produsen/get?year=${tahun}`,
         (url: string) =>
@@ -189,23 +209,22 @@ const KoefisienVariasiProdusen = () => {
                     <div className="flex gap-2 lg:justify-between lg:items-center w-full mt-4">
                         <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                             <div className="w-auto">
-                                <Select
-                                    onValueChange={(value) => setTahun(value)}
-                                    value={tahun}
-                                >
+                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Tahun" className='text-2xl' />
+                                        <SelectValue placeholder="Tahun">
+                                            {tahun ? tahun : "Tahun"}
+                                        </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="2018">2018</SelectItem>
-                                        <SelectItem value="2019">2019</SelectItem>
-                                        <SelectItem value="2020">2020</SelectItem>
-                                        <SelectItem value="2021">2021</SelectItem>
-                                        <SelectItem value="2022">2022</SelectItem>
-                                        <SelectItem value="2023">2023</SelectItem>
-                                        <SelectItem value="2024">2024</SelectItem>
-                                        <SelectItem value="2025">2025</SelectItem>
-                                        <SelectItem value="2026">2026</SelectItem>
+                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -236,25 +255,22 @@ const KoefisienVariasiProdusen = () => {
 
                             {/* filter tahun */}
                             <div className="w-full">
-                                <Select
-                                    onValueChange={(value) => setTahun(value)}
-                                    value={tahun || ""}
-                                >
+                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Tahun" className='text-2xl'>
+                                        <SelectValue placeholder="Tahun">
                                             {tahun ? tahun : "Tahun"}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="2018">2018</SelectItem>
-                                        <SelectItem value="2019">2019</SelectItem>
-                                        <SelectItem value="2020">2020</SelectItem>
-                                        <SelectItem value="2021">2021</SelectItem>
-                                        <SelectItem value="2022">2022</SelectItem>
-                                        <SelectItem value="2023">2023</SelectItem>
-                                        <SelectItem value="2024">2024</SelectItem>
-                                        <SelectItem value="2025">2025</SelectItem>
-                                        <SelectItem value="2026">2026</SelectItem>
+                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
                                     </SelectContent>
                                 </Select>
                             </div>

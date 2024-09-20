@@ -98,17 +98,49 @@ interface Response {
 
 const KomponenPerbandinganKomoditasHargaPanen = () => {
     // INTEGRASI
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    // filter date
+    const formatDate = (date?: Date): string => {
+        if (!date) return ''; // Return an empty string if the date is undefined
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // getMonth() is zero-based
+        const day = date.getDate();
+
+        return `${year}/${month}/${day}`;
+    };
+    const [startDate, setstartDate] = React.useState<Date>()
+    const [endDate, setendDate] = React.useState<Date>()
+    // Memoize the formatted date to avoid unnecessary recalculations on each render
+    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+    // filter date   
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = (page: number) => {
+        setCurrentPage(page)
+    };
+    // pagination
     // serach
     const [search, setSearch] = useState("");
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     };
     // serach
-    const [accessToken] = useLocalStorage("accessToken", "");
-    const axiosPrivate = useAxiosPrivate();
-    const currentYear = new Date().getFullYear();
+    // limit
+    const [limit, setLimit] = useState(10);
+    // limit
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    const [tahun, setTahun] = React.useState(`${currentYear}`);
+    // otomatis hitung tahun
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 5;
+    const endYear = currentYear + 1;
+    const [tahun, setTahun] = React.useState("Semua Tahun");
+    // otomatis hitung tahun
+
     const { data: dataKomoditas, error } = useSWR<Response>(
         `/kepang/perbandingan-harga/get?year=${tahun}&search=${search}`,
         (url: string) =>
@@ -173,69 +205,138 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
     // Ensure monthPricesMap is an object before calling Object.keys()
     const komoditasNames = Object.keys(monthPricesMap || {});
 
-
-
-
     return (
         <div className='md:pt-[130px] pt-[30px] container mx-auto'>
             <div className="galeri md:py-[60px]">
-                {/* header */}
-                <div className="header lg:flex lg:justify-between items-center gap-2">
-                    <div className="search w-full lg:w-[70%]">
-                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left">Perbandingan Komoditas Harga Panen Tingkat Eceran</div>
-                    </div>
-                    {/* top */}
-                    <div className="header flex gap-2 justify-between items-center mt-2 lg:mt-0">
-                        <div className="search md:w-[50%]">
-                            <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Cari"
-                                value={search}
-                                onChange={handleSearchChange}
-                                rightIcon={<SearchIcon />}
-                                className='border-primary py-2'
-                            />
+                {/* Dekstop */}
+                <div className="hidden md:block">
+                    <>
+                        {/* header */}
+                        <div className="header lg:flex lg:justify-between items-center gap-2">
+                            <div className="search w-full lg:w-[50%]">
+                                <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left">Perbandingan Komoditas Harga Panen Tingkat Eceran</div>
+                            </div>
+                            {/* top */}
+                            <div className="header flex gap-2 justify-between items-center mt-2 lg:mt-0">
+                                <div className="search md:w-[35%]">
+                                    <Input
+                                        autoFocus
+                                        type="text"
+                                        placeholder="Cari"
+                                        value={search}
+                                        onChange={handleSearchChange}
+                                        rightIcon={<SearchIcon />}
+                                        className='border-primary py-2'
+                                    />
+                                </div>
+                                {/* print */}
+                                {/* filter tahun */}
+                                {/* Dropdown Tahun */}
+                                <div className="w-fit">
+                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Tahun">
+                                                {tahun ? tahun : "Tahun"}
+                                            </SelectValue>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                const year = startYear + index;
+                                                return (
+                                                    <SelectItem key={year} value={year.toString()}>
+                                                        {year}
+                                                    </SelectItem>
+                                                );
+                                            })}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                {/* filter tahun */}
+                                <KepangPerbandingan
+                                    urlApi={`/kepang/perbandingan-harga/get?year=${tahun}`}
+                                    tahun={tahun}
+                                />
+                                {/* print */}
+                            </div>
+                            {/* top */}
                         </div>
-                        {/* print */}
-                        {/* filter tahun */}
-                        {/* Dropdown Tahun */}
-                        <div className="">
-                            <Select
-                                onValueChange={(value) => setTahun(value)}
-                                value={tahun}
-                            >
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Tahun" className='text-2xl' />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="2018">2018</SelectItem>
-                                    <SelectItem value="2019">2019</SelectItem>
-                                    <SelectItem value="2020">2020</SelectItem>
-                                    <SelectItem value="2021">2021</SelectItem>
-                                    <SelectItem value="2022">2022</SelectItem>
-                                    <SelectItem value="2023">2023</SelectItem>
-                                    <SelectItem value="2024">2024</SelectItem>
-                                    <SelectItem value="2025">2025</SelectItem>
-                                    <SelectItem value="2026">2026</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        {/* filter tahun */}
-                        <KepangPerbandingan
-                            urlApi={`/kepang/perbandingan-harga/get?year=${tahun}`}
-                            tahun={tahun}
-                        />
-                        {/* print */}
-                    </div>
-                    {/* top */}
-
+                        {/* header */}
+                    </>
                 </div>
-                {/* header */}
+                {/* Dekstop */}
+
+                {/* Mobile */}
+                <div className="md:hidden">
+                    <>
+                        <div className="text-xl mb-4 font-semibold text-primary capitalize">Perbandingan Komoditas Harga Panen</div>
+                        {/* kolom 1 */}
+                        <div className="flex justify-between">
+                            <div className="flex gap-2 w-full">
+
+                                {/* filter tahun */}
+                                <div className="w-full">
+                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Tahun">
+                                                {tahun ? tahun : "Tahun"}
+                                            </SelectValue>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                const year = startYear + index;
+                                                return (
+                                                    <SelectItem key={year} value={year.toString()}>
+                                                        {year}
+                                                    </SelectItem>
+                                                );
+                                            })}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                {/* filter tahun */}
+
+                                {/* filter table */}
+                                {/* <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            /> */}
+                                {/* filter table */}
+
+                                {/* print */}
+                                <KepangPerbandingan
+                                    urlApi={`/kepang/perbandingan-harga/get?year=${tahun}`}
+                                    tahun={tahun}
+                                />
+                                {/* print */}
+                            </div>
+                        </div>
+                        {/* kolom 1 */}
+
+                        {/* kolom 2 */}
+                        <div className="mt-2">
+                            <div className="search w-full">
+                                <Input
+                                    autoFocus
+                                    type="text"
+                                    placeholder="Cari"
+                                    value={search}
+                                    onChange={handleSearchChange}
+                                    rightIcon={<SearchIcon />}
+                                    className='border-primary py-2 text-xs'
+                                />
+                            </div>
+                        </div>
+                        {/* kolom 2 */}
+                    </>
+                </div>
+                {/* Mobile */}
 
                 {/* table */}
-                <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
-                    <TableHeader className='bg-primary-600 shadow-lg'>
+                <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg'>
+                    <TableHeader className='bg-primary-600'>
                         <TableRow>
                             <TableHead className="text-primary py-3">No</TableHead>
                             <TableHead className="text-primary py-3">Komoditas</TableHead>
@@ -245,17 +346,25 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {komoditasNames.map((komoditas, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{komoditas}</TableCell>
-                                {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
-                                    <TableCell key={i}>
-                                        {monthPricesMap?.[komoditas]?.[month] || "-"}
-                                    </TableCell>
-                                ))}
+                        {komoditasNames.length > 0 ? (
+                            komoditasNames.map((komoditas, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{komoditas}</TableCell>
+                                    {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
+                                        <TableCell key={i}>
+                                            {monthPricesMap?.[komoditas]?.[month] || "-"}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={14} className="text-center">
+                                    Tidak ada data
+                                </TableCell>
                             </TableRow>
-                        ))}
+                        )}
                     </TableBody>
                 </Table>
                 {/* table */}

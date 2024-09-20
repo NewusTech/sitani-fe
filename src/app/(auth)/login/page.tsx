@@ -59,6 +59,28 @@ const Login = () => {
       if (response.ok) {
         console.log('Login berhasil:', result);
         reset();
+        // alert
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil Login!',
+          text: 'Selamat Datang ✅',
+          timer: 3000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown',
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp',
+          },
+          customClass: {
+            title: 'text-2xl font-semibold text-green-600',
+            icon: 'text-green-500 animate-bounce',
+            timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+          },
+          backdrop: `rgba(0, 0, 0, 0.4)`,
+        });
+        // alert
         router.push('/dashboard'); // Ganti dengan rute tujuan setelah login
       } else {
         setLoginError(result.message || 'Login gagal. Silakan coba lagi.');
@@ -70,7 +92,7 @@ const Login = () => {
         icon: 'success',
         title: 'Berhasil Login!',
         text: 'Selamat Datang ✅',
-        timer: 3000,
+        timer: 1500,
         timerProgressBar: true,
         showConfirmButton: false,
         showClass: {

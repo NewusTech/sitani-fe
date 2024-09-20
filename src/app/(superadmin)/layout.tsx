@@ -67,9 +67,13 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
     return (
         <div className="wrap w-full min-h-screen bg-white relative">
             {/* navbar */}
-            <div className="navatas lg:px-0 top-0 w-full md:w-full right-0 fixed md:bg-transparent bg-[#F6F6F6] py-2 pr-4 md:-z-30 z-10">
-                <div className="wra white -z-10 md:ml-[290px]  bg-transparent   m-auto justify-end lg:justify-end md:py-[23px] flex items-center gap-4 text-left">
-                    <div onClick={handleNavbar} className="icon  flex cursor-pointer lg:hidden bg-primary rounded p-2 w-[40px]  justify-center items-center px-2 text-white ">
+            <div className="navatas lg:px-0 top-0 w-full md:w-full right-0 fixed md:bg-transparent bg-white py-4 pr-5 pl-5 md:-z-30 z-10">
+                <div className="wra white -z-10 md:ml-[290px] bg-transparent m-auto justify-between lg:justify-end md:py-[23px] flex items-center gap-4 text-left">
+                    <div className="teks flex-shrink-0 text-primary animate-pulse transition-all">
+                        <div className="head font-bold text-lg text-primary">SITANI</div>
+                        <div className="head text-sm">Super Admin</div>
+                    </div>
+                    <div onClick={handleNavbar} className="icon  flex cursor-pointer lg:hidden bg-primary rounded p-2 w-[40px] justify-center items-center px-2 text-white ">
                         {navbar ? <CloseNav /> : <OpenNav />}
                     </div>
                 </div>
@@ -356,8 +360,8 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
             </div>
             {/* KONTEN */}
-            <div className="konten z-10 lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px]  md:pt-[15px] pt-[50px] h-full">
-                <div className="konten  overflow-auto h-[90%] p-3 lg:px-1">
+            <div className="konten z-10 lg:px-0 px-[10px] lg:mr-[20px] lg:ml-[320px] md:pt-[15px] pt-[70px] h-full">
+                <div className="konten overflow-auto h-[90%] p-3 lg:px-1">
                     {/* konten */}
                     {props.children}
                 </div>
