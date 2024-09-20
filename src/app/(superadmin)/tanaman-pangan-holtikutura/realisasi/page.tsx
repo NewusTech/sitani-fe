@@ -45,7 +45,7 @@ const RealisasiPage = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary uppercase">
+            <div className="text-xl md:text-2xl mb-4 font-semibold text-primary capitalize">
                 Realisasi luas panen, produktivitas dan produksi
             </div>
             {/* tabs */}
