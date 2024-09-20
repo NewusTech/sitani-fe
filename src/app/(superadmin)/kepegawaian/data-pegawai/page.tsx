@@ -300,7 +300,7 @@ const DataPegawaiPage = () => {
         </div>
         {/* unduh */}
         <KepegawaianDataPegawaiPrint
-          urlApi={`/kepegawaian/get?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`}
+          urlApi={`/kepegawaian/get?page=${currentPage}&search=${search}&bidangId=${selectedBidang}`}
         />
         {/* unduh */}
       </div>
@@ -325,8 +325,8 @@ const DataPegawaiPage = () => {
       {/* top */}
 
       {/* table */}
-      <Table className='border border-slate-200 mt-4'>
-        <TableHeader className='bg-primary-600'>
+      <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
+        <TableHeader className='bg-primary-600 shadow-lg'>
           <TableRow >
             {visibleColumns.includes('no') && (
               <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">

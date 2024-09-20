@@ -148,11 +148,12 @@ const KomponenKoefisienVariasiPrduksi = () => {
             <div className="galeri md:py-[60px]">
                 {/* header */}
                 <div className="header lg:flex lg:justify-between items-center">
-                    <div className="search w-full lg:w-[70%]">
-                        <div className="text-primary font-semibold text-lg lg:text-3xl flex-shrink-0">Data Coefesien Variansi (CV) Tk. Produksi</div>
+                    <div className="search w-full lg:w-[70%] mb-2">
+                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left md:hidden">Data Coefesien <br /> Variansi (CV) Tk. Produksi</div>
+                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left hidden md:block">Data Coefesien Variansi (CV) Tk. Produksi</div>
                     </div>
                     {/* top */}
-                    <div className="header flex gap-6 justify-between items-center mt-4">
+                    <div className="header flex gap-6 justify-between items-center mt-2 lg:mt-0">
                         <div className="filter-table w-[40px] h-[40px]">
                             <FilterTable
                                 columns={columns}
@@ -160,7 +161,7 @@ const KomponenKoefisienVariasiPrduksi = () => {
                                 onFilterChange={handleFilterChange}
                             />
                         </div>
-                        <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
+                        <div className="wrap-filter left gap-1 lg:gap-2 flex justify-between lg:justify-start items-center w-full">
                             <div className="w-auto">
                                 <Select
                                     onValueChange={(value) => setTahun(value)}
@@ -182,21 +183,23 @@ const KomponenKoefisienVariasiPrduksi = () => {
                                     </SelectContent>
                                 </Select>
                             </div>
+                            <div className="div">
+                                {/* print */}
+                                <KoefisienVariasiProduksiPrint
+                                    urlApi={`/kepang/cv-produksi/get?year=${tahun}`}
+                                    tahun={tahun}
+                                />
+                                {/* print */}
+                            </div>
                         </div>
-                        {/* print */}
-                        <KoefisienVariasiProduksiPrint
-                            urlApi={`/kepang/cv-produksi/get?year=${tahun}`}
-                            tahun={tahun}
-                        />
-                        {/* print */}
                     </div>
                     {/* top */}
                 </div>
                 {/* header */}
 
                 {/* table */}
-                <Table className='border border-slate-200 mt-4'>
-                    <TableHeader className='bg-primary-600'>
+                <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
+                    <TableHeader className='bg-primary-600 shadow-lg rounded-lg'>
                         <TableRow >
                             {/* {visibleColumns.includes('no') && ( */}
                             <TableHead className="text-primary py-3">No</TableHead>

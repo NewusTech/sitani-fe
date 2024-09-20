@@ -110,7 +110,7 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
                 })
                 .then((res) => res.data)
     );
-    
+
     // print
     const printRef = useRef<HTMLDivElement>(null);
     const handlePrint = useReactToPrint({
@@ -259,7 +259,7 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
                     {/* title */}
 
                     {/* table */}
-                    <Table className='border border-black p-2 mt-1'>
+                    <Table className='border border-black p-2 mt-1 text-xs'>
                         <TableHeader className='bg-white text-black'>
                             <TableRow>
                                 <TableHead className="border border-black p-2 text-black text-center font-semibold">No</TableHead>
@@ -285,7 +285,7 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
                                                 <TableCell className='border border-black p-2 text-black text-center' key={komoditas}>
                                                     {foundCommodity ? (
                                                         <div className="flex items-center m-auto justify-center gap-4">
-                                                            <div className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
+                                                            <div className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
                                                                 {new Intl.NumberFormat('id-ID').format(foundCommodity.nilai)}
                                                             </div>
                                                         </div>

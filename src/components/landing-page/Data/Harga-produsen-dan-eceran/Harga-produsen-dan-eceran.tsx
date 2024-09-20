@@ -2,7 +2,10 @@
 import { Input } from '@/components/ui/input'
 import React, { useEffect, useState } from 'react'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
-
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale'; // Import Indonesian locale
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
     Table,
     TableBody,
@@ -39,11 +42,7 @@ import {
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
-import { format } from "date-fns"
 import { Button } from '@/components/ui/button'
-
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 interface Komoditas {
     id: number;
@@ -234,12 +233,13 @@ const KomponenHargaProdusenDanEceran = () => {
             <div className="galeri md:py-[60px]">
                 {/* header */}
                 <div className="header lg:flex lg:justify-between items-center">
-                    <div className="search w-full lg:w-[70%]">
-                        <div className="text-primary font-semibold text-lg lg:text-3xl flex-shrink-0">Daftar Harga Produsen dan Eceran</div>
+                    <div className="search w-full lg:w-[50%] mb-2">
+                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left md:hidden">Daftar Harga <br /> Produsen dan Eceran</div>
+                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left hidden md:block">Daftar Harga Produsen dan Eceran</div>
                     </div>
                     {/* top */}
-                    <div className="header flex gap-2 justify-between items-center mt-4">
-                        <div className="search md:w-[50%]">
+                    <div className="header flex gap-2 justify-between items-center mt-2 lg:mt-0 lg:w-[50%]">
+                        <div className="search md:w-full">
                             <Input
                                 autoFocus
                                 type="text"
@@ -254,82 +254,89 @@ const KomponenHargaProdusenDanEceran = () => {
                         <KetahananPanganProdusenEceranPrint
                             urlApi={`/kepang/produsen-eceran/get?page=${currentPage}&search=${search}`}
                         />
-                        {/* print */}
                     </div>
                     {/* top */}
                 </div>
                 {/* print */}
-                <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !startDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <DatePicker
-                                    inline
-                                    selected={startDate}
-                                    onChange={(date: any) => setstartDate(date)}
-                                    showYearDropdown
-                                    dateFormat="dd/MM/yyyy"
-                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                    yearDropdownItemNumber={15}
-                                    scrollableYearDropdown
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <div className="">-</div>
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !endDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <DatePicker
-                                    inline
-                                    selected={endDate}
-                                    onChange={(date: any) => setendDate(date)}
-                                    showYearDropdown
-                                    dateFormat="dd/MM/yyyy"
-                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                    yearDropdownItemNumber={15}
-                                    scrollableYearDropdown
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <div className="w-[40px] h-[40px]">
+                {/* filter */}
+                <div className="wrap-filter left gap-1 lg:gap-2 flex justify-center lg:justify-end items-center w-full mt-2">
+                    {/* filter tanggal */}
+                    <>
+                        <div className="w-auto">
+                            <Popover>
+                                <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                                            !startDate && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                                        {startDate ? format(startDate, "dd/MM/yyyy", { locale: id }) : <span>Tanggal Awal</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <DatePicker
+                                        inline
+                                        selected={startDate}
+                                        onChange={(date: any) => setstartDate(date)}
+                                        showYearDropdown
+                                        dateFormat="dd/MM/yyyy"
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        yearDropdownItemNumber={15}
+                                        scrollableYearDropdown
+                                        locale={id}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        <div className="">-</div>
+                        <div className="w-auto">
+                            <Popover>
+                                <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                                            !endDate && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                                        {endDate ? format(endDate, "dd/MM/yyyy", { locale: id }) : <span>Tanggal Akhir</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <DatePicker
+                                        inline
+                                        selected={endDate}
+                                        onChange={(date: any) => setendDate(date)}
+                                        showYearDropdown
+                                        dateFormat="dd/MM/yyyy"
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        yearDropdownItemNumber={15}
+                                        scrollableYearDropdown
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                    </>
+                    {/* filter tanggal */}
+                    {/* Filter table */}
+                    <div className="">
                         <FilterTable
                             columns={columns}
                             defaultCheckedKeys={getDefaultCheckedKeys()}
                             onFilterChange={handleFilterChange}
                         />
                     </div>
+                    {/* Filter table */}
                 </div>
                 {/* header */}
 
                 {/* table */}
-                <Table className='border border-slate-200 mt-4'>
-                    <TableHeader className='bg-primary-600'>
+                <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
+                    <TableHeader className='bg-primary-600 shadow-lg'>
                         <TableRow >
                             {visibleColumns.includes('no') && (
                                 <TableHead className="text-primary py-3">No</TableHead>
@@ -402,7 +409,6 @@ const KomponenHargaProdusenDanEceran = () => {
                             </TableRow>
                         )}
                     </TableBody>
-
                 </Table>
                 {/* table */}
 

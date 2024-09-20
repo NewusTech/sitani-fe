@@ -120,7 +120,7 @@ const Login = () => {
                 <div className="head text-sm md:text-base">Sistem Informasi Data Pertanian Lampung Timur</div>
               </div>
             </div>
-            <div className="m-5 pl-5 pr-5 pt-5 pb-5 lg:pb-0 lg:pt-0  md:border-none lg:border-none  border-2 border-primary rounded-lg">
+            <div className="m-5 pl-5 pr-5 pt-5 pb-5 lg:pb-0 lg:pt-0  md:border-none lg:border-none border-2 border-primary rounded-lg ">
               <h1 className="text-xl lg:text-[24px] mb-5 md:mb-5 text-primary font-semibold text-left">
                 Silahkan Masuk
               </h1>
@@ -172,7 +172,7 @@ const Login = () => {
                   disabled={loading} // Disable button during loading
                 >
                   {loading ? (
-                    <span className="flex items-center justify-center">
+                    <span className="flex items-center justify-center animate-pulse transition-all">
                       <svg
                         className="animate-spin h-5 w-5 mr-3 text-white"
                         xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +193,7 @@ const Login = () => {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.964 7.964 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      Loading...
+                      Tunggu...
                     </span>
                   ) : (
                     'Masuk'
@@ -207,10 +207,10 @@ const Login = () => {
               </div>
             </div>
             {/* Footer Section */}
-              <div className="text-[14px] lg:text-sm bottom-0 left-0 right-0 flex justify-center text-primary gap-1 py-2 bg-white">
+              <div className="text-[14px] lg:text-sm bottom-0 left-0 right-0 flex justify-center text-primary gap-1 py-2 bg-white animate-pulse transition-all">
                 <span>copyright 2024</span>
-                <span>&copy;</span>
-                <span className="font-bold">SITANI</span>
+                <span className=''>&copy;</span>
+                <span className="">SITANI</span>
                 <span>Lampung Timur</span>
               </div>
             </div>

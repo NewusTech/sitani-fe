@@ -290,7 +290,7 @@ const TPHPalawija2 = (props: PrintProps) => {
                     </div>
                     {/* title */}
                     {/* table */}
-                    <Table className='border border-black p-2 mt-1'>
+                    <Table className='border border-black p-2 mt-1 text-xs'>
                         <TableHeader className='bg-gray-100 text-black'>
                             <TableRow >
                                 <TableHead rowSpan={2} className="border border-black p-2 text-black uppercase text-center font-semibold">

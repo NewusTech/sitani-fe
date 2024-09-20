@@ -299,7 +299,7 @@ const KepangPerbandingan = (props: PrintProps) => {
                     </div>
                     {/* title */}
                     {/* table */}
-                    <Table className='border border-black p-2 mt-1'>
+                    <Table className='border border-black p-2 mt-1 text-xs'>
                         <TableHeader className='bg-white text-black'>
                             <TableRow>
 

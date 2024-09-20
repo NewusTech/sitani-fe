@@ -83,7 +83,7 @@ const GaleriLanding = () => {
                 </div>
                 {/* header */}
                 {/* Card */}
-                <div className="wrap-card grid grid-cols-1 md:grid-cols-3 gap-4 md:py-[30px] py-[20px]">
+                <div className="wrap-card grid grid-cols-1 md:grid-cols-3 gap-4 md:py-[30px] py-[20px] mb-10 lg:mb-0">
                     {dataGaleri?.data?.data && dataGaleri.data.data.length > 0 ? (
                         dataGaleri.data.data.map((galeri, index) => (
                             <CardGaleriPage key={index} image={galeri.image} deskripsi={galeri.deskripsi} onClick={() => handleCardClick(galeri)} />

@@ -125,7 +125,8 @@ const KomponenKoefisienVariasiProdusen = () => {
                 {/* header */}
                 <div className="header lg:flex lg:justify-between items-center">
                     <div className="search w-full lg:w-[70%]">
-                        <div className="text-primary font-semibold text-lg lg:text-3xl flex-shrink-0">Data Coefesien Variansi (CV) Tk. Produsen</div>
+                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left md:hidden">Data Coefesien <br /> Variansi (CV) Tk. Produsen</div>
+                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left hidden md:block">Data Coefesien Variansi (CV) Tk. Produsen</div>
                     </div>
                     {/* top */}
                     <div className="header flex gap-2 justify-between items-center mt-4">
@@ -163,8 +164,8 @@ const KomponenKoefisienVariasiProdusen = () => {
                 </div>
                 {/* header */}
                 {/* table */}
-                <Table className='border border-slate-200 mt-4'>
-                    <TableHeader className='bg-primary-600'>
+                <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
+                    <TableHeader className='bg-primary-600 shadow-lg'>
                         <TableRow>
                             <TableHead className="text-primary py-3">No</TableHead>
                             <TableHead className="text-primary py-3">Bulan</TableHead>
@@ -186,7 +187,7 @@ const KomponenKoefisienVariasiProdusen = () => {
                                             <TableCell key={komoditas}>
                                                 {foundCommodity ? (
                                                     <div className="flex items-center gap-4">
-                                                        <div className="nav flex pr-4 text-sm items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
+                                                        <div className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
                                                             {new Intl.NumberFormat('id-ID').format(foundCommodity.nilai)}
                                                         </div>
                                                     </div>

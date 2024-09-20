@@ -14,6 +14,10 @@ import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale'; // Import Indonesian locale
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
     Table,
     TableBody,
@@ -43,7 +47,6 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
@@ -290,55 +293,68 @@ const DataPenerimaUppo = () => {
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !startDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar className=''
-                                    mode="single"
-                                    selected={startDate}
-                                    onSelect={setstartDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <div className="">-</div>
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !endDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={endDate}
-                                    onSelect={setendDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
+                    {/* filter tanggal */}
+                    <>
+                        <div className="w-auto">
+                            <Popover>
+                                <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                                            !startDate && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                                        {startDate ? format(startDate, "dd/MM/yyyy", { locale: id }) : <span>Tanggal Awal</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <DatePicker
+                                        inline
+                                        selected={startDate}
+                                        onChange={(date: any) => setstartDate(date)}
+                                        showYearDropdown
+                                        dateFormat="dd/MM/yyyy"
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        yearDropdownItemNumber={15}
+                                        scrollableYearDropdown
+                                        locale={id}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        <div className="">-</div>
+                        <div className="w-auto">
+                            <Popover>
+                                <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
+                                            !endDate && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
+                                        {endDate ? format(endDate, "dd/MM/yyyy", { locale: id }) : <span>Tanggal Akhir</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <DatePicker
+                                        inline
+                                        selected={endDate}
+                                        onChange={(date: any) => setendDate(date)}
+                                        showYearDropdown
+                                        dateFormat="dd/MM/yyyy"
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        yearDropdownItemNumber={15}
+                                        scrollableYearDropdown
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                    </>
+                    {/* filter tanggal */}
                     <div className="w-[40px] h-[40px]">
                         <FilterTable
                             columns={columns}
@@ -364,8 +380,8 @@ const DataPenerimaUppo = () => {
             {/* top */}
 
             {/* table */}
-            <Table className='border border-slate-200 mt-4'>
-                <TableHeader className='bg-primary-600'>
+            <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
+                <TableHeader className='bg-primary-600 shadow-lg'>
                     <TableRow >
                         <TableHead className="text-primary py-1">No</TableHead>
                         {visibleColumns.includes('kecamatan') && (

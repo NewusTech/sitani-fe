@@ -240,7 +240,7 @@ const KoefisienVariasiProduksiPrint = (props: PrintProps) => {
                     {/* title */}
 
                     {/* table */}
-                    <Table className='border border-black p-2 mt-1'>
+                    <Table className='border border-black p-2 mt-1 text-xs'>
                         <TableHeader className='bg-white text-black'>
                             <TableRow >
                                 <TableHead className="border border-black p-2 text-black text-center">No</TableHead>
