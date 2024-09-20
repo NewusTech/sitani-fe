@@ -243,8 +243,8 @@ const TPHPalawija1 = (props: PrintProps) => {
         "Juli", "Agustus", "September", "Oktober", "November", "Desember"
     ];
     // Check if props.bulan is a number and map it to month name
-  const monthNumber = typeof props.bulan === 'number' ? props.bulan : Number(props.bulan);
-  const monthName = monthNumber >= 1 && monthNumber <= 12 ? months[monthNumber - 1] : 'tidak ada';
+    const monthNumber = typeof props.bulan === 'number' ? props.bulan : Number(props.bulan);
+    const monthName = monthNumber >= 1 && monthNumber <= 12 ? months[monthNumber - 1] : 'tidak ada';
 
 
     return (
@@ -291,7 +291,7 @@ const TPHPalawija1 = (props: PrintProps) => {
                     </div>
                     {/* title */}
                     {/* table */}
-                    <Table className='border border-black p-2 mt-1'>
+                    <Table className='border border-black p-2 mt-1 text-xs'>
                         <TableHeader className='bg-gray-100 text-black'>
                             <TableRow >
                                 <TableHead rowSpan={2} className="border border-black p-2 text-black uppercase text-center font-semibold">

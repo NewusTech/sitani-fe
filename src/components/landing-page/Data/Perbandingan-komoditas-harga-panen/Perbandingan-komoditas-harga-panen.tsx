@@ -180,12 +180,12 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
         <div className='md:pt-[130px] pt-[30px] container mx-auto'>
             <div className="galeri md:py-[60px]">
                 {/* header */}
-                <div className="header lg:flex lg:justify-between items-center">
+                <div className="header lg:flex lg:justify-between items-center gap-2">
                     <div className="search w-full lg:w-[70%]">
-                        <div className="text-primary font-semibold text-lg lg:text-3xl flex-shrink-0">Perbandingan Komoditas Harga Panen Tingkat Eceran</div>
+                        <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left">Perbandingan Komoditas Harga Panen Tingkat Eceran</div>
                     </div>
                     {/* top */}
-                    <div className="header flex gap-2 justify-between items-center mt-4">
+                    <div className="header flex gap-2 justify-between items-center mt-2 lg:mt-0">
                         <div className="search md:w-[50%]">
                             <Input
                                 autoFocus
@@ -198,20 +198,9 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                             />
                         </div>
                         {/* print */}
-                        <KepangPerbandingan
-                            urlApi={`/kepang/perbandingan-harga/get?year=${tahun}`}
-                            tahun={tahun}
-                        />
-                        {/* print */}
-                    </div>
-                    {/* top */}
-                </div>
-                {/* filter tahun */}
-                <div className="wrap-filter left gap-1 lg:gap-2 flex 
-                justify-start lg:justify-end items-center w-full mt-4">
-                    <div className="w-auto">
+                        {/* filter tahun */}
                         {/* Dropdown Tahun */}
-                        <div className="w-auto">
+                        <div className="">
                             <Select
                                 onValueChange={(value) => setTahun(value)}
                                 value={tahun}
@@ -232,14 +221,21 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                                 </SelectContent>
                             </Select>
                         </div>
+                        {/* filter tahun */}
+                        <KepangPerbandingan
+                            urlApi={`/kepang/perbandingan-harga/get?year=${tahun}`}
+                            tahun={tahun}
+                        />
+                        {/* print */}
                     </div>
+                    {/* top */}
+
                 </div>
-                {/* filter tahun */}
                 {/* header */}
 
                 {/* table */}
-                <Table className='border border-slate-200 mt-4'>
-                    <TableHeader className='bg-primary-600'>
+                <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
+                    <TableHeader className='bg-primary-600 shadow-lg'>
                         <TableRow>
                             <TableHead className="text-primary py-3">No</TableHead>
                             <TableHead className="text-primary py-3">Komoditas</TableHead>
@@ -265,7 +261,7 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                 {/* table */}
 
                 {/* Card */}
-                <div className="lg:flex flex-col justify-center lg:justify-between gap-4 mt-5">
+                <div className="lg:flex flex-col justify-center lg:justify-between gap-4 mt-5 mb-32 lg:mb-0">
                     <div className="wrap flex flex-col md:flex-row gap-3">
                         <div className="w-full">
                             {/* Card */}

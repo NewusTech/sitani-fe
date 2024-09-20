@@ -110,7 +110,7 @@ const BeritaLayout = () => {
                         )}
                     </div>
                     {/* pagination */}
-                    <div className="pagi flex items-center lg:justify-end justify-center">
+                    <div className="pagi flex items-center lg:justify-end justify-center mb-20 lg:mb-0">
                         {dataArtikel?.data.pagination.totalCount as number > 1 && (
                             <PaginationTable
                                 currentPage={currentPage}

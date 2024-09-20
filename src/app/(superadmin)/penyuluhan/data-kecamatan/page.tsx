@@ -272,8 +272,8 @@ const PenyuluhDataKecamatan = () => {
             {/* top */}
 
             {/* table */}
-            <Table className='border border-slate-200 mt-4'>
-                <TableHeader className='bg-primary-600'>
+            <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
+                <TableHeader className='bg-primary-600 shadow-lg'>
                     <TableRow >
                         <TableHead className="text-primary py-3">No</TableHead>
                         {visibleColumns.includes('kecamatanData') && (

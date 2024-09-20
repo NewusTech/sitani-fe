@@ -291,7 +291,7 @@ const KetahananPanganProdusenEceranPrint = (props: PrintProps) => {
                     </div>
                     {/* title */}
                     {/* table */}
-                    <Table className='border border-black p-2 mt-1 uppercase'>
+                    <Table className='border border-black p-2 mt-1 uppercase text-xs'>
                         <TableHeader className='bg-white text-black'>
                             <TableRow >
                                 <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">No</TableHead>

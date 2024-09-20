@@ -168,7 +168,7 @@ const DataPegawaiPagePensiun = () => {
         </div>
         {/* unduh */}
         <KepegawaianDataPensiunPrint
-          urlApi={`/kepegawaian/data-pensiun?page=${currentPage}&search=${search}&limit=10&bidangId=${selectedBidang}`}
+          urlApi={`/kepegawaian/data-pensiun?page=${currentPage}&search=${search}&bidangId=${selectedBidang}`}
         />
         {/* unduh */}
       </div>
@@ -191,8 +191,8 @@ const DataPegawaiPagePensiun = () => {
       {/* top */}
 
       {/* table */}
-      <Table className='border border-slate-200 mt-4'>
-        <TableHeader className='bg-primary-600'>
+      <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
+        <TableHeader className='bg-primary-600 shadow-lg'>
           <TableRow>
             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">No</TableHead>
             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">Nama/NIP <br /> Tempat/Tgl Lahir</TableHead>
