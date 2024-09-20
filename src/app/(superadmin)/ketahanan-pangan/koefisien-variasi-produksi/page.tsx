@@ -57,6 +57,7 @@ import {
 } from "@/components/ui/select"
 import FilterTable from '@/components/FilterTable'
 import KoefisienVariasiProduksiPrint from '@/components/Print/KetahananPangan/Koefisien-Variasi-Produksi/Index'
+import TambahIcon from '../../../../../public/icons/TambahIcon'
 
 
 const KoefisienVariasiProduksi = () => {
@@ -221,68 +222,138 @@ const KoefisienVariasiProduksi = () => {
             {/* title */}
             <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Coefesien Variansi (CV) Tk. Produksi</div>
             {/* title */}
-            {/* top */}
-            <div className="header flex gap-2 justify-between items-center">
-                <div className="search md:w-[50%]">
-                    {/* <Input
+
+            {/* Dekstop */}
+            <div className="hidden md:block">
+                <>
+                    {/* top */}
+                    <div className="header flex gap-2 justify-between items-center">
+                        <div className="search md:w-[50%]">
+                            {/* <Input
                         type="text"
                         placeholder="Cari"
                         rightIcon={<SearchIcon />}
                         className='border-primary py-2'
                     /> */}
-                </div>
-                {/* print */}
-                <KoefisienVariasiProduksiPrint
-                    urlApi={`/kepang/cv-produksi/get?year=${tahun}`}
-                    tahun={tahun}
-                />
-                {/* print */}
-            </div>
-            {/* top */}
-            <div className="flex gap-2 lg:justify-between lg:items-center w-full mt-4">
-                <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                    <div className="w-auto">
-                        <Select
-                            onValueChange={(value) => setTahun(value)}
-                            value={tahun}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Tahun" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="2018">2018</SelectItem>
-                                <SelectItem value="2019">2019</SelectItem>
-                                <SelectItem value="2020">2020</SelectItem>
-                                <SelectItem value="2021">2021</SelectItem>
-                                <SelectItem value="2022">2022</SelectItem>
-                                <SelectItem value="2023">2023</SelectItem>
-                                <SelectItem value="2024">2024</SelectItem>
-                                <SelectItem value="2025">2025</SelectItem>
-                                <SelectItem value="2026">2026</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="w-[40px] h-[40px]">
-                        <FilterTable
-                            columns={columns}
-                            defaultCheckedKeys={getDefaultCheckedKeys()}
-                            onFilterChange={handleFilterChange}
+                        </div>
+                        {/* print */}
+                        <KoefisienVariasiProduksiPrint
+                            urlApi={`/kepang/cv-produksi/get?year=${tahun}`}
+                            tahun={tahun}
                         />
+                        {/* print */}
                     </div>
-                </div>
-                <div className="w-full">
-                    <div className="flex justify-end">
-                        <Link href="/ketahanan-pangan/koefisien-variasi-produksi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                            Tambah Data
-                        </Link>
+                    {/* top */}
+                    <div className="flex gap-2 lg:justify-between lg:items-center w-full mt-4">
+                        <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
+                            <div className="w-auto">
+                                <Select
+                                    onValueChange={(value) => setTahun(value)}
+                                    value={tahun}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Tahun" className='text-2xl' />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="2018">2018</SelectItem>
+                                        <SelectItem value="2019">2019</SelectItem>
+                                        <SelectItem value="2020">2020</SelectItem>
+                                        <SelectItem value="2021">2021</SelectItem>
+                                        <SelectItem value="2022">2022</SelectItem>
+                                        <SelectItem value="2023">2023</SelectItem>
+                                        <SelectItem value="2024">2024</SelectItem>
+                                        <SelectItem value="2025">2025</SelectItem>
+                                        <SelectItem value="2026">2026</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="w-[40px] h-[40px]">
+                                <FilterTable
+                                    columns={columns}
+                                    defaultCheckedKeys={getDefaultCheckedKeys()}
+                                    onFilterChange={handleFilterChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="w-full">
+                            <div className="flex justify-end">
+                                <Link href="/ketahanan-pangan/koefisien-variasi-produksi/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                                    Tambah Data
+                                </Link>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    {/* top */}
+                </>
             </div>
-            {/* top */}
+            {/* Dekstop */}
+
+            {/* Mobile */}
+            <div className="md:hidden">
+                <>
+                    {/* kolom 1 */}
+                    <div className="flex justify-between">
+                        <div className="flex gap-2 w-full">
+
+                            {/* filter tahun */}
+                            <div className="w-full">
+                                <Select
+                                    onValueChange={(value) => setTahun(value)}
+                                    value={tahun || ""}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Tahun" className='text-2xl'>
+                                            {tahun ? tahun : "Tahun"}
+                                        </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="2018">2018</SelectItem>
+                                        <SelectItem value="2019">2019</SelectItem>
+                                        <SelectItem value="2020">2020</SelectItem>
+                                        <SelectItem value="2021">2021</SelectItem>
+                                        <SelectItem value="2022">2022</SelectItem>
+                                        <SelectItem value="2023">2023</SelectItem>
+                                        <SelectItem value="2024">2024</SelectItem>
+                                        <SelectItem value="2025">2025</SelectItem>
+                                        <SelectItem value="2026">2026</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            {/* filter tahun */}
+
+                            {/* filter table */}
+                            <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            />
+                            {/* filter table */}
+
+                            {/* print */}
+                            <KoefisienVariasiProduksiPrint
+                                urlApi={`/kepang/cv-produksi/get?year=${tahun}`}
+                                tahun={tahun}
+                            />
+                            {/* print */}
+
+                            {/* button tambah */}
+                            <Link
+                                href="/ketahanan-pangan/koefisien-variasi-produksi/tambah"
+                                className='bg-primary text-sm px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-center flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 w-fit'>
+                                <TambahIcon />
+                            </Link>
+                            {/* button tambah */}
+
+                        </div>
+                    </div>
+                    {/* kolom 1 */}
+                </>
+            </div>
+            {/* Mobile */}
 
             {/* table */}
-            <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
-                <TableHeader className='bg-primary-600 shadow-lg'>
+            <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs md:text-sm rounded-lg'>
+                <TableHeader className='bg-primary-600'>
                     <TableRow >
                         {/* {visibleColumns.includes('no') && ( */}
                         <TableHead className="text-primary py-3">No</TableHead>

@@ -247,7 +247,7 @@ const ProdusenDanEceran = () => {
   return (
     <div>
       {/* title */}
-      <div className="text-xl md:text-2xl md:mb-4 mb-2 font-semibold text-primary uppercase">Daftar Harga Produsen dan Eceran</div>
+      <div className="text-2xl mb-4 font-semibold text-primary capitalize">Daftar Harga Produsen dan Eceran</div>
       {/* title */}
 
       {/* Dekstop */}
@@ -420,7 +420,7 @@ const ProdusenDanEceran = () => {
                 value={search}
                 onChange={handleSearchChange}
                 rightIcon={<SearchIcon />}
-                className='border-primary py-2'
+                className='border-primary py-2 text-xs'
               />
             </div>
           </div>
@@ -498,8 +498,8 @@ const ProdusenDanEceran = () => {
       {/* Mobile */}
 
       {/* table */}
-      <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs md:text-sm shadow-lg rounded-lg'>
-        <TableHeader className='bg-primary-600 shadow-lg'>
+      <Table className='border border-slate-200 mt-4 mb-10 lg:mb-0 text-xs md:text-sm rounded-lg'>
+        <TableHeader className='bg-primary-600'>
           <TableRow >
             {visibleColumns.includes('no') && (
               <TableHead className="text-primary py-3">No</TableHead>
