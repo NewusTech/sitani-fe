@@ -154,45 +154,106 @@ const DataPegawaiPagePensiun = () => {
       <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Pegawai Pensiun</div>
       {/* title */}
 
-      {/* top */}
-      <div className="header flex justify-between items-center">
-        <div className="search w-[50%]">
-          <Input
-            type="text"
-            placeholder="Cari"
-            value={search}
-            onChange={handleSearchChange}
-            rightIcon={<SearchIcon />}
-            className='border-primary py-2'
-          />
-        </div>
-        {/* unduh */}
-        <KepegawaianDataPensiunPrint
-          urlApi={`/kepegawaian/data-pensiun?page=${currentPage}&search=${search}&bidangId=${selectedBidang}`}
-        />
-        {/* unduh */}
-      </div>
-      {/*  */}
-      <div className="wrap-filter left gap-2 lg:gap-2 flex lg:justify-start justify-between items-center w-full mt-4">
-        <div className="w-full lg:w-1/4">
-          <BidangSelect
-            value={selectedBidang}
-            onChange={(value) => {
-              setSelectedBidang(value);
-            }}
-          />
-        </div>
-        <div className="w-[50px] h-full lg:w-[40px] lg:h-[40px]">
-          {/* <Button variant="outlinePrimary" className=''>
+      {/* Dekstop */}
+      <div className="hidden md:block">
+        <>
+          {/* top */}
+          <div className="header flex justify-between items-center">
+            <div className="search w-[50%]">
+              <Input
+                type="text"
+                placeholder="Cari"
+                value={search}
+                onChange={handleSearchChange}
+                rightIcon={<SearchIcon />}
+                className='border-primary py-2'
+              />
+            </div>
+            {/* unduh */}
+            <KepegawaianDataPensiunPrint
+              urlApi={`/kepegawaian/data-pensiun?page=${currentPage}&search=${search}&bidangId=${selectedBidang}`}
+            />
+            {/* unduh */}
+          </div>
+          {/*  */}
+          <div className="wrap-filter left gap-2 lg:gap-2 flex lg:justify-start justify-between items-center w-full mt-4">
+            <div className="w-full lg:w-1/4">
+              <BidangSelect
+                value={selectedBidang}
+                onChange={(value) => {
+                  setSelectedBidang(value);
+                }}
+              />
+            </div>
+            <div className="w-[50px] h-full lg:w-[40px] lg:h-[40px]">
+              {/* <Button variant="outlinePrimary" className=''>
             <FilterIcon />
           </Button> */}
-        </div>
+            </div>
+          </div>
+          {/* top */}
+        </>
       </div>
-      {/* top */}
+      {/* Dekstop */}
+
+      {/* Mobile */}
+      <div className="md:hidden">
+        <>
+          {/* kolom 1 */}
+          <div className="flex justify-between">
+            <div className="flex gap-2 w-full">
+
+              {/* filter tahun */}
+              <div className="search w-full">
+                <Input
+                  autoFocus
+                  type="text"
+                  placeholder="Cari"
+                  value={search}
+                  onChange={handleSearchChange}
+                  rightIcon={<SearchIcon />}
+                  className='border-primary py-2 text-xs'
+                />
+              </div>
+              {/* filter tahun */}
+
+              {/* filter table */}
+              {/* <FilterTable
+                columns={columns}
+                defaultCheckedKeys={getDefaultCheckedKeys()}
+                onFilterChange={handleFilterChange}
+              /> */}
+              {/* filter table */}
+
+              {/* print */}
+              <KepegawaianDataPensiunPrint
+                urlApi={`/kepegawaian/data-pensiun?page=${currentPage}&search=${search}&bidangId=${selectedBidang}`}
+              />
+              {/* print */}
+
+            </div>
+          </div>
+          {/* kolom 1 */}
+
+          {/* kolom 2 */}
+          <div className="mt-2 flex gap-2 justify-between items-center">
+            <div className="w-full lg:w-1/4">
+              <BidangSelect
+                value={selectedBidang}
+                onChange={(value) => {
+                  setSelectedBidang(value);
+                }}
+              />
+            </div>
+          </div>
+          {/* kolom 3 */}
+        </>
+      </div>
+      {/* Mobile */}
 
       {/* table */}
-      <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
-        <TableHeader className='bg-primary-600 shadow-lg'>
+      <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs lg:text-sm rounded-lg'>
+        <TableHeader className='bg-primary-600'>
           <TableRow>
             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">No</TableHead>
             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">Nama/NIP <br /> Tempat/Tgl Lahir</TableHead>

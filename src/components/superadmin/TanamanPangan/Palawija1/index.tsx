@@ -214,11 +214,11 @@ const Palawija1 = () => {
     useEffect(() => {
         setIsClient(true);
         setVisibleColumns(getDefaultCheckedKeys());
-        const handleResize = () => {
-            setVisibleColumns(getDefaultCheckedKeys());
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        // const handleResize = () => {
+        //     setVisibleColumns(getDefaultCheckedKeys());
+        // };
+        // window.addEventListener('resize', handleResize);
+        // return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     if (!isClient) {
@@ -420,7 +420,7 @@ const Palawija1 = () => {
             {/* mobile */}
 
             {/* table */}
-            <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 md:text-sm text-xs rounded-lg'>
+            <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 md:text-sm text-xs lg:text-sm rounded-lg'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
                         {visibleColumns.includes('no') && (

@@ -15,6 +15,15 @@ import useSWR from 'swr';
 import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale'; // Import Indonesian locale
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
   Table,
   TableBody,
@@ -47,6 +56,7 @@ import PaginationTable from '@/components/PaginationTable';
 import BidangSelect from '@/components/superadmin/SelectComponent/BidangValue';
 import FilterTable from '@/components/FilterTable';
 import KepegawaianDataPegawaiPrint from '@/components/Print/Kepegawaian/DataPegawai';
+import TambahIcon from '../../../../../public/icons/TambahIcon';
 
 interface Response {
   status: string,
@@ -106,10 +116,10 @@ const DataPegawaiPage = () => {
   const formatDate = (date?: Date): string => {
     if (!date) return ''; // Return an empty string if the date is undefined
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ensure two-digit month
-    const day = date.getDate().toString().padStart(2, '0'); // Ensure two-digit day
+    const month = date.getMonth() + 1; // getMonth() is zero-based
+    const day = date.getDate();
 
-    return `${year}-${month}-${day}`;
+    return `${year}/${month}/${day}`;
   };
   const [startDate, setstartDate] = React.useState<Date>()
   const [endDate, setendDate] = React.useState<Date>()
@@ -133,7 +143,15 @@ const DataPegawaiPage = () => {
   const [limit, setLimit] = useState(10);
   // limit
   // State untuk menyimpan id kecamatan yang dipilih
-  // const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+  const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+
+  // otomatis hitung tahun
+  const currentYear = new Date().getFullYear();
+  const startYear = currentYear - 5;
+  const endYear = currentYear + 1;
+  const [tahun, setTahun] = React.useState("Semua Tahun");
+  // otomatis hitung tahun
+
   const [selectedBidang, setSelectedBidang] = useState<string>("");
 
   const { data: dataKepegawaian }: SWRResponse<Response> = useSWR(
@@ -262,11 +280,11 @@ const DataPegawaiPage = () => {
   useEffect(() => {
     setIsClient(true);
     setVisibleColumns(getDefaultCheckedKeys());
-    const handleResize = () => {
-      setVisibleColumns(getDefaultCheckedKeys());
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    // const handleResize = () => {
+    //   setVisibleColumns(getDefaultCheckedKeys());
+    // };
+    // window.addEventListener('resize', handleResize);
+    // return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   if (!isClient) {
@@ -283,50 +301,111 @@ const DataPegawaiPage = () => {
   return (
     <div>
       {/* title */}
-      <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Pegawai</div>
+      <div className="text-2xl mb-5 font-semibold text-primary capitalize">Data Pegawai</div>
       {/* title */}
 
-      {/* top */}
-      <div className="header flex justify-between items-center">
-        <div className="search w-[50%]">
-          <Input
-            type="text"
-            placeholder="Cari"
-            value={search}
-            onChange={handleSearchChange}
-            rightIcon={<SearchIcon />}
-            className='border-primary py-2'
-          />
-        </div>
-        {/* unduh */}
-        <KepegawaianDataPegawaiPrint
-          urlApi={`/kepegawaian/get?page=${currentPage}&search=${search}&bidangId=${selectedBidang}`}
-        />
-        {/* unduh */}
+      {/* Dekstop */}
+      <div className="hidden md:block">
+        <>
+          {/* top */}
+          <div className="header flex justify-between gap-2 items-center">
+            <div className="search w-full lg:w-[50%]">
+              <Input
+                type="text"
+                placeholder="Cari"
+                value={search}
+                onChange={handleSearchChange}
+                rightIcon={<SearchIcon />}
+                className='border-primary py-2'
+              />
+            </div>
+            {/* unduh */}
+            <KepegawaianDataPegawaiPrint
+              urlApi={`/kepegawaian/get?page=${currentPage}&search=${search}&bidangId=${selectedBidang}`}
+            />
+            {/* unduh */}
+          </div>
+          {/*  */}
+          <div className="wrap-filter left gap-2 lg:gap-2 flex lg:justify-start justify-between items-center w-full mt-2">
+            <div className="w-full lg:w-1/4">
+              <BidangSelect
+                value={selectedBidang}
+                onChange={(value) => {
+                  setSelectedBidang(value);
+                }}
+              />
+            </div>
+            <div className="w-[50px] h-full lg:w-[40px] lg:h-[40px]">
+              <FilterTable
+                columns={columns}
+                defaultCheckedKeys={getDefaultCheckedKeys()}
+                onFilterChange={handleFilterChange}
+              />
+            </div>
+          </div>
+          {/* top */}
+        </>
       </div>
-      {/*  */}
-      <div className="wrap-filter left gap-2 lg:gap-2 flex lg:justify-start justify-between items-center w-full mt-4">
-        <div className="w-full lg:w-1/4">
-          <BidangSelect
-            value={selectedBidang}
-            onChange={(value) => {
-              setSelectedBidang(value);
-            }}
-          />
-        </div>
-        <div className="w-[50px] h-full lg:w-[40px] lg:h-[40px]">
-          <FilterTable
-            columns={columns}
-            defaultCheckedKeys={getDefaultCheckedKeys()}
-            onFilterChange={handleFilterChange}
-          />
-        </div>
+      {/* Dekstop */}
+
+      {/* Mobile */}
+      <div className="md:hidden">
+        <>
+          {/* kolom 1 */}
+          <div className="flex justify-between">
+            <div className="flex gap-2 w-full">
+
+              {/* filter tahun */}
+              <div className="search w-full">
+                <Input
+                  autoFocus
+                  type="text"
+                  placeholder="Cari"
+                  value={search}
+                  onChange={handleSearchChange}
+                  rightIcon={<SearchIcon />}
+                  className='border-primary py-2 text-xs'
+                />
+              </div>
+              {/* filter tahun */}
+
+              {/* filter table */}
+              <FilterTable
+                columns={columns}
+                defaultCheckedKeys={getDefaultCheckedKeys()}
+                onFilterChange={handleFilterChange}
+              />
+              {/* filter table */}
+
+              {/* print */}
+              <KepegawaianDataPegawaiPrint
+                urlApi={`/kepegawaian/get?page=${currentPage}&search=${search}&bidangId=${selectedBidang}`}
+              />
+              {/* print */}
+
+            </div>
+          </div>
+          {/* kolom 1 */}
+
+          {/* kolom 2 */}
+          <div className="mt-2 flex gap-2 justify-between items-center">
+            <div className="w-full lg:w-1/4">
+              <BidangSelect
+                value={selectedBidang}
+                onChange={(value) => {
+                  setSelectedBidang(value);
+                }}
+              />
+            </div>
+          </div>
+          {/* kolom 3 */}
+        </>
       </div>
-      {/* top */}
+      {/* Mobile */}
 
       {/* table */}
-      <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs shadow-lg rounded-lg'>
-        <TableHeader className='bg-primary-600 shadow-lg'>
+      <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 text-xs lg:text-sm rounded-lg'>
+        <TableHeader className='bg-primary-600'>
           <TableRow >
             {visibleColumns.includes('no') && (
               <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">

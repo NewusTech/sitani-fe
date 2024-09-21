@@ -205,11 +205,11 @@ const BukanSawah = () => {
     useEffect(() => {
         setIsClient(true);
         setVisibleColumns(getDefaultCheckedKeys());
-        const handleResize = () => {
-            setVisibleColumns(getDefaultCheckedKeys());
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        // const handleResize = () => {
+        //     setVisibleColumns(getDefaultCheckedKeys());
+        // };
+        // window.addEventListener('resize', handleResize);
+        // return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     if (!isClient) {
