@@ -155,13 +155,13 @@ const KorlubTanamanBiofarmaka = () => {
     };
     // serach
     // limit
-    const [limit, setLimit] = useState(10);
+    const [limit, setLimit] = useState(1);
     // limit
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
     // GETALL
-    const { data: dataTanamanBioFarmaka }: SWRResponse<KorluhTanamanBiofarmakaResponse> = useSWR(
+    const { data: dataTanamanBiofarmaka }: SWRResponse<any> = useSWR(
         `/korluh/tanaman-biofarmaka/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
         (url) =>
             axiosPrivate
@@ -172,7 +172,7 @@ const KorlubTanamanBiofarmaka = () => {
                 })
                 .then((res: any) => res.data)
     );
-    console.log(dataTanamanBioFarmaka)
+    console.log(dataTanamanBiofarmaka)
 
     // INTEGRASI
 
@@ -409,7 +409,7 @@ const KorlubTanamanBiofarmaka = () => {
                 <div className="font-semibold">
                     Tanggal:
                 </div>
-                {dataTanamanBioFarmaka?.data?.data.map((item, index) => (
+                {dataTanamanBiofarmaka?.data?.data.map((item: any, index: any) => (
                     <div key={index}>
                         {item.tanggal
                             ? new Date(item.tanggal).toLocaleDateString('id-ID', {
@@ -425,12 +425,12 @@ const KorlubTanamanBiofarmaka = () => {
             </div>
             {/* bulan */}
             {/* kecamatan */}
-            <div className="wrap mt-2 flex flex-col  md:gap-2 gap-1">
+            <div className="wrap mt-2 flex flex-col md:gap-2 gap-1">
                 <div className="flex items-center gap-2">
                     <div className="font-semibold">
                         Kecamatan:
                     </div>
-                    {dataTanamanBioFarmaka?.data?.data.map((item, index) => (
+                    {dataTanamanBiofarmaka?.data?.data.map((item: any, index: any) => (
                         <div key={index}>
                             {item?.kecamatan.nama || "Tidak ada data"}
                         </div>
@@ -440,7 +440,7 @@ const KorlubTanamanBiofarmaka = () => {
                     <div className="font-semibold">
                         Desa:
                     </div>
-                    {dataTanamanBioFarmaka?.data?.data.map((item, index) => (
+                    {dataTanamanBiofarmaka?.data?.data.map((item: any, index: any) => (
                         <div key={index}>
                             {item?.desa.nama || "Tidak ada data"}
                         </div>
@@ -452,7 +452,7 @@ const KorlubTanamanBiofarmaka = () => {
             {/*table mobile */}
             <div className="mobile  block md:hidden sm:hidden lg:hidden">
                 <div className="garis my-2 mb-3 h-[1px] w-full bg-slate-400"></div>
-                <KorluhBiofarMobile urlApi={`/korluh/tanaman-biofarmaka/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`} />
+                {/* <KorluhBiofarMobile urlApi={`/korluh/tanaman-biofarmaka/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`} /> */}
             </div>
             {/*table mobile */}
 
@@ -469,11 +469,6 @@ const KorlubTanamanBiofarmaka = () => {
                                     Nama Tanaman
                                 </div>
                             </TableHead>
-                            {/* <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            <div className="w-[150px] text-center items-center">
-                                Luas Tanaman Akhir Triwulan Yang Lalu (m2)
-                            </div>
-                        </TableHead> */}
                             <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
                                 <div className="text-center items-center">
                                     Luas Panen (m2)
@@ -489,11 +484,6 @@ const KorlubTanamanBiofarmaka = () => {
                                     Luas Penanaman Baru / Tambah Tanam (m2)
                                 </div>
                             </TableHead>
-                            {/* <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                            <div className="w-[150px] text-center items-center">
-                                Luas Tanaman Akhir Triwulan Laporan (m2)  (3)-(4)-(6)+(7)
-                            </div>
-                        </TableHead> */}
                             <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
                                 Produksi (Kilogram)
                             </TableHead>
@@ -505,7 +495,7 @@ const KorlubTanamanBiofarmaka = () => {
                             <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
                                 Keterangan
                             </TableHead>
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                            <TableHead rowSpan={2} className="text-primary text-center py-1 border border-slate-200">
                                 Aksi
                             </TableHead>
                         </TableRow>
@@ -525,111 +515,778 @@ const KorlubTanamanBiofarmaka = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {dataTanamanBioFarmaka?.data.data.map((item, index) => (
-                            item.list.map((tanaman) => (
-                                <TableRow key={tanaman.id}>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {index + 1}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        {tanaman.namaTanaman}
-                                    </TableCell>
-                                    {/* <TableCell className='border border-slate-200 text-center'>
-                                    luas tanaman akhir triwulan
-                                </TableCell> */}
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {tanaman.luasPanenHabis}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {tanaman.luasPanenBelumHabis}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {tanaman.luasRusak}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {tanaman.luasPenanamanBaru}
-                                    </TableCell>
-                                    {/* <TableCell className='border border-slate-200 text-center'>
-                                    luas tanaman akhir triwulan
-                                </TableCell> */}
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {tanaman.produksiHabis}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {tanaman.produksiBelumHabis}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {tanaman.rerataHarga}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {tanaman.keterangan}
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="flex flex-col gap-3">
-                                            <div className="flex gap-3 justify-center">
-                                                <Link title='Detail' className='' href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${tanaman.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title='Edit' className='' href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${tanaman.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(tanaman.id) || "")} />
+                        {dataTanamanBiofarmaka?.data?.data && dataTanamanBiofarmaka?.data?.data?.length > 0 ? (
+                            dataTanamanBiofarmaka.data.data.map((item: any, index: number) => (
+                                <>
+                                    {/* Jahe */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            1.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Jahe
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[1]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[1]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[1]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[1]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[1]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[1]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[1]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[1]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[1]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[1].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[1].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[1].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
                                             </div>
-                                            <div className="flex gap-3 justify-center items-center">
-                                                {/* <VerifikasiPopup onVerifikasi={() => handleVerifikasi(String(tanaman.id) || "")} />
-                                                <TolakPopup onTolak={(alasan) => handleTolak(String(tanaman.id), alasan)} /> */}
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Jeruk Nipis */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            2.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Jeruk Nipis
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[2]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[2]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[2]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[2]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[2]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[2]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[2]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[2]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[2]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[2].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[2].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[2].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                        {/*  */}
-                                    </TableCell>
-                                </TableRow>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Kapulaga */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            3.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Kepulaga
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[3]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[3]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[3]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[3]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[3]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[3]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[3]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[3]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[3]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[3].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[3].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[3].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Kencur */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            4.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Kencur
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[4]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[4]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[4]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[4]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[4]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[4]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[4]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[4]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[4]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[4].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[4].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[4].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Kunyit */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            5.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Kunyit
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[5]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[5]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[5]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[5]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[5]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[5]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[5]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[5]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[5]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[5].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[5].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[5].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Laos/Lengkuas */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            6.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Laos/Lengkuas
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[6]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[6]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[6]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[6]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[6]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[6]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[6]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[6]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[6]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[6].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[6].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[6].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Lempuyang */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            7.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Lempuyang
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[7]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[7]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[7]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[7]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[7]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[7]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[7]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[7]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[7]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[7].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[7].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[7].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Lidah Buaya */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            8.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Lidah Buaya
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[8]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[8]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[8]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[8]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[8]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[8]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[8]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[8]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[8]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[8].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[8].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[8].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Mahkota Dewa */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            9.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Mahkota Dewa
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[9]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[9]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[9]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[9]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[9]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[9]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[9]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[9]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[9]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[9].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[9].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[9].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Mengkudu/Pace */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            10.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Mengkudu/Pace
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[10]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[10]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[10]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[10]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[10]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[10]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[10]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[10]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[10]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[10].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[10].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[10].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Sambiloto */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            11.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Sambiloto
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[11]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[11]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[11]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[11]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[11]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[11]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[11]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[11]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[11]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[11].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[11].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[11].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Serai */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            12.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Serai
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[12]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[12]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[12]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[12]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[12]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[12]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[12]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[12]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[12]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[12].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[12].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[12].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Temuireng */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            13.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Temuireng
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[13]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[13]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[13]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[13]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[13]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[13]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[13]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[13]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[13]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[13].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[13].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[13].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Temukunci */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            14.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Temukunci
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[14]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[14]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[14]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[14]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[14]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[14]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[14]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[14]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[14]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[14].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[14].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[14].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    {/* Temulawak */}
+                                    <TableRow >
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            15.
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200'>
+                                            Temulawak
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[15]?.luasPanenHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[15]?.luasPanenBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[15]?.luasRusak ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[15]?.luasPenanamanBaru ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[15]?.produksiHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[15]?.produksiBelumHabis ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[15]?.rerataHarga ?? "-"}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item[15]?.keterangan ?? "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex gap-3 justify-center">
+                                                    {item[15]?.id && (
+                                                        <>
+                                                            <Link title="Detail" href={`/bpp-kecamatan/tanaman-biofarmaka/detail/${item[15].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
+                                                            <Link title="Edit" href={`/bpp-kecamatan/tanaman-biofarmaka/edit/${item[15].id}`}>
+                                                                <EditIcon />
+                                                            </Link>
+                                                            <DeletePopup onDelete={() => handleDelete(String(item[15].id))} />
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                </>
                             ))
-                        ))}
-                        <TableRow>
-                            <TableCell className='border border-slate-200'>
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-                                Jumlah
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-                                belum
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-                                belum
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-                                belum
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-                                belum
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-                                belum
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-                                belum
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-                                belum
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-                                belum
-                            </TableCell>
-                            <TableCell className='border font-semibold border-slate-200 text-center'>
-
-                            </TableCell>
-                        </TableRow>
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={11} className='text-center'>Tidak Ada Data</TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
+
             </div>
             {/* table */}
 
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
-                {dataTanamanBioFarmaka?.data.pagination.totalCount as number > 1 && (
+                {dataTanamanBiofarmaka?.data.pagination.totalCount as number > 1 && (
                     <PaginationTable
                         currentPage={currentPage}
-                        totalPages={dataTanamanBioFarmaka?.data.pagination.totalPages as number}
+                        totalPages={dataTanamanBiofarmaka?.data.pagination.totalPages as number}
                         onPageChange={onPageChange}
                     />
                 )}

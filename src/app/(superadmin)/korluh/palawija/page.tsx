@@ -335,37 +335,37 @@ const KorluPalawija = () => {
                                         Jumlah Jagung
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanSawahPanen}
+                                        {item[17]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanSawahPanenMuda}
+                                        {item[17]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[17]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanSawahTanam}
+                                        {item[17]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanSawahPuso}
+                                        {item[17]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanBukanSawahPanen}
+                                        {item[17]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanBukanSawahPanenMuda}
+                                        {item[17]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[17]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanBukanSawahTanam}
+                                        {item[17]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.lahanBukanSawahPuso}
+                                        {item[17]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[17]?.produksi}
+                                        {item[17]?.produksi ?? "-"}
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
@@ -375,37 +375,37 @@ const KorluPalawija = () => {
                                         A. Hibrida
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanSawahPanen}
+                                        {item[18]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanSawahPanenMuda}
+                                        {item[18]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[18]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanSawahTanam}
+                                        {item[18]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanSawahPuso}
+                                        {item[18]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanBukanSawahPanen}
+                                        {item[18]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanBukanSawahPanenMuda}
+                                        {item[18]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[18]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanBukanSawahTanam}
+                                        {item[18]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.lahanBukanSawahPuso}
+                                        {item[18]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[18]?.produksi}
+                                        {item[18]?.produksi ?? "-"}
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
@@ -415,48 +415,52 @@ const KorluPalawija = () => {
                                         1). Bantuan Pemerintah
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanSawahPanen}
+                                        {item[1]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanSawahPanenMuda}
+                                        {item[1]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[1]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanSawahTanam}
+                                        {item[1]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanSawahPuso}
+                                        {item[1]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanBukanSawahPanen}
+                                        {item[1]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanBukanSawahPanenMuda}
+                                        {item[1]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[1]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanBukanSawahTanam}
+                                        {item[1]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.lahanBukanSawahPuso}
+                                        {item[1]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[1]?.produksi}
+                                        {item[1]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[1]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[1]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[1]?.id))} />
+                                                {item[1]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[1].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[1].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[1].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -468,48 +472,52 @@ const KorluPalawija = () => {
                                         2). Non Bantuan Pemerintah
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanSawahPanen}
+                                        {item[2]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanSawahPanenMuda}
+                                        {item[2]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[2]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanSawahTanam}
+                                        {item[2]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanSawahPuso}
+                                        {item[2]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanBukanSawahPanen}
+                                        {item[2]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanBukanSawahPanenMuda}
+                                        {item[2]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[2]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanBukanSawahTanam}
+                                        {item[2]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.lahanBukanSawahPuso}
+                                        {item[2]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[2]?.produksi}
+                                        {item[2]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[2]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[2]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[2]?.id))} />
+                                                {item[2]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[2].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[2].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[2].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -521,37 +529,37 @@ const KorluPalawija = () => {
                                         B. Komplit
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanSawahPanen}
+                                        {item[3]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanSawahPanenMuda}
+                                        {item[3]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[3]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanSawahTanam}
+                                        {item[3]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanSawahPuso}
+                                        {item[3]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanBukanSawahPanen}
+                                        {item[3]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanBukanSawahPanenMuda}
+                                        {item[3]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[3]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanBukanSawahTanam}
+                                        {item[3]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.lahanBukanSawahPuso}
+                                        {item[3]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[3]?.produksi}
+                                        {item[3]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
@@ -574,48 +582,52 @@ const KorluPalawija = () => {
                                         C. Lokal
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanSawahPanen}
+                                        {item[4]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanSawahPanenMuda}
+                                        {item[4]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[4]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanSawahTanam}
+                                        {item[4]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanSawahPuso}
+                                        {item[4]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanBukanSawahPanen}
+                                        {item[4]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanBukanSawahPanenMuda}
+                                        {item[4]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[4]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanBukanSawahTanam}
+                                        {item[4]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.lahanBukanSawahPuso}
+                                        {item[4]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[4]?.produksi}
+                                        {item[4]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[4]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[4]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[4]?.id))} />
+                                                {item[4]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[4].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[4].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[4].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -630,37 +642,37 @@ const KorluPalawija = () => {
                                         Kedelai
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanSawahPanen}
+                                        {item[19]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanSawahPanenMuda}
+                                        {item[19]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[19]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanSawahTanam}
+                                        {item[19]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanSawahPuso}
+                                        {item[19]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanBukanSawahPanen}
+                                        {item[19]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanBukanSawahPanenMuda}
+                                        {item[19]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[19]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanBukanSawahTanam}
+                                        {item[19]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.lahanBukanSawahPuso}
+                                        {item[19]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[19]?.produksi}
+                                        {item[19]?.produksi ?? "-"}
                                     </TableCell>
                                 </TableRow>
                                 {/* Kedelai */}
@@ -671,48 +683,52 @@ const KorluPalawija = () => {
                                         a. Bantuan Pemerintah
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanSawahPanen}
+                                        {item[5]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanSawahPanenMuda}
+                                        {item[5]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[5]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanSawahTanam}
+                                        {item[5]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanSawahPuso}
+                                        {item[5]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanBukanSawahPanen}
+                                        {item[5]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanBukanSawahPanenMuda}
+                                        {item[5]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[5]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanBukanSawahTanam}
+                                        {item[5]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.lahanBukanSawahPuso}
+                                        {item[5]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[5]?.produksi}
+                                        {item[5]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[5]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[5]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[5]?.id))} />
+                                                {item[5]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[5].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[5].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[5].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -724,48 +740,52 @@ const KorluPalawija = () => {
                                         b. Non Bantuan Pemerintah
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanSawahPanen}
+                                        {item[6]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanSawahPanenMuda}
+                                        {item[6]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[6]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanSawahTanam}
+                                        {item[6]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanSawahPuso}
+                                        {item[6]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanBukanSawahPanen}
+                                        {item[6]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanBukanSawahPanenMuda}
+                                        {item[6]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[6]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanBukanSawahTanam}
+                                        {item[6]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.lahanBukanSawahPuso}
+                                        {item[6]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[6]?.produksi}
+                                        {item[6]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[6]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[6]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[6]?.id))} />
+                                                {item[6]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[6].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[6].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[6].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -780,48 +800,52 @@ const KorluPalawija = () => {
                                         Kacang Tanah
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanSawahPanen}
+                                        {item[7]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanSawahPanenMuda}
+                                        {item[7]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[7]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanSawahTanam}
+                                        {item[7]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanSawahPuso}
+                                        {item[7]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanBukanSawahPanen}
+                                        {item[7]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanBukanSawahPanenMuda}
+                                        {item[7]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[7]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanBukanSawahTanam}
+                                        {item[7]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.lahanBukanSawahPuso}
+                                        {item[7]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[7]?.produksi}
+                                        {item[7]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[7]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[7]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[7]?.id))} />
+                                                {item[7]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[7].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[7].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[7].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -836,37 +860,37 @@ const KorluPalawija = () => {
                                         Jumlah Ubi Kayu Singkong
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanSawahPanen}
+                                        {item[20]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanSawahPanenMuda}
+                                        {item[20]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[20]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanSawahTanam}
+                                        {item[20]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanSawahPuso}
+                                        {item[20]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanBukanSawahPanen}
+                                        {item[20]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanBukanSawahPanenMuda}
+                                        {item[20]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[20]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanBukanSawahTanam}
+                                        {item[20]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.lahanBukanSawahPuso}
+                                        {item[20]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[20]?.produksi}
+                                        {item[20]?.produksi ?? "-"}
                                     </TableCell>
                                 </TableRow>
                                 {/* Jumlah Ubi Kayusingkong */}
@@ -877,48 +901,52 @@ const KorluPalawija = () => {
                                         a. Bantuan Pemerintah
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanSawahPanen}
+                                        {item[8]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanSawahPanenMuda}
+                                        {item[8]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[8]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanSawahTanam}
+                                        {item[8]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanSawahPuso}
+                                        {item[8]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanBukanSawahPanen}
+                                        {item[8]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanBukanSawahPanenMuda}
+                                        {item[8]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[8]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanBukanSawahTanam}
+                                        {item[8]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.lahanBukanSawahPuso}
+                                        {item[8]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[8]?.produksi}
+                                        {item[8]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[8]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[8]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[8]?.id))} />
+                                                {item[8]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[8].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[8].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[8].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -930,48 +958,52 @@ const KorluPalawija = () => {
                                         b. Non Bantuan Pemerintah
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanSawahPanen}
+                                        {item[9]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanSawahPanenMuda}
+                                        {item[9]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[9]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanSawahTanam}
+                                        {item[9]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanSawahPuso}
+                                        {item[9]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanBukanSawahPanen}
+                                        {item[9]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanBukanSawahPanenMuda}
+                                        {item[9]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[9]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanBukanSawahTanam}
+                                        {item[9]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.lahanBukanSawahPuso}
+                                        {item[9]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[9]?.produksi}
+                                        {item[9]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[9]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[9]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[9]?.id))} />
+                                                {item[9]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[9].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[9].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[9].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -986,48 +1018,52 @@ const KorluPalawija = () => {
                                         Ubi Jalar Ketela/Ketela Rambat
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanSawahPanen}
+                                        {item[10]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanSawahPanenMuda}
+                                        {item[10]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[10]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanSawahTanam}
+                                        {item[10]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanSawahPuso}
+                                        {item[10]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanBukanSawahPanen}
+                                        {item[10]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanBukanSawahPanenMuda}
+                                        {item[10]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[10]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanBukanSawahTanam}
+                                        {item[10]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.lahanBukanSawahPuso}
+                                        {item[10]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[10]?.produksi}
+                                        {item[10]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[10]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[10]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[10]?.id))} />
+                                                {item[10]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[10].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[10].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[10].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -1042,48 +1078,52 @@ const KorluPalawija = () => {
                                         Kacang Hijau
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanSawahPanen}
+                                        {item[11]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanSawahPanenMuda}
+                                        {item[11]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[11]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanSawahTanam}
+                                        {item[11]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanSawahPuso}
+                                        {item[11]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanBukanSawahPanen}
+                                        {item[11]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanBukanSawahPanenMuda}
+                                        {item[11]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[11]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanBukanSawahTanam}
+                                        {item[11]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.lahanBukanSawahPuso}
+                                        {item[11]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[11]?.produksi}
+                                        {item[11]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[11]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[11]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[11]?.id))} />
+                                                {item[11]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[11].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[11].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[11].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -1098,48 +1138,52 @@ const KorluPalawija = () => {
                                         Sorgum / Cantel
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanSawahPanen}
+                                        {item[12]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanSawahPanenMuda}
+                                        {item[12]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[12]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanSawahTanam}
+                                        {item[12]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanSawahPuso}
+                                        {item[12]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanBukanSawahPanen}
+                                        {item[12]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanBukanSawahPanenMuda}
+                                        {item[12]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[12]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanBukanSawahTanam}
+                                        {item[12]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.lahanBukanSawahPuso}
+                                        {item[12]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[12]?.produksi}
+                                        {item[12]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[12]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[12]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[12]?.id))} />
+                                                {item[12]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[12].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[12].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[12].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -1154,48 +1198,52 @@ const KorluPalawija = () => {
                                         Gandum
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanSawahPanen}
+                                        {item[13]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanSawahPanenMuda}
+                                        {item[13]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[13]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanSawahTanam}
+                                        {item[13]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanSawahPuso}
+                                        {item[13]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanBukanSawahPanen}
+                                        {item[13]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanBukanSawahPanenMuda}
+                                        {item[13]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[13]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanBukanSawahTanam}
+                                        {item[13]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.lahanBukanSawahPuso}
+                                        {item[13]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[13]?.produksi}
+                                        {item[13]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[13]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[13]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[13]?.id))} />
+                                                {item[13]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[13].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[13].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[13].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -1210,48 +1258,52 @@ const KorluPalawija = () => {
                                         Talas
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanSawahPanen}
+                                        {item[14]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanSawahPanenMuda}
+                                        {item[14]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[14]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanSawahTanam}
+                                        {item[14]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanSawahPuso}
+                                        {item[14]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanBukanSawahPanen}
+                                        {item[14]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanBukanSawahPanenMuda}
+                                        {item[14]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[14]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanBukanSawahTanam}
+                                        {item[14]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.lahanBukanSawahPuso}
+                                        {item[14]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[14]?.produksi}
+                                        {item[14]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[14]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[14]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[14]?.id))} />
+                                                {item[14]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[14].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[14].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[14].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -1266,48 +1318,52 @@ const KorluPalawija = () => {
                                         Ganyong
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanSawahPanen}
+                                        {item[15]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanSawahPanenMuda}
+                                        {item[15]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[15]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanSawahTanam}
+                                        {item[15]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanSawahPuso}
+                                        {item[15]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanBukanSawahPanen}
+                                        {item[15]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanBukanSawahPanenMuda}
+                                        {item[15]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[15]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanBukanSawahTanam}
+                                        {item[15]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.lahanBukanSawahPuso}
+                                        {item[15]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[15]?.produksi}
+                                        {item[15]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[15]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[15]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[15]?.id))} />
+                                                {item[15]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[15].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[15].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[15].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -1322,48 +1378,52 @@ const KorluPalawija = () => {
                                         Umbi Lainnya
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanSawahPanen}
+                                        {item[16]?.lahanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanSawahPanenMuda}
+                                        {item[16]?.lahanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanSawahPanenHijauanPakanTernak}
+                                        {item[16]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanSawahTanam}
+                                        {item[16]?.lahanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanSawahPuso}
+                                        {item[16]?.lahanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanBukanSawahPanen}
+                                        {item[16]?.lahanBukanSawahPanen ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanBukanSawahPanenMuda}
+                                        {item[16]?.lahanBukanSawahPanenMuda ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanBukanSawahPanenHijauanPakanTernak}
+                                        {item[16]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanBukanSawahTanam}
+                                        {item[16]?.lahanBukanSawahTanam ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.lahanBukanSawahPuso}
+                                        {item[16]?.lahanBukanSawahPuso ?? "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 text-center'>
-                                        {item[16]?.produksi}
+                                        {item[16]?.produksi ?? "-"}
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-3">
                                             <div className="flex gap-3 justify-center">
-                                                <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[16]?.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[16]?.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item[16]?.id))} />
+                                                {item[16]?.id && (
+                                                    <>
+                                                        <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[16].id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[16].id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item[16].id))} />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -1375,7 +1435,6 @@ const KorluPalawija = () => {
                             <TableCell colSpan={13} className='text-center'>Tidak Ada Data</TableCell>
                         </TableRow>
                     )}
-
                     {/* Umbi lainnya */}
                 </TableBody>
             </Table>
