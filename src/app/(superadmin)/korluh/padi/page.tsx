@@ -21,13 +21,6 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import DeletePopup from '@/components/superadmin/PopupDelete'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
@@ -44,6 +37,8 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import PaginationTable from '@/components/PaginationTable';
 import KorluhPadiMobileComp from '@/components/KorluhMobile/koruhPadiMobile';
+import Swal from 'sweetalert2';
+
 
 
 const KorlubPadi = () => {
@@ -174,12 +169,48 @@ const KorlubPadi = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil dihapus!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
             console.log(id)
-            mutate('/korluh/padi/get');
-        } catch (error) {
-            console.error('Failxed to delete:', error);
-            console.log(id)
-        }
+            // Update the local data after successful deletion
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        } mutate(`korluh/padi/get?page=${currentPage}&search=${search}&limit=1&equalDate=${filterDate}`);
     };
 
     return (

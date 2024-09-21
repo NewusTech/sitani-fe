@@ -56,39 +56,6 @@ import KecamatanSelectNo from '@/components/superadmin/SelectComponent/SelectKec
 import VerifikasiPopup from '@/components/superadmin/PopupVerifikasi';
 import TolakPopup from '@/components/superadmin/TolakVerifikasi';
 
-interface KorluhPalawijaData {
-    [key: number]: KorluhPalawijaItem;
-    bulan: number;
-    tahun: number;
-    kecamatan: number;
-    validasi: string;
-    masterIds: number[];
-}
-
-interface KorluhPalawijaItem {
-    nama: string;
-    lahanSawahPanen: number;
-    lahanSawahPanenMuda: number;
-    lahanSawahPanenHijauanPakanTernak: number;
-    lahanSawahTanam: number;
-    lahanSawahPuso: number;
-    lahanBukanSawahPanen: number;
-    lahanBukanSawahPanenMuda: number;
-    lahanBukanSawahPanenHijauanPakanTernak: number;
-    lahanBukanSawahTanam: number;
-    lahanBukanSawahPuso: number;
-    bulanLaluLahanSawah: number;
-    bulanLaluLahanBukanSawah: number;
-    akhirLahanSawah: number;
-    akhirLahanBukanSawah: number;
-}
-
-interface GetKorluhPalawijaResponse {
-    status: number;
-    message: string;
-    data: KorluhPalawijaData;
-}
-
 
 const KorluPalawija = () => {
     const [startDate, setstartDate] = React.useState<Date>()
@@ -134,6 +101,7 @@ const KorluPalawija = () => {
                 })
                 .then((res: any) => res.data)
     );
+    
 
     // Bulan
     function getMonthName(monthNumber: number): string {

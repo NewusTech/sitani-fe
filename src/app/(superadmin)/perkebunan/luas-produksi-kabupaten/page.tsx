@@ -74,7 +74,6 @@ const LuasKabPage = () => {
             {/* title */}
             <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Luas Areal dan Produksi Perkebunan Rakyat ( Kabupaten )</div>
             {/* title */}
-
             {/* top */}
             <div className="header flex gap-2 justify-between items-center mt-4">
                 <div className="search md:w-[50%]">
@@ -159,10 +158,10 @@ const LuasKabPage = () => {
                     </div>
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                    <div className="w-full">
+                    <div className="w-[350px]">
                         <Select >
                             <SelectTrigger>
-                                <SelectValue placeholder="Kecamatan" className='text-2xl' />
+                                <SelectValue placeholder="Pilih Kecamatan" className='text-2xl' />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="select1">Select1</SelectItem>
@@ -171,9 +170,6 @@ const LuasKabPage = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Link href="/perkebunan/luas-produksi-kabupaten/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
-                        Tambah
-                    </Link>
                 </div>
             </div>
             {/* top */}
@@ -188,7 +184,7 @@ const LuasKabPage = () => {
                                 Atap {dataProduksiKab?.data?.yearBefore}
                             </TableHead>
                             <TableHead colSpan={9} className="text-primary py-1 border border-slate-200 text-center">
-                                Atap {dataProduksiKab?.data?.yearAfter}
+                                Atap {dataProduksiKab?.data?.currentYear}
                             </TableHead>
                         </TableRow>
                         <TableRow>
