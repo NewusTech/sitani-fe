@@ -410,7 +410,7 @@ const KorlubPadi = () => {
                                         </TableCell>
                                         <TableCell rowSpan={2} className='border border-slate-200 font-semibold'>
                                             <div className="flex items-center gap-4 justify-center">
-                                                <Link className='' href={`/bpp-kecamatan/padi/detail/${item.id}`}>
+                                                <Link className='' href={`/korluh/padi/detail/${item.id}`}>
                                                     <EyeIcon />
                                                 </Link>
                                                 <Link className='' href={`/korluh/padi/edit/${item.id}`}>
@@ -441,7 +441,7 @@ const KorlubPadi = () => {
                                             {item.hibrida_bantuan_pemerintah_lahan_sawah_tanam}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_panen}
+                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_puso}
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
@@ -476,15 +476,6 @@ const KorlubPadi = () => {
                                             1). Bantuan Pemerintah
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen}
-                                        </TableCell>
-                                        <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam}
-                                        </TableCell>
-                                        <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso}
-                                        </TableCell>
-                                        <TableCell className='border border-slate-200 text-center'>
                                             {item.unggul_bantuan_pemerintah_lahan_sawah_panen}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
@@ -492,6 +483,15 @@ const KorlubPadi = () => {
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
                                             {item.unggul_bantuan_pemerintah_lahan_sawah_puso}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam}
+                                        </TableCell>
+                                        <TableCell className='border border-slate-200 text-center'>
+                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso}
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
