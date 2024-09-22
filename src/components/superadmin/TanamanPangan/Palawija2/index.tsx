@@ -541,7 +541,7 @@ const Palawija2 = () => {
                     </div>
 
                     {/* Hendle Search */}
-                    <div className="mt-2 search w-full">
+                    {/* <div className="mt-2 search w-full">
                         <Input
                             autoFocus
                             type="text"
@@ -551,7 +551,7 @@ const Palawija2 = () => {
                             rightIcon={<SearchIcon />}
                             className='border-primary py-2 text-xs'
                         />
-                    </div>
+                    </div> */}
                     {/* Hendle Search */}
 
                 </>
