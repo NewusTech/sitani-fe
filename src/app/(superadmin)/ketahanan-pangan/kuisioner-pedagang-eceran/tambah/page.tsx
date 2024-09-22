@@ -27,21 +27,21 @@ const formatDate = (dateString: string) => {
 
 const formSchema = z.object({
     kepang_master_komoditas_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Komoditas wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Komoditas wajib diisi" })),
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Tanggal wajib diisi" })
+        z.string().min(0, { message: "Tanggal wajib diisi" })
     ),
     minggu_1: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 1 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 1 wajib diisi" })),
     minggu_2: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 2 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 2 wajib diisi" })),
     minggu_3: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 3 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 3 wajib diisi" })),
     minggu_4: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 4 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 4 wajib diisi" })),
     minggu_5: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 5 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 5 wajib diisi" })),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;

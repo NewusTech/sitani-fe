@@ -18,7 +18,7 @@ import Loading from '@/components/ui/Loading';
 
 const formSchema = z.object({
     nilai: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Nilai wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Nilai wajib diisi" })),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;

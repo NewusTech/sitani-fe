@@ -26,14 +26,14 @@ function formatDate(date: string): string {
 
 const formSchema = z.object({
     kepang_master_komoditas_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Komoditas wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Komoditas wajib diisi" })),
     bulan: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Bulan wajib diisi" })
+        z.string().min(0, { message: "Bulan wajib diisi" })
     ),
     nilai: z
         .string()
-        .min(1, { message: "Telur Ayam wajib diisi" })
+        .min(0, { message: "Nilai wajib diisi" })
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;

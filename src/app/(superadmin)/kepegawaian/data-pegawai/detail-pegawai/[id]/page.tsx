@@ -24,6 +24,15 @@ const LabelDetail = (props: LabelProps) => {
 };
 
 const DetailPegawaiPage = () => {
+  const formatDate = (date?: Date): string => {
+    if (!date) return ''; // Return an empty string if the date is undefined
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth() is zero-based
+    const day = date.getDate();
+
+    return `${year}/${month}/${day}`;
+  };
+
   interface Response {
     status: string;
     messege: string;
@@ -109,25 +118,15 @@ const DetailPegawaiPage = () => {
           <LabelDetail label='Tempat' value={data?.tempatLahir} />
           <LabelDetail label='Tanggal Lahir' value={data?.tglLahir} />
           <LabelDetail label='Pangkat/Gol Ruang' value={`${data?.pangkat} / ${data?.golongan}`} />
-          <LabelDetail label='TMT Pangkat' value={
-            data?.tmtPangkat ?
-              new Date(data?.tmtPangkat).toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })
-              : '-'
-          } />
+          <LabelDetail label='TMT Pangkat' value=
+            {data?.tmtPangkat && !isNaN(new Date(data?.tmtPangkat).getTime())
+              ? formatDate(new Date(data?.tmtPangkat))
+              : ' - '}
+          />
           <LabelDetail label='Jabatan' value={data?.jabatan} />
-          <LabelDetail label='TMT Jabatan' value={
-            data?.tmtJabatan ?
-              new Date(data?.tmtJabatan).toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })
-              : '-'
-          } />
+          <LabelDetail label='TMT Jabatan' value={data?.tmtJabatan && !isNaN(new Date(data?.tmtJabatan).getTime())
+            ? formatDate(new Date(data?.tmtJabatan))
+            : ' - '} />
           <LabelDetail label='Usia' value={`${data?.usia} Tahun`} />
           <LabelDetail label='Masa Kerja' value={data?.masaKerja} />
           <LabelDetail label='Keterangan' value={data?.keterangan} />
@@ -136,15 +135,9 @@ const DetailPegawaiPage = () => {
           <div className="font-semibold mb-2 text-lg mt-5 uppercase">Diklat Struktural</div>
           <div className="grid grid-cols-2 md:grid-cols-2  gap-2 md:gap-3">
             <LabelDetail label='Nama Diklat' value={data?.namaDiklat} />
-            <LabelDetail label='Tanggal Diklat' value={
-              data?.tglDiklat ?
-                new Date(data?.tglDiklat).toLocaleDateString('id-ID', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                })
-                : '-'
-            } />
+            <LabelDetail label='Tanggal Diklat' value={data?.tglDiklat && !isNaN(new Date(data?.tglDiklat).getTime())
+              ? formatDate(new Date(data?.tglDiklat))
+              : ' - '} />
             <LabelDetail label='Jam Diklat' value={`${data?.totalJam} Jam`} />
           </div>
         </div>

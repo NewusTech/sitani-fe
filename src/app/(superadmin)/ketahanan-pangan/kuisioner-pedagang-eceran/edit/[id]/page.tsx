@@ -16,15 +16,15 @@ import Loading from '@/components/ui/Loading';
 
 const formSchema = z.object({
     minggu_1: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 1 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 1 wajib diisi" })),
     minggu_2: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 2 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 2 wajib diisi" })),
     minggu_3: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 3 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 3 wajib diisi" })),
     minggu_4: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 4 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 4 wajib diisi" })),
     minggu_5: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Minggu 5 wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Minggu 5 wajib diisi" })),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;

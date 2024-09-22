@@ -1,16 +1,12 @@
 "use client"
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
-import Link from 'next/link'
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { format } from 'date-fns';
-import { id } from 'date-fns/locale'; // Import Indonesian locale
 import {
     Table,
     TableBody,
@@ -71,6 +67,52 @@ import KepangPerbandingan from '@/components/Print/KetahananPangan/PerbandinganH
 import FilterTable from '@/components/FilterTable'
 import TambahIcon from '../../../../../public/icons/TambahIcon'
 
+// Filter di mobile
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale'; // Import Indonesian locale
+import Label from '@/components/ui/label'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { DropdownMenuCheckboxItem } from '@radix-ui/react-dropdown-menu'
+import {
+    Cloud,
+    CreditCard,
+    Github,
+    Keyboard,
+    LifeBuoy,
+    LogOut,
+    Mail,
+    MessageSquare,
+    Plus,
+    PlusCircle,
+    Settings,
+    User,
+    UserPlus,
+    Users,
+    Filter,
+} from "lucide-react"
+// Filter di mobile
+
 interface Komoditas {
     id: number;
     nama: string;
@@ -125,8 +167,6 @@ interface Response {
 }
 
 const HargaPanganEceran = () => {
-    const [accessToken] = useLocalStorage("accessToken", "");
-    const axiosPrivate = useAxiosPrivate();
     // filter date
     const formatDate = (date?: Date): string => {
         if (!date) return ''; // Return an empty string if the date is undefined
@@ -164,11 +204,14 @@ const HargaPanganEceran = () => {
     const currentYear = new Date().getFullYear();
     const startYear = currentYear - 5;
     const endYear = currentYear + 1;
-    const [tahun, setTahun] = React.useState("Semua Tahun");
+    // const [tahun, setTahun] = React.useState("2024");
+    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
     // otomatis hitung tahun
 
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
     const { data: dataKomoditas, error } = useSWR<Response>(
-        `/kepang/perbandingan-harga/get?year=${tahun}&search=${search}`,
+        `/kepang/perbandingan-harga/get??page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -234,6 +277,68 @@ const HargaPanganEceran = () => {
     // Get unique commodity names
     const komoditasNames = Object.keys(monthPricesMap);
 
+    // Filter table
+    const columns = [
+        { label: "No", key: "no" },
+        { label: "Komoditas", key: "komoditas" },
+        { label: "Januari", key: "januari" },
+        { label: "Februari", key: "februari" },
+        { label: "Maret", key: "maret" },
+        { label: "April", key: "april" },
+        { label: "Mei", key: "mei" },
+        { label: "Juni", key: "juni" },
+        { label: "Juli", key: "juli" },
+        { label: "Agustus", key: "agustus" },
+        { label: "September", key: "september" },
+        { label: "Oktober", key: "oktober" },
+        { label: "November", key: "november" },
+        { label: "Desember", key: "desember" },
+        { label: "Keterangan", key: "keterangan" },
+    ];
+
+    const getDefaultCheckedKeys = () => {
+        if (typeof window !== 'undefined') {
+            if (window.innerWidth <= 768) {
+                return ["no", "komoditas", "aksi"];
+            } else {
+                return [
+                    "no", "komoditas",
+                    "januari", "februari", "maret",
+                    "april", "mei", "juni",
+                    "juli", "agustus", "september",
+                    "oktober", "november", "desember",
+                    "keterangan",
+                    "aksi"
+                ];
+            }
+        }
+        return [];
+    };
+
+    const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+        setVisibleColumns(getDefaultCheckedKeys());
+        // const handleResize = () => {
+        //   setVisibleColumns(getDefaultCheckedKeys());
+        // };
+        // window.addEventListener('resize', handleResize);
+        // return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    if (!isClient) {
+        return null;
+    }
+
+    const handleFilterChange = (key: string, checked: boolean) => {
+        setVisibleColumns(prev =>
+            checked ? [...prev, key] : prev.filter(col => col !== key)
+        );
+    };
+    // Filter Table
+
     return (
         <div>
             {/* title */}
@@ -258,7 +363,7 @@ const HargaPanganEceran = () => {
                         </div>
                         {/* print */}
                         <KepangPerbandingan
-                            urlApi={`/kepang/perbandingan-harga/get?year=${tahun}`}
+                            urlApi={`/kepang/perbandingan-harga/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
                             tahun={tahun}
                         />
                         {/* print */}
@@ -288,11 +393,22 @@ const HargaPanganEceran = () => {
                                 </Select>
                             </div>
                         </div>
-                        {/* <div className="w-[40px] h-[40px]">
-                    <Button variant="outlinePrimary" className=''>
-                        <FilterIcon />
-                    </Button>
-                </div> */}
+                        {/* filter kolom */}
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <FilterTable
+                                        columns={columns}
+                                        defaultCheckedKeys={getDefaultCheckedKeys()}
+                                        onFilterChange={handleFilterChange}
+                                    />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Filter Kolom</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                        {/* filter kolom */}
                     </div>
                     {/* top */}
                 </>
@@ -301,72 +417,155 @@ const HargaPanganEceran = () => {
             {/* Mobile */}
             <div className="md:hidden">
                 <>
-                    {/* kolom 1 */}
-                    <div className="flex justify-between">
-                        <div className="flex gap-2 w-full">
+                    {/* Handle filter menu*/}
+                    <div className="flex justify-between w-full">
+                        <div className="flex justify-start w-fit gap-2">
+                            {/* More Menu */}
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
 
-                            {/* filter tahun */}
-                            <div className="w-full">
-                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Tahun">
-                                            {tahun ? tahun : "Tahun"}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
-                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                            const year = startYear + index;
-                                            return (
-                                                <SelectItem key={year} value={year.toString()}>
-                                                    {year}
-                                                </SelectItem>
-                                            );
-                                        })}
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    variant="outlinePrimary"
+                                                    className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
+                                                >
+                                                    <Filter className="text-primary w-5 h-5" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                                <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                                    Menu Filter
+                                                </DropdownMenuLabel>
+                                                {/* <hr className="border border-primary transition-all ease-in-out animate-pulse ml-2 mr-2" /> */}
+                                                <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                                <div className="bg-white w-full h-full">
+                                                    <div className="flex flex-col w-full px-2 py-2">
+
+                                                        {/* Filter Tahun Bulan */}
+                                                        <>
+                                                            <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
+                                                            <div className="flex gap-2 justify-between items-center w-full">
+                                                                {/* filter tahun */}
+                                                                <div className="w-fit">
+                                                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                                                        <SelectTrigger>
+                                                                            <SelectValue placeholder="Tahun">
+                                                                                {tahun ? tahun : "Tahun"}
+                                                                            </SelectValue>
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                            <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                                                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                                                const year = startYear + index;
+                                                                                return (
+                                                                                    <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                                                                        {year}
+                                                                                    </SelectItem>
+                                                                                );
+                                                                            })}
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                </div>
+                                                                {/* filter tahun */}
+                                                                {/* Filter bulan */}
+                                                                {/* <div className="w-fit">
+                                                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                                                        <SelectTrigger>
+                                                                            <SelectValue placeholder="Tahun">
+                                                                                {tahun ? tahun : "Tahun"}
+                                                                            </SelectValue>
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                      <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                      {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                        const year = startYear + index;
+                                        return (
+                                          <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                            {year}
+                                          </SelectItem>
+                                        );
+                                      })}
                                     </SelectContent>
-                                </Select>
-                            </div>
-                            {/* filter tahun */}
+                                                                    </Select>
+                                                                </div> */}
+                                                                {/* Filter bulan */}
+                                                            </div>
+                                                        </>
+                                                        {/* Filter Tahun Bulan */}
 
-                            {/* filter table */}
-                            {/* <FilterTable
-                                columns={columns}
-                                defaultCheckedKeys={getDefaultCheckedKeys()}
-                                onFilterChange={handleFilterChange}
-                            /> */}
-                            {/* filter table */}
+                                                    </div>
+                                                </div>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
 
-                            {/* print */}
-                            <KepangPerbandingan
-                                urlApi={`/kepang/perbandingan-harga/get?year=${tahun}`}
-                                tahun={tahun}
-                            />
-                            {/* print */}
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Menu Filter</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            {/* More Menu */}
+
+                            {/* filter kolom */}
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <FilterTable
+                                            columns={columns}
+                                            defaultCheckedKeys={getDefaultCheckedKeys()}
+                                            onFilterChange={handleFilterChange}
+                                        />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Filter Kolom</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            {/* filter kolom */}
+
+                            {/* unduh print */}
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <KepangPerbandingan
+                                            urlApi={`/kepang/perbandingan-harga/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                                            tahun={tahun}
+                                        />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Unduh/Print</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            {/* unduh print */}
                         </div>
-                    </div>
-                    {/* kolom 1 */}
 
-                    {/* kolom 2 */}
-                    <div className="mt-2">
-                        <div className="search w-full">
-                            <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Cari"
-                                value={search}
-                                onChange={handleSearchChange}
-                                rightIcon={<SearchIcon />}
-                                className='border-primary py-2 text-xs'
-                            />
-                        </div>
+                        {/* Tambah Data */}
+                        {/* Tambah Data */}
                     </div>
-                    {/* kolom 2 */}
+
+                    {/* Hendle Search */}
+                    <div className="mt-2 search w-full">
+                        <Input
+                            autoFocus
+                            type="text"
+                            placeholder="Cari"
+                            value={search}
+                            onChange={handleSearchChange}
+                            rightIcon={<SearchIcon />}
+                            className='border-primary py-2 text-xs'
+                        />
+                    </div>
+                    {/* Hendle Search */}
+
                 </>
             </div>
             {/* Mobile */}
 
             {/* table */}
-            <Table className='border border-slate-200 mt-4 mb-10 lg:mb-0 text-xs md:text-sm rounded-lg'>
+            {/* <Table className='border border-slate-200 mt-4 mb-10 lg:mb-0 text-xs md:text-sm rounded-lg'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow>
                         <TableHead className="text-primary py-3">No</TableHead>
@@ -398,6 +597,54 @@ const HargaPanganEceran = () => {
                         </TableRow>
                     ))}
                 </TableBody>
+            </Table> */}
+            <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
+                <TableHeader className='bg-primary-600'>
+                    <TableRow>
+                        {/* <TableHead className="text-primary py-3">No</TableHead> */}
+                        {/* <TableHead className="text-primary py-3">Komoditas</TableHead> */}
+                        {columns.map((column) =>
+                            visibleColumns.includes(column.key) && (
+                                <TableHead key={column.key} className="text-primary py-3">
+                                    {column.label}
+                                </TableHead>
+                            )
+                        )}
+                        <TableHead className="text-primary py-3">Aksi</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {komoditasNames.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={columns.length + 2} className="text-center">
+                                Tidak ada data
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        komoditasNames.map((komoditas, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>{komoditas}</TableCell>
+                                {columns.map((column) =>
+                                    visibleColumns.includes(column.key) && (
+                                        <TableCell key={column.key}>
+                                            {monthPricesMap[komoditas][column.key] || "-"}
+                                        </TableCell>
+                                    )
+                                )}
+                                <TableCell>
+                                    <div className="flex items-center gap-4">
+                                        <Link href="/ketahanan-pangan/harga-pangan-eceran/detail">
+                                            <EyeIcon />
+                                        </Link>
+                                        {/* <DeletePopup onDelete={async () => { }} /> */}
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    )}
+                </TableBody>
+
             </Table>
             {/* table */}
 

@@ -19,13 +19,13 @@ const formSchema = z.object({
 
     satuan: z
         .string()
-        .min(1, { message: "Harga wajib diisi" }).optional(),
+        .min(0, { message: "Satuan wajib diisi" }).optional(),
     harga: z
         .number()
         .transform((value) => Number(value)),
     keterangan: z
         .string()
-        .min(1, { message: "Keterangan wajib diisi" })
+        .min(0, { message: "Keterangan wajib diisi" })
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;

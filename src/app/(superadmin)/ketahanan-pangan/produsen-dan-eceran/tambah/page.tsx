@@ -28,20 +28,20 @@ const formatDate = (dateString: string) => {
 
 const formSchema = z.object({
     kepang_master_komoditas_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Komoditas wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Komoditas wajib diisi" })),
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Tanggal wajib diisi" })
+        z.string().min(0, { message: "Tanggal wajib diisi" })
     ),
     satuan: z
         .string()
-        .min(1, { message: "Harga wajib diisi" }).optional(),
+        .min(0, { message: "Satuan wajib diisi" }).optional(),
     harga: z
         .string()
-        .min(1, { message: "Harga wajib diisi" }).optional(),
+        .min(0, { message: "Harga wajib diisi" }).optional(),
     keterangan: z
         .string()
-        .min(1, { message: "Keterangan wajib diisi" })
+        .min(0, { message: "Keterangan wajib diisi" })
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
