@@ -30,35 +30,39 @@ const formatDate = (dateString: string) => {
 const formSchema = z.object({
     kecamatan_id: z
         .number()
-        .min(1, "Kecamatan is required")
+        .min(0, "Kecamatan is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     desa_id: z
         .number()
-        .min(1, "Desa is required")
+        .min(0, "Desa is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     tanggal: z.preprocess(
-        (val) => (typeof val === "string" ? formatDate(val) : val),
-        z.string().min(1, { message: "Tanggal wajib diisi" })
-    ),
-    korluh_master_palawija_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Palawija wajib diisi" })),
-
-    // The following fields are now optional
-    lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-    lahan_sawah_panen_muda: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-    lahan_sawah_panen_hijauan_pakan_ternak: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-    lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-    lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-    lahan_bukan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-    lahan_bukan_sawah_panen_muda: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-    lahan_bukan_sawah_panen_hijauan_pakan_ternak: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-    lahan_bukan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
-    lahan_bukan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+        (val) => typeof val === "string" ? formatDate(val) : val,
+        z.string().min(0, { message: "Tanggal wajib diisi" })),
+    korluh_master_sayur_buah_id: z
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Sayuran dan buah wajib diisi" })),
+    hasil_produksi: z
+        .string().min(0, { message: "Hasil produksi wajib diisi" }),
+    luas_panen_habis: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    luas_panen_belum_habis: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    luas_rusak: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    luas_penanaman_baru: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    produksi_habis: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    produksi_belum_habis: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    rerata_harga: z
+        .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    keterangan: z.string().optional(),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const PalawijaKorluhEdit = () => {
+const EditSayuranBuah = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -76,58 +80,42 @@ const PalawijaKorluhEdit = () => {
     // getone
     // INTEGRASI
 
-    interface ResponseOne {
-        status: number;
+    interface Sayuran {
+        id: number;
+        korluhSayurBuahId: number;
+        namaTanaman: string;
+        hasilProduksi: string;
+        luasPanenHabis: number;
+        luasPanenBelumHabis: number;
+        luasRusak: number;
+        luasPenanamanBaru: number;
+        produksiHabis: number;
+        produksiBelumHabis: number;
+        rerataHarga: number;
+        keterangan: string;
+        korluhSayurBuah: {
+            tanggal: string,
+            kecamatanId: number,
+            desaId: number,
+        }
+        master: {
+            id: number;
+        }
+    }
+
+    interface Response {
+        status: string;
+        data: Sayuran;
         message: string;
-        data: KorluhPalawijaData;
     }
-
-    interface KorluhPalawijaData {
-        id: number;
-        korluhPalawijaId: number;
-        korluhMasterPalawijaId: number;
-        lahanSawahPanen: number;
-        lahanSawahPanenMuda: number;
-        lahanSawahPanenHijauanPakanTernak: number;
-        lahanSawahTanam: number;
-        lahanSawahPuso: number;
-        lahanBukanSawahPanen: number;
-        lahanBukanSawahPanenMuda: number;
-        lahanBukanSawahPanenHijauanPakanTernak: number;
-        lahanBukanSawahTanam: number;
-        lahanBukanSawahPuso: number;
-        produksi: number | null;
-        createdAt: string;
-        updatedAt: string;
-        korluhPalawija: KorluhPalawijaDetail;
-        master: Master;
-    }
-
-    interface KorluhPalawijaDetail {
-        id: number;
-        kecamatanId: number;
-        desaId: number;
-        tanggal: string;
-        createdAt: string;
-        updatedAt: string;
-    }
-
-    interface Master {
-        id: number;
-        nama: string;
-        hide: boolean;
-        createdAt: string;
-        updatedAt: string;
-    }
-
 
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
     const params = useParams();
     const { id } = params;
 
-    const { data: dataPalawijaOne, error } = useSWR<ResponseOne>(
-        `/korluh/palawija/get/${id}`,
+    const { data: dataSayuran, error } = useSWR<Response>(
+        `/korluh/sayur-buah/get//${id}`,
         async (url: string) => {
             try {
                 const response = await axiosPrivate.get(url);
@@ -144,29 +132,28 @@ const PalawijaKorluhEdit = () => {
     const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
 
     useEffect(() => {
-        if (dataPalawijaOne) {
+        if (dataSayuran) {
             const timeout = setTimeout(() => {
-                setValue("tanggal", new Date(dataPalawijaOne.data.korluhPalawija.tanggal).toISOString().split('T')[0]);
-                setValue("kecamatan_id", dataPalawijaOne.data.korluhPalawija.kecamatanId);
-                setInitialDesaId(dataPalawijaOne.data.korluhPalawija.desaId);
-                setValue("desa_id", dataPalawijaOne.data.korluhPalawija.desaId);
-                setValue("korluh_master_palawija_id", dataPalawijaOne.data.korluhMasterPalawijaId);
-                setValue("lahan_sawah_panen", dataPalawijaOne.data.lahanSawahPanen);
-                setValue("lahan_sawah_panen_hijauan_pakan_ternak", dataPalawijaOne.data.lahanSawahPanenHijauanPakanTernak);
-                setValue("lahan_sawah_tanam", dataPalawijaOne.data.lahanSawahTanam);
-                setValue("lahan_sawah_puso", dataPalawijaOne.data.lahanSawahPuso);
-                setValue("lahan_bukan_sawah_panen", dataPalawijaOne.data.lahanBukanSawahPanen);
-                setValue("lahan_bukan_sawah_panen_muda", dataPalawijaOne.data.lahanBukanSawahPanenMuda);
-                setValue("lahan_bukan_sawah_panen_hijauan_pakan_ternak", dataPalawijaOne.data.lahanBukanSawahPanenHijauanPakanTernak);
-                setValue("lahan_bukan_sawah_tanam", dataPalawijaOne.data.lahanBukanSawahTanam);
-                setValue("lahan_sawah_panen_muda", dataPalawijaOne.data.lahanSawahPanenMuda);
-                setValue("lahan_bukan_sawah_puso", dataPalawijaOne.data.lahanBukanSawahPuso);
-            }, 300); // Delay by 500 milliseconds
-
+                setValue("tanggal", new Date(dataSayuran.data.korluhSayurBuah.tanggal).toISOString().split('T')[0]);
+                setValue("hasil_produksi", dataSayuran.data.hasilProduksi);
+                setValue("luas_panen_habis", dataSayuran.data.luasPanenHabis);
+                setValue("luas_panen_belum_habis", dataSayuran.data.luasPanenBelumHabis);
+                setValue("luas_rusak", dataSayuran.data.luasRusak);
+                setValue("luas_penanaman_baru", dataSayuran.data.luasPenanamanBaru);
+                setValue("produksi_habis", dataSayuran.data.produksiHabis);
+                setValue("produksi_belum_habis", dataSayuran.data.produksiBelumHabis);
+                setValue("rerata_harga", dataSayuran.data.rerataHarga);
+                setValue("keterangan", dataSayuran.data.keterangan);
+                setValue("korluh_master_sayur_buah_id", dataSayuran.data.master.id);
+                setValue("kecamatan_id", dataSayuran.data.korluhSayurBuah.kecamatanId);
+                setInitialDesaId(dataSayuran.data.korluhSayurBuah.desaId); // Save initial desa_id
+                setValue("desa_id", dataSayuran.data.korluhSayurBuah.desaId); // Set default value
+            }, 200); // Delay by 500 milliseconds
+    
             return () => clearTimeout(timeout); // Cleanup timeout on unmount or when dependencies change
         }
-    }, [dataPalawijaOne, setValue]);
-
+    }, [dataSayuran, setValue]);
+    
 
     useEffect(() => {
         // Clear desa_id when kecamatan_id changes
@@ -176,14 +163,14 @@ const PalawijaKorluhEdit = () => {
 
     // getone
 
-    const kecamatanValue = watch("kecamatan_id");
     // TAMBAH
+    const kecamatanValue = watch("kecamatan_id");
     const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.put(`/korluh/palawija/update/${id}`, data);
+            await axiosPrivate.put(`/korluh/sayur-buah/update/${id}`, data);
             // alert
             Swal.fire({
                 icon: 'success',
@@ -208,7 +195,7 @@ const PalawijaKorluhEdit = () => {
             // alert
             console.log(data)
             // push
-            navigate.push('/korluh/palawija');
+            navigate.push('/korluh/sayuran-buah');
             console.log("Success to create Sayuran Buah:");
             // reset()
         } catch (error: any) {
@@ -231,28 +218,27 @@ const PalawijaKorluhEdit = () => {
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/korluh/palawija/get`);
+        mutate(`/korluh/sayur-buah/get`);
     };
 
-    // 
     // GET ALL 
-    interface Palawija {
+    interface Master {
         id: number;
         nama: string;
         createdAt: string;
         updatedAt: string;
     }
 
-    interface Response {
+    interface ResponseMaster {
         status: string;
-        data: Palawija[];
+        data: Master[];
         message: string;
     }
 
     const [accessToken] = useLocalStorage("accessToken", "");
 
-    const { data: dataPalawija }: SWRResponse<Response> = useSWR(
-        `/korluh/master-palawija/get`,
+    const { data: dataMaster }: SWRResponse<ResponseMaster> = useSWR(
+        `/korluh/master-sayur-buah/get`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -262,12 +248,11 @@ const PalawijaKorluhEdit = () => {
                 })
                 .then((res: any) => res.data)
     );
-    const komoditasOptions = dataPalawija?.data.map(komoditas => ({
-        id: komoditas.id.toString(),
-        name: komoditas.nama,
+    const masterOptions = dataMaster?.data.map(master => ({
+        id: master.id.toString(),
+        name: master.nama,
     }))
-    // 
-
+    //
     return (
         <>
             <div className="text-primary text-xl md:text-2xl font-bold mb-4">Tambah Data</div>
@@ -282,6 +267,7 @@ const PalawijaKorluhEdit = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <KecValue
+                                            disabled
                                             // kecamatanItems={kecamatanItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -299,6 +285,7 @@ const PalawijaKorluhEdit = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <DesaValue
+                                            disabled
                                             // desaItems={filteredDesaItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -315,26 +302,28 @@ const PalawijaKorluhEdit = () => {
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Nama Tanaman" />
                                 <Controller
-                                    name="korluh_master_palawija_id"
+                                    name="korluh_master_sayur_buah_id"
                                     control={control}
                                     render={({ field }) => (
                                         <InputComponent
+                                            disabled
                                             typeInput="selectSearch"
-                                            placeholder="Pilih Palawija"
-                                            label="Palawija"
+                                            placeholder="Pilih Sayuran dan Buah"
+                                            label="Sayuran dan Buah"
                                             value={field.value}
                                             onChange={field.onChange}
-                                            items={komoditasOptions}
+                                            items={masterOptions}
                                         />
                                     )}
                                 />
-                                {errors.korluh_master_palawija_id && (
-                                    <HelperError>{errors.korluh_master_palawija_id.message}</HelperError>
+                                {errors.korluh_master_sayur_buah_id && (
+                                    <HelperError>{errors.korluh_master_sayur_buah_id.message}</HelperError>
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Tanggal" />
                                 <Input
+                                    disabled
                                     type="date"
                                     placeholder="Tanggal"
                                     {...register('tanggal')}
@@ -345,155 +334,137 @@ const PalawijaKorluhEdit = () => {
                                 )}
                             </div>
                         </div>
-
-                    </div>
-                </div>
-
-                <div className='mb-4'>
-                    <div className="text-primary text-lg font-bold mb-2">Lahan Sawah</div>
-                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
-                            <Input
-                                type="number"
-                                step="0.000001"
-                                placeholder="Panen"
-                                {...register('lahan_sawah_panen')}
-                                className={`${errors.lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.lahan_sawah_panen && (
-                                <HelperError>{errors.lahan_sawah_panen.message}</HelperError>
-                            )}
-                        </div>
-                        <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen Muda" />
-                            <Input
-                                type="number"
-                                step="0.000001"
-                                placeholder="Panen Muda"
-                                {...register('lahan_sawah_panen_muda')}
-                                className={`${errors.lahan_sawah_panen_muda ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.lahan_sawah_panen_muda && (
-                                <HelperError>{errors.lahan_sawah_panen_muda.message}</HelperError>
-                            )}
-                        </div>
-                    </div>
-                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen Hijauan Pakan Ternak" />
-                            <Input
-                                type="number"
-                                step="0.000001"
-                                placeholder="Panen Hijauan Pakan Ternak"
-                                {...register('lahan_sawah_panen_hijauan_pakan_ternak')}
-                                className={`${errors.lahan_sawah_panen_hijauan_pakan_ternak ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.lahan_sawah_panen_hijauan_pakan_ternak && (
-                                <HelperError>{errors.lahan_sawah_panen_hijauan_pakan_ternak.message}</HelperError>
-                            )}
-                        </div>
-                        <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
-                            <Input
-                                type="number"
-                                step="0.000001"
-                                placeholder="Tanam"
-                                {...register('lahan_sawah_tanam')}
-                                className={`${errors.lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.lahan_sawah_tanam && (
-                                <HelperError>{errors.lahan_sawah_tanam.message}</HelperError>
-                            )}
-                        </div>
-                    </div>
-                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 md:w-1/2 pr-3 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
-                            <Input
-                                type="number"
-                                step="0.000001"
-                                placeholder="Puso"
-                                {...register('lahan_sawah_puso')}
-                                className={`${errors.lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
-                            />
-                            {errors.lahan_sawah_puso && (
-                                <HelperError>{errors.lahan_sawah_puso.message}</HelperError>
-                            )}
+                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
+                                <Label className='text-sm mb-1' label="Hasil Produksi Yang Dicatat" />
+                                <Input
+                                    type="text"
+                                    placeholder="Hasil Produksi Yang Dicatat"
+                                    {...register('hasil_produksi')}
+                                    className={`${errors.hasil_produksi ? 'border-red-500' : 'py-5 text-sm'}`}
+                                />
+                                {errors.hasil_produksi && (
+                                    <HelperError>{errors.hasil_produksi.message}</HelperError>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div className='mb-4'>
-                    <div className="text-primary text-lg font-bold mb-2">Lahan Bukan Sawah</div>
+                    <div className="text-primary text-lg font-bold mb-2">Luas Panen (Hektar)</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-sm mb-1' label="Habis/Dibongkar" />
                             <Input
                                 type="number"
                                 step="0.000001"
-                                placeholder="Panen"
-                                {...register('lahan_bukan_sawah_panen')}
-                                className={`${errors.lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                placeholder="Habis / Dibongkar"
+                                {...register('luas_panen_habis')}
+                                className={`${errors.luas_panen_habis ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.lahan_bukan_sawah_panen && (
-                                <HelperError>{errors.lahan_bukan_sawah_panen.message}</HelperError>
+                            {errors.luas_panen_habis && (
+                                <HelperError>{errors.luas_panen_habis.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen Muda" />
+                            <Label className='text-sm mb-1' label="Belum Habis" />
                             <Input
                                 type="number"
                                 step="0.000001"
-                                placeholder="Panen Muda"
-                                {...register('lahan_bukan_sawah_panen_muda')}
-                                className={`${errors.lahan_bukan_sawah_panen_muda ? 'border-red-500' : 'py-5 text-sm'}`}
+                                placeholder="Belum Habis"
+                                {...register('luas_panen_belum_habis')}
+                                className={`${errors.luas_panen_belum_habis ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.lahan_bukan_sawah_panen_muda && (
-                                <HelperError>{errors.lahan_bukan_sawah_panen_muda.message}</HelperError>
+                            {errors.luas_panen_belum_habis && (
+                                <HelperError>{errors.luas_panen_belum_habis.message}</HelperError>
                             )}
                         </div>
                     </div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen Hijauan Pakan Ternak" />
+                            <Label className='text-sm mb-1' label="Luas Rusak / Tidak Berhasil / Puso (Hektar)" />
                             <Input
                                 type="number"
                                 step="0.000001"
-                                placeholder="Panen Hijauan Pakan Ternak"
-                                {...register('lahan_bukan_sawah_panen_hijauan_pakan_ternak')}
-                                className={`${errors.lahan_bukan_sawah_panen_hijauan_pakan_ternak ? 'border-red-500' : 'py-5 text-sm'}`}
+                                placeholder="Luas Rusak / Tidak Berhasil / Puso (Hektar)"
+                                {...register('luas_rusak')}
+                                className={`${errors.luas_rusak ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.lahan_bukan_sawah_panen_hijauan_pakan_ternak && (
-                                <HelperError>{errors.lahan_bukan_sawah_panen_hijauan_pakan_ternak.message}</HelperError>
+                            {errors.luas_rusak && (
+                                <HelperError>{errors.luas_rusak.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-sm mb-1' label="Luas Penanaman Baru / Tambah (hektar)" />
                             <Input
                                 type="number"
                                 step="0.000001"
-                                placeholder="Tanam"
-                                {...register('lahan_bukan_sawah_tanam')}
-                                className={`${errors.lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                placeholder="Luas Penanaman Baru / Tambah (hektar)"
+                                {...register('luas_penanaman_baru')}
+                                className={`${errors.luas_penanaman_baru ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.lahan_bukan_sawah_tanam && (
-                                <HelperError>{errors.lahan_bukan_sawah_tanam.message}</HelperError>
+                            {errors.luas_penanaman_baru && (
+                                <HelperError>{errors.luas_penanaman_baru.message}</HelperError>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className='mb-4'>
+                    <div className="text-primary text-lg font-bold mb-2">Produksi (Kuintal)</div>
+                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                        <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Dipanen Habis / Dibongkar" />
+                            <Input
+                                type="number"
+                                step="0.000001"
+                                placeholder="Dipanen Habis / Dibongkar"
+                                {...register('produksi_habis')}
+                                className={`${errors.produksi_habis ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.produksi_habis && (
+                                <HelperError>{errors.produksi_habis.message}</HelperError>
+                            )}
+                        </div>
+                        <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Belum Habis" />
+                            <Input
+                                type="number"
+                                step="0.000001"
+                                placeholder="Belum Habis"
+                                {...register('produksi_belum_habis')}
+                                className={`${errors.produksi_belum_habis ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.produksi_belum_habis && (
+                                <HelperError>{errors.produksi_belum_habis.message}</HelperError>
                             )}
                         </div>
                     </div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 md:w-1/2 pr-3 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                        <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)" />
                             <Input
                                 type="number"
                                 step="0.000001"
-                                placeholder="Puso"
-                                {...register('lahan_bukan_sawah_puso')}
-                                className={`${errors.lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                placeholder="Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)"
+                                {...register('rerata_harga')}
+                                className={`${errors.rerata_harga ? 'border-red-500' : 'py-5 text-sm'}`}
                             />
-                            {errors.lahan_bukan_sawah_puso && (
-                                <HelperError>{errors.lahan_bukan_sawah_puso.message}</HelperError>
+                            {errors.rerata_harga && (
+                                <HelperError>{errors.rerata_harga.message}</HelperError>
+                            )}
+                        </div>
+                        <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Keterangan" />
+                            <Input
+                                type="text"
+                                placeholder="Keterangan"
+                                {...register('keterangan')}
+                                className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.keterangan && (
+                                <HelperError>{errors.keterangan.message}</HelperError>
                             )}
                         </div>
                     </div>
@@ -516,4 +487,4 @@ const PalawijaKorluhEdit = () => {
     )
 }
 
-export default PalawijaKorluhEdit
+export default EditSayuranBuah

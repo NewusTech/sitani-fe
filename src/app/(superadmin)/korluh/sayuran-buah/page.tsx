@@ -488,10 +488,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[1]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[1].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[1].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[1].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[1].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[1].id))} />
@@ -538,10 +538,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[2]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[2].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[2].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[2].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[2].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[2].id))} />
@@ -588,10 +588,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[3]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[3].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[3].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[3].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[3].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[3].id))} />
@@ -638,10 +638,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[4]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[4].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[4].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[4].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[4].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[4].id))} />
@@ -688,10 +688,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[5]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[5].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[5].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[5].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[5].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[5].id))} />
@@ -738,10 +738,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[6]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[6].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[6].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[6].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[6].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[6].id))} />
@@ -788,10 +788,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[7]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[7].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[7].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[7].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[7].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[7].id))} />
@@ -838,10 +838,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[8]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[8].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[8].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[8].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[8].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[8].id))} />
@@ -887,10 +887,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[9]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[9].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[9].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[9].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[9].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[9].id))} />
@@ -936,10 +936,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[10]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[10].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[10].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[10].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[10].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[10].id))} />
@@ -985,10 +985,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[11]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[11].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[11].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[11].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[11].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[11].id))} />
@@ -1034,10 +1034,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[12]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[12].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[12].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[12].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[12].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[12].id))} />
@@ -1083,10 +1083,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[13]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[13].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[13].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[13].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[13].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[13].id))} />
@@ -1132,10 +1132,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[14]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[14].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[14].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[14].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[14].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[14].id))} />
@@ -1181,10 +1181,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[15]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[15].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[15].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[15].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[15].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[15].id))} />
@@ -1230,10 +1230,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[16]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[16].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[16].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[16].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[16].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[16].id))} />
@@ -1279,10 +1279,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[17]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[17].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[17].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[17].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[17].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[17].id))} />
@@ -1328,10 +1328,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[18]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[18].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[18].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[18].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[18].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[18].id))} />
@@ -1377,10 +1377,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[19]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[19].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[19].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[19].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[19].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[19].id))} />
@@ -1426,10 +1426,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[20]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[20].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[20].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[20].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[20].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[20].id))} />
@@ -1475,10 +1475,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[21]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[21].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[21].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[21].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[21].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[21].id))} />
@@ -1524,10 +1524,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[22]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[22].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[22].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[22].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[22].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[22].id))} />
@@ -1573,10 +1573,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                      {item[23]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[23].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[23].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[23].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[23].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[23].id))} />
@@ -1622,10 +1622,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[24]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[24].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[24].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[24].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[24].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[24].id))} />
@@ -1671,10 +1671,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[25]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[25].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[25].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[25].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[25].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[25].id))} />
@@ -1720,10 +1720,10 @@ const KorluhSayuranBuah = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[26]?.id && (
                                                         <>
-                                                            <Link title="Detail" href={`/bpp-kecamatan/sayuran-buah/detail/${item[26].id}`}>
+                                                            <Link title="Detail" href={`/korluh/sayuran-buah/detail/${item[26].id}`}>
                                                                 <EyeIcon />
                                                             </Link>
-                                                            <Link title="Edit" href={`/bpp-kecamatan/sayuran-buah/edit/${item[26].id}`}>
+                                                            <Link title="Edit" href={`/korluh/sayuran-buah/edit/${item[26].id}`}>
                                                                 <EditIcon />
                                                             </Link>
                                                             <DeletePopup onDelete={() => handleDelete(String(item[26].id))} />
