@@ -244,29 +244,25 @@ const KomponenKoefisienVariasiProdusen = () => {
                         <div className="flex justify-between w-full">
                             <div className="flex justify-start w-fit gap-2">
                                 {/* More Menu */}
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger>
-
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button
-                                                        variant="outlinePrimary"
-                                                        className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
-                                                    >
-                                                        <Filter className="text-primary w-5 h-5" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
-                                                    <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
-                                                        Menu Filter
-                                                    </DropdownMenuLabel>
-                                                    {/* <hr className="border border-primary transition-all ease-in-out animate-pulse ml-2 mr-2" /> */}
-                                                    <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
-                                                    <div className="bg-white w-full h-full">
-                                                        <div className="flex flex-col w-full px-2 py-2">
-                                                            {/* Filter Kecamatan */}
-                                                            {/* <>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outlinePrimary"
+                                            className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
+                                        >
+                                            <Filter className="text-primary w-5 h-5" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                        <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                            Menu Filter
+                                        </DropdownMenuLabel>
+                                        {/* <hr className="border border-primary transition-all ease-in-out animate-pulse ml-2 mr-2" /> */}
+                                        <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                        <div className="bg-white w-full h-full">
+                                            <div className="flex flex-col w-full px-2 py-2">
+                                                {/* Filter Kecamatan */}
+                                                {/* <>
                         <Label className='text-xs mb-1 !text-black opacity-50' label="Kecamatan" />
                         <div className="w-full mb-2">
                           <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
@@ -289,10 +285,10 @@ const KomponenKoefisienVariasiProdusen = () => {
                           </Select>
                         </div>
                       </> */}
-                                                            {/* Filter Kecamatan */}
+                                                {/* Filter Kecamatan */}
 
-                                                            {/* Filter Desa */}
-                                                            {/* <>
+                                                {/* Filter Desa */}
+                                                {/* <>
                         <Label className='text-xs mb-1 !text-black opacity-50' label="Desa" />
                         <div className="w-full mb-2">
                           <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
@@ -315,10 +311,10 @@ const KomponenKoefisienVariasiProdusen = () => {
                           </Select>
                         </div>
                       </> */}
-                                                            {/* Filter Desa */}
+                                                {/* Filter Desa */}
 
-                                                            {/* Filter Rentang Tanggal */}
-                                                            {/* <>
+                                                {/* Filter Rentang Tanggal */}
+                                                {/* <>
                                                             <Label className='text-xs mb-1 !text-black opacity-50' label="Rentang Tanggal" />
                                                             <div className="flex gap-2 justify-between items-center w-full mb-2">
                                                                 <div className="w-full">
@@ -394,36 +390,36 @@ const KomponenKoefisienVariasiProdusen = () => {
                                                                 </div>
                                                             </div>
                                                         </> */}
-                                                            {/* Filter Rentang Tanggal */}
+                                                {/* Filter Rentang Tanggal */}
 
-                                                            {/* Filter Tahun Bulan */}
-                                                            <>
-                                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
-                                                                <div className="flex gap-2 justify-between items-center w-full">
-                                                                    {/* filter tahun */}
-                                                                    <div className="w-full">
-                                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                                            <SelectTrigger>
-                                                                                <SelectValue placeholder="Tahun">
-                                                                                    {tahun ? tahun : "Tahun"}
-                                                                                </SelectValue>
-                                                                            </SelectTrigger>
-                                                                            <SelectContent>
-                                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                                    const year = startYear + index;
-                                                                                    return (
-                                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                                            {year}
-                                                                                        </SelectItem>
-                                                                                    );
-                                                                                })}
-                                                                            </SelectContent>
-                                                                        </Select>
-                                                                    </div>
-                                                                    {/* filter tahun */}
-                                                                    {/* Filter bulan */}
-                                                                    {/* <div className="w-full">
+                                                {/* Filter Tahun Bulan */}
+                                                <>
+                                                    <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
+                                                    <div className="flex gap-2 justify-between items-center w-full">
+                                                        {/* filter tahun */}
+                                                        <div className="w-full">
+                                                            <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                                                <SelectTrigger>
+                                                                    <SelectValue placeholder="Tahun">
+                                                                        {tahun ? tahun : "Tahun"}
+                                                                    </SelectValue>
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                                                    {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                                        const year = startYear + index;
+                                                                        return (
+                                                                            <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                                                                {year}
+                                                                            </SelectItem>
+                                                                        );
+                                                                    })}
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                        {/* filter tahun */}
+                                                        {/* Filter bulan */}
+                                                        {/* <div className="w-full">
                                                                     <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                                                         <SelectTrigger>
                                                                             <SelectValue placeholder="Tahun">
@@ -443,22 +439,15 @@ const KomponenKoefisienVariasiProdusen = () => {
                                     </SelectContent>
                                                                     </Select>
                                                                 </div> */}
-                                                                    {/* Filter bulan */}
-                                                                </div>
-                                                            </>
-                                                            {/* Filter Tahun Bulan */}
-
-                                                        </div>
+                                                        {/* Filter bulan */}
                                                     </div>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
+                                                </>
+                                                {/* Filter Tahun Bulan */}
 
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Menu Filter</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
+                                            </div>
+                                        </div>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                                 {/* More Menu */}
 
                                 {/* filter kolom */}
@@ -479,19 +468,10 @@ const KomponenKoefisienVariasiProdusen = () => {
                                 {/* filter kolom */}
 
                                 {/* unduh print */}
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger>
-                                            <KoefisienVariasiProdusenPrint
-                                                urlApi={`/kepang/cv-produsen/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
-                                                tahun={tahun}
-                                            />
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Unduh/Print</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
+                                <KoefisienVariasiProdusenPrint
+                                    urlApi={`/kepang/cv-produsen/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                                    tahun={tahun}
+                                />
                                 {/* unduh print */}
                             </div>
 
@@ -534,12 +514,12 @@ const KomponenKoefisienVariasiProdusen = () => {
                         {data.data.length > 0 ? (
                             data.data.map((item, index) => (
                                 <TableRow key={item.id}>
-                                    <TableCell>{index + 1}</TableCell>
-                                    <TableCell>{format(new Date(item.bulan), 'MMMM', { locale: id })}</TableCell>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{index + 1}</TableCell>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{format(new Date(item.bulan), 'MMMM', { locale: id })}</TableCell>
                                     {uniqueKomoditas.map((komoditas) => {
                                         const foundCommodity = item.list.find(k => k.komoditas.nama === komoditas);
                                         return (
-                                            <TableCell key={komoditas}>
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200' key={komoditas}>
                                                 {foundCommodity ? (
                                                     <div className="flex items-center gap-4">
                                                         <div className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
