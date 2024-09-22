@@ -1,13 +1,13 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import useSWR, { SWRResponse, mutate } from "swr";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -58,7 +58,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const PalawijaKorluhTambah = () => {
+const PalawijaKorluhEdit = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -73,18 +73,102 @@ const PalawijaKorluhTambah = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const kecamatanValue = watch("kecamatan_id");
+        // getone
+    // INTEGRASI
 
+    interface Response {
+        status: number;
+        message: string;
+        data: KorluhPalawijaData;
+      }
+      
+      interface KorluhPalawijaData {
+        id: number;
+        korluhPalawijaId: number;
+        korluhMasterPalawijaId: number;
+        lahanSawahPanen: number;
+        lahanSawahPanenMuda: number;
+        lahanSawahPanenHijauanPakanTernak: number;
+        lahanSawahTanam: number;
+        lahanSawahPuso: number;
+        lahanBukanSawahPanen: number;
+        lahanBukanSawahPanenMuda: number;
+        lahanBukanSawahPanenHijauanPakanTernak: number;
+        lahanBukanSawahTanam: number;
+        lahanBukanSawahPuso: number;
+        produksi: number | null;
+        createdAt: string;
+        updatedAt: string;
+        korluhPalawija: KorluhPalawijaDetail;
+        master: Master;
+      }
+      
+      interface KorluhPalawijaDetail {
+        id: number;
+        kecamatanId: number;
+        desaId: number;
+        tanggal: string;
+        createdAt: string;
+        updatedAt: string;
+      }
+      
+      interface Master {
+        id: number;
+        nama: string;
+        hide: boolean;
+        createdAt: string;
+        updatedAt: string;
+      }
+      
 
-    // TAMBAH
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataPalawija, error } = useSWR<Response>(
+        `/korluh/palawija/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
+    );
+
+    // setvalue
+    const kecamatanId = watch("kecamatan_id");
+    const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
+
+    useEffect(() => {
+        if (dataSayuran) {
+            setValue("tanggal", new Date(dataSayuran.data.korluhSayurBuah.tanggal).toISOString().split('T')[0]);
+            
+            setValue("kecamatan_id", dataSayuran.data.korluhSayurBuah.kecamatanId);
+            setInitialDesaId(dataSayuran.data.korluhSayurBuah.desaId); // Save initial desa_id
+            setValue("desa_id", dataSayuran.data.korluhSayurBuah.desaId); // Set default value
+        }
+    }, [dataSayuran, setValue]);
+
+    useEffect(() => {
+        // Clear desa_id when kecamatan_id changes
+        setValue("desa_id", initialDesaId ?? 0); // Reset to initial desa_id
+    }, [kecamatanId, setValue, initialDesaId]);
+    // setvalue
+
+    // getone
+
+    const kecamatanValue = watch("kecamatan_id");
+    // TAMBAH
     const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.post("/korluh/palawija/create", data);
+            await axiosPrivate.put(`/korluh/palawija/update/${id}`, data);
             // alert
             Swal.fire({
                 icon: 'success',
@@ -417,4 +501,4 @@ const PalawijaKorluhTambah = () => {
     )
 }
 
-export default PalawijaKorluhTambah
+export default PalawijaKorluhEdit

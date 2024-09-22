@@ -213,7 +213,7 @@ const KorluPalawija = () => {
                             </SelectContent>
                         </Select>
                     </div> */}
-                    <Link href="/korluh/padi/tambah" className='bg-primary px-3 md:px-8 py-2 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-base mb-3'>
+                    <Link href="/korluh/palawija/tambah" className='bg-primary px-3 md:px-8 py-2 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-base mb-3'>
                         Tambah
                     </Link>
                 </div>

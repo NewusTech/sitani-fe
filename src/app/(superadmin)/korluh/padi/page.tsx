@@ -435,13 +435,13 @@ const KorlubPadi = () => {
                                             1). Bantuan Pemerintah
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_panen}
+                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_tanam}
+                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_puso}
+                                            {item.hibrida_bantuan_pemerintah_lahan_sawah_puso ?? "-"}
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
@@ -451,13 +451,13 @@ const KorlubPadi = () => {
                                             2). Non Bantuan Pemerintah
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.hibrida_non_bantuan_pemerintah_lahan_sawah_panen}
+                                            {item.hibrida_non_bantuan_pemerintah_lahan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam}
+                                            {item.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.hibrida_non_bantuan_pemerintah_lahan_sawah_puso}
+                                            {item.hibrida_non_bantuan_pemerintah_lahan_sawah_puso ?? "-"}
                                         </TableCell>
                                     </TableRow>
                                     {/* hibrida */}
@@ -476,22 +476,22 @@ const KorlubPadi = () => {
                                             1). Bantuan Pemerintah
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_bantuan_pemerintah_lahan_sawah_panen}
+                                            {item.unggul_bantuan_pemerintah_lahan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_bantuan_pemerintah_lahan_sawah_tanam}
+                                            {item.unggul_bantuan_pemerintah_lahan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_bantuan_pemerintah_lahan_sawah_puso}
+                                            {item.unggul_bantuan_pemerintah_lahan_sawah_puso ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen}
+                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam}
+                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso}
+                                            {item.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso ?? "-"}
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
@@ -501,22 +501,22 @@ const KorlubPadi = () => {
                                             2). Non Bantuan Pemerintah
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_non_bantuan_pemerintah_lahan_sawah_panen}
+                                            {item.unggul_non_bantuan_pemerintah_lahan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_non_bantuan_pemerintah_lahan_sawah_tanam}
+                                            {item.unggul_non_bantuan_pemerintah_lahan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_non_bantuan_pemerintah_lahan_sawah_puso}
+                                            {item.unggul_non_bantuan_pemerintah_lahan_sawah_puso ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen}
+                                            {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam}
+                                            {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso}
+                                            {item.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso ?? "-"}
                                         </TableCell>
                                     </TableRow>
                                     {/* Non hibrida */}
@@ -528,22 +528,22 @@ const KorlubPadi = () => {
                                             C. Lokal
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.lokal_lahan_sawah_panen}
+                                            {item.lokal_lahan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.lokal_lahan_sawah_tanam}
+                                            {item.lokal_lahan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.lokal_lahan_sawah_puso}
+                                            {item.lokal_lahan_sawah_puso ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.lokal_lahan_bukan_sawah_panen}
+                                            {item.lokal_lahan_bukan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.lokal_lahan_bukan_sawah_tanam}
+                                            {item.lokal_lahan_bukan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border border-slate-200 text-center'>
-                                            {item.lokal_lahan_bukan_sawah_puso}
+                                            {item.lokal_lahan_bukan_sawah_puso ?? "-"}
                                         </TableCell>
                                     </TableRow>
                                     {/* jenis padi */}
@@ -564,13 +564,13 @@ const KorlubPadi = () => {
                                             A. Sawah Irigasi
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_irigasi_lahan_sawah_panen}
+                                            {item.sawah_irigasi_lahan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_irigasi_lahan_sawah_tanam}
+                                            {item.sawah_irigasi_lahan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_irigasi_lahan_sawah_puso}
+                                            {item.sawah_irigasi_lahan_sawah_puso ?? "-"}
                                         </TableCell>
                                     </TableRow>
                                     {/* sawah irigasi */}
@@ -582,13 +582,13 @@ const KorlubPadi = () => {
                                             B. Sawah Tadah Hujan
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_tadah_hujan_lahan_sawah_panen}
+                                            {item.sawah_tadah_hujan_lahan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_tadah_hujan_lahan_sawah_tanam}
+                                            {item.sawah_tadah_hujan_lahan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_tadah_hujan_lahan_sawah_puso}
+                                            {item.sawah_tadah_hujan_lahan_sawah_puso ?? "-"}
                                         </TableCell>
                                     </TableRow>
                                     {/* sawah tadah hujan */}
@@ -600,13 +600,13 @@ const KorlubPadi = () => {
                                             C. Sawah Rawa Pasang Surut
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_rawa_pasang_surut_lahan_sawah_panen}
+                                            {item.sawah_rawa_pasang_surut_lahan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_rawa_pasang_surut_lahan_sawah_tanam}
+                                            {item.sawah_rawa_pasang_surut_lahan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_rawa_pasang_surut_lahan_sawah_puso}
+                                            {item.sawah_rawa_pasang_surut_lahan_sawah_puso ?? "-"}
                                         </TableCell>
                                     </TableRow>
                                     {/* sawah Rawa Pasang Surut */}
@@ -618,13 +618,13 @@ const KorlubPadi = () => {
                                             D. Sawah Rawa Lebak
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_rawa_lebak_lahan_sawah_panen}
+                                            {item.sawah_rawa_lebak_lahan_sawah_panen ?? "-"}
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_rawa_lebak_lahan_sawah_tanam}
+                                            {item.sawah_rawa_lebak_lahan_sawah_tanam ?? "-"}
                                         </TableCell>
                                         <TableCell className='border text-center border-slate-200'>
-                                            {item.sawah_rawa_lebak_lahan_sawah_puso}
+                                            {item.sawah_rawa_lebak_lahan_sawah_puso ?? "-"}
                                         </TableCell>
                                     </TableRow>
                                     {/* sawah Rawa Lebak */}
