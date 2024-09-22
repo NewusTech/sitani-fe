@@ -44,16 +44,16 @@ const formSchema = z.object({
     .preprocess((val) => Number(val), z.number().min(1, { message: "Palawija wajib diisi" })),
 
     // The following fields are now optional
-    lahan_sawah_panen: z.string().optional(),
-    lahan_sawah_panen_muda: z.coerce.number().min(0).optional(),
-    lahan_sawah_panen_hijauan_pakan_ternak: z.coerce.number().min(0).optional(),
-    lahan_sawah_tanam: z.coerce.number().min(0).optional(),
-    lahan_sawah_puso: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_panen: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_panen_muda: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_panen_hijauan_pakan_ternak: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_tanam: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_puso: z.coerce.number().min(0).optional(),
+    lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_sawah_panen_muda: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_sawah_panen_hijauan_pakan_ternak: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_panen_muda: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_panen_hijauan_pakan_ternak: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -399,7 +399,6 @@ const PalawijaKorluhTambah = () => {
                         </div>
                     </div>
                 </div>
-
                 <div className="mb-10 flex justify-end gap-3">
                     <Link href="/bpp-kecamatan/sayuran-buah" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal

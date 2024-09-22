@@ -41,19 +41,19 @@ const formSchema = z.object({
         z.string().min(1, { message: "Tanggal wajib diisi" })
     ),
     korluh_master_palawija_id: z
-    .preprocess((val) => Number(val), z.number().min(1, { message: "Palawija wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(1, { message: "Palawija wajib diisi" })),
 
     // The following fields are now optional
-    lahan_sawah_panen: z.string().optional(),
-    lahan_sawah_panen_muda: z.coerce.number().min(0).optional(),
-    lahan_sawah_panen_hijauan_pakan_ternak: z.coerce.number().min(0).optional(),
-    lahan_sawah_tanam: z.coerce.number().min(0).optional(),
-    lahan_sawah_puso: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_panen: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_panen_muda: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_panen_hijauan_pakan_ternak: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_tanam: z.coerce.number().min(0).optional(),
-    lahan_bukan_sawah_puso: z.coerce.number().min(0).optional(),
+    lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_sawah_panen_muda: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_sawah_panen_hijauan_pakan_ternak: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_panen_muda: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_panen_hijauan_pakan_ternak: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    lahan_bukan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -73,16 +73,16 @@ const PalawijaKorluhEdit = () => {
         resolver: zodResolver(formSchema),
     });
 
-        // getone
+    // getone
     // INTEGRASI
 
-    interface Response {
+    interface ResponseOne {
         status: number;
         message: string;
         data: KorluhPalawijaData;
-      }
-      
-      interface KorluhPalawijaData {
+    }
+
+    interface KorluhPalawijaData {
         id: number;
         korluhPalawijaId: number;
         korluhMasterPalawijaId: number;
@@ -101,32 +101,32 @@ const PalawijaKorluhEdit = () => {
         updatedAt: string;
         korluhPalawija: KorluhPalawijaDetail;
         master: Master;
-      }
-      
-      interface KorluhPalawijaDetail {
+    }
+
+    interface KorluhPalawijaDetail {
         id: number;
         kecamatanId: number;
         desaId: number;
         tanggal: string;
         createdAt: string;
         updatedAt: string;
-      }
-      
-      interface Master {
+    }
+
+    interface Master {
         id: number;
         nama: string;
         hide: boolean;
         createdAt: string;
         updatedAt: string;
-      }
-      
+    }
+
 
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
     const params = useParams();
     const { id } = params;
 
-    const { data: dataPalawija, error } = useSWR<Response>(
+    const { data: dataPalawijaOne, error } = useSWR<ResponseOne>(
         `/korluh/palawija/get/${id}`,
         async (url: string) => {
             try {
@@ -144,14 +144,29 @@ const PalawijaKorluhEdit = () => {
     const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
 
     useEffect(() => {
-        if (dataSayuran) {
-            setValue("tanggal", new Date(dataSayuran.data.korluhSayurBuah.tanggal).toISOString().split('T')[0]);
-            
-            setValue("kecamatan_id", dataSayuran.data.korluhSayurBuah.kecamatanId);
-            setInitialDesaId(dataSayuran.data.korluhSayurBuah.desaId); // Save initial desa_id
-            setValue("desa_id", dataSayuran.data.korluhSayurBuah.desaId); // Set default value
+        if (dataPalawijaOne) {
+            const timeout = setTimeout(() => {
+                setValue("tanggal", new Date(dataPalawijaOne.data.korluhPalawija.tanggal).toISOString().split('T')[0]);
+                setValue("kecamatan_id", dataPalawijaOne.data.korluhPalawija.kecamatanId);
+                setInitialDesaId(dataPalawijaOne.data.korluhPalawija.desaId);
+                setValue("desa_id", dataPalawijaOne.data.korluhPalawija.desaId);
+                setValue("korluh_master_palawija_id", dataPalawijaOne.data.korluhMasterPalawijaId);
+                setValue("lahan_sawah_panen", dataPalawijaOne.data.lahanSawahPanen);
+                setValue("lahan_sawah_panen_hijauan_pakan_ternak", dataPalawijaOne.data.lahanSawahPanenHijauanPakanTernak);
+                setValue("lahan_sawah_tanam", dataPalawijaOne.data.lahanSawahTanam);
+                setValue("lahan_sawah_puso", dataPalawijaOne.data.lahanSawahPuso);
+                setValue("lahan_bukan_sawah_panen", dataPalawijaOne.data.lahanBukanSawahPanen);
+                setValue("lahan_bukan_sawah_panen_muda", dataPalawijaOne.data.lahanBukanSawahPanenMuda);
+                setValue("lahan_bukan_sawah_panen_hijauan_pakan_ternak", dataPalawijaOne.data.lahanBukanSawahPanenHijauanPakanTernak);
+                setValue("lahan_bukan_sawah_tanam", dataPalawijaOne.data.lahanBukanSawahTanam);
+                setValue("lahan_sawah_panen_muda", dataPalawijaOne.data.lahanSawahPanenMuda);
+                setValue("lahan_bukan_sawah_puso", dataPalawijaOne.data.lahanBukanSawahPuso);
+            }, 300); // Delay by 500 milliseconds
+
+            return () => clearTimeout(timeout); // Cleanup timeout on unmount or when dependencies change
         }
-    }, [dataSayuran, setValue]);
+    }, [dataPalawijaOne, setValue]);
+
 
     useEffect(() => {
         // Clear desa_id when kecamatan_id changes
@@ -172,7 +187,7 @@ const PalawijaKorluhEdit = () => {
             // alert
             Swal.fire({
                 icon: 'success',
-                title: 'Data berhasil di tambahkan!',
+                title: 'Data berhasil di edit!',
                 text: 'Data sudah disimpan sistem!',
                 timer: 1500,
                 timerProgressBar: true,
@@ -194,11 +209,11 @@ const PalawijaKorluhEdit = () => {
             console.log(data)
             // push
             navigate.push('/korluh/palawija');
-            console.log("Success to create Palawija:");
-            reset()
+            console.log("Success to create Sayuran Buah:");
+            // reset()
         } catch (error: any) {
             // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
             Swal.fire({
                 icon: 'error',
                 title: 'Terjadi kesalahan!',
@@ -492,7 +507,7 @@ const PalawijaKorluhEdit = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Tambah"
+                            "Simpan"
                         )}
                     </Button>
                 </div>
