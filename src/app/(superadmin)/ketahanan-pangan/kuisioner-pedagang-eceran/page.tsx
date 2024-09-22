@@ -439,29 +439,25 @@ const KuisionerPedagangEceran = () => {
                     <div className="flex justify-between w-full">
                         <div className="flex justify-start w-fit gap-2">
                             {/* More Menu */}
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger>
-
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button
-                                                    variant="outlinePrimary"
-                                                    className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
-                                                >
-                                                    <Filter className="text-primary w-5 h-5" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
-                                                <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
-                                                    Menu Filter
-                                                </DropdownMenuLabel>
-                                                {/* <hr className="border border-primary transition-all ease-in-out animate-pulse ml-2 mr-2" /> */}
-                                                <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
-                                                <div className="bg-white w-full h-full">
-                                                    <div className="flex flex-col w-full px-2 py-2">
-                                                        {/* Filter Kecamatan */}
-                                                        {/* <>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="outlinePrimary"
+                                        className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
+                                    >
+                                        <Filter className="text-primary w-5 h-5" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                    <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                        Menu Filter
+                                    </DropdownMenuLabel>
+                                    {/* <hr className="border border-primary transition-all ease-in-out animate-pulse ml-2 mr-2" /> */}
+                                    <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                    <div className="bg-white w-full h-full">
+                                        <div className="flex flex-col w-full px-2 py-2">
+                                            {/* Filter Kecamatan */}
+                                            {/* <>
                         <Label className='text-xs mb-1 !text-black opacity-50' label="Kecamatan" />
                         <div className="w-full mb-2">
                           <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
@@ -484,10 +480,10 @@ const KuisionerPedagangEceran = () => {
                           </Select>
                         </div>
                       </> */}
-                                                        {/* Filter Kecamatan */}
+                                            {/* Filter Kecamatan */}
 
-                                                        {/* Filter Desa */}
-                                                        {/* <>
+                                            {/* Filter Desa */}
+                                            {/* <>
                         <Label className='text-xs mb-1 !text-black opacity-50' label="Desa" />
                         <div className="w-full mb-2">
                           <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
@@ -510,202 +506,168 @@ const KuisionerPedagangEceran = () => {
                           </Select>
                         </div>
                       </> */}
-                                                        {/* Filter Desa */}
+                                            {/* Filter Desa */}
 
-                                                        {/* Filter Rentang Tanggal */}
-                                                        <>
-                                                            <Label className='text-xs mb-1 !text-black opacity-50' label="Rentang Tanggal" />
-                                                            <div className="flex gap-2 justify-between items-center w-full mb-2">
-                                                                <div className="w-full">
-                                                                    <Popover>
-                                                                        <PopoverTrigger asChild>
-                                                                            <Button
-                                                                                variant="outline"
-                                                                                className={cn(
-                                                                                    "w-full flex items-center justify-between text-left font-normal text-[11px] lg:text-sm",
-                                                                                    !startDate && "text-muted-foreground"
-                                                                                )}
-                                                                            >
-                                                                                <div className="flex gap-2 justify-between">
-                                                                                    <span className="pl-2 text-xs">
-                                                                                        {startDate
-                                                                                            ? format(startDate, "dd/MM/yyyy", { locale: id })
-                                                                                            : "Tanggal Awal"}
-                                                                                    </span>
-                                                                                    <CalendarIcon className="h-4 w-4 text-primary mr-2" />
-                                                                                </div>
-                                                                            </Button>
-                                                                        </PopoverTrigger>
-                                                                        <PopoverContent className="w-auto p-0">
-                                                                            <DatePicker
-                                                                                inline
-                                                                                selected={startDate}
-                                                                                onChange={(date: any) => setstartDate(date)}
-                                                                                showYearDropdown
-                                                                                dateFormat="dd/MM/yyyy"
-                                                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                                                                yearDropdownItemNumber={15}
-                                                                                scrollableYearDropdown
-                                                                                locale={id}
-                                                                            />
-                                                                        </PopoverContent>
-                                                                    </Popover>
-                                                                </div>
-                                                                <div className="text-xs">to</div>
-                                                                <div className="w-full">
-                                                                    <Popover>
-                                                                        <PopoverTrigger asChild>
-                                                                            <Button
-                                                                                variant="outline"
-                                                                                className={cn(
-                                                                                    "w-full flex items-center justify-between text-left font-normal text-xs lg:text-sm",
-                                                                                    !endDate && "text-muted-foreground"
-                                                                                )}
-                                                                            >
-                                                                                <div className="flex gap-2 justify-between">
-                                                                                    <span className="pl-2 text-xs">
-                                                                                        {endDate
-                                                                                            ? format(endDate, "dd/MM/yyyy", { locale: id })
-                                                                                            : "Tanggal Akhir"}
-                                                                                    </span>
-                                                                                    <CalendarIcon className="h-4 w-4 text-primary mr-2" />
-                                                                                </div>
-                                                                            </Button>
-                                                                        </PopoverTrigger>
-                                                                        <PopoverContent className="w-auto p-0">
-                                                                            <DatePicker
-                                                                                inline
-                                                                                selected={endDate}
-                                                                                onChange={(date: any) => setendDate(date)}
-                                                                                showYearDropdown
-                                                                                dateFormat="dd/MM/yyyy"
-                                                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                                                                yearDropdownItemNumber={15}
-                                                                                scrollableYearDropdown
-                                                                                locale={id}
-                                                                            />
-                                                                        </PopoverContent>
-                                                                    </Popover>
-                                                                </div>
-                                                            </div>
-                                                        </>
-                                                        {/* Filter Rentang Tanggal */}
-
-                                                        {/* Filter Tahun Bulan */}
-                                                        <>
-                                                            <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
-                                                            <div className="flex gap-2 justify-between items-center w-full">
-                                                                {/* filter tahun */}
-                                                                <div className="w-1/2">
-                                                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                                        <SelectTrigger>
-                                                                            <SelectValue placeholder="Tahun">
-                                                                                {tahun ? tahun : "Tahun"}
-                                                                            </SelectValue>
-                                                                        </SelectTrigger>
-                                                                        <SelectContent>
-                                                                            <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                                                                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                                const year = startYear + index;
-                                                                                return (
-                                                                                    <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                                        {year}
-                                                                                    </SelectItem>
-                                                                                );
-                                                                            })}
-                                                                        </SelectContent>
-                                                                    </Select>
-                                                                </div>
-                                                                {/* filter tahun */}
-                                                                {/* Filter bulan */}
-                                                                <div className="w-1/2">
-                                                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                                        <SelectTrigger>
-                                                                            <SelectValue placeholder="Tahun">
-                                                                                {tahun ? tahun : "Tahun"}
-                                                                            </SelectValue>
-                                                                        </SelectTrigger>
-                                                                        <SelectContent>
-                                                                            <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                                                                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                                const year = startYear + index;
-                                                                                return (
-                                                                                    <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                                        {year}
-                                                                                    </SelectItem>
-                                                                                );
-                                                                            })}
-                                                                        </SelectContent>
-                                                                    </Select>
-                                                                </div>
-                                                                {/* Filter bulan */}
-                                                            </div>
-                                                        </>
-                                                        {/* Filter Tahun Bulan */}
-
+                                            {/* Filter Rentang Tanggal */}
+                                            <>
+                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Rentang Tanggal" />
+                                                <div className="flex gap-2 justify-between items-center w-full mb-2">
+                                                    <div className="w-full">
+                                                        <Popover>
+                                                            <PopoverTrigger asChild>
+                                                                <Button
+                                                                    variant="outline"
+                                                                    className={cn(
+                                                                        "w-full flex items-center justify-between text-left font-normal text-[11px] lg:text-sm",
+                                                                        !startDate && "text-muted-foreground"
+                                                                    )}
+                                                                >
+                                                                    <div className="flex gap-2 justify-between">
+                                                                        <span className="pl-2 text-xs">
+                                                                            {startDate
+                                                                                ? format(startDate, "dd/MM/yyyy", { locale: id })
+                                                                                : "Tanggal Awal"}
+                                                                        </span>
+                                                                        <CalendarIcon className="h-4 w-4 text-primary mr-2" />
+                                                                    </div>
+                                                                </Button>
+                                                            </PopoverTrigger>
+                                                            <PopoverContent className="w-auto p-0">
+                                                                <DatePicker
+                                                                    inline
+                                                                    selected={startDate}
+                                                                    onChange={(date: any) => setstartDate(date)}
+                                                                    showYearDropdown
+                                                                    dateFormat="dd/MM/yyyy"
+                                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                                    yearDropdownItemNumber={15}
+                                                                    scrollableYearDropdown
+                                                                    locale={id}
+                                                                />
+                                                            </PopoverContent>
+                                                        </Popover>
+                                                    </div>
+                                                    <div className="text-xs">to</div>
+                                                    <div className="w-full">
+                                                        <Popover>
+                                                            <PopoverTrigger asChild>
+                                                                <Button
+                                                                    variant="outline"
+                                                                    className={cn(
+                                                                        "w-full flex items-center justify-between text-left font-normal text-xs lg:text-sm",
+                                                                        !endDate && "text-muted-foreground"
+                                                                    )}
+                                                                >
+                                                                    <div className="flex gap-2 justify-between">
+                                                                        <span className="pl-2 text-xs">
+                                                                            {endDate
+                                                                                ? format(endDate, "dd/MM/yyyy", { locale: id })
+                                                                                : "Tanggal Akhir"}
+                                                                        </span>
+                                                                        <CalendarIcon className="h-4 w-4 text-primary mr-2" />
+                                                                    </div>
+                                                                </Button>
+                                                            </PopoverTrigger>
+                                                            <PopoverContent className="w-auto p-0">
+                                                                <DatePicker
+                                                                    inline
+                                                                    selected={endDate}
+                                                                    onChange={(date: any) => setendDate(date)}
+                                                                    showYearDropdown
+                                                                    dateFormat="dd/MM/yyyy"
+                                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                                    yearDropdownItemNumber={15}
+                                                                    scrollableYearDropdown
+                                                                    locale={id}
+                                                                />
+                                                            </PopoverContent>
+                                                        </Popover>
                                                     </div>
                                                 </div>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                            </>
+                                            {/* Filter Rentang Tanggal */}
 
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Menu Filter</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                                            {/* Filter Tahun Bulan */}
+                                            <>
+                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
+                                                <div className="flex gap-2 justify-between items-center w-full">
+                                                    {/* filter tahun */}
+                                                    <div className="w-1/2">
+                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Tahun">
+                                                                    {tahun ? tahun : "Tahun"}
+                                                                </SelectValue>
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                                    const year = startYear + index;
+                                                                    return (
+                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                                                            {year}
+                                                                        </SelectItem>
+                                                                    );
+                                                                })}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                    {/* filter tahun */}
+                                                    {/* Filter bulan */}
+                                                    <div className="w-1/2">
+                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Tahun">
+                                                                    {tahun ? tahun : "Tahun"}
+                                                                </SelectValue>
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                                    const year = startYear + index;
+                                                                    return (
+                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                                                            {year}
+                                                                        </SelectItem>
+                                                                    );
+                                                                })}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                    {/* Filter bulan */}
+                                                </div>
+                                            </>
+                                            {/* Filter Tahun Bulan */}
+
+                                        </div>
+                                    </div>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                             {/* More Menu */}
 
                             {/* filter kolom */}
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <FilterTable
-                                            columns={columns}
-                                            defaultCheckedKeys={getDefaultCheckedKeys()}
-                                            onFilterChange={handleFilterChange}
-                                        />
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Filter Kolom</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                            <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            />
                             {/* filter kolom */}
 
                             {/* unduh print */}
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <KuisionerPedagangEceranPrint
-                                            urlApi={`/kepang/pedagang-eceran/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
-                                        />
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Unduh/Print</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                            <KuisionerPedagangEceranPrint
+                                urlApi={`/kepang/pedagang-eceran/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                            />
                             {/* unduh print */}
                         </div>
 
                         {/* Tambah Data */}
                         <div className="flex justify-end items-center w-fit">
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <Link
-                                            href="/ketahanan-pangan/kuisioner-pedagang-eceran/tambah"
-                                            className='bg-primary text-xs px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-end flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 py-2'>
-                                            {/* Tambah */}
-                                            <TambahIcon />
-                                        </Link>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Tambah Data</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                            <Link
+                                href="/ketahanan-pangan/kuisioner-pedagang-eceran/tambah"
+                                className='bg-primary text-xs px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-end flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 py-2'>
+                                {/* Tambah */}
+                                <TambahIcon />
+                            </Link>
                         </div>
                         {/* Tambah Data */}
                     </div>
@@ -769,41 +731,41 @@ const KuisionerPedagangEceran = () => {
                                 item?.list?.map((citem, cindex) => (
                                     <TableRow key={citem.id}>
                                         {visibleColumns.includes('no') && (
-                                            <TableCell>
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                                 {globalIndex++}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('komoditas') && (
-                                            <TableCell>
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                                 {citem?.komoditas.nama}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('mg1') && (
-                                            <TableCell>
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                                 {citem?.minggu1}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('mg2') && (
-                                            <TableCell>
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                                 {citem?.minggu2}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('mg3') && (
-                                            <TableCell>
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                                 {citem?.minggu3}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('mg4') && (
-                                            <TableCell>
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                                 {citem?.minggu4}
                                             </TableCell>)}
                                         {visibleColumns.includes('mg5') && (
-                                            <TableCell>
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                                 {citem?.minggu5}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('rataRata') && (
-                                            <TableCell>
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                                 {(citem?.minggu1 + citem?.minggu2 + citem?.minggu3 + citem?.minggu4 + citem?.minggu5) / 5}
                                             </TableCell>
                                         )}
