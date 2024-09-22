@@ -209,7 +209,10 @@ const PenyuluhKabPrint = () => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel>Pilih Unduhan</DropdownMenuLabel>
+                        <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                            Pilih Unduhan
+                        </DropdownMenuLabel>
+                        <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem onClick={handleDownloadPDF}>
@@ -230,7 +233,7 @@ const PenyuluhKabPrint = () => {
             </div>
             {/* KONTEN PRINT */}
             <div className="absolute -left-[700%] min-w-[39.7cm] w-full">
-            {/* <div className=""> */}
+                {/* <div className=""> */}
                 <div ref={printRef} className='p-[50px]'>
                     <div className="ata mb-4 text-base flex justify-end">
                         <div className="wr w-[300px] flex gap-1">

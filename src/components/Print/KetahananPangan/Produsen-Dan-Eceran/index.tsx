@@ -157,7 +157,7 @@ const KetahananPanganProdusenEceranPrint = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepang-produsen-eceran`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepang-produsen-eceran?startDate=${props.startDate}&endDate=${props.endDate}`;
 
         try {
             const response = await fetch(url, {

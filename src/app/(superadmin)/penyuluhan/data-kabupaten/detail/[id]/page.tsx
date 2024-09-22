@@ -15,7 +15,7 @@ const LabelDetail = (props: LabelProps) => {
   return (
     <div className='flex gap-2 justify-between lg:justify-start lg:block lg:flex-none'>
       <div className="label text-black font-semibold">{props.label || '-'}</div>
-      <div className="value text-black/70">{props.value || '-'}</div>
+      <div className="value text-black/70 text-end lg:text-left">{props.value || '-'}</div>
     </div>
   );
 };

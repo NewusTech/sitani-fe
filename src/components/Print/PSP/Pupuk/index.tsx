@@ -39,6 +39,7 @@ interface PrintProps {
     startDate?: string;
     endDate?: string;
     kecamatan?: string;
+    tahun?: string;
 }
 
 const PSPPupuk = (props: PrintProps) => {
@@ -138,7 +139,7 @@ const PSPPupuk = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/psp-pupuk?kecamatan=${props.kecamatan}&startDate=${props.startDate}&endDate=${props.endDate}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/psp-pupuk?kecamatan=${props.kecamatan}&startDate=${props.startDate}&endDate=${props.endDate}$year=${props.tahun}`;
 
         try {
             const response = await fetch(url, {
@@ -235,7 +236,10 @@ const PSPPupuk = (props: PrintProps) => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel>Pilih Unduhan</DropdownMenuLabel>
+                        <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                            Pilih Unduhan
+                        </DropdownMenuLabel>
+                        <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem onClick={handleDownloadPDF}>

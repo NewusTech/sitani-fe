@@ -7,6 +7,53 @@ import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
 import UnduhIcon from '../../../../../public/icons/UnduhIcon'
+
+// Filter di mobile
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale'; // Import Indonesian locale
+import Label from '@/components/ui/label'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { DropdownMenuCheckboxItem } from '@radix-ui/react-dropdown-menu'
+import {
+    Cloud,
+    CreditCard,
+    Github,
+    Keyboard,
+    LifeBuoy,
+    LogOut,
+    Mail,
+    MessageSquare,
+    Plus,
+    PlusCircle,
+    Settings,
+    User,
+    UserPlus,
+    Users,
+    Filter,
+} from "lucide-react"
+// Filter di mobile
+
 import {
     Select,
     SelectContent,
@@ -90,40 +137,50 @@ interface Response {
 }
 
 const Palawija1 = () => {
-    const [accessToken] = useLocalStorage("accessToken", "");
-    const axiosPrivate = useAxiosPrivate();
-
     // filter date
     const formatDate = (date?: Date): string => {
-        if (!date) return '';
+        if (!date) return ''; // Return an empty string if the date is undefined
         const year = date.getFullYear();
-        const month = date.getMonth() + 1;
+        const month = date.getMonth() + 1; // getMonth() is zero-based
         const day = date.getDate();
+
         return `${year}/${month}/${day}`;
     };
     const [startDate, setstartDate] = React.useState<Date>()
     const [endDate, setendDate] = React.useState<Date>()
-
+    // Memoize the formatted date to avoid unnecessary recalculations on each render
+    const filterStartDate = React.useMemo(() => formatDate(startDate), [startDate]);
+    const filterEndDate = React.useMemo(() => formatDate(endDate), [endDate]);
+    // filter date   
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
         setCurrentPage(page)
     };
     // pagination
-
+    // serach
+    const [search, setSearch] = useState("");
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
+    // serach
     // limit
     const [limit, setLimit] = useState(10);
     // limit
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    // filter tahun bulan
+    // otomatis hitung tahun
     const currentYear = new Date().getFullYear();
-    const [tahun, setTahun] = React.useState(`${currentYear}`);
+    const startYear = currentYear - 5;
+    const endYear = currentYear + 1;
+    // const [tahun, setTahun] = React.useState("2024");
+    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
+    // otomatis hitung tahun
     const [bulan, setBulan] = React.useState("1");
-    // filter tahun bulan
 
-    // GETALL
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
     const { data: dataPalawija1 }: SWRResponse<Response> = useSWR(
         `/tph/realisasi-palawija-1/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`,
         (url) =>
@@ -259,24 +316,22 @@ const Palawija1 = () => {
                 <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                     <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                         <div className="w-[80px]">
-                            <Select
-                                onValueChange={(value) => setTahun(value)}
-                                value={tahun}
-                            >
+                            <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Tahun" className='text-2xl' />
+                                    <SelectValue placeholder="Tahun">
+                                        {tahun ? tahun : "Tahun"}
+                                    </SelectValue>
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="2017">2017</SelectItem>
-                                    <SelectItem value="2018">2018</SelectItem>
-                                    <SelectItem value="2019">2019</SelectItem>
-                                    <SelectItem value="2020">2020</SelectItem>
-                                    <SelectItem value="2021">2021</SelectItem>
-                                    <SelectItem value="2022">2022</SelectItem>
-                                    <SelectItem value="2023">2023</SelectItem>
-                                    <SelectItem value="2024">2024</SelectItem>
-                                    <SelectItem value="2025">2025</SelectItem>
-                                    <SelectItem value="2026">2026</SelectItem>
+                                    <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                    {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                        const year = startYear + index;
+                                        return (
+                                            <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                                {year}
+                                            </SelectItem>
+                                        );
+                                    })}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -332,95 +387,159 @@ const Palawija1 = () => {
             </div>
             {/* dekstop */}
 
-            {/* mobile */}
-            <div className="mobile md:hidden flex flex-col gap-2">
-                <div className="top flex gap-2">
-                    <div className="tahun w-full">
-                        <Select
-                            onValueChange={(value) => setTahun(value)}
-                            value={tahun}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Tahun" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="2017">2017</SelectItem>
-                                <SelectItem value="2018">2018</SelectItem>
-                                <SelectItem value="2019">2019</SelectItem>
-                                <SelectItem value="2020">2020</SelectItem>
-                                <SelectItem value="2021">2021</SelectItem>
-                                <SelectItem value="2022">2022</SelectItem>
-                                <SelectItem value="2023">2023</SelectItem>
-                                <SelectItem value="2024">2024</SelectItem>
-                                <SelectItem value="2025">2025</SelectItem>
-                                <SelectItem value="2026">2026</SelectItem>
-                            </SelectContent>
-                        </Select>
+            {/* Mobile */}
+            <div className="md:hidden">
+                <>
+                    {/* Handle filter menu*/}
+                    <div className="flex justify-between w-full mt-4">
+                        <div className="flex justify-start w-fit gap-2">
+                            {/* More Menu */}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="outlinePrimary"
+                                        className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
+                                    >
+                                        <Filter className="text-primary w-5 h-5" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                    <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                        Menu Filter
+                                    </DropdownMenuLabel>
+                                    {/* <hr className="border border-primary transition-all ease-in-out animate-pulse ml-2 mr-2" /> */}
+                                    <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                    <div className="bg-white w-full h-full">
+                                        <div className="flex flex-col w-full px-2 py-2">
+                                            {/* Filter Kecamatan */}
+                                            <div className="w-full mb-2">
+                                                <KecamatanSelect
+                                                    value={selectedKecamatan}
+                                                    onChange={(value) => {
+                                                        setSelectedKecamatan(value);
+                                                    }}
+                                                />
+                                            </div>
+                                            {/* Filter Kecamatan */}
+
+                                            {/* Filter Desa */}
+                                            {/* Filter Desa */}
+
+                                            {/* Filter Rentang Tanggal */}
+                                            {/* Filter Rentang Tanggal */}
+
+                                            {/* Filter Tahun Bulan */}
+                                            <>
+                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
+                                                <div className="flex gap-2 justify-between items-center w-full">
+                                                    {/* filter tahun */}
+                                                    <div className="w-1/2">
+                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Tahun">
+                                                                    {tahun ? tahun : "Tahun"}
+                                                                </SelectValue>
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                                    const year = startYear + index;
+                                                                    return (
+                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                                                            {year}
+                                                                        </SelectItem>
+                                                                    );
+                                                                })}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                    {/* filter tahun */}
+                                                    {/* Filter bulan */}
+                                                    <div className="w-1/2">
+                                                        <Select
+                                                            onValueChange={(value) => setBulan(value)}
+                                                            value={bulan}
+                                                        >
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Bulan" className='text-2xl' />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem value="1">Januari</SelectItem>
+                                                                <SelectItem value="2">Februari</SelectItem>
+                                                                <SelectItem value="3">Maret</SelectItem>
+                                                                <SelectItem value="4">April</SelectItem>
+                                                                <SelectItem value="5">Mei</SelectItem>
+                                                                <SelectItem value="6">Juni</SelectItem>
+                                                                <SelectItem value="7">Juli</SelectItem>
+                                                                <SelectItem value="8">Agustus</SelectItem>
+                                                                <SelectItem value="9">September</SelectItem>
+                                                                <SelectItem value="10">Oktober</SelectItem>
+                                                                <SelectItem value="11">November</SelectItem>
+                                                                <SelectItem value="12">Desember</SelectItem>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                    {/* Filter bulan */}
+                                                </div>
+                                            </>
+                                            {/* Filter Tahun Bulan */}
+
+                                        </div>
+                                    </div>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            {/* More Menu */}
+
+                            {/* filter kolom */}
+                            <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            />
+                            {/* filter kolom */}
+
+                            {/* unduh print */}
+                            <TPHPalawija1
+                                urlApi={`/tph/realisasi-palawija-1/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`}
+                                kecamatan={selectedKecamatan}
+                                tahun={tahun}
+                                bulan={bulan}
+                            />
+                            {/* unduh print */}
+                        </div>
+
+                        {/* Tambah Data */}
+                        <div className="flex justify-end items-center w-fit">
+                            <Link
+                                href="/tanaman-pangan-holtikutura/realisasi/palawija-1/tambah"
+                                className='bg-primary text-xs px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-end flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 py-2'>
+                                {/* Tambah */}
+                                <TambahIcon />
+                            </Link>
+                        </div>
+                        {/* Tambah Data */}
                     </div>
-                    <div className="filter">
-                        <FilterTable
-                            columns={columns}
-                            defaultCheckedKeys={getDefaultCheckedKeys()}
-                            onFilterChange={handleFilterChange}
+
+                    {/* Hendle Search */}
+                    <div className="mt-2 search w-full">
+                        <Input
+                            autoFocus
+                            type="text"
+                            placeholder="Cari"
+                            value={search}
+                            onChange={handleSearchChange}
+                            rightIcon={<SearchIcon />}
+                            className='border-primary py-2 text-xs'
                         />
                     </div>
-                    <div className="unduh">
-                        <TPHPalawija1
-                            urlApi={`/tph/realisasi-palawija-1/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`}
-                            kecamatan={selectedKecamatan}
-                            tahun={tahun}
-                            bulan={bulan}
-                        />
-                    </div>
-                    <div className="tambah">
-                        {/* button tambah */}
-                        <Link
-                            href="/tanaman-pangan-holtikultura/realisasi/palawija-1/tambah"
-                            className='bg-primary text-sm px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-center flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 w-fit h-full'>
-                            <TambahIcon />
-                        </Link>
-                        {/* button tambah */}
-                    </div>
-                </div>
-                <div className="bottom flex gap-2">
-                    <div className="bulan w-full">
-                        <Select
-                            onValueChange={(value) => setBulan(value)}
-                            value={bulan}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Bulan" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="1">Januari</SelectItem>
-                                <SelectItem value="2">Februari</SelectItem>
-                                <SelectItem value="3">Maret</SelectItem>
-                                <SelectItem value="4">April</SelectItem>
-                                <SelectItem value="5">Mei</SelectItem>
-                                <SelectItem value="6">Juni</SelectItem>
-                                <SelectItem value="7">Juli</SelectItem>
-                                <SelectItem value="8">Agustus</SelectItem>
-                                <SelectItem value="9">September</SelectItem>
-                                <SelectItem value="10">Oktober</SelectItem>
-                                <SelectItem value="11">November</SelectItem>
-                                <SelectItem value="12">Desember</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="kecamatan w-full">
-                        <KecamatanSelect
-                            value={selectedKecamatan}
-                            onChange={(value) => {
-                                setSelectedKecamatan(value);
-                            }}
-                        />
-                    </div>
-                </div>
+                    {/* Hendle Search */}
+
+                </>
             </div>
-            {/* mobile */}
+            {/* Mobile */}
 
             {/* table */}
-            <Table className='border border-slate-200 mt-4 mb-20 lg:mb-0 md:text-sm text-xs lg:text-sm rounded-lg'>
+            <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
                 <TableHeader className='bg-primary-600'>
                     <TableRow >
                         {visibleColumns.includes('no') && (
@@ -501,7 +620,7 @@ const Palawija1 = () => {
                         dataPalawija1?.data?.detail?.list.map((item, index) => (
                             <TableRow key={item.id}>
                                 {visibleColumns.includes('no') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {index + 1}
                                     </TableCell>
                                 )}
@@ -511,47 +630,47 @@ const Palawija1 = () => {
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('jagung') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {item.jagungPanen}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('jagung') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {item.jagungProduktivitas}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('jagung') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {item.jagungProduksi}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('kedelai') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {item.kedelaiPanen}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('kedelai') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {item.kedelaiProduktivitas}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('kedelai') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {item.kedelaiProduksi}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('kacangTanah') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {item.kacangTanahPanen}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('kacangTanah') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {item.kacangTanahProduktivitas}
                                     </TableCell>
                                 )}
                                 {visibleColumns.includes('kacangTanah') && (
-                                    <TableCell className='border border-slate-200 text-center'>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
                                         {item.kacangTanahProduksi}
                                     </TableCell>
                                 )}

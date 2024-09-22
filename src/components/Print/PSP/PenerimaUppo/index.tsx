@@ -37,6 +37,7 @@ import Swal from 'sweetalert2';
 interface PrintProps {
     urlApi?: string;
     kecamatan?: string;
+    tahun?: string;
 }
 
 const PSPPenerimaUPPO = (props: PrintProps) => {
@@ -158,7 +159,7 @@ const PSPPenerimaUPPO = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/psp-penerima-uppo?kecamatan=${props.kecamatan}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/psp-penerima-uppo?kecamatan=${props.kecamatan}$year=${props.tahun}`;
 
         try {
             const response = await fetch(url, {
@@ -255,7 +256,10 @@ const PSPPenerimaUPPO = (props: PrintProps) => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel>Pilih Unduhan</DropdownMenuLabel>
+                        <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                            Pilih Unduhan
+                        </DropdownMenuLabel>
+                        <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem onClick={handleDownloadPDF}>
@@ -276,7 +280,7 @@ const PSPPenerimaUPPO = (props: PrintProps) => {
             </div>
             {/* KONTEN PRINT */}
             <div className="absolute -left-[700%] min-w-[39.7cm] w-full">
-            {/* <div className=""> */}
+                {/* <div className=""> */}
                 <div ref={printRef} className='p-[50px]'>
                     {/* title */}
                     <div className="text-xl mb-4 font-semibold text-black mx-auto uppercase flex justify-center">

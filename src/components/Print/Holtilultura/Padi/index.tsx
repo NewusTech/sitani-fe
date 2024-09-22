@@ -261,7 +261,10 @@ const TPHPadi = (props: PrintProps) => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel>Pilih Unduhan</DropdownMenuLabel>
+                        <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                            Pilih Unduhan
+                        </DropdownMenuLabel>
+                        <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem onClick={handleDownloadPDF}>
