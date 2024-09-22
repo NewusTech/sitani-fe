@@ -1,13 +1,13 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import HelperError from '@/components/ui/HelperError';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import useSWR, { SWRResponse, mutate } from "swr";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -30,17 +30,17 @@ const formatDate = (dateString: string) => {
 const formSchema = z.object({
     kecamatan_id: z
         .number()
-        .min(1, "Kecamatan is required")
+        .min(0, "Kecamatan is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     desa_id: z
         .number()
-        .min(1, "Desa is required")
+        .min(0, "Desa is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
-        z.string().min(1, { message: "Tanggal wajib diisi" })),
+        z.string().min(0, { message: "Tanggal wajib diisi" })),
     korluh_master_tanaman_hias_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Tanaman hias wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Tanaman hias wajib diisi" })),
     satuan_produksi: z.string().min(0, { message: "Satuan Produksi wajib diisi" }),
     luas_panen_habis: z
         .preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
@@ -59,9 +59,11 @@ const formSchema = z.object({
     keterangan: z.string().optional(),
 });
 
+
+
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const TambahTanamanHias = () => {
+const EditTanamanBuah = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -76,22 +78,133 @@ const TambahTanamanHias = () => {
         resolver: zodResolver(formSchema),
     });
 
-    const kecamatanValue = watch("kecamatan_id");
+    // getone
+    // INTEGRASI
 
+    interface Sayuran {
+        id: number;
+        korluhTanamanHiasId: number;
+        namaTanaman: string;
+        satuanProduksi: string;
+        luasPanenHabis: number;
+        luasPanenBelumHabis: number;
+        luasRusak: number;
+        luasPenanamanBaru: number;
+        produksiHabis: number;
+        produksiBelumHabis: number;
+        rerataHarga: number;
+        keterangan: string;
+        korluhTanamanHias: {
+            tanggal: string,
+            kecamatanId: number,
+            desaId: number,
+        }
+        master: {
+            id: number;
+        }
+    }
 
-    // TAMBAH
+    interface Response {
+        status: string;
+        data: Sayuran;
+        message: string;
+    }
+
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataTanaman, error } = useSWR<Response>(
+        `/korluh/tanaman-hias/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
+    );
+
+    // setvalue
+    const kecamatanId = watch("kecamatan_id");
+    const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
+
+    // GET ALL 
+    interface Master {
+        id: number;
+        nama: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    interface ResponseMaster {
+        status: string;
+        data: Master[];
+        message: string;
+    }
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+
+    const { data: dataMaster }: SWRResponse<ResponseMaster> = useSWR(
+        `/korluh/master-tanaman-hias/get`,
+        (url: string) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+    const masterOptions = dataMaster?.data.map(master => ({
+        id: master.id.toString(),
+        name: master.nama,
+    }))
+    //
+
+    useEffect(() => {
+        if (dataTanaman) {
+            setValue("korluh_master_tanaman_hias_id", dataTanaman.data.master.id);
+            setValue("tanggal", new Date(dataTanaman.data.korluhTanamanHias.tanggal).toISOString().split('T')[0]);
+            setValue("satuan_produksi", "pcs");
+            console.log("satuan produksi = ", dataTanaman.data.satuanProduksi)
+            setValue("luas_panen_habis", dataTanaman.data.luasPanenHabis);
+            setValue("luas_panen_belum_habis", dataTanaman.data.luasPanenBelumHabis);
+            setValue("luas_rusak", dataTanaman.data.luasRusak);
+            setValue("luas_penanaman_baru", dataTanaman.data.luasPenanamanBaru);
+            setValue("produksi_habis", dataTanaman.data.produksiHabis);
+            setValue("produksi_belum_habis", dataTanaman.data.produksiBelumHabis);
+            setValue("rerata_harga", dataTanaman.data.rerataHarga);
+            setValue("keterangan", dataTanaman.data.keterangan);
+            setValue("kecamatan_id", dataTanaman.data.korluhTanamanHias.kecamatanId);
+            setInitialDesaId(dataTanaman.data.korluhTanamanHias.desaId); // Save initial desa_id
+            setValue("desa_id", dataTanaman.data.korluhTanamanHias.desaId); // Set default value
+        }
+    }, [dataTanaman, setValue]);
+
+    useEffect(() => {
+        // Clear desa_id when kecamatan_id changes
+        setValue("desa_id", initialDesaId ?? 0); // Reset to initial desa_id
+    }, [kecamatanId, setValue, initialDesaId]);
+    // setvalue
+
+    // getone
+
+    // TAMBAH
+    const kecamatanValue = watch("kecamatan_id");
     const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.post("/korluh/tanaman-hias/create", data);
+            await axiosPrivate.put(`/korluh/tanaman-hias/update/${id}`, data);
             // alert
             Swal.fire({
                 icon: 'success',
-                title: 'Data berhasil di tambahkan!',
+                title: 'Data berhasil di edit!',
                 text: 'Data sudah disimpan sistem!',
                 timer: 1500,
                 timerProgressBar: true,
@@ -114,10 +227,10 @@ const TambahTanamanHias = () => {
             // push
             navigate.push('/korluh/tanaman-hias');
             console.log("Success to create Tanaman Hias:");
-            reset()
+            // reset()
         } catch (error: any) {
             // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
             Swal.fire({
                 icon: 'error',
                 title: 'Terjadi kesalahan!',
@@ -135,46 +248,15 @@ const TambahTanamanHias = () => {
         } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/tanaman-hias/get`);
+        mutate(`/korluh/tanaman-hias/get`);
     };
 
-    // 
-    // GET ALL 
-    interface Master {
-        id: number;
-        nama: string;
-        createdAt: string;
-        updatedAt: string;
-    }
-
-    interface Response {
-        status: string;
-        data: Master[];
-        message: string;
-    }
-
-    const [accessToken] = useLocalStorage("accessToken", "");
-
-    const { data: dataMaster }: SWRResponse<Response> = useSWR(
-        `/korluh/master-tanaman-hias/get`,
-        (url: string) =>
-            axiosPrivate
-                .get(url, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-                .then((res: any) => res.data)
-    );
-    const masterOptions = dataMaster?.data.map(master => ({
-        id: master.id.toString(),
-        name: master.nama,
-    }))
-    // 
+    const [open, setOpen] = React.useState(false)
+    const [value, setValueSelect] = React.useState("")
 
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-4">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-4">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-4">
                     <div className="mb-2">
@@ -186,6 +268,7 @@ const TambahTanamanHias = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <KecValue
+                                            disabled
                                             // kecamatanItems={kecamatanItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -203,6 +286,7 @@ const TambahTanamanHias = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <DesaValue
+                                            disabled
                                             // desaItems={filteredDesaItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -223,6 +307,7 @@ const TambahTanamanHias = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <InputComponent
+                                            disabled
                                             typeInput="selectSearch"
                                             placeholder="Pilih Tanaman Hias"
                                             label="Tanaman Hias"
@@ -239,6 +324,7 @@ const TambahTanamanHias = () => {
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Tanggal" />
                                 <Input
+                                    disabled
                                     type="date"
                                     placeholder="Tanggal"
                                     {...register('tanggal')}
@@ -393,7 +479,7 @@ const TambahTanamanHias = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Tambah"
+                            "Simpan"
                         )}
                     </Button>
                 </div>
@@ -402,4 +488,4 @@ const TambahTanamanHias = () => {
     )
 }
 
-export default TambahTanamanHias
+export default EditTanamanBuah
