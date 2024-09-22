@@ -288,6 +288,9 @@ const KomponenKoefisienVariasiPrduksi = () => {
                 <div className="md:hidden">
                     <>
                         {/* Handle filter menu*/}
+                        <div className="search w-full lg:w-[40%] ">
+                            <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left mb-4">Data Coefesien <br /> Variansi (CV) Tk. Produksi</div>
+                        </div>
                         <div className="flex justify-between w-full">
                             <div className="flex justify-start w-fit gap-2">
                                 {/* More Menu */}
@@ -498,20 +501,11 @@ const KomponenKoefisienVariasiPrduksi = () => {
                                 {/* More Menu */}
 
                                 {/* filter kolom */}
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger>
-                                            <FilterTable
-                                                columns={columns}
-                                                defaultCheckedKeys={getDefaultCheckedKeys()}
-                                                onFilterChange={handleFilterChange}
-                                            />
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Filter Kolom</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
+                                <FilterTable
+                                    columns={columns}
+                                    defaultCheckedKeys={getDefaultCheckedKeys()}
+                                    onFilterChange={handleFilterChange}
+                                />
                                 {/* filter kolom */}
 
                                 {/* unduh print */}

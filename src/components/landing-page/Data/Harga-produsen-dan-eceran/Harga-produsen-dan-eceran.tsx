@@ -424,6 +424,9 @@ const KomponenHargaProdusenDanEceran = () => {
                 <div className="md:hidden">
                     <>
                         {/* Handle filter menu*/}
+                        <div className="search w-full lg:w-[40%] ">
+                            <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left mb-4">Daftar Harga <br /> Produsen dan Eceran</div>
+                        </div>
                         <div className="flex justify-between w-full">
                             <div className="flex justify-start w-fit gap-2">
                                 {/* More Menu */}

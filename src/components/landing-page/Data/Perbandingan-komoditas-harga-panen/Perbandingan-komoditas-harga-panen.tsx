@@ -330,6 +330,9 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                 <div className="md:hidden">
                     <>
                         {/* Handle filter menu*/}
+                        <div className="search w-full lg:w-[40%] ">
+                            <div className="text-primary font-semibold text-xl lg:text-3xl flex-shrink-0 text-center lg:text-left mb-4">Perbandingan Komoditas Harga Panen Tingkat Eceran</div>
+                        </div>
                         <div className="flex justify-between w-full">
                             <div className="flex justify-start w-fit gap-2">
                                 {/* More Menu */}
@@ -410,11 +413,20 @@ const KomponenPerbandinganKomoditasHargaPanen = () => {
                                 {/* More Menu */}
 
                                 {/* filter kolom */}
-                                {/* <FilterTable
-                                columns={columns}
-                                defaultCheckedKeys={getDefaultCheckedKeys()}
-                                onFilterChange={handleFilterChange}
-                            /> */}
+                                {/* <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger>
+                                            <FilterTable
+                                                columns={columns}
+                                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                                onFilterChange={handleFilterChange}
+                                            />
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Filter Kolom</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider> */}
                                 {/* filter kolom */}
 
                                 {/* unduh print */}
