@@ -683,7 +683,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 								</ComponentWithAccess>
 								{/*peran-pengguna */}
 								{/* Status Laporan */}
-								<ComponentWithAccess
+								{/* <ComponentWithAccess
 									allowPermissions={[
 										PERMISSIONS.semua,
 										PERMISSIONS.semua,
@@ -716,7 +716,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 										<span>Status Laporan</span>
 										<Badge variant="destructive">2</Badge>
 									</Link>
-								</ComponentWithAccess>
+								</ComponentWithAccess> */}
 								{/*status laporan */}
 							</Accordion>
 							<button
