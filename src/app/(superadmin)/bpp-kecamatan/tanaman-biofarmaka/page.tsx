@@ -219,7 +219,7 @@ const KorlubTanamanBiofarmaka = () => {
         } finally {
             // setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/validasi/korluh-sayur-buah/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`);
+        mutate(`/validasi/korluh-tanaman-biofarmaka/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`);
     };
 
     // validasi
@@ -485,7 +485,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[2]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[2]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[2]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[2]?.luasPanenBelumHabis ?? "-"}
@@ -524,7 +524,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[3]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[3]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[3]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[3]?.luasPanenBelumHabis ?? "-"}
@@ -563,7 +563,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[4]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[4]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[4]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[4]?.luasPanenBelumHabis ?? "-"}
@@ -602,7 +602,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[5]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[5]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[5]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[5]?.luasPanenBelumHabis ?? "-"}
@@ -641,7 +641,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[6]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[6]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[6]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[6]?.luasPanenBelumHabis ?? "-"}
@@ -680,7 +680,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[7]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[7]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[7]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[7]?.luasPanenBelumHabis ?? "-"}
@@ -719,7 +719,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[8]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[8]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[8]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[8]?.luasPanenBelumHabis ?? "-"}
@@ -758,7 +758,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[9]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[9]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[9]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[9]?.luasPanenBelumHabis ?? "-"}
@@ -797,7 +797,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[10]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[10]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[10]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[10]?.luasPanenBelumHabis ?? "-"}
@@ -836,7 +836,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[11]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[11]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[11]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[11]?.luasPanenBelumHabis ?? "-"}
@@ -875,7 +875,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[12]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[12]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[12]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[12]?.luasPanenBelumHabis ?? "-"}
@@ -914,7 +914,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[13]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[13]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[13]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[13]?.luasPanenBelumHabis ?? "-"}
@@ -953,7 +953,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[14]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[14]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[14]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[14]?.luasPanenBelumHabis ?? "-"}
@@ -996,7 +996,7 @@ const KorlubTanamanBiofarmaka = () => {
                             {dataBiofarmaka?.data[15]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataBiofarmaka?.data[15]?.luasPanenHabis}
+                            {dataBiofarmaka?.data[15]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataBiofarmaka?.data[15]?.luasPanenBelumHabis ?? "-"}
