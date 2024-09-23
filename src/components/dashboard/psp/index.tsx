@@ -160,7 +160,7 @@ console.log("filter = ", selectedFilter);
                 <div className="wrap-right flex flex-col w-full md:w-[40%] h-full gap-4">
                     {/* Data Bantuan Subsidi */}
                     <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-1/2 overflow-auto">
-                        <HeaderDash label="Data Bantuan Subsidi" link="/psp/data-bantuan" />
+                        <HeaderDash label="Data Bantuan Subsidi" link="/psp/bantuan" />
                         <Table className='mt-1'>
                             <TableHeader className='rounded-md p-0'>
                                 <TableRow className='border-none p-0'>
@@ -184,7 +184,7 @@ console.log("filter = ", selectedFilter);
                     </div>
                     {/* Data Bantuan Non Subsidi */}
                     <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-1/2 overflow-auto">
-                        <HeaderDash label="Data Bantuan Non Subsidi" link="/psp/data-bantuan" />
+                        <HeaderDash label="Data Bantuan Non Subsidi" link="/psp/bantuan" />
                         <Table className='mt-1'>
                             <TableHeader className='rounded-md p-0'>
                                 <TableRow className='border-none p-0'>

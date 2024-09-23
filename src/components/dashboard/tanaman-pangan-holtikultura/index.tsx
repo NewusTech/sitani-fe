@@ -149,51 +149,51 @@ const DashboardTanamanPanganHoltikultura = () => {
             <div className="tablee h-fit md:h-[320px] mt-6 flex md:flex-row flex-col gap-3">
                 {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
-                    <HeaderDash label="Palawija 1" link="/tanaman-pangan-holtikultura/realisasi" />
+                    <HeaderDash label="Palawija 1" link="/tanaman-pangan-holtikutura/realisasi" />
                     {/* table */}
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Komoditas</TableHead>
-                                <TableHead className="text-primary p-0">Panen (Ha)</TableHead>
-                                <TableHead className="text-primary p-0">Produktivitas (Ton/Ha)</TableHead>
-                                <TableHead className="text-primary p-0">Produksi (Ton)</TableHead>
+                        <TableHeader className='rounded-md p-1'>
+                            <TableRow className='border-none p-1'>
+                                <TableHead className="text-primary p-1">Komoditas</TableHead>
+                                <TableHead className="text-primary p-1">Panen (Ha)</TableHead>
+                                <TableHead className="text-primary p-1">Produktivitas (Ton/Ha)</TableHead>
+                                <TableHead className="text-primary p-1">Produksi (Ton)</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow className='border-none p-0 py-1'>
-                                <TableCell className='p-0 py-1'>Jagung</TableCell>
-                                <TableCell className='p-0 py-1'>
+                            <TableRow className='border-none p-1 py-1'>
+                                <TableCell className='p-1 py-1'>Jagung</TableCell>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija1.jagungPanen || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija1.jagungProduktivitas || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija1.jagungProduksi || 0}
                                 </TableCell>
                             </TableRow>
-                            <TableRow className='border-none p-0 py-1'>
-                                <TableCell className='p-0 py-1'>Kedelai</TableCell>
-                                <TableCell className='p-0 py-1'>
+                            <TableRow className='border-none p-1 py-1'>
+                                <TableCell className='p-1 py-1'>Kedelai</TableCell>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija1.kedelaiPanen || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija1.kedelaiProduktivitas || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija1.kedelaiProduksi || 0}
                                 </TableCell>
                             </TableRow>
-                            <TableRow className='border-none p-0 py-1'>
-                                <TableCell className='p-0 py-1'>Kacang Tanah</TableCell>
-                                <TableCell className='p-0 py-1'>
+                            <TableRow className='border-none p-1 py-1'>
+                                <TableCell className='p-1 py-1'>Kacang Tanah</TableCell>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija1.kacangTanahPanen || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija1.kacangTanahProduktivitas || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija1.kacangTanahProduksi || 0}
                                 </TableCell>
                             </TableRow>
@@ -203,51 +203,51 @@ const DashboardTanamanPanganHoltikultura = () => {
                 </div>
                 {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
-                    <HeaderDash label="Palawija 2" link="/tanaman-pangan-holtikultura/realisasi" />
+                    <HeaderDash label="Palawija 2" link="/tanaman-pangan-holtikutura/realisasi" />
                     {/* table */}
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Komoditas</TableHead>
-                                <TableHead className="text-primary p-0">Panen (Ha)</TableHead>
-                                <TableHead className="text-primary p-0">Produktivitas (Ton/Ha)</TableHead>
-                                <TableHead className="text-primary p-0">Produksi (Ton)</TableHead>
+                        <TableHeader className='rounded-md p-1'>
+                            <TableRow className='border-none p-1'>
+                                <TableHead className="text-primary p-1">Komoditas</TableHead>
+                                <TableHead className="text-primary p-1">Panen (Ha)</TableHead>
+                                <TableHead className="text-primary p-1">Produktivitas (Ton/Ha)</TableHead>
+                                <TableHead className="text-primary p-1">Produksi (Ton)</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow className='border-none p-0 py-1'>
-                                <TableCell className='p-0 py-1'>Kacang Hijau</TableCell>
-                                <TableCell className='p-0 py-1'>
+                            <TableRow className='border-none p-1 py-1'>
+                                <TableCell className='p-1 py-1'>Kacang Hijau</TableCell>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija2.kacangHijauPanen || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija2.kacangHijauProduktivitas || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija2.kacangHijauProduksi || 0}
                                 </TableCell>
                             </TableRow>
-                            <TableRow className='border-none p-0 py-1'>
-                                <TableCell className='p-0 py-1'>Ubi Kayu</TableCell>
-                                <TableCell className='p-0 py-1'>
+                            <TableRow className='border-none p-1 py-1'>
+                                <TableCell className='p-1 py-1'>Ubi Kayu</TableCell>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija2.ubiKayuPanen || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija2.ubiKayuProduktivitas || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija2.ubiKayuProduksi || 0}
                                 </TableCell>
                             </TableRow>
-                            <TableRow className='border-none p-0 py-1'>
-                                <TableCell className='p-0 py-1'>Ubi Jalar</TableCell>
-                                <TableCell className='p-0 py-1'>
+                            <TableRow className='border-none p-1 py-1'>
+                                <TableCell className='p-1 py-1'>Ubi Jalar</TableCell>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija2.ubiJalarPanen || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija2.ubiJalarProduktivitas || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPalawija2.ubiJalarProduksi || 0}
                                 </TableCell>
                             </TableRow>
@@ -260,51 +260,51 @@ const DashboardTanamanPanganHoltikultura = () => {
             <div className="tablee h-fit md:h-[320px] mt-6 flex md:flex-row flex-col gap-3">
                 {/*  */}
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
-                    <HeaderDash label="Padi" link="/tanaman-pangan-holtikultura/realisasi" />
+                    <HeaderDash label="Padi" link="/tanaman-pangan-holtikutura/realisasi" />
                     {/* table */}
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Jenis Lahan</TableHead>
-                                <TableHead className="text-primary p-0">Panen (Ha)</TableHead>
-                                <TableHead className="text-primary p-0">Produktivitas (Ton/Ha)</TableHead>
-                                <TableHead className="text-primary p-0">Produksi (Ton)</TableHead>
+                        <TableHeader className='rounded-md p-1'>
+                            <TableRow className='border-none p-1'>
+                                <TableHead className="text-primary p-1">Jenis Lahan</TableHead>
+                                <TableHead className="text-primary p-1">Panen (Ha)</TableHead>
+                                <TableHead className="text-primary p-1">Produktivitas (Ton/Ha)</TableHead>
+                                <TableHead className="text-primary p-1">Produksi (Ton)</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow className='border-none p-0 py-1'>
-                                <TableCell className='p-0 py-1'>Lahan Kering</TableCell>
-                                <TableCell className='p-0 py-1'>
+                            <TableRow className='border-none p-1 py-1'>
+                                <TableCell className='p-1 py-1'>Lahan Kering</TableCell>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPadi.panenLahanKering || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPadi.produktivitasLahanKering || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPadi.produksiLahanKering || 0}
                                 </TableCell>
                             </TableRow>
-                            <TableRow className='border-none p-0 py-1'>
-                                <TableCell className='p-0 py-1'>Lahan Sawah</TableCell>
-                                <TableCell className='p-0 py-1'>
+                            <TableRow className='border-none p-1 py-1'>
+                                <TableCell className='p-1 py-1'>Lahan Sawah</TableCell>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPadi.panenLahanSawah || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPadi.produktivitasLahanSawah || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPadi.produksiLahanSawah || 0}
                                 </TableCell>
                             </TableRow>
-                            <TableRow className='border-none p-0 py-1'>
-                                <TableCell className='p-0 py-1'>Total</TableCell>
-                                <TableCell className='p-0 py-1'>
+                            <TableRow className='border-none p-1 py-1'>
+                                <TableCell className='p-1 py-1'>Total</TableCell>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPadi.panenTotal || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPadi.produksiTotal || 0}
                                 </TableCell>
-                                <TableCell className='p-0 py-1'>
+                                <TableCell className='p-1 py-1'>
                                     {dataTPH?.data?.tphRealisasiPadi.produktivitasTotal || 0}
                                 </TableCell>
                             </TableRow>

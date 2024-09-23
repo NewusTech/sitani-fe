@@ -44,7 +44,7 @@ const Page = () => {
                         <SelectItem value="Kepegawaian">Kepegawaian</SelectItem>
                         <SelectItem value="Korluh">Korluh</SelectItem>
                         <SelectItem value="BPP Kecamatan">BPP Kecamatan</SelectItem>
-                        <SelectItem value="FJK Kabupaten">FJK Kabupaten</SelectItem>
+                        <SelectItem value="FJK Kabupaten">KJF Kabupaten</SelectItem>
                     </SelectContent>
                 </Select>
             </div>

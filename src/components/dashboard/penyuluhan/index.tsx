@@ -82,21 +82,21 @@ const DashboardPenyuluhan = () => {
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Penyuluh Kabupaten" link="/penyuluhan/data-kabupaten" />
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Kecamatan</TableHead>
-                                <TableHead className="text-primary p-0">Nama</TableHead>
-                                <TableHead className="text-primary p-0">NIP</TableHead>
-                                <TableHead className="text-primary p-0">Gol</TableHead>
+                        <TableHeader className='rounded-md p-2'>
+                            <TableRow className='border-none p-2'>
+                                <TableHead className="text-primary p-2">Kecamatan</TableHead>
+                                <TableHead className="text-primary p-2">Nama</TableHead>
+                                <TableHead className="text-primary p-2">NIP</TableHead>
+                                <TableHead className="text-primary p-2">Gol</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {penyuluhKabupaten.map((penyuluh, index) => (
-                                <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{penyuluh.kecamatan.map((d: { nama: any; }) => d.nama).join(', ')}</TableCell>
-                                    <TableCell className='p-0 py-1'>{penyuluh.nama}</TableCell>
-                                    <TableCell className='p-0 py-1'>{penyuluh.nip}</TableCell>
-                                    <TableCell className='p-0 py-1'>{penyuluh.golongan}</TableCell>
+                                <TableRow className='border-none p-2 py-1' key={index}>
+                                    <TableCell className='p-2 py-1'>{penyuluh.kecamatan.map((d: { nama: any; }) => d.nama).join(', ')}</TableCell>
+                                    <TableCell className='p-2 py-1'>{penyuluh.nama}</TableCell>
+                                    <TableCell className='p-2 py-1'>{penyuluh.nip}</TableCell>
+                                    <TableCell className='p-2 py-1'>{penyuluh.golongan}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -105,23 +105,23 @@ const DashboardPenyuluhan = () => {
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
                     <HeaderDash label="Penyuluh Kecamatan" link="/penyuluhan/data-kecamatan" />
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Kecamatan</TableHead>
-                                <TableHead className="text-primary p-0">Nama</TableHead>
-                                <TableHead className="text-primary p-0">Desa</TableHead>
-                                <TableHead className="text-primary p-0">NIP</TableHead>
-                                <TableHead className="text-primary p-0">Gol</TableHead>
+                        <TableHeader className='rounded-md p-2'>
+                            <TableRow className='border-none p-2'>
+                                <TableHead className="text-primary p-2">Kecamatan</TableHead>
+                                <TableHead className="text-primary p-2">Nama</TableHead>
+                                <TableHead className="text-primary p-2">Desa</TableHead>
+                                <TableHead className="text-primary p-2">NIP</TableHead>
+                                <TableHead className="text-primary p-2">Gol</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {penyuluhKecamatan.map((penyuluh, index) => (
-                                <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{penyuluh.kecamatan?.nama}</TableCell>
-                                    <TableCell className='p-0 py-1'>{penyuluh.nama}</TableCell>
-                                    <TableCell className='p-0 py-1 '>{penyuluh.desa.map(d => d.nama).join(', ')}</TableCell>
-                                    <TableCell className='p-0 py-1'>{penyuluh.nip}</TableCell>
-                                    <TableCell className='p-0 py-1'>{penyuluh.golongan}</TableCell>
+                                <TableRow className='border-none p-2 py-1' key={index}>
+                                    <TableCell className='p-2 py-1'>{penyuluh.kecamatan?.nama}</TableCell>
+                                    <TableCell className='p-2 py-1'>{penyuluh.nama}</TableCell>
+                                    <TableCell className='p-2 py-1 '>{penyuluh.desa.map(d => d.nama).join(', ')}</TableCell>
+                                    <TableCell className='p-2 py-1'>{penyuluh.nip}</TableCell>
+                                    <TableCell className='p-2 py-1'>{penyuluh.golongan}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

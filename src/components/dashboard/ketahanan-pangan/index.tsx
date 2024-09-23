@@ -10,6 +10,13 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import HeaderDash from '@/components/HeaderDash'
 import DashCard from '@/components/DashCard';
 import useSWR, { SWRResponse } from 'swr';
@@ -72,13 +79,22 @@ const DashboardKetahananPangan = () => {
         console.log(filter); // Log nilai yang dipilih ke console
     };
 
+    // otomatis hitung tahun
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 5;
+    const endYear = currentYear + 1;
+    // const [tahun, setTahun] = React.useState("2024");
+    const [tahun, setTahun] = React.useState("");
+    // otomatis hitung tahun
+    const [bulan, setBulan] = React.useState("");
+
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
 
     console.log("filter = ", selectedFilter);
 
     const { data: dataKepang }: SWRResponse<Response> = useSWR(
-        `/kepang/dashboard/get`,
+        `/kepang/dashboard/get?limit=&year=${tahun !== "semua" ? tahun : ""}&month=${bulan !== "semua" ? bulan : ""}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -96,43 +112,60 @@ const DashboardKetahananPangan = () => {
             <div className="wrap flex md:flex-row flex-col mb-4 justify-between">
                 <div className="md:text-2xl text-xl  font-semibold text-primary uppercase">Dashboard Ketahanan Pangan</div>
                 {/* filter */}
-                <div className="text-base md:text-lg  flex gap-4">
-                    <button
-                        className={`${selectedFilter === 'year' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('year')}
-                    >
-                        Year
-                    </button>
-                    <button
-                        className={`${selectedFilter === 'month' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('month')}
-                    >
-                        Month
-                    </button>
-                    <button
-                        className={`${selectedFilter === 'week' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('week')}
-                    >
-                        Week
-                    </button>
-                    <button
-                        className={`${selectedFilter === 'today' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('today')}
-                    >
-                        Today
-                    </button>
+                <div className="wrap flex items-center gap-2">
+                <div className="w-[100px]">
+                            <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Tahun">
+                                        {tahun ? tahun : "Tahun"}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                    {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                        const year = startYear + index;
+                                        return (
+                                            <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                                {year}
+                                            </SelectItem>
+                                        );
+                                    })}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="w-[130px]">
+                            <Select
+                                onValueChange={(value) => setBulan(value)}
+                                value={bulan}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Bulan" className='text-2xl' />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="semua">Semua</SelectItem>
+                                    <SelectItem value="1">Januari</SelectItem>
+                                    <SelectItem value="2">Februari</SelectItem>
+                                    <SelectItem value="3">Maret</SelectItem>
+                                    <SelectItem value="4">April</SelectItem>
+                                    <SelectItem value="5">Mei</SelectItem>
+                                    <SelectItem value="6">Juni</SelectItem>
+                                    <SelectItem value="7">Juli</SelectItem>
+                                    <SelectItem value="8">Agustus</SelectItem>
+                                    <SelectItem value="9">September</SelectItem>
+                                    <SelectItem value="10">Oktober</SelectItem>
+                                    <SelectItem value="11">November</SelectItem>
+                                    <SelectItem value="12">Desember</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
                 </div>
                 {/* filter */}
             </div>
             {/* title */}
             {/* card */}
             <div className="wrap-card grid md:grid-cols-2 grid-cols-1 gap-3">
-                <DashCard label='Harga Produsen Eceran Tertinggi' value={43900} />
-                <DashCard label='Harga Produsen Eceran Terendah' value={22414} />
+                <DashCard label='Harga Produsen Eceran Tertinggi' value={dataKepang?.data?.hargaTertinggi} />
+                <DashCard label='Harga Produsen Eceran Terendah' value={dataKepang?.data.hargaTerendah} />
             </div>
             {/* card */}
             {/* tabel */}
@@ -142,19 +175,19 @@ const DashboardKetahananPangan = () => {
                     <HeaderDash label="Daftar Harga Produsen dan Eceran" link="/ketahanan-pangan/produsen-dan-eceran" />
                     {/* table */}
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Komoditas</TableHead>
-                                <TableHead className="text-primary p-0">Harga</TableHead>
-                                <TableHead className="text-primary p-0">Satuan</TableHead>
+                        <TableHeader className='rounded-md p-1'>
+                            <TableRow className='border-none p-1'>
+                                <TableHead className="text-primary p-1">Komoditas</TableHead>
+                                <TableHead className="text-primary p-1">Harga</TableHead>
+                                <TableHead className="text-primary p-1">Satuan</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {dataKepang?.data.kepangPedagangEceran.map((data, index) => (
-                                <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.satuan}</TableCell>
+                                <TableRow className='border-none p-1 py-1' key={index}>
+                                    <TableCell className='p-1 py-1'>{data.komoditas}</TableCell>
+                                    <TableCell className='p-1 py-1'>{data.harga}</TableCell>
+                                    <TableCell className='p-1 py-1'>{data.satuan ?? "-"}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -166,17 +199,17 @@ const DashboardKetahananPangan = () => {
                     <HeaderDash label="Data Harian Panel Pedagangan Eceran" link="/ketahanan-pangan/kuisioner-pedagang-eceran" />
                     {/* table */}
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Komoditas</TableHead>
-                                <TableHead className="text-primary p-0">Rata-rata Perbulan</TableHead>
+                        <TableHeader className='rounded-md p-1'>
+                            <TableRow className='border-none p-1'>
+                                <TableHead className="text-primary p-1">Komoditas</TableHead>
+                                <TableHead className="text-primary p-1">Rata-rata Perbulan</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {dataKepang?.data.kepangPedagangEceran.map((data, index) => (
-                                <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
+                                <TableRow className='border-none p-1 py-1' key={index}>
+                                    <TableCell className='p-1 py-1'>{data.komoditas}</TableCell>
+                                    <TableCell className='p-1 py-1'>{data.harga}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -190,21 +223,21 @@ const DashboardKetahananPangan = () => {
                 {/* table */}
                 {/* table */}
                 <Table className='mt-1'>
-                    <TableHeader className='rounded-md p-0'>
-                        <TableRow className='border-none p-0'>
-                            <TableHead className="text-primary p-0">Komoditas</TableHead>
-                            <TableHead className="text-primary p-0">Rata-rata</TableHead>
-                            <TableHead className="text-primary p-0 ">Maksimum</TableHead>
-                            <TableHead className="text-primary p-0 ">Minimum</TableHead>
+                    <TableHeader className='rounded-md p-1'>
+                        <TableRow className='border-none p-1'>
+                            <TableHead className="text-primary p-1">Komoditas</TableHead>
+                            <TableHead className="text-primary p-1">Rata-rata</TableHead>
+                            <TableHead className="text-primary p-1 ">Maksimum</TableHead>
+                            <TableHead className="text-primary p-1 ">Minimum</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                     {dataKepang?.data.kepangCvProdusen.map((data, index) => (
-                            <TableRow className='border-none p-0 py-1' key={index}>
-                                <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.mean}</TableCell>
-                                <TableCell className='p-0 py-1 '>{data.max}</TableCell>
-                                <TableCell className='p-0 py-1 '>{data.min}</TableCell>
+                            <TableRow className='border-none p-1 py-1' key={index}>
+                                <TableCell className='p-1 py-1'>{data.komoditas}</TableCell>
+                                <TableCell className='p-1 py-1'>{data.mean}</TableCell>
+                                <TableCell className='p-1 py-1 '>{data.max}</TableCell>
+                                <TableCell className='p-1 py-1 '>{data.min}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

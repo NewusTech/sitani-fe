@@ -115,19 +115,19 @@ const DashboardPerkebunan = () => {
                     <HeaderDash label="Tan. Tahunan" link="/perkebunan/luas-produksi-kecamatan" />
                     {/* table */}
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Komoditi</TableHead>
-                                <TableHead className="text-primary p-0">Produktivitas</TableHead>
-                                <TableHead className="text-primary p-0">Produksi</TableHead>
+                        <TableHeader className='rounded-md p-1'>
+                            <TableRow className='border-none p-1'>
+                                <TableHead className="text-primary p-1">Komoditi</TableHead>
+                                <TableHead className="text-primary p-1  text-center">Produktivitas</TableHead>
+                                <TableHead className="text-primary p-1  text-center">Produksi</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                         {dataPerkebunan?.data?.list[1]?.masterIds?.map((i: number, index: any) => (
-                                <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[1][i].komoditas.nama}</TableCell>
-                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[1][i].produksi}</TableCell>
-                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[1][i].produktivitas}</TableCell>
+                                <TableRow className='border-none p-1 py-1' key={index}>
+                                    <TableCell className='p-1 py-1'>{dataPerkebunan?.data?.list[1][i].komoditas.nama}</TableCell>
+                                    <TableCell className='p-1 py-1  text-center'>{dataPerkebunan?.data?.list[1][i].produksi}</TableCell>
+                                    <TableCell className='p-1 py-1  text-center'>{dataPerkebunan?.data?.list[1][i].produktivitas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -139,19 +139,19 @@ const DashboardPerkebunan = () => {
                     <HeaderDash label="Tan. Semusim" link="/perkebunan/luas-produksi-kecamatan" />
                     {/* table */}
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Komoditi</TableHead>
-                                <TableHead className="text-primary p-0">Produktivitas</TableHead>
-                                <TableHead className="text-primary p-0">Produksi</TableHead>
+                        <TableHeader className='rounded-md p-1'>
+                            <TableRow className='border-none p-1'>
+                                <TableHead className="text-primary p-1">Komoditi</TableHead>
+                                <TableHead className="text-primary p-1  text-center">Produktivitas</TableHead>
+                                <TableHead className="text-primary p-1  text-center">Produksi</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                         {dataPerkebunan?.data?.list[2]?.masterIds?.map((i: number, index: any) => (
-                                <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[2][i].komoditas.nama}</TableCell>
-                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[2][i].produksi}</TableCell>
-                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[2][i].produktivitas}</TableCell>
+                                <TableRow className='border-none p-1 py-1' key={index}>
+                                    <TableCell className='p-1 py-1'>{dataPerkebunan?.data?.list[2][i].komoditas.nama}</TableCell>
+                                    <TableCell className='p-1 py-1 text-center'>{dataPerkebunan?.data?.list[2][i].produksi}</TableCell>
+                                    <TableCell className='p-1 py-1 text-center'>{dataPerkebunan?.data?.list[2][i].produktivitas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -163,19 +163,19 @@ const DashboardPerkebunan = () => {
                     <HeaderDash label="Tan. Rempah" link="/perkebunan/luas-produksi-kecamatan" />
                     {/* table */}
                     <Table className='mt-1'>
-                        <TableHeader className='rounded-md p-0'>
-                            <TableRow className='border-none p-0'>
-                                <TableHead className="text-primary p-0">Komoditi</TableHead>
-                                <TableHead className="text-primary p-0">Produktivitas</TableHead>
-                                <TableHead className="text-primary p-0">Produksi</TableHead>
+                        <TableHeader className='rounded-md p-1'>
+                            <TableRow className='border-none p-1'>
+                                <TableHead className="text-primary p-1">Komoditi</TableHead>
+                                <TableHead className="text-primary p-1  text-center">Produktivitas</TableHead>
+                                <TableHead className="text-primary p-1  text-center">Produksi</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                         {dataPerkebunan?.data?.list[3]?.masterIds?.map((i: number, index: any) => (
-                                <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[3][i].komoditas.nama}</TableCell>
-                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[3][i].produksi}</TableCell>
-                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[3][i].produktivitas}</TableCell>
+                                <TableRow className='border-none p-1 py-1' key={index}>
+                                    <TableCell className='p-1 py-1'>{dataPerkebunan?.data?.list[3][i].komoditas.nama}</TableCell>
+                                    <TableCell className='p-1 py-1 text-center'>{dataPerkebunan?.data?.list[3][i].produksi}</TableCell>
+                                    <TableCell className='p-1 py-1  text-center'>{dataPerkebunan?.data?.list[3][i].produktivitas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

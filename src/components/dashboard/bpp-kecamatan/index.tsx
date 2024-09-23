@@ -86,14 +86,14 @@ const DashboardBPPKecamatan = () => {
     const axiosPrivate = useAxiosPrivate();
 
     // Construct the API URL with dynamic filters
-    const apiUrl = `/korluh/dashboard/get?limit=10${selectedKecamatan ? `&kecamatan=${selectedKecamatan}` : ''
+    const apiUrl = `/bpp-kecamatan/dashboard/get?limit=10${selectedKecamatan ? `&kecamatan=${selectedKecamatan}` : ''
         }${selectedDesa ? `&desa=${selectedDesa}` : ''}${selectedYear !== null && selectedYear !== '0' ? `&year=${selectedYear}` : ''
         }${selectedMonth !== null && selectedMonth !== '0' ? `&month=${selectedMonth}` : ''}`;
 
     // SWR fetch data with dynamic API URL
     const { data: dataKorluh }: SWRResponse<DashboardDataResponse> = useSWR(
-        apiUrl,
-        (url) =>
+        `/korluh/dashboard/get?limit=10&kecamatan=${selectedKecamatan || ''}&desa=${selectedDesa || ''}&year=${selectedYear || ''}&month=${selectedMonth || ''}`,
+        (url: string) =>
             axiosPrivate
                 .get(url, {
                     headers: {
@@ -121,13 +121,13 @@ const DashboardBPPKecamatan = () => {
             <div className="text-xl md:text-2xl mb-4 font-semibold text-primary uppercase">Dashboard BPP Kecamatan</div>
             <div className="wrap flex flex-col gap-3 md:flex-row justify-between">
                 <div className="w-full flex gap-3">
-                    <div className="kecamatan">
+                    <div className="kecamatan w-[210px]">
                         <KecValue
                             value={selectedKecamatan}
                             onChange={handleKecamatanChange}
                         />
                     </div>
-                    <div className="desa">
+                    <div className="desa w-[210px]">
                         <DesaValue
                             value={selectedDesa}
                             onChange={handleDesaChange}
@@ -214,7 +214,7 @@ const DashboardBPPKecamatan = () => {
             {/* tables */}
             <div className="tablee h-fit md:h-[320px] mt-6 flex md:flex-row flex-col gap-3">
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
-                    <HeaderDash label="Tanaman Palawija" link="/korluh/palawija" />
+                    <HeaderDash label="Tanaman Palawija" link="/bpp-kecamatan/palawija" />
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
@@ -237,7 +237,7 @@ const DashboardBPPKecamatan = () => {
                     </Table>
                 </div>
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
-                    <HeaderDash label="Sayuran dan Buah" link="/korluh/sayuran-buah" />
+                    <HeaderDash label="Sayuran dan Buah" link="/bpp-kecamatan/sayuran-buah" />
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
@@ -260,7 +260,7 @@ const DashboardBPPKecamatan = () => {
             </div>
             <div className="tablee h-fit md:h-[320px] mt-3 flex md:flex-row flex-col gap-3">
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
-                    <HeaderDash label="Tanaman Hias" link="/korluh/tanaman-hias" />
+                    <HeaderDash label="Tanaman Hias" link="/bpp-kecamatan/tanaman-hias" />
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
@@ -281,7 +281,7 @@ const DashboardBPPKecamatan = () => {
                     </Table>
                 </div>
                 <div className="tab2 border border-slate-200 rounded-lg p-4 w-full h-full overflow-auto">
-                    <HeaderDash label="Tanaman Biofarmaka" link="/korluh/tanaman-biofarmaka" />
+                    <HeaderDash label="Tanaman Biofarmaka" link="/bpp-kecamatan/tanaman-biofarmaka" />
                     <Table className='mt-1'>
                         <TableHeader className='rounded-md p-0'>
                             <TableRow className='border-none p-0'>
