@@ -101,7 +101,7 @@ const KorluPalawija = () => {
                 })
                 .then((res: any) => res.data)
     );
-    
+
 
     // Bulan
     function getMonthName(monthNumber: number): string {
@@ -223,7 +223,7 @@ const KorluPalawija = () => {
     };
 
     // validasi
-    const getValidationText = (validasi:any) => {
+    const getValidationText = (validasi: any) => {
         switch (validasi) {
             case 'terima':
                 return 'Sudah divalidasi';
@@ -235,7 +235,7 @@ const KorluPalawija = () => {
                 return 'Status tidak diketahui';
         }
     };
-    const validationText = getValidationText(dataPalawija?.data?.validasi);
+    const validationText = getValidationText(dataPalawija?.data?.validasiKecamatan);
     // validasi
     return (
         <div>
@@ -356,9 +356,9 @@ const KorluPalawija = () => {
                     <div className="">:</div>
                 </div>
                 <div className="bulan">
-                    <div className="">{dataPalawija?.data?.kecamatan}</div>
-                    <div className="">{monthName} {dataPalawija?.data?.tahun}</div>
-                    <div className="capitalize">{validationText}</div>
+                    <div className="">{dataPalawija?.data?.kecamatan ?? "-"}</div>
+                    <div className="">{monthName ?? "-"} {dataPalawija?.data?.tahun ?? "-"}</div>
+                    <div className="capitalize">{validationText ?? "-"}</div>
                     <div className="flex gap-3">
                         <VerifikasiPopup
                             kecamatanId={dataPalawija?.data?.kecamatanId}
@@ -505,49 +505,49 @@ const KorluPalawija = () => {
                             Jumlah Jagung
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[17]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanSawahPanen}
+                            {dataPalawija?.data[17]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[17]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[17]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanSawahTanam}
+                            {dataPalawija?.data[17]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanSawahPuso}
+                            {dataPalawija?.data[17]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.akhirLahanSawah}
+                            {dataPalawija?.data[17]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[17]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[17]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[17]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[17]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[17]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[17]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[17]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[17]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[17]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -557,49 +557,49 @@ const KorluPalawija = () => {
                             A. Hibrida
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[18]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanSawahPanen}
+                            {dataPalawija?.data[18]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[18]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[18]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanSawahTanam}
+                            {dataPalawija?.data[18]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanSawahPuso}
+                            {dataPalawija?.data[18]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.akhirLahanSawah}
+                            {dataPalawija?.data[18]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[18]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[18]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[18]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[18]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[18]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[18]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[18]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[18]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[18]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -609,49 +609,49 @@ const KorluPalawija = () => {
                             1). Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[1]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanSawahPanen}
+                            {dataPalawija?.data[1]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[1]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[1]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanSawahTanam}
+                            {dataPalawija?.data[1]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanSawahPuso}
+                            {dataPalawija?.data[1]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.akhirLahanSawah}
+                            {dataPalawija?.data[1]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[1]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[1]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[1]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[1]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[1]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[1]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[1]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[1]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[1]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -661,49 +661,49 @@ const KorluPalawija = () => {
                             2). Non Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[2]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanSawahPanen}
+                            {dataPalawija?.data[2]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[2]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[2]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanSawahTanam}
+                            {dataPalawija?.data[2]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanSawahPuso}
+                            {dataPalawija?.data[2]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.akhirLahanSawah}
+                            {dataPalawija?.data[2]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[2]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[2]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[2]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[2]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[2]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[2]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[2]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[2]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[2]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -713,49 +713,49 @@ const KorluPalawija = () => {
                             B. Komplit
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[3]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanSawahPanen}
+                            {dataPalawija?.data[3]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[3]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[3]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanSawahTanam}
+                            {dataPalawija?.data[3]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanSawahPuso}
+                            {dataPalawija?.data[3]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.akhirLahanSawah}
+                            {dataPalawija?.data[3]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[3]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[3]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[3]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[3]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[3]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[3]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[3]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[3]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[3]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -765,49 +765,49 @@ const KorluPalawija = () => {
                             C. Lokal
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[4]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanSawahPanen}
+                            {dataPalawija?.data[4]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[4]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[4]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanSawahTanam}
+                            {dataPalawija?.data[4]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanSawahPuso}
+                            {dataPalawija?.data[4]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.akhirLahanSawah}
+                            {dataPalawija?.data[4]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[4]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[4]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[4]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[4]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[4]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[4]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[4]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[4]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[4]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* jumlah jagung */}
@@ -820,49 +820,49 @@ const KorluPalawija = () => {
                             Kedelai
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[19]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanSawahPanen}
+                            {dataPalawija?.data[19]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[19]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[19]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanSawahTanam}
+                            {dataPalawija?.data[19]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanSawahPuso}
+                            {dataPalawija?.data[19]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.akhirLahanSawah}
+                            {dataPalawija?.data[19]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[19]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[19]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[19]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[19]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[19]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[19]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[19]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[19]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[19]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Kedelai */}
@@ -873,49 +873,49 @@ const KorluPalawija = () => {
                             a. Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[5]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanSawahPanen}
+                            {dataPalawija?.data[5]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[5]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[5]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanSawahTanam}
+                            {dataPalawija?.data[5]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanSawahPuso}
+                            {dataPalawija?.data[5]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.akhirLahanSawah}
+                            {dataPalawija?.data[5]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[5]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[5]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[5]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[5]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[5]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[5]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[5]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[5]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[5]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -925,49 +925,49 @@ const KorluPalawija = () => {
                             b. Non Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[6]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanSawahPanen}
+                            {dataPalawija?.data[6]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[6]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[6]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanSawahTanam}
+                            {dataPalawija?.data[6]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanSawahPuso}
+                            {dataPalawija?.data[6]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.akhirLahanSawah}
+                            {dataPalawija?.data[6]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[6]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[6]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[6]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[6]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[6]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[6]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[6]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[6]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[6]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Kedelai */}
@@ -980,49 +980,49 @@ const KorluPalawija = () => {
                             Kacang Tanah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[7]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanSawahPanen}
+                            {dataPalawija?.data[7]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[7]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[7]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanSawahTanam}
+                            {dataPalawija?.data[7]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanSawahPuso}
+                            {dataPalawija?.data[7]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.akhirLahanSawah}
+                            {dataPalawija?.data[7]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[7]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[7]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[7]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[7]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[7]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[7]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[7]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[7]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[7]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Kacang Tanah */}
@@ -1035,49 +1035,49 @@ const KorluPalawija = () => {
                             Jumlah Ubi Kayu Singkong
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[20]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanSawahPanen}
+                            {dataPalawija?.data[20]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[20]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[20]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanSawahTanam}
+                            {dataPalawija?.data[20]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanSawahPuso}
+                            {dataPalawija?.data[20]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.akhirLahanSawah}
+                            {dataPalawija?.data[20]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[20]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[20]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[20]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[20]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[20]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[20]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[20]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[20]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[20]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Jumlah Ubi Kayusingkong */}
@@ -1088,49 +1088,49 @@ const KorluPalawija = () => {
                             a. Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[8]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanSawahPanen}
+                            {dataPalawija?.data[8]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[8]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[8]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanSawahTanam}
+                            {dataPalawija?.data[8]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanSawahPuso}
+                            {dataPalawija?.data[8]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.akhirLahanSawah}
+                            {dataPalawija?.data[8]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[8]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[8]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[8]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[8]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[8]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[8]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[8]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[8]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[8]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -1140,49 +1140,49 @@ const KorluPalawija = () => {
                             b. Non Bantuan Pemerintah
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[9]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanSawahPanen}
+                            {dataPalawija?.data[9]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[9]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[9]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanSawahTanam}
+                            {dataPalawija?.data[9]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanSawahPuso}
+                            {dataPalawija?.data[9]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.akhirLahanSawah}
+                            {dataPalawija?.data[9]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[9]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[9]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[9]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[9]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[9]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[9]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[9]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[9]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[9]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Jumlah Ubi Kayusingkong */}
@@ -1195,49 +1195,49 @@ const KorluPalawija = () => {
                             Ubi Jalar Ketela/Ketela Rambat
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[10]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanSawahPanen}
+                            {dataPalawija?.data[10]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[10]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[10]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanSawahTanam}
+                            {dataPalawija?.data[10]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanSawahPuso}
+                            {dataPalawija?.data[10]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.akhirLahanSawah}
+                            {dataPalawija?.data[10]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[10]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[10]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[10]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[10]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[10]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[10]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[10]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[10]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[10]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Ubi Jalar/Ketela Rambat */}
@@ -1250,49 +1250,49 @@ const KorluPalawija = () => {
                             Kacang Hijau
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[11]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanSawahPanen}
+                            {dataPalawija?.data[11]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[11]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[11]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanSawahTanam}
+                            {dataPalawija?.data[11]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanSawahPuso}
+                            {dataPalawija?.data[11]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.akhirLahanSawah}
+                            {dataPalawija?.data[11]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[11]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[11]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[11]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[11]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[11]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[11]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[11]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[11]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[11]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Kacang Hujau */}
@@ -1305,49 +1305,49 @@ const KorluPalawija = () => {
                             Sorgum / Cantel
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[12]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanSawahPanen}
+                            {dataPalawija?.data[12]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[12]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[12]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanSawahTanam}
+                            {dataPalawija?.data[12]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanSawahPuso}
+                            {dataPalawija?.data[12]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.akhirLahanSawah}
+                            {dataPalawija?.data[12]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[12]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[12]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[12]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[12]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[12]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[12]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[12]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[12]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[12]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Sorgum Centel */}
@@ -1360,49 +1360,49 @@ const KorluPalawija = () => {
                             Gandum
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[13]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanSawahPanen}
+                            {dataPalawija?.data[13]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[13]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[13]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanSawahTanam}
+                            {dataPalawija?.data[13]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanSawahPuso}
+                            {dataPalawija?.data[13]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.akhirLahanSawah}
+                            {dataPalawija?.data[13]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[13]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[13]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[13]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[13]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[13]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[13]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[13]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[13]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[13]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Gandum */}
@@ -1415,49 +1415,49 @@ const KorluPalawija = () => {
                             Talas
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[14]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanSawahPanen}
+                            {dataPalawija?.data[14]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[14]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[14]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanSawahTanam}
+                            {dataPalawija?.data[14]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanSawahPuso}
+                            {dataPalawija?.data[14]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.akhirLahanSawah}
+                            {dataPalawija?.data[14]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[14]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[14]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[14]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[14]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[14]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[14]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[14]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[14]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[14]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Talas */}
@@ -1470,49 +1470,49 @@ const KorluPalawija = () => {
                             Ganyong
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[15]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanSawahPanen}
+                            {dataPalawija?.data[15]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[15]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[15]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanSawahTanam}
+                            {dataPalawija?.data[15]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanSawahPuso}
+                            {dataPalawija?.data[15]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.akhirLahanSawah}
+                            {dataPalawija?.data[15]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[15]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[15]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[15]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[15]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[15]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[15]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[15]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[15]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[15]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Ganyong */}
@@ -1525,49 +1525,49 @@ const KorluPalawija = () => {
                             Umbi Lainnya
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.bulanLaluLahanSawah}
+                            {dataPalawija?.data[16]?.bulanLaluLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanSawahPanen}
+                            {dataPalawija?.data[16]?.lahanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanSawahPanenMuda}
+                            {dataPalawija?.data[16]?.lahanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[16]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanSawahTanam}
+                            {dataPalawija?.data[16]?.lahanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanSawahPuso}
+                            {dataPalawija?.data[16]?.lahanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.akhirLahanSawah}
+                            {dataPalawija?.data[16]?.akhirLahanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.bulanLaluLahanBukanSawah}
+                            {dataPalawija?.data[16]?.bulanLaluLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanBukanSawahPanen}
+                            {dataPalawija?.data[16]?.lahanBukanSawahPanen ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanBukanSawahPanenMuda}
+                            {dataPalawija?.data[16]?.lahanBukanSawahPanenMuda ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanBukanSawahPanenHijauanPakanTernak}
+                            {dataPalawija?.data[16]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanBukanSawahTanam}
+                            {dataPalawija?.data[16]?.lahanBukanSawahTanam ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.lahanBukanSawahPuso}
+                            {dataPalawija?.data[16]?.lahanBukanSawahPuso ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataPalawija?.data[16]?.akhirLahanBukanSawah}
+                            {dataPalawija?.data[16]?.akhirLahanBukanSawah ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            produksi belum ada
+                            {dataPalawija?.data[16]?.produksi ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Umbi lainnya */}

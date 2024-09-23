@@ -106,6 +106,7 @@ const KorlubPadi = () => {
         akhir_jumlah_padi_lahan_bukan_sawah: number;
         bulan: number;
         tahun: number;
+        keteranganKecamatan: string;
         kecamatanId: any;
         kecamatan: string;
         validasiKecamatan: string;
@@ -352,23 +353,6 @@ const KorlubPadi = () => {
             {/* title */}
 
             {/* top */}
-            <div className="header flex gap-2 justify-end items-center mt-4">
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
-            </div>
-            {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                     <div className="w-[80px]">
@@ -418,6 +402,14 @@ const KorlubPadi = () => {
                             </SelectContent>
                         </Select>
                     </div>
+                    <div className="w-[230px]">
+                        <KecamatanSelectNo
+                            value={selectedKecamatan}
+                            onChange={(value) => {
+                                setSelectedKecamatan(value);
+                            }}
+                        />
+                    </div>
                     {/* <div className="w-[40px] h-[40px]">
                         <FilterTable
                             columns={columns}
@@ -427,17 +419,20 @@ const KorlubPadi = () => {
                     </div> */}
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                    <div className="w-[230px]">
-                        <KecamatanSelectNo
-                            value={selectedKecamatan}
-                            onChange={(value) => {
-                                setSelectedKecamatan(value);
-                            }}
-                        />
-                    </div>
-                    <Link href="/bpp-kecamatan/padi/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
-                        Tambah Data
-                    </Link>
+                <div className="btn flex gap-2">
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                        <UnduhIcon />
+                        <div className="hidden md:block">
+                            Download
+                        </div>
+                    </Button>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                        <PrintIcon />
+                        <div className="hidden md:block">
+                            Print
+                        </div>
+                    </Button>
+                </div>
                 </div>
             </div>
             {/* top */}
@@ -451,10 +446,13 @@ const KorlubPadi = () => {
                         Tanggal
                     </div>
                     <div className="">
-                        Status
+                        Status Kec
                     </div>
                     <div className="">
                         Validasi
+                    </div>
+                    <div className="">
+                        Keterangan
                     </div>
                 </div>
                 <div className="font-semibold">
@@ -462,11 +460,12 @@ const KorlubPadi = () => {
                     <div className="">:</div>
                     <div className="">:</div>
                     <div className="">:</div>
+                    <div className="">:</div>
                 </div>
                 <div className="bulan">
-                    <div className="">{dataPadi?.data?.kecamatan}</div>
-                    <div className="">{monthName} {dataPadi?.data?.tahun}</div>
-                    <div className="capitalize">{validationText}</div>
+                    <div className="">{dataPadi?.data?.kecamatan ?? "-"}</div>
+                    <div className="">{monthName ?? "-"} {dataPadi?.data?.tahun ?? "-"}</div>
+                    <div className="capitalize">{validationText ?? "-"}</div>
                     <div className="flex gap-3">
                         <VerifikasiPopup
                             kecamatanId={dataPadi?.data?.kecamatanId}
@@ -479,6 +478,7 @@ const KorlubPadi = () => {
                             onTolak={handleTolak}
                         />
                     </div>
+                    <div className="w-[300px] max-w-[300px] text-justify">{dataPadi?.data?.keteranganKecamatan ?? "-"}</div>
                 </div>
             </div>
             {/* table */}
@@ -580,34 +580,34 @@ const KorlubPadi = () => {
                                 Jumlah Padi
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                            {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_sawah}
+                            {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                {dataPadi?.data?.jumlah_padi_lahan_sawah_panen}
+                                {dataPadi?.data?.jumlah_padi_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                {dataPadi?.data?.jumlah_padi_lahan_sawah_tanam}
+                                {dataPadi?.data?.jumlah_padi_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                {dataPadi?.data?.jumlah_padi_lahan_sawah_puso}
+                                {dataPadi?.data?.jumlah_padi_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                {dataPadi?.data?.akhir_jumlah_padi_lahan_sawah}
+                                {dataPadi?.data?.akhir_jumlah_padi_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                                {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_bukan_sawah}
+                                {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_bukan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className=' font-semibold text-center border border-slate-200'>
-                                {dataPadi?.data?.jumlah_padi_lahan_bukan_sawah_panen}
+                                {dataPadi?.data?.jumlah_padi_lahan_bukan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center '>
-                                {dataPadi?.data?.jumlah_padi_lahan_bukan_sawah_tanam}
+                                {dataPadi?.data?.jumlah_padi_lahan_bukan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className=' font-semibold text-center border border-slate-200'>
-                                {dataPadi?.data?.jumlah_padi_lahan_bukan_sawah_puso}
+                                {dataPadi?.data?.jumlah_padi_lahan_bukan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center '>
-                                {dataPadi?.data?.akhir_jumlah_padi_lahan_bukan_sawah}
+                                {dataPadi?.data?.akhir_jumlah_padi_lahan_bukan_sawah ?? "-"}
                             </TableCell>
 
                         </TableRow>
@@ -638,19 +638,19 @@ const KorlubPadi = () => {
                                 1). Bantuan Pemerintah
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.bulan_lalu_hibrida_bantuan_pemerintah_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_hibrida_bantuan_pemerintah_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.hibrida_bantuan_pemerintah_lahan_sawah_panen}
+                                {dataPadi?.data?.hibrida_bantuan_pemerintah_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.hibrida_bantuan_pemerintah_lahan_sawah_tanam}
+                                {dataPadi?.data?.hibrida_bantuan_pemerintah_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.hibrida_bantuan_pemerintah_lahan_sawah_puso}
+                                {dataPadi?.data?.hibrida_bantuan_pemerintah_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.akhir_hibrida_bantuan_pemerintah_lahan_sawah}
+                                {dataPadi?.data?.akhir_hibrida_bantuan_pemerintah_lahan_sawah ?? "-"}
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -660,19 +660,19 @@ const KorlubPadi = () => {
                                 2). Non Bantuan Pemerintah
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.bulan_lalu_hibrida_non_bantuan_pemerintah_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_hibrida_non_bantuan_pemerintah_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.hibrida_non_bantuan_pemerintah_lahan_sawah_panen}
+                                {dataPadi?.data?.hibrida_non_bantuan_pemerintah_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam}
+                                {dataPadi?.data?.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.hibrida_non_bantuan_pemerintah_lahan_sawah_puso}
+                                {dataPadi?.data?.hibrida_non_bantuan_pemerintah_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.akhir_hibrida_non_bantuan_pemerintah_lahan_sawah}
+                                {dataPadi?.data?.akhir_hibrida_non_bantuan_pemerintah_lahan_sawah ?? "-"}
                             </TableCell>
                         </TableRow>
                         {/* hibrida */}
@@ -691,34 +691,34 @@ const KorlubPadi = () => {
                                 1). Bantuan Pemerintah
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.bulan_lalu_unggul_bantuan_pemerintah_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_unggul_bantuan_pemerintah_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen}
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam}
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso}
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.akhir_unggul_bantuan_pemerintah_lahan_sawah}
+                                {dataPadi?.data?.akhir_unggul_bantuan_pemerintah_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.bulan_lalu_unggul_bantuan_pemerintah_lahan_bukan_sawah}
+                                {dataPadi?.data?.bulan_lalu_unggul_bantuan_pemerintah_lahan_bukan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_sawah_panen}
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_sawah_tanam}
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_sawah_puso}
+                                {dataPadi?.data?.unggul_bantuan_pemerintah_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.akhir_unggul_bantuan_pemerintah_lahan_bukan_sawah}
+                                {dataPadi?.data?.akhir_unggul_bantuan_pemerintah_lahan_bukan_sawah ?? "-"}
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -728,34 +728,34 @@ const KorlubPadi = () => {
                                 2). Non Bantuan Pemerintah
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.bulan_lalu_unggul_non_bantuan_pemerintah_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_unggul_non_bantuan_pemerintah_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_sawah_panen}
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_sawah_tanam}
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_sawah_puso}
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.akhir_unggul_non_bantuan_pemerintah_lahan_sawah}
+                                {dataPadi?.data?.akhir_unggul_non_bantuan_pemerintah_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.bulan_lalu_unggul_non_bantuan_pemerintah_lahan_bukan_sawah}
+                                {dataPadi?.data?.bulan_lalu_unggul_non_bantuan_pemerintah_lahan_bukan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen}
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam}
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso}
+                                {dataPadi?.data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.akhir_unggul_non_bantuan_pemerintah_lahan_bukan_sawah}
+                                {dataPadi?.data?.akhir_unggul_non_bantuan_pemerintah_lahan_bukan_sawah ?? "-"}
                             </TableCell>
                         </TableRow>
                         {/* Non hibrida */}
@@ -767,34 +767,34 @@ const KorlubPadi = () => {
                                 C. Lokal
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.bulan_lalu_lokal_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_lokal_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.lokal_lahan_sawah_panen}
+                                {dataPadi?.data?.lokal_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.lokal_lahan_sawah_tanam}
+                                {dataPadi?.data?.lokal_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.lokal_lahan_sawah_puso}
+                                {dataPadi?.data?.lokal_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.akhir_lokal_lahan_sawah}
+                                {dataPadi?.data?.akhir_lokal_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.bulan_lalu_lokal_lahan_bukan_sawah}
+                                {dataPadi?.data?.bulan_lalu_lokal_lahan_bukan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.lokal_lahan_bukan_sawah_panen}
+                                {dataPadi?.data?.lokal_lahan_bukan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.lokal_lahan_bukan_sawah_tanam}
+                                {dataPadi?.data?.lokal_lahan_bukan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.lokal_lahan_bukan_sawah_puso}
+                                {dataPadi?.data?.lokal_lahan_bukan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 text-center'>
-                                {dataPadi?.data?.akhir_lokal_lahan_bukan_sawah}
+                                {dataPadi?.data?.akhir_lokal_lahan_bukan_sawah ?? "-"}
                             </TableCell>
                         </TableRow>
                         {/* jenis padi */}
@@ -815,19 +815,19 @@ const KorlubPadi = () => {
                                 A. Sawah Irigasi
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.bulan_lalu_sawah_irigasi_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_sawah_irigasi_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_irigasi_lahan_sawah_panen}
+                                {dataPadi?.data?.sawah_irigasi_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_irigasi_lahan_sawah_tanam}
+                                {dataPadi?.data?.sawah_irigasi_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_irigasi_lahan_sawah_puso}
+                                {dataPadi?.data?.sawah_irigasi_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.akhir_sawah_irigasi_lahan_sawah}
+                                {dataPadi?.data?.akhir_sawah_irigasi_lahan_sawah ?? "-"}
                             </TableCell>
                         </TableRow>
                         {/* sawah irigasi */}
@@ -839,19 +839,19 @@ const KorlubPadi = () => {
                                 B. Sawah Tadah Hujan
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.bulan_lalu_sawah_tadah_hujan_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_sawah_tadah_hujan_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_tadah_hujan_lahan_sawah_panen}
+                                {dataPadi?.data?.sawah_tadah_hujan_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_tadah_hujan_lahan_sawah_tanam}
+                                {dataPadi?.data?.sawah_tadah_hujan_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_tadah_hujan_lahan_sawah_puso}
+                                {dataPadi?.data?.sawah_tadah_hujan_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.akhir_sawah_tadah_hujan_lahan_sawah}
+                                {dataPadi?.data?.akhir_sawah_tadah_hujan_lahan_sawah ?? "-"}
                             </TableCell>
                         </TableRow>
                         {/* sawah tadah hujan */}
@@ -863,19 +863,19 @@ const KorlubPadi = () => {
                                 C. Sawah Rawa Pasang Surut
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.bulan_lalu_sawah_rawa_pasang_surut_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_sawah_rawa_pasang_surut_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_rawa_pasang_surut_lahan_sawah_panen}
+                                {dataPadi?.data?.sawah_rawa_pasang_surut_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_rawa_pasang_surut_lahan_sawah_tanam}
+                                {dataPadi?.data?.sawah_rawa_pasang_surut_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_rawa_pasang_surut_lahan_sawah_puso}
+                                {dataPadi?.data?.sawah_rawa_pasang_surut_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.akhir_sawah_rawa_pasang_surut_lahan_sawah}
+                                {dataPadi?.data?.akhir_sawah_rawa_pasang_surut_lahan_sawah ?? "-"}
                             </TableCell>
                         </TableRow>
                         {/* sawah Rawa Pasang Surut */}
@@ -887,19 +887,19 @@ const KorlubPadi = () => {
                                 D. Sawah Rawa Lebak
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.bulan_lalu_sawah_rawa_lebak_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_sawah_rawa_lebak_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_rawa_lebak_lahan_sawah_panen}
+                                {dataPadi?.data?.sawah_rawa_lebak_lahan_sawah_panen ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_rawa_lebak_lahan_sawah_tanam}
+                                {dataPadi?.data?.sawah_rawa_lebak_lahan_sawah_tanam ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.sawah_rawa_lebak_lahan_sawah_puso}
+                                {dataPadi?.data?.sawah_rawa_lebak_lahan_sawah_puso ?? "-"}
                             </TableCell>
                             <TableCell className='border text-center border-slate-200'>
-                                {dataPadi?.data?.akhir_sawah_rawa_lebak_lahan_sawah}
+                                {dataPadi?.data?.akhir_sawah_rawa_lebak_lahan_sawah ?? "-"}
                             </TableCell>
                         </TableRow>
                         {/* sawah Rawa Lebak */}

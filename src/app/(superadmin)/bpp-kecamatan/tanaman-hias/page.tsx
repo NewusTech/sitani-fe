@@ -449,31 +449,31 @@ const KorlubTanamanHias = () => {
                             Anggrek Potong
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[1]?.bulanLalu}
+                            {dataTanamanHias?.data[1]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[1]?.luasPanenHabis}
+                            {dataTanamanHias?.data[1]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[1]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[1]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[1]?.luasRusak}
+                            {dataTanamanHias?.data[1]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[1]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[1]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[1]?.akhir}
+                            {dataTanamanHias?.data[1]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[1]?.produksiHabis}
+                            {dataTanamanHias?.data[1]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[1]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[1]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[1]?.satuanProduksi}
+                            {dataTanamanHias?.data[1]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[1]?.count
@@ -481,7 +481,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[1]?.keterangan}
+                            {dataTanamanHias?.data[1]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Gerbera (Herbras) */}
@@ -493,31 +493,31 @@ const KorlubTanamanHias = () => {
                             Gerbera (Herbras)
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[2]?.bulanLalu}
+                            {dataTanamanHias?.data[2]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[2]?.luasPanenHabis}
+                            {dataTanamanHias?.data[2]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[2]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[2]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[2]?.luasRusak}
+                            {dataTanamanHias?.data[2]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[2]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[2]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[2]?.akhir}
+                            {dataTanamanHias?.data[2]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[2]?.produksiHabis}
+                            {dataTanamanHias?.data[2]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[2]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[2]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[2]?.satuanProduksi}
+                            {dataTanamanHias?.data[2]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[2]?.count
@@ -525,7 +525,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[2]?.keterangan}
+                            {dataTanamanHias?.data[2]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Krisan */}
@@ -537,31 +537,31 @@ const KorlubTanamanHias = () => {
                             Krisan
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[3]?.bulanLalu}
+                            {dataTanamanHias?.data[3]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[3]?.luasPanenHabis}
+                            {dataTanamanHias?.data[3]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[3]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[3]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[3]?.luasRusak}
+                            {dataTanamanHias?.data[3]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[3]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[3]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[3]?.akhir}
+                            {dataTanamanHias?.data[3]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[3]?.produksiHabis}
+                            {dataTanamanHias?.data[3]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[3]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[3]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[3]?.satuanProduksi}
+                            {dataTanamanHias?.data[3]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[3]?.count
@@ -569,7 +569,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[3]?.keterangan}
+                            {dataTanamanHias?.data[3]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Mawar */}
@@ -581,31 +581,31 @@ const KorlubTanamanHias = () => {
                             Mawar
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[4]?.bulanLalu}
+                            {dataTanamanHias?.data[4]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[4]?.luasPanenHabis}
+                            {dataTanamanHias?.data[4]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[4]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[4]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[4]?.luasRusak}
+                            {dataTanamanHias?.data[4]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[4]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[4]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[4]?.akhir}
+                            {dataTanamanHias?.data[4]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[4]?.produksiHabis}
+                            {dataTanamanHias?.data[4]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[4]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[4]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[4]?.satuanProduksi}
+                            {dataTanamanHias?.data[4]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[4]?.count
@@ -613,7 +613,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[4]?.keterangan}
+                            {dataTanamanHias?.data[4]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Sedap Malam */}
@@ -625,31 +625,31 @@ const KorlubTanamanHias = () => {
                             Sedap Malam
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[5]?.bulanLalu}
+                            {dataTanamanHias?.data[5]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[5]?.luasPanenHabis}
+                            {dataTanamanHias?.data[5]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[5]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[5]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[5]?.luasRusak}
+                            {dataTanamanHias?.data[5]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[5]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[5]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[5]?.akhir}
+                            {dataTanamanHias?.data[5]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[5]?.produksiHabis}
+                            {dataTanamanHias?.data[5]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[5]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[5]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[5]?.satuanProduksi}
+                            {dataTanamanHias?.data[5]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[5]?.count
@@ -657,7 +657,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[5]?.keterangan}
+                            {dataTanamanHias?.data[5]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Aglaonema */}
@@ -669,31 +669,31 @@ const KorlubTanamanHias = () => {
                             Aglaonema
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[6]?.bulanLalu}
+                            {dataTanamanHias?.data[6]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[6]?.luasPanenHabis}
+                            {dataTanamanHias?.data[6]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[6]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[6]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[6]?.luasRusak}
+                            {dataTanamanHias?.data[6]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[6]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[6]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[6]?.akhir}
+                            {dataTanamanHias?.data[6]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[6]?.produksiHabis}
+                            {dataTanamanHias?.data[6]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[6]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[6]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[6]?.satuanProduksi}
+                            {dataTanamanHias?.data[6]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[6]?.count
@@ -701,7 +701,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[6]?.keterangan}
+                            {dataTanamanHias?.data[6]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Anggrek Pot** */}
@@ -713,31 +713,31 @@ const KorlubTanamanHias = () => {
                             Anggrek Pot**
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[7]?.bulanLalu}
+                            {dataTanamanHias?.data[7]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[7]?.luasPanenHabis}
+                            {dataTanamanHias?.data[7]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[7]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[7]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[7]?.luasRusak}
+                            {dataTanamanHias?.data[7]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[7]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[7]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[7]?.akhir}
+                            {dataTanamanHias?.data[7]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[7]?.produksiHabis}
+                            {dataTanamanHias?.data[7]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[7]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[7]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[7]?.satuanProduksi}
+                            {dataTanamanHias?.data[7]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[7]?.count
@@ -745,7 +745,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[7]?.keterangan}
+                            {dataTanamanHias?.data[7]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Anthurium Bunga */}
@@ -757,31 +757,31 @@ const KorlubTanamanHias = () => {
                             Anthurium Bunga
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[8]?.bulanLalu}
+                            {dataTanamanHias?.data[8]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[8]?.luasPanenHabis}
+                            {dataTanamanHias?.data[8]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[8]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[8]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[8]?.luasRusak}
+                            {dataTanamanHias?.data[8]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[8]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[8]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[8]?.akhir}
+                            {dataTanamanHias?.data[8]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[8]?.produksiHabis}
+                            {dataTanamanHias?.data[8]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[8]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[8]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[8]?.satuanProduksi}
+                            {dataTanamanHias?.data[8]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[8]?.count
@@ -789,7 +789,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[8]?.keterangan}
+                            {dataTanamanHias?.data[8]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Bromelia */}
@@ -801,31 +801,31 @@ const KorlubTanamanHias = () => {
                             Bromelia
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[9]?.bulanLalu}
+                            {dataTanamanHias?.data[9]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[9]?.luasPanenHabis}
+                            {dataTanamanHias?.data[9]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[9]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[9]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[9]?.luasRusak}
+                            {dataTanamanHias?.data[9]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[9]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[9]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[9]?.akhir}
+                            {dataTanamanHias?.data[9]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[9]?.produksiHabis}
+                            {dataTanamanHias?.data[9]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[9]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[9]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[9]?.satuanProduksi}
+                            {dataTanamanHias?.data[9]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[9]?.count
@@ -833,7 +833,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[9]?.keterangan}
+                            {dataTanamanHias?.data[9]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Bugenvil */}
@@ -845,31 +845,31 @@ const KorlubTanamanHias = () => {
                             Bugenvil
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[10]?.bulanLalu}
+                            {dataTanamanHias?.data[10]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[10]?.luasPanenHabis}
+                            {dataTanamanHias?.data[10]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[10]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[10]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[10]?.luasRusak}
+                            {dataTanamanHias?.data[10]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[10]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[10]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[10]?.akhir}
+                            {dataTanamanHias?.data[10]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[10]?.produksiHabis}
+                            {dataTanamanHias?.data[10]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[10]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[10]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[10]?.satuanProduksi}
+                            {dataTanamanHias?.data[10]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[10]?.count
@@ -877,7 +877,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[10]?.keterangan}
+                            {dataTanamanHias?.data[10]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Cordyline */}
@@ -889,31 +889,31 @@ const KorlubTanamanHias = () => {
                             Cordyline
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[11]?.bulanLalu}
+                            {dataTanamanHias?.data[11]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[11]?.luasPanenHabis}
+                            {dataTanamanHias?.data[11]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[11]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[11]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[11]?.luasRusak}
+                            {dataTanamanHias?.data[11]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[11]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[11]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[11]?.akhir}
+                            {dataTanamanHias?.data[11]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[11]?.produksiHabis}
+                            {dataTanamanHias?.data[11]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[11]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[11]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[11]?.satuanProduksi}
+                            {dataTanamanHias?.data[11]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[11]?.count
@@ -921,7 +921,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[11]?.keterangan}
+                            {dataTanamanHias?.data[11]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Dracaena */}
@@ -933,31 +933,31 @@ const KorlubTanamanHias = () => {
                             Dracaena
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[12]?.bulanLalu}
+                            {dataTanamanHias?.data[12]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[12]?.luasPanenHabis}
+                            {dataTanamanHias?.data[12]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[12]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[12]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[12]?.luasRusak}
+                            {dataTanamanHias?.data[12]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[12]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[12]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[12]?.akhir}
+                            {dataTanamanHias?.data[12]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[12]?.produksiHabis}
+                            {dataTanamanHias?.data[12]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[12]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[12]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[12]?.satuanProduksi}
+                            {dataTanamanHias?.data[12]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[12]?.count
@@ -965,7 +965,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[12]?.keterangan}
+                            {dataTanamanHias?.data[12]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Heliconia (Pisang-pisangan) */}
@@ -977,31 +977,31 @@ const KorlubTanamanHias = () => {
                             Heliconia (Pisang-pisangan)
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[13]?.bulanLalu}
+                            {dataTanamanHias?.data[13]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[13]?.luasPanenHabis}
+                            {dataTanamanHias?.data[13]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[13]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[13]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[13]?.luasRusak}
+                            {dataTanamanHias?.data[13]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[13]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[13]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[13]?.akhir}
+                            {dataTanamanHias?.data[13]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[13]?.produksiHabis}
+                            {dataTanamanHias?.data[13]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[13]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[13]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[13]?.satuanProduksi}
+                            {dataTanamanHias?.data[13]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[13]?.count
@@ -1009,7 +1009,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[13]?.keterangan}
+                            {dataTanamanHias?.data[13]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Ixora (Soka) */}
@@ -1021,31 +1021,31 @@ const KorlubTanamanHias = () => {
                             Ixora (Soka)
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[14]?.bulanLalu}
+                            {dataTanamanHias?.data[14]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[14]?.luasPanenHabis}
+                            {dataTanamanHias?.data[14]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[14]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[14]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[14]?.luasRusak}
+                            {dataTanamanHias?.data[14]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[14]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[14]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[14]?.akhir}
+                            {dataTanamanHias?.data[14]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[14]?.produksiHabis}
+                            {dataTanamanHias?.data[14]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[14]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[14]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[14]?.satuanProduksi}
+                            {dataTanamanHias?.data[14]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[14]?.count
@@ -1053,7 +1053,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[14]?.keterangan}
+                            {dataTanamanHias?.data[14]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Pakis */}
@@ -1065,31 +1065,31 @@ const KorlubTanamanHias = () => {
                             Pakis
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[15]?.bulanLalu}
+                            {dataTanamanHias?.data[15]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[15]?.luasPanenHabis}
+                            {dataTanamanHias?.data[15]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[15]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[15]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[15]?.luasRusak}
+                            {dataTanamanHias?.data[15]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[15]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[15]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[15]?.akhir}
+                            {dataTanamanHias?.data[15]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[15]?.produksiHabis}
+                            {dataTanamanHias?.data[15]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[15]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[15]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[15]?.satuanProduksi}
+                            {dataTanamanHias?.data[15]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[15]?.count
@@ -1097,7 +1097,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[15]?.keterangan}
+                            {dataTanamanHias?.data[15]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Palem */}
@@ -1109,31 +1109,31 @@ const KorlubTanamanHias = () => {
                             Palem
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[16]?.bulanLalu}
+                            {dataTanamanHias?.data[16]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[16]?.luasPanenHabis}
+                            {dataTanamanHias?.data[16]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[16]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[16]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[16]?.luasRusak}
+                            {dataTanamanHias?.data[16]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[16]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[16]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[16]?.akhir}
+                            {dataTanamanHias?.data[16]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[16]?.produksiHabis}
+                            {dataTanamanHias?.data[16]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[16]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[16]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[16]?.satuanProduksi}
+                            {dataTanamanHias?.data[16]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[16]?.count
@@ -1141,7 +1141,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[16]?.keterangan}
+                            {dataTanamanHias?.data[16]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Phylodendron */}
@@ -1153,31 +1153,31 @@ const KorlubTanamanHias = () => {
                             Phylodendron
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[17]?.bulanLalu}
+                            {dataTanamanHias?.data[17]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[17]?.luasPanenHabis}
+                            {dataTanamanHias?.data[17]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[17]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[17]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[17]?.luasRusak}
+                            {dataTanamanHias?.data[17]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[17]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[17]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[17]?.akhir}
+                            {dataTanamanHias?.data[17]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[17]?.produksiHabis}
+                            {dataTanamanHias?.data[17]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[17]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[17]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[17]?.satuanProduksi}
+                            {dataTanamanHias?.data[17]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[17]?.count
@@ -1185,7 +1185,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[17]?.keterangan}
+                            {dataTanamanHias?.data[17]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Puring */}
@@ -1197,31 +1197,31 @@ const KorlubTanamanHias = () => {
                             Puring
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[18]?.bulanLalu}
+                            {dataTanamanHias?.data[18]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[18]?.luasPanenHabis}
+                            {dataTanamanHias?.data[18]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[18]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[18]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[18]?.luasRusak}
+                            {dataTanamanHias?.data[18]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[18]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[18]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[18]?.akhir}
+                            {dataTanamanHias?.data[18]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[18]?.produksiHabis}
+                            {dataTanamanHias?.data[18]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[18]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[18]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[18]?.satuanProduksi}
+                            {dataTanamanHias?.data[18]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[18]?.count
@@ -1229,7 +1229,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[18]?.keterangan}
+                            {dataTanamanHias?.data[18]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Sansevierie (Lidah mertua) */}
@@ -1241,31 +1241,31 @@ const KorlubTanamanHias = () => {
                             Sansevierie (Lidah mertua)
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[19]?.bulanLalu}
+                            {dataTanamanHias?.data[19]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[19]?.luasPanenHabis}
+                            {dataTanamanHias?.data[19]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[19]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[19]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[19]?.luasRusak}
+                            {dataTanamanHias?.data[19]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[19]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[19]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[19]?.akhir}
+                            {dataTanamanHias?.data[19]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[19]?.produksiHabis}
+                            {dataTanamanHias?.data[19]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[19]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[19]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[19]?.satuanProduksi}
+                            {dataTanamanHias?.data[19]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[19]?.count
@@ -1273,7 +1273,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[19]?.keterangan}
+                            {dataTanamanHias?.data[19]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                     {/* Melati */}
@@ -1285,31 +1285,31 @@ const KorlubTanamanHias = () => {
                             Melati
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[20]?.bulanLalu}
+                            {dataTanamanHias?.data[20]?.bulanLalu ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[20]?.luasPanenHabis}
+                            {dataTanamanHias?.data[20]?.luasPanenHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[20]?.luasPanenBelumHabis}
+                            {dataTanamanHias?.data[20]?.luasPanenBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[20]?.luasRusak}
+                            {dataTanamanHias?.data[20]?.luasRusak ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[20]?.luasPenanamanBaru}
+                            {dataTanamanHias?.data[20]?.luasPenanamanBaru ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[20]?.akhir}
+                            {dataTanamanHias?.data[20]?.akhir ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[20]?.produksiHabis}
+                            {dataTanamanHias?.data[20]?.produksiHabis ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[20]?.produksiBelumHabis}
+                            {dataTanamanHias?.data[20]?.produksiBelumHabis ?? "-"}
                         </TableCell>
                         <TableCell className='text-center border border-slate-200'>
-                            {dataTanamanHias?.data[20]?.satuanProduksi}
+                            {dataTanamanHias?.data[20]?.satuanProduksi ?? "-"}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
                             {dataTanamanHias?.data[20]?.count
@@ -1317,7 +1317,7 @@ const KorlubTanamanHias = () => {
                                 : '-'}
                         </TableCell>
                         <TableCell className='border border-slate-200 text-center'>
-                            {dataTanamanHias?.data[20]?.keterangan}
+                            {dataTanamanHias?.data[20]?.keterangan ?? "-"}
                         </TableCell>
                     </TableRow>
                 </TableBody>
