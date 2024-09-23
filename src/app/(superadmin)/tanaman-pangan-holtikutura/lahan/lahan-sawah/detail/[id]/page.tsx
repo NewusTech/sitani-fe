@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from 'react';
 import Link from 'next/link';
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import useSWR from "swr";
@@ -53,12 +53,12 @@ interface Kecamatan {
 
 const LabelDetail = ({ label, name }: LabelProps) => {
     return (
-        <div className='flex gap-2 justify-between lg:justify-start lg:block lg:flex-none'>
+        <div className="flex gap-2 justify-between lg:justify-start lg:block lg:flex-none">
             <div className="label text-black">{label || '-'}</div>
             <div className="name text-black/70">{name || '-'}</div>
         </div>
-    )
-}
+    );
+};
 
 const DetailLahanSawahPage = () => {
     const axiosPrivate = useAxiosPrivate();
@@ -83,7 +83,10 @@ const DetailLahanSawahPage = () => {
         <div>
             <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail Lahan Sawah</div>
             <div className="mb-10 flex justify-start gap-2 md:gap-3 mt-4">
-                <Link href="/tanaman-pangan-holtikutura/lahan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                <Link
+                    href="/tanaman-pangan-holtikutura/lahan"
+                    className="bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium"
+                >
                     Kembali
                 </Link>
             </div>
@@ -94,29 +97,29 @@ const DetailLahanSawahPage = () => {
                         <div className="wr">
                             <div className="font-semibold mb-2 text-lg mt-5 uppercase">Kecamatan</div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-                                <LabelDetail label='Nama' name={dataLahanSawah?.data.kecamatan.nama} />
+                                <LabelDetail label="Nama" name={dataLahanSawah?.data.kecamatan?.nama || '-'} />
                             </div>
                         </div>
                         <div className="wr">
                             <div className="font-semibold text-lg mb-2 mt-3 uppercase">Luas Lahan Sawah (Ha)</div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-                                <LabelDetail label='Irigasi Teknis' name={dataLahanSawah?.data.irigasiTeknis.toString()} />
-                                <LabelDetail label='Irigasi 1/2 Teknis' name={dataLahanSawah?.data.irigasiSetengahTeknis.toString()} />
-                                <LabelDetail label='Irigasi Sederhana' name={dataLahanSawah?.data.irigasiSederhana.toString()} />
-                                <LabelDetail label='Irigasi Desa/Non PU' name={dataLahanSawah?.data.irigasiDesa.toString()} />
-                                <LabelDetail label='Tadah Hujan' name={dataLahanSawah?.data.tadahHujan.toString()} />
-                                <LabelDetail label='Pasang Surut' name={dataLahanSawah?.data.pasangSurut.toString()} />
-                                <LabelDetail label='Lebak' name={dataLahanSawah?.data.lebak.toString()} />
-                                <LabelDetail label='Lainnya' name={dataLahanSawah?.data.lainnya.toString()} />
-                                <LabelDetail label='Jumlah' name={dataLahanSawah?.data.jumlah.toString()} />
-                                <LabelDetail label='Keterangan' name={dataLahanSawah?.data.keterangan} />
+                                <LabelDetail label="Irigasi Teknis" name={dataLahanSawah?.data?.irigasiTeknis?.toString() || '-'} />
+                                <LabelDetail label="Irigasi 1/2 Teknis" name={dataLahanSawah?.data?.irigasiSetengahTeknis?.toString() || '-'} />
+                                <LabelDetail label="Irigasi Sederhana" name={dataLahanSawah?.data?.irigasiSederhana?.toString() || '-'} />
+                                <LabelDetail label="Irigasi Desa/Non PU" name={dataLahanSawah?.data?.irigasiDesa?.toString() || '-'} />
+                                <LabelDetail label="Tadah Hujan" name={dataLahanSawah?.data?.tadahHujan?.toString() || '-'} />
+                                <LabelDetail label="Pasang Surut" name={dataLahanSawah?.data?.pasangSurut?.toString() || '-'} />
+                                <LabelDetail label="Lebak" name={dataLahanSawah?.data?.lebak?.toString() || '-'} />
+                                <LabelDetail label="Lainnya" name={dataLahanSawah?.data?.lainnya?.toString() || '-'} />
+                                <LabelDetail label="Jumlah" name={dataLahanSawah?.data?.jumlah?.toString() || '-'} />
+                                <LabelDetail label="Keterangan" name={dataLahanSawah?.data?.keterangan || '-'} />
                             </div>
                         </div>
                     </div>
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
 export default DetailLahanSawahPage;

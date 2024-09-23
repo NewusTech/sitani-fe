@@ -172,7 +172,7 @@ const TPHPalawija2 = (props: PrintProps) => {
             const downloadUrl = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.setAttribute('download', `Data Tanaman Pangan Holtikultura Palawija 1 Kabupaten Lampung Timur.xlsx`); // Nama file yang diunduh
+            link.setAttribute('download', `Data Tanaman Pangan Holtikultura Palawija 2 Kabupaten Lampung Timur.xlsx`); // Nama file yang diunduh
             document.body.appendChild(link);
             link.click();
             link.parentNode?.removeChild(link); // Hapus elemen setelah di-click
@@ -212,7 +212,7 @@ const TPHPalawija2 = (props: PrintProps) => {
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`Data Tanaman Pangan Holtikultura Palawija 1 Kabupaten Lampung Timur.pdf`);
+                pdf.save(`Data Tanaman Pangan Holtikultura Palawija 2 Kabupaten Lampung Timur.pdf`);
 
                 // Notifikasi Swal sukses
                 Swal.fire({
@@ -288,7 +288,7 @@ const TPHPalawija2 = (props: PrintProps) => {
                 <div ref={printRef} className='p-[50px]'>
                     {/* title */}
                     <div className="text-xl mb-4 font-semibold text-black mx-auto uppercase flex justify-center text-center">
-                        LUAS PANEN, PRODUKTIVITAS DAN PRODUKSI JAGUNG, KEDELAI, KACANG TANAH KABUPATEN LAMPUNG TIMUR TAHUN {props.tahun || currentYear} <br />
+                        LUAS PANEN, PRODUKTIVITAS DAN PRODUKSI Kacang Hijau, Ubi Kayu, Ubi Jalar KABUPATEN LAMPUNG TIMUR TAHUN {props.tahun || currentYear} <br />
                         {monthName}
                     </div>
                     {/* title */}
@@ -303,13 +303,13 @@ const TPHPalawija2 = (props: PrintProps) => {
                                     Kecamatan
                                 </TableHead>
                                 <TableHead colSpan={3} className="border border-black p-2 text-black uppercase text-center font-semibold">
-                                    Jagung
+                                    Kacang Hijau
                                 </TableHead>
                                 <TableHead colSpan={3} className="border border-black p-2 text-black uppercase text-center font-semibold">
-                                    Kedelai
+                                    Ubi Kayu
                                 </TableHead>
                                 <TableHead colSpan={3} className="border border-black p-2 text-black uppercase text-center font-semibold">
-                                    Kacang Tanah
+                                    Ubi Jalar
                                 </TableHead>
                             </TableRow>
                             <TableRow>

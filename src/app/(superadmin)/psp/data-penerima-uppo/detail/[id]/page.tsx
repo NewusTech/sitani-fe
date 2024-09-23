@@ -11,7 +11,7 @@ import useSWR from 'swr';
 
 interface LabelProps {
   label?: string;
-  name?: string;
+  name?: string | number;
 }
 
 const LabelDetail = (props: LabelProps) => {
@@ -35,6 +35,7 @@ const DetailPenerimaUPPO = () => {
   }
 
   interface UPPO {
+    tahun?: number;
     namaPoktan?: string;
     ketuaPoktan?: string;
     titikKoordinat?: string;
@@ -81,6 +82,7 @@ const DetailPenerimaUPPO = () => {
       <div className="wrap-detail bg-slate-100 p-6 mt-5 rounded-lg">
         <div className="font-semibold mb-2 text-lg uppercase">Data Penerima UPPO</div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+          <LabelDetail label='Tahun' name={data?.tahun} />
           <LabelDetail label='Kecamatan' name={data?.kecamatan?.nama} />
           <LabelDetail label='Desa' name={data?.desa?.nama} />
           <LabelDetail label='Nama Poktan' name={data?.namaPoktan} />
