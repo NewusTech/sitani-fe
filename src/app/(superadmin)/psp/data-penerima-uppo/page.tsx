@@ -192,15 +192,15 @@ const DataPenerimaUppo = () => {
     const currentYear = new Date().getFullYear();
     const startYear = currentYear - 5;
     const endYear = currentYear + 1;
-    // const [tahun, setTahun] = React.useState("2024");
-    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
+    const [tahun, setTahun] = React.useState("");
+    // const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
     // otomatis hitung tahun
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataUser }: SWRResponse<Response> = useSWR(
-        `/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
-        (url) =>
+        `/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`,
+        (url: string) =>
             axiosPrivate
                 .get(url, {
                     headers: {
@@ -267,7 +267,7 @@ const DataPenerimaUppo = () => {
             });
             console.error("Failed to create user:", error);
         }
-        mutate(`/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
+        mutate(`/psp/penerima-uppo/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`);
     };
 
     // Filter table
@@ -297,11 +297,11 @@ const DataPenerimaUppo = () => {
     useEffect(() => {
         setIsClient(true);
         setVisibleColumns(getDefaultCheckedKeys());
-        const handleResize = () => {
-            setVisibleColumns(getDefaultCheckedKeys());
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        // const handleResize = () => {
+        //     setVisibleColumns(getDefaultCheckedKeys());
+        // };
+        // window.addEventListener('resize', handleResize);
+        // return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     if (!isClient) {
@@ -350,13 +350,33 @@ const DataPenerimaUppo = () => {
                             {/* filter tanggal */}
 
                             {/* filter tanggal */}
-                            <div className="w-[40px] h-[40px]">
-                                <FilterTable
-                                    columns={columns}
-                                    defaultCheckedKeys={getDefaultCheckedKeys()}
-                                    onFilterChange={handleFilterChange}
-                                />
+                            <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            />
+                            {/* filter tahun */}
+                            <div className="w-fit">
+                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Semua Tahun">
+                                            {tahun ? tahun : "Semua Tahun"}
+                                        </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value={"Semua Tahun"}>Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
+                                    </SelectContent>
+                                </Select>
                             </div>
+                            {/* filter tahun */}
                         </div>
                         <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                             <div className="w-full">

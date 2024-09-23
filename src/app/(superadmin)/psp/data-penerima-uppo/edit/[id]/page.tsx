@@ -27,6 +27,9 @@ const formSchema = z.object({
         .number()
         .transform((value) => Number(value))
         .optional(),
+    tahun: z
+        .number()
+        .min(0, { message: "Tahun wajib diisi" }),
     nama_poktan: z.string().min(1, { message: "Nama Poktan wajib diisi" }).optional(),
     ketua_poktan: z.string().min(1, { message: "Nama Ketua wajib diisi" }).optional(),
     titik_koordinat: z.string().min(1, { message: "Titik Koordinat wajib diisi" }).optional(),
@@ -51,6 +54,7 @@ const EditDataPenerimaUppo = () => {
         id: number;
         kecamatanId: number;
         desaId: number;
+        tahun: number;
         namaPoktan: string;
         ketuaPoktan: string;
         titikKoordinat: string;
@@ -129,6 +133,7 @@ const EditDataPenerimaUppo = () => {
                 setValue("kecamatan_id", dataUser.data.kecamatanId);
                 setInitialDesaId(dataUser.data.desaId); // Save initial desa_id
                 setValue("desa_id", dataUser.data.desaId); // Set default value
+                setValue("tahun", dataUser?.data?.tahun);
                 setValue("nama_poktan", dataUser.data.namaPoktan);
                 setValue("ketua_poktan", dataUser.data.ketuaPoktan);
                 setValue("titik_koordinat", dataUser.data.titikKoordinat);
@@ -260,6 +265,20 @@ const EditDataPenerimaUppo = () => {
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Tahun" />
+                            <Input
+                                autoFocus
+                                type="number"
+                                step="0.000001"
+                                placeholder="Tahun"
+                                {...register('tahun')}
+                                className={`${errors.tahun ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.tahun && (
+                                <HelperError>{errors.tahun.message}</HelperError>
+                            )}
+                        </div>
+                        <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Nama Poktan" />
                             <Input
                                 type="text"
@@ -271,6 +290,8 @@ const EditDataPenerimaUppo = () => {
                                 <HelperError>{errors.nama_poktan.message}</HelperError>
                             )}
                         </div>
+                    </div>
+                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Nama Ketua" />
                             <Input
@@ -283,9 +304,7 @@ const EditDataPenerimaUppo = () => {
                                 <HelperError>{errors.ketua_poktan.message}</HelperError>
                             )}
                         </div>
-                    </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-1/2">
+                        <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Titik Koordinat" />
                             <Input
                                 type="text"
