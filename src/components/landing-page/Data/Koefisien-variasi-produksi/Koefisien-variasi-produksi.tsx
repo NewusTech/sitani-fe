@@ -444,10 +444,10 @@ const KomponenKoefisienVariasiPrduksi = () => {
 
                                                 {/* Filter Tahun Bulan */}
                                                 <>
-                                                    <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
+                                                    <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun" />
                                                     <div className="flex gap-2 justify-between items-center w-full">
                                                         {/* filter tahun */}
-                                                        <div className="w-1/2">
+                                                        <div className="w-full">
                                                             <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                                                 <SelectTrigger>
                                                                     <SelectValue placeholder="Tahun">
@@ -469,7 +469,7 @@ const KomponenKoefisienVariasiPrduksi = () => {
                                                         </div>
                                                         {/* filter tahun */}
                                                         {/* Filter bulan */}
-                                                        <div className="w-1/2">
+                                                        {/* <div className="w-1/2">
                                                             <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                                                 <SelectTrigger>
                                                                     <SelectValue placeholder="Tahun">
@@ -488,7 +488,7 @@ const KomponenKoefisienVariasiPrduksi = () => {
                                                                     })}
                                                                 </SelectContent>
                                                             </Select>
-                                                        </div>
+                                                        </div> */}
                                                         {/* Filter bulan */}
                                                     </div>
                                                 </>

@@ -45,7 +45,7 @@ const formSchema = z.object({
         .string(),
     keterangan: z
         .string()
-        .min(1, { message: "Keterangan wajib diisi" }),
+        .min(0, { message: "Keterangan wajib diisi" }),
     harga_pupuk: z
         .preprocess((val) => Number(val), z.number().min(1, { message: "Harga pupuk wajib diisi" })),
 });

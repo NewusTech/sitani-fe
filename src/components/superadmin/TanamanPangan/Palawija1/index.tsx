@@ -323,7 +323,7 @@ const Palawija1 = () => {
                                     </SelectValue>
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                    {/* <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem> */}
                                     {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
                                         const year = startYear + index;
                                         return (
@@ -441,7 +441,7 @@ const Palawija1 = () => {
                                                                 </SelectValue>
                                                             </SelectTrigger>
                                                             <SelectContent>
-                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                                                {/* <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem> */}
                                                                 {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
                                                                     const year = startYear + index;
                                                                     return (

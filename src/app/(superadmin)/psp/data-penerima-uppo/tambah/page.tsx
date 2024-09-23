@@ -18,18 +18,21 @@ import Loading from '@/components/ui/Loading';
 
 const formSchema = z.object({
     kecamatan_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Kecamatan wajib diisi" })),
     desa_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Desa wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(0, { message: "Desa wajib diisi" })),
+    tahun: z
+        .string()
+        .min(0, { message: "Tahun wajib diisi" }),
     nama_poktan: z
         .string()
-        .min(1, { message: "Nama Poktan wajib diisi" }),
+        .min(0, { message: "Nama Poktan wajib diisi" }),
     ketua_poktan: z
         .string()
-        .min(1, { message: "Nama Ketua wajib diisi" }),
+        .min(0, { message: "Nama Ketua wajib diisi" }),
     titik_koordinat: z
         .string()
-        .min(1, { message: "Titik Koordinat wajib diisi" }),
+        .min(0, { message: "Titik Koordinat wajib diisi" }),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -170,7 +173,7 @@ const TambahDataPenerimaUppo = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        }finally {
+        } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/psp/penerima-uppo/get`);
@@ -226,6 +229,20 @@ const TambahDataPenerimaUppo = () => {
                     </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Tahun" />
+                            <Input
+                                autoFocus
+                                type="number"
+                                step="0.000001"
+                                placeholder="Tahun"
+                                {...register('tahun')}
+                                className={`${errors.tahun ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.tahun && (
+                                <HelperError>{errors.tahun.message}</HelperError>
+                            )}
+                        </div>
+                        <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Nama Poktan" />
                             <Input
                                 type="text"
@@ -237,7 +254,9 @@ const TambahDataPenerimaUppo = () => {
                                 <HelperError>{errors.nama_poktan.message}</HelperError>
                             )}
                         </div>
-                        <div className="flex flex-col mb-2 w-full">
+                    </div>
+                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                        <div className="flex flex-col mb-2 w-1/2">
                             <Label className='text-sm mb-1' label="Nama Ketua" />
                             <Input
                                 type="text"
@@ -249,8 +268,6 @@ const TambahDataPenerimaUppo = () => {
                                 <HelperError>{errors.ketua_poktan.message}</HelperError>
                             )}
                         </div>
-                    </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-1/2">
                             <Label className='text-sm mb-1' label="Titik Koordinat" />
                             <Input
