@@ -110,6 +110,7 @@ const KJFPadi = () => {
         tahun: number;
         kecamatanId: any;
         kecamatan: string;
+        keteranganKabupaten: string;
         validasiKecamatan: string;
         validasiKabupaten: string;
         hibrida_bantuan_pemerintah_lahan_sawah_panen: number;
@@ -440,8 +441,12 @@ const KJFPadi = () => {
                     <div className="">
                         Validasi
                     </div>
+                    <div className="">
+                        Keterangan
+                    </div>
                 </div>
                 <div className="font-semibold">
+                    <div className="">:</div>
                     <div className="">:</div>
                     <div className="">:</div>
                     <div className="">:</div>
@@ -459,6 +464,8 @@ const KJFPadi = () => {
                             onTolak={handleTolak}
                         />
                     </div>
+                    <div className="w-[300px] max-w-[300px] text-justify">{dataPadi?.data?.keteranganKabupaten ?? "-"}</div>
+
                 </div>
             </div>
             {/* table */}
@@ -560,7 +567,7 @@ const KJFPadi = () => {
                                 Jumlah Padi
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                            {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_sawah}
+                                {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_sawah}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
                                 {dataPadi?.data?.jumlah_padi_lahan_sawah_panen}

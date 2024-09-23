@@ -243,23 +243,25 @@ const KorluPalawija = () => {
             <div className="text-2xl mb-5 font-semibold text-primary uppercase">BPP Kecamatan Palawija</div>
             {/* title */}
 
-            {/* top */}
-            <div className="header flex gap-2 justify-end items-center mt-4">
+           {/* top */}
+           <div className="header flex gap-2 justify-end items-center mt-4">
                 <div className="btn flex gap-2">
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
-                        <div className="hidden md:block  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                             Download
                         </div>
                     </Button>
                     <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <PrintIcon />
-                        <div className="hidden md:block  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                             Print
                         </div>
                     </Button>
                 </div>
             </div>
+            {/* top */}
+
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
@@ -310,13 +312,6 @@ const KorluPalawija = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                    {/* <div className="w-[40px] h-[40px]">
-                        <FilterTable
-                            columns={columns}
-                            defaultCheckedKeys={getDefaultCheckedKeys()}
-                            onFilterChange={handleFilterChange}
-                        />
-                    </div> */}
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                     <div className="w-[230px]">
@@ -356,9 +351,9 @@ const KorluPalawija = () => {
                     <div className="">:</div>
                 </div>
                 <div className="bulan">
-                    <div className="">{dataPalawija?.data?.kecamatan ?? "-"}</div>
-                    <div className="">{monthName ?? "-"} {dataPalawija?.data?.tahun ?? "-"}</div>
-                    <div className="capitalize">{validationText ?? "-"}</div>
+                    <div className="">{dataPalawija?.data?.kecamatan}</div>
+                    <div className="">{monthName} {dataPalawija?.data?.tahun}</div>
+                    <div className="capitalize">{validationText}</div>
                     <div className="flex gap-3">
                         <VerifikasiPopup
                             kecamatanId={dataPalawija?.data?.kecamatanId}

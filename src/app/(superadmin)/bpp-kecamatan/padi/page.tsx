@@ -353,6 +353,24 @@ const KorlubPadi = () => {
             {/* title */}
 
             {/* top */}
+            <div className="header flex gap-2 justify-end items-center mt-4">
+                <div className="btn flex gap-2">
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                        <UnduhIcon />
+                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                            Download
+                        </div>
+                    </Button>
+                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                        <PrintIcon />
+                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                            Print
+                        </div>
+                    </Button>
+                </div>
+            </div>
+            {/* top */}
+            {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                     <div className="w-[80px]">
@@ -402,6 +420,8 @@ const KorlubPadi = () => {
                             </SelectContent>
                         </Select>
                     </div>
+                </div>
+                <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                     <div className="w-[230px]">
                         <KecamatanSelectNo
                             value={selectedKecamatan}
@@ -410,29 +430,9 @@ const KorlubPadi = () => {
                             }}
                         />
                     </div>
-                    {/* <div className="w-[40px] h-[40px]">
-                        <FilterTable
-                            columns={columns}
-                            defaultCheckedKeys={getDefaultCheckedKeys()}
-                            onFilterChange={handleFilterChange}
-                        />
-                    </div> */}
-                </div>
-                <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
-                        </div>
-                    </Button>
-                </div>
+                    <Link href="/bpp-kecamatan/padi/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
+                        Tambah Data
+                    </Link>
                 </div>
             </div>
             {/* top */}
@@ -446,7 +446,7 @@ const KorlubPadi = () => {
                         Tanggal
                     </div>
                     <div className="">
-                        Status Kec
+                        Status
                     </div>
                     <div className="">
                         Validasi
@@ -460,12 +460,11 @@ const KorlubPadi = () => {
                     <div className="">:</div>
                     <div className="">:</div>
                     <div className="">:</div>
-                    <div className="">:</div>
                 </div>
                 <div className="bulan">
-                    <div className="">{dataPadi?.data?.kecamatan ?? "-"}</div>
-                    <div className="">{monthName ?? "-"} {dataPadi?.data?.tahun ?? "-"}</div>
-                    <div className="capitalize">{validationText ?? "-"}</div>
+                    <div className="">{dataPadi?.data?.kecamatan}</div>
+                    <div className="">{monthName} {dataPadi?.data?.tahun}</div>
+                    <div className="capitalize">{validationText}</div>
                     <div className="flex gap-3">
                         <VerifikasiPopup
                             kecamatanId={dataPadi?.data?.kecamatanId}
@@ -481,6 +480,8 @@ const KorlubPadi = () => {
                     <div className="w-[300px] max-w-[300px] text-justify">{dataPadi?.data?.keteranganKecamatan ?? "-"}</div>
                 </div>
             </div>
+
+
             {/* table */}
             <Table className='border border-slate-200 mt-1'>
                 <TableHeader className='bg-primary-600'>
@@ -495,7 +496,7 @@ const KorlubPadi = () => {
                             Lahan Sawah
                         </TableHead>
                         <TableHead colSpan={5} className="text-primary border border-slate-200 text-center py-1">
-                            Laha Bukan Sawah
+                            Lahan Bukan Sawah
                         </TableHead>
                     </TableRow>
                     <TableRow >
@@ -580,7 +581,7 @@ const KorlubPadi = () => {
                                 Jumlah Padi
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
-                            {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_sawah ?? "-"}
+                                {dataPadi?.data?.bulan_lalu_jumlah_padi_lahan_sawah ?? "-"}
                             </TableCell>
                             <TableCell className='border border-slate-200 font-semibold text-center'>
                                 {dataPadi?.data?.jumlah_padi_lahan_sawah_panen ?? "-"}

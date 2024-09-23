@@ -54,6 +54,7 @@ const formSchema = z.object({
     lahan_bukan_sawah_panen_hijauan_pakan_ternak: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
     lahan_bukan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
     lahan_bukan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    produksi: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -384,7 +385,7 @@ const PalawijaKorluhTambah = () => {
                         </div>
                     </div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 md:w-1/2 pr-3 w-full">
+                        <div className="flex flex-col mb-2 md:w-1/2 w-full">
                             <Label className='text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
@@ -395,6 +396,19 @@ const PalawijaKorluhTambah = () => {
                             />
                             {errors.lahan_bukan_sawah_puso && (
                                 <HelperError>{errors.lahan_bukan_sawah_puso.message}</HelperError>
+                            )}
+                        </div>
+                        <div className="flex flex-col mb-2 md:w-1/2 w-full">
+                            <Label className='text-sm mb-1' label="Produksi" />
+                            <Input
+                                type="number"
+                                step="0.000001"
+                                placeholder="Produksi"
+                                {...register('produksi')}
+                                className={`${errors.produksi ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.produksi && (
+                                <HelperError>{errors.produksi.message}</HelperError>
                             )}
                         </div>
                     </div>

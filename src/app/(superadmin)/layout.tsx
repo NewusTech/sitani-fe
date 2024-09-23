@@ -62,20 +62,20 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 	const handleLogout = () => {
 		// Menghapus semua item di localStorage
 		localStorage.clear();
-	
+
 		// Tampilkan pop-up sukses tanpa tombol OK, otomatis menghilang setelah 2 detik
 		Swal.fire({
-		  title: 'Logout Berhasil',
-		  text: 'Anda akan diarahkan ke halaman login.',
-		  icon: 'success',
-		  timer: 2000,  // Pop-up akan otomatis tertutup setelah 2 detik
-		  timerProgressBar: true,  // Menampilkan progress bar waktu
-		  showConfirmButton: false,  // Tidak menampilkan tombol OK
+			title: 'Logout Berhasil',
+			text: 'Anda akan diarahkan ke halaman login.',
+			icon: 'success',
+			timer: 2000,  // Pop-up akan otomatis tertutup setelah 2 detik
+			timerProgressBar: true,  // Menampilkan progress bar waktu
+			showConfirmButton: false,  // Tidak menampilkan tombol OK
 		}).then(() => {
-		  // Arahkan ke halaman login setelah pop-up ditutup otomatis
-		  router.push('/login');
+			// Arahkan ke halaman login setelah pop-up ditutup otomatis
+			router.push('/login');
 		});
-	  };
+	};
 	const [navbar, setNavbar] = useState(false);
 
 	const pathname = usePathname();
@@ -142,16 +142,22 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 					<div className="wrap flex flex-col gap-1">
 						<div className="h-[73%] overflow-auto ">
 							{/* dashboard */}
-							<Link
-								href="/dashboard"
-								className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] ${pathname.startsWith("/dashboard")
-									? "bg-primary text-white"
-									: "bg-transparent text-primary"
-									}`}
+							<ComponentWithAccess
+								allowPermissions={[
+									PERMISSIONS.semua,
+								]}
 							>
-								<Dashboard />
-								Dashboard
-							</Link>
+								<Link
+									href="/dashboard"
+									className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] ${pathname.startsWith("/dashboard")
+										? "bg-primary text-white"
+										: "bg-transparent text-primary"
+										}`}
+								>
+									<Dashboard />
+									Dashboard
+								</Link>
+							</ComponentWithAccess>
 							{/* dashboard */}
 							<Accordion className="" type="single" collapsible>
 								{/* ketahanan-pangan */}
@@ -677,16 +683,40 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 								</ComponentWithAccess>
 								{/*peran-pengguna */}
 								{/* Status Laporan */}
-								<Link
-									href="/status-laporan"
-									className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between ${pathname.startsWith("/status-laporan")
-										? "bg-primary text-white"
-										: "bg-transparent text-primary"
-										}`}
+								<ComponentWithAccess
+									allowPermissions={[
+										PERMISSIONS.semua,
+										PERMISSIONS.semua,
+										...PERMISSIONS.korluhPadi,
+										...PERMISSIONS.korluhPalawija,
+										...PERMISSIONS.korluhSayurBuah,
+										...PERMISSIONS.korluhTanamanHias,
+										...PERMISSIONS.korluhTanamanBiofarmaka,
+										// 
+										...PERMISSIONS.kecamatanPadi,
+										...PERMISSIONS.kecamatanPalawija,
+										...PERMISSIONS.kecamatanSayurBuah,
+										...PERMISSIONS.kecamatanTanamanBiofarmaka,
+										...PERMISSIONS.kecamatanTanamanHias,
+										// 
+										...PERMISSIONS.kabupatenPadi,
+										...PERMISSIONS.kabupatenPalawija,
+										...PERMISSIONS.kabupatenSayurBuah,
+										...PERMISSIONS.kabupatenTanamanBiofarmaka,
+										...PERMISSIONS.kabupatenTanamanHias,
+									]}
 								>
-									<span>Status Laporan</span>
-									<Badge variant="destructive">2</Badge>
-								</Link>
+									<Link
+										href="/status-laporan"
+										className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between ${pathname.startsWith("/status-laporan")
+											? "bg-primary text-white"
+											: "bg-transparent text-primary"
+											}`}
+									>
+										<span>Status Laporan</span>
+										<Badge variant="destructive">2</Badge>
+									</Link>
+								</ComponentWithAccess>
 								{/*status laporan */}
 							</Accordion>
 							<button

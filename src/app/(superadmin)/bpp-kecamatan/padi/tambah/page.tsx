@@ -69,6 +69,7 @@ const formSchema = z.object({
     sawah_rawa_lebak_lahan_sawah_panen: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
     sawah_rawa_lebak_lahan_sawah_tanam: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
     sawah_rawa_lebak_lahan_sawah_puso: z.preprocess((val) => val ? parseFloat(val as string) : undefined, z.number().optional()),
+    
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
