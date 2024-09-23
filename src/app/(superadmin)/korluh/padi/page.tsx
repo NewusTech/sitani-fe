@@ -269,7 +269,7 @@ const KorlubPadi = () => {
                     </div> */}
 					<div className="header flex gap-2 justify-end items-center">
 						<div className="btn flex gap-2">
-							<Button
+							{/* <Button
 								variant={"outlinePrimary"}
 								className="flex gap-2 items-center text-primary"
 							>
@@ -282,7 +282,7 @@ const KorlubPadi = () => {
 							>
 								<PrintIcon />
 								<div className="hidden md:block">Print</div>
-							</Button>
+							</Button> */}
 						</div>
 					</div>
 				</div>

@@ -381,7 +381,7 @@ const KorlubTanamanBiofarmaka = () => {
                     </div> */}
                     <div className="header flex gap-2 justify-end items-center">
                         <div className="btn flex gap-2">
-                            <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                            {/* <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                                 <UnduhIcon />
                                 <div className="hidden md:block">
                                     Download
@@ -392,7 +392,7 @@ const KorlubTanamanBiofarmaka = () => {
                                 <div className="hidden md:block">
                                     Print
                                 </div>
-                            </Button>
+                            </Button> */}
                         </div>
                     </div>
                 </div>
@@ -456,7 +456,7 @@ const KorlubTanamanBiofarmaka = () => {
             {/*table mobile */}
 
             {/* table */}
-            <div className="tabel-wrap hidden sm:block md:block lg:block">
+            <div className="tabel-wrap ">
                 <Table className='border border-slate-200 mt-4'>
                     <TableHeader className='bg-primary-600'>
                         <TableRow >

@@ -185,7 +185,7 @@ const KorluPalawija = () => {
                     </div> */}
                     <div className="header flex gap-2 justify-end items-center">
                         <div className="btn flex gap-2">
-                            <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                            {/* <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                                 <UnduhIcon />
                                 <div className="hidden md:block">
                                     Download
@@ -196,7 +196,7 @@ const KorluPalawija = () => {
                                 <div className="hidden md:block">
                                     Print
                                 </div>
-                            </Button>
+                            </Button> */}
                         </div>
                     </div>
                 </div>
