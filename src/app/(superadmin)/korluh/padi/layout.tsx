@@ -28,7 +28,7 @@ const LayoutKorluh = (props: LayoutKorluhProps) => {
 
 	return (
 		<>
-			<ComponentWithAccess allowPermissions={permissions} toLogin={true}>
+			<ComponentWithAccess allowPermissions={permissions}>
 				{props.children}
 			</ComponentWithAccess>
 		</>

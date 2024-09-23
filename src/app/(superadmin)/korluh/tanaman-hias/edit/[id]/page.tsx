@@ -169,7 +169,7 @@ const EditTanamanBuah = () => {
         if (dataTanaman) {
             setValue("korluh_master_tanaman_hias_id", dataTanaman.data.master.id);
             setValue("tanggal", new Date(dataTanaman.data.korluhTanamanHias.tanggal).toISOString().split('T')[0]);
-            setValue("satuan_produksi", "pcs");
+            setValue("satuan_produksi", dataTanaman?.data?.satuanProduksi);
             console.log("satuan produksi = ", dataTanaman.data.satuanProduksi)
             setValue("luas_panen_habis", dataTanaman.data.luasPanenHabis);
             setValue("luas_panen_belum_habis", dataTanaman.data.luasPanenBelumHabis);
