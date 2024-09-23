@@ -12,50 +12,18 @@ import {
 } from "@/components/ui/table"
 import HeaderDash from '@/components/HeaderDash'
 import DashCard from '@/components/DashCard';
+import useSWR, { SWRResponse } from 'swr';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 
-// Dummy data untuk tabel
-const dummyData = [
-    { komoditas: 'Jagung', harga: '34000', satuan: 'Rp/kg', },
-    { komoditas: 'Padi', harga: '34000', satuan: 'Rp/kg', },
-    { komoditas: 'Kedelai', harga: '34000', satuan: 'Rp/kg', },
-    { komoditas: 'Kedelai', harga: '34000', satuan: 'Rp/kg', },
-    { komoditas: 'Cabai', harga: '34000', satuan: 'Rp/kg', },
-];
-
-const dummyPangan = [
-    {
-        komoditas: "Kacang",
-        rataRata: "50.000",
-        maksimum: "55.000",
-        minimum: "45.000",
-        targetCV: "5%",
-        cv: "4.8%"
-    },
-    {
-        komoditas: "Jagung",
-        rataRata: "40.000",
-        maksimum: "45.000",
-        minimum: "35.000",
-        targetCV: "4%",
-        cv: "4.1%"
-    },
-    {
-        komoditas: "Padi",
-        rataRata: "60.000",
-        maksimum: "65.000",
-        minimum: "55.000",
-        targetCV: "3%",
-        cv: "3.2%"
-    },
-    {
-        komoditas: "Wheat",
-        rataRata: "70.000",
-        maksimum: "75.000",
-        minimum: "65.000",
-        targetCV: "6%",
-        cv: "5.9%"
-    }
-];
 
 const DashboardPerkebunan = () => {
     // State untuk menyimpan nilai yang dipilih
@@ -66,49 +34,78 @@ const DashboardPerkebunan = () => {
         setSelectedFilter(filter);
         console.log(filter); // Log nilai yang dipilih ke console
     };
+
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
+
+    // otomatis hitung tahun
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 5;
+    const endYear = currentYear + 1;
+    // const [tahun, setTahun] = React.useState("2024");
+    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
+    // otomatis hitung tahun
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    console.log("filter = ", selectedFilter);
+    const { data: dataPerkebunan }: SWRResponse<any> = useSWR(
+        `/perkebunan/dashboard/get?year=${tahun}&kecamatan=${selectedKecamatan}`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+
     return (
         <div className=''>
             {/* title */}
             <div className="wrap flex md:flex-row flex-col mb-4 justify-between">
                 <div className="md:text-2xl text-xl  font-semibold text-primary uppercase">Dashboard Perkebunan</div>
                 {/* filter */}
-                <div className="text-base md:text-lg  flex gap-4">
-                    <button
-                        className={`${selectedFilter === 'year' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('year')}
-                    >
-                        Year
-                    </button>
-                    <button
-                        className={`${selectedFilter === 'month' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('month')}
-                    >
-                        Month
-                    </button>
-                    <button
-                        className={`${selectedFilter === 'week' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('week')}
-                    >
-                        Week
-                    </button>
-                    <button
-                        className={`${selectedFilter === 'today' ? 'aktif text-primary font-semibold' : 'text-black/70'
-                            }`}
-                        onClick={() => handleFilterClick('today')}
-                    >
-                        Today
-                    </button>
+                <div className="filter flex gap-3 items-center">
+                <div className="w-[110px]">
+                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Tahun">
+                                {tahun ? tahun : "Tahun"}
+                            </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                const year = startYear + index;
+                                return (
+                                    <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                        {year}
+                                    </SelectItem>
+                                );
+                            })}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="w-fit">
+                    <KecamatanSelect
+                        value={selectedKecamatan}
+                        onChange={(value) => {
+                            setSelectedKecamatan(value); // Update state with selected value
+                        }}
+                    />
+                </div>
                 </div>
                 {/* filter */}
             </div>
             {/* title */}
             {/* card */}
             <div className="wrap-card grid md:grid-cols-2 grid-cols-1 gap-3">
-                <DashCard label='Produksi (Ton)' value={43900} />
-                <DashCard label='Produktivitas (Kg/Ha)' value={22414} />
+                <DashCard label='Produksi (Ton)' value={dataPerkebunan?.data?.jumlahProduksi || 0} />
+                <DashCard label='Produktivitas (Kg/Ha)' value={dataPerkebunan?.data?.jumlahProduktivitas || 0} />
             </div>
             {/* card */}
             {/* tabel */}
@@ -126,11 +123,11 @@ const DashboardPerkebunan = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                        {dataPerkebunan?.data?.list[1]?.masterIds?.map((i: number, index: any) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.satuan}</TableCell>
+                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[1][i].komoditas.nama}</TableCell>
+                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[1][i].produksi}</TableCell>
+                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[1][i].produktivitas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -150,11 +147,11 @@ const DashboardPerkebunan = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                        {dataPerkebunan?.data?.list[2]?.masterIds?.map((i: number, index: any) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.satuan}</TableCell>
+                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[2][i].komoditas.nama}</TableCell>
+                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[2][i].produksi}</TableCell>
+                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[2][i].produktivitas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -174,11 +171,11 @@ const DashboardPerkebunan = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                        {dataPerkebunan?.data?.list[3]?.masterIds?.map((i: number, index: any) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
-                                    <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.harga}</TableCell>
-                                    <TableCell className='p-0 py-1'>{data.satuan}</TableCell>
+                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[3][i].komoditas.nama}</TableCell>
+                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[3][i].produksi}</TableCell>
+                                    <TableCell className='p-0 py-1'>{dataPerkebunan?.data?.list[3][i].produktivitas}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

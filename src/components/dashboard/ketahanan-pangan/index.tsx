@@ -12,50 +12,55 @@ import {
 } from "@/components/ui/table"
 import HeaderDash from '@/components/HeaderDash'
 import DashCard from '@/components/DashCard';
+import useSWR, { SWRResponse } from 'swr';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
-// Dummy data untuk tabel
-const dummyData = [
-    { komoditas: 'Jagung', harga: '34000', satuan: 'Rp/kg', },
-    { komoditas: 'Padi', harga: '34000', satuan: 'Rp/kg', },
-    { komoditas: 'Kedelai', harga: '34000', satuan: 'Rp/kg', },
-    { komoditas: 'Kedelai', harga: '34000', satuan: 'Rp/kg', },
-    { komoditas: 'Cabai', harga: '34000', satuan: 'Rp/kg', },
-];
+interface Response {
+    status: number;
+    message: string;
+    data: Data;
+}
 
-const dummyPangan = [
-    {
-        komoditas: "Kacang",
-        rataRata: "50.000",
-        maksimum: "55.000",
-        minimum: "45.000",
-        targetCV: "5%",
-        cv: "4.8%"
-    },
-    {
-        komoditas: "Jagung",
-        rataRata: "40.000",
-        maksimum: "45.000",
-        minimum: "35.000",
-        targetCV: "4%",
-        cv: "4.1%"
-    },
-    {
-        komoditas: "Padi",
-        rataRata: "60.000",
-        maksimum: "65.000",
-        minimum: "55.000",
-        targetCV: "3%",
-        cv: "3.2%"
-    },
-    {
-        komoditas: "Wheat",
-        rataRata: "70.000",
-        maksimum: "75.000",
-        minimum: "65.000",
-        targetCV: "6%",
-        cv: "5.9%"
-    }
-];
+interface Data {
+    kepangProdusenEceran: Kepang[];
+    kepangPedagangEceran: Kepang[];
+    kepangCvProduksi: KepangCvProduksi[];
+    kepangCvProdusen: KepangCvProdusen[];
+    hargaTertinggi: number;
+    hargaTerendah: number;
+}
+
+interface Kepang {
+    komoditas: string;
+    harga: number;
+    satuan?: string; // Optional, since some entries don't have this field
+}
+
+interface KepangCvProduksi {
+    id: number;
+    bulan: string; // ISO date string
+    panen: number;
+    gkpTkPetani: number;
+    gkpTkPenggilingan: number;
+    gkgTkPenggilingan: number;
+    jpk: number;
+    cabaiMerahKeriting: number;
+    berasMedium: number;
+    berasPremium: number;
+    stokGkg: number;
+    stokBeras: number;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+}
+
+interface KepangCvProdusen {
+    komoditas: string;
+    mean: number;
+    max: number;
+    min: number;
+}
+
 
 const DashboardKetahananPangan = () => {
     // State untuk menyimpan nilai yang dipilih
@@ -66,6 +71,25 @@ const DashboardKetahananPangan = () => {
         setSelectedFilter(filter);
         console.log(filter); // Log nilai yang dipilih ke console
     };
+
+    const [accessToken] = useLocalStorage("accessToken", "");
+    const axiosPrivate = useAxiosPrivate();
+
+    console.log("filter = ", selectedFilter);
+
+    const { data: dataKepang }: SWRResponse<Response> = useSWR(
+        `/kepang/dashboard/get`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+
     return (
         <div className=''>
             {/* title */}
@@ -126,7 +150,7 @@ const DashboardKetahananPangan = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {dataKepang?.data.kepangPedagangEceran.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
                                     <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
                                     <TableCell className='p-0 py-1'>{data.harga}</TableCell>
@@ -149,7 +173,7 @@ const DashboardKetahananPangan = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dummyData.map((data, index) => (
+                            {dataKepang?.data.kepangPedagangEceran.map((data, index) => (
                                 <TableRow className='border-none p-0 py-1' key={index}>
                                     <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
                                     <TableCell className='p-0 py-1'>{data.harga}</TableCell>
@@ -170,21 +194,17 @@ const DashboardKetahananPangan = () => {
                         <TableRow className='border-none p-0'>
                             <TableHead className="text-primary p-0">Komoditas</TableHead>
                             <TableHead className="text-primary p-0">Rata-rata</TableHead>
-                            <TableHead className="text-primary p-0 hidden md:table-cell">Maksimum</TableHead>
-                            <TableHead className="text-primary p-0 hidden md:table-cell">Minimum</TableHead>
-                            <TableHead className="text-primary p-0 ">Target CV</TableHead>
-                            <TableHead className="text-primary p-0 ">CV</TableHead>
+                            <TableHead className="text-primary p-0 ">Maksimum</TableHead>
+                            <TableHead className="text-primary p-0 ">Minimum</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {dummyPangan.map((data, index) => (
+                    {dataKepang?.data.kepangCvProdusen.map((data, index) => (
                             <TableRow className='border-none p-0 py-1' key={index}>
                                 <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.rataRata}</TableCell>
-                                <TableCell className='p-0 py-1 hidden md:table-cell'>{data.maksimum}</TableCell>
-                                <TableCell className='p-0 py-1 hidden md:table-cell'>{data.minimum}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.targetCV}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.cv}</TableCell>
+                                <TableCell className='p-0 py-1'>{data.mean}</TableCell>
+                                <TableCell className='p-0 py-1 '>{data.max}</TableCell>
+                                <TableCell className='p-0 py-1 '>{data.min}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -197,26 +217,48 @@ const DashboardKetahananPangan = () => {
                 {/* table */}
                 {/* table */}
                 <Table className='mt-1'>
-                    <TableHeader className='rounded-md p-0'>
-                        <TableRow className='border-none p-0'>
-                            <TableHead className="text-primary p-0">Komoditas</TableHead>
-                            <TableHead className="text-primary p-0">Rata-rata</TableHead>
-                            <TableHead className="text-primary p-0 hidden md:table-cell">Maksimum</TableHead>
-                            <TableHead className="text-primary p-0 hidden md:table-cell">Minimum</TableHead>
-                            <TableHead className="text-primary p-0 ">Target CV</TableHead>
-                            <TableHead className="text-primary p-0 ">CV</TableHead>
+                    <TableHeader className='rounded-md p-2'>
+                        <TableRow className='border-none p-2'>
+                            <TableHead className="text-primary p-2">Bulan</TableHead>
+                            <TableHead className="text-primary p-2">Panen</TableHead>
+                            <TableHead className="text-primary p-2 ">GKP Tk. Petani</TableHead>
+                            <TableHead className="text-primary p-2 ">GKP Tk. Penggilingan</TableHead>
+                            <TableHead className="text-primary p-2 ">GKG Tk. Penggilingan</TableHead>
+                            <TableHead className="text-primary p-2 ">
+                            JPK
+                            </TableHead>
+                            <TableHead className="text-primary p-2 ">
+                            Cabai Merah Keriting
+                            </TableHead>
+                            <TableHead className="text-primary p-2 ">
+                            Beras Medium
+                            </TableHead>
+                            <TableHead className="text-primary p-2 ">
+                            Beras Premium
+                            </TableHead>
+                            <TableHead className="text-primary p-2 ">
+                            Stok GKG
+                            </TableHead>
+                            <TableHead className="text-primary p-2 ">
+                            Stok Beras
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {dummyPangan.map((data, index) => (
-                            <TableRow className='border-none p-0 py-1' key={index}>
-                                <TableCell className='p-0 py-1'>{data.komoditas}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.rataRata}</TableCell>
-                                <TableCell className='p-0 py-1 hidden md:table-cell'>{data.maksimum}</TableCell>
-                                <TableCell className='p-0 py-1 hidden md:table-cell'>{data.minimum}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.targetCV}</TableCell>
-                                <TableCell className='p-0 py-1'>{data.cv}</TableCell>
-                            </TableRow>
+                    {dataKepang?.data.kepangCvProduksi.map((data, index) => (
+                            <TableRow className='border-none p-2 py-1' key={index}>
+                            <TableCell className='p-2 py-1'>{data.bulan}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.panen}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.gkpTkPetani}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.gkpTkPenggilingan}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.gkgTkPenggilingan}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.jpk}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.cabaiMerahKeriting}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.berasMedium}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.berasPremium}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.stokGkg}</TableCell>
+                            <TableCell className='p-2 py-1'>{data.stokBeras}</TableCell>
+                        </TableRow>
                         ))}
                     </TableBody>
 
