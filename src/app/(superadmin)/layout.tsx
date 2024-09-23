@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Dashboard from "../../../public/icons/Dashboard";
-
 import {
 	Accordion,
 	AccordionContent,
@@ -18,6 +17,7 @@ import LogoutDashboard from "../../../public/icons/Logout";
 import { Badge } from "@/components/ui/badge";
 import ComponentWithAccess from "@/components/auth/componentWithAccess";
 import { PERMISSIONS } from "@/utils/permissions";
+import Swal from 'sweetalert2';
 
 interface LayoutAdminProps {
 	children: React.ReactNode;
@@ -57,6 +57,25 @@ interface LayProps {
 }
 
 const LayoutAdmin = (props: LayoutAdminProps) => {
+	const router = useRouter();
+
+	const handleLogout = () => {
+		// Menghapus semua item di localStorage
+		localStorage.clear();
+	
+		// Tampilkan pop-up sukses tanpa tombol OK, otomatis menghilang setelah 2 detik
+		Swal.fire({
+		  title: 'Logout Berhasil',
+		  text: 'Anda akan diarahkan ke halaman login.',
+		  icon: 'success',
+		  timer: 2000,  // Pop-up akan otomatis tertutup setelah 2 detik
+		  timerProgressBar: true,  // Menampilkan progress bar waktu
+		  showConfirmButton: false,  // Tidak menampilkan tombol OK
+		}).then(() => {
+		  // Arahkan ke halaman login setelah pop-up ditutup otomatis
+		  router.push('/login');
+		});
+	  };
 	const [navbar, setNavbar] = useState(false);
 
 	const pathname = usePathname();
@@ -626,35 +645,35 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 										...PERMISSIONS.pengguna,
 									]}
 								>
-								<AccordionItem className="pl-2" value="item-7">
-									<AccordionTrigger
-										className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith(
-											"/peran-pengguna"
-										)
-											? "bg-primary text-white"
-											: "bg-transparent text-primary"
-											}`}
-									>
-										Peran Pengguna
-									</AccordionTrigger>
-									<AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-										<Menu link="/peran-pengguna/overview">
-											<span className="text-sm">
-												Overview
-											</span>
-										</Menu>
-										<Menu link="/peran-pengguna/peran">
-											<span className="text-sm">
-												Peran
-											</span>
-										</Menu>
-										<Menu link="/peran-pengguna/pengguna">
-											<span className="text-sm">
-												Pengguna
-											</span>
-										</Menu>
-									</AccordionContent>
-								</AccordionItem>
+									<AccordionItem className="pl-2" value="item-7">
+										<AccordionTrigger
+											className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith(
+												"/peran-pengguna"
+											)
+												? "bg-primary text-white"
+												: "bg-transparent text-primary"
+												}`}
+										>
+											Peran Pengguna
+										</AccordionTrigger>
+										<AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+											<Menu link="/peran-pengguna/overview">
+												<span className="text-sm">
+													Overview
+												</span>
+											</Menu>
+											<Menu link="/peran-pengguna/peran">
+												<span className="text-sm">
+													Peran
+												</span>
+											</Menu>
+											<Menu link="/peran-pengguna/pengguna">
+												<span className="text-sm">
+													Pengguna
+												</span>
+											</Menu>
+										</AccordionContent>
+									</AccordionItem>
 								</ComponentWithAccess>
 								{/*peran-pengguna */}
 								{/* Status Laporan */}
@@ -670,13 +689,13 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 								</Link>
 								{/*status laporan */}
 							</Accordion>
-							<Link
-								href="/"
-								className="nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] text-primary hover:text-white bg-transparent hover:bg-primary ease-in duration-300 mt-1"
+							<button
+								onClick={handleLogout}
+								className="nav flex pr-4 w-[95%] text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] text-primary hover:text-white bg-transparent hover:bg-primary ease-in duration-150 mt-1"
 							>
 								<LogoutDashboard />
 								Logout
-							</Link>
+							</button>
 						</div>
 					</div>
 				</div>

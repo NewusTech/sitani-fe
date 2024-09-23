@@ -135,10 +135,10 @@ const Login = () => {
 				<div className="hidden lg:block">
 					<Image
 						src="/assets/images/bg-login.png"
-						width={300}
-						height={300}
+						width={800}
+						height={800}
 						alt="SITANI | Sistem Informasi Data Pertanian Lampung Timur"
-						className="h-screen w-full"
+						className="h-screen w-full object-cover"
 					/>
 				</div>
 
