@@ -249,7 +249,7 @@ const KorlubTanamanHias = () => {
             {/* top */}
             <div className="header flex gap-2 justify-end items-center mt-4">
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
+                    {/* <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
                         <UnduhIcon />
                         <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                             Download
@@ -260,7 +260,7 @@ const KorlubTanamanHias = () => {
                         <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
                             Print
                         </div>
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
             {/* top */}

@@ -92,6 +92,7 @@ import PaginationTable from '@/components/PaginationTable'
 import TambahIcon from '../../../../../public/icons/TambahIcon'
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan'
 import FilterTable from '@/components/FilterTable'
+import PerkebunanKecamatanPrint from '@/components/Print/Perkebunan/Kecamatan'
 
 
 const LuasKecPage = () => {
@@ -311,20 +312,11 @@ const LuasKecPage = () => {
                                 />
                             </div>
                         </div>
-                        <div className="btn flex gap-2">
-                            <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                                <UnduhIcon />
-                                <div className="hidden md:block">
-                                    Download
-                                </div>
-                            </Button>
-                            <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                                <PrintIcon />
-                                <div className="hidden md:block">
-                                    Print
-                                </div>
-                            </Button>
-                        </div>
+                        <PerkebunanKecamatanPrint
+                            urlApi={`/perkebunan/kecamatan/get?page=${currentPage}&year=${tahun}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                            kecamatan={selectedKecamatan}
+                            tahun={tahun}
+                        />
                     </div>
                     {/*  */}
                     <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2">

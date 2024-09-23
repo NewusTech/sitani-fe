@@ -59,6 +59,7 @@ import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecam
 import VerifikasiPopup from '@/components/superadmin/PopupVerifikasi';
 import TolakPopup from '@/components/superadmin/TolakVerifikasi';
 import KecamatanSelectNo from '@/components/superadmin/SelectComponent/SelectKecamatanNo';
+import KecamatanKorluhSayurBuahPrint from '@/components/Print/BPPKecamatan/SayurBuah';
 
 const KorlubSayuranBuah = () => {
     // INTEGRASI
@@ -247,18 +248,12 @@ const KorlubSayuranBuah = () => {
             {/* top */}
             <div className="header flex gap-2 justify-end items-center mt-4">
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                        <UnduhIcon />
-                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                        <PrintIcon />
-                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
-                            Print
-                        </div>
-                    </Button>
+                    <KecamatanKorluhSayurBuahPrint
+                        urlApi={`/validasi/korluh-sayur-buah/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`}
+                        kecamatan={selectedKecamatan}
+                        bulan={bulan}
+                        tahun={tahun}
+                    />
                 </div>
             </div>
             {/* top */}

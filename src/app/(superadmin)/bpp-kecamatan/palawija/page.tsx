@@ -55,6 +55,7 @@ import Swal from 'sweetalert2';
 import KecamatanSelectNo from '@/components/superadmin/SelectComponent/SelectKecamatanNo';
 import VerifikasiPopup from '@/components/superadmin/PopupVerifikasi';
 import TolakPopup from '@/components/superadmin/TolakVerifikasi';
+import KecamatanKorluhPalawijaPrint from '@/components/Print/BPPKecamatan/Palawija';
 
 
 const KorluPalawija = () => {
@@ -243,21 +244,15 @@ const KorluPalawija = () => {
             <div className="text-2xl mb-5 font-semibold text-primary uppercase">BPP Kecamatan Palawija</div>
             {/* title */}
 
-           {/* top */}
-           <div className="header flex gap-2 justify-end items-center mt-4">
+            {/* top */}
+            <div className="header flex gap-2 justify-end items-center mt-4">
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                        <UnduhIcon />
-                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
-                            Download
-                        </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                        <PrintIcon />
-                        <div className="hidden md:block transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
-                            Print
-                        </div>
-                    </Button>
+                    <KecamatanKorluhPalawijaPrint
+                        urlApi={`/validasi/korluh-palawija/kec?kecamatan=${selectedKecamatan}&bulan=${tahun}/${bulan}`}
+                        kecamatan={selectedKecamatan}
+                        bulan={bulan}
+                        tahun={tahun}
+                    />
                 </div>
             </div>
             {/* top */}

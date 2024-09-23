@@ -2,7 +2,54 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+
+// Filter di mobile
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale'; // Import Indonesian locale
+import Label from '@/components/ui/label'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { DropdownMenuCheckboxItem } from '@radix-ui/react-dropdown-menu'
+import {
+    Cloud,
+    CreditCard,
+    Github,
+    Keyboard,
+    LifeBuoy,
+    LogOut,
+    Mail,
+    MessageSquare,
+    Plus,
+    PlusCircle,
+    Settings,
+    User,
+    UserPlus,
+    Users,
+    Filter,
+} from "lucide-react"
+// Filter di mobile
+
+import React, { useEffect, useState } from 'react'
 import PrintIcon from '../../../../../public/icons/PrintIcon'
 import FilterIcon from '../../../../../public/icons/FilterIcon'
 import SearchIcon from '../../../../../public/icons/SearchIcon'
@@ -26,7 +73,6 @@ import {
 } from "@/components/ui/table"
 import Link from 'next/link'
 
-import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
@@ -41,6 +87,7 @@ import DeletePopup from '@/components/superadmin/PopupDelete'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useSWR, { SWRResponse } from 'swr'
+import PerkebunanKabupatenPrint from '@/components/Print/Perkebunan/Kabupaten';
 
 const LuasKabPage = () => {
     const [startDate, setstartDate] = React.useState<Date>()
@@ -69,110 +116,243 @@ const LuasKabPage = () => {
     // if (error) return <div>Error loading data...</div>;
     if (!dataProduksiKab) return <div>Loading...</div>;
 
+    // Filter table
+    // const columns = [
+    //     { label: "No", key: "no" },
+    //     { label: "Komoditi", key: "komoditi" },
+    //     { label: "Komposisi Luas Areal", key: "komposisi" },
+    //     { label: "Jumlah", key: "jumlah" },
+    //     { label: "Produksi (Ton)", key: "produksi" },
+    //     { label: "Produktivitas Kg/Ha", key: "produktivitas" },
+    //     { label: "Jml. Petani Pekebun (KK)", key: "jumlahPetani" },
+    //     { label: "Bentuk Hasil	", key: "bentukHasil" },
+    //     { label: "Keterangan", key: "keterangan" },
+    //     { label: "Aksi", key: "aksi" },
+
+    // ];
+
+    // const getDefaultCheckedKeys = () => {
+    //     if (typeof window !== 'undefined') {
+    //         if (window.innerWidth <= 768) {
+    //             return ["no", "komoditi", "aksi"];
+    //         } else {
+    //             return ["no", "komoditi", "komposisi", "jumlah", "produksi", "produktivitas", "jumlahPetani", "bentukHasil", "keterangan", "aksi"];
+    //         }
+    //     }
+    //     return [];
+    // };
+
+    // const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+    // const [isClient, setIsClient] = useState(false);
+
+    // useEffect(() => {
+    //     setIsClient(true);
+    //     setVisibleColumns(getDefaultCheckedKeys());
+    //     // const handleResize = () => {
+    //     //     setVisibleColumns(getDefaultCheckedKeys());
+    //     // };
+    //     // window.addEventListener('resize', handleResize);
+    //     // return () => window.removeEventListener('resize', handleResize);
+    // }, []);
+
+    // if (!isClient) {
+    //     return null;
+    // }
+
+    // const handleFilterChange = (key: string, checked: boolean) => {
+    //     setVisibleColumns(prev =>
+    //         checked ? [...prev, key] : prev.filter(col => col !== key)
+    //     );
+    // };
+    // Filter Table
+
     return (
         <div>
             {/* title */}
             <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Luas Areal dan Produksi Perkebunan Rakyat ( Kabupaten )</div>
             {/* title */}
-            {/* top */}
-            <div className="header flex gap-2 justify-between items-center mt-4">
-                <div className="search md:w-[50%]">
-                    <Input
-                        type="text"
-                        placeholder="Cari"
-                        rightIcon={<SearchIcon />}
-                        className='border-primary py-2'
-                    />
-                </div>
-                <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                        <UnduhIcon />
-                        <div className="hidden md:block">
-                            Download
+
+            {/* Dekstop */}
+            <div className="hidden md:block">
+                <>
+                    {/* top */}
+                    <div className="header flex gap-2 justify-between items-center mt-4">
+                        <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
+                            {/* filter kolom */}
+                            {/* <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            /> */}
+                            {/* filter kolom */}
+
+                            <div className="w-fit">
+                                {/* <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Tahun">
+                                            {tahun ? tahun : "Tahun"}
+                                        </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem className='text-xs' key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
+                                    </SelectContent>
+                                </Select> */}
+                            </div>
+                            <div className="w-fit">
+                                {/* <KecamatanSelect
+                                    value={selectedKecamatan}
+                                    onChange={(value) => {
+                                        setSelectedKecamatan(value); // Update state with selected value
+                                    }}
+                                /> */}
+                            </div>
                         </div>
-                    </Button>
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary'>
-                        <PrintIcon />
-                        <div className="hidden md:block">
-                            Print
+                        <div className="btn flex gap-2">
+                            <PerkebunanKabupatenPrint
+                                urlApi={`/kepang/produsen-eceran/get`}
+                            />
                         </div>
-                    </Button>
-                </div>
+                    </div>
+                    {/*  */}
+                    {/* <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2">
+                        <div className="keterangan flex gap-2">
+                            <div className="nama font-semibold">
+                                <div className="">
+                                    Kecamatan
+                                </div>
+                                <div className="">
+                                    Tahun
+                                </div>
+                            </div>
+                            <div className="font-semibold">
+                                <div className="">:</div>
+                                <div className="">:</div>
+                            </div>
+                            <div className="bulan">
+                                {dataProduksi?.data?.data.map((item: any, index: any) => (
+                                    <div key={index}>
+                                        {item?.kecamatan || "Tidak ada data"}
+                                    </div>
+                                ))}
+                                {dataProduksi?.data?.data.map((item: any, index: any) => (
+                                    <div key={index}>
+                                        {item?.tahun || "Tidak ada data"}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
+
+                            <Link href="/perkebunan/luas-produksi-kecamatan/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
+                                Tambah Data
+                            </Link>
+                        </div>
+                    </div> */}
+                    {/* top */}
+
+                </>
             </div>
-            {/*  */}
-            <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
-                <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !startDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {startDate ? format(startDate, "PPP") : <span>Tanggal Awal</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar className=''
-                                    mode="single"
-                                    selected={startDate}
-                                    onSelect={setstartDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
+            {/* Dekstop */}
+
+            {/* Mobile */}
+            <div className="md:hidden">
+                <>
+                    {/* Handle filter menu*/}
+                    <div className="flex justify-between w-full">
+                        <div className="flex justify-start w-fit gap-2">
+                            {/* More Menu */}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    {/* <Button
+                                        variant="outlinePrimary"
+                                        className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
+                                    >
+                                        <Filter className="text-primary w-5 h-5" />
+                                    </Button> */}
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                    <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                        Menu Filter
+                                    </DropdownMenuLabel>
+                                    {/* <hr className="border border-primary transition-all ease-in-out animate-pulse ml-2 mr-2" /> */}
+                                    <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                    <div className="bg-white w-full h-full">
+                                        <div className="flex flex-col w-full px-2 py-2">
+                                            {/* Filter Kecamatan */}
+                                            <div className="w-full mb-2">
+                                                {/* <KecamatanSelect
+                                                    value={selectedKecamatan}
+                                                    onChange={(value) => {
+                                                        setSelectedKecamatan(value); // Update state with selected value
+                                                    }}
+                                                /> */}
+                                            </div>
+                                            {/* Filter Kecamatan */}
+
+                                            {/* Filter Desa */}
+                                            {/* Filter Desa */}
+
+                                            {/* Filter Rentang Tanggal */}
+                                            {/* Filter Rentang Tanggal */}
+
+                                            {/* Filter Tahun Bulan */}
+
+                                            {/* Filter Tahun Bulan */}
+
+                                        </div>
+                                    </div>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            {/* More Menu */}
+
+                            {/* filter kolom */}
+                            {/* <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            /> */}
+                            {/* filter kolom */}
+
+                            {/* unduh print */}
+                            <PerkebunanKabupatenPrint
+                                urlApi={`/kepang/produsen-eceran/get`}
+                            />
+                            {/* unduh print */}
+                        </div>
+
+                        {/* Tambah Data */}
+                        <div className="flex justify-end items-center w-fit">
+
+                        </div>
+                        {/* Tambah Data */}
                     </div>
-                    <div className="">-</div>
-                    <div className="w-auto">
-                        <Popover>
-                            <PopoverTrigger className='lg:py-4 lg:px-4 px-2' asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal text-[11px] lg:text-sm",
-                                        !endDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                    {endDate ? format(endDate, "PPP") : <span>Tanggal Akhir</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={endDate}
-                                    onSelect={setendDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
+
+                    {/* Hendle Search */}
+                    <div className="mt-2 search w-full">
+                        {/* <Input
+                            autoFocus
+                            type="text"
+                            placeholder="Cari"
+                            value={search}
+                            onChange={handleSearchChange}
+                            rightIcon={<SearchIcon />}
+                            className='border-primary py-2 text-xs'
+                        /> */}
                     </div>
-                    <div className="w-[40px] h-[40px]">
-                        <Button variant="outlinePrimary" className=''>
-                            <FilterIcon />
-                        </Button>
-                    </div>
-                </div>
-                <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                    <div className="w-[350px]">
-                        <Select >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Pilih Kecamatan" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="select1">Select1</SelectItem>
-                                <SelectItem value="select2">Select2</SelectItem>
-                                <SelectItem value="select3">Select3</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                </div>
+                    {/* Hendle Search */}
+
+                </>
             </div>
-            {/* top */}
+            {/* Mobile */}
 
             {/* table */}
             <div className="">
@@ -601,7 +781,7 @@ const LuasKabPage = () => {
                             <TableRow >
                                 <TableCell className="border border-slate-200"></TableCell>
                                 <TableCell className="border font-semibold border-slate-200 text-center">
-                                TOTAL I + II + III
+                                    TOTAL I + II + III
                                 </TableCell>
                                 {/* ATAP */}
                                 <TableCell className="border font-semibold border-slate-200 text-center" >
