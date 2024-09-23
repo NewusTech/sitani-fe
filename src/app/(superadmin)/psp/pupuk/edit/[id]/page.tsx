@@ -42,8 +42,7 @@ const OPTIONS: Option[] = [
 
 const formSchema = z.object({
     tahun: z
-        .number()
-        .min(0, { message: "Tahun wajib diisi" }),
+        .preprocess((val) => (val !== '' ? Number(val) : undefined), z.number().min(0, { message: "Tahun wajib diisi" }).optional()),
     jenis_pupuk: z
         .string()
         .min(1, { message: "Jenis Pupuk wajib diisi" }),
@@ -55,6 +54,7 @@ const formSchema = z.object({
     harga_pupuk: z
         .preprocess((val) => Number(val), z.number().min(1, { message: "Harga pupuk wajib diisi" })),
 });
+
 
 type FormSchemaType = z.infer<typeof formSchema>;
 

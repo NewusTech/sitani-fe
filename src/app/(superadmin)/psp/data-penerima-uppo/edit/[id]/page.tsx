@@ -28,8 +28,7 @@ const formSchema = z.object({
         .transform((value) => Number(value))
         .optional(),
     tahun: z
-        .number()
-        .min(0, { message: "Tahun wajib diisi" }),
+        .preprocess((val) => (val !== '' ? Number(val) : undefined), z.number().min(0, { message: "Tahun wajib diisi" }).optional()),
     nama_poktan: z.string().min(1, { message: "Nama Poktan wajib diisi" }).optional(),
     ketua_poktan: z.string().min(1, { message: "Nama Ketua wajib diisi" }).optional(),
     titik_koordinat: z.string().min(1, { message: "Titik Koordinat wajib diisi" }).optional(),
