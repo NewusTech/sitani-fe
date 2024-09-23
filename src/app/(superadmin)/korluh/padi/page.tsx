@@ -38,6 +38,8 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import PaginationTable from '@/components/PaginationTable';
 import KorluhPadiMobileComp from '@/components/KorluhMobile/koruhPadiMobile';
 import Swal from 'sweetalert2';
+import ComponentWithAccess from '@/components/auth/componentWithAccess';
+import { PERMISSIONS } from '@/utils/permissions';
 
 
 
@@ -282,9 +284,14 @@ const KorlubPadi = () => {
                             </SelectContent>
                         </Select>
                     </div> */}
+                    <ComponentWithAccess allowPermissions={[
+                        PERMISSIONS.semua,
+                        PERMISSIONS.korluhPadi[0]
+                    ]}>
                     <Link href="/korluh/padi/tambah" className='bg-primary px-3 md:px-8 py-2 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-base mb-3'>
                         Tambah
                     </Link>
+                    </ComponentWithAccess>
                 </div>
             </div>
             {/* top */}
