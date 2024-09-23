@@ -156,7 +156,7 @@ const TPHPadi = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/tph-realisasi-palawija-1?kecamatan=${props.kecamatan}&year=${props.tahun}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/tph-realisasi-padi?year=${props.tahun}`;
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -173,7 +173,7 @@ const TPHPadi = (props: PrintProps) => {
             const downloadUrl = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.setAttribute('download', `Data Tanaman Pangan Holtikultura Palawija 1 Kabupaten Lampung Timur.xlsx`); // Nama file yang diunduh
+            link.setAttribute('download', `Data Tanaman Pangan Holtikultura Padi Kabupaten Lampung Timur.xlsx`); // Nama file yang diunduh
             document.body.appendChild(link);
             link.click();
             link.parentNode?.removeChild(link); // Hapus elemen setelah di-click
@@ -213,7 +213,7 @@ const TPHPadi = (props: PrintProps) => {
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`Data Tanaman Pangan Holtikultura Palawija 1 Kabupaten Lampung Timur.pdf`);
+                pdf.save(`Data Tanaman Pangan Holtikultura Padi Kabupaten Lampung Timur.pdf`);
 
                 // Notifikasi Swal sukses
                 Swal.fire({

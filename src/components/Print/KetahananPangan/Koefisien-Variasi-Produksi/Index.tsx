@@ -105,7 +105,7 @@ const KoefisienVariasiProduksiPrint = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepang-cv-produsen?year==${props.tahun}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepang-cv-produksi?year==${props.tahun}`;
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -122,7 +122,7 @@ const KoefisienVariasiProduksiPrint = (props: PrintProps) => {
             const downloadUrl = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.setAttribute('download', `Data Coefesien Variansi (CV) Tk. Produsen
+            link.setAttribute('download', `Data Coefesien Variansi (CV) Tk. Produksi
 .xlsx`); // Nama file yang diunduh
             document.body.appendChild(link);
             link.click();

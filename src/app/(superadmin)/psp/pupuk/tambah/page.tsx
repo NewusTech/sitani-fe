@@ -39,6 +39,9 @@ const OPTIONS: Option[] = [
 ];
 
 const formSchema = z.object({
+    tahun: z
+        .string()
+        .min(0, { message: "Tahun wajib diisi" }),
     jenis_pupuk: z
         .string(),
     kandungan_pupuk: z
@@ -134,6 +137,22 @@ const PupukTambah = () => {
             <div className="text-primary text-2xl font-bold mb-5">Tambah Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
+                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                        <div className="flex flex-col mb-2 w-full">
+                            <Label className='text-sm mb-1' label="Tahun" />
+                            <Input
+                                autoFocus
+                                type="number"
+                                step="0.000001"
+                                placeholder="Tahun"
+                                {...register('tahun')}
+                                className={`${errors.tahun ? 'border-red-500' : 'py-5 text-sm'}`}
+                            />
+                            {errors.tahun && (
+                                <HelperError>{errors.tahun.message}</HelperError>
+                            )}
+                        </div>
+                    </div>
                     <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Jenis Pupuk" />

@@ -241,7 +241,7 @@ const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
     return (
         <div className="">
             <div className="btn flex gap-2">
-                <DropdownMenu>
+                {/* <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button onClick={handleDownloadPDF} variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                             <UnduhIcon />
@@ -265,7 +265,7 @@ const KepegawaianDataPegawaiPrint = (props: PrintProps) => {
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
-                </DropdownMenu>
+                </DropdownMenu> */}
                 <Button onClick={handlePrint} variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                     <PrintIcon />
                     <div className="hidden md:block">

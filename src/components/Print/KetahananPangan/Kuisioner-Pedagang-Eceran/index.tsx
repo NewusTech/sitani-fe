@@ -39,6 +39,7 @@ interface PrintProps {
     startDate?: string;
     endDate?: string;
     kecamatan?: string;
+    tahun?: number
 }
 
 const KuisionerPedagangEceranPrint = (props: PrintProps) => {
@@ -161,7 +162,7 @@ const KuisionerPedagangEceranPrint = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/psp-pupuk?kecamatan=${props.kecamatan}&startDate=${props.startDate}&endDate=${props.endDate}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepang-pedagang-eceran?year=${props.tahun}`;
 
         try {
             const response = await fetch(url, {
