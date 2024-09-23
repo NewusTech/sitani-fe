@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { axiosInstance } from "@/utils/axios";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { PERMISSIONS } from "@/utils/permissions";
 
 const formSchema = z.object({
 	email: z
@@ -89,7 +90,100 @@ const Login = () => {
 					backdrop: `rgba(0, 0, 0, 0.4)`,
 				});
 				// alert
-				router.push("/dashboard"); // Ganti dengan rute tujuan setelah login
+				const temp = response?.data?.data?.permissions;
+				if (Array.isArray(temp)) {
+					if (temp.includes(PERMISSIONS.semua)) {
+						router.push("/dashboard"); // Ganti dengan rute tujuan setelah login
+					} else {
+						for (let i of temp) {
+							if (
+								[
+									...PERMISSIONS.kepangHargaProdusen,
+									...PERMISSIONS.kepangKoefisienProduksi,
+									...PERMISSIONS.kepangKoefisienProdusen,
+									...PERMISSIONS.kepangKuisioner,
+									...PERMISSIONS.kepangPerbandingaKomoditas,
+								].includes(i)
+							) {
+								router.push("/ketahanan-pangan/overview");
+							} else if (
+								[
+									...PERMISSIONS.thpLahanBukanSawah,
+									...PERMISSIONS.thpLahanSawah,
+									...PERMISSIONS.thpRealisasiPadi,
+									...PERMISSIONS.thpRealisasiPalawija1,
+									...PERMISSIONS.thpRealisasiPalawija2,
+								].includes(i)
+							) {
+								router.push(
+									"/tanaman-pangan-holtikutura/overview"
+								);
+							} else if (
+								[
+									...PERMISSIONS.perkebunanKabupaten,
+									...PERMISSIONS.perkebunanKecamatan,
+								].includes(i)
+							) {
+								router.push("/perkebunan/overview");
+							} else if (
+								[
+									...PERMISSIONS.penyuluhKabupaten,
+									...PERMISSIONS.penyuluhKecamatan,
+								].includes(i)
+							) {
+								router.push("/penyuluhan/overview");
+							} else if (
+								[
+									...PERMISSIONS.pspBantuan,
+									...PERMISSIONS.pspPupuk,
+									...PERMISSIONS.pspUPPO,
+								].includes(i)
+							) {
+								router.push("/psp/overview");
+							} else if (
+								[...PERMISSIONS.kepegawaian].includes(i)
+							) {
+								router.push("/kepegawaian/overview");
+							} else if (
+								[
+									...PERMISSIONS.kabupatenPadi,
+									...PERMISSIONS.kabupatenPalawija,
+									...PERMISSIONS.kabupatenSayurBuah,
+									...PERMISSIONS.kabupatenTanamanBiofarmaka,
+									...PERMISSIONS.kabupatenTanamanHias,
+								].includes(i)
+							) {
+								router.push("/kjf-kabupaten/overview");
+							} else if (
+								[
+									...PERMISSIONS.kecamatanPadi,
+									...PERMISSIONS.kecamatanPalawija,
+									...PERMISSIONS.kecamatanSayurBuah,
+									...PERMISSIONS.kecamatanTanamanBiofarmaka,
+									...PERMISSIONS.kecamatanTanamanHias,
+								].includes(i)
+							) {
+								router.push("/bpp-kecamatan/overview");
+							} else if (
+								[
+									...PERMISSIONS.korluhPadi,
+									...PERMISSIONS.korluhPalawija,
+									...PERMISSIONS.korluhSayurBuah,
+									...PERMISSIONS.korluhTanamanBiofarmaka,
+									...PERMISSIONS.korluhTanamanHias,
+								].includes(i)
+							) {
+								router.push("/korluh/overview");
+							} else if (PERMISSIONS.masterBerita.includes(i)) {
+								router.push("/data-master/kelola-berita");
+							} else if (PERMISSIONS.masterGaleri.includes(i)) {
+								router.push("/data-master/kelola-galeri");
+							} else if (PERMISSIONS.pengguna.includes(i)) {
+								router.push("/peran-pengguna/pengguna");
+							}
+						}
+					}
+				}
 			} else {
 				setAccessToken("");
 				setPermissions("");
@@ -98,26 +192,28 @@ const Login = () => {
 					response?.data?.message || "Login gagal. Silakan coba lagi."
 				);
 			}
-		} catch (error:any) {
+		} catch (error: any) {
 			setAccessToken("");
 			setPermissions("");
 			setUser("");
 			// router.push("/dashboard");
 			// alert
 			// Extract error message from API response
-			const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menambahkan data!';
+			const errorMessage =
+				error.response?.data?.data?.[0]?.message ||
+				"Gagal menambahkan data!";
 			Swal.fire({
-				icon: 'error',
-				title: 'Terjadi kesalahan!',
+				icon: "error",
+				title: "Terjadi kesalahan!",
 				text: errorMessage,
 				showConfirmButton: true,
-				showClass: { popup: 'animate__animated animate__fadeInDown' },
-				hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+				showClass: { popup: "animate__animated animate__fadeInDown" },
+				hideClass: { popup: "animate__animated animate__fadeOutUp" },
 				customClass: {
-					title: 'text-2xl font-semibold text-red-600',
-					icon: 'text-red-500 animate-bounce',
+					title: "text-2xl font-semibold text-red-600",
+					icon: "text-red-500 animate-bounce",
 				},
-				backdrop: 'rgba(0, 0, 0, 0.4)',
+				backdrop: "rgba(0, 0, 0, 0.4)",
 			});
 			console.error("Failed to create user:", error);
 			// alert
@@ -184,8 +280,9 @@ const Login = () => {
 									type="email"
 									placeholder="Email / NIP"
 									{...register("email")}
-									className={`${errors.email ? "border-red-500" : ""
-										}`}
+									className={`${
+										errors.email ? "border-red-500" : ""
+									}`}
 								/>
 								{errors.email && (
 									<HelperError>
@@ -203,8 +300,9 @@ const Login = () => {
 									type="password"
 									placeholder="Kata Sandi"
 									{...register("password")}
-									className={`${errors.password ? "border-red-500" : ""
-										}`}
+									className={`${
+										errors.password ? "border-red-500" : ""
+									}`}
 								/>
 								{errors.password && (
 									<HelperError>

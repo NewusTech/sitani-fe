@@ -21,24 +21,18 @@ const ComponentWithAccess: React.FC<IComponentWithAccess> = ({
 	const router = useRouter();
 
 	useEffect(() => {
-		let action = true;
-		let count = 0;
 		if (Array.isArray(allowPermissions) && Array.isArray(permissions)) {
-			for (let i of allowPermissions) {
-				if (permissions?.includes(i)) {
-					setAccess(true);
-					action = false;
-					break;
+			const temp = allowPermissions.some((i) => permissions.includes(i));
+			setAccess(temp);
+			if (!temp) {
+				if (toLogin) {
+					router.push("/login");
+				} else if (toBack) {
+					router.back();
 				}
-				count++;
 			}
-		}
-		if (action && count === allowPermissions.length) {
-			if (toLogin) {
-				router.push("/login");
-			} else if (toBack) {
-				router.back();
-			}
+		} else {
+			router.push("/login");
 		}
 	}, [permissions, router, allowPermissions, toBack, toLogin]);
 
