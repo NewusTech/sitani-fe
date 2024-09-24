@@ -239,14 +239,14 @@ const KJFPalawija = () => {
     };
     const validationText = getValidationText(dataPalawija?.data?.validasiKabupaten);
     // validasi
-    
+
     return (
         <div>
             {/* title */}
             <div className="text-2xl mb-5 font-semibold text-primary uppercase">KJF Kabupaten Palawija</div>
             {/* title */}
 
-             {/* top */}
+            {/* top */}
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
@@ -306,7 +306,7 @@ const KJFPalawija = () => {
                     </div> */}
                 </div>
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    {/* <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <UnduhIcon />
                         <div className="hidden md:block">
                             Download
@@ -317,7 +317,7 @@ const KJFPalawija = () => {
                         <div className="hidden md:block">
                             Print
                         </div>
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
             {/* top */}
@@ -344,8 +344,8 @@ const KJFPalawija = () => {
                     <div className="">:</div>
                 </div>
                 <div className="bulan">
-                    <div className="">{monthName  ?? "-"} {dataPalawija?.data?.tahun ?? "-"}</div>
-                    <div className="capitalize">{validationText  ?? "-"}</div>
+                    <div className="">{monthName ?? "-"} {dataPalawija?.data?.tahun ?? "-"}</div>
+                    <div className="capitalize">{validationText ?? "-"}</div>
                     <div className="flex gap-3">
                         <VerifikasiKab
                             bulan={`${dataPalawija?.data?.tahun}/${dataPalawija?.data?.bulan}`}

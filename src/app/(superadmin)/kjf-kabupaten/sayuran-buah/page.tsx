@@ -91,155 +91,155 @@ const KJFSayuranBuah = () => {
     const [bulan, setBulan] = React.useState(`${previousMonth}`);
     // filter tahun bulan
 
-        // GETALL
-        const { data: dataSayuran }: SWRResponse<any> = useSWR(
-            // `korluh/padi/get?limit=1`,
-            `/validasi/korluh-sayur-buah/kab?bulan=${tahun}/${bulan}`,
-            (url) =>
-                axiosPrivate
-                    .get(url, {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    })
-                    .then((res: any) => res.data)
-        );
-    
-        // Bulan
-        function getMonthName(monthNumber: number): string {
-            const monthNames = [
-                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-            ];
-    
-            // Kurangi 1 dari monthNumber karena array dimulai dari indeks 0
-            return monthNames[monthNumber - 1] || "Invalid Month";
+    // GETALL
+    const { data: dataSayuran }: SWRResponse<any> = useSWR(
+        // `korluh/padi/get?limit=1`,
+        `/validasi/korluh-sayur-buah/kab?bulan=${tahun}/${bulan}`,
+        (url) =>
+            axiosPrivate
+                .get(url, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res: any) => res.data)
+    );
+
+    // Bulan
+    function getMonthName(monthNumber: number): string {
+        const monthNames = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+
+        // Kurangi 1 dari monthNumber karena array dimulai dari indeks 0
+        return monthNames[monthNumber - 1] || "Invalid Month";
+    }
+    const monthNumber = dataSayuran?.data?.bulan; // Ambil bulan dari data API
+    const monthName = monthNumber ? getMonthName(monthNumber) : "";
+    // Bulan
+
+    // handle tolak
+    // handle tolak
+    // Fungsi untuk mengirim data ke API
+    const handleTolak = async (payload: { bulan: string; status: string; keterangan: string; }) => {
+        try {
+            await axiosPrivate.post("/validasi/korluh-sayur-buah/kab", payload);
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil ditolak!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+            console.log(payload)
+            // push
+            console.log("Success to validasi Padi:");
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menolak data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        } finally {
+            // setLoading(false); // Set loading to false once the process is complete
         }
-        const monthNumber = dataSayuran?.data?.bulan; // Ambil bulan dari data API
-        const monthName = monthNumber ? getMonthName(monthNumber) : "";
-        // Bulan
-    
-        // handle tolak
-        // handle tolak
-        // Fungsi untuk mengirim data ke API
-        const handleTolak = async (payload: { bulan: string; status: string; keterangan: string; }) => {
-            try {
-                await axiosPrivate.post("/validasi/korluh-sayur-buah/kab", payload);
-                // alert
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Data berhasil ditolak!',
-                    text: 'Data sudah disimpan sistem!',
-                    timer: 1500,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown',
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp',
-                    },
-                    customClass: {
-                        title: 'text-2xl font-semibold text-green-600',
-                        icon: 'text-green-500 animate-bounce',
-                        timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
-                    },
-                    backdrop: `rgba(0, 0, 0, 0.4)`,
-                });
-                // alert
-                console.log(payload)
-                // push
-                console.log("Success to validasi Padi:");
-            } catch (error: any) {
-                // Extract error message from API response
-                const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menolak data!';
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Terjadi kesalahan!',
-                    text: errorMessage,
-                    showConfirmButton: true,
-                    showClass: { popup: 'animate__animated animate__fadeInDown' },
-                    hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-                    customClass: {
-                        title: 'text-2xl font-semibold text-red-600',
-                        icon: 'text-red-500 animate-bounce',
-                    },
-                    backdrop: 'rgba(0, 0, 0, 0.4)',
-                });
-                console.error("Failed to create user:", error);
-            } finally {
-                // setLoading(false); // Set loading to false once the process is complete
-            }
-            mutate(`/validasi/korluh-sayur-buah/kab?bulan=${tahun}/${bulan}`);
-        };
-    
-        // Fungsi untuk mengirim data ke API
-        const handleVerifikasi = async (payload: { bulan: string; status: string }) => {
-            try {
-                await axiosPrivate.post("/validasi/korluh-sayur-buah/kab", payload);
-                // alert
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Data berhasil divalidasi!',
-                    text: 'Data sudah disimpan sistem!',
-                    timer: 1500,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown',
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp',
-                    },
-                    customClass: {
-                        title: 'text-2xl font-semibold text-green-600',
-                        icon: 'text-green-500 animate-bounce',
-                        timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
-                    },
-                    backdrop: `rgba(0, 0, 0, 0.4)`,
-                });
-                // alert
-                console.log(payload)
-                // push
-                console.log("Success to validasi Padi:");
-            } catch (error: any) {
-                // Extract error message from API response
-                const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memvalidasi data!';
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Terjadi kesalahan!',
-                    text: errorMessage,
-                    showConfirmButton: true,
-                    showClass: { popup: 'animate__animated animate__fadeInDown' },
-                    hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-                    customClass: {
-                        title: 'text-2xl font-semibold text-red-600',
-                        icon: 'text-red-500 animate-bounce',
-                    },
-                    backdrop: 'rgba(0, 0, 0, 0.4)',
-                });
-                console.error("Failed to create user:", error);
-            } finally {
-                // setLoading(false); // Set loading to false once the process is complete
-            }
-            mutate(`/validasi/korluh-sayur-buah/kab?bulan=${tahun}/${bulan}`);
-        };
-    
-        // validasi
-        const getValidationText = (validasi: any) => {
-            switch (validasi) {
-                case 'terima':
-                    return 'Sudah divalidasi';
-                case 'tolak':
-                    return 'Validasi ditolak';
-                case 'belum':
-                    return 'Belum divalidasi';
-                default:
-                    return 'Status tidak diketahui';
-            }
-        };
-        const validationText = getValidationText(dataSayuran?.data?.validasiKabupaten);
-        // validasi
+        mutate(`/validasi/korluh-sayur-buah/kab?bulan=${tahun}/${bulan}`);
+    };
+
+    // Fungsi untuk mengirim data ke API
+    const handleVerifikasi = async (payload: { bulan: string; status: string }) => {
+        try {
+            await axiosPrivate.post("/validasi/korluh-sayur-buah/kab", payload);
+            // alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Data berhasil divalidasi!',
+                text: 'Data sudah disimpan sistem!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp',
+                },
+                customClass: {
+                    title: 'text-2xl font-semibold text-green-600',
+                    icon: 'text-green-500 animate-bounce',
+                    timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+                },
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+            });
+            // alert
+            console.log(payload)
+            // push
+            console.log("Success to validasi Padi:");
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memvalidasi data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
+        } finally {
+            // setLoading(false); // Set loading to false once the process is complete
+        }
+        mutate(`/validasi/korluh-sayur-buah/kab?bulan=${tahun}/${bulan}`);
+    };
+
+    // validasi
+    const getValidationText = (validasi: any) => {
+        switch (validasi) {
+            case 'terima':
+                return 'Sudah divalidasi';
+            case 'tolak':
+                return 'Validasi ditolak';
+            case 'belum':
+                return 'Belum divalidasi';
+            default:
+                return 'Status tidak diketahui';
+        }
+    };
+    const validationText = getValidationText(dataSayuran?.data?.validasiKabupaten);
+    // validasi
 
     return (
         <div>
@@ -247,7 +247,7 @@ const KJFSayuranBuah = () => {
             <div className="text-2xl mb-5 font-semibold text-primary uppercase">KJF Kabupaten Sayuran Buah</div>
             {/* title */}
 
-             {/* top */}
+            {/* top */}
             {/*  */}
             <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                 <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
@@ -307,7 +307,7 @@ const KJFSayuranBuah = () => {
                     </div> */}
                 </div>
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    {/* <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <UnduhIcon />
                         <div className="hidden md:block">
                             Download
@@ -318,7 +318,7 @@ const KJFSayuranBuah = () => {
                         <div className="hidden md:block">
                             Print
                         </div>
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
             {/* top */}
@@ -345,8 +345,8 @@ const KJFSayuranBuah = () => {
                     <div className="">:</div>
                 </div>
                 <div className="bulan">
-                    <div className="">{monthName  ?? "-"} {dataSayuran?.data?.tahun ?? "-"}</div>
-                    <div className="capitalize">{validationText  ?? "-"}</div>
+                    <div className="">{monthName ?? "-"} {dataSayuran?.data?.tahun ?? "-"}</div>
+                    <div className="capitalize">{validationText ?? "-"}</div>
                     <div className="flex gap-3">
                         <VerifikasiKab
                             bulan={`${dataSayuran?.data?.tahun}/${dataSayuran?.data?.bulan}`}

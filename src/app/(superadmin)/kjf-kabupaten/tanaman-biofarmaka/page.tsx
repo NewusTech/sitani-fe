@@ -307,7 +307,7 @@ const KJFTanamanBiofarmaka = () => {
                     </div> */}
                 </div>
                 <div className="btn flex gap-2">
-                    <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    {/* <Button variant={"outlinePrimary"} className='flex gap-2 items-center text-primary transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         <UnduhIcon />
                         <div className="hidden md:block">
                             Download
@@ -318,7 +318,7 @@ const KJFTanamanBiofarmaka = () => {
                         <div className="hidden md:block">
                             Print
                         </div>
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
             {/* top */}
