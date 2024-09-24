@@ -80,7 +80,7 @@ const DetailPenerimaUPPO = () => {
       </div>
       {/* detail */}
       <div className="wrap-detail bg-slate-100 p-5 md:p-6 md:mt-5 mt-3 rounded-lg">
-        <div className="font-semibold mb-2 text-base md:text-lg uppercase">Data Penerima UPPO</div>
+        <div className="font-semibold mb-2 text-base md:text-lg">Data Penerima UPPO</div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
           <LabelDetail label='Tahun' name={data?.tahun} />
           <LabelDetail label='Kecamatan' name={data?.kecamatan?.nama} />

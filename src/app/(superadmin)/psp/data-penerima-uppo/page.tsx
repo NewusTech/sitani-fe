@@ -575,7 +575,6 @@ const DataPenerimaUppo = () => {
             </div>
             {/* mobile table */}
 
-
             {/* table */}
             <div className="hidden md:block">
                 <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden '>

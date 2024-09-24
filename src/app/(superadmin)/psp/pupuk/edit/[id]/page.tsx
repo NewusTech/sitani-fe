@@ -181,7 +181,7 @@ const PupukTambah = () => {
             <div className="text-primary text-2xl font-bold mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Tahun" />
                             <Input
@@ -197,7 +197,7 @@ const PupukTambah = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Jenis Pupuk" />
                             <Input
@@ -222,7 +222,7 @@ const PupukTambah = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
                             <Select
