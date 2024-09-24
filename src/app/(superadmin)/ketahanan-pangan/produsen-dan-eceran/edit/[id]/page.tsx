@@ -148,10 +148,10 @@ const EditProdusenEceran = () => {
                     <div className="">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Satuan" />
+                                <Label className='text-sm mb-1' label="Komoditas" />
                                 <Input
                                     type="text"
-                                    placeholder="Masukkan Satuan"
+                                    placeholder="Masukkan Komoditas"
                                     disabled={true}
                                     value={dataKomoditas?.data?.komoditas?.nama || ''}
                                 />
