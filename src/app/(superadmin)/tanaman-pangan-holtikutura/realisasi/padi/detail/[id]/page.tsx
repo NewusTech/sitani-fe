@@ -7,7 +7,7 @@ import { useRouter, useParams } from "next/navigation";
 
 interface LabelProps {
     label?: string;
-    name?: string;
+    name?: string | number;
 }
 
 const LabelDetail = (props: LabelProps) => {
@@ -91,27 +91,27 @@ const DetailPadiPage = () => {
                     <div className="wr">
                         <div className="font-semibold mb-2 text-lg mt-5 uppercase">Kecamatan</div>
                         <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
-                            <LabelDetail label='Nama' name={dataLahanSawah?.data.kecamatan.nama.toString()} />
+                            <LabelDetail label='Nama' name={dataLahanSawah?.data.kecamatan.nama ?? "-"} />
                         </div>
                     </div>
-                    <div className="wr">
+                    <div className="wr"> 
                         <div className="font-semibold text-lg mb-2 mt-3 uppercase">Lahan Sawah</div>
                         <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
-                            <LabelDetail label='Panen (ha)' name={dataLahanSawah?.data.panenLahanSawah.toString()} />
-                            <LabelDetail label='Produktivitas (ku/ha)' name={dataLahanSawah?.data.produktivitasLahanSawah.toString()} />
-                            <LabelDetail label='Produksi (ton)' name={dataLahanSawah?.data.produksiLahanSawah.toString()} />
+                            <LabelDetail label='Panen (ha)' name={dataLahanSawah?.data?.panenLahanSawah ?? "-"} />
+                            <LabelDetail label='Produktivitas (ku/ha)' name={dataLahanSawah?.data?.produktivitasLahanSawah ?? "-"} />
+                            <LabelDetail label='Produksi (ton)' name={dataLahanSawah?.data?.produksiLahanSawah ?? "-"} />
                         </div>
                         <div className="font-semibold text-lg mb-2 mt-3 uppercase">Lahan Kering</div>
                         <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
-                            <LabelDetail label='Panen (ha)' name={dataLahanSawah?.data.panenLahanKering.toString()} />
-                            <LabelDetail label='Produktivitas (ku/ha)' name={dataLahanSawah?.data.produktivitasLahanKering.toString()} />
-                            <LabelDetail label='Produksi (ton)' name={dataLahanSawah?.data.produksiLahanKering.toString()} />
+                            <LabelDetail label='Panen (ha)' name={dataLahanSawah?.data?.panenLahanKering ?? "-"} />
+                            <LabelDetail label='Produktivitas (ku/ha)' name={dataLahanSawah?.data?.produktivitasLahanKering ?? "-"} />
+                            <LabelDetail label='Produksi (ton)' name={dataLahanSawah?.data?.produksiLahanKering ?? "-"} />
                         </div>
                         <div className="font-semibold text-lg mb-2 mt-3 uppercase">Total</div>
                         <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
-                            <LabelDetail label='Panen (ha)' name={dataLahanSawah?.data.panenTotal.toString()} />
-                            <LabelDetail label='Produktivitas (ku/ha)' name={dataLahanSawah?.data.produktivitasTotal.toString()} />
-                            <LabelDetail label='Produksi (ton)' name={dataLahanSawah?.data.produksiTotal.toString()} />
+                            <LabelDetail label='Panen (ha)' name={dataLahanSawah?.data?.panenTotal ?? "-"} />
+                            <LabelDetail label='Produktivitas (ku/ha)' name={dataLahanSawah?.data?.produktivitasTotal ?? "-"} />
+                            <LabelDetail label='Produksi (ton)' name={dataLahanSawah?.data?.produksiTotal ?? "-"} />
                         </div>
                     </div>
                 </div>
