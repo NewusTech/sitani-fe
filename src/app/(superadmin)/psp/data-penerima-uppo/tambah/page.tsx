@@ -185,7 +185,7 @@ const TambahDataPenerimaUppo = () => {
             <div className="text-primary text-2xl font-bold mb-5">Tambah Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                             <Controller
@@ -227,7 +227,7 @@ const TambahDataPenerimaUppo = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Tahun" />
                             <Input
@@ -255,8 +255,8 @@ const TambahDataPenerimaUppo = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-1/2">
+                    <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
+                        <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label className='text-sm mb-1' label="Nama Ketua" />
                             <Input
                                 type="text"
@@ -268,7 +268,7 @@ const TambahDataPenerimaUppo = () => {
                                 <HelperError>{errors.ketua_poktan.message}</HelperError>
                             )}
                         </div>
-                        <div className="flex flex-col mb-2 w-1/2">
+                        <div className="flex flex-col mb-2 w-full md:w-1/2">
                             <Label className='text-sm mb-1' label="Titik Koordinat" />
                             <Input
                                 type="text" // Changed to "text" to match schema, or use "number" if needed

@@ -526,91 +526,143 @@ const DataPenerimaUppo = () => {
             </div>
             {/* Mobile */}
 
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-2 mt-3 flex md:hidden">
+                {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
+                    dataUser.data.data.map((item, index) => (
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-[#F5F5F5] bg-white shadow-sm">
+                            <div className="wrap-konten flex flex-col gap-2">
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Kecamatan</div>
+                                    <div className="konten text-black/80 text-end">{item?.kecamatan?.nama}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Desa</div>
+                                    <div className="konten text-black/80 text-end">{item?.desa?.nama}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Nama Poktan</div>
+                                    <div className="konten text-black/80 text-end">{item?.namaPoktan}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Nama Ketua</div>
+                                    <div className="konten text-black/80 text-end">{item?.namaPoktan}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Titik Koordinat</div>
+                                    <div className="konten text-black/80 text-end">{item?.titikKoordinat}</div>
+                                </div>
+                            </div>
+                            <div className="garis my-3 w-full h-[2px] bg-[#F5F5F5]"></div>
+                            <div className="flex gap-3 text-white">
+                                <Link href={`/psp/data-penerima-uppo/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                    Detail
+                                </Link>
+                                <Link href={`/psp/data-penerima-uppo/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                    Edit
+                                </Link>
+                                <button onClick={() => handleDelete(String(item.id) || "")} className="bg-red-500 rounded-full w-full py-2">
+                                    Hapus
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center">
+                        Tidak ada data
+                    </div>
+                )}
+            </div>
+            {/* mobile table */}
+
+
             {/* table */}
-            <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow >
-                        <TableHead className="text-primary py-1">No</TableHead>
-                        {visibleColumns.includes('kecamatan') && (
-                            <TableHead className="text-primary py-1">Kecamatan</TableHead>
-                        )}
-                        {visibleColumns.includes('desa') && (
-                            <TableHead className="text-primary py-1">Desa</TableHead>
-                        )}
-                        {visibleColumns.includes('namaPoktan') && (
-                            <TableHead className="text-primary py-1 ">Nama Poktan</TableHead>
-                        )}
-                        {visibleColumns.includes('namaKetua') && (
-                            <TableHead className="text-primary py-1 hidden md:table-cell">Nama Ketua</TableHead>
-                        )}
-                        {visibleColumns.includes('titikKoordinat') && (
-                            <TableHead className="text-primary py-1 hidden md:table-cell">Titik Koordinat</TableHead>
-                        )}
-                        {visibleColumns.includes('aksi') && (
-                            <TableHead className="text-primary py-1">Aksi</TableHead>
-                        )}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
-                        dataUser.data.data.map((item, index) => (
-                            <TableRow key={item.id}>
-                                <TableCell>
-                                    {(currentPage - 1) * limit + (index + 1)}
-                                </TableCell>
-                                {visibleColumns.includes('kecamatan') && (
-                                    <TableCell>
-                                        {item.kecamatan.nama}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('desa') && (
-                                    <TableCell>
-                                        {item.desa.nama}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('namaPoktan') && (
-                                    <TableCell>
-                                        {item.namaPoktan}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('ketuaPoktan') && (
-                                    <TableCell className='hidden md:table-cell'>
-                                        {item.ketuaPoktan}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('titikKoordinat') && (
-                                    <TableCell className='hidden md:table-cell'>
-                                        {item.titikKoordinat}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('aksi') && (
-                                    <TableCell>
-                                        <div className="flex items-center gap-4">
-                                            <Link className='' href={`/psp/data-penerima-uppo/detail/${item.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link className='' href={`/psp/data-penerima-uppo/edit/${item.id}`}>
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
-                                        </div>
-                                    </TableCell>
-                                )}
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={6} className="text-center">
-                                Tidak ada data
-                            </TableCell>
+            <div className="hidden md:block">
+                <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden '>
+                    <TableHeader className='bg-primary-600'>
+                        <TableRow >
+                            <TableHead className="text-primary py-1">No</TableHead>
+                            {visibleColumns.includes('kecamatan') && (
+                                <TableHead className="text-primary py-1">Kecamatan</TableHead>
+                            )}
+                            {visibleColumns.includes('desa') && (
+                                <TableHead className="text-primary py-1">Desa</TableHead>
+                            )}
+                            {visibleColumns.includes('namaPoktan') && (
+                                <TableHead className="text-primary py-1 ">Nama Poktan</TableHead>
+                            )}
+                            {visibleColumns.includes('namaKetua') && (
+                                <TableHead className="text-primary py-1 hidden md:table-cell">Nama Ketua</TableHead>
+                            )}
+                            {visibleColumns.includes('titikKoordinat') && (
+                                <TableHead className="text-primary py-1 hidden md:table-cell">Titik Koordinat</TableHead>
+                            )}
+                            {visibleColumns.includes('aksi') && (
+                                <TableHead className="text-primary py-1">Aksi</TableHead>
+                            )}
                         </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                    </TableHeader>
+                    <TableBody>
+                        {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
+                            dataUser.data.data.map((item, index) => (
+                                <TableRow key={item.id}>
+                                    <TableCell>
+                                        {(currentPage - 1) * limit + (index + 1)}
+                                    </TableCell>
+                                    {visibleColumns.includes('kecamatan') && (
+                                        <TableCell>
+                                            {item.kecamatan.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('desa') && (
+                                        <TableCell>
+                                            {item.desa.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('namaPoktan') && (
+                                        <TableCell>
+                                            {item.namaPoktan}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('ketuaPoktan') && (
+                                        <TableCell className='hidden md:table-cell'>
+                                            {item.ketuaPoktan}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('titikKoordinat') && (
+                                        <TableCell className='hidden md:table-cell'>
+                                            {item.titikKoordinat}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('aksi') && (
+                                        <TableCell>
+                                            <div className="flex items-center gap-4">
+                                                <Link className='' href={`/psp/data-penerima-uppo/detail/${item.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link className='' href={`/psp/data-penerima-uppo/edit/${item.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
+                                            </div>
+                                        </TableCell>
+                                    )}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={6} className="text-center">
+                                    Tidak ada data
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
             {/* table */}
 
             {/* pagination */}
-            <div className="pagi flex items-center justify-end pb-5 lg:pb-0">
+            <div className="pagi flex items-center justify-center md:justify-end pb-5 lg:pb-0">
                 {dataUser?.data?.pagination.totalCount as number > 1 && (
                     <PaginationTable
                         currentPage={currentPage}

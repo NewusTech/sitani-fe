@@ -51,7 +51,7 @@ const PaginationLink = ({
         variant: isActive ? "default" : "outline", // Atur varian default sesuai dengan desain aktif
         size,
       }),
-      "rounded-lg px-4 py-2", // Sesuaikan ukuran padding dan border-radius
+      "rounded-lg text-xs md:text-sm w-[40px] md:py-2", // Sesuaikan ukuran padding dan border-radius
       className
     )}
     {...props}
