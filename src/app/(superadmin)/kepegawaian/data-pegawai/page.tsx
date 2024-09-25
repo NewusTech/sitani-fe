@@ -103,6 +103,7 @@ import BidangSelect from '@/components/superadmin/SelectComponent/BidangValue';
 import FilterTable from '@/components/FilterTable';
 import KepegawaianDataPegawaiPrint from '@/components/Print/Kepegawaian/DataPegawai';
 import TambahIcon from '../../../../../public/icons/TambahIcon';
+import TypingEffect from '@/components/ui/TypingEffect';
 
 interface Response {
   status: string,
@@ -357,7 +358,7 @@ const DataPegawaiPage = () => {
             <div className="search w-full lg:w-[50%]">
               <Input
                 type="text"
-                placeholder="Cari"
+                placeholder="Cari Nama Pegawai"
                 value={search}
                 onChange={handleSearchChange}
                 rightIcon={<SearchIcon />}
@@ -409,7 +410,7 @@ const DataPegawaiPage = () => {
                     <Filter className="text-primary w-5 h-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                <DropdownMenuContent className="ml-5 w-[280px] transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md">
                   <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                     Menu Filter
                   </DropdownMenuLabel>
@@ -458,7 +459,7 @@ const DataPegawaiPage = () => {
                       {/* Filter Desa */}
 
                       {/* Filter Rentang Tanggal */}
-                
+
                       {/* Filter Rentang Tanggal */}
 
                       {/* Filter Tahun Bulan */}
@@ -471,11 +472,11 @@ const DataPegawaiPage = () => {
               {/* More Menu */}
 
               {/* filter kolom */}
-              <FilterTable
+              {/* <FilterTable
                 columns={columns}
                 defaultCheckedKeys={getDefaultCheckedKeys()}
                 onFilterChange={handleFilterChange}
-              />
+              /> */}
               {/* filter kolom */}
 
               {/* unduh print */}
@@ -502,7 +503,7 @@ const DataPegawaiPage = () => {
             <Input
               autoFocus
               type="text"
-              placeholder="Cari"
+              placeholder="Cari Nama Pegawai"
               value={search}
               onChange={handleSearchChange}
               rightIcon={<SearchIcon />}
@@ -515,216 +516,347 @@ const DataPegawaiPage = () => {
       </div>
       {/* Mobile */}
 
-      {/* table */}
-      <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden '>
-        <TableHeader className="bg-primary-600">
-          <TableRow >
-            {visibleColumns.includes('no') && (
-              <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                No
-              </TableHead>
-            )}
-            {visibleColumns.includes('namaNip') && (
-              <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                Nama/NIP
-                <br /> Tempat/Tgl Lahir
-              </TableHead>
-            )}
-            {visibleColumns.includes('pangkat') && (
-              <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                Pangkat/Gol Ruang
-                TMT Pangkat
-              </TableHead>
-            )}
-            {visibleColumns.includes('jabatan') && (
-              <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                Jabatan <br />
-                TMT Jabatan
-              </TableHead>
-            )}
-            {visibleColumns.includes('diklat') && (
-              <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                Diklat Struktural
-              </TableHead>
-            )}
-            {visibleColumns.includes('pendidikan') && (
-              <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                Pendidikan Umum
-              </TableHead>
-            )}
-            {visibleColumns.includes('usia') && (
-              <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Usia</TableHead>
-            )}
-            {visibleColumns.includes('masaKerja') && (
-              <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Masa Kerja</TableHead>
-            )}
-            {visibleColumns.includes('keterangan') && (
-              <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Ket</TableHead>
-            )}
-            {visibleColumns.includes('status') && (
-              <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Status</TableHead>
-            )}
-            {visibleColumns.includes('aksi') && (
-              <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Aksi</TableHead>
-            )}
-          </TableRow>
-          <TableRow>
-            {visibleColumns.includes('diklat') && (
-              <TableHead className="text-primary py-1  border border-slate-200 text-center">
-                Nama  DIklat
-              </TableHead>
-            )}
-            {visibleColumns.includes('diklat') && (
-              <TableHead className="text-primary py-1  border border-slate-200 text-center">
-                Tanggal
-              </TableHead>
-            )}
-            {visibleColumns.includes('diklat') && (
-              <TableHead className="text-primary py-1  border border-slate-200 text-center">
-                Jam
-              </TableHead>
-            )}
-            {visibleColumns.includes('pendidikan') && (
-              <TableHead className="text-primary py-1  border border-slate-200 text-center">
-                Nama
-              </TableHead>
-            )}
-            {visibleColumns.includes('pendidikan') && (
-              <TableHead className="text-primary py-1  border border-slate-200 text-center">
-                Tahun Lulus
-              </TableHead>
-            )}
-            {visibleColumns.includes('pendidikan') && (
-              <TableHead className="text-primary py-1  border border-slate-200 text-center">
-                Jenjang
-              </TableHead>
-            )}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {dataKepegawaian?.data.data && dataKepegawaian?.data.data.length > 0 ? (
-            dataKepegawaian?.data.data.map((item, index) => (
-              <TableRow key={item.id}>
-                {visibleColumns.includes('no') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>{(currentPage - 1) * limit + (index + 1)}</TableCell>
-                )}
-                {visibleColumns.includes('namaNip') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    {item.nama} <br />
-                    {item.nip === "" ? (
-                      <span></span>
-                    ) : (
-                      <span>{item.nip}</span>
-                    )}
-                    <br />
-                    {item.tempatLahir}, {item.tglLahir}
-                  </TableCell>
-                )}
-                {visibleColumns.includes('pangkat') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    {item.pangkat} / {item.golongan} <br />
-                    TMT :
-                    <span>
-                      {item.tmtPangkat && !isNaN(new Date(item.tmtPangkat).getTime())
-                        ? formatDate(new Date(item.tmtPangkat))
-                        : ' - '}
-                    </span>
-                  </TableCell>
-                )}
-                {visibleColumns.includes('jabatan') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    {item.jabatan} <br />
-                    TMT :
-                    <span>
-                      {item.tmtJabatan && !isNaN(new Date(item.tmtJabatan).getTime())
-                        ? formatDate(new Date(item.tmtJabatan))
-                        : ' - '}
-                    </span>
-                  </TableCell>
-                )}
-                {visibleColumns.includes('diklat') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    {item.namaDiklat} <br />
-                  </TableCell>
-                )}
-                {visibleColumns.includes('diklat') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    <span>
-                      {item.tglDiklat && !isNaN(new Date(item.tglDiklat).getTime())
-                        ? formatDate(new Date(item.tglDiklat))
-                        : ' - '}
-                    </span>
-                  </TableCell>
-                )}
-                {visibleColumns.includes('diklat') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    {item.totalJam === 0 ? (
-                      <span></span>
-                    ) : (
-                      <span>{item.totalJam} Jam</span>
-                    )}
-                  </TableCell>
-                )}
-                {visibleColumns.includes('pendidikan') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    {item.namaPendidikan} <br />
-                  </TableCell>
-                )}
-                {visibleColumns.includes('pendidikan') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    {item.tahunLulus === 0 ? (
-                      <span></span>
-                    ) : (
-                      <span>{item.tahunLulus}</span>
-                    )}
-                  </TableCell>
-                )}
-                {visibleColumns.includes('pendidikan') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    {item.jenjangPendidikan}
-                  </TableCell>
-                )}
-                {visibleColumns.includes('usia') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.usia}</TableCell>
-                )}
-                {visibleColumns.includes('masaKerja') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.masaKerja}</TableCell>
-                )}
-                {visibleColumns.includes('keterangan') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.keterangan}</TableCell>
-                )}
-                {visibleColumns.includes('status') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    <div className="p-1 text-xs rounded bg-slate-200 text-center">
-                      {item.status}
-                    </div>
-                  </TableCell>
-                )}
-                {visibleColumns.includes('aksi') && (
-                  <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                    <div className="flex items-center gap-4">
-                      <Link className='' href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`}>
-                        <EyeIcon />
-                      </Link>
-                      <Link className='' href={`/kepegawaian/data-pegawai/edit-pegawai/${item.id}`}>
-                        <EditIcon />
-                      </Link>
-                      <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
-                    </div>
-                  </TableCell>
-                )}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={15} className="text-center">
-                Tidak ada data
-              </TableCell>
+      {/* mobile table */}
+      <div className="wrap-table flex-col gap-4 mt-4 flex md:hidden">
+        {dataKepegawaian?.data.data && dataKepegawaian?.data.data.length > 0 ? (
+          dataKepegawaian?.data.data.map((item, index) => (
+            <div key={item.id} className="card-table text-[12px] p-4 rounded-2xl border border-primary transition-all ease-in-out bg-white shadow-sm">
+              <div className="wrap-konten flex flex-col gap-2">
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Nama</div>
+                  <div className="konten text-black/80 text-end">{item?.nama ? item?.nama : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Nip</div>
+                  <div className="konten text-black/80 text-end">{item?.nip ? item?.nip : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Tempat Lahir</div>
+                  <div className="konten text-black/80 text-end">{item?.tempatLahir ? item?.tempatLahir : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Tanggal Lahir</div>
+                  <div className="konten text-black/80 text-end">
+                    {item?.tglLahir ? new Date(item?.tglLahir).toLocaleDateString('id-ID', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    }) : ' - '}
+                  </div>
+                </div>
+                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Pangkat</div>
+                  <div className="konten text-black/80 text-end">{item?.pangkat ? item?.pangkat : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Golongan</div>
+                  <div className="konten text-black/80 text-end">{item?.golongan ? item?.golongan : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">TMT Pangkat</div>
+                  <div className="konten text-black/80 text-end">
+                    {item.tmtPangkat && !isNaN(new Date(item.tmtPangkat).getTime())
+                      ? formatDate(new Date(item.tmtPangkat))
+                      : ' - '}
+                  </div>
+                </div>
+                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Jabatan</div>
+                  <div className="konten text-black/80 text-end">{item?.jabatan ? item?.jabatan : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">TMT Jabatan</div>
+                  <div className="konten text-black/80 text-end">
+                    {item.tmtJabatan && !isNaN(new Date(item.tmtJabatan).getTime())
+                      ? formatDate(new Date(item.tmtJabatan))
+                      : ' - '}
+                  </div>
+                </div>
+                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Diklat</div>
+                  <div className="konten text-black/80 text-end">{item?.namaDiklat ? item?.namaDiklat : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Tgl Diklat</div>
+                  <div className="konten text-black/80 text-end">
+                    {item.tglDiklat && !isNaN(new Date(item.tglDiklat).getTime())
+                      ? formatDate(new Date(item.tglDiklat))
+                      : ' - '}
+                  </div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Total Jam</div>
+                  <div className="konten text-black/80 text-end">{item?.totalJam ? item?.totalJam : ' - '}</div>
+                </div>
+                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Nama Pendidikan</div>
+                  <div className="konten text-black/80 text-end">{item?.namaPendidikan ? item?.namaPendidikan : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Tahun Lulus</div>
+                  <div className="konten text-black/80 text-end">{item?.tahunLulus ? item?.tahunLulus : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Jenjang Pendidikan</div>
+                  <div className="konten text-black/80 text-end">{item?.jenjangPendidikan ? item?.jenjangPendidikan : ' - '}</div>
+                </div>
+                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Usia</div>
+                  <div className="konten text-black/80 text-end">{item?.usia ? item?.usia : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Masa Kerja</div>
+                  <div className="konten text-black/80 text-end">{item?.masaKerja ? item?.masaKerja : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Keterangan</div>
+                  <div className="konten text-black/80 text-end">{item?.keterangan ? item?.keterangan : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Status</div>
+                  <div className="konten text-black/80 text-end">{item?.status ? item?.status : ' - '}</div>
+                </div>
+              </div>
+              <div className="pt-2 pb-4">
+                <hr className="garis border border-primary transition-all ease-in-out animate-pulse" />
+              </div>
+              <div className="flex gap-3 text-white">
+                <Link href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                  Detail
+                </Link>
+                <Link href={`/kepegawaian/data-pegawai/edit-pegawai/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                  Edit
+                </Link>
+                <button onClick={() => handleDelete(String(item.id) || "")} className="bg-red-500 rounded-full w-full py-2">
+                  Hapus
+                </button>
+              </div>
+            </div>
+
+          ))
+        ) : (
+          <TypingEffect text={["Maaf tidak ada data...."]} />
+        )}
+      </div>
+      {/* mobile table */}
+
+      {/* dekstop table*/}
+      <div className="hidden md:block">
+        <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden '>
+          <TableHeader className="bg-primary-600">
+            <TableRow >
+              {visibleColumns.includes('no') && (
+                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                  No
+                </TableHead>
+              )}
+              {visibleColumns.includes('namaNip') && (
+                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                  Nama/NIP
+                  <br /> Tempat/Tgl Lahir
+                </TableHead>
+              )}
+              {visibleColumns.includes('pangkat') && (
+                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                  Pangkat/Gol Ruang
+                  TMT Pangkat
+                </TableHead>
+              )}
+              {visibleColumns.includes('jabatan') && (
+                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                  Jabatan <br />
+                  TMT Jabatan
+                </TableHead>
+              )}
+              {visibleColumns.includes('diklat') && (
+                <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                  Diklat Struktural
+                </TableHead>
+              )}
+              {visibleColumns.includes('pendidikan') && (
+                <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                  Pendidikan Umum
+                </TableHead>
+              )}
+              {visibleColumns.includes('usia') && (
+                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Usia</TableHead>
+              )}
+              {visibleColumns.includes('masaKerja') && (
+                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Masa Kerja</TableHead>
+              )}
+              {visibleColumns.includes('keterangan') && (
+                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Ket</TableHead>
+              )}
+              {visibleColumns.includes('status') && (
+                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Status</TableHead>
+              )}
+              {visibleColumns.includes('aksi') && (
+                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Aksi</TableHead>
+              )}
             </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      {/* table */}
+            <TableRow>
+              {visibleColumns.includes('diklat') && (
+                <TableHead className="text-primary py-1  border border-slate-200 text-center">
+                  Nama  DIklat
+                </TableHead>
+              )}
+              {visibleColumns.includes('diklat') && (
+                <TableHead className="text-primary py-1  border border-slate-200 text-center">
+                  Tanggal
+                </TableHead>
+              )}
+              {visibleColumns.includes('diklat') && (
+                <TableHead className="text-primary py-1  border border-slate-200 text-center">
+                  Jam
+                </TableHead>
+              )}
+              {visibleColumns.includes('pendidikan') && (
+                <TableHead className="text-primary py-1  border border-slate-200 text-center">
+                  Nama
+                </TableHead>
+              )}
+              {visibleColumns.includes('pendidikan') && (
+                <TableHead className="text-primary py-1  border border-slate-200 text-center">
+                  Tahun Lulus
+                </TableHead>
+              )}
+              {visibleColumns.includes('pendidikan') && (
+                <TableHead className="text-primary py-1  border border-slate-200 text-center">
+                  Jenjang
+                </TableHead>
+              )}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {dataKepegawaian?.data.data && dataKepegawaian?.data.data.length > 0 ? (
+              dataKepegawaian?.data.data.map((item, index) => (
+                <TableRow key={item.id}>
+                  {visibleColumns.includes('no') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{(currentPage - 1) * limit + (index + 1)}</TableCell>
+                  )}
+                  {visibleColumns.includes('namaNip') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      {item.nama} <br />
+                      {item.nip === "" ? (
+                        <span></span>
+                      ) : (
+                        <span>{item.nip}</span>
+                      )}
+                      <br />
+                      {item.tempatLahir}, {item.tglLahir}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('pangkat') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      {item.pangkat} / {item.golongan} <br />
+                      TMT :
+                      <span>
+                        {item.tmtPangkat && !isNaN(new Date(item.tmtPangkat).getTime())
+                          ? formatDate(new Date(item.tmtPangkat))
+                          : ' - '}
+                      </span>
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('jabatan') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      {item.jabatan} <br />
+                      TMT :
+                      <span>
+                        {item.tmtJabatan && !isNaN(new Date(item.tmtJabatan).getTime())
+                          ? formatDate(new Date(item.tmtJabatan))
+                          : ' - '}
+                      </span>
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('diklat') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      {item.namaDiklat} <br />
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('diklat') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      <span>
+                        {item.tglDiklat && !isNaN(new Date(item.tglDiklat).getTime())
+                          ? formatDate(new Date(item.tglDiklat))
+                          : ' - '}
+                      </span>
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('diklat') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      {item.totalJam === 0 ? (
+                        <span></span>
+                      ) : (
+                        <span>{item.totalJam} Jam</span>
+                      )}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('pendidikan') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      {item.namaPendidikan} <br />
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('pendidikan') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      {item.tahunLulus === 0 ? (
+                        <span></span>
+                      ) : (
+                        <span>{item.tahunLulus}</span>
+                      )}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('pendidikan') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      {item.jenjangPendidikan}
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('usia') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.usia}</TableCell>
+                  )}
+                  {visibleColumns.includes('masaKerja') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.masaKerja}</TableCell>
+                  )}
+                  {visibleColumns.includes('keterangan') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.keterangan}</TableCell>
+                  )}
+                  {visibleColumns.includes('status') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      <div className="p-1 text-xs rounded bg-slate-200 text-center">
+                        {item.status}
+                      </div>
+                    </TableCell>
+                  )}
+                  {visibleColumns.includes('aksi') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      <div className="flex items-center gap-4">
+                        <Link className='' href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`}>
+                          <EyeIcon />
+                        </Link>
+                        <Link className='' href={`/kepegawaian/data-pegawai/edit-pegawai/${item.id}`}>
+                          <EditIcon />
+                        </Link>
+                        <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
+                      </div>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={15} className="text-center">
+                  Tidak ada data
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      {/*Dekstop table */}
 
       {/* pagination */}
       <div className="pagi flex items-center justify-end">
