@@ -74,7 +74,7 @@ const DetailPenerimaUPPO = () => {
       <div className="text-xl md:text-2xl mb-3 md:mb-5 font-semibold text-primary ">Detail Data Penerima UPPO</div>
       {/* title */}
       <div className="flex justify-start gap-2 md:gap-3 mt-4">
-        <Link href="/psp/data-penerima-uppo" className='bg-white w-[100px] md:w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 text-sm md:text-base'>
+        <Link href="/psp/data-penerima-uppo" className='bg-white px-4 md:text-base text-xs rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
           Kembali
         </Link>
       </div>

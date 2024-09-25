@@ -153,7 +153,7 @@ const BantuanTambah = () => {
             <div className="text-primary text-2xl font-bold mb-5">Tambah Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-2">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                             <Controller
@@ -190,7 +190,7 @@ const BantuanTambah = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Jenis Bantuan" />
                             <Select
@@ -222,11 +222,11 @@ const BantuanTambah = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
+                    <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
                             <Label className='text-sm mb-1' label="Keterangan" />
                             <Textarea  {...register('keterangan')}
-                                className={`${errors.keterangan ? 'border-red-500' : ''} py-2 text-sm h-[150px]`}
+                                className={`${errors.keterangan ? 'border-red-500' : ''} py-2 text-sm h-[120px]`}
                             />
                             {errors.keterangan && (
                                 <HelperError>{errors.keterangan.message}</HelperError>

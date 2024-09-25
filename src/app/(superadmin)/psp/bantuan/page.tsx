@@ -490,95 +490,151 @@ const Bantuan = () => {
             </div>
             {/* Mobile */}
 
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-2 mt-3 flex md:hidden">
+                {dataPSP?.data?.data && dataPSP.data.data.length > 0 ? (
+                    dataPSP.data.data.map((item, index) => (
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-[#F5F5F5] bg-white shadow-sm">
+                            <div className="wrap-konten flex flex-col gap-2">
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Kecamatan</div>
+                                    <div className="konten text-black/80 text-end">{item?.kecamatan?.nama}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Desa</div>
+                                    <div className="konten text-black/80 text-end">{item?.desa?.nama}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Jenis Bantuan</div>
+                                    <div className="konten text-black/80 text-end">{item?.jenisBantuan}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Periode</div>
+                                    <div className="konten text-black/80 text-end">
+                                    {item.periode ? new Date(item.periode).toLocaleDateString('id-ID', {
+                                                day: 'numeric',
+                                                month: 'long',
+                                                year: 'numeric',
+                                            }) : 'Tanggal tidak tersedia'}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Keterangan</div>
+                                    <div className="konten text-black/80 text-end">{item?.keterangan}</div>
+                                </div>
+                            </div>
+                            <div className="garis my-3 w-full h-[2px] bg-[#F5F5F5]"></div>
+                            <div className="flex gap-3 text-white">
+                                <Link href={`/psp/bantuan/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                    Detail
+                                </Link>
+                                <Link href={`/psp/bantuan/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                    Edit
+                                </Link>
+                                <button onClick={() => handleDelete(String(item.id) || "")} className="bg-red-500 rounded-full w-full py-2">
+                                    Hapus
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center">
+                        Tidak ada data
+                    </div>
+                )}
+            </div>
+            {/* mobile table */}
+
             {/* table */}
-            <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow >
-                        {visibleColumns.includes('no') && (
-                            <TableHead className="text-primary py-1">No</TableHead>
-                        )}
-                        {visibleColumns.includes('kecamatan') && (
-                            <TableHead className="text-primary py-1">Kecamatan</TableHead>
-                        )}
-                        {visibleColumns.includes('desa') && (
-                            <TableHead className="text-primary py-1">Desa</TableHead>
-                        )}
-                        {visibleColumns.includes('jenisBantuan') && (
-                            <TableHead className="text-primary py-1">Jenis Bantuan</TableHead>
-                        )}
-                        {visibleColumns.includes('periode') && (
-                            <TableHead className="text-primary py-1">Periode</TableHead>
-                        )}
-                        {visibleColumns.includes('keterangan') && (
-                            <TableHead className="text-primary py-1">Keterangan</TableHead>
-                        )}
-                        {visibleColumns.includes('aksi') && (
-                            <TableHead className="text-primary py-1">Aksi</TableHead>
-                        )}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {dataPSP?.data?.data && dataPSP.data.data.length > 0 ? (
-                        dataPSP?.data?.data.map((item, index) => (
-                            <TableRow key={item.id}>
-                                {visibleColumns.includes('no') && (
-                                    <TableCell>
-                                        {(currentPage - 1) * limit + (index + 1)}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('kecamatan') && (
-                                    <TableCell>
-                                        {item?.kecamatan?.nama}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('desa') && (
-                                    <TableCell>
-                                        {item?.desa?.nama}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('jenisBantuan') && (
-                                    <TableCell>
-                                        {item.jenisBantuan}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('periode') && (
-                                    <TableCell>
-                                        {item.periode ? new Date(item.periode).toLocaleDateString('id-ID', {
-                                            day: 'numeric',
-                                            month: 'long',
-                                            year: 'numeric',
-                                        }) : 'Tanggal tidak tersedia'}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('keterangan') && (
-                                    <TableCell>
-                                        {item.keterangan}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('aksi') && (
-                                    <TableCell>
-                                        <div className="flex items-center gap-4">
-                                            <Link className='' href={`/psp/bantuan/detail/${item.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link className='' href={`/psp/bantuan/edit/${item.id}`}>
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(item.id || '')} />
-                                        </div>
-                                    </TableCell>
-                                )}
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={6} className="text-center">
-                                Tidak ada data
-                            </TableCell>
+            <div className="hidden md:block">
+                <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
+                    <TableHeader className='bg-primary-600'>
+                        <TableRow >
+                            {visibleColumns.includes('no') && (
+                                <TableHead className="text-primary py-1">No</TableHead>
+                            )}
+                            {visibleColumns.includes('kecamatan') && (
+                                <TableHead className="text-primary py-1">Kecamatan</TableHead>
+                            )}
+                            {visibleColumns.includes('desa') && (
+                                <TableHead className="text-primary py-1">Desa</TableHead>
+                            )}
+                            {visibleColumns.includes('jenisBantuan') && (
+                                <TableHead className="text-primary py-1">Jenis Bantuan</TableHead>
+                            )}
+                            {visibleColumns.includes('periode') && (
+                                <TableHead className="text-primary py-1">Periode</TableHead>
+                            )}
+                            {visibleColumns.includes('keterangan') && (
+                                <TableHead className="text-primary py-1">Keterangan</TableHead>
+                            )}
+                            {visibleColumns.includes('aksi') && (
+                                <TableHead className="text-primary py-1">Aksi</TableHead>
+                            )}
                         </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                    </TableHeader>
+                    <TableBody>
+                        {dataPSP?.data?.data && dataPSP.data.data.length > 0 ? (
+                            dataPSP?.data?.data.map((item, index) => (
+                                <TableRow key={item.id}>
+                                    {visibleColumns.includes('no') && (
+                                        <TableCell>
+                                            {(currentPage - 1) * limit + (index + 1)}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('kecamatan') && (
+                                        <TableCell>
+                                            {item?.kecamatan?.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('desa') && (
+                                        <TableCell>
+                                            {item?.desa?.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('jenisBantuan') && (
+                                        <TableCell>
+                                            {item.jenisBantuan}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('periode') && (
+                                        <TableCell>
+                                            {item.periode ? new Date(item.periode).toLocaleDateString('id-ID', {
+                                                day: 'numeric',
+                                                month: 'long',
+                                                year: 'numeric',
+                                            }) : 'Tanggal tidak tersedia'}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('keterangan') && (
+                                        <TableCell>
+                                            {item.keterangan}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('aksi') && (
+                                        <TableCell>
+                                            <div className="flex items-center gap-4">
+                                                <Link className='' href={`/psp/bantuan/detail/${item.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link className='' href={`/psp/bantuan/edit/${item.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(item.id || '')} />
+                                            </div>
+                                        </TableCell>
+                                    )}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={6} className="text-center">
+                                    Tidak ada data
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
             {/* table */}
 
             {/* pagination */}

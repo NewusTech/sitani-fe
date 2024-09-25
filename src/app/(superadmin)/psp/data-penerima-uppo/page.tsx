@@ -623,7 +623,7 @@ const DataPenerimaUppo = () => {
                                             {item.namaPoktan}
                                         </TableCell>
                                     )}
-                                    {visibleColumns.includes('ketuaPoktan') && (
+                                    {visibleColumns.includes('namaKetua') && (
                                         <TableCell className='hidden md:table-cell'>
                                             {item.ketuaPoktan}
                                         </TableCell>
