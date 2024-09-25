@@ -450,7 +450,7 @@ const PenyuluhDataKecamatan = () => {
                         {/* Tambah Data */}
                         <div className="flex justify-end items-center w-fit">
                             <Link
-                                href="/ketahanan-pangan/produsen-dan-eceran/tambah"
+                                href="/penyuluhan/data-kecamatan/tambah"
                                 className='bg-primary text-xs px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-end flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 py-2'>
                                 {/* Tambah */}
                                 <TambahIcon />
