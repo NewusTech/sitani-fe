@@ -318,7 +318,7 @@ const DataPenerimaUppo = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Data Penerima UPPO</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Data Penerima UPPO</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -387,7 +387,7 @@ const DataPenerimaUppo = () => {
                                     }}
                                 />
                             </div>
-                            <Link href="/psp/data-penerima-uppo/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                            <Link href="/psp/data-penerima-uppo/tambah" className='bg-primary px-3 py-2 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                                 Tambah Data
                             </Link>
                         </div>
@@ -413,7 +413,7 @@ const DataPenerimaUppo = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                <DropdownMenuContent className="ml-5 transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-[280px]">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -446,7 +446,7 @@ const DataPenerimaUppo = () => {
                                                 <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
                                                 <div className="flex gap-2 justify-between items-center w-full">
                                                     {/* filter tahun */}
-                                                    <div className="w-1/2">
+                                                    <div className="w-full">
                                                         <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                                             <SelectTrigger>
                                                                 <SelectValue placeholder="Tahun">
@@ -481,11 +481,13 @@ const DataPenerimaUppo = () => {
                             {/* More Menu */}
 
                             {/* filter kolom */}
-                            <FilterTable
-                                columns={columns}
-                                defaultCheckedKeys={getDefaultCheckedKeys()}
-                                onFilterChange={handleFilterChange}
-                            />
+                            <div className="hidden md:block">
+                                <FilterTable
+                                    columns={columns}
+                                    defaultCheckedKeys={getDefaultCheckedKeys()}
+                                    onFilterChange={handleFilterChange}
+                                />
+                            </div>
                             {/* filter kolom */}
 
                             {/* unduh print */}
@@ -530,7 +532,7 @@ const DataPenerimaUppo = () => {
             <div className="wrap-table flex-col gap-2 mt-3 flex md:hidden">
                 {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
                     dataUser.data.data.map((item, index) => (
-                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-[#F5F5F5] bg-white shadow-sm">
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
                             <div className="wrap-konten flex flex-col gap-2">
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Kecamatan</div>
@@ -553,7 +555,7 @@ const DataPenerimaUppo = () => {
                                     <div className="konten text-black/80 text-end">{item?.titikKoordinat}</div>
                                 </div>
                             </div>
-                            <div className="garis my-3 w-full h-[2px] bg-[#F5F5F5]"></div>
+                            <div className="garis my-3 w-full h-[2px] bg-primary"></div>
                             <div className="flex gap-3 text-white">
                                 <Link href={`/psp/data-penerima-uppo/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
                                     Detail
