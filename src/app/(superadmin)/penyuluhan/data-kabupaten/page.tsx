@@ -101,6 +101,7 @@ import PaginationTable from '@/components/PaginationTable'
 import FilterTable from '@/components/FilterTable'
 import PenyuluhKabPrint from '@/components/Print/Penyuluhan/PenyuluhanKab'
 import TambahIcon from '../../../../../public/icons/TambahIcon';
+import NotFoundSearch from '@/components/SearchNotFound';
 
 const PenyuluhDataKabupaten = () => {
 
@@ -296,7 +297,7 @@ const PenyuluhDataKabupaten = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary capitalize">Daftar Penempatan Penyuluh Pertanian Kabupaten</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Daftar Penempatan Penyuluh Pertanian Kabupaten</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -357,7 +358,7 @@ const PenyuluhDataKabupaten = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md ml-5 w-[280px]">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -388,11 +389,11 @@ const PenyuluhDataKabupaten = () => {
                             {/* More Menu */}
 
                             {/* filter kolom */}
-                            <FilterTable
+                            {/* <FilterTable
                                 columns={columns}
                                 defaultCheckedKeys={getDefaultCheckedKeys()}
                                 onFilterChange={handleFilterChange}
-                            />
+                            /> */}
                             {/* filter kolom */}
 
                             {/* unduh print */}
@@ -431,96 +432,158 @@ const PenyuluhDataKabupaten = () => {
             </div>
             {/* Mobile */}
 
-            {/* table */}
-            <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow >
-                        <TableHead className="text-primary py-3">No</TableHead>
-                        {visibleColumns.includes('nama') && (
-                            <TableHead className="text-primary py-3">Nama</TableHead>
-                        )}
-                        {visibleColumns.includes('nip') && (
-                            <TableHead className="text-primary py-3">NIP</TableHead>
-                        )}
-                        {visibleColumns.includes('pangkat') && (
-                            <TableHead className="text-primary py-3 ">
-                                Pangkat/Gol
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('wilayah') && (
-                            <TableHead className="text-primary py-3 ">Wilayah Desa Binaan (Kecamatan)</TableHead>
-                        )}
-                        {visibleColumns.includes('keterangan') && (
-                            <TableHead className="text-primary py-3 ">Keterangan</TableHead>
-                        )}
-                        {visibleColumns.includes('aksi') && (
-                            <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
-                        )}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {dataKabupaten?.data?.data && dataKabupaten?.data?.data?.length > 0 ? (
-                        dataKabupaten?.data?.data?.map((item, index) => (
-                            <TableRow key={index}>
-                                <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                    {(currentPage - 1) * limit + (index + 1)}
-                                </TableCell>
-                                {visibleColumns.includes('nama') && (
-                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                        {item.nama}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('nip') && (
-                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                        {item.nip}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('pangkat') && (
-                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                        {item.pangkat}, {item.golongan}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('wilayah') && (
-                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+                {dataKabupaten?.data?.data && dataKabupaten.data.data.length > 0 ? (
+                    dataKabupaten.data.data.map((item, index) => (
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                            <div className="wrap-konten flex flex-col gap-2">
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Nama</div>
+                                    <div className="konten text-black/80 text-end">{item?.nama ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">NIP</div>
+                                    <div className="konten text-black/80 text-end">{item?.nip ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Pangkat/Gol</div>
+                                    <div className="konten text-black/80 text-end">
+                                        {`${item.pangkat}/${item.golongan}` ?? "-"}
+                                    </div>
+
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Wilayah Desa Binaan (Kecamatan)</div>
+                                    <div className="konten text-black/80 text-end">
                                         {item.kecamatan.map((kec, index) => (
                                             <span key={kec.id}>
                                                 {kec.nama}
                                                 {index < item.kecamatan.length - 1 && ", "}
                                             </span>
                                         ))}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('keterangan') && (
-                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                        {item.keterangan}
-                                    </TableCell>
-                                )}
-                                {visibleColumns.includes('aksi') && (
-                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                        <div className="flex items-center gap-4">
-                                            <Link className='' href={`/penyuluhan/data-kabupaten/detail/${item.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link
-                                                href={`/penyuluhan/data-kabupaten/edit/${item.id}`}
-                                            >
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(item.id || '')} />
-                                        </div>
-                                    </TableCell>
-                                )}
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={7} className="text-center">
-                                Tidak ada data
-                            </TableCell>
+                                    </div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Keterangan</div>
+                                    <div className="konten text-black/80 text-end">{item?.keterangan ?? "-"}</div>
+                                </div>
+                            </div>
+                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                            <div className="flex gap-3 text-white">
+                                <Link href={`/penyuluhan/data-kabupaten/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                    Detail
+                                </Link>
+                                <Link href={`/penyuluhan/data-kabupaten/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                    Edit
+                                </Link>
+                                <button onClick={() => handleDelete(String(item.id) || "")} className="bg-red-500 rounded-full w-full py-2">
+                                    Hapus
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center">
+                        <NotFoundSearch />
+                    </div>
+                )}
+            </div>
+            {/* mobile table */}
+
+
+            {/* table */}
+            <div className="hidden md:block">
+                <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
+                    <TableHeader className='bg-primary-600'>
+                        <TableRow >
+                            <TableHead className="text-primary py-3">No</TableHead>
+                            {visibleColumns.includes('nama') && (
+                                <TableHead className="text-primary py-3">Nama</TableHead>
+                            )}
+                            {visibleColumns.includes('nip') && (
+                                <TableHead className="text-primary py-3">NIP</TableHead>
+                            )}
+                            {visibleColumns.includes('pangkat') && (
+                                <TableHead className="text-primary py-3 ">
+                                    Pangkat/Gol
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('wilayah') && (
+                                <TableHead className="text-primary py-3 ">Wilayah Desa Binaan (Kecamatan)</TableHead>
+                            )}
+                            {visibleColumns.includes('keterangan') && (
+                                <TableHead className="text-primary py-3 ">Keterangan</TableHead>
+                            )}
+                            {visibleColumns.includes('aksi') && (
+                                <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
+                            )}
                         </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                    </TableHeader>
+                    <TableBody>
+                        {dataKabupaten?.data?.data && dataKabupaten?.data?.data?.length > 0 ? (
+                            dataKabupaten?.data?.data?.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                        {(currentPage - 1) * limit + (index + 1)}
+                                    </TableCell>
+                                    {visibleColumns.includes('nama') && (
+                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                            {item.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('nip') && (
+                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                            {item.nip}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('pangkat') && (
+                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                            {item.pangkat}, {item.golongan}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('wilayah') && (
+                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                            {item.kecamatan.map((kec, index) => (
+                                                <span key={kec.id}>
+                                                    {kec.nama}
+                                                    {index < item.kecamatan.length - 1 && ", "}
+                                                </span>
+                                            ))}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('keterangan') && (
+                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                            {item.keterangan}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('aksi') && (
+                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                            <div className="flex items-center gap-4">
+                                                <Link className='' href={`/penyuluhan/data-kabupaten/detail/${item.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link
+                                                    href={`/penyuluhan/data-kabupaten/edit/${item.id}`}
+                                                >
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(item.id || '')} />
+                                            </div>
+                                        </TableCell>
+                                    )}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={7} className="text-center">
+                                    Tidak ada data
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
             {/* table */}
 
             {/* pagination */}

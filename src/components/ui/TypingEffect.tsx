@@ -33,7 +33,7 @@ const TypingEffect: React.FC<TypingEffectProps> = ({ text, speed = 120, deleteSp
     }, [displayText, isDeleting, text, textIndex, speed, deleteSpeed]);
 
     return (
-        <div className="text-xs lg:text-sm text-center text-primary mt-4 lg:mt-0">{displayText}</div>
+        <div className="text-sm md:text-base font-semibold text-center text-primary mt-4 lg:mt-0">{displayText}</div>
     );
 };
 

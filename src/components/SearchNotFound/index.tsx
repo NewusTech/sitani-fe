@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
+import TypingEffect from '../ui/TypingEffect'
 
 const NotFoundSearch = () => {
     return (
@@ -13,9 +14,10 @@ const NotFoundSearch = () => {
                     unoptimized
                     className="object-contain"
                 />
-                <div className="text-primary text-base md:text-xl font-semibold">
+                <TypingEffect text={["Maaf data tidak ditemukan.."]} />
+                {/* <div className="text-primary text-base md:text-xl font-semibold">
                     Data tidak ditemukan!
-                </div>
+                </div> */}
             </div>
         </div>
     )

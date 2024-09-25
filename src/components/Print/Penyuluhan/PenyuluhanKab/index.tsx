@@ -90,7 +90,7 @@ const PenyuluhKabPrint = () => {
     const [limit, setLimit] = useState(10);
     // limit
     const { data: dataKabupaten }: SWRResponse<Response> = useSWR(
-        `/penyuluh-kabupaten/get?page=${currentPage}&search=${search}&limit=${limit}`,
+        `/penyuluh-kabupaten/get?page=${currentPage}&search=${search}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -208,7 +208,7 @@ const PenyuluhKabPrint = () => {
                             </div>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
+                    <DropdownMenuContent className="ml-5 w-56">
                         <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                             Pilih Unduhan
                         </DropdownMenuLabel>
