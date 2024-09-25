@@ -104,6 +104,7 @@ import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecam
 import FilterTable from '@/components/FilterTable';
 import PSPPenerimaUPPO from '@/components/Print/PSP/PenerimaUppo';
 import TambahIcon from '../../../../../public/icons/TambahIcon';
+import NotFoundSearch from '@/components/SearchNotFound';
 
 const DataPenerimaUppo = () => {
     // TES
@@ -529,33 +530,33 @@ const DataPenerimaUppo = () => {
             {/* Mobile */}
 
             {/* mobile table */}
-            <div className="wrap-table flex-col gap-2 mt-3 flex md:hidden">
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
                 {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
                     dataUser.data.data.map((item, index) => (
                         <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
                             <div className="wrap-konten flex flex-col gap-2">
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Kecamatan</div>
-                                    <div className="konten text-black/80 text-end">{item?.kecamatan?.nama}</div>
+                                    <div className="konten text-black/80 text-end">{item?.kecamatan?.nama ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Desa</div>
-                                    <div className="konten text-black/80 text-end">{item?.desa?.nama}</div>
+                                    <div className="konten text-black/80 text-end">{item?.desa?.nama ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Nama Poktan</div>
-                                    <div className="konten text-black/80 text-end">{item?.namaPoktan}</div>
+                                    <div className="konten text-black/80 text-end">{item?.namaPoktan ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Nama Ketua</div>
-                                    <div className="konten text-black/80 text-end">{item?.namaPoktan}</div>
+                                    <div className="konten text-black/80 text-end">{item?.namaPoktan ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Titik Koordinat</div>
-                                    <div className="konten text-black/80 text-end">{item?.titikKoordinat}</div>
+                                    <div className="konten text-black/80 text-end">{item?.titikKoordinat ?? "-"}</div>
                                 </div>
                             </div>
-                            <div className="garis my-3 w-full h-[2px] bg-primary"></div>
+                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                             <div className="flex gap-3 text-white">
                                 <Link href={`/psp/data-penerima-uppo/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
                                     Detail
@@ -571,7 +572,7 @@ const DataPenerimaUppo = () => {
                     ))
                 ) : (
                     <div className="text-center">
-                        Tidak ada data
+                        <NotFoundSearch />
                     </div>
                 )}
             </div>
@@ -653,7 +654,7 @@ const DataPenerimaUppo = () => {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={6} className="text-center">
-                                    Tidak ada data
+                                    <NotFoundSearch />
                                 </TableCell>
                             </TableRow>
                         )}

@@ -104,6 +104,7 @@ import Swal from 'sweetalert2';
 import FilterTable from '@/components/FilterTable';
 import PSPBantuan from '@/components/Print/PSP/Bantuan';
 import TambahIcon from '../../../../../public/icons/TambahIcon';
+import NotFoundSearch from '@/components/SearchNotFound';
 
 const Bantuan = () => {
     // TES
@@ -297,7 +298,7 @@ const Bantuan = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Bantuan</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Bantuan</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -349,7 +350,7 @@ const Bantuan = () => {
                                     }}
                                 />
                             </div>
-                            <Link href="/psp/bantuan/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
+                            <Link href="/psp/bantuan/tambah" className='bg-primary px-3 py-2 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                                 Tambah Data
                             </Link>
                         </div>
@@ -375,7 +376,7 @@ const Bantuan = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md ml-5 w-[280px]">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -443,11 +444,11 @@ const Bantuan = () => {
                             {/* More Menu */}
 
                             {/* filter kolom */}
-                            <FilterTable
+                            {/* <FilterTable
                                 columns={columns}
                                 defaultCheckedKeys={getDefaultCheckedKeys()}
                                 onFilterChange={handleFilterChange}
-                            />
+                            /> */}
                             {/* filter kolom */}
 
                             {/* unduh print */}
@@ -491,22 +492,22 @@ const Bantuan = () => {
             {/* Mobile */}
 
             {/* mobile table */}
-            <div className="wrap-table flex-col gap-2 mt-3 flex md:hidden">
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
                 {dataPSP?.data?.data && dataPSP.data.data.length > 0 ? (
                     dataPSP.data.data.map((item, index) => (
-                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-[#F5F5F5] bg-white shadow-sm">
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
                             <div className="wrap-konten flex flex-col gap-2">
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Kecamatan</div>
-                                    <div className="konten text-black/80 text-end">{item?.kecamatan?.nama}</div>
+                                    <div className="konten text-black/80 text-end">{item?.kecamatan?.nama ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Desa</div>
-                                    <div className="konten text-black/80 text-end">{item?.desa?.nama}</div>
+                                    <div className="konten text-black/80 text-end">{item?.desa?.nama ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Jenis Bantuan</div>
-                                    <div className="konten text-black/80 text-end">{item?.jenisBantuan}</div>
+                                    <div className="konten text-black/80 text-end">{item?.jenisBantuan ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Periode</div>
@@ -515,14 +516,14 @@ const Bantuan = () => {
                                                 day: 'numeric',
                                                 month: 'long',
                                                 year: 'numeric',
-                                            }) : 'Tanggal tidak tersedia'}</div>
+                                            }) : '-'}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Keterangan</div>
-                                    <div className="konten text-black/80 text-end">{item?.keterangan}</div>
+                                    <div className="konten text-black/80 text-end">{item?.keterangan ?? "-"}</div>
                                 </div>
                             </div>
-                            <div className="garis my-3 w-full h-[2px] bg-[#F5F5F5]"></div>
+                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                             <div className="flex gap-3 text-white">
                                 <Link href={`/psp/bantuan/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
                                     Detail
@@ -538,7 +539,7 @@ const Bantuan = () => {
                     ))
                 ) : (
                     <div className="text-center">
-                        Tidak ada data
+                          <NotFoundSearch />
                     </div>
                 )}
             </div>
@@ -628,7 +629,7 @@ const Bantuan = () => {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={6} className="text-center">
-                                    Tidak ada data
+                                      <NotFoundSearch />
                                 </TableCell>
                             </TableRow>
                         )}

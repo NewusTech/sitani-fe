@@ -93,6 +93,7 @@ import FilterTable from '@/components/FilterTable';
 import PSPPupuk from '@/components/Print/PSP/Pupuk';
 import TambahIcon from '../../../../../public/icons/TambahIcon';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
+import NotFoundSearch from '@/components/SearchNotFound';
 
 const Pupuk = () => {
     // TES
@@ -283,7 +284,7 @@ const Pupuk = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Pupuk</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Pupuk</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -322,7 +323,7 @@ const Pupuk = () => {
                             </div>
                         </div>
                         <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                            <Link href="/psp/pupuk/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[140px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
+                            <Link href="/psp/pupuk/tambah" className='bg-primary px-3 py-2 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[140px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                                 Tambah Data
                             </Link>
                         </div>
@@ -348,7 +349,7 @@ const Pupuk = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                <DropdownMenuContent className="ml-5 transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-[280px]">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -416,11 +417,11 @@ const Pupuk = () => {
                             {/* More Menu */}
 
                             {/* filter kolom */}
-                            <FilterTable
+                            {/* <FilterTable
                                 columns={columns}
                                 defaultCheckedKeys={getDefaultCheckedKeys()}
                                 onFilterChange={handleFilterChange}
-                            />
+                            /> */}
                             {/* filter kolom */}
 
                             {/* unduh print */}
@@ -461,10 +462,10 @@ const Pupuk = () => {
             {/* Mobile */}
 
             {/* mobile table */}
-            <div className="wrap-table flex-col gap-2 mt-3 flex md:hidden">
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
                 {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
                     dataUser.data.data.map((item, index) => (
-                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-[#F5F5F5] bg-white shadow-sm">
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
                             <div className="wrap-konten flex flex-col gap-2">
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Jenis Pupuk</div>
@@ -483,7 +484,7 @@ const Pupuk = () => {
                                     <div className="konten text-black/80 text-end">{item?.hargaPupuk ?? "-"}</div>
                                 </div>
                             </div>
-                            <div className="garis my-3 w-full h-[2px] bg-[#F5F5F5]"></div>
+                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                             <div className="flex gap-3 text-white">
                                 <Link href={`/psp/pupuk/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
                                     Detail
@@ -499,7 +500,7 @@ const Pupuk = () => {
                     ))
                 ) : (
                     <div className="text-center">
-                        Tidak ada data
+                          <NotFoundSearch />
                     </div>
                 )}
             </div>
@@ -577,7 +578,7 @@ const Pupuk = () => {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={5} className="text-center">
-                                    Tidak ada data
+                                      <NotFoundSearch />
                                 </TableCell>
                             </TableRow>
                         )}
