@@ -1036,13 +1036,12 @@ const LuasKecPage = () => {
                         </>
                     ))
                 ) : (
-                    <TableRow>
-                        <TableCell colSpan={12} className="text-center">
-                            <NotFoundSearch />
-                        </TableCell>
-                    </TableRow>
+                    <div className="w-full flex justify-center items-center">
+                        <NotFoundSearch />
+                    </div>
                 )}
             </div>
+
             {/* mobile table */}
 
             {/* table */}
@@ -1577,11 +1576,14 @@ const LuasKecPage = () => {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={12} className="text-center">
-                                    <NotFoundSearch />
+                                    <div className="flex justify-center items-center">
+                                        <NotFoundSearch />
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         )}
                     </TableBody>
+
                 </Table >
             </div>
             {/* table */}
