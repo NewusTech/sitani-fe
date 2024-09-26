@@ -93,6 +93,8 @@ import TambahIcon from '../../../../../public/icons/TambahIcon'
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan'
 import FilterTable from '@/components/FilterTable'
 import PerkebunanKecamatanPrint from '@/components/Print/Perkebunan/Kecamatan'
+import NotFoundSearch from '@/components/SearchNotFound'
+import DeletePopupTitik from '@/components/superadmin/TitikDelete'
 
 
 const LuasKecPage = () => {
@@ -266,7 +268,7 @@ const LuasKecPage = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Luas Areal dan Produksi Perkebunan Rakyat ( Kecamatan )</div>
+            <div className="text-xl md:text-2xl mb-4 font-semibold text-primary capitalize">Data Luas Areal dan Produksi Perkebunan Rakyat ( Kecamatan )</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -348,7 +350,6 @@ const LuasKecPage = () => {
                         </div>
 
                         <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-
                             <Link href="/perkebunan/luas-produksi-kecamatan/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[180px]'>
                                 Tambah Data
                             </Link>
@@ -508,544 +509,1083 @@ const LuasKecPage = () => {
             </div>
             {/* Mobile */}
 
-            {/* table */}
-            <Table className='border border-slate-200 mt-2'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow>
-                        {visibleColumns.includes('no') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                No
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('komoditi') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                Komoditi
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('komposisi') && (
-                            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
-                                Komposisi Luas Areal
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('jumlah') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Jumlah
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('produksi') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Produksi (Ton)
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('produktivitas') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Produktivitas Kg/Ha
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('jumlahPetani') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Jml. Petani Pekebun (KK)
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('bentukHasil') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Bentuk Hasil
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('keterangan') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Keterangan
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('aksi') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 text-center">
-                                Aksi
-                            </TableHead>
-                        )}
-                    </TableRow>
-                    <TableRow>
-                        {visibleColumns.includes('komposisi') && (
-                            <>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    TBM
-                                </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    TM
-                                </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    TR
-                                </TableHead>
-                            </>
-                        )}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {dataProduksi?.data?.data && dataProduksi?.data?.data?.length > 0 ? (
-                        dataProduksi?.data?.data.map((item: any) => (
-                            <>
-                                {/* Tahunan */}
-                                <TableRow >
-                                    {visibleColumns.includes('no') && (
-                                        <TableCell className='border border-slate-200 font-semibold text-center'>
-                                            I
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('komoditi') && (
-                                        <TableCell className='border border-slate-200 font-semibold'>
-                                            TAN. TAHUNAN
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('aksi') && (
-                                        <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
-                                    )}
-                                </TableRow>
-                                {/* komoditas */}
-                                {item?.list[1]?.masterIds?.map((i: number) => (
-                                    <TableRow key={i}>
-                                        {visibleColumns.includes('no') && (
-                                            <TableCell className='border border-slate-200 text-center'></TableCell>
-                                        )}
-                                        {visibleColumns.includes('komoditi') && (
-                                            <TableCell className='border border-slate-200'>
-                                                {/* Aren */}
-                                                {item?.list[1]?.list[i]?.komoditas}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('komposisi') && (
-                                            <>
-                                                <TableCell className='border border-slate-200 text-center'>
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+                {dataProduksi?.data?.data && dataProduksi?.data?.data?.length > 0 ? (
+                    dataProduksi?.data?.data.map((item: any) => (
+                        <>
+                            <div className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                                <div className="wrap-konten flex flex-col gap-2">
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">I</div>
+                                        <div className="konten text-black/80 text-end">
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">TAN. TAHUNAN</div>
+                                        <div className="konten text-black/80 text-end">
+                                        </div>
+                                    </div>
+                                    {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div> */}
+                                    {/* komoditas */}
+                                    {item?.list[1]?.masterIds?.map((i: number) => (
+                                        <div key={i} >
+                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Komoditi</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[1]?.list[i]?.komoditas ?? "-"}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TBM</div>
+                                                <div className="konten text-black/80 text-end">
                                                     {item?.list[1]?.list[i]?.tbm}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TM</div>
+                                                <div className="konten text-black/80 text-end">
                                                     {item?.list[1]?.list[i]?.tm}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TR</div>
+                                                <div className="konten text-black/80 text-end">
                                                     {item?.list[1]?.list[i]?.tr}
-                                                </TableCell>
-                                            </>
-                                        )}
-                                        {visibleColumns.includes('jumlah') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[1]?.list[i]?.jumlah}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('produksi') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[1]?.list[i]?.produksi}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('produktivitas') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[1]?.list[i]?.produktivitas}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('jumlahPetani') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[1]?.list[i]?.jmlPetaniPekebun}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('bentukHasil') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[1]?.list[i]?.bentukHasil}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('keterangan') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[1]?.list[i]?.keterangan}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('aksi') && (
-                                            <TableCell>
-                                                <div className="flex items-center gap-4">
-                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[1]?.list[i]?.id}`}>
-                                                        <EyeIcon />
-                                                    </Link>
-                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[1]?.list[i]?.id}`}>
-                                                        <EditIcon />
-                                                    </Link>
-                                                    <DeletePopup onDelete={() => handleDelete(String(item?.list[1]?.list[i]?.id))} />
                                                 </div>
-                                            </TableCell>
-                                        )}
-                                    </TableRow>
-                                ))}
-                                {/* jumlah I */}
-                                <TableRow>
-                                    {visibleColumns.includes('no') && (
-                                        <TableCell className='border border-slate-200 text-center'></TableCell>
-                                    )}
-                                    {visibleColumns.includes('komoditi') && (
-                                        <TableCell className='border italic font-semibold border-slate-200'>
-                                            Jumlah I
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('komposisi') && (
-                                        <>
-                                            <TableCell className='border text-center border-slate-200'>
+                                            </div>
+
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Jumlah</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[1]?.list[i]?.jumlah}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Produksi</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[1]?.list[i]?.produksi}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Produktivitas</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[1]?.list[i]?.produktivitas}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Jumlah Petani Perkebunan</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[1]?.list[i]?.jmlPetaniPekebun}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Bentuk Hasil</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[1]?.list[i]?.bentukHasil}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Keterangan</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[1]?.list[i]?.keterangan}
+                                                </div>
+                                            </div>
+                                            <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Aksi</div>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <div className="flex flex-col gap-1 w-3 items-end cursor-pointer">
+                                                            <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                            <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                            <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                        </div>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent className="w-fit mr-8 mt-1">
+                                                        <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                                            Pilih Aksi
+                                                        </DropdownMenuLabel>
+                                                        <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                                        <DropdownMenuGroup>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <Link href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[1]?.list[i]?.id}`}>
+                                                                    <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                        Detail
+                                                                    </div>
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <Link href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[1]?.list[i]?.id}`}>
+                                                                    <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                        Edit
+                                                                    </div>
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <DeletePopupTitik onDelete={() => handleDelete(String(item?.list[1]?.list[i]?.id))} />
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuGroup>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <hr className="border border-primary transition-all ease-in-out animate-pulse mt-1 mb-1" />
+                                    <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm">
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah I</div>
+                                            <div className="konten text-black/80 text-end">
+                                            </div>
+                                        </div>
+                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-1 mb-1" />
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah TBM</div>
+                                            <div className="konten text-black/80 text-end">
                                                 {item?.list[1]?.sumTbm}
-                                            </TableCell>
-                                            <TableCell className='border text-center border-slate-200'>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah TM</div>
+                                            <div className="konten text-black/80 text-end">
                                                 {item?.list[1]?.sumTm}
-                                            </TableCell>
-                                            <TableCell className='border text-center border-slate-200'>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah TR</div>
+                                            <div className="konten text-black/80 text-end">
                                                 {item?.list[1]?.sumTr}
-                                            </TableCell>
-                                        </>
-                                    )}
-                                    {visibleColumns.includes('jumlah') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[1]?.sumJumlah}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('produksi') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[1]?.sumProduksi}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('produktivitas') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[1]?.sumProduktivitas}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('jumlahPetani') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[1]?.sumJmlPetaniPekebun}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('bentukHasil') && (
-                                        <TableCell className='border border-slate-200' colSpan={2} />
-                                    )}
-                                </TableRow>
+                                            </div>
+                                        </div>
 
-                                {/* Tahunan */}
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">SUm Jumlah</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[1]?.sumJumlah}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black"> Jumlah Produksi</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[1]?.sumProduksi}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black"> Jumlah Produktivitas</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[1]?.sumProduktivitas}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black"> Jumlah Petani Pekebun</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[1]?.sumJmlPetaniPekebun}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                {/* Semusim */}
-                                <TableRow>
-                                    {visibleColumns.includes('no') && (
-                                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                                            II
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('komoditi') && (
-                                        <TableCell className='border border-slate-200 font-semibold'>
-                                            TAN. SEMUSIM
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('aksi') && (
-                                        <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
-                                    )}
-                                </TableRow>
-                                {/* Komoditas */}
-                                {item?.list[2]?.masterIds?.map((i: number) => (
-                                    <TableRow key={i}>
-                                        {visibleColumns.includes('no') && (
-                                            <TableCell className='border border-slate-200 text-center'></TableCell>
-                                        )}
-                                        {visibleColumns.includes('komoditi') && (
-                                            <TableCell className='border border-slate-200'>
-                                                {item?.list[2]?.list[i]?.komoditas}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('komposisi') && (
-                                            <>
-                                                <TableCell className='border border-slate-200 text-center'>
+                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-4 mb-2"></div>
+
+                                <div className="wrap-konten flex flex-col gap-2">
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">II</div>
+                                        <div className="konten text-black/80 text-end">
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">TAN. SEMUSIM</div>
+                                        <div className="konten text-black/80 text-end">
+                                        </div>
+                                    </div>
+                                    {item?.list[2]?.masterIds?.map((i: number) => (
+                                        <div key={i} >
+                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Komoditi</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[2]?.list[i]?.komoditas ?? "-"}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TBM</div>
+                                                <div className="konten text-black/80 text-end">
                                                     {item?.list[2]?.list[i]?.tbm}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TM</div>
+                                                <div className="konten text-black/80 text-end">
                                                     {item?.list[2]?.list[i]?.tm}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TR</div>
+                                                <div className="konten text-black/80 text-end">
                                                     {item?.list[2]?.list[i]?.tr}
-                                                </TableCell>
-                                            </>
-                                        )}
-                                        {visibleColumns.includes('jumlah') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[2]?.list[i]?.jumlah}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Jumlah</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[2]?.list[i]?.jumlah}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Produksi</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[2]?.list[i]?.produksi}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Produktivitas</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[2]?.list[i]?.produktivitas}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Jumlah Petani Perkebunan</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[2]?.list[i]?.jmlPetaniPekebun}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Bentuk Hasil</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[2]?.list[i]?.bentukHasil}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Keterangan</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[2]?.list[i]?.keterangan}
+                                                </div>
+                                            </div>
+                                            <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Aksi</div>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <div className="flex flex-col gap-1 w-3 items-end cursor-pointer">
+                                                            <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                            <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                            <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                        </div>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent className="w-fit mr-8 mt-1">
+                                                        <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                                            Pilih Aksi
+                                                        </DropdownMenuLabel>
+                                                        <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                                        <DropdownMenuGroup>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <Link href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[2]?.list[i]?.id}`}>
+                                                                    <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                        Detail
+                                                                    </div>
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <Link href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[2]?.list[i]?.id}`}>
+                                                                    <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                        Edit
+                                                                    </div>
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <DeletePopupTitik onDelete={() => handleDelete(String(item?.list[2]?.list[i]?.id))} />
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuGroup>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <hr className="border border-primary transition-all ease-in-out animate-pulse mt-1 mb-1" />
+                                    <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm">
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah II</div>
+                                            <div className="konten text-black/80 text-end">
+                                            </div>
+                                        </div>
+                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-1 mb-1" />
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah TBM</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[2]?.sumTbm}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah TM</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[2]?.sumTm}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah TR</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[2]?.sumTr}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">SUm Jumlah</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[2]?.sumJumlah}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black"> Jumlah Produksi</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[2]?.sumProduksi}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black"> Jumlah Produktivitas</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[2]?.sumProduktivitas}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black"> Jumlah Petani Pekebun</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[2]?.sumJmlPetaniPekebun}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-4 mb-2"></div>
+
+                                <div className="wrap-konten flex flex-col gap-2">
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">III</div>
+                                        <div className="konten text-black/80 text-end">
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">TAN. REMPAH DAN PENYEGAR</div>
+                                        <div className="konten text-black/80 text-end">
+                                        </div>
+                                    </div>
+                                    {item?.list[3]?.masterIds?.map((i: number) => (
+                                        <div key={i} >
+                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Komoditi</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.komoditas ?? "-"}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TBM</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.tbm}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TM</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.tm}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TR</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.tr}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Jumlah</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.jumlah}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Produksi</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.produksi}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Produktivitas</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.produktivitas}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Jumlah Petani Perkebunan</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.jmlPetaniPekebun}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Bentuk Hasil</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.bentukHasil}
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Keterangan</div>
+                                                <div className="konten text-black/80 text-end">
+                                                    {item?.list[3]?.list[i]?.keterangan}
+                                                </div>
+                                            </div>
+                                            <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">Aksi</div>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <div className="flex flex-col gap-1 w-3 items-end cursor-pointer">
+                                                            <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                            <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                            <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                        </div>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent className="w-fit mr-8 mt-1">
+                                                        <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                                            Pilih Aksi
+                                                        </DropdownMenuLabel>
+                                                        <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                                        <DropdownMenuGroup>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <Link href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[3]?.list[i]?.id}`}>
+                                                                    <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                        Detail
+                                                                    </div>
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <Link href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[3]?.list[i]?.id}`}>
+                                                                    <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                        Edit
+                                                                    </div>
+                                                                </Link>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <DeletePopupTitik onDelete={() => handleDelete(String(item?.list[3]?.list[i]?.id))} />
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuGroup>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <hr className="border border-primary transition-all ease-in-out animate-pulse mt-1 mb-1" />
+                                    <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm">
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah III</div>
+                                            <div className="konten text-black/80 text-end">
+                                            </div>
+                                        </div>
+                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-1 mb-1" />
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah TBM</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[3]?.sumTbm}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah TM</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[3]?.sumTm}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Jumlah TR</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[3]?.sumTr}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">SUm Jumlah</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[3]?.sumJumlah}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black"> Jumlah Produksi</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[3]?.sumProduksi}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black"> Jumlah Produktivitas</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[3]?.sumProduktivitas}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black"> Jumlah Petani Pekebun</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {item?.list[3]?.sumJmlPetaniPekebun}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </>
+                    ))
+                ) : (
+                    <TableRow>
+                        <TableCell colSpan={12} className="text-center">
+                            <NotFoundSearch />
+                        </TableCell>
+                    </TableRow>
+                )}
+            </div>
+            {/* mobile table */}
+
+            {/* table */}
+            <div className="hidden md:block">
+                <Table className='border border-slate-200 mt-2'>
+                    <TableHeader className='bg-primary-600'>
+                        <TableRow>
+                            {visibleColumns.includes('no') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                    No
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('komoditi') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                    Komoditi
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('komposisi') && (
+                                <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center">
+                                    Komposisi Luas Areal
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('jumlah') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Jumlah
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('produksi') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Produksi (Ton)
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('produktivitas') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Produktivitas Kg/Ha
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('jumlahPetani') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Jml. Petani Pekebun (KK)
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('bentukHasil') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Bentuk Hasil
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('keterangan') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Keterangan
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('aksi') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 text-center">
+                                    Aksi
+                                </TableHead>
+                            )}
+                        </TableRow>
+                        <TableRow>
+                            {visibleColumns.includes('komposisi') && (
+                                <>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        TBM
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        TM
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        TR
+                                    </TableHead>
+                                </>
+                            )}
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {dataProduksi?.data?.data && dataProduksi?.data?.data?.length > 0 ? (
+                            dataProduksi?.data?.data.map((item: any) => (
+                                <>
+                                    {/* Tahunan */}
+                                    <TableRow >
+                                        {visibleColumns.includes('no') && (
+                                            <TableCell className='border border-slate-200 font-semibold text-center'>
+                                                I
                                             </TableCell>
                                         )}
-                                        {visibleColumns.includes('produksi') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[2]?.list[i]?.produksi}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('produktivitas') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[2]?.list[i]?.produktivitas}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('jumlahPetani') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[2]?.list[i]?.jmlPetaniPekebun}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('bentukHasil') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[2]?.list[i]?.bentukHasil}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('keterangan') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[2]?.list[i]?.keterangan}
+                                        {visibleColumns.includes('komoditi') && (
+                                            <TableCell className='border border-slate-200 font-semibold'>
+                                                TAN. TAHUNAN
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('aksi') && (
-                                            <TableCell>
-                                                <div className="flex items-center gap-4">
-                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[2]?.list[i]?.id}`}>
-                                                        <EyeIcon />
-                                                    </Link>
-                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[2]?.list[i]?.id}`}>
-                                                        <EditIcon />
-                                                    </Link>
-                                                    <DeletePopup onDelete={() => handleDelete(String(item?.list[2]?.list[i]?.id))} />
-                                                </div>
-                                            </TableCell>
+                                            <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
                                         )}
                                     </TableRow>
-                                ))}
-                                {/* jumlah II */}
-                                <TableRow>
-                                    {visibleColumns.includes('no') && (
-                                        <TableCell className='border border-slate-200 text-center'></TableCell>
-                                    )}
-                                    {visibleColumns.includes('komoditi') && (
-                                        <TableCell className='border italic font-semibold border-slate-200'>
-                                            Jumlah II
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('komposisi') && (
-                                        <>
-                                            <TableCell className='border text-center border-slate-200'>
-                                                {item?.list[2]?.sumTbm}
-                                            </TableCell>
-                                            <TableCell className='border text-center border-slate-200'>
-                                                {item?.list[2]?.sumTm}
-                                            </TableCell>
-                                            <TableCell className='border text-center border-slate-200'>
-                                                {item?.list[2]?.sumTr}
-                                            </TableCell>
-                                        </>
-                                    )}
-                                    {visibleColumns.includes('jumlah') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[2]?.sumJumlah}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('produksi') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[2]?.sumProduksi}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('produktivitas') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[2]?.sumProduktivitas}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('jumlahPetani') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[2]?.sumJmlPetaniPekebun}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('bentukHasil') && (
-                                        <TableCell className='border border-slate-200' colSpan={2} />
-                                    )}
-                                </TableRow>
-                                {/* Semusim */}
-
-                                {/* Rempah */}
-                                <TableRow>
-                                    {visibleColumns.includes('no') && (
-                                        <TableCell className='border font-semibold border-slate-200 text-center'>
-                                            III
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('komoditi') && (
-                                        <TableCell className='border border-slate-200 font-semibold'>
-                                            TAN. REMPAH DAN PENYEGAR
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('aksi') && (
-                                        <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
-                                    )}
-                                </TableRow>
-                                {/* Komoditas */}
-                                {item?.list[3]?.masterIds?.map((i: number) => (
-                                    <TableRow key={i}>
+                                    {/* komoditas */}
+                                    {item?.list[1]?.masterIds?.map((i: number) => (
+                                        <TableRow key={i}>
+                                            {visibleColumns.includes('no') && (
+                                                <TableCell className='border border-slate-200 text-center'></TableCell>
+                                            )}
+                                            {visibleColumns.includes('komoditi') && (
+                                                <TableCell className='border border-slate-200'>
+                                                    {/* Aren */}
+                                                    {item?.list[1]?.list[i]?.komoditas}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('komposisi') && (
+                                                <>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item?.list[1]?.list[i]?.tbm}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item?.list[1]?.list[i]?.tm}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item?.list[1]?.list[i]?.tr}
+                                                    </TableCell>
+                                                </>
+                                            )}
+                                            {visibleColumns.includes('jumlah') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[1]?.list[i]?.jumlah}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('produksi') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[1]?.list[i]?.produksi}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('produktivitas') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[1]?.list[i]?.produktivitas}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('jumlahPetani') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[1]?.list[i]?.jmlPetaniPekebun}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('bentukHasil') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[1]?.list[i]?.bentukHasil}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('keterangan') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[1]?.list[i]?.keterangan}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('aksi') && (
+                                                <TableCell>
+                                                    <div className="flex items-center gap-4">
+                                                        <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[1]?.list[i]?.id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[1]?.list[i]?.id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item?.list[1]?.list[i]?.id))} />
+                                                    </div>
+                                                </TableCell>
+                                            )}
+                                        </TableRow>
+                                    ))}
+                                    {/* jumlah I */}
+                                    <TableRow>
                                         {visibleColumns.includes('no') && (
                                             <TableCell className='border border-slate-200 text-center'></TableCell>
                                         )}
                                         {visibleColumns.includes('komoditi') && (
-                                            <TableCell className='border border-slate-200'>
-                                                {item?.list[3]?.list[i]?.komoditas}
+                                            <TableCell className='border italic font-semibold border-slate-200'>
+                                                Jumlah I
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('komposisi') && (
                                             <>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item?.list[3]?.list[i]?.tbm}
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list[1]?.sumTbm}
                                                 </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item?.list[3]?.list[i]?.tm}
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list[1]?.sumTm}
                                                 </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item?.list[3]?.list[i]?.tr}
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list[1]?.sumTr}
                                                 </TableCell>
                                             </>
                                         )}
                                         {visibleColumns.includes('jumlah') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[3]?.list[i]?.jumlah}
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[1]?.sumJumlah}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('produksi') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[3]?.list[i]?.produksi}
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[1]?.sumProduksi}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('produktivitas') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[3]?.list[i]?.produktivitas}
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[1]?.sumProduktivitas}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('jumlahPetani') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[3]?.list[i]?.jmlPetaniPekebun}
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[1]?.sumJmlPetaniPekebun}
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('bentukHasil') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[3]?.list[i]?.bentukHasil}
+                                            <TableCell className='border border-slate-200' colSpan={2} />
+                                        )}
+                                    </TableRow>
+
+                                    {/* Tahunan */}
+
+                                    {/* Semusim */}
+                                    <TableRow>
+                                        {visibleColumns.includes('no') && (
+                                            <TableCell className='border font-semibold border-slate-200 text-center'>
+                                                II
                                             </TableCell>
                                         )}
-                                        {visibleColumns.includes('keterangan') && (
-                                            <TableCell className='border border-slate-200 text-center'>
-                                                {item?.list[3]?.list[i]?.keterangan}
+                                        {visibleColumns.includes('komoditi') && (
+                                            <TableCell className='border border-slate-200 font-semibold'>
+                                                TAN. SEMUSIM
                                             </TableCell>
                                         )}
                                         {visibleColumns.includes('aksi') && (
-                                            <TableCell>
-                                                <div className="flex items-center gap-4">
-                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[3]?.list[i]?.id}`}>
-                                                        <EyeIcon />
-                                                    </Link>
-                                                    <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[3]?.list[i]?.id}`}>
-                                                        <EditIcon />
-                                                    </Link>
-                                                    <DeletePopup onDelete={() => handleDelete(String(item?.list[3]?.list[i]?.id))} />
-                                                </div>
-                                            </TableCell>
+                                            <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
                                         )}
                                     </TableRow>
-                                ))}
-                                {/* jumlah III */}
-                                <TableRow>
-                                    {visibleColumns.includes('no') && (
-                                        <TableCell className='border border-slate-200 text-center'></TableCell>
-                                    )}
-                                    {visibleColumns.includes('komoditi') && (
-                                        <TableCell className='border italic font-semibold border-slate-200'>
-                                            Jumlah III
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('komposisi') && (
-                                        <>
-                                            <TableCell className='border text-center border-slate-200'>
-                                                {item?.list[3]?.sumTbm}
+                                    {/* Komoditas */}
+                                    {item?.list[2]?.masterIds?.map((i: number) => (
+                                        <TableRow key={i}>
+                                            {visibleColumns.includes('no') && (
+                                                <TableCell className='border border-slate-200 text-center'></TableCell>
+                                            )}
+                                            {visibleColumns.includes('komoditi') && (
+                                                <TableCell className='border border-slate-200'>
+                                                    {item?.list[2]?.list[i]?.komoditas}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('komposisi') && (
+                                                <>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item?.list[2]?.list[i]?.tbm}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item?.list[2]?.list[i]?.tm}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item?.list[2]?.list[i]?.tr}
+                                                    </TableCell>
+                                                </>
+                                            )}
+                                            {visibleColumns.includes('jumlah') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[2]?.list[i]?.jumlah}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('produksi') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[2]?.list[i]?.produksi}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('produktivitas') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[2]?.list[i]?.produktivitas}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('jumlahPetani') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[2]?.list[i]?.jmlPetaniPekebun}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('bentukHasil') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[2]?.list[i]?.bentukHasil}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('keterangan') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[2]?.list[i]?.keterangan}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('aksi') && (
+                                                <TableCell>
+                                                    <div className="flex items-center gap-4">
+                                                        <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[2]?.list[i]?.id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[2]?.list[i]?.id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item?.list[2]?.list[i]?.id))} />
+                                                    </div>
+                                                </TableCell>
+                                            )}
+                                        </TableRow>
+                                    ))}
+                                    {/* jumlah II */}
+                                    <TableRow>
+                                        {visibleColumns.includes('no') && (
+                                            <TableCell className='border border-slate-200 text-center'></TableCell>
+                                        )}
+                                        {visibleColumns.includes('komoditi') && (
+                                            <TableCell className='border italic font-semibold border-slate-200'>
+                                                Jumlah II
                                             </TableCell>
+                                        )}
+                                        {visibleColumns.includes('komposisi') && (
+                                            <>
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list[2]?.sumTbm}
+                                                </TableCell>
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list[2]?.sumTm}
+                                                </TableCell>
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list[2]?.sumTr}
+                                                </TableCell>
+                                            </>
+                                        )}
+                                        {visibleColumns.includes('jumlah') && (
                                             <TableCell className='border text-center border-slate-200'>
-                                                {item?.list[3]?.sumTm}
+                                                {item?.list[2]?.sumJumlah}
                                             </TableCell>
+                                        )}
+                                        {visibleColumns.includes('produksi') && (
                                             <TableCell className='border text-center border-slate-200'>
-                                                {item?.list[3]?.sumTr}
+                                                {item?.list[2]?.sumProduksi}
                                             </TableCell>
-                                        </>
-                                    )}
-                                    {visibleColumns.includes('jumlah') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[3]?.sumJumlah}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('produksi') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[3]?.sumProduksi}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('produktivitas') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[3]?.sumProduktivitas}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('jumlahPetani') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list[3]?.sumJmlPetaniPekebun}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('bentukHasil') && (
-                                        <TableCell className='border border-slate-200' colSpan={2} />
-                                    )}
-                                </TableRow>
-                                {/* Rempah */}
+                                        )}
+                                        {visibleColumns.includes('produktivitas') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[2]?.sumProduktivitas}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('jumlahPetani') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[2]?.sumJmlPetaniPekebun}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('bentukHasil') && (
+                                            <TableCell className='border border-slate-200' colSpan={2} />
+                                        )}
+                                    </TableRow>
+                                    {/* Semusim */}
 
-                                {/* jumlah semua */}
-                                <TableRow >
-                                    {visibleColumns.includes('no') && (
-                                        <TableCell className='border border-slate-200 text-center'></TableCell>
-                                    )}
-                                    {visibleColumns.includes('komoditi') && (
-                                        <TableCell className='border italic font-semibold border-slate-200'>
-                                            TOTAL I + II + III
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('komposisi') && (
-                                        <>
-                                            <TableCell className='border text-center border-slate-200'>
-                                                {item?.list?.sumTbm}
+                                    {/* Rempah */}
+                                    <TableRow>
+                                        {visibleColumns.includes('no') && (
+                                            <TableCell className='border font-semibold border-slate-200 text-center'>
+                                                III
                                             </TableCell>
-                                            <TableCell className='border text-center border-slate-200'>
-                                                {item?.list?.sumTm}
+                                        )}
+                                        {visibleColumns.includes('komoditi') && (
+                                            <TableCell className='border border-slate-200 font-semibold'>
+                                                TAN. REMPAH DAN PENYEGAR
                                             </TableCell>
-                                            <TableCell className='border text-center border-slate-200'>
-                                                {item?.list?.sumTr}
+                                        )}
+                                        {visibleColumns.includes('aksi') && (
+                                            <TableCell colSpan={9} className='border border-slate-200 font-semibold' />
+                                        )}
+                                    </TableRow>
+                                    {/* Komoditas */}
+                                    {item?.list[3]?.masterIds?.map((i: number) => (
+                                        <TableRow key={i}>
+                                            {visibleColumns.includes('no') && (
+                                                <TableCell className='border border-slate-200 text-center'></TableCell>
+                                            )}
+                                            {visibleColumns.includes('komoditi') && (
+                                                <TableCell className='border border-slate-200'>
+                                                    {item?.list[3]?.list[i]?.komoditas}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('komposisi') && (
+                                                <>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item?.list[3]?.list[i]?.tbm}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item?.list[3]?.list[i]?.tm}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item?.list[3]?.list[i]?.tr}
+                                                    </TableCell>
+                                                </>
+                                            )}
+                                            {visibleColumns.includes('jumlah') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[3]?.list[i]?.jumlah}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('produksi') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[3]?.list[i]?.produksi}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('produktivitas') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[3]?.list[i]?.produktivitas}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('jumlahPetani') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[3]?.list[i]?.jmlPetaniPekebun}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('bentukHasil') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[3]?.list[i]?.bentukHasil}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('keterangan') && (
+                                                <TableCell className='border border-slate-200 text-center'>
+                                                    {item?.list[3]?.list[i]?.keterangan}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('aksi') && (
+                                                <TableCell>
+                                                    <div className="flex items-center gap-4">
+                                                        <Link className='' href={`/perkebunan/luas-produksi-kecamatan/detail/${item?.list[3]?.list[i]?.id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link className='' href={`/perkebunan/luas-produksi-kecamatan/edit/${item?.list[3]?.list[i]?.id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(item?.list[3]?.list[i]?.id))} />
+                                                    </div>
+                                                </TableCell>
+                                            )}
+                                        </TableRow>
+                                    ))}
+                                    {/* jumlah III */}
+                                    <TableRow>
+                                        {visibleColumns.includes('no') && (
+                                            <TableCell className='border border-slate-200 text-center'></TableCell>
+                                        )}
+                                        {visibleColumns.includes('komoditi') && (
+                                            <TableCell className='border italic font-semibold border-slate-200'>
+                                                Jumlah III
                                             </TableCell>
-                                        </>
-                                    )}
-                                    {visibleColumns.includes('jumlah') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list?.sumJumlah}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('prduksi') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list?.sumProduksi}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('produktivitas') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list?.sumProduktivitas}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('jumlahPetani') && (
-                                        <TableCell className='border text-center border-slate-200'>
-                                            {item?.list?.sumJmlPetaniPekebun}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('bentukHasil') && (
-                                        <TableCell className='border border-slate-200' colSpan={2} />
-                                    )}
-                                </TableRow>
-                            </>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={12} className="text-center">
-                                Tidak ada data
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table >
+                                        )}
+                                        {visibleColumns.includes('komposisi') && (
+                                            <>
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list[3]?.sumTbm}
+                                                </TableCell>
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list[3]?.sumTm}
+                                                </TableCell>
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list[3]?.sumTr}
+                                                </TableCell>
+                                            </>
+                                        )}
+                                        {visibleColumns.includes('jumlah') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[3]?.sumJumlah}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('produksi') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[3]?.sumProduksi}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('produktivitas') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[3]?.sumProduktivitas}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('jumlahPetani') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list[3]?.sumJmlPetaniPekebun}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('bentukHasil') && (
+                                            <TableCell className='border border-slate-200' colSpan={2} />
+                                        )}
+                                    </TableRow>
+                                    {/* Rempah */}
+
+                                    {/* jumlah semua */}
+                                    <TableRow >
+                                        {visibleColumns.includes('no') && (
+                                            <TableCell className='border border-slate-200 text-center'></TableCell>
+                                        )}
+                                        {visibleColumns.includes('komoditi') && (
+                                            <TableCell className='border italic font-semibold border-slate-200'>
+                                                TOTAL I + II + III
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('komposisi') && (
+                                            <>
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list?.sumTbm}
+                                                </TableCell>
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list?.sumTm}
+                                                </TableCell>
+                                                <TableCell className='border text-center border-slate-200'>
+                                                    {item?.list?.sumTr}
+                                                </TableCell>
+                                            </>
+                                        )}
+                                        {visibleColumns.includes('jumlah') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list?.sumJumlah}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('prduksi') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list?.sumProduksi}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('produktivitas') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list?.sumProduktivitas}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('jumlahPetani') && (
+                                            <TableCell className='border text-center border-slate-200'>
+                                                {item?.list?.sumJmlPetaniPekebun}
+                                            </TableCell>
+                                        )}
+                                        {visibleColumns.includes('bentukHasil') && (
+                                            <TableCell className='border border-slate-200' colSpan={2} />
+                                        )}
+                                    </TableRow>
+                                </>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={12} className="text-center">
+                                    <NotFoundSearch />
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table >
+            </div>
             {/* table */}
+
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">
                 {dataProduksi?.data?.pagination.totalCount as number > 1 && (

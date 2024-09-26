@@ -268,7 +268,7 @@ const EditKecPage = () => {
                     {/* <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Pilih Kecamatan" />
+                                <Label className='text-xs lg:text-sm mb-1' label="Pilih Kecamatan" />
                                 <KecValue
                                     disabled
                                     value={dataLahanSawah?.data.kecamatanId}
@@ -276,7 +276,7 @@ const EditKecPage = () => {
                                 />
                             </div>
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Tahun" />
+                                <Label className='text-xs lg:text-sm mb-1' label="Tahun" />
                                 <Input
                                     autoFocus
                                     type="number"
@@ -291,7 +291,7 @@ const EditKecPage = () => {
                     <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Pilih Kategori Panen" />
+                                <Label className='text-xs lg:text-sm mb-1' label="Pilih Kategori Panen" />
                                 <Controller
                                     name="master_kategori_komoditas_id"
                                     control={control}
@@ -311,7 +311,7 @@ const EditKecPage = () => {
                                 )}
                             </div>
                             <div className="flex flex-col mb-2  w-full">
-                                <Label className='text-sm mb-1' label="Pilih Komoditi" />
+                                <Label className='text-xs lg:text-sm mb-1' label="Pilih Komoditi" />
                                 <Controller
                                     name="master_komoditas_id"
                                     control={control}
@@ -340,24 +340,24 @@ const EditKecPage = () => {
                         <div className="mb-2">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                                 <div className="flex flex-col mb-2 w-full">
-                                    <Label className='text-sm mb-1' label="Tanaman Belum Menghasilkan" />
+                                    <Label className='text-xs lg:text-sm mb-1' label="Tanaman Belum Menghasilkan" />
                                     <Input
                                         type="number"
                                         placeholder="Tanaman Belum Menghasilkan"
                                         {...register('tbm')}
-                                        className={`${errors.tbm ? 'border-red-500' : ''}`}
+                                        className={`${errors.tbm ? 'border-red-500' : 'text-xs lg:text-sm'}`}
                                     />
                                     {errors.tbm && (
                                         <HelperError>{errors.tbm.message}</HelperError>
                                     )}
                                 </div>
                                 <div className="flex flex-col mb-2 w-full">
-                                    <Label className='text-sm mb-1' label="Tanaman Menghasilkan" />
+                                    <Label className='text-xs lg:text-sm mb-1' label="Tanaman Menghasilkan" />
                                     <Input
                                         type="number"
                                         placeholder="Tanaman Menghasilkan"
                                         {...register('tm')}
-                                        className={`${errors.tm ? 'border-red-500' : ''}`}
+                                        className={`${errors.tm ? 'border-red-500' : 'text-xs lg:text-sm'}`}
                                     />
                                     {errors.tm && (
                                         <HelperError>{errors.tm.message}</HelperError>
@@ -369,12 +369,12 @@ const EditKecPage = () => {
                         <div className="mb-2">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                                 <div className="flex flex-col mb-2 md:w-1/2 w-full md:pr-3">
-                                    <Label className='text-sm mb-1' label="Tanaman Rusak" />
+                                    <Label className='text-xs lg:text-sm mb-1' label="Tanaman Rusak" />
                                     <Input
                                         type="number"
                                         placeholder="Tanaman Rusak"
                                         {...register('tr')}
-                                        className={`${errors.tr ? 'border-red-500' : ''}`}
+                                        className={`${errors.tr ? 'border-red-500' : 'text-xs lg:text-sm'}`}
                                     />
                                     {errors.tr && (
                                         <HelperError>{errors.tr.message}</HelperError>
@@ -386,24 +386,24 @@ const EditKecPage = () => {
                         <div className="mb-2 mt-4">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                                 <div className="flex flex-col mb-2 w-full">
-                                    <Label className='text-sm mb-1' label="Produksi (TON)" />
+                                    <Label className='text-xs lg:text-sm mb-1' label="Produksi (TON)" />
                                     <Input
                                         type="number"
                                         placeholder="Produksi (TON)"
                                         {...register('produksi')}
-                                        className={`${errors.produksi ? 'border-red-500' : ''}`}
+                                        className={`${errors.produksi ? 'border-red-500' : 'text-xs lg:text-sm'}`}
                                     />
                                     {errors.produksi && (
                                         <HelperError>{errors.produksi.message}</HelperError>
                                     )}
                                 </div>
                                 <div className="flex flex-col mb-2 w-full">
-                                    <Label className='text-sm mb-1' label="Produktivitas (Kg/Ha)" />
+                                    <Label className='text-xs lg:text-sm mb-1' label="Produktivitas (Kg/Ha)" />
                                     <Input
                                         type="number"
                                         placeholder="Produktivitas (Kg/Ha)"
                                         {...register('produktivitas')}
-                                        className={`${errors.produktivitas ? 'border-red-500' : ''}`}
+                                        className={`${errors.produktivitas ? 'border-red-500' : 'text-xs lg:text-sm'}`}
                                     />
                                     {errors.produktivitas && (
                                         <HelperError>{errors.produktivitas.message}</HelperError>
@@ -415,24 +415,24 @@ const EditKecPage = () => {
                         <div className="mb-2">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                                 <div className="flex flex-col mb-2 w-full">
-                                    <Label className='text-sm mb-1' label="Jumlah Petani Perkebun" />
+                                    <Label className='text-xs lg:text-sm mb-1' label="Jumlah Petani Perkebun" />
                                     <Input
                                         type="number"
                                         placeholder="Jumlah Petani Perkebun"
                                         {...register('jml_petani_pekebun')}
-                                        className={`${errors.jml_petani_pekebun ? 'border-red-500' : ''}`}
+                                        className={`${errors.jml_petani_pekebun ? 'border-red-500' : 'text-xs lg:text-sm'}`}
                                     />
                                     {errors.jml_petani_pekebun && (
                                         <HelperError>{errors.jml_petani_pekebun.message}</HelperError>
                                     )}
                                 </div>
                                 <div className="flex flex-col mb-2 w-full">
-                                    <Label className='text-sm mb-1' label="Bentuk Hasil" />
+                                    <Label className='text-xs lg:text-sm mb-1' label="Bentuk Hasil" />
                                     <Input
                                         type="text"
                                         placeholder="Bentuk Hasil"
                                         {...register('bentuk_hasil')}
-                                        className={`${errors.bentuk_hasil ? 'border-red-500' : ''}`}
+                                        className={`${errors.bentuk_hasil ? 'border-red-500' : 'text-xs lg:text-sm'}`}
                                     />
                                     {errors.bentuk_hasil && (
                                         <HelperError>{errors.bentuk_hasil.message}</HelperError>
@@ -444,12 +444,12 @@ const EditKecPage = () => {
                         <div className="mb-2">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                                 <div className="flex flex-col mb-2 md:w-1/2 w-full md:pr-3">
-                                    <Label className='text-sm mb-1' label="Keterangan" />
+                                    <Label className='text-xs lg:text-sm mb-1' label="Keterangan" />
                                     <Input
                                         type="text"
                                         placeholder="Keterangan"
                                         {...register('keterangan')}
-                                        className={`${errors.keterangan ? 'border-red-500' : ''}`}
+                                        className={`${errors.keterangan ? 'border-red-500' : 'text-xs lg:text-sm'}`}
                                     />
                                     {errors.keterangan && (
                                         <HelperError>{errors.keterangan.message}</HelperError>
@@ -461,10 +461,10 @@ const EditKecPage = () => {
                 </div>
                 {/* Button */}
                 <div className="flex justify-end gap-3">
-                    <Link href="/perkebunan/luas-produksi-kecamatan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    <Link href="/perkebunan/luas-produksi-kecamatan" className='bg-white w-[120px] text-xs md:text-sm  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
-                    <Button type="submit" variant="primary" size="lg" className="w-[120px]">
+                    <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 text-xs lg:text-sm">
                         {loading ? (
                             <Loading />
                         ) : (

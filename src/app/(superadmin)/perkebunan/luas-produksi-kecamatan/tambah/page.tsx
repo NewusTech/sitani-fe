@@ -100,7 +100,6 @@ const TambahKecPage = () => {
                 })
                 .then((res: any) => res.data)
     );
-    // GET ALL KATEGORI
     // GET ALL KOMODITAS
     const { data: dataKomoditi }: SWRResponse<ResponseKomoditi> = useSWR(
         `/perkebunan/master-komoditas/get`,
@@ -200,14 +199,14 @@ const TambahKecPage = () => {
 
     return (
         <>
-            <div className="text-primary md:text-2xl text-xl font-bold mb-5">Tambah Data Luas Produksi Kecamatan</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-3 md:mb-5">Tambah Data Luas Produksi Kecamatan</div>
             {/* Nama NIP Tempat Tanggal Lahir */}
             <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
                 <div className="wrap-form">
                     {/* pilih kecamatan - katagori panen */}
                     <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full">
+                            <div className="text-xs lg:text-sm flex flex-col w-full">
                                 <Label className='text-sm mb-1' label="Pilih Kecamatan" />
                                 <Controller
                                     name="kecamatan_id"
@@ -224,7 +223,7 @@ const TambahKecPage = () => {
                                     <p className="text-red-500">{errors.kecamatan_id.message}</p>
                                 )}
                             </div>
-                            <div className="flex flex-col mb-2 w-full">
+                            <div className="text-xs lg:text-sm flex flex-col w-full">
                                 <Label className='text-sm mb-1' label="Tahun" />
                                 <Input
                                     type="number"
@@ -241,7 +240,7 @@ const TambahKecPage = () => {
                     {/* pilih master_komoditas_id */}
                     <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full">
+                            <div className="text-xs lg:text-sm flex flex-col w-full">
                                 <Label className='text-sm mb-1' label="Pilih Kategori Panen" />
                                 <Controller
                                     name="master_kategori_komoditas_id"
@@ -261,7 +260,7 @@ const TambahKecPage = () => {
                                     <HelperError>{errors.master_kategori_komoditas_id.message}</HelperError>
                                 )}
                             </div>
-                            <div className="flex flex-col mb-2  w-full">
+                            <div className="text-xs lg:text-sm flex flex-col w-full">
                                 <Label className='text-sm mb-1' label="Pilih Komoditi" />
                                 <Controller
                                     name="master_komoditas_id"
@@ -290,7 +289,7 @@ const TambahKecPage = () => {
                         {/* tbm - tm */}
                         <div className="mb-2">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                                <div className="flex flex-col mb-2 w-full">
+                                <div className="text-xs lg:text-sm flex flex-col w-full">
                                     <Label className='text-sm mb-1' label="Tanaman Belum Menghasilkan" />
                                     <Input
                                         type="number"
@@ -303,7 +302,7 @@ const TambahKecPage = () => {
                                         <HelperError>{errors.tbm.message}</HelperError>
                                     )}
                                 </div>
-                                <div className="flex flex-col mb-2 w-full">
+                                <div className="text-xs lg:text-sm flex flex-col w-full">
                                     <Label className='text-sm mb-1' label="Tanaman Menghasilkan" />
                                     <Input
                                         type="number"
@@ -321,7 +320,7 @@ const TambahKecPage = () => {
                         {/* tr */}
                         <div className="mb-2">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                                <div className="flex flex-col mb-2 md:w-1/2 w-full md:pr-3">
+                                <div className="text-xs lg:text-sm flex flex-col w-full">
                                     <Label className='text-sm mb-1' label="Tanaman Rusak" />
                                     <Input
                                         type="number"
@@ -339,7 +338,7 @@ const TambahKecPage = () => {
                         {/* produksi - produktivitas */}
                         <div className="mb-2 mt-4">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                                <div className="flex flex-col mb-2 w-full">
+                                <div className="text-xs lg:text-sm flex flex-col w-full">
                                     <Label className='text-sm mb-1' label="Produksi (TON)" />
                                     <Input
                                         type="number"
@@ -352,7 +351,7 @@ const TambahKecPage = () => {
                                         <HelperError>{errors.produksi.message}</HelperError>
                                     )}
                                 </div>
-                                <div className="flex flex-col mb-2 w-full">
+                                <div className="text-xs lg:text-sm flex flex-col w-full">
                                     <Label className='text-sm mb-1' label="Produktivitas (Kg/Ha)" />
                                     <Input
                                         type="number"
@@ -370,7 +369,7 @@ const TambahKecPage = () => {
                         {/* jumlah petani - bentuk hasil */}
                         <div className="mb-2">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                                <div className="flex flex-col mb-2 w-full">
+                                <div className="text-xs lg:text-sm flex flex-col w-full">
                                     <Label className='text-sm mb-1' label="Jumlah Petani Perkebun" />
                                     <Input
                                         type="number"
@@ -383,7 +382,7 @@ const TambahKecPage = () => {
                                         <HelperError>{errors.jml_petani_pekebun.message}</HelperError>
                                     )}
                                 </div>
-                                <div className="flex flex-col mb-2 w-full">
+                                <div className="text-xs lg:text-sm flex flex-col w-full">
                                     <Label className='text-sm mb-1' label="Bentuk Hasil" />
                                     <Input
                                         type="text"
@@ -400,7 +399,7 @@ const TambahKecPage = () => {
                         {/* keterangan */}
                         <div className="mb-2">
                             <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                                <div className="flex flex-col mb-2 md:w-1/2 w-full md:pr-3">
+                                <div className="text-xs lg:text-sm flex flex-col w-full">
                                     <Label className='text-sm mb-1' label="Keterangan" />
                                     <Input
                                         type="text"
@@ -418,10 +417,10 @@ const TambahKecPage = () => {
                 </div>
                 {/* Button */}
                 <div className="flex justify-end gap-3">
-                    <Link href="/perkebunan/luas-produksi-kecamatan" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    <Link href="/perkebunan/luas-produksi-kecamatan" className='bg-white w-[120px] text-xs md:text-sm  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
-                    <Button type="submit" variant="primary" size="lg" className="w-[120px]">
+                    <Button type="submit" variant="primary" size="lg" className="w-[120px] text-xs lg:text-sm">
                         {loading ? (
                             <Loading />
                         ) : (
