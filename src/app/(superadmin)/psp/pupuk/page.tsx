@@ -94,6 +94,7 @@ import PSPPupuk from '@/components/Print/PSP/Pupuk';
 import TambahIcon from '../../../../../public/icons/TambahIcon';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 import NotFoundSearch from '@/components/SearchNotFound';
+import DeletePopupTitik from '@/components/superadmin/TitikDelete';
 
 const Pupuk = () => {
     // TES
@@ -492,9 +493,9 @@ const Pupuk = () => {
                                 <Link href={`/psp/pupuk/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
                                     Edit
                                 </Link>
-                                <button onClick={() => handleDelete(item.id || 0)} className="bg-red-500 rounded-full w-full py-2">
-                                    Hapus
-                                </button>
+                                <div className="w-full">
+                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(item.id || 0)} />
+                                </div>
                             </div>
                         </div>
                     ))

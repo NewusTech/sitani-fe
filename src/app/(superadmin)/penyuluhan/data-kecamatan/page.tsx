@@ -94,6 +94,7 @@ import FilterTable from '@/components/FilterTable'
 import PenyuluhKecPrint from '@/components/Print/Penyuluhan/PenyuluhanKec'
 import TambahIcon from '../../../../../public/icons/TambahIcon';
 import NotFoundSearch from '@/components/SearchNotFound';
+import DeletePopupTitik from '@/components/superadmin/TitikDelete';
 
 interface Desa {
     id: string;
@@ -525,9 +526,9 @@ const PenyuluhDataKecamatan = () => {
                                 <Link href={`/penyuluhan/data-kecamatan/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
                                     Edit
                                 </Link>
-                                <button onClick={() => handleDelete(String(item.id) || "")} className="bg-red-500 rounded-full w-full py-2">
-                                    Hapus
-                                </button>
+                                <div className="w-full">
+                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item.id) || "")} />
+                                </div>
                             </div>
                         </div>
                     ))
@@ -639,7 +640,9 @@ const PenyuluhDataKecamatan = () => {
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={9} className='text-center'>Tidak Ada Data</TableCell>
+                                <TableCell colSpan={9} className='text-center'>
+                                    <NotFoundSearch />
+                                </TableCell>
                             </TableRow>
                         )}
                     </TableBody>
