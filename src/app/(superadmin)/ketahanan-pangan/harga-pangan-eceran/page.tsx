@@ -113,6 +113,7 @@ import {
 import KepangPerbandingan from '@/components/Print/KetahananPangan/PerbandinganHarga'
 import FilterTable from '@/components/FilterTable'
 import TambahIcon from '../../../../../public/icons/TambahIcon'
+import NotFoundSearch from '@/components/SearchNotFound'
 
 interface Komoditas {
     id: number;
@@ -283,7 +284,7 @@ const HargaPanganEceran = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary capitalize">Perbandingan Komoditas Harga Panen</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Perbandingan Komoditas Harga Panen</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -360,7 +361,7 @@ const HargaPanganEceran = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md ml-5 w-[280px]">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -374,7 +375,7 @@ const HargaPanganEceran = () => {
                                                 <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
                                                 <div className="flex gap-2 justify-between items-center w-full">
                                                     {/* filter tahun */}
-                                                    <div className="w-fit">
+                                                    <div className="w-full">
                                                         <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                                                             <SelectTrigger>
                                                                 <SelectValue placeholder="Tahun">
@@ -382,7 +383,7 @@ const HargaPanganEceran = () => {
                                                                 </SelectValue>
                                                             </SelectTrigger>
                                                             <SelectContent>
-                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
+                                                                {/* <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem> */}
                                                                 {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
                                                                     const year = startYear + index;
                                                                     return (
@@ -465,29 +466,69 @@ const HargaPanganEceran = () => {
             </div>
             {/* Mobile */}
 
-            {/* table */}
-            <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow>
-                        <TableHead className="text-primary py-3">No</TableHead>
-                        <TableHead className="text-primary py-3">Komoditas</TableHead>
-                        {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, index) => (
-                            <TableHead key={index} className="text-primary py-3">{month}</TableHead>
-                        ))}
-                        {/* <TableHead className="text-primary py-3">Aksi</TableHead> */}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {komoditasNames.map((komoditas, index) => (
-                        <TableRow key={index}>
-                            <TableCell className='py-2 lg:py-4 border border-slate-200'>{index + 1}</TableCell>
-                            <TableCell className='py-2 lg:py-4 border border-slate-200'>{komoditas}</TableCell>
-                            {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
-                                <TableCell className='py-2 lg:py-4 border border-slate-200' key={i}>
-                                    {monthPricesMap[komoditas][month] || "-"}
-                                </TableCell>
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+                {komoditasNames.length > 0 ? (
+                    komoditasNames.map((komoditas, index) => (
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                            <div className="wrap-konten flex flex-col gap-2">
+                                <div className="flex gap-5">
+                                    <div className="konten text-sm text-black font-semibold">{komoditas}</div>
+                                </div>
+                                {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
+                                    <div key={i} className="">
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">{month}</div>
+                                            <div className="konten text-black/80 text-end">
+                                                {/* {monthPricesMap[komoditas][month]
+                                                    ? monthPricesMap[komoditas][month].toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })
+                                                    : "-"} */}
+                                                Rp. {monthPricesMap[komoditas] && monthPricesMap[komoditas][month]
+                                                    ? new Intl.NumberFormat('id-ID').format(monthPricesMap[komoditas][month])
+                                                    : '-'}
+                                            </div>
+                                        </div>
+                                        <div className="garis h-[1px] my-2 bg-primary transition-all ease-in-out animate-pulse" ></ div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center">
+                        <NotFoundSearch />
+                    </div>
+                )}
+            </div>
+            {/* mobile table */}
+
+
+            {/* desktop table */}
+            <div className="hidden md:block">
+                <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
+                    <TableHeader className='bg-primary-600'>
+                        <TableRow>
+                            <TableHead className="text-primary py-3">No</TableHead>
+                            <TableHead className="text-primary py-3">Komoditas</TableHead>
+                            {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, index) => (
+                                <TableHead key={index} className="text-primary py-3">{month}</TableHead>
                             ))}
-                            {/* <TableCell>
+                            {/* <TableHead className="text-primary py-3">Aksi</TableHead> */}
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {komoditasNames.map((komoditas, index) => (
+                            <TableRow key={index}>
+                                <TableCell className='py-2 lg:py-4 border border-slate-200'>{index + 1}</TableCell>
+                                <TableCell className='py-2 lg:py-4 border border-slate-200'>{komoditas}</TableCell>
+                                {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((month, i) => (
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200' key={i}>
+                                        {monthPricesMap[komoditas][month]
+                                            ? monthPricesMap[komoditas][month].toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })
+                                            : "-"}
+                                    </TableCell>
+                                ))}
+                                {/* <TableCell>
                                 <div className="flex items-center gap-4">
                                     <Link className='' href="/ketahanan-pangan/harga-pangan-eceran/detail">
                                         <EyeIcon />
@@ -495,11 +536,12 @@ const HargaPanganEceran = () => {
                                     <DeletePopup onDelete={async () => { }} />
                                 </div>
                             </TableCell> */}
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-            {/* table */}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
+            {/*desktop table */}
 
             {/* title */}
             <div className="text-2xl mt-4 mb-4 font-semibold text-primary capitalize">Grafik Tiap Komoditas</div>

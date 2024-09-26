@@ -96,6 +96,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import NotFoundSearch from '@/components/SearchNotFound'
+import DeletePopupTitik from '@/components/superadmin/TitikDelete'
 // Filter di mobile
 
 interface Komoditas {
@@ -185,15 +187,24 @@ const KoefisienVariasiProdusen = () => {
                 .then((res) => res.data)
     );
 
-    if (error) return <div>Error loading data</div>;
-    if (!data) return <div>Loading...</div>;
+    // if (error) return <div>Error loading data</div>;
+    // if (!data) return <div>Loading...</div>;
 
     const allKomoditas = new Set<string>();
-    data.data?.forEach((item) => {
-        item.list.forEach((komoditas) => {
-            allKomoditas.add(komoditas.komoditas.nama);
+
+    // Ensure data and data.data are defined before proceeding
+    if (data && data.data) {
+        data.data.forEach((item) => {
+            item.list.forEach((komoditas) => {
+                // Check if komoditas.komoditas is defined before accessing its properties
+                if (komoditas.komoditas && komoditas.komoditas.nama) {
+                    allKomoditas.add(komoditas.komoditas.nama);
+                }
+            });
         });
-    });
+    }
+
+    // Convert the Set to an array to get unique komoditas
     const uniqueKomoditas = Array.from(allKomoditas);
 
     const handleDelete = async (id: string) => {
@@ -227,18 +238,31 @@ const KoefisienVariasiProdusen = () => {
             });
             // alert
             // Update the local data after successful deletion
-            mutate('/kepang/cv-produsen/get');
-        } catch (error) {
-            console.error('Failed to delete:', error);
-            console.log(id)
-            // Add notification or alert here for user feedback
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan!',
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: 'animate__animated animate__fadeInDown' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+                customClass: {
+                    title: 'text-2xl font-semibold text-red-600',
+                    icon: 'text-red-500 animate-bounce',
+                },
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+            });
+            console.error("Failed to create user:", error);
         }
+        mutate(`/kepang/cv-produsen/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`);
     };
 
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary capitalize">Data Coefesien Variansi (CV) Tk. Produsen</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Data Coefesien Variansi (CV) Tk. Produsen</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -318,7 +342,7 @@ const KoefisienVariasiProdusen = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md ml-5 w-[280px]">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -553,7 +577,7 @@ const KoefisienVariasiProdusen = () => {
                     </div>
 
                     {/* Hendle Search */}
-                    <div className="mt-2 search w-full">
+                    {/* <div className="mt-2 search w-full">
                         <Input
                             autoFocus
                             type="text"
@@ -563,70 +587,144 @@ const KoefisienVariasiProdusen = () => {
                             rightIcon={<SearchIcon />}
                             className='border-primary py-2 text-xs'
                         />
-                    </div>
+                    </div> */}
                     {/* Hendle Search */}
 
                 </>
             </div>
             {/* Mobile */}
 
-            {/* table */}
-            <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow>
-                        <TableHead className="text-primary py-3">No</TableHead>
-                        <TableHead className="text-primary py-3">Bulan</TableHead>
-                        {uniqueKomoditas.map((komoditas) => (
-                            <TableHead key={komoditas} className="text-primary py-3">{komoditas}</TableHead>
-                        ))}
-                        {/* <TableHead className="text-primary py-3">Aksi</TableHead> */}
-                    </TableRow>
-                </TableHeader>
-
-                <TableBody>
-                    {data?.data?.length > 0 ? (
-                        data.data.map((item, index) => (
-                            <TableRow key={item.id}>
-                                <TableCell className='py-2 lg:py-4 border border-slate-200'>{index + 1}</TableCell>
-                                <TableCell className='py-2 lg:py-4 border border-slate-200'>{format(new Date(item.bulan), 'MMMM', { locale: id })}</TableCell>
-                                {uniqueKomoditas.map((komoditas) => {
-                                    const foundCommodity = item.list.find(k => k.komoditas.nama === komoditas);
-                                    return (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200' key={komoditas}>
-                                            {foundCommodity ? (
-                                                <div className="flex items-center gap-4">
-                                                    <Link href={`/ketahanan-pangan/koefisien-variasi-produsen/detail/${foundCommodity.id}`}>
-                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                                                            <EyeIcon />
-                                                        </div>
-                                                    </Link>
-                                                    <Link href={`/ketahanan-pangan/koefisien-variasi-produsen/edit/${foundCommodity.id}`}>
-                                                        <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-                                                            <EditIcon />
-                                                        </div>
-                                                    </Link>
-                                                    <DeletePopup onDelete={() => handleDelete(String(foundCommodity?.id))} />
-                                                    <div className="nav flex pr-4 text-sm items-center gap-4 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
-                                                        {new Intl.NumberFormat('id-ID').format(foundCommodity.nilai)}
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+                {data && data.data && data.data.length > 0 ? ( // Check if data and data.data are defined
+                    data.data.map((item, index) => (
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                            <div className="wrap-konten flex flex-col gap-2">
+                                <div className="">
+                                    <div className="konten text-sm text-black font-semibold">{format(new Date(item.bulan), 'MMMM', { locale: id })}</div>
+                                </div>
+                                {item.list.map((listItem) => (
+                                    <div key={listItem.id} className="flex flex-col">
+                                        <div className="flex items-center justify-between">
+                                            <div className="label font-medium text-black">{listItem.komoditas.nama}</div>
+                                            <div className="konten text-black/80">
+                                                <div className="flex">
+                                                    <div className="w-[100px] flex justify-end">
+                                                        Rp. {new Intl.NumberFormat('id-ID').format(listItem.nilai) ?? "-"}
+                                                    </div>
+                                                    <div className="aksi">
+                                                        <DropdownMenu>
+                                                            <DropdownMenuTrigger asChild>
+                                                                <div className="flex flex-col gap-1 w-3 items-end cursor-pointer">
+                                                                    <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                                    <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                                    <div className="w-[2px] h-[2px] rounded-full bg-primary"></div>
+                                                                </div>
+                                                            </DropdownMenuTrigger>
+                                                            <DropdownMenuContent className="w-fit mr-8 mt-1">
+                                                                <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
+                                                                    Pilih Aksi
+                                                                </DropdownMenuLabel>
+                                                                <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
+                                                                <DropdownMenuGroup>
+                                                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                        <Link href={`/ketahanan-pangan/koefisien-variasi-produsen/detail/${listItem.id}`}>
+                                                                            <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                                Detail
+                                                                            </div>
+                                                                        </Link>
+                                                                    </DropdownMenuItem>
+                                                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                        <Link href={`/ketahanan-pangan/koefisien-variasi-produsen/edit/${listItem.id}`}>
+                                                                            <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                                Edit
+                                                                            </div>
+                                                                        </Link>
+                                                                    </DropdownMenuItem>
+                                                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                        <DeletePopupTitik onDelete={() => handleDelete(String(listItem.id))} />
+                                                                    </DropdownMenuItem>
+                                                                </DropdownMenuGroup>
+                                                            </DropdownMenuContent>
+                                                        </DropdownMenu>
                                                     </div>
                                                 </div>
-                                            ) : (
-                                                '-'
-                                            )}
-                                        </TableCell>
-                                    );
-                                })}
-                            </TableRow>
-                        ))
-                    ) : (
+                                            </div>
+                                        </div>
+                                        <div className="garis h-[1px] my-2 bg-primary transition-all ease-in-out animate-pulse"></div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center">
+                        <NotFoundSearch />
+                    </div>
+                )}
+            </div>
+            {/* mobile table */}
+
+
+
+            {/* desktop table */}
+            <div className="hidden md:block">
+                <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
+                    <TableHeader className='bg-primary-600'>
                         <TableRow>
-                            <TableCell colSpan={15} className="text-center">
-                                Tidak ada data
-                            </TableCell>
+                            <TableHead className="text-primary py-3">No</TableHead>
+                            <TableHead className="text-primary py-3">Bulan</TableHead>
+                            {uniqueKomoditas.map((komoditas) => (
+                                <TableHead key={komoditas} className="text-primary py-3">{komoditas}</TableHead>
+                            ))}
+                            {/* <TableHead className="text-primary py-3">Aksi</TableHead> */}
                         </TableRow>
-                    )}
-                </TableBody>
-                {/* <TableFooter className='bg-primary-600'>
+                    </TableHeader>
+                    <TableBody>
+                        {data && data.data && data.data.length > 0 ? ( // Ensure data and data.data are defined
+                            data.data.map((item, index) => (
+                                <TableRow key={item.id}>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{index + 1}</TableCell>
+                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{format(new Date(item.bulan), 'MMMM', { locale: id })}</TableCell>
+                                    {uniqueKomoditas.map((komoditas) => {
+                                        const foundCommodity = item.list.find(k => k.komoditas.nama === komoditas);
+                                        return (
+                                            <TableCell className='py-2 lg:py-4 border border-slate-200' key={komoditas}>
+                                                {foundCommodity ? (
+                                                    <div className="flex items-center gap-4">
+                                                        <Link href={`/ketahanan-pangan/koefisien-variasi-produsen/detail/${foundCommodity.id}`}>
+                                                            <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                <EyeIcon />
+                                                            </div>
+                                                        </Link>
+                                                        <Link href={`/ketahanan-pangan/koefisien-variasi-produsen/edit/${foundCommodity.id}`}>
+                                                            <div className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                                                                <EditIcon />
+                                                            </div>
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(foundCommodity?.id))} />
+                                                        <div className="nav flex pr-4 text-sm items-center gap-4 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
+                                                            {new Intl.NumberFormat('id-ID').format(foundCommodity.nilai)}
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    '-'
+                                                )}
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={15} className="text-center">
+                                    <NotFoundSearch />
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+
+                    {/* <TableFooter className='bg-primary-600'>
                     <TableRow>
                         <TableCell className='text-primary py-3' colSpan={2}>Rata-rata</TableCell>
                         <TableCell className="text-primary py-3">49000</TableCell>
@@ -653,8 +751,9 @@ const KoefisienVariasiProdusen = () => {
                         <TableCell className="text-primary py-3">49000</TableCell>
                     </TableRow>
                 </TableFooter> */}
-            </Table>
-            {/* table */}
+                </Table>
+            </div>
+            {/* desktop table */}
         </div>
     )
 }
