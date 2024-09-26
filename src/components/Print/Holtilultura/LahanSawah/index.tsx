@@ -251,7 +251,7 @@ const TPHLahanSawah = (props: PrintProps) => {
                             </div>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
+                    <DropdownMenuContent className="w-56 ml-5">
                         <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                             Pilih Unduhan
                         </DropdownMenuLabel>

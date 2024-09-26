@@ -30,7 +30,7 @@ const LahanPage = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Lahan Sawah dan Bukan Lahan Sawah</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Lahan Sawah dan Bukan Lahan Sawah</div>
             {/* title */}
             {/* tabs */}
             <div className="tabs">

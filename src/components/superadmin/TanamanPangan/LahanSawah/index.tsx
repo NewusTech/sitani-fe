@@ -92,6 +92,8 @@ import KecamatanSelect from '../../SelectComponent/SelectKecamatan'
 import FilterTable from '@/components/FilterTable'
 import TPHLahanSawah from '@/components/Print/Holtilultura/LahanSawah'
 import TambahIcon from '../../../../../public/icons/TambahIcon';
+import DeletePopupTitik from '../../TitikDelete';
+import NotFoundSearch from '@/components/SearchNotFound';
 
 // Define the types
 interface Kecamatan {
@@ -382,7 +384,7 @@ const LahanSawah = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-[280px] ml-5">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -450,11 +452,11 @@ const LahanSawah = () => {
                             {/* More Menu */}
 
                             {/* filter kolom */}
-                            <FilterTable
+                            {/* <FilterTable
                                 columns={columns}
                                 defaultCheckedKeys={getDefaultCheckedKeys()}
                                 onFilterChange={handleFilterChange}
-                            />
+                            /> */}
                             {/* filter kolom */}
 
                             {/* unduh print */}
@@ -496,166 +498,244 @@ const LahanSawah = () => {
             </div>
             {/* Mobile */}
 
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+                {responseData?.data && responseData?.data?.detail?.list?.length > 0 ? (
+                    responseData?.data?.detail?.list.map((item, index) => (
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                            <div className="wrap-konten flex flex-col gap-2">
+                                <div className="flex ">
+                                    <div className="konten text-black font-semibold">{item?.kecamatan?.nama ?? "-"}</div>
+                                </div>
+                                {/* luas lahan */}
+                                <div className="garis h-[1px] my-1 bg-primary transition-all ease-in-out animate-pulse" ></ div>
+                                    <div className="konten text-black font-semibold">Luas Lahan Sawah (Ha)</div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Irigasi Teknis</div>
+                                    <div className="konten text-black/80 text-end">{item?.irigasiTeknis ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Irigas 1/2 Teknis</div>
+                                    <div className="konten text-black/80 text-end">{item?.irigasiSetengahTeknis ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Irigasi Sederhana</div>
+                                    <div className="konten text-black/80 text-end">{item?.irigasiSederhana ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Irigasi Desa</div>
+                                    <div className="konten text-black/80 text-end">{item?.irigasiDesa ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Tadah Hujan</div>
+                                    <div className="konten text-black/80 text-end">{item?.tadahHujan ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Pasang Surut</div>
+                                    <div className="konten text-black/80 text-end">{item?.pasangSurut ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Lebak</div>
+                                    <div className="konten text-black/80 text-end">{item?.lebak ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Lainnya</div>
+                                    <div className="konten text-black/80 text-end">{item?.lainnya ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Jumlah</div>
+                                    <div className="konten text-black/80 text-end">{item?.jumlah ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Keterangan</div>
+                                    <div className="konten text-black/80 text-end">{item?.keterangan ?? "-"}</div>
+                                </div>
+                                {/* luas lahan */}
+                            </div>
+                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                            <div className="flex gap-3 text-white">
+                                <Link href={`/tanaman-pangan-holtikutura/lahan/lahan-sawah/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                    Detail
+                                </Link>
+                                <Link href={`/tanaman-pangan-holtikutura/lahan/lahan-sawah/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                    Edit
+                                </Link>
+                                <div className="w-full">
+                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item.id) || "")} />
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center">
+                        <NotFoundSearch />
+                    </div>
+                )}
+            </div>
+            {/* mobile table */}
+
             {/* table */}
-            <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow>
-                        {visibleColumns.includes('no') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                No
-                            </TableHead>
+            <div className="hidden md:block">
+                <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
+                    <TableHeader className='bg-primary-600'>
+                        <TableRow>
+                            {visibleColumns.includes('no') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                    No
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('kecamatan') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                    Kecamatan
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('luasLahanSawah') && (
+                                <TableHead colSpan={9} className="text-primary py-1 border border-slate-200 text-center">
+                                    Luas Lahan Sawah (Ha)
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('keterangan') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Ket
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('aksi') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Aksi
+                                </TableHead>
+                            )}
+                        </TableRow>
+                        <TableRow>
+                            {visibleColumns.includes('luasLahanSawah') && (
+                                <>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        Irigasi Teknis
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        Irigas 1/2 Teknis
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        Irigasi Sederhana
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        Irigasi Desa
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        Tadah Hujan
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        Pasang Surut
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        Lebak
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        Lainnya
+                                    </TableHead>
+                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                        Jumlah
+                                    </TableHead>
+                                </>
+                            )}
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {responseData?.data && responseData?.data?.detail?.list?.length > 0 ? (
+                            responseData?.data?.detail?.list.map((item, index) => (
+                                <TableRow key={item.id}>
+                                    {visibleColumns.includes('no') && (
+                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{index + 1}</TableCell>
+                                    )}
+                                    {visibleColumns.includes('kecamatan') && (
+                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.kecamatan.nama}</TableCell>
+                                    )}
+                                    {visibleColumns.includes('luasLahanSawah') && (
+                                        <>
+                                            <TableCell className="py-2 lg:py-4 border border-slate-200">{item.irigasiTeknis}</TableCell>
+                                            <TableCell className="py-2 lg:py-4 border border-slate-200">{item.irigasiSetengahTeknis}</TableCell>
+                                            <TableCell className="py-2 lg:py-4 border border-slate-200">{item.irigasiSederhana}</TableCell>
+                                            <TableCell className="py-2 lg:py-4 border border-slate-200">{item.irigasiDesa}</TableCell>
+                                            <TableCell className="py-2 lg:py-4 border border-slate-200">{item.tadahHujan}</TableCell>
+                                            <TableCell className="py-2 lg:py-4 border border-slate-200">{item.pasangSurut}</TableCell>
+                                            <TableCell className="py-2 lg:py-4 border border-slate-200">{item.lebak}</TableCell>
+                                            <TableCell className="py-2 lg:py-4 border border-slate-200">{item.lainnya}</TableCell>
+                                            <TableCell className="py-2 lg:py-4 border border-slate-200">{item.jumlah}</TableCell>
+                                        </>
+                                    )}
+                                    {visibleColumns.includes('keterangan') && (
+                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.keterangan}</TableCell>
+                                    )}
+                                    {visibleColumns.includes('aksi') && (
+                                        <TableCell className="text-center">
+                                            <div className="flex items-center gap-4">
+                                                <Link className='' href={`/tanaman-pangan-holtikutura/lahan/lahan-sawah/detail/${item.id}`}>
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link className='' href={`/tanaman-pangan-holtikutura/lahan/lahan-sawah/edit/${item.id}`}>
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup onDelete={() => handleDelete(item.id ? item.id.toString() : '')} />
+                                            </div>
+                                        </TableCell>
+                                    )}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={13} className="text-center">
+                                    Tidak ada data
+                                </TableCell>
+                            </TableRow>
                         )}
-                        {visibleColumns.includes('kecamatan') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                Kecamatan
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('luasLahanSawah') && (
-                            <TableHead colSpan={9} className="text-primary py-1 border border-slate-200 text-center">
-                                Luas Lahan Sawah (Ha)
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('keterangan') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Ket
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('aksi') && (
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Aksi
-                            </TableHead>
-                        )}
-                    </TableRow>
-                    <TableRow>
-                        {visibleColumns.includes('luasLahanSawah') && (
-                            <>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    Irigasi Teknis
+                        <TableRow>
+                            {visibleColumns.includes('no') && (
+                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
                                 </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    Irigas 1/2 Teknis
-                                </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    Irigasi Sederhana
-                                </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    Irigasi Desa
-                                </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    Tadah Hujan
-                                </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    Pasang Surut
-                                </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    Lebak
-                                </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                    Lainnya
-                                </TableHead>
-                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                            )}
+                            {visibleColumns.includes('kecamatan') && (
+                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
                                     Jumlah
                                 </TableHead>
-                            </>
-                        )}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {responseData?.data && responseData?.data?.detail?.list?.length > 0 ? (
-                        responseData?.data?.detail?.list.map((item, index) => (
-                            <TableRow key={item.id}>
-                                {visibleColumns.includes('no') && (
-                                    <TableCell className="py-2 lg:py-4 border border-slate-200">{index + 1}</TableCell>
-                                )}
-                                {visibleColumns.includes('kecamatan') && (
-                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.kecamatan.nama}</TableCell>
-                                )}
-                                {visibleColumns.includes('luasLahanSawah') && (
-                                    <>
-                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{item.irigasiTeknis}</TableCell>
-                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{item.irigasiSetengahTeknis}</TableCell>
-                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{item.irigasiSederhana}</TableCell>
-                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{item.irigasiDesa}</TableCell>
-                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{item.tadahHujan}</TableCell>
-                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{item.pasangSurut}</TableCell>
-                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{item.lebak}</TableCell>
-                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{item.lainnya}</TableCell>
-                                        <TableCell className="py-2 lg:py-4 border border-slate-200">{item.jumlah}</TableCell>
-                                    </>
-                                )}
-                                {visibleColumns.includes('keterangan') && (
-                                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.keterangan}</TableCell>
-                                )}
-                                {visibleColumns.includes('aksi') && (
-                                    <TableCell className="text-center">
-                                        <div className="flex items-center gap-4">
-                                            <Link className='' href={`/tanaman-pangan-holtikutura/lahan/lahan-sawah/detail/${item.id}`}>
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link className='' href={`/tanaman-pangan-holtikutura/lahan/lahan-sawah/edit/${item.id}`}>
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup onDelete={() => handleDelete(item.id ? item.id.toString() : '')} />
-                                        </div>
-                                    </TableCell>
-                                )}
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={13} className="text-center">
-                                Tidak ada data
-                            </TableCell>
+                            )}
+                            {visibleColumns.includes('luasLahanSawah') && (
+                                <>
+                                    <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                        {responseData?.data?.jumlahIrigasiTeknis}
+                                    </TableHead>
+                                    <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                        {responseData?.data?.jumlahIrigasiSetengahTeknis}
+                                    </TableHead>
+                                    <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                        {responseData?.data?.jumlahIrigasiSederhana}
+                                    </TableHead>
+                                    <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                        {responseData?.data?.jumlahIrigasiDesa}
+                                    </TableHead>
+                                    <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                        {responseData?.data?.jumlahTadahHujan}
+                                    </TableHead>
+                                    <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                        {responseData?.data?.jumlahPasangSurut}
+                                    </TableHead>
+                                    <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                        {responseData?.data?.jumlahLebak}
+                                    </TableHead>
+                                    <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                        {responseData?.data?.jumlahLainnya}
+                                    </TableHead>
+                                    <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                        {responseData?.data?.jumlah}
+                                    </TableHead>
+                                </>
+                            )}
+                            {visibleColumns.includes('keterangan' || 'aksi') && (
+                                <TableHead colSpan={2} className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
+                                </TableHead>
+                            )}
                         </TableRow>
-                    )}
-                    <TableRow>
-                        {visibleColumns.includes('no') && (
-                            <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('kecamatan') && (
-                            <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                Jumlah
-                            </TableHead>
-                        )}
-                        {visibleColumns.includes('luasLahanSawah') && (
-                            <>
-                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                    {responseData?.data?.jumlahIrigasiTeknis}
-                                </TableHead>
-                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                    {responseData?.data?.jumlahIrigasiSetengahTeknis}
-                                </TableHead>
-                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                    {responseData?.data?.jumlahIrigasiSederhana}
-                                </TableHead>
-                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                    {responseData?.data?.jumlahIrigasiDesa}
-                                </TableHead>
-                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                    {responseData?.data?.jumlahTadahHujan}
-                                </TableHead>
-                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                    {responseData?.data?.jumlahPasangSurut}
-                                </TableHead>
-                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                    {responseData?.data?.jumlahLebak}
-                                </TableHead>
-                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                    {responseData?.data?.jumlahLainnya}
-                                </TableHead>
-                                <TableHead className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                                    {responseData?.data?.jumlah}
-                                </TableHead>
-                            </>
-                        )}
-                        {visibleColumns.includes('keterangan' || 'aksi') && (
-                            <TableHead colSpan={2} className="text-primary font-semibold bg-primary-600 py-1 border border-slate-200 text-center">
-                            </TableHead>
-                        )}
-                    </TableRow>
-                </TableBody>
-            </Table>
+                    </TableBody>
+                </Table>
+            </div>
         </div>
     );
 }
