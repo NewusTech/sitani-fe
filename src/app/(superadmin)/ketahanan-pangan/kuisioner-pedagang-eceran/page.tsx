@@ -101,6 +101,8 @@ import {
     Users,
     Filter,
 } from "lucide-react"
+import NotFoundSearch from '@/components/SearchNotFound'
+import DeletePopupTitik from '@/components/superadmin/TitikDelete'
 // Filter di mobile
 
 interface Komoditas {
@@ -300,7 +302,7 @@ const KuisionerPedagangEceran = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary capitalize">Kuesioner Data Harian Panel Pedagangan Eceran</div>
+            <div className="text-xl md:text-2xl mb-4 font-semibold text-primary capitalize">Kuesioner Data Harian Panel Pedagangan Eceran</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -646,11 +648,11 @@ const KuisionerPedagangEceran = () => {
                             {/* More Menu */}
 
                             {/* filter kolom */}
-                            <FilterTable
+                            {/* <FilterTable
                                 columns={columns}
                                 defaultCheckedKeys={getDefaultCheckedKeys()}
                                 onFilterChange={handleFilterChange}
-                            />
+                            /> */}
                             {/* filter kolom */}
 
                             {/* unduh print */}
@@ -690,111 +692,185 @@ const KuisionerPedagangEceran = () => {
             </div>
             {/* Mobile */}
 
-            {/* table */}
-            <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
-                <TableHeader className='bg-primary-600'>
-                    <TableRow >
-                        {visibleColumns.includes('no') && (
-                            <TableHead className="text-primary py-3">No</TableHead>
-                        )}
-                        {visibleColumns.includes('komoditas') && (
-                            <TableHead className="text-primary py-3">Komoditas</TableHead>
-                        )}
-                        {visibleColumns.includes('mg1') && (
-                            <TableHead className="text-primary py-3">MG I</TableHead>
-                        )}
-                        {visibleColumns.includes('mg2') && (
-                            <TableHead className="text-primary py-3">MG II</TableHead>
-                        )}
-                        {visibleColumns.includes('mg3') && (
-                            <TableHead className="text-primary py-3">MG III</TableHead>
-                        )}
-                        {visibleColumns.includes('mg4') && (
-                            <TableHead className="text-primary py-3">MG IV</TableHead>
-                        )}
-                        {visibleColumns.includes('mg5') && (
-                            <TableHead className="text-primary py-3">MG V</TableHead>
-                        )}
-                        {visibleColumns.includes('rataRata') && (
-                            <TableHead className="text-primary py-3">Rata2 Per Bulan</TableHead>
-                        )}
-                        {visibleColumns.includes('aksi') && (
-                            <TableHead className="text-primary py-3">Aksi</TableHead>
-                        )}
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+                {dataProdusenEceran?.data?.data && dataProdusenEceran?.data?.data.length > 0 ? (
+                    (() => {
+                        let globalIndex = 1; // Inisialisasi global index
+                        return dataProdusenEceran.data.data.map((item, index) => (
+                            item?.list?.map((citem, cindex) => (
+                                <div key={citem.id} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                                    <div className="wrap-konten flex flex-col gap-2">
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">No</div>
+                                            <div className="konten text-black/80 text-end"> {globalIndex++ ?? "-"}</div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Nama Komoditas</div>
+                                            <div className="konten text-black/80 text-end">{citem?.komoditas.nama ?? "-"}</div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Minggu 1</div>
+                                            <div className="konten text-black/80 text-end">  {citem?.minggu1 ?? "-"}</div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Minggu 2</div>
+                                            <div className="konten text-black/80 text-end">{citem?.minggu2 ?? "-"}</div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Minggu 3</div>
+                                            <div className="konten text-black/80 text-end"> {citem?.minggu3 ?? "-"}</div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Minggu 4</div>
+                                            <div className="konten text-black/80 text-end"> {citem?.minggu4 ?? "-"}</div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Minggu 5</div>
+                                            <div className="konten text-black/80 text-end"> {citem?.minggu5 ?? "-"}</div>
+                                        </div>
+                                        <div className="flex justify-between gap-5">
+                                            <div className="label font-medium text-black">Rata - Rata</div>
+                                            <div className="konten text-black/80 text-end">  {(citem?.minggu1 + citem?.minggu2 + citem?.minggu3 + citem?.minggu4 + citem?.minggu5) / 5 ?? "-"}</div>
+                                        </div>
+                                    </div>
+                                    <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                    <div className="flex gap-3 text-white">
+                                        <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/detail/${citem?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                            Detail
+                                        </Link>
+                                        <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/edit/${citem?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                            Edit
+                                        </Link>
+                                        <div className="w-full">
+                                            <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(citem?.id) || "")} />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ));
+                    })()
+                ) : (
+                    <TableRow>
+                        <TableCell colSpan={9} className="text-center flex justify-center m-auto">
+                            <NotFoundSearch />
+                        </TableCell>
                     </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {dataProdusenEceran?.data?.data && dataProdusenEceran?.data?.data.length > 0 ? (
-                        (() => {
-                            let globalIndex = 1; // Inisialisasi global index
-                            return dataProdusenEceran.data.data.map((item, index) => (
-                                item?.list?.map((citem, cindex) => (
-                                    <TableRow key={citem.id}>
-                                        {visibleColumns.includes('no') && (
-                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                                {globalIndex++}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('komoditas') && (
-                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                                {citem?.komoditas.nama}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('mg1') && (
-                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                                {citem?.minggu1}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('mg2') && (
-                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                                {citem?.minggu2}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('mg3') && (
-                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                                {citem?.minggu3}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('mg4') && (
-                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                                {citem?.minggu4}
-                                            </TableCell>)}
-                                        {visibleColumns.includes('mg5') && (
-                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                                {citem?.minggu5}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('rataRata') && (
-                                            <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                                {(citem?.minggu1 + citem?.minggu2 + citem?.minggu3 + citem?.minggu4 + citem?.minggu5) / 5}
-                                            </TableCell>
-                                        )}
-                                        {visibleColumns.includes('aksi') && (
-                                            <TableCell>
-                                                <div className="flex items-center gap-4">
-                                                    <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/detail/${citem?.id}`}>
-                                                        <EyeIcon />
-                                                    </Link>
-                                                    <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/edit/${citem?.id}`}>
-                                                        <EditIcon />
-                                                    </Link>
-                                                    <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
-                                                </div>
-                                            </TableCell>
-                                        )}
-                                    </TableRow>
-                                ))
-                            ));
-                        })()
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={9} className="text-center">
-                                Tidak ada data
-                            </TableCell>
+                )}
+            </div>
+            {/* mobile table */}
+
+            {/* table */}
+            <div className="hidden md:block">
+                <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
+                    <TableHeader className='bg-primary-600'>
+                        <TableRow >
+                            {visibleColumns.includes('no') && (
+                                <TableHead className="text-primary py-3">No</TableHead>
+                            )}
+                            {visibleColumns.includes('komoditas') && (
+                                <TableHead className="text-primary py-3">Komoditas</TableHead>
+                            )}
+                            {visibleColumns.includes('mg1') && (
+                                <TableHead className="text-primary py-3">MG I</TableHead>
+                            )}
+                            {visibleColumns.includes('mg2') && (
+                                <TableHead className="text-primary py-3">MG II</TableHead>
+                            )}
+                            {visibleColumns.includes('mg3') && (
+                                <TableHead className="text-primary py-3">MG III</TableHead>
+                            )}
+                            {visibleColumns.includes('mg4') && (
+                                <TableHead className="text-primary py-3">MG IV</TableHead>
+                            )}
+                            {visibleColumns.includes('mg5') && (
+                                <TableHead className="text-primary py-3">MG V</TableHead>
+                            )}
+                            {visibleColumns.includes('rataRata') && (
+                                <TableHead className="text-primary py-3">Rata2 Per Bulan</TableHead>
+                            )}
+                            {visibleColumns.includes('aksi') && (
+                                <TableHead className="text-primary py-3">Aksi</TableHead>
+                            )}
                         </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                    </TableHeader>
+                    <TableBody>
+                        {dataProdusenEceran?.data?.data && dataProdusenEceran?.data?.data.length > 0 ? (
+                            (() => {
+                                let globalIndex = 1; // Inisialisasi global index
+                                return dataProdusenEceran.data.data.map((item, index) =>
+                                    item?.list?.map((citem, cindex) => (
+                                        <TableRow key={citem.id}>
+                                            {visibleColumns.includes('no') && (
+                                                <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                                    {globalIndex++}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('komoditas') && (
+                                                <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                                    {citem?.komoditas.nama}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('mg1') && (
+                                                <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                                    {citem?.minggu1}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('mg2') && (
+                                                <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                                    {citem?.minggu2}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('mg3') && (
+                                                <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                                    {citem?.minggu3}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('mg4') && (
+                                                <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                                    {citem?.minggu4}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('mg5') && (
+                                                <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                                    {citem?.minggu5}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('rataRata') && (
+                                                <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                                                    {(citem?.minggu1 + citem?.minggu2 + citem?.minggu3 + citem?.minggu4 + citem?.minggu5) / 5}
+                                                </TableCell>
+                                            )}
+                                            {visibleColumns.includes('aksi') && (
+                                                <TableCell>
+                                                    <div className="flex items-center gap-4">
+                                                        <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/detail/${citem?.id}`}>
+                                                            <EyeIcon />
+                                                        </Link>
+                                                        <Link href={`/ketahanan-pangan/kuisioner-pedagang-eceran/edit/${citem?.id}`}>
+                                                            <EditIcon />
+                                                        </Link>
+                                                        <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
+                                                    </div>
+                                                </TableCell>
+                                            )}
+                                        </TableRow>
+                                    ))
+                                );
+                            })()
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={9} className="text-center h-40">
+                                    <div className="flex justify-center items-center h-full">
+                                        <NotFoundSearch />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+
+                </Table>
+            </div>
             {/* table */}
 
             {/* pagination */}
