@@ -105,6 +105,7 @@ import FilterTable from '@/components/FilterTable';
 import PSPPenerimaUPPO from '@/components/Print/PSP/PenerimaUppo';
 import TambahIcon from '../../../../../public/icons/TambahIcon';
 import NotFoundSearch from '@/components/SearchNotFound';
+import DeletePopupTitik from '@/components/superadmin/TitikDelete';
 
 const DataPenerimaUppo = () => {
     // TES
@@ -564,9 +565,9 @@ const DataPenerimaUppo = () => {
                                 <Link href={`/psp/data-penerima-uppo/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
                                     Edit
                                 </Link>
-                                <button onClick={() => handleDelete(String(item.id) || "")} className="bg-red-500 rounded-full w-full py-2">
-                                    Hapus
-                                </button>
+                                <div className="w-full">
+                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item.id) || "")} />
+                                </div>
                             </div>
                         </div>
                     ))

@@ -14,9 +14,10 @@ import Loading from '@/components/ui/Loading';
 
 interface DeletePopupTitikProps {
     onDelete: () => Promise<void>; // onDelete should return a promise
+    className?: string;
 }
 
-const DeletePopupTitik: FC<DeletePopupTitikProps> = ({ onDelete }) => {
+const DeletePopupTitik: FC<DeletePopupTitikProps> = ({ onDelete, className }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -33,10 +34,10 @@ const DeletePopupTitik: FC<DeletePopupTitikProps> = ({ onDelete }) => {
     };
 
     return (
-        <div title='Hapus' className='flex items-center'>
+        <div title='Hapus' className='flex items-center w-full text-center'>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
-                    <div className="text-gray-600">Hapus</div>
+                    <div className={`text-gray-600 ${className}`}>Hapus</div>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
