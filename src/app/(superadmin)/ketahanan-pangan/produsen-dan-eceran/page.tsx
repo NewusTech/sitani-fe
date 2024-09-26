@@ -99,6 +99,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import TambahIcon from '../../../../../public/icons/TambahIcon'
+import NotFoundSearch from '@/components/SearchNotFound'
+import DeletePopupTitik from '@/components/superadmin/TitikDelete'
 
 interface Komoditas {
   id: number;
@@ -295,7 +297,7 @@ const ProdusenDanEceran = () => {
   return (
     <div>
       {/* title */}
-      <div className="text-2xl mb-4 font-semibold text-primary capitalize">Daftar Harga Produsen dan Eceran</div>
+      <div className="text-xl md:text-2xl mb-4 font-semibold text-primary capitalize">Daftar Harga Produsen dan Eceran</div>
       {/* title */}
 
       {/* Dekstop */}
@@ -635,11 +637,11 @@ const ProdusenDanEceran = () => {
               {/* More Menu */}
 
               {/* filter kolom */}
-              <FilterTable
+              {/* <FilterTable
                 columns={columns}
                 defaultCheckedKeys={getDefaultCheckedKeys()}
                 onFilterChange={handleFilterChange}
-              />
+              /> */}
               {/* filter kolom */}
 
               {/* unduh print */}
@@ -679,99 +681,174 @@ const ProdusenDanEceran = () => {
       </div>
       {/* Mobile */}
 
-      {/* table */}
-      <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
-        <TableHeader className='bg-primary-600'>
-          <TableRow >
-            {visibleColumns.includes('no') && (
-              <TableHead className="text-primary py-3">No</TableHead>
-            )}
-            {visibleColumns.includes('tanggal') && (
-              <TableHead className="text-primary py-3">Tanggal</TableHead>
-            )}
-            {visibleColumns.includes('komoditas') && (
-              <TableHead className="text-primary py-3">Komoditas</TableHead>
-            )}
-            {visibleColumns.includes('satuan') && (
-              <TableHead className="text-primary py-3">Satuan</TableHead>
-            )}
-            {visibleColumns.includes('hargaKomoditas') && (
-              <TableHead className="text-primary py-3">Harga Komoditas</TableHead>
-            )}
-            {visibleColumns.includes('keterangan') && (
-              <TableHead className="text-primary py-3">Keterangan</TableHead>
-            )}
-            {visibleColumns.includes('aksi') && (
-              <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
-            )}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {dataProdusenEceran?.data?.data && dataProdusenEceran?.data?.data.length > 0 ? (
-            dataProdusenEceran.data.data.map((item, index) => (
-              item?.list?.map((citem, cindex) => (
-                <TableRow key={citem.id}>
-                  {visibleColumns.includes('no') && (
-                    // <TableCell>
-                    //   {num++}
-                    // </TableCell>
-                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{(currentPage - 1) * limit + (index + 1)}</TableCell>
-                  )}
-                  {visibleColumns.includes('tanggal') && (
-                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                      {/* {item.tanggal} */}
+      {/* mobile table */}
+      <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+        {dataProdusenEceran?.data?.data && dataProdusenEceran?.data?.data.length > 0 ? (
+          dataProdusenEceran.data.data.map((item, index) => (
+            item?.list?.map((citem, cindex) => (
+              <div key={citem.id} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                <div className="wrap-konten flex flex-col gap-2">
+                  <div className="flex justify-between gap-5">
+                    <div className="label font-medium text-black">No</div>
+                    <div className="konten text-black/80 text-end">
+                      {(currentPage - 1) * limit + (index + 1) ?? "-"}
+                    </div>
+                  </div>
+                  <div className="flex justify-between gap-5">
+                    <div className="label font-medium text-black">Tanggal</div>
+                    <div className="konten text-black/80 text-end">
                       {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
                         day: 'numeric',
                         month: 'numeric',
                         year: 'numeric',
                       }) : 'Tanggal tidak tersedia'}
-                    </TableCell>
-                  )}
-                  {visibleColumns.includes('komoditas') && (
-                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                    </div>
+                  </div>
+                  <div className="flex justify-between gap-5">
+                    <div className="label font-medium text-black">Nama Komoditas</div>
+                    <div className="konten text-black/80 text-end">
                       {citem?.komoditas.nama}
-                    </TableCell>
-                  )}
-                  {visibleColumns.includes('satuan') && (
-                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                    </div>
+                  </div>
+                  <div className="flex justify-between gap-5">
+                    <div className="label font-medium text-black">Satuan Komoditas</div>
+                    <div className="konten text-black/80 text-end">
                       {citem?.satuan}
-                    </TableCell>
-                  )}
-                  {visibleColumns.includes('hargaKomoditas') && (
-                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                    </div>
+                  </div>
+                  <div className="flex justify-between gap-5">
+                    <div className="label font-medium text-black">Harga Komoditas</div>
+                    <div className="konten text-black/80 text-end">
                       {citem?.harga?.toLocaleString('id-ID')}
-                    </TableCell>
-                  )}
-                  {visibleColumns.includes('keterangan') && (
-                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                    </div>
+                  </div>
+                  <div className="flex justify-between gap-5">
+                    <div className="label font-medium text-black">Keterangan</div>
+                    <div className="konten text-black/80 text-end">
                       {citem?.keterangan}
-                    </TableCell>
-                  )}
-                  {visibleColumns.includes('aksi') && (
-                    <TableCell>
-                      <div className="flex items-center gap-4">
-                        <Link href={`/ketahanan-pangan/produsen-dan-eceran/detail/${citem?.id}`}>
-                          <EyeIcon />
-                        </Link>
-                        <Link href={`/ketahanan-pangan/produsen-dan-eceran/edit/${citem?.id}`}>
-                          <EditIcon />
-                        </Link>
-                        <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
-                      </div>
-                    </TableCell>
-                  )}
-                </TableRow>
-              ))
+                    </div>
+                  </div>
+                </div>
+                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                <div className="flex gap-3 text-white">
+                  <Link href={`/ketahanan-pangan/produsen-dan-eceran/detail/${citem?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                    Detail
+                  </Link>
+                  <Link href={`/ketahanan-pangan/produsen-dan-eceran/edit/${citem?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                    Edit
+                  </Link>
+                  <div className="w-full">
+                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(citem?.id) || "")} />
+                  </div>
+                </div>
+              </div>
             ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={6} className="text-center">
-                Tidak ada data
-              </TableCell>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={6} className="text-center flex m-auto justify-center">
+              <NotFoundSearch />
+            </TableCell>
+          </TableRow>
+        )}
+      </div>
+      {/* mobile table */}
+
+      {/* table */}
+      <div className="hidden md:block">
+        <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
+          <TableHeader className='bg-primary-600'>
+            <TableRow >
+              {visibleColumns.includes('no') && (
+                <TableHead className="text-primary py-3">No</TableHead>
+              )}
+              {visibleColumns.includes('tanggal') && (
+                <TableHead className="text-primary py-3">Tanggal</TableHead>
+              )}
+              {visibleColumns.includes('komoditas') && (
+                <TableHead className="text-primary py-3">Komoditas</TableHead>
+              )}
+              {visibleColumns.includes('satuan') && (
+                <TableHead className="text-primary py-3">Satuan</TableHead>
+              )}
+              {visibleColumns.includes('hargaKomoditas') && (
+                <TableHead className="text-primary py-3">Harga Komoditas</TableHead>
+              )}
+              {visibleColumns.includes('keterangan') && (
+                <TableHead className="text-primary py-3">Keterangan</TableHead>
+              )}
+              {visibleColumns.includes('aksi') && (
+                <TableHead className="text-primary py-3 text-center">Aksi</TableHead>
+              )}
             </TableRow>
-          )}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {dataProdusenEceran?.data?.data && dataProdusenEceran?.data?.data.length > 0 ? (
+              dataProdusenEceran.data.data.map((item, index) => (
+                item?.list?.map((citem, cindex) => (
+                  <TableRow key={citem.id}>
+                    {visibleColumns.includes('no') && (
+                      // <TableCell>
+                      //   {num++}
+                      // </TableCell>
+                      <TableCell className='py-2 lg:py-4 border border-slate-200'>{(currentPage - 1) * limit + (index + 1)}</TableCell>
+                    )}
+                    {visibleColumns.includes('tanggal') && (
+                      <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                        {/* {item.tanggal} */}
+                        {item.tanggal ? new Date(item.tanggal).toLocaleDateString('id-ID', {
+                          day: 'numeric',
+                          month: 'numeric',
+                          year: 'numeric',
+                        }) : 'Tanggal tidak tersedia'}
+                      </TableCell>
+                    )}
+                    {visibleColumns.includes('komoditas') && (
+                      <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                        {citem?.komoditas.nama}
+                      </TableCell>
+                    )}
+                    {visibleColumns.includes('satuan') && (
+                      <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                        {citem?.satuan}
+                      </TableCell>
+                    )}
+                    {visibleColumns.includes('hargaKomoditas') && (
+                      <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                        {citem?.harga?.toLocaleString('id-ID')}
+                      </TableCell>
+                    )}
+                    {visibleColumns.includes('keterangan') && (
+                      <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                        {citem?.keterangan}
+                      </TableCell>
+                    )}
+                    {visibleColumns.includes('aksi') && (
+                      <TableCell>
+                        <div className="flex items-center gap-4">
+                          <Link href={`/ketahanan-pangan/produsen-dan-eceran/detail/${citem?.id}`}>
+                            <EyeIcon />
+                          </Link>
+                          <Link href={`/ketahanan-pangan/produsen-dan-eceran/edit/${citem?.id}`}>
+                            <EditIcon />
+                          </Link>
+                          <DeletePopup onDelete={() => handleDelete(String(citem?.id))} />
+                        </div>
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center">
+                  <NotFoundSearch />
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
       {/* table */}
 
       {/* pagination */}

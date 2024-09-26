@@ -144,9 +144,9 @@ const TambahProdusenEceran = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="wrap-form flex-col gap-2">
                     <div className="">
-                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Komoditas" />
+                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5 text-xs lg:text-sm">
+                            <div className="text-xs lg:text-sm flex flex-col w-full">
+                                <Label className='text-xs lg:text-sm mb-1' label="Komoditas" />
                                 <Controller
                                     name="kepang_master_komoditas_id"
                                     control={control}
@@ -166,12 +166,12 @@ const TambahProdusenEceran = () => {
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Satuan" />
+                                <Label className='text-xs lg:text-sm mb-1' label="Satuan" />
                                 <Input
                                     type="text"
                                     placeholder="Masukkan Satuan"
                                     {...register('satuan')}
-                                    className={`${errors.satuan ? 'border-red-500' : 'py-5 text-sm'}`}
+                                    className={`${errors.satuan ? 'border-red-500' : 'py-5 text-xs lg:text-sm'}`}
                                 />
                                 {errors.satuan && (
                                     <HelperError>{errors.satuan.message}</HelperError>
@@ -182,24 +182,12 @@ const TambahProdusenEceran = () => {
                     <div className="">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Tanggal" />
-                                <Input
-                                    type="date"
-                                    placeholder="Masukkan Tanggal"
-                                    {...register('tanggal')}
-                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
-                                />
-                                {errors.tanggal && (
-                                    <HelperError>{errors.tanggal.message}</HelperError>
-                                )}
-                            </div>
-                            <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Harga Komoditas ( Rp / Kg)" />
+                                <Label className='text-xs lg:text-sm mb-1' label="Harga Komoditas ( Rp / Kg)" />
                                 <Input
                                     type="number"
                                     placeholder="Masukkan Harga Komoditas ( Rp / Kg)"
                                     {...register('harga')}
-                                    className={`${errors.harga ? 'border-red-500' : 'py-5 text-sm'}`}
+                                    className={`${errors.harga ? 'border-red-500' : 'py-5 text-xs lg:text-sm'}`}
                                 />
                                 {errors.harga && (
                                     <HelperError>{errors.harga.message}</HelperError>
@@ -210,9 +198,9 @@ const TambahProdusenEceran = () => {
                     <div className="">
                         <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Keterangan" />
+                                <Label className='text-xs lg:text-sm mb-1' label="Keterangan" />
                                 <Textarea  {...register('keterangan')}
-                                    className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
+                                    className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-xs lg:text-sm'}`}
                                 />
                                 {errors.keterangan && (
                                     <HelperError>{errors.keterangan.message}</HelperError>
@@ -223,10 +211,10 @@ const TambahProdusenEceran = () => {
                 </div>
 
                 <div className="mb-10 mt-3 flex justify-end gap-3">
-                    <Link href="/ketahanan-pangan/produsen-dan-eceran" className='bg-white w-[120px] text-sm md:text-base  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/ketahanan-pangan/produsen-dan-eceran" className='bg-white w-[120px] text-xs md:text-sm  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
-                    <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                    <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 text-xs lg:text-sm">
                         {loading ? (
                             <Loading />
                         ) : (
