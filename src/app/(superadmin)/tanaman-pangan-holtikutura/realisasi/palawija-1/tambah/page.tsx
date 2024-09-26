@@ -129,7 +129,7 @@ const TambahPalawija1Page = () => {
 
   return (
     <>
-      <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data Palawija 1</div>
+      <div className="text-primary text-xl md:text-2xl font-bold mb-3 md:mb-5">Tambah Data Palawija 1</div>
       {/* Nama NIP Tempat Tanggal Lahir */}
       <form onSubmit={handleSubmit(onSubmit)} className="min-h-[70vh] flex flex-col justify-between">
         <div className="wrap-form text-sm">
@@ -305,10 +305,10 @@ const TambahPalawija1Page = () => {
         </div>
         {/* Button */}
         <div className="flex justify-end gap-3">
-          <Link href="/tanaman-pangan-holtikutura/realisasi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+          <Link href="/tanaman-pangan-holtikutura/realisasi" className='bg-white text-sm md:text-base w-[90px] md:w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
             Batal
           </Link>
-          <Button type="submit" variant="primary" size="lg" className="w-[120px]">
+          <Button type="submit" variant="primary" size="lg" className="w-[90px] md:w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
             {loading ? (
               <Loading />
             ) : (
