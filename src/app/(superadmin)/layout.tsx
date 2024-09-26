@@ -330,6 +330,16 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 													Data Kecamatan
 												</span>
 											</Menu>
+											<Menu link="/penyuluhan/data-poktan">
+												<span className="text-sm">
+													Data Poktan
+												</span>
+											</Menu>
+											<Menu link="/penyuluhan/data-gapoktan">
+												<span className="text-sm">
+													Data Gapoktan
+												</span>
+											</Menu>
 										</AccordionContent>
 									</AccordionItem>
 								</ComponentWithAccess>
