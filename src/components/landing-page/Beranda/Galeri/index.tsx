@@ -58,7 +58,7 @@ const GaleriLanding = () => {
         <div className="garis h-[3px] w-full bg-secondary"></div>
       </div>
       {/* card */}
-      <div className="berita md:mt-[60px] mt-[30px] grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="berita md:mt-[60px] mt-[30px] grid grid-cols-1 md:grid-cols-4 gap-4 group">
       {dataGaleri?.data?.data && dataGaleri.data.data.length > 0 ? (
           dataGaleri.data.data.map((berita, index) => (
           <CardGaleri key={index} image={berita.image} />

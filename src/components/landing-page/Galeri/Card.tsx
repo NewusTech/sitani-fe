@@ -11,7 +11,7 @@ const CardGaleriPage = (props: CardGaleriProps) => {
     return (
         <div className="card cursor-pointer bg-primary-600 rounded-md overflow-hidden" onClick={props.onClick}>
             <div className="image w-full h-[250px] overflow-hidden">
-                <Image src={props.image || "../../assets/images/galeri1.png"} alt="logo" width={300} height={300} unoptimized className='w-full h-full object-cover hover:scale-105 transition-all duration-300' />
+                <Image src={props.image || "../../assets/images/galeri1.png"} alt="logo" width={300} height={300} unoptimized className='w-full h-full object-cover hover:scale-105 transition-all duration-300 group-hover:blur-sm group-hover:opacity-1 hover:!blur-none hover:!opacity-100' />
             </div>
             <div className="Desc text-base text-primary p-4">{props.deskripsi || "Deskripsi"}</div>
         </div>
