@@ -104,6 +104,7 @@ import FilterTable from '@/components/FilterTable';
 import KepegawaianDataPegawaiPrint from '@/components/Print/Kepegawaian/DataPegawai';
 import TambahIcon from '../../../../../public/icons/TambahIcon';
 import TypingEffect from '@/components/ui/TypingEffect';
+import NotFoundSearch from '@/components/SearchNotFound';
 
 interface Response {
   status: string,
@@ -623,7 +624,7 @@ const DataPegawaiPage = () => {
                 </div>
               </div>
               <div className="pt-2 pb-4">
-                <hr className="garis border border-primary transition-all ease-in-out animate-pulse" />
+                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
               </div>
               <div className="flex gap-3 text-white">
                 <Link href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
@@ -640,7 +641,7 @@ const DataPegawaiPage = () => {
 
           ))
         ) : (
-          <TypingEffect text={["Maaf tidak ada data...."]} />
+          <NotFoundSearch />
         )}
       </div>
       {/* mobile table */}
