@@ -51,9 +51,9 @@ interface LabelProps {
 
 const LabelDetail = (props: LabelProps) => {
     return (
-        <div className='flex gap-2 justify-between lg:justify-start lg:block lg:flex-none'>
+        <div className='flex text-xs md:text-sm justify-between lg:justify-start lg:block lg:flex-none gap-5 md:gap-2'>
             <div className="label text-black">{props.label || '-'}</div>
-            <div className="value text-black/70">{props.value || '-'}</div>
+            <div className="name text-black/70 text-end md:text-start">{props.value || '-'}</div>
         </div>
     );
 };
@@ -83,37 +83,39 @@ const DetailPalawija2Page = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Detail Palawija 2</div>
+            <div className="text-xl md:text-2xl mb-3 md:mb-5 font-semibold text-primary">Detail Palawija 2</div>
             {/* title */}
-            <div className="mb-10 flex justify-start gap-2 md:gap-3 mt-4">
-                <Link href="/tanaman-pangan-holtikutura/realisasi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+            <div className="flex justify-start gap-2 md:gap-3 mt-4">
+                <Link href="/tanaman-pangan-holtikutura/realisasi" className='bg-white px-4 md:text-base text-xs rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                     Kembali
                 </Link>
             </div>
             {/* detail */}
-            <div className="wrap-detail bg-slate-100 p-6 mt-5 rounded-lg">
+            <div className="wrap-detail bg-slate-100 p-5 md:p-6 md:mt-5 mt-3 rounded-lg">
                 <div className="font-semibold mb-2 text-lg uppercase">Data Palawija 2</div>
                 <div className="wrap text-sm">
                     <div className="wr">
-                        <div className="font-semibold mb-2 text-lg mt-5 uppercase">Kecamatan</div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-                            <LabelDetail label='Nama' value={detailPalawija2?.data?.kecamatan.nama} />
+                            <LabelDetail label='Kecamatan' value={detailPalawija2?.data?.kecamatan.nama} />
                         </div>
                     </div>
+                    <hr className='my-2' />
                     <div className="wr">
-                        <div className="font-semibold text-lg mb-2 mt-3 uppercase">Jagung</div>
+                        <div className="font-semibold mb-2 text-sm md:text-lg">Kacang Hijau</div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                             <LabelDetail label='Panen (ha)' value={detailPalawija2?.data?.kacangHijauPanen} />
                             <LabelDetail label='Produktivitas (ku/ha)' value={detailPalawija2?.data?.kacangHijauProduktivitas} />
                             <LabelDetail label='Produksi (ton)' value={detailPalawija2?.data?.kacangHijauProduksi} />
                         </div>
-                        <div className="font-semibold text-lg mb-2 mt-3 uppercase">Kedelai</div>
+                        <hr className='my-2' />
+                        <div className="font-semibold mb-2 text-sm md:text-lg">Ubi Kayu</div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                             <LabelDetail label='Panen (ha)' value={detailPalawija2?.data?.ubiKayuPanen} />
                             <LabelDetail label='Produktivitas (ku/ha)' value={detailPalawija2?.data?.ubiKayuProduktivitas} />
                             <LabelDetail label='Produksi (ton)' value={detailPalawija2?.data?.ubiKayuProduksi} />
                         </div>
-                        <div className="font-semibold text-lg mb-2 mt-3 uppercase">Kacang Tanah</div>
+                        <hr className='my-2' />
+                        <div className="font-semibold mb-2 text-sm md:text-lg">Ubi Jalar</div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                             <LabelDetail label='Panen (ha)' value={detailPalawija2?.data?.ubiJalarPanen} />
                             <LabelDetail label='Produktivitas (ku/ha)' value={detailPalawija2?.data?.ubiJalarProduktivitas} />
