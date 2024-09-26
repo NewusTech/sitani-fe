@@ -124,7 +124,7 @@ const LuasKecPage = () => {
     };
     // serach
     // limit
-    const [limit, setLimit] = useState(10);
+    const [limit, setLimit] = useState(1);
     // limit
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
@@ -320,7 +320,7 @@ const LuasKecPage = () => {
                     </div>
                     {/*  */}
                     <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2">
-                        <div className="keterangan flex gap-2">
+                        <div className="keterangan flex gap-2 w-[300px]">
                             <div className="nama font-semibold">
                                 <div className="">
                                     Kecamatan

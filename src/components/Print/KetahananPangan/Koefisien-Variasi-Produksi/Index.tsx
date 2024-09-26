@@ -208,7 +208,7 @@ const KoefisienVariasiProduksiPrint = (props: PrintProps) => {
                             </div>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
+                    <DropdownMenuContent className="ml-5 w-56">
                         <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                             Pilih Unduhan
                         </DropdownMenuLabel>
