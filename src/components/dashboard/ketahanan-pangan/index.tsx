@@ -183,7 +183,7 @@ const DashboardKetahananPangan = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dataKepang?.data.kepangPedagangEceran.map((data, index) => (
+                            {dataKepang?.data.kepangProdusenEceran.map((data, index) => (
                                 <TableRow className='border-none p-1 py-1' key={index}>
                                     <TableCell className='p-1 py-1'>{data.komoditas}</TableCell>
                                     <TableCell className='p-1 py-1'>{data.harga}</TableCell>

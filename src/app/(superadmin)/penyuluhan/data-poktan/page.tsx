@@ -96,36 +96,40 @@ import TambahIcon from '../../../../../public/icons/TambahIcon';
 import NotFoundSearch from '@/components/SearchNotFound';
 import DeletePopupTitik from '@/components/superadmin/TitikDelete';
 
-interface Desa {
-    id: string;
+interface Kecamatan {
+    id: number;
     nama: string;
-    kecamatanId: string;
     createdAt: string;
     updatedAt: string;
 }
 
-interface Data {
-    id?: string;
-    kecamatanId?: string;
-    nama?: string;
-    nip?: string;
-    pangkat?: string;
-    golongan?: string;
-    keterangan?: string;
-    desa?: Desa[];
-    kecamatan?: {
-        id?: string;
-        nama?: string;
-    };
+interface Desa {
+    id: number;
+    nama: string;
+    kecamatanId: number;
+    createdAt: string;
+    updatedAt: string;
 }
 
-interface Response {
-    status: string;
-    message: string;
-    data: {
-        data: Data[];
-        pagination: Pagination;
-    };
+interface KelompokTani {
+    id: number;
+    idPoktan: number;
+    kecamatanId: number;
+    desaId: number;
+    tahun: number;
+    nama: string;
+    ketua: string;
+    sekretaris: string;
+    bendahara: string;
+    alamat: string;
+    dibent: number;
+    l: number;
+    p: number;
+    kelas: string;
+    createdAt: string;
+    updatedAt: string;
+    kecamatan: Kecamatan;
+    desa: Desa;
 }
 
 interface Pagination {
@@ -138,6 +142,16 @@ interface Pagination {
         next: string | null;
     };
 }
+
+interface Response {
+    status: number;
+    message: string;
+    data: {
+        data: KelompokTani[];
+        pagination: Pagination;
+    };
+}
+
 
 const PenyuluhDataPoktan = () => {
     // filter date
@@ -183,8 +197,9 @@ const PenyuluhDataPoktan = () => {
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
-    const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
-        `/penyuluh-kecamatan/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`,
+    const { data: dataPoktan }: SWRResponse<Response> = useSWR(
+        // `/penyuluh-kelompok-tani/get`,
+        `/penyuluh-kelompok-tani/get?page=${currentPage}&year=${tahun}&search=${search}&tahun=${tahun}&kecamatan=${selectedKecamatan}&limit=${limit}`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -198,7 +213,7 @@ const PenyuluhDataPoktan = () => {
     // DELETE
     const handleDelete = async (id: string) => {
         try {
-            await axiosPrivate.delete(`/penyuluh-kecamatan/delete/${id}`, {
+            await axiosPrivate.delete(`/penyuluh-kelompok-tani/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -244,10 +259,10 @@ const PenyuluhDataPoktan = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`);
+        } mutate(`/penyuluh-kelompok-tani/get`);
     };
 
-    // console.log(dataKecamatan);
+    // console.log(dataPoktan);
 
     // Filter table
     const columns = [
@@ -318,15 +333,35 @@ const PenyuluhDataPoktan = () => {
                             />
                         </div>
                         {/* print */}
-                        <PenyuluhKecPrint
-                            urlApi={`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`}
+                        {/* <PenyuluhKecPrint
+                            urlApi={`/penyuluh-kelompok-tani/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`}
                             kecamatan={selectedKecamatan}
-                        />
+                        /> */}
                         {/* print */}
                     </div>
                     {/*  */}
                     <div className="wrap-filter flex justify-between items-center mt-4 ">
                         <div className="left gap-2 flex justify-start items-center">
+                            <div className="w-auto">
+                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Tahun">
+                                            {tahun ? tahun : "Tahun"}
+                                        </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                             <div className="fil-kect w-[185px]">
                                 <KecamatanSelect
                                     value={selectedKecamatan}
@@ -336,11 +371,11 @@ const PenyuluhDataPoktan = () => {
                                 />
                             </div>
                             <div className="filter-table w-[40px] h-[40px]">
-                                <FilterTable
+                                {/* <FilterTable
                                     columns={columns}
                                     defaultCheckedKeys={getDefaultCheckedKeys()}
                                     onFilterChange={handleFilterChange}
-                                />
+                                /> */}
                             </div>
                         </div>
                         <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
@@ -391,6 +426,31 @@ const PenyuluhDataPoktan = () => {
                                                 </div>
                                             </>
                                             {/* Filter Kecamatan */}
+                                            {/* filter tahun */}
+                                            <>
+                                            <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun" />
+                                            <div className="w-full">
+                                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Tahun">
+                                                            {tahun ? tahun : "Tahun"}
+                                                        </SelectValue>
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                            const year = startYear + index;
+                                                            return (
+                                                                <SelectItem key={year} value={year.toString()}>
+                                                                    {year}
+                                                                </SelectItem>
+                                                            );
+                                                        })}
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                            </>
+                                            {/* filter tahun */}
 
                                             {/* Filter Desa */}
                                             {/* <>
@@ -441,10 +501,10 @@ const PenyuluhDataPoktan = () => {
                             {/* filter kolom */}
 
                             {/* unduh print */}
-                            <PenyuluhKecPrint
-                                urlApi={`/penyuluh-kecamatan/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`}
+                            {/* <PenyuluhKecPrint
+                                urlApi={`/penyuluh-kelompok-tani/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`}
                                 kecamatan={selectedKecamatan}
-                            />
+                            /> */}
                             {/* unduh print */}
                         </div>
 
@@ -480,43 +540,71 @@ const PenyuluhDataPoktan = () => {
 
             {/* mobile table */}
             <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
-                {dataKecamatan?.data?.data && dataKecamatan.data.data.length > 0 ? (
-                    dataKecamatan.data.data.map((item, index) => (
+                {dataPoktan?.data?.data && dataPoktan.data.data.length > 0 ? (
+                    dataPoktan.data.data.map((item, index) => (
                         <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
                             <div className="wrap-konten flex flex-col gap-2">
                                 <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Kecamatan</div>
-                                    <div className="konten text-black/80 text-end">{item?.kecamatan?.nama ?? "-"}</div>
+                                    <div className="label font-medium text-black">UPTD BPP</div>
+                                    <div className="konten text-black/80 text-end">{item?.kecamatan.nama ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Wilayah Desa Binaan</div>
-                                    <div className="konten text-black/80 text-end">
-                                        {item?.desa?.map((desa, index) => (
-                                            <span key={desa.id}>
-                                                {desa.nama}
-                                                {index < (item?.desa?.length ?? 0) - 1 && ", "}
-                                            </span>
-                                        ))}
-                                    </div>
+                                    <div className="label font-medium text-black">Desa</div>
+                                    <div className="konten text-black/80 text-end">{item?.desa.nama ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Nama</div>
+                                    <div className="label font-medium text-black">Tahun</div>
+                                    <div className="konten text-black/80 text-end">{item?.tahun ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">ID Poktan</div>
+                                    <div className="konten text-black/80 text-end">{item?.idPoktan ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Nama Kelompok Tani</div>
                                     <div className="konten text-black/80 text-end">{item?.nama ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">NIP</div>
-                                    <div className="konten text-black/80 text-end">{item?.nip ?? "-"}</div>
+                                    <div className="label font-medium text-black">Ketua</div>
+                                    <div className="konten text-black/80 text-end">{item?.ketua ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Pangkat/Gol</div>
+                                    <div className="label font-medium text-black">Sekretaris</div>
+                                    <div className="konten text-black/80 text-end">{item?.sekretaris ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Bendahara</div>
+                                    <div className="konten text-black/80 text-end">{item?.bendahara ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Alamat Sekretariat</div>
+                                    <div className="konten text-black/80 text-end">{item?.alamat ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Tahun Dibentuk</div>
+                                    <div className="konten text-black/80 text-end">{item?.dibent ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Jumlah Laki-laki</div>
+                                    <div className="konten text-black/80 text-end">{item?.l ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Jumlah Perempuan</div>
+                                    <div className="konten text-black/80 text-end">{item?.p ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Kelas Kelompok</div>
                                     <div className="konten text-black/80 text-end">
-                                        {`${item.pangkat}/${item.golongan}` ?? "-"}
+                                        {
+                                            item?.kelas === "p" ? "Pemula" :
+                                                item?.kelas === "l" ? "Lanjut" :
+                                                    item?.kelas === "m" ? "Madya" :
+                                                        item?.kelas === "u" ? "Utama" :
+                                                            "-"
+                                        }
                                     </div>
                                 </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Keterangan</div>
-                                    <div className="konten text-black/80 text-end">{item?.keterangan ?? "-"}</div>
-                                </div>
+
                             </div>
                             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                             <div className="flex gap-3 text-white">
@@ -553,7 +641,7 @@ const PenyuluhDataPoktan = () => {
                             <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1 ">Alamat Sekretariat</TableHead>
                             <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1  ">Tahun dibentuk</TableHead>
                             <TableHead colSpan={2} className="text-primary border border-slate-200 text-center py-1  ">Jumlah Anggota</TableHead>
-                            <TableHead colSpan={5} className="text-primary border border-slate-200 text-center py-1  ">Kelas Kelompok</TableHead>
+                            <TableHead colSpan={4} className="text-primary border border-slate-200 text-center py-1  ">Kelas Kelompok</TableHead>
                             <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1  ">ID Poktan</TableHead>
                             <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Aksi</TableHead>
                         </TableRow>
@@ -564,102 +652,108 @@ const PenyuluhDataPoktan = () => {
                             <TableHead className="text-primary border border-slate-200 text-center py-1 ">L</TableHead>
                             <TableHead className="text-primary border border-slate-200 text-center py-1 ">P</TableHead>
                             <TableHead className="text-primary border border-slate-200 text-center py-1 ">P</TableHead>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">P</TableHead>
                             <TableHead className="text-primary border border-slate-200 text-center py-1 ">L</TableHead>
                             <TableHead className="text-primary border border-slate-200 text-center py-1 ">M</TableHead>
                             <TableHead className="text-primary border border-slate-200 text-center py-1 ">U</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell className="border border-slate-200 text-center">
-                                text
-                            </TableCell>
-                            <TableCell
-                                className="border border-slate-200 font-semibold"
-                            >
-                                <div className="flex items-center gap-4 justify-center">
-                                    <Link
-                                        className=""
-                                        href={`/korluh/padi/detail/`}
+                        {dataPoktan?.data?.data && dataPoktan?.data?.data?.length > 0 ? (
+                            dataPoktan.data.data.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {(currentPage - 1) * limit + (index + 1)}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.kecamatan?.nama}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.desa.nama}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.nama}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.ketua}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.sekretaris}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.bendahara}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.alamat}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.dibent}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.l}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.p}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.kelas === "p" ? " ✓" : "-"}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.kelas === "l" ? " ✓" : "-"}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.kelas === "m" ? " ✓" : "-"}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.kelas === "u" ? " ✓" : "-"}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.idPoktan}
+                                    </TableCell>
+                                    <TableCell
+                                        className="border border-slate-200 font-semibold"
                                     >
-                                        <EyeIcon />
-                                    </Link>
-                                    <Link
-                                        className=""
-                                        href={`/korluh/padi/edit/`}
-                                    >
-                                        <EditIcon />
-                                    </Link>
-                                    <DeletePopup
-                                        onDelete={() =>
-                                            handleDelete(
-                                                String(1) ||
-                                                ""
-                                            )
-                                        }
-                                    />
-                                </div>
-                            </TableCell>
-                        </TableRow>
+                                        <div className="flex items-center gap-4 justify-center">
+                                            <Link
+                                                className=""
+                                                href={`/penyuluhan/data-poktan/detail/${item.id}`}
+                                            >
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link
+                                                className=""
+                                                href={`/penyuluhan/data-poktan/edit/${item.id}`}
+                                            >
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup
+                                                onDelete={() =>
+                                                    handleDelete(
+                                                        String(1) ||
+                                                        ""
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={17} className='text-center'>
+                                    <NotFoundSearch />
+                                </TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             </div>
             {/* table */}
             {/* pagination */}
             <div className="pagi flex items-center justify-center md:justify-end pb-5 lg:pb-0">
-                {dataKecamatan?.data?.pagination?.totalCount as number > 1 && (
+                {dataPoktan?.data?.pagination?.totalCount as number > 1 && (
                     <PaginationTable
                         currentPage={currentPage}
-                        totalPages={dataKecamatan?.data?.pagination?.totalPages as number}
+                        totalPages={dataPoktan?.data?.pagination?.totalPages as number}
                         onPageChange={onPageChange}
                     />
                 )}
