@@ -345,14 +345,6 @@ const KorlubPadi = () => {
 						</div>
 					))}
 				</div>
-				<div className="flex items-center gap-2">
-					<div className="font-semibold">Desa:</div>
-					{dataPadi?.data?.data.map((item, index) => (
-						<div key={index}>
-							{item?.desa.nama || "Tidak ada data"}
-						</div>
-					))}
-				</div>
 			</div>
 			{/* kecamatan */}
 

@@ -140,7 +140,6 @@ function DetailPadiKorluh() {
                 <div className="font-semibold mb-2 text-lg uppercase">Data Bantuan</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                     <LabelDetail label="Kecamatan" name={data?.kecamatan?.nama} />
-                    <LabelDetail label="Desa" name={data?.desa?.nama} />
                     <LabelDetail label="Tanggal" name={data?.tanggal ? formatDate(data.tanggal) : ''} />
                     <LabelDetail label="Hibrida Bantuan Pemerintah Lahan Sawah Panen" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_panen} />
                     <LabelDetail label="Hibrida Bantuan Pemerintah Lahan Sawah Tanam" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_tanam} />

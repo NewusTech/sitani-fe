@@ -31,10 +31,6 @@ const formSchema = z.object({
     kecamatan_id: z
         .number()
         .transform((value) => Number(value)), // Convert string to number
-    desa_id: z
-        .number()
-        .transform((value) => Number(value))
-        .optional(), // Allow undefined values
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(1, { message: "Wajib Penerimaan wajib diisi" })
@@ -190,9 +186,7 @@ const EditDataPadi = () => {
 
             // Set nilai-nilai ke form
             setValue("kecamatan_id", dataPadi.data.kecamatanId);
-            setValue("desa_id", dataPadi.data.desaId);
             setValue("tanggal", new Date(dataPadi.data.tanggal).toISOString().split('T')[0]);
-
             // Mengonversi nilai ke angka dan memberikan default 0 jika tidak ada
             setValue("hibrida_bantuan_pemerintah_lahan_sawah_panen", (dataPadi.data.hibrida_bantuan_pemerintah_lahan_sawah_panen));
             setValue("hibrida_bantuan_pemerintah_lahan_sawah_tanam", (dataPadi.data.hibrida_bantuan_pemerintah_lahan_sawah_tanam));
@@ -231,15 +225,10 @@ const EditDataPadi = () => {
             setValue("sawah_rawa_lebak_lahan_sawah_tanam", (dataPadi.data.sawah_rawa_lebak_lahan_sawah_tanam));
             setValue("sawah_rawa_lebak_lahan_sawah_puso", (dataPadi.data.sawah_rawa_lebak_lahan_sawah_puso));
         }
-        setInitialDesaId(dataPadi?.data.desaId); // Save initial desa_id
-        setValue("desa_id", dataPadi?.data.desaId); // Set default value
     }, [dataPadi, setValue]);
 
 
-    useEffect(() => {
-        // Clear desa_id when kecamatan_id changes
-        setValue("desa_id", initialDesaId); // Reset to initial desa_id
-    }, [kecamatanId, setValue, initialDesaId]);
+   
     const [loading, setLoading] = useState(false);
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
@@ -315,25 +304,6 @@ const EditDataPadi = () => {
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Desa" />
-                            <Controller
-                                name="desa_id"
-                                control={control}
-                                render={({ field }) => (
-                                    <DesaValue
-                                        value={field.value ?? 0} // Provide a default value if undefined
-                                        onChange={(value) => field.onChange(Number(value))} // Ensure value is a number
-                                        kecamatanValue={kecamatanId}
-                                    />
-                                )}
-                            />
-                            {errors.desa_id && (
-                                <p className="text-red-500">{errors.desa_id.message}</p>
-                            )}
-                        </div>
-                    </div>
-                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
                             <Label className='text-sm mb-1' label="Tanggal Input Data" />
                             <Input
                                 type="date"

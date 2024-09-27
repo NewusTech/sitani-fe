@@ -32,10 +32,6 @@ const formSchema = z.object({
         .number()
         .min(1, "Kecamatan is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
-    desa_id: z
-        .number()
-        .min(1, "Desa is required")
-        .transform((value) => Number(value)), // Mengubah string menjadi number
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(1, { message: "Tanggal wajib diisi" })),
@@ -199,21 +195,15 @@ const TambahSayuranBuahKorluh = () => {
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Pilih Desa" />
-                                <Controller
-                                    name="desa_id"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <DesaValue
-                                            // desaItems={filteredDesaItems}
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            kecamatanValue={kecamatanValue}
-                                        />
-                                    )}
+                                <Label className='text-sm mb-1' label="Tanggal" />
+                                <Input
+                                    type="date"
+                                    placeholder="Tanggal"
+                                    {...register('tanggal')}
+                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
                                 />
-                                {errors.desa_id && (
-                                    <p className="text-red-500 mt-1">{errors.desa_id.message}</p>
+                                {errors.tanggal && (
+                                    <HelperError>{errors.tanggal.message}</HelperError>
                                 )}
                             </div>
                         </div>
@@ -239,20 +229,6 @@ const TambahSayuranBuahKorluh = () => {
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Tanggal" />
-                                <Input
-                                    type="date"
-                                    placeholder="Tanggal"
-                                    {...register('tanggal')}
-                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
-                                />
-                                {errors.tanggal && (
-                                    <HelperError>{errors.tanggal.message}</HelperError>
-                                )}
-                            </div>
-                        </div>
-                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
                                 <Label className='text-sm mb-1' label="Hasil Produksi Yang Dicatat" />
                                 <Input
                                     type="text"

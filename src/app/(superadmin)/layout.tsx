@@ -36,7 +36,7 @@ const Menu = (props: MenuProps) => {
 	return (
 		<Link
 			href={props.link}
-			className={`nav flex items-center gap-4 text-left rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith(props.link) ? "text-primary" : "text-black"
+			className={`nav hover:pl-[15px] transition-all duration-150 flex items-center gap-4 text-left rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith(props.link) ? "text-primary" : "text-black"
 				}`}
 		>
 			<div className="icon">{props.icons}</div>
@@ -256,6 +256,35 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 													Lahan
 												</span>
 											</Menu>
+											{/*  */}
+											<div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mb-2"></div>
+											<div className="flex px-[25px] font-bold text-primary text-base">Validasi Korluh</div>
+											<Menu link="/tanaman-pangan-holtikutura/validasi/padi">
+												<span className="text-sm">
+													Padi
+												</span>
+											</Menu>
+											<Menu link="/tanaman-pangan-holtikutura/validasi/palawija">
+												<span className="text-sm">
+													Palawija
+												</span>
+											</Menu>
+											<Menu link="/tanaman-pangan-holtikutura/validasi/sayuran-buah">
+												<span className="text-sm">
+													Sayuran dan Buah
+												</span>
+											</Menu>
+											<Menu link="/tanaman-pangan-holtikutura/validasi/tanaman-hias">
+												<span className="text-sm">
+													Tanaman Hias
+												</span>
+											</Menu>
+											<Menu link="/tanaman-pangan-holtikutura/validasi/tanaman-biofarmaka">
+												<span className="text-sm">
+													Tanaman Biofarmaka
+												</span>
+											</Menu>
+											{/*  */}
 										</AccordionContent>
 									</AccordionItem>
 								</ComponentWithAccess>

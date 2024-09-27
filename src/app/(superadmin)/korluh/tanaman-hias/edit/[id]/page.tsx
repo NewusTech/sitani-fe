@@ -32,10 +32,6 @@ const formSchema = z.object({
         .number()
         .min(0, "Kecamatan is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
-    desa_id: z
-        .number()
-        .min(0, "Desa is required")
-        .transform((value) => Number(value)), // Mengubah string menjadi number
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(0, { message: "Tanggal wajib diisi" })),
@@ -170,7 +166,6 @@ const EditTanamanBuah = () => {
             setValue("korluh_master_tanaman_hias_id", dataTanaman.data.master.id);
             setValue("tanggal", new Date(dataTanaman.data.korluhTanamanHias.tanggal).toISOString().split('T')[0]);
             setValue("satuan_produksi", dataTanaman?.data?.satuanProduksi);
-            console.log("satuan produksi = ", dataTanaman.data.satuanProduksi)
             setValue("luas_panen_habis", dataTanaman.data.luasPanenHabis);
             setValue("luas_panen_belum_habis", dataTanaman.data.luasPanenBelumHabis);
             setValue("luas_rusak", dataTanaman.data.luasRusak);
@@ -180,16 +175,8 @@ const EditTanamanBuah = () => {
             setValue("rerata_harga", dataTanaman.data.rerataHarga);
             setValue("keterangan", dataTanaman.data.keterangan);
             setValue("kecamatan_id", dataTanaman.data.korluhTanamanHias.kecamatanId);
-            setInitialDesaId(dataTanaman.data.korluhTanamanHias.desaId); // Save initial desa_id
-            setValue("desa_id", dataTanaman.data.korluhTanamanHias.desaId); // Set default value
         }
     }, [dataTanaman, setValue]);
-
-    useEffect(() => {
-        // Clear desa_id when kecamatan_id changes
-        setValue("desa_id", initialDesaId ?? 0); // Reset to initial desa_id
-    }, [kecamatanId, setValue, initialDesaId]);
-    // setvalue
 
     // getone
 
@@ -259,7 +246,7 @@ const EditTanamanBuah = () => {
             <div className="text-primary text-xl md:text-2xl font-bold mb-4">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-4">
-                    <div className="mb-2">
+                <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Pilih Kecamatan" />
@@ -268,7 +255,6 @@ const EditTanamanBuah = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <KecValue
-                                            disabled
                                             // kecamatanItems={kecamatanItems}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -280,22 +266,15 @@ const EditTanamanBuah = () => {
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Pilih Desa" />
-                                <Controller
-                                    name="desa_id"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <DesaValue
-                                            disabled
-                                            // desaItems={filteredDesaItems}
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            kecamatanValue={kecamatanValue}
-                                        />
-                                    )}
+                                <Label className='text-sm mb-1' label="Tanggal" />
+                                <Input
+                                    type="date"
+                                    placeholder="Tanggal"
+                                    {...register('tanggal')}
+                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
                                 />
-                                {errors.desa_id && (
-                                    <p className="text-red-500 mt-1">{errors.desa_id.message}</p>
+                                {errors.tanggal && (
+                                    <HelperError>{errors.tanggal.message}</HelperError>
                                 )}
                             </div>
                         </div>
@@ -307,7 +286,6 @@ const EditTanamanBuah = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <InputComponent
-                                            disabled
                                             typeInput="selectSearch"
                                             placeholder="Pilih Tanaman Hias"
                                             label="Tanaman Hias"
@@ -322,21 +300,6 @@ const EditTanamanBuah = () => {
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Tanggal" />
-                                <Input
-                                    disabled
-                                    type="date"
-                                    placeholder="Tanggal"
-                                    {...register('tanggal')}
-                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
-                                />
-                                {errors.tanggal && (
-                                    <HelperError>{errors.tanggal.message}</HelperError>
-                                )}
-                            </div>
-                        </div>
-                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
                                 <Label className='text-sm mb-1' label="Satuan Produksi" />
                                 <Input
                                     type="text"

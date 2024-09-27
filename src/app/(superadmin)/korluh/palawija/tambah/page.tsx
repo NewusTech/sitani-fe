@@ -32,10 +32,6 @@ const formSchema = z.object({
         .number()
         .min(1, "Kecamatan is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
-    desa_id: z
-        .number()
-        .min(1, "Desa is required")
-        .transform((value) => Number(value)), // Mengubah string menjadi number
     tanggal: z.preprocess(
         (val) => (typeof val === "string" ? formatDate(val) : val),
         z.string().min(1, { message: "Tanggal wajib diisi" })
@@ -195,26 +191,6 @@ const PalawijaKorluhTambah = () => {
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Pilih Desa" />
-                                <Controller
-                                    name="desa_id"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <DesaValue
-                                            // desaItems={filteredDesaItems}
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            kecamatanValue={kecamatanValue}
-                                        />
-                                    )}
-                                />
-                                {errors.desa_id && (
-                                    <p className="text-red-500 mt-1">{errors.desa_id.message}</p>
-                                )}
-                            </div>
-                        </div>
-                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-sm mb-1' label="Nama Tanaman" />
                                 <Controller
                                     name="korluh_master_palawija_id"
@@ -234,7 +210,9 @@ const PalawijaKorluhTambah = () => {
                                     <HelperError>{errors.korluh_master_palawija_id.message}</HelperError>
                                 )}
                             </div>
-                            <div className="flex flex-col mb-2 w-full">
+                        </div>
+                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
                                 <Label className='text-sm mb-1' label="Tanggal" />
                                 <Input
                                     type="date"

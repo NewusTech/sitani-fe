@@ -29,8 +29,6 @@ const formatDate = (dateString: string) => {
 const formSchema = z.object({
     kecamatan_id: z
         .preprocess((val) => Number(val), z.number().min(1, { message: "Kecamatan wajib diisi" })),
-    desa_id: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "Desa wajib diisi" })),
     tanggal: z.preprocess(
         (val) => (typeof val === "string" ? formatDate(val) : val),
         z.string().min(1, { message: "Tanggal wajib diisi" })
@@ -248,28 +246,6 @@ const TambahDataPadi = () => {
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Desa" />
-                            <Controller
-                                name="desa_id"
-                                control={control}
-                                render={({ field }) => (
-                                    <InputComponent
-                                        typeInput="selectSearch"
-                                        placeholder="Select Desa"
-                                        label="Desa"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        items={desaOptions}
-                                    />
-                                )}
-                            />
-                            {errors.desa_id && (
-                                <p className="text-red-500">{errors.desa_id.message}</p>
-                            )}
-                        </div>
-                    </div>
-                    <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
                             <Label className='text-sm mb-1' label="Tanggal Input Data" />
                             <Input
                                 type="date"

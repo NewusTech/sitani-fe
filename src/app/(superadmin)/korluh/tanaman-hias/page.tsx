@@ -439,16 +439,6 @@ const KorluhTanamanHias = () => {
                         </div>
                     ))}
                 </div>
-                <div className="flex items-center gap-2">
-                    <div className="font-semibold">
-                        Desa:
-                    </div>
-                    {dataTanaman?.data?.data.map((item: any, index: any) => (
-                        <div key={index}>
-                            {item?.desa.nama || "Tidak ada data"}
-                        </div>
-                    ))}
-                </div>
             </div>
             {/* kecamatan */}
 
