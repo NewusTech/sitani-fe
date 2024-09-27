@@ -305,6 +305,7 @@ const DataPegawaiPage = () => {
     { label: "Pendidikan Umum", key: "pendidikan" },
     { label: "Usia", key: "usia" },
     { label: "Masa Kerja", key: "masaKerja" },
+    { label: "TMT Pensiun", key: "tmtPensiun" },
     { label: "Ket", key: "keterangan" },
     { label: "Status", key: "status" },
     { label: "Aksi", key: "aksi" }
@@ -313,9 +314,9 @@ const DataPegawaiPage = () => {
   const getDefaultCheckedKeys = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth <= 768) {
-        return ["no", "namaNip", "jabatan", "usia", "masaKerja", "status"];
+        return ["no", "namaNip", "jabatan", "usia", "masaKerja", "tmtPensiun", "status"];
       } else {
-        return ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja", "keterangan", "status", "aksi"];
+        return ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja", "tmtPensiun", "keterangan", "status", "aksi"];
       }
     }
     return [];
@@ -615,6 +616,10 @@ const DataPegawaiPage = () => {
                   <div className="konten text-black/80 text-end">{item?.masaKerja ? item?.masaKerja : ' - '}</div>
                 </div>
                 <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">TMT Pensiun</div>
+                  <div className="konten text-black/80 text-end">{item?.masaKerja ? item?.masaKerja : ' - '}</div>
+                </div>
+                <div className="flex justify-between gap-5">
                   <div className="label font-medium text-black">Keterangan</div>
                   <div className="konten text-black/80 text-end">{item?.keterangan ? item?.keterangan : ' - '}</div>
                 </div>
@@ -689,6 +694,9 @@ const DataPegawaiPage = () => {
               )}
               {visibleColumns.includes('masaKerja') && (
                 <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Masa Kerja</TableHead>
+              )}
+              {visibleColumns.includes('tmtPensiun') && (
+                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">TMT Pensiun</TableHead>
               )}
               {visibleColumns.includes('keterangan') && (
                 <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Ket</TableHead>
@@ -820,6 +828,9 @@ const DataPegawaiPage = () => {
                     <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.usia}</TableCell>
                   )}
                   {visibleColumns.includes('masaKerja') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.masaKerja}</TableCell>
+                  )}
+                  {visibleColumns.includes('tmtPensiun') && (
                     <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.masaKerja}</TableCell>
                   )}
                   {visibleColumns.includes('keterangan') && (

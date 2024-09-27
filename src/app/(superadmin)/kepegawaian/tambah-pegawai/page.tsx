@@ -190,9 +190,9 @@ const TamabahPegawaiPage = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="">
         <div className="mb-2">
           {/* <div className="text-primary text-lg font-bold mb-2">Nama, NIP, Tempat, Tanggal Lahir</div> */}
-          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+          <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5 text-xs md:text-sm">
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Bidang Kepegawaian" />
+              <Label className='text-xs md:text-sm mb-1' label="Bidang Kepegawaian" />
               <Controller
                 name="bidang_id"
                 control={control}
@@ -212,12 +212,12 @@ const TamabahPegawaiPage = () => {
               )}
             </div>
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Nama Lengkap" />
+              <Label className='text-xs md:text-sm mb-1' label="Nama Lengkap" />
               <Input
                 type="text"
                 placeholder="Nama Lengkap"
                 {...register('nama')}
-                className={`${errors.nama ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.nama ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.nama && (
                 <HelperError>{errors.nama.message}</HelperError>
@@ -226,24 +226,24 @@ const TamabahPegawaiPage = () => {
           </div>
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="NIP" />
+              <Label className='text-xs md:text-sm mb-1' label="NIP" />
               <Input
                 type="text"
                 placeholder="NIP"
                 {...register('nip')}
-                className={`${errors.nip ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.nip ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.nip && (
                 <HelperError>{errors.nip.message}</HelperError>
               )}
             </div>
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Tempat Lahir" />
+              <Label className='text-xs md:text-sm mb-1' label="Tempat Lahir" />
               <Input
                 type="text"
                 placeholder="Tempat Lahir"
                 {...register('tempat_lahir')}
-                className={`${errors.tempat_lahir ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.tempat_lahir ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.tempat_lahir && (
                 <HelperError>{errors.tempat_lahir.message}</HelperError>
@@ -252,24 +252,24 @@ const TamabahPegawaiPage = () => {
           </div>
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Tanggal Lahir" />
+              <Label className='text-xs md:text-sm mb-1' label="Tanggal Lahir" />
               <Input
                 type="date"
                 placeholder="Tanggal Lahir"
                 {...register('tgl_lahir')}
-                className={`${errors.tgl_lahir ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.tgl_lahir ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.tgl_lahir && (
                 <HelperError>{errors.tgl_lahir.message}</HelperError>
               )}
             </div>
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Pangkat" />
+              <Label className='text-xs md:text-sm mb-1' label="Pangkat" />
               <Input
                 type="text"
                 placeholder="Pangkat"
                 {...register('pangkat')}
-                className={`${errors.pangkat ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.pangkat ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.pangkat && (
                 <HelperError>{errors.pangkat.message}</HelperError>
@@ -283,24 +283,24 @@ const TamabahPegawaiPage = () => {
           {/* <div className="text-primary text-lg font-bold mb-2">Pangkat / Gol, Ruang, TMT Pangkat</div> */}
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Golongan" />
+              <Label className='text-xs md:text-sm mb-1' label="Golongan" />
               <Input
                 type="text"
                 placeholder="Golongan"
                 {...register('golongan')}
-                className={`${errors.golongan ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.golongan ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.golongan && (
                 <HelperError>{errors.golongan.message}</HelperError>
               )}
             </div>
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="TMT Pangkat" />
+              <Label className='text-xs md:text-sm mb-1' label="TMT Pangkat" />
               <Input
                 type="date"
                 placeholder="TMT Pangkat"
                 {...register('tmt_pangkat')}
-                className={`${errors.tmt_pangkat ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.tmt_pangkat ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.tmt_pangkat && (
                 <HelperError>{errors.tmt_pangkat.message}</HelperError>
@@ -314,24 +314,24 @@ const TamabahPegawaiPage = () => {
           {/* <div className="text-primary text-lg font-bold mb-2">Jabatan, TMT Jabatan</div> */}
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Jabatan" />
+              <Label className='text-xs md:text-sm mb-1' label="Jabatan" />
               <Input
                 type="text"
                 placeholder="Jabatan"
                 {...register('jabatan')}
-                className={`${errors.jabatan ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.jabatan ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.jabatan && (
                 <HelperError>{errors.jabatan.message}</HelperError>
               )}
             </div>
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="TMT Jabatan" />
+              <Label className='text-xs md:text-sm mb-1' label="TMT Jabatan" />
               <Input
                 type="date"
                 placeholder="TMT Jabatan"
                 {...register('tmt_jabatan')}
-                className={`${errors.tmt_jabatan ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.tmt_jabatan ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.tmt_jabatan && (
                 <HelperError>{errors.tmt_jabatan.message}</HelperError>
@@ -345,24 +345,24 @@ const TamabahPegawaiPage = () => {
           <div className="text-primary text-lg font-bold mb-2">Diklat Struktural</div>
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Nama Diklat" />
+              <Label className='text-xs md:text-sm mb-1' label="Nama Diklat" />
               <Input
                 type="text"
                 placeholder="Nama Diklat"
                 {...register('nama_diklat')}
-                className={`${errors.nama_diklat ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.nama_diklat ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.nama_diklat && (
                 <HelperError>{errors.nama_diklat.message}</HelperError>
               )}
             </div>
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Tanggal Diklat" />
+              <Label className='text-xs md:text-sm mb-1' label="Tanggal Diklat" />
               <Input
                 type="date"
                 placeholder="Tanggal  Diklat"
                 {...register('tgl_diklat')}
-                className={`${errors.tgl_diklat ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.tgl_diklat ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.tgl_diklat && (
                 <HelperError>{errors.tgl_diklat.message}</HelperError>
@@ -370,12 +370,12 @@ const TamabahPegawaiPage = () => {
             </div>
           </div>
           <div className="flex flex-col w-full lg:w-1/2">
-            <Label className='text-sm mb-1' label="Jam Diklat" />
+            <Label className='text-xs md:text-sm mb-1' label="Jam Diklat" />
             <Input
               type="number"
               placeholder="Jam Diklat"
               {...register('total_jam')}
-              className={`${errors.total_jam ? 'border-red-500' : 'py-5 text-sm'}`}
+              className={`${errors.total_jam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
             />
             {errors.total_jam && (
               <HelperError>{errors.total_jam.message}</HelperError>
@@ -388,24 +388,24 @@ const TamabahPegawaiPage = () => {
           <div className="text-primary text-lg font-bold mb-2">Pendidikan Umum</div>
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Nama" />
+              <Label className='text-xs md:text-sm mb-1' label="Nama" />
               <Input
                 type="text"
                 placeholder="Nama"
                 {...register('nama_pendidikan')}
-                className={`${errors.nama_pendidikan ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.nama_pendidikan ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.nama_pendidikan && (
                 <HelperError>{errors.nama_pendidikan.message}</HelperError>
               )}
             </div>
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Tahun Lulus" />
+              <Label className='text-xs md:text-sm mb-1' label="Tahun Lulus" />
               <Input
                 type="number"
                 placeholder="Tahun Lulus"
                 {...register('tahun_lulus')}
-                className={`${errors.tahun_lulus ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.tahun_lulus ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.tahun_lulus && (
                 <HelperError>{errors.tahun_lulus.message}</HelperError>
@@ -419,24 +419,24 @@ const TamabahPegawaiPage = () => {
           {/* <div className="text-primary text-lg font-bold mb-2">Bidang Status Aktif</div> */}
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Jenjang" />
+              <Label className='text-xs md:text-sm mb-1' label="Jenjang" />
               <Input
                 type="text"
                 placeholder="Jenjang"
                 {...register('jenjang_pendidikan')}
-                className={`${errors.jenjang_pendidikan ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.jenjang_pendidikan ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.jenjang_pendidikan && (
                 <HelperError>{errors.jenjang_pendidikan.message}</HelperError>
               )}
             </div>
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Usia" />
+              <Label className='text-xs md:text-sm mb-1' label="Usia" />
               <Input
                 type="text"
                 placeholder="Usia"
                 {...register('usia')}
-                className={`${errors.usia ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.usia ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.usia && (
                 <HelperError>{errors.usia.message}</HelperError>
@@ -449,21 +449,21 @@ const TamabahPegawaiPage = () => {
         <div className="mb-2">
           <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Masa Kerja" />
+              <Label className='text-xs md:text-sm mb-1' label="Masa Kerja" />
               <Input
                 type="text"
                 placeholder="Masa Kerja"
                 {...register('masa_kerja')}
-                className={`${errors.masa_kerja ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.masa_kerja ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.masa_kerja && (
                 <HelperError>{errors.masa_kerja.message}</HelperError>
               )}
             </div>
             <div className="flex flex-col mb-2 w-full">
-              <Label className='text-sm mb-1' label="Keterangan" />
+              <Label className='text-xs md:text-sm mb-1' label="Keterangan" />
               <Textarea  {...register('keterangan')}
-                className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-sm'}`}
+                className={`${errors.keterangan ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
               />
               {errors.keterangan && (
                 <HelperError>{errors.keterangan.message}</HelperError>
@@ -473,10 +473,10 @@ const TamabahPegawaiPage = () => {
         </div>
 
         <div className="mb-10 flex justify-end gap-3">
-          <Link href="/kepegawaian/data-pegawai" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+          <Link href="/kepegawaian/data-pegawai" className='bg-white w-[120px] text-xs md:text-sm  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
             Batal
           </Link>
-          <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+          <Button type="submit" variant="primary" size="lg" className="w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 text-xs lg:text-sm">
             {loading ? (
               <Loading />
             ) : (
