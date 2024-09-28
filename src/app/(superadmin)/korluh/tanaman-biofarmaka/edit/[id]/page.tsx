@@ -32,10 +32,6 @@ const formSchema = z.object({
         .number()
         .min(0, "Kecamatan is required")
         .transform((value) => Number(value)), // Mengubah string menjadi number
-    desa_id: z
-        .number()
-        .min(0, "Desa is required")
-        .transform((value) => Number(value)), // Mengubah string menjadi number
     tanggal: z.preprocess(
         (val) => typeof val === "string" ? formatDate(val) : val,
         z.string().min(0, { message: "Tanggal wajib diisi" })),
@@ -165,17 +161,8 @@ const EditTanamanBiofarmaka = () => {
             setValue("rerata_harga", dataTanaman.data.rerataHarga);
             setValue("keterangan", dataTanaman.data.keterangan);
             setValue("kecamatan_id", dataTanaman.data.korluhTanamanBiofarmaka.kecamatanId);
-            setInitialDesaId(dataTanaman.data.korluhTanamanBiofarmaka.desaId); // Save initial desa_id
-            setValue("desa_id", dataTanaman.data.korluhTanamanBiofarmaka.desaId); // Set default value
         }
     }, [dataTanaman, setValue]);
-
-
-    useEffect(() => {
-        // Clear desa_id when kecamatan_id changes
-        setValue("desa_id", initialDesaId ?? 0); // Reset to initial desa_id
-    }, [kecamatanId, setValue, initialDesaId]);
-    // setvalue
 
     // getone
 
@@ -295,27 +282,21 @@ const EditTanamanBiofarmaka = () => {
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Pilih Desa" />
-                                <Controller
-                                    name="desa_id"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <DesaValue
-                                            disabled
-                                            // desaItems={filteredDesaItems}
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            kecamatanValue={kecamatanValue}
-                                        />
-                                    )}
+                                <Label className='text-sm mb-1' label="Tanggal" />
+                                <Input
+                                    disabled
+                                    type="date"
+                                    placeholder="Tanggal"
+                                    {...register('tanggal')}
+                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
                                 />
-                                {errors.desa_id && (
-                                    <p className="text-red-500 mt-1">{errors.desa_id.message}</p>
+                                {errors.tanggal && (
+                                    <HelperError>{errors.tanggal.message}</HelperError>
                                 )}
                             </div>
                         </div>
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
-                            <div className="flex flex-col mb-2 w-full">
+                            <div className="flex flex-col mb-2 w-full md:w-1/2 md:pr-3">
                                 <Label className='text-sm mb-1' label="Nama Tanaman" />
                                 <Controller
                                     name="korluh_master_tanaman_biofarmaka_id"
@@ -334,19 +315,6 @@ const EditTanamanBiofarmaka = () => {
                                 />
                                 {errors.korluh_master_tanaman_biofarmaka_id && (
                                     <HelperError>{errors.korluh_master_tanaman_biofarmaka_id.message}</HelperError>
-                                )}
-                            </div>
-                            <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-sm mb-1' label="Tanggal" />
-                                <Input
-                                    disabled
-                                    type="date"
-                                    placeholder="Tanggal"
-                                    {...register('tanggal')}
-                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
-                                />
-                                {errors.tanggal && (
-                                    <HelperError>{errors.tanggal.message}</HelperError>
                                 )}
                             </div>
                         </div>
