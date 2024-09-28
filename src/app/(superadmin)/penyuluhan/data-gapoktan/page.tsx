@@ -105,56 +105,69 @@ import KepegawaianDataPegawaiPrint from '@/components/Print/Kepegawaian/DataPega
 import TambahIcon from '../../../../../public/icons/TambahIcon';
 import TypingEffect from '@/components/ui/TypingEffect';
 import NotFoundSearch from '@/components/SearchNotFound';
+import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 
 interface Response {
-    status: string,
-    data: ResponseData,
-    message: string
+    status: number;
+    message: string;
+    data: PenyuluhData;
 }
 
-interface ResponseData {
-    data: Data[];
+interface PenyuluhData {
+    data: PenyuluhGabunganKelompokTani[];
     pagination: Pagination;
 }
 
+interface PenyuluhGabunganKelompokTani {
+    id: number;
+    kecamatanId: number;
+    desaId: number;
+    tahun: number;
+    nama: string;
+    ketua: string;
+    sekretaris: string;
+    bendahara: string;
+    alamat: string;
+    lahan: number;
+    dibentuk: number;
+    poktan: number;
+    l: number;
+    p: number;
+    total: number;
+    createdAt: string;
+    updatedAt: string;
+    kecamatan: Kecamatan;
+    desa: Desa;
+}
+
+interface Kecamatan {
+    id: number;
+    nama: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface Desa {
+    id: number;
+    nama: string;
+    kecamatanId: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
 interface Pagination {
-    page: number,
-    perPage: number,
-    totalPages: number,
-    totalCount: number,
+    page: number;
+    perPage: number;
+    totalPages: number;
+    totalCount: number;
+    links: Links;
 }
 
-interface Data {
-    id?: number;
-    nama?: string;
-    nip?: string;
-    tempatLahir?: string;
-    tglLahir?: string;
-    pangkat?: string;
-    golongan?: string;
-    tmtPangkat?: string;
-    jabatan?: string;
-    tmtJabatan?: string;
-    namaDiklat?: string;
-    tglDiklat?: string;
-    totalJam?: number;
-    namaPendidikan?: string;
-    tahunLulus?: number;
-    jenjangPendidikan?: string;
-    usia?: string;
-    masaKerja?: string;
-    keterangan?: string;
-    status?: string;
-    bidang_id?: number;
-    bidang?: Bidang;
+interface Links {
+    prev: string | null;
+    next: string | null;
 }
 
-interface Bidang {
-    id?: number;
-    nama?: string;
-    createdAt?: number;
-    updatedAt?: number;
-}
 
 const DataGapoktanViewAll = () => {
     // filter date
@@ -202,7 +215,7 @@ const DataGapoktanViewAll = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataGapoktan }: SWRResponse<Response> = useSWR(
-        `/kepegawaian/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}&bidangId=${selectedBidang}`,
+        `/penyuluh-gabungan-kelompok-tani/get?page=${currentPage}&year=${tahun}&search=${search}&tahun=${tahun}&kecamatan=${selectedKecamatan}&limit=${limit}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -215,7 +228,7 @@ const DataGapoktanViewAll = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            await axiosPrivate.delete(`/kepegawaian/delete/${id}`, {
+            await axiosPrivate.delete(`/penyuluh-gabungan-kelompok-tani/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -246,7 +259,7 @@ const DataGapoktanViewAll = () => {
         } catch (error) {
             console.error('Failed to delete:', error);
             console.log(id)
-        } mutate(`/kepegawaian/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}&bidangId=${selectedBidang}`);
+        } mutate(`/penyuluh-gabungan-kelompok-tani/get?page=${currentPage}&year=${tahun}&search=${search}&tahun=${tahun}&kecamatan=${selectedKecamatan}&limit=${limit}`);
     };
 
     const columns = [
@@ -311,39 +324,68 @@ const DataGapoktanViewAll = () => {
             <div className="hidden md:block">
                 <>
                     {/* top */}
-                    <div className="header flex justify-between gap-2 items-center">
-                        <div className="search w-full lg:w-[50%]">
+                    <div className="header flex gap-2 justify-between items-center">
+                        <div className="search md:w-[50%]">
                             <Input
+                                autoFocus
                                 type="text"
-                                placeholder="Cari Gapoktan"
+                                placeholder="Cari"
                                 value={search}
                                 onChange={handleSearchChange}
                                 rightIcon={<SearchIcon />}
                                 className='border-primary py-2'
                             />
                         </div>
-                        {/* unduh */}
-                        <KepegawaianDataPegawaiPrint
-                            urlApi={`/kepegawaian/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}&bidangId=${selectedBidang}`}
-                        />
-                        {/* unduh */}
+                        {/* print */}
+                        {/* <PenyuluhKecPrint
+                            urlApi={`/penyuluh-kelompok-tani/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`}
+                            kecamatan={selectedKecamatan}
+                        /> */}
+                        {/* print */}
                     </div>
                     {/*  */}
-                    <div className="wrap-filter left gap-2 lg:gap-2 flex lg:justify-start justify-between items-center w-full mt-2">
-                        <div className="w-full lg:w-1/4">
-                            <BidangSelect
-                                value={selectedBidang}
-                                onChange={(value) => {
-                                    setSelectedBidang(value);
-                                }}
-                            />
+                    <div className="wrap-filter flex justify-between items-center mt-4 ">
+                        <div className="left gap-2 flex justify-start items-center">
+                            <div className="w-auto">
+                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Tahun">
+                                            {tahun ? tahun : "Tahun"}
+                                        </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="fil-kect w-[185px]">
+                                <KecamatanSelect
+                                    value={selectedKecamatan}
+                                    onChange={(value) => {
+                                        setSelectedKecamatan(value); // Update state with selected value
+                                    }}
+                                />
+                            </div>
+                            <div className="filter-table w-[40px] h-[40px]">
+                                {/* <FilterTable
+                                    columns={columns}
+                                    defaultCheckedKeys={getDefaultCheckedKeys()}
+                                    onFilterChange={handleFilterChange}
+                                /> */}
+                            </div>
                         </div>
-                        <div className="w-[50px] h-full lg:w-[40px] lg:h-[40px]">
-                            <FilterTable
-                                columns={columns}
-                                defaultCheckedKeys={getDefaultCheckedKeys()}
-                                onFilterChange={handleFilterChange}
-                            />
+                        <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                            <Link href="/penyuluhan/data-gapoktan/tambah" className='bg-primary px-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium w-full'>
+                                Tambah Data
+                            </Link>
                         </div>
                     </div>
                     {/* top */}
@@ -367,7 +409,7 @@ const DataGapoktanViewAll = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="ml-5 w-[280px] transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md">
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md ml-5 w-[280px]">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -376,8 +418,47 @@ const DataGapoktanViewAll = () => {
                                     <div className="bg-white w-full h-full">
                                         <div className="flex flex-col w-full px-2 py-2">
                                             {/* Filter Kecamatan */}
+                                            <>
+                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Kecamatan" />
+                                                <div className="fil-kect w-full mb-2">
+                                                    <KecamatanSelect
+                                                        value={selectedKecamatan}
+                                                        onChange={(value) => {
+                                                            setSelectedKecamatan(value); // Update state with selected value
+                                                        }}
+                                                    />
+                                                </div>
+                                            </>
+                                            {/* Filter Kecamatan */}
+                                            {/* filter tahun */}
+                                            <>
+                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun" />
+                                                <div className="w-full">
+                                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Tahun">
+                                                                {tahun ? tahun : "Tahun"}
+                                                            </SelectValue>
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                                const year = startYear + index;
+                                                                return (
+                                                                    <SelectItem key={year} value={year.toString()}>
+                                                                        {year}
+                                                                    </SelectItem>
+                                                                );
+                                                            })}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            </>
+                                            {/* filter tahun */}
+
+                                            {/* Filter Desa */}
                                             {/* <>
-                        <Label className='text-xs mb-1 !text-black opacity-50' label="Kecamatan" />
+                        <Label className='text-xs mb-1 !text-black opacity-50' label="Desa" />
                         <div className="w-full mb-2">
                           <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
                             <SelectTrigger className='text-xs'>
@@ -399,20 +480,6 @@ const DataGapoktanViewAll = () => {
                           </Select>
                         </div>
                       </> */}
-                                            {/* Filter Kecamatan */}
-
-                                            {/* Filter Desa */}
-                                            <>
-                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Bidang" />
-                                                <div className="w-full mb-2">
-                                                    <BidangSelect
-                                                        value={selectedBidang}
-                                                        onChange={(value) => {
-                                                            setSelectedBidang(value);
-                                                        }}
-                                                    />
-                                                </div>
-                                            </>
                                             {/* Filter Desa */}
 
                                             {/* Filter Rentang Tanggal */}
@@ -420,6 +487,7 @@ const DataGapoktanViewAll = () => {
                                             {/* Filter Rentang Tanggal */}
 
                                             {/* Filter Tahun Bulan */}
+
                                             {/* Filter Tahun Bulan */}
 
                                         </div>
@@ -430,23 +498,24 @@ const DataGapoktanViewAll = () => {
 
                             {/* filter kolom */}
                             {/* <FilterTable
-                columns={columns}
-                defaultCheckedKeys={getDefaultCheckedKeys()}
-                onFilterChange={handleFilterChange}
-              /> */}
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            /> */}
                             {/* filter kolom */}
 
                             {/* unduh print */}
-                            <KepegawaianDataPegawaiPrint
-                                urlApi={`/kepegawaian/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}&bidangId=${selectedBidang}`}
-                            />
+                            {/* <PenyuluhKecPrint
+                                urlApi={`/penyuluh-kelompok-tani/get?page=${currentPage}&search=${search}&limit=${limit}&kecamatan=${selectedKecamatan}`}
+                                kecamatan={selectedKecamatan}
+                            /> */}
                             {/* unduh print */}
                         </div>
 
                         {/* Tambah Data */}
                         <div className="flex justify-end items-center w-fit">
                             <Link
-                                href="/kepegawaian/tambah-pegawai"
+                                href="/penyuluhan/data-poktan/tambah"
                                 className='bg-primary text-xs px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-end flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 py-2'>
                                 {/* Tambah */}
                                 <TambahIcon />
@@ -460,7 +529,7 @@ const DataGapoktanViewAll = () => {
                         <Input
                             autoFocus
                             type="text"
-                            placeholder="Cari Nama Pegawai"
+                            placeholder="Cari"
                             value={search}
                             onChange={handleSearchChange}
                             rightIcon={<SearchIcon />}
@@ -473,163 +542,45 @@ const DataGapoktanViewAll = () => {
             </div>
             {/* Mobile */}
 
-            {/* mobile table */}
-            <div className="wrap-table flex-col gap-4 mt-4 flex md:hidden">
-                {dataGapoktan?.data.data && dataGapoktan?.data.data.length > 0 ? (
-                    dataGapoktan?.data.data.map((item, index) => (
-                        <div key={item.id} className="card-table text-[12px] p-4 rounded-2xl border border-primary transition-all ease-in-out bg-white shadow-sm">
-                            <div className="wrap-konten flex flex-col gap-2">
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">No</div>
-                                    <div className="konten text-black/80 text-end">{item?.nama ? item?.nama : ' - '}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Nama UPTD BPP</div>
-                                    <div className="konten text-black/80 text-end">{item?.nip ? item?.nip : ' - '}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Nama Desa</div>
-                                    <div className="konten text-black/80 text-end">{item?.tempatLahir ? item?.tempatLahir : ' - '}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Nama Gabungan Kelompok Tani</div>
-                                    <div className="konten text-black/80 text-end">
-                                        {item?.tglLahir ? new Date(item?.tglLahir).toLocaleDateString('id-ID', {
-                                            day: 'numeric',
-                                            month: 'long',
-                                            year: 'numeric',
-                                        }) : ' - '}
-                                    </div>
-                                </div>
-                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Pengurus Gabungan Kelompok Tani</div>
-                                    <div className="konten text-black/80 text-end">{item?.pangkat ? item?.pangkat : ' - '}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Alamat Sekretaris</div>
-                                    <div className="konten text-black/80 text-end">{item?.golongan ? item?.golongan : ' - '}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Luas Lahan (Ha)</div>
-                                    <div className="konten text-black/80 text-end">
-                                        {item.tmtPangkat && !isNaN(new Date(item.tmtPangkat).getTime())
-                                            ? formatDate(new Date(item.tmtPangkat))
-                                            : ' - '}
-                                    </div>
-                                </div>
-                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Tahun Dibentuk</div>
-                                    <div className="konten text-black/80 text-end">{item?.jabatan ? item?.jabatan : ' - '}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Jml Poktan</div>
-                                    <div className="konten text-black/80 text-end">
-                                        {item.tmtJabatan && !isNaN(new Date(item.tmtJabatan).getTime())
-                                            ? formatDate(new Date(item.tmtJabatan))
-                                            : ' - '}
-                                    </div>
-                                </div>
-                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Jml Anggota</div>
-                                    <div className="konten text-black/80 text-end">{item?.namaDiklat ? item?.namaDiklat : ' - '}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Total Anggota</div>
-                                    <div className="konten text-black/80 text-end">
-                                        {item.tglDiklat && !isNaN(new Date(item.tglDiklat).getTime())
-                                            ? formatDate(new Date(item.tglDiklat))
-                                            : ' - '}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="pt-2 pb-4">
-                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
-                            </div>
-                            <div className="flex gap-3 text-white">
-                                <Link href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
-                                    Detail
-                                </Link>
-                                <Link href={`/kepegawaian/data-pegawai/edit-pegawai/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
-                                    Edit
-                                </Link>
-                                <button onClick={() => handleDelete(String(item.id) || "")} className="bg-red-500 rounded-full w-full py-2">
-                                    Hapus
-                                </button>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <NotFoundSearch />
-                )}
-            </div>
-            {/* mobile table */}
-
             {/* dekstop table*/}
             <div className="hidden md:block">
                 <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden '>
                     <TableHeader className="bg-primary-600">
                         <TableRow >
-                            {visibleColumns.includes('no') && (
-                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                    No
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('namaUPTD') && (
-                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                    Nama UPTD BPP
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('namaDesa') && (
-                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                    Nama Desa
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('namaGapoktan') && (
-                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                    Nama Gabungan Kelompok Tani
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('pengurusGapoktan') && (
-                                <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                    Pengurus Gabungan Kelompok Tani
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('alamatSekretaris') && (
-                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                    Alamat Sekretaris
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('luasLahan') && (
-                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                    Luas Lahan (Ha)
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('tahunDibentuk') && (
-                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                    Tahun Dibentuk
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('jumlahPoktan') && (
-                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                    Jml Poktan
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('jumlahAnggota') && (
-                                <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center ">
-                                    Jml Anggota
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('totaDiklat') && (
-                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                    Total Anggota
-                                </TableHead>
-                            )}
-                            {visibleColumns.includes('aksi') && (
-                                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Aksi</TableHead>
-                            )}
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                No
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                Nama UPTD BPP
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                Nama Desa
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                Nama Gabungan Kelompok Tani
+                            </TableHead>
+                            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                Pengurus Gabungan Kelompok Tani
+                            </TableHead>
+                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                Alamat Sekretaris
+                            </TableHead>
+                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                Luas Lahan (Ha)
+                            </TableHead>
+                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                Tahun Dibentuk
+                            </TableHead>
+                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                Jml Poktan
+                            </TableHead>
+                            <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center ">
+                                Jml Anggota
+                            </TableHead>
+                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                Total Anggota
+                            </TableHead>
+                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Aksi</TableHead>
                         </TableRow>
                         <TableRow>
                             {visibleColumns.includes('pengurusGapoktan') && (
@@ -660,95 +611,83 @@ const DataGapoktanViewAll = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {dataGapoktan?.data.data && dataGapoktan?.data.data.length > 0 ? (
-                            dataGapoktan?.data.data.map((item, index) => (
-                                <TableRow key={item.id}>
-                                    {visibleColumns.includes('no') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>{(currentPage - 1) * limit + (index + 1)}</TableCell>
-                                    )}
-                                    {visibleColumns.includes('namaUPTD') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            {item.nama}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('namaDesa') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            {item.pangkat}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('namaGapoktan') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            {item.jabatan}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('pengurusGapoktan') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            {item.namaDiklat}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('pengurusGapoktan') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            {item.tglDiklat && !isNaN(new Date(item.tglDiklat).getTime())
-                                                ? formatDate(new Date(item.tglDiklat))
-                                                : ' - '}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('pengurusGapoktan') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            {item.totalJam === 0 ? (
-                                                <span></span>
-                                            ) : (
-                                                <span>{item.totalJam} Jam</span>
-                                            )}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('alamatSekretaris') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            {item.namaPendidikan}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('luasLahan') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            {item.tahunLulus === 0 ? (
-                                                <span></span>
-                                            ) : (
-                                                <span>{item.tahunLulus}</span>
-                                            )}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('tahunDibentuk') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            {item.jenjangPendidikan}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('jumlahPoktan') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.usia}</TableCell>
-                                    )}
-                                    {visibleColumns.includes('jumlahAnggota') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.masaKerja}</TableCell>
-                                    )}
-                                    {visibleColumns.includes('jumlahAnggota') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.masaKerja}</TableCell>
-                                    )}
-                                    {visibleColumns.includes('aksi') && (
-                                        <TableCell className='py-2 lg:py-4 border border-slate-200'>
-                                            <div className="flex items-center gap-4">
-                                                <Link className='' href={`/kepegawaian/data-pegawai/detail-pegawai/${item.id}`}>
-                                                    <EyeIcon />
-                                                </Link>
-                                                <Link className='' href={`/kepegawaian/data-pegawai/edit-pegawai/${item.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
-                                            </div>
-                                        </TableCell>
-                                    )}
+                        {dataGapoktan?.data?.data && dataGapoktan?.data?.data?.length > 0 ? (
+                            dataGapoktan.data.data.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {(currentPage - 1) * limit + (index + 1)}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.kecamatan.nama}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.desa.nama}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.nama}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.ketua}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.sekretaris}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.bendahara}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.alamat}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.lahan}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.dibentuk}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.poktan}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.l}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.p}
+                                    </TableCell>
+                                    <TableCell className="border border-slate-200 text-center">
+                                        {item?.total}
+                                    </TableCell>
+                                    <TableCell
+                                        className="border border-slate-200 font-semibold"
+                                    >
+                                        <div className="flex items-center gap-4 justify-center">
+                                            <Link
+                                                className=""
+                                                href={`/penyuluhan/data-poktan/detail/${item.id}`}
+                                            >
+                                                <EyeIcon />
+                                            </Link>
+                                            <Link
+                                                className=""
+                                                href={`/penyuluhan/data-poktan/edit/${item.id}`}
+                                            >
+                                                <EditIcon />
+                                            </Link>
+                                            <DeletePopup
+                                                onDelete={() =>
+                                                    handleDelete(
+                                                        String(item.id) ||
+                                                        ""
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </TableCell>
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={15} className="text-center">
-                                    Tidak ada data
+                                <TableCell colSpan={17} className='text-center'>
+                                    <NotFoundSearch />
                                 </TableCell>
                             </TableRow>
                         )}
@@ -758,7 +697,7 @@ const DataGapoktanViewAll = () => {
             {/*Dekstop table */}
 
             {/* pagination */}
-            <div className="pagi flex items-center justify-end">
+            <div className="pagi flex items-center justify-center md:justify-end pb-5 lg:pb-0">
                 {dataGapoktan?.data?.pagination.totalCount as number > 1 && (
                     <PaginationTable
                         currentPage={currentPage}

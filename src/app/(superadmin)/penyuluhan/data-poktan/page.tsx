@@ -428,27 +428,27 @@ const PenyuluhDataPoktan = () => {
                                             {/* Filter Kecamatan */}
                                             {/* filter tahun */}
                                             <>
-                                            <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun" />
-                                            <div className="w-full">
-                                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Tahun">
-                                                            {tahun ? tahun : "Tahun"}
-                                                        </SelectValue>
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
-                                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                            const year = startYear + index;
-                                                            return (
-                                                                <SelectItem key={year} value={year.toString()}>
-                                                                    {year}
-                                                                </SelectItem>
-                                                            );
-                                                        })}
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
+                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun" />
+                                                <div className="w-full">
+                                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Tahun">
+                                                                {tahun ? tahun : "Tahun"}
+                                                            </SelectValue>
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
+                                                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                                                const year = startYear + index;
+                                                                return (
+                                                                    <SelectItem key={year} value={year.toString()}>
+                                                                        {year}
+                                                                    </SelectItem>
+                                                                );
+                                                            })}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
                                             </>
                                             {/* filter tahun */}
 
@@ -727,10 +727,7 @@ const PenyuluhDataPoktan = () => {
                                             </Link>
                                             <DeletePopup
                                                 onDelete={() =>
-                                                    handleDelete(
-                                                        String(1) ||
-                                                        ""
-                                                    )
+                                                    handleDelete(String(item.id) || "")
                                                 }
                                             />
                                         </div>
