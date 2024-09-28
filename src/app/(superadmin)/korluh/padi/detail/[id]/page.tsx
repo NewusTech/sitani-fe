@@ -5,6 +5,12 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useRouter, useParams } from 'next/navigation';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
 
 // Format tanggal yang diinginkan (yyyy-mm-dd)
 const formatDate = (dateString: string) => {
@@ -128,57 +134,216 @@ function DetailPadiKorluh() {
     return (
         <div>
             {/* title */}
-            <div className="text-xl md:text-2xl mb-3 md:mb-5 font-semibold text-primary">Detail Padi BPP Kecamatan</div>
+            <div className="text-xl md:text-2xl mb-0 md:mb-4 font-semibold text-primary">Detail Padi</div>
             {/* back button */}
             <div className="mb-4 flex justify-start gap-2 md:gap-3 mt-4">
-                <Link href="/korluh/padi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                <Link href="/korluh/padi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 text-xs md:text-sm'>
                     Kembali
                 </Link>
             </div>
             {/* detail */}
-            <div className="wrap-detail bg-slate-100 p-5 md:p-6 md:mt-5 lg:mt-3 rounded-lg">
-                <div className="font-semibold mb-2 text-base md:text-lg">Detail Data Padi</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-                    <LabelDetail label="Kecamatan" name={data?.kecamatan?.nama} />
-                    <LabelDetail label="Tanggal" name={data?.tanggal ? formatDate(data.tanggal) : ''} />
-                    <LabelDetail label="Hibrida Bantuan Pemerintah Lahan Sawah Panen" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_panen} />
-                    <LabelDetail label="Hibrida Bantuan Pemerintah Lahan Sawah Tanam" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_tanam} />
-                    <LabelDetail label="Hibrida Bantuan Pemerintah Lahan Sawah Puso" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_puso} />
-                    <LabelDetail label="Hibrida Non Bantuan Pemerintah Lahan Sawah Panen" number={data?.hibrida_non_bantuan_pemerintah_lahan_sawah_panen} />
-                    <LabelDetail label="Hibrida Non Bantuan Pemerintah Lahan Sawah Tanam" number={data?.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam} />
-                    <LabelDetail label="Hibrida Non Bantuan Pemerintah Lahan Sawah Puso" number={data?.hibrida_non_bantuan_pemerintah_lahan_sawah_puso} />
-                    <LabelDetail label="Unggul Bantuan Pemerintah Lahan Sawah Panen" number={data?.unggul_bantuan_pemerintah_lahan_sawah_panen} />
-                    <LabelDetail label="Unggul Bantuan Pemerintah Lahan Sawah Tanam" number={data?.unggul_bantuan_pemerintah_lahan_sawah_tanam} />
-                    <LabelDetail label="Unggul Bantuan Pemerintah Lahan Sawah Puso" number={data?.unggul_bantuan_pemerintah_lahan_sawah_puso} />
-                    <LabelDetail label="Unggul Bantuan Pemerintah Lahan Bukan Sawah Panen" number={data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen} />
-                    <LabelDetail label="Unggul Bantuan Pemerintah Lahan Bukan Sawah Tanam" number={data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam} />
-                    <LabelDetail label="Unggul Bantuan Pemerintah Lahan Bukan Sawah Puso" number={data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso} />
-                    <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Sawah Panen" number={data?.unggul_non_bantuan_pemerintah_lahan_sawah_panen} />
-                    <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Sawah Tanam" number={data?.unggul_non_bantuan_pemerintah_lahan_sawah_tanam} />
-                    <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Sawah Puso" number={data?.unggul_non_bantuan_pemerintah_lahan_sawah_puso} />
-                    <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Bukan Sawah Panen" number={data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen} />
-                    <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Bukan Sawah Tanam" number={data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam} />
-                    <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Bukan Sawah Puso" number={data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso} />
-                    <LabelDetail label="Lokal Lahan Sawah Panen" number={data?.lokal_lahan_sawah_panen} />
-                    <LabelDetail label="Lokal Lahan Sawah Tanam" number={data?.lokal_lahan_sawah_tanam} />
-                    <LabelDetail label="Lokal Lahan Sawah Puso" number={data?.lokal_lahan_sawah_puso} />
-                    <LabelDetail label="Lokal Lahan Bukan Sawah Panen" number={data?.lokal_lahan_bukan_sawah_panen} />
-                    <LabelDetail label="Lokal Lahan Bukan Sawah Tanam" number={data?.lokal_lahan_bukan_sawah_tanam} />
-                    <LabelDetail label="Lokal Lahan Bukan Sawah Puso" number={data?.lokal_lahan_bukan_sawah_puso} />
-                    <LabelDetail label="Sawah Irigasi Lahan Sawah Panen" number={data?.sawah_irigasi_lahan_sawah_panen} />
-                    <LabelDetail label="Sawah Irigasi Lahan Sawah Tanam" number={data?.sawah_irigasi_lahan_sawah_tanam} />
-                    <LabelDetail label="Sawah Irigasi Lahan Sawah Puso" number={data?.sawah_irigasi_lahan_sawah_puso} />
-                    <LabelDetail label="Sawah Tadah Hujan Lahan Sawah Panen" number={data?.sawah_tadah_hujan_lahan_sawah_panen} />
-                    <LabelDetail label="Sawah Tadah Hujan Lahan Sawah Tanam" number={data?.sawah_tadah_hujan_lahan_sawah_tanam} />
-                    <LabelDetail label="Sawah Tadah Hujan Lahan Sawah Puso" number={data?.sawah_tadah_hujan_lahan_sawah_puso} />
-                    <LabelDetail label="Sawah Rawa Pasang Surut Lahan Sawah Panen" number={data?.sawah_rawa_pasang_surut_lahan_sawah_panen} />
-                    <LabelDetail label="Sawah Rawa Pasang Surut Lahan Sawah Tanam" number={data?.sawah_rawa_pasang_surut_lahan_sawah_tanam} />
-                    <LabelDetail label="Sawah Rawa Pasang Surut Lahan Sawah Puso" number={data?.sawah_rawa_pasang_surut_lahan_sawah_puso} />
-                    <LabelDetail label="Sawah Rawa Lebak Lahan Sawah Panen" number={data?.sawah_rawa_lebak_lahan_sawah_panen} />
-                    <LabelDetail label="Sawah Rawa Lebak Lahan Sawah Tanam" number={data?.sawah_rawa_lebak_lahan_sawah_tanam} />
-                    <LabelDetail label="Sawah Rawa Lebak Lahan Sawah Puso" number={data?.sawah_rawa_lebak_lahan_sawah_puso} />
+            {/* mobile */}
+            <div className="wrap-table md:hidden">
+                <div className="wrap-detail bg-slate-100 p-5 md:p-6 md:mt-5 lg:mt-3 rounded-lg">
+                    <div className="font-semibold mb-2 text-sm md:text-base text-center">Detail Data Padi</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+                        <LabelDetail label="Kecamatan" name={data?.kecamatan?.nama} />
+                        <LabelDetail label="Tanggal" name={data?.tanggal ? formatDate(data.tanggal) : ''} />
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-1">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Hibrida Bantuan Pemerintah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Lahan Sawah Panen" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_panen} />
+                                    <LabelDetail label="Lahan Sawah Tanam" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_tanam} />
+                                    <LabelDetail label="Lahan Sawah Puso" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-1">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Hibrida Non Bantuan Pemerintah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Lahan Sawah Panen" number={data?.hibrida_non_bantuan_pemerintah_lahan_sawah_panen} />
+                                    <LabelDetail label="Lahan Sawah Tanam" number={data?.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam} />
+                                    <LabelDetail label="Lahan Sawah Puso" number={data?.hibrida_non_bantuan_pemerintah_lahan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-1">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Unggul Bantuan Pemerintah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Lahan Sawah Panen" number={data?.unggul_bantuan_pemerintah_lahan_sawah_panen} />
+                                    <LabelDetail label="Lahan Sawah Tanam" number={data?.unggul_bantuan_pemerintah_lahan_sawah_tanam} />
+                                    <LabelDetail label="Lahan Sawah Puso" number={data?.unggul_bantuan_pemerintah_lahan_sawah_puso} />
+                                    <LabelDetail label="Lahan Bukan Sawah Panen" number={data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen} />
+                                    <LabelDetail label="Lahan Bukan Sawah Tanam" number={data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam} />
+                                    <LabelDetail label="Lahan Bukan Sawah Puso" number={data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-2">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Unggul Non Bantuan Pemerintah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Lahan Sawah Panen" number={data?.unggul_non_bantuan_pemerintah_lahan_sawah_panen} />
+                                    <LabelDetail label="Lahan Sawah Tanam" number={data?.unggul_non_bantuan_pemerintah_lahan_sawah_tanam} />
+                                    <LabelDetail label="Lahan Sawah Puso" number={data?.unggul_non_bantuan_pemerintah_lahan_sawah_puso} />
+                                    <LabelDetail label="Lahan Bukan Sawah Panen" number={data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen} />
+                                    <LabelDetail label="Lahan Bukan Sawah Tanam" number={data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam} />
+                                    <LabelDetail label="Lahan Bukan Sawah Puso" number={data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-3">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Lokal Lahan Sawah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Panen" number={data?.lokal_lahan_sawah_panen} />
+                                    <LabelDetail label="Tanam" number={data?.lokal_lahan_sawah_tanam} />
+                                    <LabelDetail label="Puso" number={data?.lokal_lahan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-4">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Lokal Lahan Bukan Sawah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Panen" number={data?.lokal_lahan_bukan_sawah_panen} />
+                                    <LabelDetail label="Tanam" number={data?.lokal_lahan_bukan_sawah_tanam} />
+                                    <LabelDetail label="Puso" number={data?.lokal_lahan_bukan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-5">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Sawah Irigasi Lahan Sawah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Panen" number={data?.sawah_irigasi_lahan_sawah_panen} />
+                                    <LabelDetail label="Tanam" number={data?.sawah_irigasi_lahan_sawah_tanam} />
+                                    <LabelDetail label="Puso" number={data?.sawah_irigasi_lahan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-6">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Sawah Tadah Hujan Lahan Sawah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Panen" number={data?.sawah_tadah_hujan_lahan_sawah_panen} />
+                                    <LabelDetail label="Tanam" number={data?.sawah_tadah_hujan_lahan_sawah_tanam} />
+                                    <LabelDetail label="Puso" number={data?.sawah_tadah_hujan_lahan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-7">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Sawah Rawa Pasang Surut Lahan Sawah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Panen" number={data?.sawah_rawa_pasang_surut_lahan_sawah_panen} />
+                                    <LabelDetail label="Tanam" number={data?.sawah_rawa_pasang_surut_lahan_sawah_tanam} />
+                                    <LabelDetail label="Puso" number={data?.sawah_rawa_pasang_surut_lahan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse" />
+
+                        <Accordion type="single" collapsible className="w-full text-xs md:text-sm">
+                            <AccordionItem value="item-8">
+                                <AccordionTrigger className="hover:pl-0 text-black/70 p-0 pb-2 text-xs">
+                                    Sawah Rawa Lebak Lahan Sawah
+                                </AccordionTrigger>
+                                <AccordionContent className="text-xs md:text-sm text-black/70">
+                                    <LabelDetail label="Panen" number={data?.sawah_rawa_lebak_lahan_sawah_panen} />
+                                    <LabelDetail label="Tanam" number={data?.sawah_rawa_lebak_lahan_sawah_tanam} />
+                                    <LabelDetail label="Puso" number={data?.sawah_rawa_lebak_lahan_sawah_puso} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </div>
                 </div>
             </div>
+            {/* mobile */}
+
+            {/* dekstop */}
+            <div className="hidden md:block">
+                <div className="wrap-detail bg-slate-100 p-5 md:p-6 md:mt-5 lg:mt-3 rounded-lg">
+                    <div className="font-semibold mb-2 text-base md:text-lg">Detail Data Padi</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+                        <LabelDetail label="Kecamatan" name={data?.kecamatan?.nama} />
+                        <LabelDetail label="Tanggal" name={data?.tanggal ? formatDate(data.tanggal) : ''} />
+                        <LabelDetail label="Hibrida Bantuan Pemerintah Lahan Sawah Panen" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_panen} />
+                        <LabelDetail label="Hibrida Bantuan Pemerintah Lahan Sawah Tanam" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_tanam} />
+                        <LabelDetail label="Hibrida Bantuan Pemerintah Lahan Sawah Puso" number={data?.hibrida_bantuan_pemerintah_lahan_sawah_puso} />
+                        <LabelDetail label="Hibrida Non Bantuan Pemerintah Lahan Sawah Panen" number={data?.hibrida_non_bantuan_pemerintah_lahan_sawah_panen} />
+                        <LabelDetail label="Hibrida Non Bantuan Pemerintah Lahan Sawah Tanam" number={data?.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam} />
+                        <LabelDetail label="Hibrida Non Bantuan Pemerintah Lahan Sawah Puso" number={data?.hibrida_non_bantuan_pemerintah_lahan_sawah_puso} />
+                        <LabelDetail label="Unggul Bantuan Pemerintah Lahan Sawah Panen" number={data?.unggul_bantuan_pemerintah_lahan_sawah_panen} />
+                        <LabelDetail label="Unggul Bantuan Pemerintah Lahan Sawah Tanam" number={data?.unggul_bantuan_pemerintah_lahan_sawah_tanam} />
+                        <LabelDetail label="Unggul Bantuan Pemerintah Lahan Sawah Puso" number={data?.unggul_bantuan_pemerintah_lahan_sawah_puso} />
+                        <LabelDetail label="Unggul Bantuan Pemerintah Lahan Bukan Sawah Panen" number={data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen} />
+                        <LabelDetail label="Unggul Bantuan Pemerintah Lahan Bukan Sawah Tanam" number={data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam} />
+                        <LabelDetail label="Unggul Bantuan Pemerintah Lahan Bukan Sawah Puso" number={data?.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso} />
+                        <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Sawah Panen" number={data?.unggul_non_bantuan_pemerintah_lahan_sawah_panen} />
+                        <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Sawah Tanam" number={data?.unggul_non_bantuan_pemerintah_lahan_sawah_tanam} />
+                        <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Sawah Puso" number={data?.unggul_non_bantuan_pemerintah_lahan_sawah_puso} />
+                        <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Bukan Sawah Panen" number={data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen} />
+                        <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Bukan Sawah Tanam" number={data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam} />
+                        <LabelDetail label="Unggul Non Bantuan Pemerintah Lahan Bukan Sawah Puso" number={data?.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso} />
+                        <LabelDetail label="Lokal Lahan Sawah Panen" number={data?.lokal_lahan_sawah_panen} />
+                        <LabelDetail label="Lokal Lahan Sawah Tanam" number={data?.lokal_lahan_sawah_tanam} />
+                        <LabelDetail label="Lokal Lahan Sawah Puso" number={data?.lokal_lahan_sawah_puso} />
+                        <LabelDetail label="Lokal Lahan Bukan Sawah Panen" number={data?.lokal_lahan_bukan_sawah_panen} />
+                        <LabelDetail label="Lokal Lahan Bukan Sawah Tanam" number={data?.lokal_lahan_bukan_sawah_tanam} />
+                        <LabelDetail label="Lokal Lahan Bukan Sawah Puso" number={data?.lokal_lahan_bukan_sawah_puso} />
+                        <LabelDetail label="Sawah Irigasi Lahan Sawah Panen" number={data?.sawah_irigasi_lahan_sawah_panen} />
+                        <LabelDetail label="Sawah Irigasi Lahan Sawah Tanam" number={data?.sawah_irigasi_lahan_sawah_tanam} />
+                        <LabelDetail label="Sawah Irigasi Lahan Sawah Puso" number={data?.sawah_irigasi_lahan_sawah_puso} />
+                        <LabelDetail label="Sawah Tadah Hujan Lahan Sawah Panen" number={data?.sawah_tadah_hujan_lahan_sawah_panen} />
+                        <LabelDetail label="Sawah Tadah Hujan Lahan Sawah Tanam" number={data?.sawah_tadah_hujan_lahan_sawah_tanam} />
+                        <LabelDetail label="Sawah Tadah Hujan Lahan Sawah Puso" number={data?.sawah_tadah_hujan_lahan_sawah_puso} />
+                        <LabelDetail label="Sawah Rawa Pasang Surut Lahan Sawah Panen" number={data?.sawah_rawa_pasang_surut_lahan_sawah_panen} />
+                        <LabelDetail label="Sawah Rawa Pasang Surut Lahan Sawah Tanam" number={data?.sawah_rawa_pasang_surut_lahan_sawah_tanam} />
+                        <LabelDetail label="Sawah Rawa Pasang Surut Lahan Sawah Puso" number={data?.sawah_rawa_pasang_surut_lahan_sawah_puso} />
+                        <LabelDetail label="Sawah Rawa Lebak Lahan Sawah Panen" number={data?.sawah_rawa_lebak_lahan_sawah_panen} />
+                        <LabelDetail label="Sawah Rawa Lebak Lahan Sawah Tanam" number={data?.sawah_rawa_lebak_lahan_sawah_tanam} />
+                        <LabelDetail label="Sawah Rawa Lebak Lahan Sawah Puso" number={data?.sawah_rawa_lebak_lahan_sawah_puso} />
+                    </div>
+                </div>
+            </div>
+            {/* dekstop */}
         </div>
     )
 }

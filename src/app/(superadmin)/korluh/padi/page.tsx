@@ -1311,7 +1311,7 @@ const KorlubPadi = () => {
 						) : (
 							<TableRow>
 								<TableCell colSpan={9} className="text-center">
-									Tidak ada data
+									<NotFoundSearch />
 								</TableCell>
 							</TableRow>
 						)}

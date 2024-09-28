@@ -1311,9 +1311,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[1]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[1].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[1].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[1].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1368,9 +1368,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[2]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[2].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[2].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[2].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1425,9 +1425,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[3]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[3].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[3].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[3].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1482,9 +1482,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[4]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[4].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[4].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[4].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1583,9 +1583,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[5]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[5].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[5].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[5].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1640,9 +1640,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[6]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[6].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[6].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[6].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1700,9 +1700,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[7]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[7].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[7].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[7].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1801,9 +1801,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[8]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[8].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[8].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[8].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1858,9 +1858,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[9]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[9].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[9].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[9].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1918,9 +1918,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[10]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[10].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[10].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[10].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -1978,9 +1978,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[11]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[11].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[11].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[11].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -2038,9 +2038,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[12]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[12].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[12].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[12].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -2098,9 +2098,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[13]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[13].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[13].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[13].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -2158,9 +2158,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[14]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[14].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[14].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[14].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -2218,9 +2218,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[15]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[15].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[15].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[15].id}`}>
                                                                 <EditIcon />
                                                             </Link>
@@ -2278,9 +2278,9 @@ const KorluPalawija = () => {
                                                 <div className="flex gap-3 justify-center">
                                                     {item[16]?.id && (
                                                         <>
-                                                            {/* <Link title="Detail" href={`/korluh/palawija/detail/${item[16].id}`}>
-                                                            <EyeIcon />
-                                                        </Link> */}
+                                                            <Link title="Detail" href={`/korluh/palawija/detail/${item[16].id}`}>
+                                                                <EyeIcon />
+                                                            </Link>
                                                             <Link title="Edit" href={`/korluh/palawija/edit/${item[16].id}`}>
                                                                 <EditIcon />
                                                             </Link>

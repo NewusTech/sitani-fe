@@ -12,12 +12,11 @@ const NotFoundSearch = () => {
                     width={170}
                     height={170}
                     unoptimized
-                    className="object-contain"
+                    className="object-contain animate-pulse hover:animate-spin hover:transition-all transition-all"
                 />
-                <TypingEffect text={["Maaf data tidak ditemukan.."]} />
-                {/* <div className="text-primary text-base md:text-xl font-semibold">
-                    Data tidak ditemukan!
-                </div> */}
+                <div className="min-h-[40px] flex items-center">
+                    <TypingEffect text={["Maaf data tidak ditemukan.."]} />
+                </div>
             </div>
         </div>
     )
