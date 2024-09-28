@@ -208,7 +208,7 @@ const TambahDataPadi = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        }finally {
+        } finally {
             setLoading(false); // Set loading to false once the process is complete
         }
         mutate(`/padi/get`);
@@ -224,9 +224,9 @@ const TambahDataPadi = () => {
             <div className="text-primary text-xl md:text-2xl font-bold mb-5">Tambah Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="mb-3">
-                    <div className="flex justify-between gap-2 md:lg-3 lg:gap-5">
-                        <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Kecamatan" />
+                    <div className="md:flex justify-between gap-2 md:lg-3 lg:gap-5 text-xs md:text-sm">
+                        <div className="flex flex-col mb-2 w-full text-xs md:text-sm">
+                            <Label className='text-xs md:text-sm mb-1' label="Pilih Kecamatan" />
                             <Controller
                                 name="kecamatan_id"
                                 control={control}
@@ -246,12 +246,12 @@ const TambahDataPadi = () => {
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanggal Input Data" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanggal Input Data" />
                             <Input
                                 type="date"
                                 placeholder="Panen"
                                 {...register('tanggal')}
-                                className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-xs md:text-sm w-full'}`}
                             />
                             {errors.tanggal && (
                                 <HelperError>{errors.tanggal.message}</HelperError>
@@ -261,42 +261,42 @@ const TambahDataPadi = () => {
                 </div>
                 <div className="text-primary text-lg font-bold mb-2">1. Jenis Padi</div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Hibrida Bantuan Pemerintah Lahan Sawah</div>
+                    <div className="text-primary text-sm md:text-lg font-bold mb-2">Hibrida Bantuan Pemerintah Lahan Sawah</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('hibrida_bantuan_pemerintah_lahan_sawah_panen')}
-                                className={`${errors.hibrida_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.hibrida_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.hibrida_bantuan_pemerintah_lahan_sawah_panen && (
                                 <HelperError>{errors.hibrida_bantuan_pemerintah_lahan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('hibrida_bantuan_pemerintah_lahan_sawah_tanam')}
-                                className={`${errors.hibrida_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.hibrida_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.hibrida_bantuan_pemerintah_lahan_sawah_tanam && (
                                 <HelperError>{errors.hibrida_bantuan_pemerintah_lahan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('hibrida_bantuan_pemerintah_lahan_sawah_puso')}
-                                className={`${errors.hibrida_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.hibrida_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.hibrida_bantuan_pemerintah_lahan_sawah_puso && (
                                 <HelperError>{errors.hibrida_bantuan_pemerintah_lahan_sawah_puso.message}</HelperError>
@@ -305,42 +305,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Hibrida Non Bantuan Pemerintah Lahan Sawah</div>
+                    <div className="text-primary text-sm md:text-lg font-bold mb-2">Hibrida Non Bantuan Pemerintah Lahan Sawah</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('hibrida_non_bantuan_pemerintah_lahan_sawah_panen')}
-                                className={`${errors.hibrida_non_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.hibrida_non_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.hibrida_non_bantuan_pemerintah_lahan_sawah_panen && (
                                 <HelperError>{errors.hibrida_non_bantuan_pemerintah_lahan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('hibrida_non_bantuan_pemerintah_lahan_sawah_tanam')}
-                                className={`${errors.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam && (
                                 <HelperError>{errors.hibrida_non_bantuan_pemerintah_lahan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('hibrida_non_bantuan_pemerintah_lahan_sawah_puso')}
-                                className={`${errors.hibrida_non_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.hibrida_non_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.hibrida_non_bantuan_pemerintah_lahan_sawah_puso && (
                                 <HelperError>{errors.hibrida_non_bantuan_pemerintah_lahan_sawah_puso.message}</HelperError>
@@ -349,42 +349,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Unggul Bantuan pemerintah Lahan Sawah</div>
+                    <div className="text-primary text-sm md:text-lg font-bold mb-2">Unggul Bantuan pemerintah Lahan Sawah</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('unggul_bantuan_pemerintah_lahan_sawah_panen')}
-                                className={`${errors.unggul_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_bantuan_pemerintah_lahan_sawah_panen && (
                                 <HelperError>{errors.unggul_bantuan_pemerintah_lahan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('unggul_bantuan_pemerintah_lahan_sawah_tanam')}
-                                className={`${errors.unggul_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_bantuan_pemerintah_lahan_sawah_tanam && (
                                 <HelperError>{errors.unggul_bantuan_pemerintah_lahan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('unggul_bantuan_pemerintah_lahan_sawah_puso')}
-                                className={`${errors.unggul_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_bantuan_pemerintah_lahan_sawah_puso && (
                                 <HelperError>{errors.unggul_bantuan_pemerintah_lahan_sawah_puso.message}</HelperError>
@@ -393,42 +393,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Unggul Bantuan pemerintah Lahan Bukan Sawah</div>
+                    <div className="text-primary text-sm mdLtext-lg font-bold mb-2">Unggul Bantuan pemerintah Lahan Bukan Sawah</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('unggul_bantuan_pemerintah_lahan_bukan_sawah_panen')}
-                                className={`${errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen && (
                                 <HelperError>{errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam')}
-                                className={`${errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam && (
                                 <HelperError>{errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('unggul_bantuan_pemerintah_lahan_bukan_sawah_puso')}
-                                className={`${errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso && (
                                 <HelperError>{errors.unggul_bantuan_pemerintah_lahan_bukan_sawah_puso.message}</HelperError>
@@ -437,42 +437,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3 4'>
-                    <div className="text-primary text-lg font-bold mb-2">Unggul Non Bantuan pemerintah Lahan Sawah</div>
+                    <div className="text-primary text-sm md:text-lg font-bold mb-2">Unggul Non Bantuan pemerintah Lahan Sawah</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_sawah_panen')}
-                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_non_bantuan_pemerintah_lahan_sawah_panen && (
                                 <HelperError>{errors.unggul_non_bantuan_pemerintah_lahan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_sawah_tanam')}
-                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_non_bantuan_pemerintah_lahan_sawah_tanam && (
                                 <HelperError>{errors.unggul_non_bantuan_pemerintah_lahan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_sawah_puso')}
-                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_non_bantuan_pemerintah_lahan_sawah_puso && (
                                 <HelperError>{errors.unggul_non_bantuan_pemerintah_lahan_sawah_puso.message}</HelperError>
@@ -481,42 +481,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3 6'>
-                    <div className="text-primary text-lg font-bold mb-2">Unggul Non Bantuan pemerintah Lahan Bukan Sawah</div>
+                    <div className="text-primary text-sm md:text-lg font-bold mb-2">Unggul Non Bantuan pemerintah Lahan Bukan Sawah</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen')}
-                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen && (
                                 <HelperError>{errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam')}
-                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam && (
                                 <HelperError>{errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso')}
-                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso && (
                                 <HelperError>{errors.unggul_non_bantuan_pemerintah_lahan_bukan_sawah_puso.message}</HelperError>
@@ -525,42 +525,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Lokal Lahan Sawah</div>
+                    <div className="text-primary text:sm md:text-lg font-bold mb-2">Lokal Lahan Sawah</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('lokal_lahan_sawah_panen')}
-                                className={`${errors.lokal_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.lokal_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.lokal_lahan_sawah_panen && (
                                 <HelperError>{errors.lokal_lahan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('lokal_lahan_sawah_tanam')}
-                                className={`${errors.lokal_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.lokal_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.lokal_lahan_sawah_tanam && (
                                 <HelperError>{errors.lokal_lahan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('lokal_lahan_sawah_puso')}
-                                className={`${errors.lokal_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.lokal_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.lokal_lahan_sawah_puso && (
                                 <HelperError>{errors.lokal_lahan_sawah_puso.message}</HelperError>
@@ -569,42 +569,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Lokal Lahan Bukan Sawah</div>
+                    <div className="text-primary text:sm md:text-lg font-bold mb-2">Lokal Lahan Bukan Sawah</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('lokal_lahan_bukan_sawah_panen')}
-                                className={`${errors.lokal_lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.lokal_lahan_bukan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.lokal_lahan_bukan_sawah_panen && (
                                 <HelperError>{errors.lokal_lahan_bukan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('lokal_lahan_bukan_sawah_tanam')}
-                                className={`${errors.lokal_lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.lokal_lahan_bukan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.lokal_lahan_bukan_sawah_tanam && (
                                 <HelperError>{errors.lokal_lahan_bukan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('lokal_lahan_bukan_sawah_puso')}
-                                className={`${errors.lokal_lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.lokal_lahan_bukan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.lokal_lahan_bukan_sawah_puso && (
                                 <HelperError>{errors.lokal_lahan_bukan_sawah_puso.message}</HelperError>
@@ -612,44 +612,44 @@ const TambahDataPadi = () => {
                         </div>
                     </div>
                 </div>
-                <div className="text-primary text-lg font-bold mb-2">2. Jenis Pengairan</div>
+                <div className="text-primary text:sm md:text-lg font-bold mb-2">2. Jenis Pengairan</div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Sawah Irigasi</div>
+                    <div className="text-primary text-sm md:text-lg font-bold mb-2">Sawah Irigasi</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('sawah_irigasi_lahan_sawah_panen')}
-                                className={`${errors.sawah_irigasi_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_irigasi_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_irigasi_lahan_sawah_panen && (
                                 <HelperError>{errors.sawah_irigasi_lahan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('sawah_irigasi_lahan_sawah_tanam')}
-                                className={`${errors.sawah_irigasi_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_irigasi_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_irigasi_lahan_sawah_tanam && (
                                 <HelperError>{errors.sawah_irigasi_lahan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('sawah_irigasi_lahan_sawah_puso')}
-                                className={`${errors.sawah_irigasi_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_irigasi_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_irigasi_lahan_sawah_puso && (
                                 <HelperError>{errors.sawah_irigasi_lahan_sawah_puso.message}</HelperError>
@@ -658,42 +658,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Sawah Tadah Hujan</div>
+                    <div className="text-primary text:sm md:text-lg font-bold mb-2">Sawah Tadah Hujan</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('sawah_tadah_hujan_lahan_sawah_panen')}
-                                className={`${errors.sawah_tadah_hujan_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_tadah_hujan_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_tadah_hujan_lahan_sawah_panen && (
                                 <HelperError>{errors.sawah_tadah_hujan_lahan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('sawah_tadah_hujan_lahan_sawah_tanam')}
-                                className={`${errors.sawah_tadah_hujan_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_tadah_hujan_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_tadah_hujan_lahan_sawah_tanam && (
                                 <HelperError>{errors.sawah_tadah_hujan_lahan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('sawah_tadah_hujan_lahan_sawah_puso')}
-                                className={`${errors.sawah_tadah_hujan_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_tadah_hujan_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_tadah_hujan_lahan_sawah_puso && (
                                 <HelperError>{errors.sawah_tadah_hujan_lahan_sawah_puso.message}</HelperError>
@@ -702,42 +702,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Sawah Rawa Pasang Surut</div>
+                    <div className="text-primary text:sm md:text-lg font-bold mb-2">Sawah Rawa Pasang Surut</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('sawah_rawa_pasang_surut_lahan_sawah_panen')}
-                                className={`${errors.sawah_rawa_pasang_surut_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_rawa_pasang_surut_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_rawa_pasang_surut_lahan_sawah_panen && (
                                 <HelperError>{errors.sawah_rawa_pasang_surut_lahan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('sawah_rawa_pasang_surut_lahan_sawah_tanam')}
-                                className={`${errors.sawah_rawa_pasang_surut_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_rawa_pasang_surut_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_rawa_pasang_surut_lahan_sawah_tanam && (
                                 <HelperError>{errors.sawah_rawa_pasang_surut_lahan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('sawah_rawa_pasang_surut_lahan_sawah_puso')}
-                                className={`${errors.sawah_rawa_pasang_surut_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_rawa_pasang_surut_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_rawa_pasang_surut_lahan_sawah_puso && (
                                 <HelperError>{errors.sawah_rawa_pasang_surut_lahan_sawah_puso.message}</HelperError>
@@ -746,42 +746,42 @@ const TambahDataPadi = () => {
                     </div>
                 </div>
                 <div className='mb-3'>
-                    <div className="text-primary text-lg font-bold mb-2">Sawah Rawa Lebak</div>
+                    <div className="text-primary text:sm md:text-lg font-bold mb-2">Sawah Rawa Lebak</div>
                     <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Panen" />
+                            <Label className='text-xs md:text-sm mb-1' label="Panen" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Panen"
                                 {...register('sawah_rawa_lebak_lahan_sawah_panen')}
-                                className={`${errors.sawah_rawa_lebak_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_rawa_lebak_lahan_sawah_panen ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_rawa_lebak_lahan_sawah_panen && (
                                 <HelperError>{errors.sawah_rawa_lebak_lahan_sawah_panen.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Tanam" />
+                            <Label className='text-xs md:text-sm mb-1' label="Tanam" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Tanam"
                                 {...register('sawah_rawa_lebak_lahan_sawah_tanam')}
-                                className={`${errors.sawah_rawa_lebak_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_rawa_lebak_lahan_sawah_tanam ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_rawa_lebak_lahan_sawah_tanam && (
                                 <HelperError>{errors.sawah_rawa_lebak_lahan_sawah_tanam.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Puso" />
+                            <Label className='text-xs md:text-sm mb-1' label="Puso" />
                             <Input
                                 type="number"
                                 step="0.000001"
                                 placeholder="Puso"
                                 {...register('sawah_rawa_lebak_lahan_sawah_puso')}
-                                className={`${errors.sawah_rawa_lebak_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.sawah_rawa_lebak_lahan_sawah_puso ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
                             />
                             {errors.sawah_rawa_lebak_lahan_sawah_puso && (
                                 <HelperError>{errors.sawah_rawa_lebak_lahan_sawah_puso.message}</HelperError>
@@ -791,10 +791,10 @@ const TambahDataPadi = () => {
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/korluh/padi" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    <Link href="/korluh/padi" className='bg-white w-[120px] text-xs md:text-sm  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
-                    <Button type="submit" variant="primary" size="lg" className="w-[120px]">
+                    <Button type="submit" variant="primary" size="lg" className="w-[120px] text-xs md:text-sm">
                         {loading ? (
                             <Loading />
                         ) : (
