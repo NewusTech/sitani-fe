@@ -1041,10 +1041,9 @@ const LuasKecPage = () => {
                     </div>
                 )}
             </div>
-
             {/* mobile table */}
 
-            {/* table */}
+            {/* table dekstop*/}
             <div className="hidden md:block">
                 <Table className='border border-slate-200 mt-2'>
                     <TableHeader className='bg-primary-600'>
@@ -1586,7 +1585,7 @@ const LuasKecPage = () => {
 
                 </Table >
             </div>
-            {/* table */}
+            {/* table dekstop*/}
 
             {/* pagination */}
             <div className="pagi flex items-center lg:justify-end justify-center">

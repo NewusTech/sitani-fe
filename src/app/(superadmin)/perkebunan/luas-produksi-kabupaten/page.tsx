@@ -88,6 +88,17 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useSWR, { SWRResponse } from 'swr'
 import PerkebunanKabupatenPrint from '@/components/Print/Perkebunan/Kabupaten';
+import NotFoundSearch from '@/components/SearchNotFound';
+import DeletePopupTitik from '@/components/superadmin/TitikDelete';
+
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel"
+
 
 const LuasKabPage = () => {
     const [startDate, setstartDate] = React.useState<Date>()
@@ -169,7 +180,7 @@ const LuasKabPage = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-4 font-semibold text-primary uppercase">Data Luas Areal dan Produksi Perkebunan Rakyat ( Kabupaten )</div>
+            <div className="text-xl md:text-2xl mb-4 font-semibold text-primary capitalize">Data Luas Areal dan Produksi Perkebunan Rakyat ( Kabupaten )</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -354,8 +365,841 @@ const LuasKabPage = () => {
             </div>
             {/* Mobile */}
 
-            {/* table */}
-            <div className="">
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-4 flex md:hidden">
+                <Carousel>
+                    <div className="flex justify-end gap-2 mb-2">
+                        <CarouselPrevious className='' />
+                        <CarouselNext className='' />
+                    </div>
+                    <CarouselContent>
+                        <CarouselItem>
+                            <>
+                                <div className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                                    <>
+                                        <div className="wrap-konten flex flex-col gap-2">
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">I</div>
+                                                <div className="konten text-black/80 text-end">
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TAN. TAHUNAN</div>
+                                                <div className="konten text-black/80 text-end">
+                                                </div>
+                                            </div>
+                                            {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div> */}
+                                            {/* komoditas */}
+                                            {dataProduksiKab?.data?.data[1]?.ids?.map((i: number, index: any) => (
+                                                <div key={i} >
+                                                    <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm mb-1 mt-1">
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Komoditi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.komoditas}
+                                                            </div>
+                                                        </div>
+                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                        <div className="flex justify-center gap-5">
+                                                            <div className="label font-medium text-black text-center">Atap {dataProduksiKab?.data?.yearBefore}</div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TBM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.atapTbm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.atapTm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.atapTr ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Jumlah</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.atapJumlah ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produksi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.atapProduksi ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produktivitas</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.atapProduktivitas ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Jumlah Petani Pekebun</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.atapJmlPetaniPekebun ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div> */}
+                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                        <div className="flex justify-center gap-5">
+                                                            <div className="label font-medium text-black">Asem {dataProduksiKab?.data?.currentYear}</div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TBM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.asemTbm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.asemTm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.asemTr ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.asemJumlah ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produksi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.asemProduksi ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produktivitas</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.asemProduktivitas ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Petani Pekebun</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.asemJmlPetaniPekebun ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div>
+                                            <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm">
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Jumlah I</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                    </div>
+                                                </div>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                <div className="flex justify-center gap-5">
+                                                    <div className="label font-medium text-black text-center">Atap {dataProduksiKab?.data?.yearBefore}</div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TBM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.atapSumTbm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.atapSumTm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TR</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.atapSumTr ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produksi</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.atapSumProduksi ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produksi</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.atapSumProduksi ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produktivitas</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.atapSumProduktivitas ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Petani Pekebun</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.atapSumJmlPetaniPekebun ?? "-"}
+                                                    </div>
+                                                </div>
+                                                {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div> */}
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                <div className="flex justify-center gap-5">
+                                                    <div className="label font-medium text-black">Asem {dataProduksiKab?.data?.currentYear}</div>
+                                                </div>
+                                                {/* Asem */}
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TBM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.asemSumTbm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.asemSumTm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TR</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.asemSumTr ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Jumlah</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.asemSumJumlah ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produksi</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.asemSumProduksi ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produktivitas</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.asemSumProduktivitas ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Jml Petani Pekebun</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[1]?.asemSumJmlPetaniPekebun ?? "-"}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                </div>
+                            </>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <>
+                                <div className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                                    <>
+                                        <div className="wrap-konten flex flex-col gap-2">
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">II</div>
+                                                <div className="konten text-black/80 text-end">
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TAN. SEMUSIM</div>
+                                                <div className="konten text-black/80 text-end">
+                                                </div>
+                                            </div>
+                                            {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div> */}
+                                            {/* komoditas */}
+                                            {dataProduksiKab?.data?.data[2]?.ids?.map((i: number, index: any) => (
+                                                <div key={i} >
+                                                    <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm mb-1 mt-1">
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Komoditi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.komoditas}
+                                                            </div>
+                                                        </div>
+                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                        <div className="flex justify-center gap-5">
+                                                            <div className="label font-medium text-black text-center">Atap {dataProduksiKab?.data?.yearBefore}</div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TBM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.atapTbm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.atapTm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.atapTr ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Jumlah</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.atapJumlah ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produksi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.atapProduksi ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produktivitas</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.atapProduktivitas ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Jumlah Petani Pekebun</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.atapJmlPetaniPekebun ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div> */}
+                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                        <div className="flex justify-center gap-5">
+                                                            <div className="label font-medium text-black">Asem {dataProduksiKab?.data?.currentYear}</div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TBM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.asemTbm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.asemTm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.asemTr ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.asemJumlah ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produksi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.asemProduksi ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produktivitas</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.asemProduktivitas ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Petani Pekebun</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[2]?.list[i]?.asemJmlPetaniPekebun ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div>
+                                            <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm">
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Jumlah II</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                    </div>
+                                                </div>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                <div className="flex justify-center gap-5">
+                                                    <div className="label font-medium text-black text-center">Atap {dataProduksiKab?.data?.yearBefore}</div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TBM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.atapSumTbm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.atapSumTm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TR</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.atapSumTr ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produksi</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.atapSumProduksi ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produksi</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.atapSumProduksi ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produktivitas</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.atapSumProduktivitas ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Petani Pekebun</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.atapSumJmlPetaniPekebun ?? "-"}
+                                                    </div>
+                                                </div>
+                                                {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div> */}
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                <div className="flex justify-center gap-5">
+                                                    <div className="label font-medium text-black">Asem {dataProduksiKab?.data?.currentYear}</div>
+                                                </div>
+                                                {/* Asem */}
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TBM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.asemSumTbm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.asemSumTm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TR</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.asemSumTr ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Jumlah</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.asemSumJumlah ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produksi</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.asemSumProduksi ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produktivitas</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.asemSumProduktivitas ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Jml Petani Pekebun</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[2]?.asemSumJmlPetaniPekebun ?? "-"}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                </div>
+                            </>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <>
+                                <div className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                                    <>
+                                        <div className="wrap-konten flex flex-col gap-2">
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">III</div>
+                                                <div className="konten text-black/80 text-end">
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TAN. REMPAH DAN PENYEGAR</div>
+                                                <div className="konten text-black/80 text-end">
+                                                </div>
+                                            </div>
+                                            {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div> */}
+                                            {/* komoditas */}
+                                            {dataProduksiKab?.data?.data[3]?.ids?.map((i: number, index: any) => (
+                                                <div key={i} >
+                                                    <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm mb-1 mt-1">
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Komoditi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.komoditas}
+                                                            </div>
+                                                        </div>
+                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                        <div className="flex justify-center gap-5">
+                                                            <div className="label font-medium text-black text-center">Atap {dataProduksiKab?.data?.yearBefore}</div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TBM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.atapTbm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.atapTm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.atapTr ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Jumlah</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.atapJumlah ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produksi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.atapProduksi ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produktivitas</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.atapProduktivitas ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Jumlah Petani Pekebun</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.atapJmlPetaniPekebun ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div> */}
+                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                        <div className="flex justify-center gap-5">
+                                                            <div className="label font-medium text-black">Asem {dataProduksiKab?.data?.currentYear}</div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TBM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.asemTbm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.asemTm ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.asemTr ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.asemJumlah ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produksi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.asemProduksi ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Produktivitas</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.asemProduktivitas ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Petani Pekebun</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[3]?.list[i]?.asemJmlPetaniPekebun ?? "-"}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div>
+                                            <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm">
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Jumlah III</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                    </div>
+                                                </div>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                <div className="flex justify-center gap-5">
+                                                    <div className="label font-medium text-black text-center">Atap {dataProduksiKab?.data?.yearBefore}</div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TBM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.atapSumTbm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.atapSumTm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TR</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.atapSumTr ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produksi</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.atapSumProduksi ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produksi</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.atapSumProduksi ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produktivitas</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.atapSumProduktivitas ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Petani Pekebun</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.atapSumJmlPetaniPekebun ?? "-"}
+                                                    </div>
+                                                </div>
+                                                {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div> */}
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                <div className="flex justify-center gap-5">
+                                                    <div className="label font-medium text-black">Asem {dataProduksiKab?.data?.currentYear}</div>
+                                                </div>
+                                                {/* Asem */}
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TBM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.asemSumTbm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TM</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.asemSumTm ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">TR</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.asemSumTr ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Jumlah</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.asemSumJumlah ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produksi</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.asemSumProduksi ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Produktivitas</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.asemSumProduktivitas ?? "-"}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between gap-5">
+                                                    <div className="label font-medium text-black">Jml Petani Pekebun</div>
+                                                    <div className="konten text-black/80 text-end">
+                                                        {dataProduksiKab?.data?.data[3]?.asemSumJmlPetaniPekebun ?? "-"}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                </div>
+                            </>
+                        </CarouselItem>
+
+                        <CarouselItem>
+                            <>
+                                <div className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                                    <>
+                                        <div className="wrap-konten flex flex-col gap-2">
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TOTAL I + II + III</div>
+                                                <div className="konten text-black/80 text-end">
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-between gap-5">
+                                                <div className="label font-medium text-black">TOTAL SEMUA</div>
+                                                <div className="konten text-black/80 text-end">
+                                                </div>
+                                            </div>
+                                            {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div> */}
+                                            {/* komoditas */}
+                                            {dataProduksiKab?.data?.data[1]?.ids?.map((i: number, index: any) => (
+                                                <div key={i} >
+                                                    <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm mb-1 mt-1">
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Komoditi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data[1]?.list[i]?.komoditas}
+                                                            </div>
+                                                        </div>
+                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                        <div className="flex justify-center gap-5">
+                                                            <div className="label font-medium text-black text-center">Atap {dataProduksiKab?.data?.yearBefore}</div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Atap TBM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.atapSumTbm}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Atap TM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.atapSumTm}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Atap TR</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.atapSumTr}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Atap Jumlah</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.atapSumJumlah}
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Atap Produksi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.atapSumProduksi}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Atap Produksivitas</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.atapSumProduktivitas}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Atap Jml Petani Pekebun</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.atapSumJmlPetaniPekebun}
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse mt-2 mb-2"></div> */}
+                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                        <div className="flex justify-center gap-5">
+                                                            <div className="label font-medium text-black">Asem {dataProduksiKab?.data?.currentYear}</div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Asem TBM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.asemSumTbm}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Asem TM</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.asemSumTm}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Asem TR</div>
+                                                            <div className="konten text-black/80 text-end">
+
+                                                                {dataProduksiKab?.data?.data?.asemSumTr}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Asem Jumlah</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.asemSumJumlah}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Asem Produksi</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.asemSumProduksi}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Asem Produktivitas</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.asemSumProduktivitas}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between gap-5">
+                                                            <div className="label font-medium text-black">Asem Petani Pekebun</div>
+                                                            <div className="konten text-black/80 text-end">
+                                                                {dataProduksiKab?.data?.data?.asemSumJmlPetaniPekebun}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                </div>
+                            </>
+                        </CarouselItem>
+                    </CarouselContent>
+                </Carousel>
+
+
+
+            </div>
+            {/* mobile table */}
+
+            {/* table dekstop*/}
+            <div className="hidden md:block">
                 {/* Tabel Atap */}
                 <Table className="border border-slate-200 mt-4 w-full">
                     <TableHeader className="bg-primary-600">
@@ -952,7 +1796,7 @@ const LuasKabPage = () => {
                     </Table> */}
                 </div>
             </div >
-            {/* table */}
+            {/* table dekstop*/}
         </div >
     )
 }
