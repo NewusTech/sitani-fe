@@ -347,14 +347,14 @@ const KJFPalawija = () => {
                     <div className="">{monthName ?? "-"} {dataPalawija?.data?.tahun ?? "-"}</div>
                     <div className="capitalize">{validationText ?? "-"}</div>
                     <div className="flex gap-3">
-                        <VerifikasiKab
+                        {/* <VerifikasiKab
                             bulan={`${dataPalawija?.data?.tahun}/${dataPalawija?.data?.bulan}`}
                             onVerifikasi={handleVerifikasi}
                         />
                         <TolakKab
                             bulan={`${dataPalawija?.data?.tahun}/${dataPalawija?.data?.bulan}`}
                             onTolak={handleTolak}
-                        />
+                        /> */}
                     </div>
                     <div className="w-[300px] max-w-[300px] text-justify">{dataPalawija?.data?.keteranganKabupaten ?? "-"}</div>
                 </div>

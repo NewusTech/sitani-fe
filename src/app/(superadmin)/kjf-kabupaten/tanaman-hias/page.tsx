@@ -350,14 +350,14 @@ const KJFTanamanHias = () => {
                     <div className="">{monthName ?? "-"} {dataTanamanHias?.data?.tahun ?? "-"}</div>
                     <div className="capitalize">{validationText ?? "-"}</div>
                     <div className="flex gap-3">
-                        <VerifikasiKab
+                        {/* <VerifikasiKab
                             bulan={`${dataTanamanHias?.data?.tahun}/${dataTanamanHias?.data?.bulan}`}
                             onVerifikasi={handleVerifikasi}
                         />
                         <TolakKab
                             bulan={`${dataTanamanHias?.data?.tahun}/${dataTanamanHias?.data?.bulan}`}
                             onTolak={handleTolak}
-                        />
+                        /> */}
                     </div>
                     <div className="w-[300px] max-w-[300px] text-justify">{dataTanamanHias?.data?.keteranganKabupaten ?? "-"}</div>
                 </div>

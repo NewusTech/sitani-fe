@@ -1,6 +1,6 @@
 "use client";
 import Label from '@/components/ui/label';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
@@ -11,7 +11,7 @@ import Link from 'next/link';
 import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
 import { Textarea } from '@/components/ui/textarea';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { mutate } from 'swr';
 import Loading from '@/components/ui/Loading';
 import Swal from 'sweetalert2';
@@ -28,19 +28,63 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
+export interface Kecamatan {
+    id: number;
+    nama: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+  
+  export interface Desa {
+    id: number;
+    nama: string;
+    kecamatanId: number;
+    createdAt: string;
+    updatedAt: string;
+  }
+  
+  export interface GabunganKelompokTani {
+    id: number;
+    kecamatanId: number;
+    desaId: number;
+    tahun: number;
+    nama: string;
+    ketua: string;
+    sekretaris: string;
+    bendahara: string;
+    alamat: string;
+    lahan: number;
+    dibentuk: number;
+    poktan: number;
+    l: number;
+    p: number;
+    total: number;
+    createdAt: string;
+    updatedAt: string;
+    kecamatan: Kecamatan;
+    desa: Desa;
+  }
+  
+  export interface Response {
+    status: number;
+    message: string;
+    data: GabunganKelompokTani;
+  }
+  
+
 
 const formSchema = z.object({
     kecamatan_id: z
         .number()
-        .min(1, "UPTD BPP wajib diisi")
+        .min(0, "UPTD BPP wajib diisi")
         .transform((value) => Number(value)),
     desa_id: z
         .number()
-        .min(1, "Desa wajib diisi")
+        .min(0, "Desa wajib diisi")
         .transform((value) => Number(value)),
     tahun: z
         .string()
-        .min(1, { message: "Tahun wajib diisi" }),
+        .min(0, { message: "Tahun wajib diisi" }),
     nama: z
         .string()
         .min(0, { message: "Nama wajib diisi" }),
@@ -72,7 +116,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const GapoktanTambahDataKabupaten = () => {
+const GapoktanEditDataKabupaten = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
@@ -88,12 +132,62 @@ const GapoktanTambahDataKabupaten = () => {
             resolver: zodResolver(formSchema),
         });
 
+        // GET ONE
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataUser, error } = useSWR<Response>(
+        `penyuluh-gabungan-kelompok-tani/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
+    );
+    // GET ONE
+
+    const kecamatanId = watch("kecamatan_id");
+    const [initialDesaId, setInitialDesaId] = useState<number | undefined>(undefined);
+
+    useEffect(() => {
+        if (dataUser) {
+            const timeoutId = setTimeout(() => {
+                setValue("kecamatan_id", dataUser.data.kecamatanId);
+                setInitialDesaId(dataUser.data.desaId); // Save initial desa_id
+                setValue("desa_id", dataUser.data.desaId); // Set default value
+                setValue("lahan", dataUser.data.lahan.toString());
+                setValue("tahun", dataUser.data.tahun.toString());
+                setValue("nama", dataUser.data.nama);
+                setValue("ketua", dataUser.data.ketua);
+                setValue("sekretaris", dataUser.data.sekretaris);
+                setValue("bendahara", dataUser.data.bendahara);
+                setValue("alamat", dataUser.data.alamat);
+                setValue("dibentuk", dataUser.data.dibentuk.toString());
+                setValue("l", dataUser.data.l.toString());
+                setValue("p", dataUser.data.p.toString());
+                setValue("poktan", dataUser.data.poktan.toString());
+            }, 300); // Set the delay time in milliseconds (e.g., 1000 ms = 1 second)
+
+            // Cleanup function to clear the timeout if the component unmounts or dataUser changes
+            return () => clearTimeout(timeoutId);
+        }
+    }, [dataUser, setValue]);
+
+    useEffect(() => {
+        // Clear desa_id when kecamatan_id changes
+        setValue("desa_id", initialDesaId ?? 0); // Reset to initial desa_id or default to 0
+    }, [kecamatanId, setValue, initialDesaId]);
+
     const kecamatanValue = watch("kecamatan_id");
 
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true);
         try {
-            await axiosPrivate.post("/penyuluh-gabungan-kelompok-tani/create", data);
+            await axiosPrivate.put(`/penyuluh-gabungan-kelompok-tani/update/${id}`, data);
             Swal.fire({
                 icon: 'success',
                 title: 'Data berhasil ditambahkan!',
@@ -137,7 +231,7 @@ const GapoktanTambahDataKabupaten = () => {
 
     return (
         <>
-            <div className="text-primary text-xl md:text-2xl font-bold mb-3 md:mb-5">Tambah Data</div>
+            <div className="text-primary text-xl md:text-2xl font-bold mb-3 md:mb-5">Edit Data</div>
             <form onSubmit={handleSubmit(onSubmit)} className="">
                 <div className="wrap-form text-sm">
                     <div className="mb-2">
@@ -348,7 +442,7 @@ const GapoktanTambahDataKabupaten = () => {
                         size="lg"
                         className="w-[90px] md:w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
                     >
-                        {loading ? <Loading /> : "Tambah"}
+                        {loading ? <Loading /> : "Simpan"}
                     </Button>
                 </div>
             </form>
@@ -356,4 +450,4 @@ const GapoktanTambahDataKabupaten = () => {
     );
 }
 
-export default GapoktanTambahDataKabupaten;
+export default GapoktanEditDataKabupaten;

@@ -662,13 +662,13 @@ const DataGapoktanViewAll = () => {
                                         <div className="flex items-center gap-4 justify-center">
                                             <Link
                                                 className=""
-                                                href={`/penyuluhan/data-poktan/detail/${item.id}`}
+                                                href={`/penyuluhan/data-gapoktan/detail/${item.id}`}
                                             >
                                                 <EyeIcon />
                                             </Link>
                                             <Link
                                                 className=""
-                                                href={`/penyuluhan/data-poktan/edit/${item.id}`}
+                                                href={`/penyuluhan/data-gapoktan/edit/${item.id}`}
                                             >
                                                 <EditIcon />
                                             </Link>

@@ -348,14 +348,14 @@ const KJFTanamanBiofarmaka = () => {
                     <div className="">{monthName ?? "-"} {dataBiofarmaka?.data?.tahun ?? "-"}</div>
                     <div className="capitalize">{validationText ?? "-"}</div>
                     <div className="flex gap-3">
-                        <VerifikasiKab
+                        {/* <VerifikasiKab
                             bulan={`${dataBiofarmaka?.data?.tahun}/${dataBiofarmaka?.data?.bulan}`}
                             onVerifikasi={handleVerifikasi}
                         />
                         <TolakKab
                             bulan={`${dataBiofarmaka?.data?.tahun}/${dataBiofarmaka?.data?.bulan}`}
                             onTolak={handleTolak}
-                        />
+                        /> */}
                     </div>
                     <div className="w-[300px] max-w-[300px] text-justify">{dataBiofarmaka?.data?.keteranganKabupaten ?? "-"}</div>
                 </div>
