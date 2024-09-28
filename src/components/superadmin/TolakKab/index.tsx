@@ -14,11 +14,13 @@ import TolakIcon from '../../../../public/icons/TolakIcon';
 import { Textarea } from '@/components/ui/textarea';
 
 interface VerifikasiPopupProps {
-    bulan: string; // bulan untuk API
-    onTolak: (payload: { bulan: string; status: string; keterangan: string; }) => Promise<void>; // API function
+    kecamatanId: number; // kecamatan_id untuk API
+    triwulan: string; // triwulan untuk API
+    tahun: string; // triwulan untuk API
+    onTolak: (payload: { kecamatan_id: number; triwulan: string; tahun: string; status: string; keterangan: string; }) => Promise<void>; // API function
 }
 
-const TolakKab: FC<VerifikasiPopupProps> = ({  bulan, onTolak }) => {
+const TolakTPH: FC<VerifikasiPopupProps> = ({ kecamatanId, triwulan, onTolak, tahun }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [alasan, setAlasan] = useState('');
@@ -26,13 +28,16 @@ const TolakKab: FC<VerifikasiPopupProps> = ({  bulan, onTolak }) => {
     const handleReject = async () => {
         setLoading(true);
         const payload = {
-            bulan: bulan, // format bulan, e.g., "2024/5"
+            kecamatan_id: kecamatanId,
+            triwulan: triwulan, // format triwulan, e.g., "2024/5"
+            tahun: tahun, // format triwulan, e.g., "2024/5"
             status: 'tolak',
             keterangan: alasan, // alasan penolakan dari user
         };
 
         try {
             await onTolak(payload); // Mengirim payload ke API
+            setAlasan(''); // Reset alasan setelah berhasil
         } catch (error) {
             console.error("Penolakan gagal:", error);
         } finally {
@@ -87,4 +92,4 @@ const TolakKab: FC<VerifikasiPopupProps> = ({  bulan, onTolak }) => {
     );
 };
 
-export default TolakKab;
+export default TolakTPH;

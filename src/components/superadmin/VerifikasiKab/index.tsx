@@ -13,18 +13,22 @@ import Loading from '@/components/ui/Loading';
 import VerifikasiIcon from '../../../../public/icons/VerifikasiIcon';
 
 interface VerifikasiKabProps {
-    bulan: string;
-    onVerifikasi: (payload: { bulan: string; status: string }) => Promise<void>;
+    triwulan: string;
+    kecamatanId: number;
+    tahun: string;
+    onVerifikasi: (payload: {kecamatan_id: number; triwulan: string; tahun: string; status: string }) => Promise<void>;
 }
 
-const VerifikasiKab: FC<VerifikasiKabProps> = ({ bulan, onVerifikasi }) => {
+const VerifikasiKab: FC<VerifikasiKabProps> = ({kecamatanId, triwulan, tahun, onVerifikasi }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleVerify = async () => {
         setLoading(true);
         const payload = {
-            bulan: bulan,
+            kecamatan_id: kecamatanId,
+            triwulan: triwulan,
+            tahun: tahun,
             status: "terima"
         };
 

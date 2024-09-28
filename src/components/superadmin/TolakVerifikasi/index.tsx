@@ -35,6 +35,7 @@ const TolakPopup: FC<VerifikasiPopupProps> = ({ kecamatanId, bulan, onTolak }) =
 
         try {
             await onTolak(payload); // Mengirim payload ke API
+             setAlasan(''); // Reset alasan setelah berhasil
         } catch (error) {
             console.error("Penolakan gagal:", error);
         } finally {
@@ -59,7 +60,7 @@ const TolakPopup: FC<VerifikasiPopupProps> = ({ kecamatanId, bulan, onTolak }) =
                         <DialogDescription>
                             Mohon masukkan alasan penolakan:
                             <Textarea
-                                className='placeholder:text-gray-400 h-[150px] mt-2 p-3'
+                                className='placeholder:text-gray-400 text-black h-[150px] mt-2 p-3'
                                 placeholder="Tuliskan alasan penolakan"
                                 value={alasan}
                                 onChange={(e) => setAlasan(e.target.value)}
