@@ -142,7 +142,7 @@ const KorluPalawija = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataPalawija }: SWRResponse<any> = useSWR(
-        // `korluh/padi/get?limit=1`,
+        // `korluh/palawija/get?limit=1`,
         `/korluh/palawija/get?limit=1&page=${currentPage}&equalDate=${filterDate}`,
         (url) =>
             axiosPrivate
@@ -209,7 +209,7 @@ const KorluPalawija = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Korluh Palawija</div>
+            <div className="text-xl md:text-2xl mb-5 font-semibold text-primary uppercase">Korluh Palawija</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -422,7 +422,7 @@ const KorluPalawija = () => {
                         {/* Tambah Data */}
                         <div className="flex justify-end items-center w-fit">
                             <Link
-                                href="/korluh/padi/tambah"
+                                href="/korluh/palawija/tambah"
                                 className='bg-primary text-xs px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-end flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 py-2'>
                                 {/* Tambah */}
                                 <TambahIcon />
@@ -724,10 +724,10 @@ const KorluPalawija = () => {
                                                                                     <div className="flex gap-3 text-white">
                                                                                         {item[1]?.id && (
                                                                                             <>
-                                                                                                <Link href={`/korluh/padi/detail/${item[1].id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                <Link href={`/korluh/palawija/detail/${item[1].id}`} className="bg-primary rounded-full w-full py-2 text-center">
                                                                                                     Detail
                                                                                                 </Link>
-                                                                                                <Link href={`/korluh/padi/edit/${item[1].id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                <Link href={`/korluh/palawija/edit/${item[1].id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
                                                                                                     Edit
                                                                                                 </Link>
                                                                                                 <div className="w-full">
@@ -811,10 +811,10 @@ const KorluPalawija = () => {
                                                                                     <div className="flex gap-3 text-white pb-2">
                                                                                         {item[2]?.id && (
                                                                                             <>
-                                                                                                <Link href={`/korluh/padi/detail/${item[2]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                <Link href={`/korluh/palawija/detail/${item[2]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
                                                                                                     Detail
                                                                                                 </Link>
-                                                                                                <Link href={`/korluh/padi/edit/${item[2]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                <Link href={`/korluh/palawija/edit/${item[2]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
                                                                                                     Edit
                                                                                                 </Link>
                                                                                                 <div className="w-full">
@@ -831,7 +831,7 @@ const KorluPalawija = () => {
                                                             </AccordionContent>
                                                         </AccordionItem>
                                                         <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
-                                                        <AccordionItem className='' value="item-3">
+                                                        <AccordionItem className='' value="item-4">
                                                             <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>B. Komposit</AccordionTrigger>
                                                             <AccordionContent className='text-xs md:text-sm mb-2 '>
                                                                 <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
@@ -907,10 +907,10 @@ const KorluPalawija = () => {
                                                                 <div className="flex gap-3 text-white">
                                                                     {item[3]?.id && (
                                                                         <>
-                                                                            <Link href={`/korluh/padi/detail/${item[3]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                            <Link href={`/korluh/palawija/detail/${item[3]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
                                                                                 Detail
                                                                             </Link>
-                                                                            <Link href={`/korluh/padi/edit/${item[3]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                            <Link href={`/korluh/palawija/edit/${item[3]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
                                                                                 Edit
                                                                             </Link>
                                                                             <div className="w-full">
@@ -922,7 +922,7 @@ const KorluPalawija = () => {
                                                             </AccordionContent>
                                                         </AccordionItem>
                                                         <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
-                                                        <AccordionItem className='' value="item-4">
+                                                        {/* <AccordionItem className='' value="item-4">
                                                             <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>C. Lokal</AccordionTrigger>
                                                             <AccordionContent className='text-xs md:text-sm mb-2 '>
                                                                 <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
@@ -998,14 +998,104 @@ const KorluPalawija = () => {
                                                                 <div className="flex gap-3 text-white">
                                                                     {item[4]?.id && (
                                                                         <>
-                                                                            <Link href={`/korluh/padi/detail/${item[4]}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                            <Link href={`/korluh/palawija/detail/${item[4]}`} className="bg-primary rounded-full w-full py-2 text-center">
                                                                                 Detail
                                                                             </Link>
-                                                                            <Link href={`/korluh/padi/edit/${item[4]}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                            <Link href={`/korluh/palawija/edit/${item[4]}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
                                                                                 Edit
                                                                             </Link>
                                                                             <div className="w-full">
                                                                                 <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[4]) || "")} />
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </AccordionContent>
+                                                        </AccordionItem> */}
+                                                        <AccordionItem className='' value="item-3">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>C. Lokal</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm mb-2 '>
+                                                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanSawahPanen ?? "-"}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanSawahPanenMuda ?? "-"}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanSawahTanam ?? "-"}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanSawahPuso ?? "-"}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanBukanSawahPanen ?? "-"}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanBukanSawahTanam ?? "-"}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.lahanBukanSawahPuso ?? "-"}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between gap-5">
+                                                                    <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[4]?.produksi ?? "-"}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                <div className="flex gap-3 text-white">
+                                                                    {item[4]?.id && (
+                                                                        <>
+                                                                            <Link href={`/korluh/palawija/detail/${item[4]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                Detail
+                                                                            </Link>
+                                                                            <Link href={`/korluh/palawija/edit/${item[4]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                Edit
+                                                                            </Link>
+                                                                            <div className="w-full">
+                                                                                <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[4]?.id) || "")} />
                                                                             </div>
                                                                         </>
                                                                     )}
