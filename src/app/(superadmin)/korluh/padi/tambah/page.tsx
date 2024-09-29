@@ -251,7 +251,7 @@ const TambahDataPadi = () => {
                                 type="date"
                                 placeholder="Panen"
                                 {...register('tanggal')}
-                                className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-xs md:text-sm w-full'}`}
+                                className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-xs md:text-sm w-full block'}`}
                             />
                             {errors.tanggal && (
                                 <HelperError>{errors.tanggal.message}</HelperError>

@@ -249,7 +249,7 @@ const EditTanamanBuah = () => {
                     <div className="mb-2">
                         <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
-                                <Label className='text-xs md:text-xs md:text-sm mb-1' label="Pilih Kecamatan" />
+                                <Label className='text-xs md:text-sm mb-1' label="Pilih Kecamatan" />
                                 <Controller
                                     name="kecamatan_id"
                                     control={control}

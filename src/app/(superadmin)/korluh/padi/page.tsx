@@ -533,8 +533,8 @@ const KorlubPadi = () => {
 						/> */}
 					</div>
 					{/* Hendle Search */}
-					<div className="card-table text-xs p-4 rounded-2xl border border-primary bg-white shadow-sm">
-						<div className="mt-1 flex items-center gap-2 justify-between">
+					<div className="card-table text-xs p-4 rounded-2xl border border-primary bg-white shadow-sm mt-4">
+						<div className="flex items-center gap-2 justify-between">
 							<div className="font-semibold">Tanggal:</div>
 							{dataPadi?.data?.data.map((item, index) => (
 								<div key={index}>

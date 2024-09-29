@@ -309,7 +309,7 @@ const EditDataPadi = () => {
                                 type="date"
                                 placeholder="Panen"
                                 {...register('tanggal')}
-                                className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-xs md:text-sm'}`}
+                                className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
                             {errors.tanggal && (
                                 <HelperError>{errors.tanggal.message}</HelperError>

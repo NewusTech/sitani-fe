@@ -209,7 +209,7 @@ const KorluPalawija = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-xl md:text-2xl mb-5 font-semibold text-primary uppercase">Korluh Palawija</div>
+            <div className="text-xl md:text-2xl mb-4 font-semibold text-primary capitalize">Korluh Palawija</div>
             {/* title */}
 
             {/* Dekstop */}
@@ -338,7 +338,7 @@ const KorluPalawija = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit ml-5">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -444,8 +444,8 @@ const KorluPalawija = () => {
 						/> */}
                     </div>
                     {/* Hendle Search */}
-                    <div className="card-table text-xs p-4 rounded-2xl border border-primary bg-white shadow-sm">
-                        <div className="mt-1 flex items-center gap-2 justify-between">
+                    <div className="card-table text-xs p-4 rounded-2xl border border-primary bg-white shadow-sm mt-4">
+                        <div className="flex items-center gap-2 justify-between">
                             <div className="font-semibold">Tanggal:</div>
                             {dataPalawija?.data?.data.map((item: any, index: any) => (
                                 <div key={index}>
@@ -494,6 +494,7 @@ const KorluPalawija = () => {
 										</div> */}
                                         <CarouselContent>
                                             <CarouselItem>
+                                                {/* JUmlah Jagung */}
                                                 <>
                                                     <div className="flex justify-between gap-5">
                                                         <div className="label font-medium text-black">1.</div>
@@ -512,12 +513,14 @@ const KorluPalawija = () => {
                                                                 </div>
                                                                 <div className="flex justify-between gap-5">
                                                                     <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
-                                                                    <div className="konten text-black/80 text-end">		            {item[17]?.lahanSawahPanenMuda ?? "-"}
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[17]?.lahanSawahPanenMuda ?? "-"}
                                                                     </div>
                                                                 </div>
                                                                 <div className="flex justify-between gap-5">
                                                                     <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
-                                                                    <div className="konten text-black/80 text-end">					      {item[17]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                    <div className="konten text-black/80 text-end">
+                                                                        {item[17]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                                                     </div>
                                                                 </div>
                                                                 <div className="flex justify-between gap-5">
@@ -570,80 +573,540 @@ const KorluPalawija = () => {
                                                                         {item[17]?.produksi ?? "-"}
                                                                     </div>
                                                                 </div>
+                                                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                <>
+                                                                    <Accordion type="single" collapsible className="w-full">
+                                                                        <AccordionItem className='' value="item-1">
+                                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-0'>A. Hibrida</AccordionTrigger>
+                                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                                <div className="pl-2 pr-2">
+                                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanSawahPanen ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanSawahPanenMuda ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanSawahTanam ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanSawahPuso ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanBukanSawahPanen ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanBukanSawahTanam ?? "-"}
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.lahanBukanSawahPuso ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[18]?.produksi ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                                    <>
+                                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                                            <AccordionItem className='' value="item-1">
+                                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-0'>1). Bantuan Pemerintah</AccordionTrigger>
+                                                                                                <AccordionContent className='text-xs md:text-sm '>
+                                                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.lahanSawahPanen ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.lahanSawahPanenMuda ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                                        <div className="konten text-black/80 text-end">					                                            {item[1]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.lahanSawahTanam ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.lahanSawahPuso ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.lahanBukanSawahPanen ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.lahanBukanSawahTanam ?? "-"}
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.lahanBukanSawahPuso ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[1]?.produksi ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="">
+                                                                                                        {item[1]?.id && (
+                                                                                                            <>
+                                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                                <div className="flex gap-3 text-white pb-2">
+                                                                                                                    <Link href={`/korluh/palawija/detail/${item[1]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                                        Detail
+                                                                                                                    </Link>
+                                                                                                                    <Link href={`/korluh/palawija/edit/${item[1]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                                        Edit
+                                                                                                                    </Link>
+                                                                                                                    <div className="w-full">
+                                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[1]?.id) || "")} />
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </>
+                                                                                                        )}
+                                                                                                    </div>
+                                                                                                </AccordionContent>
+                                                                                            </AccordionItem>
+                                                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                                            <AccordionItem className='' value="item-2">
+                                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>2). Non Bantuan Pemerintah</AccordionTrigger>
+                                                                                                <AccordionContent className='text-xs md:text-sm '>
+                                                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[2]?.lahanSawahPanen ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                                                        <div className="konten text-black/80 text-end">		                  {item[2]?.lahanSawahPanenMuda ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                                        <div className="konten text-black/80 text-end">				  {item[2]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                                                        <div className="konten text-black/80 text-end">{item[2]?.lahanSawahTanam ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[2]?.lahanSawahPuso ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[2]?.lahanBukanSawahPanen ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[2]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[2]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[2]?.lahanBukanSawahTanam ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[2]?.lahanBukanSawahPuso ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="flex justify-between gap-5">
+                                                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                                                        <div className="konten text-black/80 text-end">
+                                                                                                            {item[2]?.produksi ?? "-"}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="">
+                                                                                                        {item[2]?.id && (
+                                                                                                            <>
+                                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                                <div className="flex gap-3 text-white pb-2">
+                                                                                                                    <Link href={`/korluh/palawija/detail/${item[2]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                                        Detail
+                                                                                                                    </Link>
+                                                                                                                    <Link href={`/korluh/palawija/edit/${item[2]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                                        Edit
+                                                                                                                    </Link>
+                                                                                                                    <div className="w-full">
+                                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[2]?.id) || "")} />
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </>
+                                                                                                        )}
+                                                                                                    </div>
+                                                                                                </AccordionContent>
+                                                                                            </AccordionItem>
+                                                                                        </Accordion>
+                                                                                    </>
+                                                                                </div>
+                                                                            </AccordionContent>
+                                                                        </AccordionItem>
+                                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                        <AccordionItem className='' value="item-2">
+                                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>B. Komposit</AccordionTrigger>
+                                                                            <AccordionContent className='text-xs md:text-sm mb-2 '>
+                                                                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanSawahPanen ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanSawahPanenMuda ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanSawahTanam ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanSawahPuso ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanBukanSawahPanen ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanBukanSawahTanam ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.lahanBukanSawahPuso ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[3]?.produksi ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                <div className="flex gap-3 text-white">
+                                                                                    {item[3]?.id && (
+                                                                                        <>
+                                                                                            <Link href={`/korluh/palawija/detail/${item[3]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                Detail
+                                                                                            </Link>
+                                                                                            <Link href={`/korluh/palawija/edit/${item[3]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                Edit
+                                                                                            </Link>
+                                                                                            <div className="w-full">
+                                                                                                <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[3]?.id) || "")} />
+                                                                                            </div>
+                                                                                        </>
+                                                                                    )}
+                                                                                </div>
+                                                                            </AccordionContent>
+                                                                        </AccordionItem>
+                                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                        <AccordionItem className='' value="item-3">
+                                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>C. Lokal</AccordionTrigger>
+                                                                            <AccordionContent className='text-xs md:text-sm mb-2 '>
+                                                                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanSawahPanen ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanSawahPanenMuda ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanSawahTanam ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanSawahPuso ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanBukanSawahPanen ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanBukanSawahTanam ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.lahanBukanSawahPuso ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex justify-between gap-5">
+                                                                                    <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                                    <div className="konten text-black/80 text-end">
+                                                                                        {item[4]?.produksi ?? "-"}
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div className="">
+                                                                                    {item[4]?.id && (
+                                                                                        <>
+                                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                            <div className="flex gap-3 text-white pb-2">
+                                                                                                <Link href={`/korluh/palawija/detail/${item[4]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                    Detail
+                                                                                                </Link>
+                                                                                                <Link href={`/korluh/palawija/edit/${item[4]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                    Edit
+                                                                                                </Link>
+                                                                                                <div className="w-full">
+                                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[4]?.id) || "")} />
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </>
+                                                                                    )}
+                                                                                </div>
+                                                                            </AccordionContent>
+                                                                        </AccordionItem>
+                                                                    </Accordion>
+                                                                </>
                                                             </AccordionContent>
                                                         </AccordionItem>
-                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                    </Accordion>
+
+                                                    <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                </>
+                                                {/* kedelai */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">2.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
                                                         <AccordionItem className='' value="item-2">
-                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>A. Hibrida</AccordionTrigger>
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Kedelai</AccordionTrigger>
                                                             <AccordionContent className='text-xs md:text-sm '>
                                                                 <div className="pl-2 pr-2">
                                                                     <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Lahan Sawah Panen</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanSawahPanen ?? "-"}
+                                                                            {item[19]?.lahanSawahPanen ?? "-"}
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanSawahPanenMuda ?? "-"}
+                                                                            {item[19]?.lahanSawahPanenMuda ?? "-"}
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                            {item[19]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Lahan Sawah Tanam</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanSawahTanam ?? "-"}
+                                                                            {item[19]?.lahanSawahTanam ?? "-"}
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanSawahPuso ?? "-"}
+                                                                            {item[19]?.lahanSawahPuso ?? "-"}
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanBukanSawahPanen ?? "-"}
+                                                                            {item[19]?.lahanBukanSawahPanen ?? "-"}
                                                                         </div>
                                                                     </div>
 
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                            {item[19]?.lahanBukanSawahPanenMuda ?? "-"}
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                            {item[19]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanBukanSawahTanam ?? "-"}
+                                                                            {item[19]?.lahanBukanSawahTanam ?? "-"}
 
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.lahanBukanSawahPuso ?? "-"}
+                                                                            {item[19]?.lahanBukanSawahPuso ?? "-"}
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex justify-between gap-5">
                                                                         <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
                                                                         <div className="konten text-black/80 text-end">
-                                                                            {item[18]?.produksi ?? "-"}
+                                                                            {item[19]?.produksi ?? "-"}
                                                                         </div>
                                                                     </div>
                                                                     <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
@@ -656,82 +1119,84 @@ const KorluPalawija = () => {
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Sawah Panen</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.lahanSawahPanen ?? "-"}
+                                                                                            {item[5]?.lahanSawahPanen ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.lahanSawahPanenMuda ?? "-"}
+                                                                                            {item[5]?.lahanSawahPanenMuda ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
-                                                                                        <div className="konten text-black/80 text-end">					                                            {item[1]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                        <div className="konten text-black/80 text-end">					                                            {item[5]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Sawah Tanam</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.lahanSawahTanam ?? "-"}
+                                                                                            {item[5]?.lahanSawahTanam ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.lahanSawahPuso ?? "-"}
+                                                                                            {item[5]?.lahanSawahPuso ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.lahanBukanSawahPanen ?? "-"}
+                                                                                            {item[5]?.lahanBukanSawahPanen ?? "-"}
                                                                                         </div>
                                                                                     </div>
 
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                                            {item[5]?.lahanBukanSawahPanenMuda ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                            {item[5]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.lahanBukanSawahTanam ?? "-"}
+                                                                                            {item[5]?.lahanBukanSawahTanam ?? "-"}
 
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.lahanBukanSawahPuso ?? "-"}
+                                                                                            {item[5]?.lahanBukanSawahPuso ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[1]?.produksi ?? "-"}
+                                                                                            {item[5]?.produksi ?? "-"}
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
-                                                                                    <div className="flex gap-3 text-white">
-                                                                                        {item[1]?.id && (
+                                                                                    <div className="">
+                                                                                        {item[9]?.id && (
                                                                                             <>
-                                                                                                <Link href={`/korluh/palawija/detail/${item[1].id}`} className="bg-primary rounded-full w-full py-2 text-center">
-                                                                                                    Detail
-                                                                                                </Link>
-                                                                                                <Link href={`/korluh/palawija/edit/${item[1].id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
-                                                                                                    Edit
-                                                                                                </Link>
-                                                                                                <div className="w-full">
-                                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[1].id) || "")} />
+                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                <div className="flex gap-3 text-white pb-2">
+                                                                                                    <Link href={`/korluh/palawija/detail/${item[9]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                        Detail
+                                                                                                    </Link>
+                                                                                                    <Link href={`/korluh/palawija/edit/${item[9]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                        Edit
+                                                                                                    </Link>
+                                                                                                    <div className="w-full">
+                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[9]?.id) || "")} />
+                                                                                                    </div>
                                                                                                 </div>
                                                                                             </>
                                                                                         )}
@@ -746,79 +1211,81 @@ const KorluPalawija = () => {
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Sawah Panen</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[2]?.lahanSawahPanen ?? "-"}
+                                                                                            {item[6]?.lahanSawahPanen ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
-                                                                                        <div className="konten text-black/80 text-end">		                  {item[2]?.lahanSawahPanenMuda ?? "-"}
+                                                                                        <div className="konten text-black/80 text-end">		                  {item[6]?.lahanSawahPanenMuda ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
-                                                                                        <div className="konten text-black/80 text-end">				  {item[2]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                        <div className="konten text-black/80 text-end">				  {item[6]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Sawah Tanam</div>
-                                                                                        <div className="konten text-black/80 text-end">{item[2]?.lahanSawahTanam ?? "-"}
+                                                                                        <div className="konten text-black/80 text-end">{item[6]?.lahanSawahTanam ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[2]?.lahanSawahPuso ?? "-"}
+                                                                                            {item[6]?.lahanSawahPuso ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[2]?.lahanBukanSawahPanen ?? "-"}
+                                                                                            {item[6]?.lahanBukanSawahPanen ?? "-"}
                                                                                         </div>
                                                                                     </div>
 
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[2]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                                            {item[6]?.lahanBukanSawahPanenMuda ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[2]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                            {item[6]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[2]?.lahanBukanSawahTanam ?? "-"}
+                                                                                            {item[6]?.lahanBukanSawahTanam ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[2]?.lahanBukanSawahPuso ?? "-"}
+                                                                                            {item[6]?.lahanBukanSawahPuso ?? "-"}
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="flex justify-between gap-5">
                                                                                         <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
                                                                                         <div className="konten text-black/80 text-end">
-                                                                                            {item[2]?.produksi ?? "-"}
+                                                                                            {item[6]?.produksi ?? "-"}
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
-                                                                                    <div className="flex gap-3 text-white pb-2">
-                                                                                        {item[2]?.id && (
+                                                                                    <div className="">
+                                                                                        {item[6]?.id && (
                                                                                             <>
-                                                                                                <Link href={`/korluh/palawija/detail/${item[2]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
-                                                                                                    Detail
-                                                                                                </Link>
-                                                                                                <Link href={`/korluh/palawija/edit/${item[2]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
-                                                                                                    Edit
-                                                                                                </Link>
-                                                                                                <div className="w-full">
-                                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[2]?.id) || "")} />
+                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                <div className="flex gap-3 text-white pb-2">
+                                                                                                    <Link href={`/korluh/palawija/detail/${item[6]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                        Detail
+                                                                                                    </Link>
+                                                                                                    <Link href={`/korluh/palawija/edit/${item[6]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                        Edit
+                                                                                                    </Link>
+                                                                                                    <div className="w-full">
+                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[6]?.id) || "")} />
+                                                                                                    </div>
                                                                                                 </div>
                                                                                             </>
                                                                                         )}
@@ -830,272 +1297,479 @@ const KorluPalawija = () => {
                                                                 </div>
                                                             </AccordionContent>
                                                         </AccordionItem>
-                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
-                                                        <AccordionItem className='' value="item-4">
-                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>B. Komposit</AccordionTrigger>
-                                                            <AccordionContent className='text-xs md:text-sm mb-2 '>
-                                                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Panen</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanSawahPanen ?? "-"}
+                                                    </Accordion>
+                                                </>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                {/* kacang tanah */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">3.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
+                                                        <AccordionItem className='' value="item-2">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Kacang Tanah</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                <div className="pl-2 pr-2">
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanSawahPanen ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanSawahPanenMuda ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanSawahPanenMuda ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Tanam</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanSawahTanam ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanSawahTanam ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanSawahPuso ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanSawahPuso ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanBukanSawahPanen ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanBukanSawahPanen ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanBukanSawahTanam ?? "-"}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.lahanBukanSawahPuso ?? "-"}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[3]?.produksi ?? "-"}
-                                                                    </div>
-                                                                </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanBukanSawahTanam ?? "-"}
 
-                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
-                                                                <div className="flex gap-3 text-white">
-                                                                    {item[3]?.id && (
-                                                                        <>
-                                                                            <Link href={`/korluh/palawija/detail/${item[3]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
-                                                                                Detail
-                                                                            </Link>
-                                                                            <Link href={`/korluh/palawija/edit/${item[3]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
-                                                                                Edit
-                                                                            </Link>
-                                                                            <div className="w-full">
-                                                                                <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[3]?.id) || "")} />
-                                                                            </div>
-                                                                        </>
-                                                                    )}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.lahanBukanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[7]?.produksi ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="">
+                                                                        {item[7]?.id && (
+                                                                            <>
+                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                <div className="flex gap-3 text-white pb-2">
+                                                                                    <Link href={`/korluh/palawija/detail/${item[7]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                        Detail
+                                                                                    </Link>
+                                                                                    <Link href={`/korluh/palawija/edit/${item[7]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                        Edit
+                                                                                    </Link>
+                                                                                    <div className="w-full">
+                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[7]?.id) || "")} />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </>
+                                                                        )}
+                                                                    </div>
                                                                 </div>
                                                             </AccordionContent>
                                                         </AccordionItem>
-                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
-                                                        {/* <AccordionItem className='' value="item-4">
-                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>C. Lokal</AccordionTrigger>
-                                                            <AccordionContent className='text-xs md:text-sm mb-2 '>
-                                                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Panen</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahPanen ?? "-"}
+                                                    </Accordion>
+                                                </>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                {/* jumlah ubi kayu singkong */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">4.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
+                                                        <AccordionItem className='' value="item-2">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Jumlah Ubi Kayu Singkong</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                <div className="pl-2 pr-2">
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanSawahPanen ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahPanenMuda ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanSawahPanenMuda ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Tanam</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahTanam ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanSawahTanam ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahPuso ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanSawahPuso ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahPanen ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanBukanSawahPanen ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahTanam ?? "-"}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahPuso ?? "-"}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.produksi ?? "-"}
-                                                                    </div>
-                                                                </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanBukanSawahTanam ?? "-"}
 
-                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
-                                                                <div className="flex gap-3 text-white">
-                                                                    {item[4]?.id && (
-                                                                        <>
-                                                                            <Link href={`/korluh/palawija/detail/${item[4]}`} className="bg-primary rounded-full w-full py-2 text-center">
-                                                                                Detail
-                                                                            </Link>
-                                                                            <Link href={`/korluh/palawija/edit/${item[4]}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
-                                                                                Edit
-                                                                            </Link>
-                                                                            <div className="w-full">
-                                                                                <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[4]) || "")} />
-                                                                            </div>
-                                                                        </>
-                                                                    )}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.lahanBukanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[20]?.produksi ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                    <>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-0'>1). Bantuan Pemerintah</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm '>
+                                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.lahanSawahPanen ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.lahanSawahPanenMuda ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                        <div className="konten text-black/80 text-end">					                                            {item[8]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.lahanSawahTanam ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.lahanSawahPuso ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.lahanBukanSawahPanen ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.lahanBukanSawahTanam ?? "-"}
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.lahanBukanSawahPuso ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.produksi ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="">
+                                                                                        {item[8]?.id && (
+                                                                                            <>
+                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                <div className="flex gap-3 text-white pb-2">
+                                                                                                    <Link href={`/korluh/palawija/detail/${item[8]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                        Detail
+                                                                                                    </Link>
+                                                                                                    <Link href={`/korluh/palawija/edit/${item[8]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                        Edit
+                                                                                                    </Link>
+                                                                                                    <div className="w-full">
+                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[8]?.id) || "")} />
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                            <AccordionItem className='' value="item-2">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>2). Non Bantuan Pemerintah</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm '>
+                                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.lahanSawahPanen ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                                        <div className="konten text-black/80 text-end">		                  {item[9]?.lahanSawahPanenMuda ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                        <div className="konten text-black/80 text-end">				  {item[9]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                                        <div className="konten text-black/80 text-end">{item[9]?.lahanSawahTanam ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.lahanSawahPuso ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.lahanBukanSawahPanen ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.lahanBukanSawahTanam ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.lahanBukanSawahPuso ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.produksi ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="">
+                                                                                        {item[9]?.id && (
+                                                                                            <>
+                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                <div className="flex gap-3 text-white pb-2">
+                                                                                                    <Link href={`/korluh/palawija/detail/${item[9]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                        Detail
+                                                                                                    </Link>
+                                                                                                    <Link href={`/korluh/palawija/edit/${item[9]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                        Edit
+                                                                                                    </Link>
+                                                                                                    <div className="w-full">
+                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[9]?.id) || "")} />
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                    </>
                                                                 </div>
                                                             </AccordionContent>
-                                                        </AccordionItem> */}
-                                                        <AccordionItem className='' value="item-3">
-                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>C. Lokal</AccordionTrigger>
-                                                            <AccordionContent className='text-xs md:text-sm mb-2 '>
-                                                                <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Panen</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahPanen ?? "-"}
+                                                        </AccordionItem>
+                                                    </Accordion>
+                                                </>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                {/* ubi jalar ketela/ketela rambut */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">5.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
+                                                        <AccordionItem className='' value="item-2">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Ubi Jalar Ketela/Ketela Rambat</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                <div className="pl-2 pr-2">
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanSawahPanen ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahPanenMuda ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanSawahPanenMuda ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Tanam</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahTanam ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanSawahTanam ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanSawahPuso ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanSawahPuso ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahPanen ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanBukanSawahPanen ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
 
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahTanam ?? "-"}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.lahanBukanSawahPuso ?? "-"}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex justify-between gap-5">
-                                                                    <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
-                                                                    <div className="konten text-black/80 text-end">
-                                                                        {item[4]?.produksi ?? "-"}
-                                                                    </div>
-                                                                </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanBukanSawahTanam ?? "-"}
 
-                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
-                                                                <div className="flex gap-3 text-white">
-                                                                    {item[4]?.id && (
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.lahanBukanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[10]?.produksi ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="">
+                                                                    {item[10]?.id && (
                                                                         <>
-                                                                            <Link href={`/korluh/palawija/detail/${item[4]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
-                                                                                Detail
-                                                                            </Link>
-                                                                            <Link href={`/korluh/palawija/edit/${item[4]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
-                                                                                Edit
-                                                                            </Link>
-                                                                            <div className="w-full">
-                                                                                <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[4]?.id) || "")} />
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2">
+                                                                                <Link href={`/korluh/palawija/detail/${item[10]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Detail
+                                                                                </Link>
+                                                                                <Link href={`/korluh/palawija/edit/${item[10]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                    Edit
+                                                                                </Link>
+                                                                                <div className="w-full">
+                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[10]?.id) || "")} />
+                                                                                </div>
                                                                             </div>
                                                                         </>
                                                                     )}
@@ -1103,8 +1777,630 @@ const KorluPalawija = () => {
                                                             </AccordionContent>
                                                         </AccordionItem>
                                                     </Accordion>
+                                                </>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                {/* kacang hijau */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">6.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
+                                                        <AccordionItem className='' value="item-2">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Kacang Hijau</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                <div className="pl-2 pr-2">
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanSawahTanam ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanBukanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
 
-                                                    <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanBukanSawahTanam ?? "-"}
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.lahanBukanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[11]?.produksi ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="">
+                                                                    {item[11]?.id && (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2">
+                                                                                <Link href={`/korluh/palawija/detail/${item[11]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Detail
+                                                                                </Link>
+                                                                                <Link href={`/korluh/palawija/edit/${item[11]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                    Edit
+                                                                                </Link>
+                                                                                <div className="w-full">
+                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[11]?.id) || "")} />
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </AccordionContent>
+                                                        </AccordionItem>
+                                                    </Accordion>
+                                                </>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                {/* sargum */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">7.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
+                                                        <AccordionItem className='' value="item-2">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Sorgum / Cantel</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                <div className="pl-2 pr-2">
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanSawahTanam ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanBukanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanBukanSawahTanam ?? "-"}
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.lahanBukanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[12]?.produksi ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="">
+                                                                    {item[12]?.id && (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2">
+                                                                                <Link href={`/korluh/palawija/detail/${item[12]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Detail
+                                                                                </Link>
+                                                                                <Link href={`/korluh/palawija/edit/${item[12]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                    Edit
+                                                                                </Link>
+                                                                                <div className="w-full">
+                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[12]?.id) || "")} />
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </AccordionContent>
+                                                        </AccordionItem>
+                                                    </Accordion>
+                                                </>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                {/* gandum */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">8.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
+                                                        <AccordionItem className='' value="item-2">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Gandum</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                <div className="pl-2 pr-2">
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanSawahTanam ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanBukanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanBukanSawahTanam ?? "-"}
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.lahanBukanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[13]?.produksi ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="">
+                                                                    {item[13]?.id && (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2">
+                                                                                <Link href={`/korluh/palawija/detail/${item[13]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Detail
+                                                                                </Link>
+                                                                                <Link href={`/korluh/palawija/edit/${item[13]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                    Edit
+                                                                                </Link>
+                                                                                <div className="w-full">
+                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[13]?.id) || "")} />
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </AccordionContent>
+                                                        </AccordionItem>
+                                                    </Accordion>
+                                                </>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                {/* talas */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">9.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
+                                                        <AccordionItem className='' value="item-2">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Talas</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                <div className="pl-2 pr-2">
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanSawahTanam ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanBukanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanBukanSawahTanam ?? "-"}
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.lahanBukanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[14]?.produksi ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="">
+                                                                    {item[14]?.id && (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2">
+                                                                                <Link href={`/korluh/palawija/detail/${item[14]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Detail
+                                                                                </Link>
+                                                                                <Link href={`/korluh/palawija/edit/${item[14]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                    Edit
+                                                                                </Link>
+                                                                                <div className="w-full">
+                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[14]?.id) || "")} />
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </AccordionContent>
+                                                        </AccordionItem>
+                                                    </Accordion>
+                                                </>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                {/* ganyong */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">10.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
+                                                        <AccordionItem className='' value="item-2">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Ganyong</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                <div className="pl-2 pr-2">
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanSawahTanam ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanBukanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanBukanSawahTanam ?? "-"}
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.lahanBukanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[15]?.produksi ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="">
+                                                                    {item[15]?.id && (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2">
+                                                                                <Link href={`/korluh/palawija/detail/${item[15]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Detail
+                                                                                </Link>
+                                                                                <Link href={`/korluh/palawija/edit/${item[15]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                    Edit
+                                                                                </Link>
+                                                                                <div className="w-full">
+                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[15]?.id) || "")} />
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </AccordionContent>
+                                                        </AccordionItem>
+                                                    </Accordion>
+                                                </>
+                                                <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                {/* umbi lainnya */}
+                                                <>
+                                                    <div className="flex justify-between gap-5">
+                                                        <div className="label font-medium text-black">11.</div>
+                                                        <div className="konten text-black/80 text-end"></div>
+                                                    </div>
+                                                    <Accordion type="single" collapsible className="w-full">
+                                                        <AccordionItem className='' value="item-2">
+                                                            <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Umbi Lainnya</AccordionTrigger>
+                                                            <AccordionContent className='text-xs md:text-sm '>
+                                                                <div className="pl-2 pr-2">
+                                                                    <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanSawahTanam ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Sawah Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanBukanSawahPanen ?? "-"}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Muda</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanBukanSawahPanenMuda ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Untuk Hijauan Pakan Ternak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanBukanSawahPanenHijauanPakanTernak ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Tanam</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanBukanSawahTanam ?? "-"}
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Lahan Bukan Sawah Panen Puso/Rusak</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.lahanBukanSawahPuso ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex justify-between gap-5">
+                                                                        <div className="label font-medium text-black">Produksi di Lahan Sawah dan Lahan Bukan Sawah (Ton)</div>
+                                                                        <div className="konten text-black/80 text-end">
+                                                                            {item[16]?.produksi ?? "-"}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="">
+                                                                    {item[16]?.id && (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2">
+                                                                                <Link href={`/korluh/palawija/detail/${item[16]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Detail
+                                                                                </Link>
+                                                                                <Link href={`/korluh/palawija/edit/${item[16]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                    Edit
+                                                                                </Link>
+                                                                                <div className="w-full">
+                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[16]?.id) || "")} />
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </AccordionContent>
+                                                        </AccordionItem>
+                                                    </Accordion>
                                                 </>
                                             </CarouselItem>
                                         </CarouselContent>
