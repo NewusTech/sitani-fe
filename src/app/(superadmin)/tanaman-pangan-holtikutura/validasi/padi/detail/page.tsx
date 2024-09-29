@@ -237,7 +237,7 @@ const KorlubPadiDetail = () => {
 		<div>
 			{/* title */}
 			<div className="text-xl md:text-2xl mb-4 font-semibold text-primary capitalize">
-				Korluh Padi
+				Detail Korluh Padi
 			</div>
 			{/* title */}
 
@@ -698,7 +698,6 @@ const KorlubPadiDetail = () => {
                     </div>
 				)}
 			</Accordion>
-
 			{/* accordion */}
 
 		</div>
