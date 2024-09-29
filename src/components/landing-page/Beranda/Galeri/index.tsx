@@ -53,9 +53,9 @@ const GaleriLanding = () => {
   return (
     <div className="berita container mx-auto py-[40px] md:pb-[100px] pb-[130px]">
       <div className="header items-center flex gap-5 md:gap-8">
-        <div className="garis h-[3px] w-full bg-secondary"></div>
+        <div className="garis h-[3px] w-full bg-secondary animate-pulse transition-all"></div>
         <div className="text-primary font-semibold text-3xl flex-shrink-0">Galeri</div>
-        <div className="garis h-[3px] w-full bg-secondary"></div>
+        <div className="garis h-[3px] w-full bg-secondary animate-pulse transition-all"></div>
       </div>
       {/* card */}
       <div className="berita md:mt-[60px] mt-[30px] grid grid-cols-1 md:grid-cols-4 gap-4 group">

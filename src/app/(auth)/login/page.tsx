@@ -256,7 +256,7 @@ const Login = () => {
 								/>
 							</div>
 							<div className="teks">
-								<div className="head font-bold text-xl md:text-3xl text-primary">
+								<div className="head font-bold text-xl md:text-3xl text-primary animate-pulse transition-all">
 									SITANI
 								</div>
 								<div className="head text-sm md:text-base">
@@ -280,9 +280,8 @@ const Login = () => {
 									type="email"
 									placeholder="Email / NIP"
 									{...register("email")}
-									className={`${
-										errors.email ? "border-red-500" : ""
-									}`}
+									className={`${errors.email ? "border-red-500" : ""
+										}`}
 								/>
 								{errors.email && (
 									<HelperError>
@@ -300,9 +299,8 @@ const Login = () => {
 									type="password"
 									placeholder="Kata Sandi"
 									{...register("password")}
-									className={`${
-										errors.password ? "border-red-500" : ""
-									}`}
+									className={`${errors.password ? "border-red-500" : ""
+										}`}
 								/>
 								{errors.password && (
 									<HelperError>

@@ -65,7 +65,7 @@ const Layout = (props: LayoutProps) => {
                         <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[50px]' />
                     </div>
                     <div className="teks">
-                        <div className="head font-bold text-xl md:text-3xl text-primary">SITANI</div>
+                        <div className="head font-bold text-xl md:text-3xl text-primary animate-pulse transition-all">SITANI</div>
                         <div className="head text-sm md:text-base">Sistem Informasi Data Pertanian Lampung Timur</div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@ const Layout = (props: LayoutProps) => {
                             <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} unoptimized className='w-[55px]' />
                         </div>
                         <div className="teks">
-                            <div className="head font-bold text-3xl text-primary">SITANI</div>
+                            <div className="head font-bold text-3xl text-primary  animate-pulse transition-all">SITANI</div>
                             <div className="head text-base">Sistem Informasi Data Pertanian Lampung Timur</div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@ const Layout = (props: LayoutProps) => {
                 {props.children}
             </div>
             <footer className='bg-primary md:block hidden py-5'>
-                <div className="container mx-auto wrap text-white">
+                <div className="container mx-auto wrap text-white animate-pulse transition-all">
                     Copyrigt &copy; 2024 <span className='font-semibold'>SITANI LAMPUNG TIMUR.</span> All rights reserved.
                 </div>
             </footer>

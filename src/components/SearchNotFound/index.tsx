@@ -15,7 +15,7 @@ const NotFoundSearch = () => {
                     className="object-contain animate-pulse hover:animate-spin hover:transition-all transition-all"
                 />
                 <div className="min-h-[40px] flex items-center">
-                    <TypingEffect text={["Maaf data tidak ditemukan.."]} />
+                    <TypingEffect text={["Maaf tidak ada data..."]} />
                 </div>
             </div>
         </div>

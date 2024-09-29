@@ -2295,7 +2295,7 @@ const KorluPalawija = () => {
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={13} className='text-center'>Tidak Ada Data</TableCell>
+                                <TableCell colSpan={14} className='text-center'><NotFoundSearch /></TableCell>
                             </TableRow>
                         )}
                         {/* Umbi lainnya */}

@@ -132,7 +132,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 						/>
 					</div>
 					<div className="teks flex-shrink-0 text-primary">
-						<div className="head font-bold text-2xl text-primary">
+						<div className="head font-bold text-2xl text-primary animate-pulse transition-all">
 							SITANI
 						</div>
 						<div className="head text-base ">Super Admin</div>
