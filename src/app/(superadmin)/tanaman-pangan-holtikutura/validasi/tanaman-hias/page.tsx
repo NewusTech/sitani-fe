@@ -232,7 +232,9 @@ const ValidasiTanamanHias = () => {
             case 'terima':
                 return 'Sudah divalidasi';
             case 'tolak':
-                return 'Validasi ditolak';
+                return 'Validasi ditolak, menunggu revisi';
+            case 'tunggu':
+                return 'Sudah direvisi, menunggu divalidasi';
             case 'belum':
                 return 'Belum divalidasi';
             default:

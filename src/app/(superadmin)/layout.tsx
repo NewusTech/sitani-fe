@@ -459,7 +459,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 								</ComponentWithAccess>
 								{/* kepegawaian */}
 								{/* KJF Kecamatan */}
-								<ComponentWithAccess
+								{/* <ComponentWithAccess
 									allowPermissions={[
 										PERMISSIONS.semua,
 										...PERMISSIONS.kabupatenPadi,
@@ -513,10 +513,10 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 											</Menu>
 										</AccordionContent>
 									</AccordionItem>
-								</ComponentWithAccess>
+								</ComponentWithAccess> */}
 								{/*bpp kecamatan */}
 								{/* bpp kecamatan */}
-								<ComponentWithAccess
+								{/* <ComponentWithAccess
 									allowPermissions={[
 										PERMISSIONS.semua,
 										...PERMISSIONS.kecamatanPadi,
@@ -571,7 +571,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 											</Menu>
 										</AccordionContent>
 									</AccordionItem>
-								</ComponentWithAccess>
+								</ComponentWithAccess> */}
 								{/*bpp kecamatan */}
 								{/* korluh */}
 								<ComponentWithAccess
@@ -640,6 +640,71 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 									</AccordionItem>
 								</ComponentWithAccess>
 								{/*korluh */}
+									{/* Status Laporan */}
+									<ComponentWithAccess
+									allowPermissions={[
+										PERMISSIONS.semua,
+										PERMISSIONS.semua,
+										...PERMISSIONS.korluhPadi,
+										...PERMISSIONS.korluhPalawija,
+										...PERMISSIONS.korluhSayurBuah,
+										...PERMISSIONS.korluhTanamanHias,
+										...PERMISSIONS.korluhTanamanBiofarmaka,
+										// 
+										...PERMISSIONS.kecamatanPadi,
+										...PERMISSIONS.kecamatanPalawija,
+										...PERMISSIONS.kecamatanSayurBuah,
+										...PERMISSIONS.kecamatanTanamanBiofarmaka,
+										...PERMISSIONS.kecamatanTanamanHias,
+										// 
+										...PERMISSIONS.kabupatenPadi,
+										...PERMISSIONS.kabupatenPalawija,
+										...PERMISSIONS.kabupatenSayurBuah,
+										...PERMISSIONS.kabupatenTanamanBiofarmaka,
+										...PERMISSIONS.kabupatenTanamanHias,
+									]}
+								>
+									<AccordionItem className="pl-2" value="item-20">
+										<AccordionTrigger
+											className={`nav flex items-center gap-4 text-left mb-2 rounded-[8px] py-[10px] px-[10px] ${pathname.startsWith(
+												"/status-laporan"
+											)
+												? "bg-primary text-white"
+												: "bg-transparent text-primary"
+												}`}
+										>
+											Status Laporan
+										</AccordionTrigger>
+										<AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
+										<Menu link="/status-laporan/padi">
+												<span className="text-sm">
+													Padi
+												</span>
+											</Menu>
+											<Menu link="/status-laporan/palawija">
+												<span className="text-sm">
+													Palawija
+												</span>
+											</Menu>
+											<Menu link="/status-laporan/sayuran-buah">
+												<span className="text-sm">
+													Sayuran dan Buah
+												</span>
+											</Menu>
+											<Menu link="/status-laporan/tanaman-hias">
+												<span className="text-sm">
+													Tanaman Hias
+												</span>
+											</Menu>
+											<Menu link="/status-laporan/tanaman-biofarmaka">
+												<span className="text-sm">
+													Tanaman Biofarmaka
+												</span>
+											</Menu>
+										</AccordionContent>
+									</AccordionItem>
+								</ComponentWithAccess>
+								{/*status laporan */}
 								{/* data-master */}
 								<ComponentWithAccess
 									allowPermissions={[
@@ -721,42 +786,6 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 									</AccordionItem>
 								</ComponentWithAccess>
 								{/*peran-pengguna */}
-								{/* Status Laporan */}
-								{/* <ComponentWithAccess
-									allowPermissions={[
-										PERMISSIONS.semua,
-										PERMISSIONS.semua,
-										...PERMISSIONS.korluhPadi,
-										...PERMISSIONS.korluhPalawija,
-										...PERMISSIONS.korluhSayurBuah,
-										...PERMISSIONS.korluhTanamanHias,
-										...PERMISSIONS.korluhTanamanBiofarmaka,
-										// 
-										...PERMISSIONS.kecamatanPadi,
-										...PERMISSIONS.kecamatanPalawija,
-										...PERMISSIONS.kecamatanSayurBuah,
-										...PERMISSIONS.kecamatanTanamanBiofarmaka,
-										...PERMISSIONS.kecamatanTanamanHias,
-										// 
-										...PERMISSIONS.kabupatenPadi,
-										...PERMISSIONS.kabupatenPalawija,
-										...PERMISSIONS.kabupatenSayurBuah,
-										...PERMISSIONS.kabupatenTanamanBiofarmaka,
-										...PERMISSIONS.kabupatenTanamanHias,
-									]}
-								>
-									<Link
-										href="/status-laporan"
-										className={`nav flex pr-4 text-[16px] font-medium items-center gap-4 mb-2 rounded-[8px] py-[10px] ml-[6px] px-[10px] justify-between ${pathname.startsWith("/status-laporan")
-											? "bg-primary text-white"
-											: "bg-transparent text-primary"
-											}`}
-									>
-										<span>Status Laporan</span>
-										<Badge variant="destructive">2</Badge>
-									</Link>
-								</ComponentWithAccess> */}
-								{/*status laporan */}
 							</Accordion>
 							<button
 								onClick={handleLogout}

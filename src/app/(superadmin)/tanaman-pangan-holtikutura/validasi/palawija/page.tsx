@@ -229,7 +229,9 @@ const ValidasiPalawija = () => {
             case 'terima':
                 return 'Sudah divalidasi';
             case 'tolak':
-                return 'Validasi ditolak';
+                return 'Validasi ditolak, menunggu revisi';
+            case 'tunggu':
+                return 'Sudah direvisi, menunggu divalidasi';
             case 'belum':
                 return 'Belum divalidasi';
             default:
@@ -351,7 +353,7 @@ const ValidasiPalawija = () => {
                 </div>
                 <div className="bulan">
                     <div className="">{dataPalawija?.data?.kecamatan ?? "-"}</div>
-                    <div className="">{monthName  ?? "-"} {dataPalawija?.data?.tahun ?? "-"}</div>
+                    <div className="">{monthName ?? "-"} {dataPalawija?.data?.tahun ?? "-"}</div>
                     <div className="capitalize">{validationText ?? "-"}</div>
                     <div className="flex gap-3">
                         <VerifikasiPopup
