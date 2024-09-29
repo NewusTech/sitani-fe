@@ -138,7 +138,7 @@ function DetailPalawijaKorluh() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                         {/* Labels with data */}
                         <LabelDetail label="Kecamatan" value={data?.korluhPalawija?.kecamatan?.nama} />
-                        <LabelDetail label="Desa" value={data?.korluhPalawija?.desa?.nama} />
+                        {/* <LabelDetail label="Desa" value={data?.korluhPalawija?.desa?.nama} /> */}
                         <LabelDetail label="Tanggal" value={formatDate(data?.korluhPalawija?.tanggal)} />
                         <LabelDetail label="Nama Palawija" value={data?.master?.nama} />
                         <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
@@ -183,7 +183,7 @@ function DetailPalawijaKorluh() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                         {/* Labels with data */}
                         <LabelDetail label="Kecamatan" value={data?.korluhPalawija?.kecamatan?.nama} />
-                        <LabelDetail label="Desa" value={data?.korluhPalawija?.desa?.nama} />
+                        {/* <LabelDetail label="Desa" value={data?.korluhPalawija?.desa?.nama} /> */}
                         <LabelDetail label="Tanggal" value={formatDate(data?.korluhPalawija?.tanggal)} />
                         <LabelDetail label="Nama Palawija" value={data?.master?.nama} />
                         <LabelDetail label="Lahan Sawah Panen" value={data?.lahanSawahPanen} />
