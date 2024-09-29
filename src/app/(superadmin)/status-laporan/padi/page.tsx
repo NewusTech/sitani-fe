@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import useSWR from 'swr';
@@ -53,6 +53,8 @@ import {
 } from "@/components/ui/popover"
 import NotFoundSearch from '@/components/SearchNotFound';
 import AjukanKembali from '@/components/superadmin/Ajukan';
+import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
+import KecamatanSelectNo from '@/components/superadmin/SelectComponent/SelectKecamatanNo';
 
 const StatusLaporanPadi = () => {
 
@@ -63,13 +65,15 @@ const StatusLaporanPadi = () => {
     // const [tahun, setTahun] = React.useState("2024");
     const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
     // otomatis hitung tahun
+    // State untuk menyimpan id kecamatan yang dipilih
+    const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
     const [status, setStatus] = React.useState("");
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataStatus }: SWRResponse<any> = useSWR(
-        `/status-laporan/padi?tahun=${tahun}&status=${status === "semua" ? "" : status}`,
+        `/status-laporan/padi?kecamatan=${selectedKecamatan}&tahun=${tahun}&status=${status === "semua" ? "" : status}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -79,6 +83,13 @@ const StatusLaporanPadi = () => {
                 })
                 .then((res: any) => res.data)
     );
+
+     useEffect(() => {
+        if (dataStatus?.data?.ids?.length > 0) {
+            const firstId = dataStatus.data.ids[0];
+            setSelectedKecamatan(firstId.toString()); 
+        }
+    }, [dataStatus]);
 
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -178,22 +189,32 @@ const StatusLaporanPadi = () => {
                             </Select>
                         </div>
                     </div>
-                    <div className="w-full lg:w-1/2 mt-4 lg:mt-0">
-                        <Select
-                            onValueChange={(value) => setStatus(value)}
-                            value={status}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Pilih Status" className='text-2xl' />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="semua">Semua</SelectItem>
-                                <SelectItem value="tolak">Ditolak</SelectItem>
-                                <SelectItem value="belum">Belum Divalidasi</SelectItem>
-                                <SelectItem value="terima">Diterima</SelectItem>
-                                <SelectItem value="tunggu">Revisi Diajukan</SelectItem>
-                            </SelectContent>
-                        </Select>
+                    <div className="right flex gap-2 items-center">
+                        <div className="fil-kect w-[215px]">
+                            <KecamatanSelectNo
+                                value={selectedKecamatan}
+                                onChange={(value) => {
+                                    setSelectedKecamatan(value); // Update state with selected value
+                                }}
+                            />
+                        </div>
+                        <div className="w-[215px] mt-4 lg:mt-0">
+                            <Select
+                                onValueChange={(value) => setStatus(value)}
+                                value={status}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Pilih Status" className='text-2xl' />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="semua">Semua</SelectItem>
+                                    <SelectItem value="tolak">Ditolak</SelectItem>
+                                    <SelectItem value="belum">Belum Divalidasi</SelectItem>
+                                    <SelectItem value="terima">Diterima</SelectItem>
+                                    <SelectItem value="tunggu">Revisi Diajukan</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -256,52 +277,50 @@ const StatusLaporanPadi = () => {
                 </TableHeader>
                 <TableBody>
                     {dataStatus?.data?.ids?.length > 0 ? (
-                        dataStatus.data.ids.map((id: any) => (
-                            dataStatus?.data[id]?.map((item: any, index: any) => (
-                                <TableRow key={index}>
-                                    <TableCell className='border border-slate-200 text-center'>
-                                        {(currentPage - 1) * limit + (index + 1)}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        {item?.bulan ? getMonthName(item?.bulan) : "-"}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200 '>
-                                        <div className={`px-4 w-full text-center py-2 rounded-lg text-white 
-                                        ${item?.status === 'belum' ? 'bg-gray-500' : ''}
-                                        ${item?.status === 'terima' ? 'bg-green-500' : ''}
-                                        ${item?.status === 'tolak' ? 'bg-red-500' : ''}
-                                        ${item?.status === 'tunggu' ? 'bg-yellow-500' : ''}`}>
-                                            {item?.status === 'belum' && 'Belum Divalidasi'}
-                                            {item?.status === 'terima' && 'Diterima'}
-                                            {item?.status === 'tolak' && 'Ditolak'}
-                                            {item?.status === 'tunggu' && 'Revisi Diajukan'}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        {item?.keterangan ?? "-"}
-                                    </TableCell>
-                                    <TableCell className='border border-slate-200'>
-                                        <div className="flex items-center justify-center gap-4">
-                                            <Link
-                                                className={`px-4 py-2 rounded-lg text-white ${item.status === 'tolak' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-300 cursor-not-allowed'}`}
-                                                href={item.status === 'tolak' ? `/korluh/padi` : '#'} // Disable link jika status bukan 'tolak'
-                                                onClick={(e) => {
-                                                    if (item.status !== 'tolak') {
-                                                        e.preventDefault(); // Mencegah navigasi jika link dinonaktifkan
-                                                    }
-                                                }}
-                                            >
-                                                Perbaikan
-                                            </Link>
-                                            <AjukanKembali
-                                                id={item.id}        // ID dari item
-                                                status={item.status} // Status dari item (misalnya 'tolak', 'terima', dll)
-                                                onAjukanKembali={handleAjukanKembaliFunction} // Fungsi untuk handle API
-                                            />
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))
+                        dataStatus.data[dataStatus.data.ids[0]]?.map((item: any, index: any) => (
+                            <TableRow key={index}>
+                                <TableCell className='border border-slate-200 text-center'>
+                                    {(currentPage - 1) * limit + (index + 1)}
+                                </TableCell>
+                                <TableCell className='border border-slate-200'>
+                                    {item?.bulan ? getMonthName(item?.bulan) : "-"}
+                                </TableCell>
+                                <TableCell className='border border-slate-200'>
+                                    <div className={`px-4 w-full text-center py-2 rounded-lg text-white 
+                                     ${item?.status === 'belum' ? 'bg-gray-500' : ''}
+                                     ${item?.status === 'terima' ? 'bg-green-500' : ''}
+                                     ${item?.status === 'tolak' ? 'bg-red-500' : ''}
+                                     ${item?.status === 'tunggu' ? 'bg-yellow-500' : ''}`}>
+                                        {item?.status === 'belum' && 'Belum Divalidasi'}
+                                        {item?.status === 'terima' && 'Diterima'}
+                                        {item?.status === 'tolak' && 'Ditolak'}
+                                        {item?.status === 'tunggu' && 'Revisi Diajukan'}
+                                    </div>
+                                </TableCell>
+                                <TableCell className='border border-slate-200'>
+                                    {item?.keterangan ?? "-"}
+                                </TableCell>
+                                <TableCell className='border border-slate-200'>
+                                    <div className="flex items-center justify-center gap-4">
+                                        <Link
+                                            className={`px-4 py-2 rounded-lg text-white ${item.status === 'tolak' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-300 cursor-not-allowed'}`}
+                                            href={item.status === 'tolak' ? `/korluh/padi` : '#'} // Disable link jika status bukan 'tolak'
+                                            onClick={(e) => {
+                                                if (item.status !== 'tolak') {
+                                                    e.preventDefault(); // Mencegah navigasi jika link dinonaktifkan
+                                                }
+                                            }}
+                                        >
+                                            Perbaikan
+                                        </Link>
+                                        <AjukanKembali
+                                            id={item.id}        // ID dari item
+                                            status={item.status} // Status dari item (misalnya 'tolak', 'terima', dll)
+                                            onAjukanKembali={handleAjukanKembaliFunction} // Fungsi untuk handle API
+                                        />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
                         ))
                     ) : (
                         <TableRow>
