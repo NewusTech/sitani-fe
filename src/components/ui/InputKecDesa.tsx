@@ -59,7 +59,7 @@ const InputComponent = ({
     if (typeInput === "selectSearch")
         return (
             <Select disabled={disabled} value={value} onValueChange={handleSelectChange}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="text-xs md:text-sm w-full">
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent className="pt-10">
@@ -87,7 +87,7 @@ const InputComponent = ({
     if (typeInput === "select")
         return (
             <Select value={value} onValueChange={handleSelectChange}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="text-xs md:text-sm w-full">
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>
