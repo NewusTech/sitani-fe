@@ -347,7 +347,7 @@ const KorluhTanamanHias = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Korluh Tanaman Hias</div>
+            <div className="text-xl md:text-2xl mb-5 font-semibold text-primary uppercase">Korluh Tanaman Hias</div>
             {/* title */}
 
             {/* top */}

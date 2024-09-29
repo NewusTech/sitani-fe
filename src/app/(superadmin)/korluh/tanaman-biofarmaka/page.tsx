@@ -343,7 +343,7 @@ const KorlubTanamanBiofarmaka = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Korluh Tanaman Biofarmaka</div>
+            <div className="text-xl md:text-2xl mb-5 font-semibold text-primary uppercase">Korluh Tanaman Biofarmaka</div>
             {/* title */}
 
             {/* top */}
