@@ -188,7 +188,7 @@ const BantuanEdit = () => {
                 <div className="mb-2">
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Kecamatan" />
+                            <Label className='text-xs md:text-sm mb-1' label="Pilih Kecamatan" />
                             <Controller
                                 name="kecamatan_id"
                                 control={control}
@@ -204,7 +204,7 @@ const BantuanEdit = () => {
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pilih Desa" />
+                            <Label className='text-xs md:text-sm mb-1' label="Pilih Desa" />
                             <Controller
                                 name="desa_id"
                                 control={control}
@@ -223,7 +223,7 @@ const BantuanEdit = () => {
                     </div>
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Jenis Bantuan" />
+                            <Label className='text-xs md:text-sm mb-1' label="Jenis Bantuan" />
                             <Select
                                 onValueChange={(value) => setValue("jenis_bantuan", String(value))}
                                 value={String(watch('jenis_bantuan')) || ''}>
@@ -240,12 +240,12 @@ const BantuanEdit = () => {
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Periode Penerimaan" />
+                            <Label className='text-xs md:text-sm mb-1' label="Periode Penerimaan" />
                             <Input
                                 type="date"
                                 placeholder="Periode Penerimaan"
                                 {...register('periode')}
-                                className={`${errors.periode ? 'border-red-500' : 'py-5 text-sm'}`}
+                                className={`${errors.periode ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
                             {errors.periode && (
                                 <HelperError>{errors.periode.message}</HelperError>
@@ -254,10 +254,10 @@ const BantuanEdit = () => {
                     </div>
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Keterangan" />
+                            <Label className='text-xs md:text-sm mb-1' label="Keterangan" />
                             <Textarea
                                 {...register('keterangan')}
-                                className={`${errors.keterangan ? 'border-red-500' : 'py-2 text-sm h-[120px]'}`}
+                                className={`${errors.keterangan ? 'border-red-500' : 'py-2 text-xs md:text-sm h-[120px]'}`}
                             />
                             {errors.keterangan && (
                                 <HelperError>{errors.keterangan.message}</HelperError>
@@ -267,10 +267,10 @@ const BantuanEdit = () => {
                 </div>
 
                 <div className="mb-10 flex justify-end gap-3">
-                    <Link href="/psp/bantuan" className='bg-white text-sm md:text-base w-[90px] md:w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                    <Link href="/psp/bantuan" className='bg-white w-[90px] text-xs md:text-sm  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
-                    </Link> 
-                    <Button type="submit" variant="primary" size="lg" className="w-[90px] md:w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                    </Link>
+                    <Button type="submit" variant="primary" size="lg" className="w-[90px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 text-xs md:text-sm">
                         {loading ? (
                             <Loading />
                         ) : (

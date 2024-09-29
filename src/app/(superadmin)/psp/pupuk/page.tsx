@@ -168,7 +168,7 @@ const Pupuk = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataUser }: SWRResponse<Response> = useSWR(
-        `/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
+        `/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -232,7 +232,7 @@ const Pupuk = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}`)
+        } mutate(`/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`)
     };
 
     console.log(dataUser);
@@ -306,7 +306,7 @@ const Pupuk = () => {
                         </div>
                         {/* print */}
                         <PSPPupuk
-                            urlApi={`/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}`}
+                            urlApi={`/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`}
                         />
                         {/* print */}
                     </div>
@@ -315,13 +315,33 @@ const Pupuk = () => {
                         <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                             {/* filter tanggal */}
                             {/* filter tanggal */}
-                            <div className="w-[40px] h-[40px]">
-                                <FilterTable
-                                    columns={columns}
-                                    defaultCheckedKeys={getDefaultCheckedKeys()}
-                                    onFilterChange={handleFilterChange}
-                                />
+                            <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            />
+                            {/* filter tahun */}
+                            <div className="w-fit">
+                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Semua Tahun">
+                                            {tahun ? tahun : "Semua Tahun"}
+                                        </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value={"Semua Tahun"}>Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
+                                    </SelectContent>
+                                </Select>
                             </div>
+                            {/* filter tahun */}
                         </div>
                         <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                             <Link href="/psp/pupuk/tambah" className='bg-primary px-3 py-2 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[140px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
@@ -501,7 +521,7 @@ const Pupuk = () => {
                     ))
                 ) : (
                     <div className="text-center">
-                          <NotFoundSearch />
+                        <NotFoundSearch />
                     </div>
                 )}
             </div>
@@ -579,7 +599,7 @@ const Pupuk = () => {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={5} className="text-center">
-                                      <NotFoundSearch />
+                                    <NotFoundSearch />
                                 </TableCell>
                             </TableRow>
                         )}

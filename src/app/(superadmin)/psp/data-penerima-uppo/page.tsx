@@ -194,8 +194,8 @@ const DataPenerimaUppo = () => {
     const currentYear = new Date().getFullYear();
     const startYear = currentYear - 5;
     const endYear = currentYear + 1;
-    const [tahun, setTahun] = React.useState("");
-    // const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
+    // const [tahun, setTahun] = React.useState("");
+    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
     // otomatis hitung tahun
 
     const [accessToken] = useLocalStorage("accessToken", "");

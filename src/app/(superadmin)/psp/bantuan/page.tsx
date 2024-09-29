@@ -186,7 +186,7 @@ const Bantuan = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataPSP }: SWRResponse<Response> = useSWR(
-        `/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`,
+        `/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -247,7 +247,7 @@ const Bantuan = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}`);
+        } mutate(`/psp/bantuan/get?page=${currentPage}&search=${search}&limit=10&kecamatan=${selectedKecamatan}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`);
     };
 
     // Filter table
@@ -332,13 +332,33 @@ const Bantuan = () => {
                         <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
                             {/* filter tanggal */}
                             {/* filter tanggal */}
-                            <div className="w-[40px] h-[40px]">
-                                <FilterTable
-                                    columns={columns}
-                                    defaultCheckedKeys={getDefaultCheckedKeys()}
-                                    onFilterChange={handleFilterChange}
-                                />
+                            <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            />
+                            {/* filter tahun */}
+                            <div className="w-fit">
+                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Semua Tahun">
+                                            {tahun ? tahun : "Semua Tahun"}
+                                        </SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value={"Semua Tahun"}>Semua Tahun</SelectItem>
+                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
+                                            const year = startYear + index;
+                                            return (
+                                                <SelectItem key={year} value={year.toString()}>
+                                                    {year}
+                                                </SelectItem>
+                                            );
+                                        })}
+                                    </SelectContent>
+                                </Select>
                             </div>
+                            {/* filter tahun */}
                         </div>
                         <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                             <div className="w-full">
@@ -513,11 +533,11 @@ const Bantuan = () => {
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Periode</div>
                                     <div className="konten text-black/80 text-end">
-                                    {item.periode ? new Date(item.periode).toLocaleDateString('id-ID', {
-                                                day: 'numeric',
-                                                month: 'long',
-                                                year: 'numeric',
-                                            }) : '-'}</div>
+                                        {item.periode ? new Date(item.periode).toLocaleDateString('id-ID', {
+                                            day: 'numeric',
+                                            month: 'long',
+                                            year: 'numeric',
+                                        }) : '-'}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Keterangan</div>
@@ -540,7 +560,7 @@ const Bantuan = () => {
                     ))
                 ) : (
                     <div className="text-center">
-                          <NotFoundSearch />
+                        <NotFoundSearch />
                     </div>
                 )}
             </div>
@@ -630,7 +650,7 @@ const Bantuan = () => {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={6} className="text-center">
-                                      <NotFoundSearch />
+                                    <NotFoundSearch />
                                 </TableCell>
                             </TableRow>
                         )}
