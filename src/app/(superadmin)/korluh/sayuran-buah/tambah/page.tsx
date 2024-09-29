@@ -200,7 +200,7 @@ const TambahSayuranBuahKorluh = () => {
                                     type="date"
                                     placeholder="Tanggal"
                                     {...register('tanggal')}
-                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 md:text-sm text-xs'}`}
+                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 md:text-sm text-xs block'}`}
                                 />
                                 {errors.tanggal && (
                                     <HelperError>{errors.tanggal.message}</HelperError>

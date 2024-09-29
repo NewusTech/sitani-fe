@@ -427,7 +427,7 @@ const KorlubPadi = () => {
 										<Filter className="text-primary w-5 h-5" />
 									</Button>
 								</DropdownMenuTrigger>
-								<DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit">
+								<DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit ml-5">
 									<DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
 										Menu Filter
 									</DropdownMenuLabel>

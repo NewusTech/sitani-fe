@@ -724,7 +724,7 @@ const KorluPalawija = () => {
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div className="">
-                                                                                                        {item[1]?.id && (
+                                                                                                        {item[1]?.id ? (
                                                                                                             <>
                                                                                                                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                                                                 <div className="flex gap-3 text-white pb-2">
@@ -735,8 +735,17 @@ const KorluPalawija = () => {
                                                                                                                         Edit
                                                                                                                     </Link>
                                                                                                                     <div className="w-full">
-                                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[1]?.id) || "")} />
+                                                                                                                        <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[1]?.id) || "")} />
                                                                                                                     </div>
+                                                                                                                </div>
+                                                                                                            </>
+                                                                                                        ) : (
+                                                                                                            <>
+                                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                                <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                                                    <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                                        Tambah Data
+                                                                                                                    </Link>
                                                                                                                 </div>
                                                                                                             </>
                                                                                                         )}
@@ -813,7 +822,7 @@ const KorluPalawija = () => {
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div className="">
-                                                                                                        {item[2]?.id && (
+                                                                                                        {item[2]?.id ? (
                                                                                                             <>
                                                                                                                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                                                                 <div className="flex gap-3 text-white pb-2">
@@ -824,8 +833,17 @@ const KorluPalawija = () => {
                                                                                                                         Edit
                                                                                                                     </Link>
                                                                                                                     <div className="w-full">
-                                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[2]?.id) || "")} />
+                                                                                                                        <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[2]?.id) || "")} />
                                                                                                                     </div>
+                                                                                                                </div>
+                                                                                                            </>
+                                                                                                        ) : (
+                                                                                                            <>
+                                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                                <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                                                    <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                                        Tambah Data
+                                                                                                                    </Link>
                                                                                                                 </div>
                                                                                                             </>
                                                                                                         )}
@@ -911,17 +929,29 @@ const KorluPalawija = () => {
                                                                                 </div>
 
                                                                                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
-                                                                                <div className="flex gap-3 text-white">
-                                                                                    {item[3]?.id && (
+                                                                                <div className="">
+                                                                                    {item[3]?.id ? (
                                                                                         <>
-                                                                                            <Link href={`/korluh/palawija/detail/${item[3]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
-                                                                                                Detail
-                                                                                            </Link>
-                                                                                            <Link href={`/korluh/palawija/edit/${item[3]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
-                                                                                                Edit
-                                                                                            </Link>
-                                                                                            <div className="w-full">
-                                                                                                <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[3]?.id) || "")} />
+                                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                            <div className="flex gap-3 text-white pb-2">
+                                                                                                <Link href={`/korluh/palawija/detail/${item[3]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                    Detail
+                                                                                                </Link>
+                                                                                                <Link href={`/korluh/palawija/edit/${item[3]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                    Edit
+                                                                                                </Link>
+                                                                                                <div className="w-full">
+                                                                                                    <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[3]?.id) || "")} />
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                            <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                                <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                    Tambah Data
+                                                                                                </Link>
                                                                                             </div>
                                                                                         </>
                                                                                     )}
@@ -1002,7 +1032,7 @@ const KorluPalawija = () => {
                                                                                 </div>
 
                                                                                 <div className="">
-                                                                                    {item[4]?.id && (
+                                                                                    {item[4]?.id ? (
                                                                                         <>
                                                                                             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                                             <div className="flex gap-3 text-white pb-2">
@@ -1013,8 +1043,17 @@ const KorluPalawija = () => {
                                                                                                     Edit
                                                                                                 </Link>
                                                                                                 <div className="w-full">
-                                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[4]?.id) || "")} />
+                                                                                                    <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[4]?.id) || "")} />
                                                                                                 </div>
+                                                                                            </div>
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                            <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                                <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                    Tambah Data
+                                                                                                </Link>
                                                                                             </div>
                                                                                         </>
                                                                                     )}
@@ -1184,19 +1223,28 @@ const KorluPalawija = () => {
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="">
-                                                                                        {item[9]?.id && (
+                                                                                        {item[5]?.id ? (
                                                                                             <>
                                                                                                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                                                 <div className="flex gap-3 text-white pb-2">
-                                                                                                    <Link href={`/korluh/palawija/detail/${item[9]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                    <Link href={`/korluh/palawija/detail/${item[5]?.id}`} className="bg-primary rounded-full w-full py-2 text-center">
                                                                                                         Detail
                                                                                                     </Link>
-                                                                                                    <Link href={`/korluh/palawija/edit/${item[9]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                                                                                    <Link href={`/korluh/palawija/edit/${item[5]?.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
                                                                                                         Edit
                                                                                                     </Link>
                                                                                                     <div className="w-full">
-                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[9]?.id) || "")} />
+                                                                                                        <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[5]?.id) || "")} />
                                                                                                     </div>
+                                                                                                </div>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                                    <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                        Tambah Data
+                                                                                                    </Link>
                                                                                                 </div>
                                                                                             </>
                                                                                         )}
@@ -1273,7 +1321,7 @@ const KorluPalawija = () => {
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="">
-                                                                                        {item[6]?.id && (
+                                                                                        {item[6]?.id ? (
                                                                                             <>
                                                                                                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                                                 <div className="flex gap-3 text-white pb-2">
@@ -1284,8 +1332,17 @@ const KorluPalawija = () => {
                                                                                                         Edit
                                                                                                     </Link>
                                                                                                     <div className="w-full">
-                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[6]?.id) || "")} />
+                                                                                                        <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[6]?.id) || "")} />
                                                                                                     </div>
+                                                                                                </div>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                                    <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                        Tambah Data
+                                                                                                    </Link>
                                                                                                 </div>
                                                                                             </>
                                                                                         )}
@@ -1381,7 +1438,7 @@ const KorluPalawija = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="">
-                                                                        {item[7]?.id && (
+                                                                        {item[7]?.id ? (
                                                                             <>
                                                                                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                                 <div className="flex gap-3 text-white pb-2">
@@ -1392,8 +1449,17 @@ const KorluPalawija = () => {
                                                                                         Edit
                                                                                     </Link>
                                                                                     <div className="w-full">
-                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[7]?.id) || "")} />
+                                                                                        <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[7]?.id) || "")} />
                                                                                     </div>
+                                                                                </div>
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                    <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                        Tambah Data
+                                                                                    </Link>
                                                                                 </div>
                                                                             </>
                                                                         )}
@@ -1559,7 +1625,7 @@ const KorluPalawija = () => {
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="">
-                                                                                        {item[8]?.id && (
+                                                                                        {item[8]?.id ? (
                                                                                             <>
                                                                                                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                                                 <div className="flex gap-3 text-white pb-2">
@@ -1570,8 +1636,17 @@ const KorluPalawija = () => {
                                                                                                         Edit
                                                                                                     </Link>
                                                                                                     <div className="w-full">
-                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[8]?.id) || "")} />
+                                                                                                        <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[8]?.id) || "")} />
                                                                                                     </div>
+                                                                                                </div>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                                    <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                        Tambah Data
+                                                                                                    </Link>
                                                                                                 </div>
                                                                                             </>
                                                                                         )}
@@ -1648,7 +1723,7 @@ const KorluPalawija = () => {
                                                                                         </div>
                                                                                     </div>
                                                                                     <div className="">
-                                                                                        {item[9]?.id && (
+                                                                                        {item[9]?.id ? (
                                                                                             <>
                                                                                                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                                                 <div className="flex gap-3 text-white pb-2">
@@ -1659,8 +1734,17 @@ const KorluPalawija = () => {
                                                                                                         Edit
                                                                                                     </Link>
                                                                                                     <div className="w-full">
-                                                                                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[9]?.id) || "")} />
+                                                                                                        <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[9]?.id) || "")} />
                                                                                                     </div>
+                                                                                                </div>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                                                <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                                    <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                                        Tambah Data
+                                                                                                    </Link>
                                                                                                 </div>
                                                                                             </>
                                                                                         )}
@@ -1757,7 +1841,7 @@ const KorluPalawija = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className="">
-                                                                    {item[10]?.id && (
+                                                                    {item[10]?.id ? (
                                                                         <>
                                                                             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                             <div className="flex gap-3 text-white pb-2">
@@ -1768,8 +1852,17 @@ const KorluPalawija = () => {
                                                                                     Edit
                                                                                 </Link>
                                                                                 <div className="w-full">
-                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[10]?.id) || "")} />
+                                                                                    <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[10]?.id) || "")} />
                                                                                 </div>
+                                                                            </div>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Tambah Data
+                                                                                </Link>
                                                                             </div>
                                                                         </>
                                                                     )}
@@ -1861,7 +1954,7 @@ const KorluPalawija = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className="">
-                                                                    {item[11]?.id && (
+                                                                    {item[11]?.id ? (
                                                                         <>
                                                                             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                             <div className="flex gap-3 text-white pb-2">
@@ -1872,8 +1965,17 @@ const KorluPalawija = () => {
                                                                                     Edit
                                                                                 </Link>
                                                                                 <div className="w-full">
-                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[11]?.id) || "")} />
+                                                                                    <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[11]?.id) || "")} />
                                                                                 </div>
+                                                                            </div>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Tambah Data
+                                                                                </Link>
                                                                             </div>
                                                                         </>
                                                                     )}
@@ -1965,7 +2067,7 @@ const KorluPalawija = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className="">
-                                                                    {item[12]?.id && (
+                                                                    {item[12]?.id ? (
                                                                         <>
                                                                             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                             <div className="flex gap-3 text-white pb-2">
@@ -1976,8 +2078,17 @@ const KorluPalawija = () => {
                                                                                     Edit
                                                                                 </Link>
                                                                                 <div className="w-full">
-                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[12]?.id) || "")} />
+                                                                                    <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[12]?.id) || "")} />
                                                                                 </div>
+                                                                            </div>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Tambah Data
+                                                                                </Link>
                                                                             </div>
                                                                         </>
                                                                     )}
@@ -2069,7 +2180,7 @@ const KorluPalawija = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className="">
-                                                                    {item[13]?.id && (
+                                                                    {item[13]?.id ? (
                                                                         <>
                                                                             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                             <div className="flex gap-3 text-white pb-2">
@@ -2080,8 +2191,17 @@ const KorluPalawija = () => {
                                                                                     Edit
                                                                                 </Link>
                                                                                 <div className="w-full">
-                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[13]?.id) || "")} />
+                                                                                    <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[13]?.id) || "")} />
                                                                                 </div>
+                                                                            </div>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Tambah Data
+                                                                                </Link>
                                                                             </div>
                                                                         </>
                                                                     )}
@@ -2173,7 +2293,7 @@ const KorluPalawija = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className="">
-                                                                    {item[14]?.id && (
+                                                                    {item[14]?.id ? (
                                                                         <>
                                                                             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                             <div className="flex gap-3 text-white pb-2">
@@ -2184,8 +2304,17 @@ const KorluPalawija = () => {
                                                                                     Edit
                                                                                 </Link>
                                                                                 <div className="w-full">
-                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[14]?.id) || "")} />
+                                                                                    <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[14]?.id) || "")} />
                                                                                 </div>
+                                                                            </div>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Tambah Data
+                                                                                </Link>
                                                                             </div>
                                                                         </>
                                                                     )}
@@ -2277,7 +2406,7 @@ const KorluPalawija = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className="">
-                                                                    {item[15]?.id && (
+                                                                    {item[15]?.id ? (
                                                                         <>
                                                                             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                             <div className="flex gap-3 text-white pb-2">
@@ -2288,8 +2417,17 @@ const KorluPalawija = () => {
                                                                                     Edit
                                                                                 </Link>
                                                                                 <div className="w-full">
-                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[15]?.id) || "")} />
+                                                                                    <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[15]?.id) || "")} />
                                                                                 </div>
+                                                                            </div>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Tambah Data
+                                                                                </Link>
                                                                             </div>
                                                                         </>
                                                                     )}
@@ -2381,7 +2519,7 @@ const KorluPalawija = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className="">
-                                                                    {item[16]?.id && (
+                                                                    {item[16]?.id ? (
                                                                         <>
                                                                             <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
                                                                             <div className="flex gap-3 text-white pb-2">
@@ -2392,8 +2530,17 @@ const KorluPalawija = () => {
                                                                                     Edit
                                                                                 </Link>
                                                                                 <div className="w-full">
-                                                                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item[16]?.id) || "")} />
+                                                                                    <DeletePopupTitik className="bg-red-500 text-white rounded-full w-full py-2" onDelete={() => handleDelete(String(item[16]?.id) || "")} />
                                                                                 </div>
+                                                                            </div>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                                                            <div className="flex gap-3 text-white pb-2 w-1/2 justify-center m-auto">
+                                                                                <Link href={`/korluh/palawija/tambah`} className="bg-primary rounded-full w-full py-2 text-center">
+                                                                                    Tambah Data
+                                                                                </Link>
                                                                             </div>
                                                                         </>
                                                                     )}
@@ -2419,7 +2566,7 @@ const KorluPalawija = () => {
             {/* mobile table */}
 
             {/* table */}
-            <div className="hidden md:block" >
+            <div className="hidden md:block">
                 <Table className='border border-slate-200 mt-2'>
                     <TableHeader className='bg-primary-600'>
                         <TableRow >
