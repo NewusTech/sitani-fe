@@ -54,7 +54,7 @@ import {
 import NotFoundSearch from '@/components/SearchNotFound';
 import AjukanKembali from '@/components/superadmin/Ajukan';
 
-const StatusLaporanPadi = () => {
+const StatusLaporanPalawija = () => {
 
     // otomatis hitung tahun
     const currentYear = new Date().getFullYear();
@@ -69,7 +69,7 @@ const StatusLaporanPadi = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataStatus }: SWRResponse<any> = useSWR(
-        `/status-laporan/padi?tahun=${tahun}&status=${status === "semua" ? "" : status}`,
+        `/status-laporan/palawija?tahun=${tahun}&status=${status === "semua" ? "" : status}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -101,7 +101,7 @@ const StatusLaporanPadi = () => {
     // Ajukan
     const handleAjukanKembaliFunction = async (id: number) => {
         try {
-            const response = await axiosPrivate.post(`/validasi/korluh-padi/update/${id}`, {
+            const response = await axiosPrivate.post(`/validasi/korluh-palawija/update/${id}`, {
                 status: "tunggu"
             });
             // alert
@@ -143,7 +143,7 @@ const StatusLaporanPadi = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/status-laporan/padi?tahun=${tahun}&status=${status === "semua" ? "" : status}`);
+        } mutate(`/status-laporan/palawija?tahun=${tahun}&status=${status === "semua" ? "" : status}`);
     };
     // Ajukan
 
@@ -151,7 +151,7 @@ const StatusLaporanPadi = () => {
     return (
         <div>
             {/* title */}
-            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Status Laporan Padi</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Status Laporan Palawija</div>
             {/* title */}
 
             {/*  */}
@@ -284,7 +284,7 @@ const StatusLaporanPadi = () => {
                                         <div className="flex items-center justify-center gap-4">
                                             <Link
                                                 className={`px-4 py-2 rounded-lg text-white ${item.status === 'tolak' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-300 cursor-not-allowed'}`}
-                                                href={item.status === 'tolak' ? `/korluh/padi` : '#'} // Disable link jika status bukan 'tolak'
+                                                href={item.status === 'tolak' ? `/korluh/palawija` : '#'} // Disable link jika status bukan 'tolak'
                                                 onClick={(e) => {
                                                     if (item.status !== 'tolak') {
                                                         e.preventDefault(); // Mencegah navigasi jika link dinonaktifkan
@@ -314,8 +314,9 @@ const StatusLaporanPadi = () => {
                 </TableBody>
             </Table>
             {/* table */}
+            
         </div>
     )
 }
 
-export default StatusLaporanPadi
+export default StatusLaporanPalawija

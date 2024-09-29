@@ -54,7 +54,7 @@ import {
 import NotFoundSearch from '@/components/SearchNotFound';
 import AjukanKembali from '@/components/superadmin/Ajukan';
 
-const StatusLaporanPadi = () => {
+const StatusLaporanTanamanBiofarmaka = () => {
 
     // otomatis hitung tahun
     const currentYear = new Date().getFullYear();
@@ -69,7 +69,7 @@ const StatusLaporanPadi = () => {
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataStatus }: SWRResponse<any> = useSWR(
-        `/status-laporan/padi?tahun=${tahun}&status=${status === "semua" ? "" : status}`,
+        `/status-laporan/biofarmaka?tahun=${tahun}&status=${status === "semua" ? "" : status}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -90,18 +90,18 @@ const StatusLaporanPadi = () => {
     const [limit, setLimit] = useState(10);
     // limit
 
-    function getMonthName(monthNumber: number): string {
-        const monthNames = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
-        return monthNames[monthNumber - 1] || "Invalid Month";
-    }
+    const getTriwulan = (triwulan: number) => {
+        if (triwulan === 1) return "Triwulan 1 (Januari - Maret)";
+        if (triwulan === 2) return "Triwulan 2 (April - Juni)";
+        if (triwulan === 3) return "Triwulan 3 (Juli - September)";
+        if (triwulan === 4) return "Triwulan 4 (Oktober - Desember)";
+        return "-";
+    };
 
     // Ajukan
     const handleAjukanKembaliFunction = async (id: number) => {
         try {
-            const response = await axiosPrivate.post(`/validasi/korluh-padi/update/${id}`, {
+            const response = await axiosPrivate.post(`/validasi/korluh-tanaman-biofarmaka/update/${id}`, {
                 status: "tunggu"
             });
             // alert
@@ -143,7 +143,7 @@ const StatusLaporanPadi = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/status-laporan/padi?tahun=${tahun}&status=${status === "semua" ? "" : status}`);
+        } mutate(`/status-laporan/biofarmaka?tahun=${tahun}&status=${status === "semua" ? "" : status}`);
     };
     // Ajukan
 
@@ -151,7 +151,7 @@ const StatusLaporanPadi = () => {
     return (
         <div>
             {/* title */}
-            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Status Laporan Padi</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Status Laporan Tanaman Hias</div>
             {/* title */}
 
             {/*  */}
@@ -241,7 +241,7 @@ const StatusLaporanPadi = () => {
                             No
                         </TableHead>
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                            Bulan
+                            Triwulan
                         </TableHead>
                         <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
                             Status
@@ -263,7 +263,7 @@ const StatusLaporanPadi = () => {
                                         {(currentPage - 1) * limit + (index + 1)}
                                     </TableCell>
                                     <TableCell className='border border-slate-200'>
-                                        {item?.bulan ? getMonthName(item?.bulan) : "-"}
+                                        {item?.triwulan ? getTriwulan(item.triwulan) : "-"}
                                     </TableCell>
                                     <TableCell className='border border-slate-200 '>
                                         <div className={`px-4 w-full text-center py-2 rounded-lg text-white 
@@ -284,7 +284,7 @@ const StatusLaporanPadi = () => {
                                         <div className="flex items-center justify-center gap-4">
                                             <Link
                                                 className={`px-4 py-2 rounded-lg text-white ${item.status === 'tolak' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-300 cursor-not-allowed'}`}
-                                                href={item.status === 'tolak' ? `/korluh/padi` : '#'} // Disable link jika status bukan 'tolak'
+                                                href={item.status === 'tolak' ? `/korluh/tanaman-biofarmaka` : '#'} // Disable link jika status bukan 'tolak'
                                                 onClick={(e) => {
                                                     if (item.status !== 'tolak') {
                                                         e.preventDefault(); // Mencegah navigasi jika link dinonaktifkan
@@ -318,4 +318,4 @@ const StatusLaporanPadi = () => {
     )
 }
 
-export default StatusLaporanPadi
+export default StatusLaporanTanamanBiofarmaka
