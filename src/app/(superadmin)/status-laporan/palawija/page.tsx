@@ -151,7 +151,7 @@ const StatusLaporanPalawija = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/status-laporan/palawija?tahun=${tahun}&status=${status === "semua" ? "" : status}`);
+        } mutate(`/status-laporan/palawija?kecamatan=${selectedKecamatan}&tahun=${tahun}&status=${status === "semua" ? "" : status}`);
     };
     // Ajukan
 

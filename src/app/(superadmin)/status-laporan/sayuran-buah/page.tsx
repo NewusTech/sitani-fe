@@ -152,7 +152,7 @@ const StatusLaporanSayuranBuah = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/status-laporan/sayur-buah?tahun=${tahun}&status=${status === "semua" ? "" : status}`);
+        } mutate(`/status-laporan/sayur-buah?kecamatan=${selectedKecamatan}&tahun=${tahun}&status=${status === "semua" ? "" : status}`);
     };
     // Ajukan
 

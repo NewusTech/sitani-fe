@@ -154,7 +154,7 @@ const StatusLaporanPadi = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/status-laporan/padi?tahun=${tahun}&status=${status === "semua" ? "" : status}`);
+        } mutate(`/status-laporan/padi?kecamatan=${selectedKecamatan}&tahun=${tahun}&status=${status === "semua" ? "" : status}`);
     };
     // Ajukan
 
