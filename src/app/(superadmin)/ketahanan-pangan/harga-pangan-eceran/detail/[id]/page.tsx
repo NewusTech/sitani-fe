@@ -8,17 +8,17 @@ import useSWR from 'swr';
 
 interface LabelProps {
     label?: string;
-    name?: string;
+    value?: string | number;
 }
 
 const LabelDetail = (props: LabelProps) => {
     return (
-        <div className='flex gap-2 justify-between lg:justify-start lg:block lg:flex-none'>
+        <div className='flex text-xs md:text-sm justify-between lg:justify-start lg:block lg:flex-none gap-5 md:gap-2'>
             <div className="label text-black">{props.label || '-'}</div>
-            <div className="name text-black/70">{props.name || '-'}</div>
+            <div className="value text-black/70">{props.value || '-'}</div>
         </div>
-    )
-}
+    );
+};
 
 const DetailHargaPanganPage = () => {
     interface Response {
@@ -83,14 +83,14 @@ const DetailHargaPanganPage = () => {
                 <div className="font-semibold mb-2 text-lg uppercase">Detail Komoditas</div>
 
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-3">
-                    <LabelDetail label="Nama Komoditas" name={komoditas} />
+                    <LabelDetail label="Nama Komoditas" value={komoditas} />
                 </div>
 
                 <div className="font-semibold text-lg mb-2 mt-3 uppercase">Harga per Bulan</div>
 
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-3">
                     {months.map((month) => (
-                        <LabelDetail key={month} label={month} name={hargaPerBulan[month]?.toString() || '-'} />
+                        <LabelDetail key={month} label={month} value={hargaPerBulan[month]?.toString() || '-'} />
                     ))}
                 </div>
             </div>

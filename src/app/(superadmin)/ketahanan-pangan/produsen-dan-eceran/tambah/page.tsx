@@ -166,6 +166,22 @@ const TambahProdusenEceran = () => {
                                 )}
                             </div>
                             <div className="flex flex-col mb-2 w-full">
+                                <Label className='text-xs lg:text-sm mb-1' label="Tanggal" />
+                                <Input
+                                    type="date"
+                                    placeholder="Masukkan Tanggal"
+                                    {...register('tanggal')}
+                                    className={`${errors.tanggal ? 'border-red-500' : 'py-5 text-xs lg:text-sm block'}`}
+                                />
+                                {errors.tanggal && (
+                                    <HelperError>{errors.tanggal.message}</HelperError>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="">
+                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-xs lg:text-sm mb-1' label="Satuan" />
                                 <Input
                                     type="text"
@@ -177,10 +193,6 @@ const TambahProdusenEceran = () => {
                                     <HelperError>{errors.satuan.message}</HelperError>
                                 )}
                             </div>
-                        </div>
-                    </div>
-                    <div className="">
-                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-xs lg:text-sm mb-1' label="Harga Komoditas ( Rp / Kg)" />
                                 <Input

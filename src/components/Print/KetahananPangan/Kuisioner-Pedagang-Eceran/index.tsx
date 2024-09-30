@@ -39,7 +39,7 @@ interface PrintProps {
     startDate?: string;
     endDate?: string;
     kecamatan?: string;
-    tahun?: number
+    tahun?: string;
 }
 
 const KuisionerPedagangEceranPrint = (props: PrintProps) => {

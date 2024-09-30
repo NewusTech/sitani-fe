@@ -59,7 +59,7 @@ import TambahIcon from '../../../../../public/icons/TambahIcon'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
-import { id } from 'date-fns/locale'; // Import Indonesian locale
+import { id } from 'date-fns/locale';
 import Label from '@/components/ui/label'
 import {
     Tooltip,
@@ -101,6 +101,7 @@ import {
 } from "lucide-react"
 import DeletePopupTitik from '@/components/superadmin/TitikDelete'
 import NotFoundSearch from '@/components/SearchNotFound'
+import TahunSelect from '@/components/superadmin/SelectComponent/SelectTahun'
 // Filter di mobile
 
 const KoefisienVariasiProduksi = () => {
@@ -167,18 +168,14 @@ const KoefisienVariasiProduksi = () => {
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    // otomatis hitung tahun
-    const currentYear = new Date().getFullYear();
-    const startYear = currentYear - 5;
-    const endYear = currentYear + 1;
-    // const [tahun, setTahun] = React.useState("2024");
-    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
-    // otomatis hitung tahun
+    // filter tahun dinamis
+    const [selectedTahun, setSelectedTahun] = useState<string>(new Date().getFullYear().toString());
+    // filter tahun dinamis
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataProduksi }: SWRResponse<Response> = useSWR(
-        `/kepang/cv-produksi/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`,
+        `/kepang/cv-produksi/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -303,41 +300,27 @@ const KoefisienVariasiProduksi = () => {
                         </div>
                         {/* print */}
                         <KoefisienVariasiProduksiPrint
-                            urlApi={`/kepang/cv-produksi/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
-                            tahun={tahun}
+                            urlApi={`/kepang/cv-produksi/get?page=${currentPage}&year=${selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                            tahun={selectedTahun}
                         />
                         {/* print */}
                     </div>
                     {/* top */}
                     <div className="flex gap-2 lg:justify-between lg:items-center w-full mt-4">
                         <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                            <div className="w-fit">
-                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Tahun">
-                                            {tahun ? tahun : "Tahun"}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
-                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                            const year = startYear + index;
-                                            return (
-                                                <SelectItem key={year} value={year.toString()}>
-                                                    {year}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <div className="w-[40px] h-[40px]">
-                                <FilterTable
-                                    columns={columns}
-                                    defaultCheckedKeys={getDefaultCheckedKeys()}
-                                    onFilterChange={handleFilterChange}
-                                />
-                            </div>
+                            <TahunSelect
+                                url='/kepang/master-tahun/cv-produksi'
+                                // semua= {true}
+                                value={selectedTahun}
+                                onChange={(value) => {
+                                    setSelectedTahun(value);
+                                }}
+                            />
+                            <FilterTable
+                                columns={columns}
+                                defaultCheckedKeys={getDefaultCheckedKeys()}
+                                onFilterChange={handleFilterChange}
+                            />
                         </div>
                         <div className="w-full">
                             <div className="flex justify-end">
@@ -368,197 +351,29 @@ const KoefisienVariasiProduksi = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md ml-5 w-[280px]">
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md ml-5 w-full">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
-                                    {/* <hr className="border border-primary transition-all ease-in-out animate-pulse ml-2 mr-2" /> */}
                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                     <div className="bg-white w-full h-full">
                                         <div className="flex flex-col w-full px-2 py-2">
-                                            {/* Filter Kecamatan */}
-                                            {/* <>
-                        <Label className='text-xs mb-1 !text-black opacity-50' label="Kecamatan" />
-                        <div className="w-full mb-2">
-                          <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                            <SelectTrigger className='text-xs'>
-                              <SelectValue placeholder="Tahun">
-                                {tahun ? tahun : "Tahun"}
-                              </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                              {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                const year = startYear + index;
-                                return (
-                                  <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                    {year}
-                                  </SelectItem>
-                                );
-                              })}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </> */}
-                                            {/* Filter Kecamatan */}
-
-                                            {/* Filter Desa */}
-                                            {/* <>
-                        <Label className='text-xs mb-1 !text-black opacity-50' label="Desa" />
-                        <div className="w-full mb-2">
-                          <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                            <SelectTrigger className='text-xs'>
-                              <SelectValue placeholder="Tahun">
-                                {tahun ? tahun : "Tahun"}
-                              </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                              {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                const year = startYear + index;
-                                return (
-                                  <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                    {year}
-                                  </SelectItem>
-                                );
-                              })}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </> */}
-                                            {/* Filter Desa */}
-
-                                            {/* Filter Rentang Tanggal */}
-                                            <>
-                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Rentang Tanggal" />
-                                                <div className="flex gap-2 justify-between items-center w-full mb-2">
-                                                    <div className="w-full">
-                                                        <Popover>
-                                                            <PopoverTrigger asChild>
-                                                                <Button
-                                                                    variant="outline"
-                                                                    className={cn(
-                                                                        "w-full flex items-center justify-between text-left font-normal text-[11px] lg:text-sm",
-                                                                        !startDate && "text-muted-foreground"
-                                                                    )}
-                                                                >
-                                                                    <div className="flex gap-2 justify-between">
-                                                                        <span className="pl-2 text-xs">
-                                                                            {startDate
-                                                                                ? format(startDate, "dd/MM/yyyy", { locale: id })
-                                                                                : "Tanggal Awal"}
-                                                                        </span>
-                                                                        <CalendarIcon className="h-4 w-4 text-primary mr-2" />
-                                                                    </div>
-                                                                </Button>
-                                                            </PopoverTrigger>
-                                                            <PopoverContent className="w-auto p-0">
-                                                                <DatePicker
-                                                                    inline
-                                                                    selected={startDate}
-                                                                    onChange={(date: any) => setstartDate(date)}
-                                                                    showYearDropdown
-                                                                    dateFormat="dd/MM/yyyy"
-                                                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                                                    yearDropdownItemNumber={15}
-                                                                    scrollableYearDropdown
-                                                                    locale={id}
-                                                                />
-                                                            </PopoverContent>
-                                                        </Popover>
-                                                    </div>
-                                                    <div className="text-xs">to</div>
-                                                    <div className="w-full">
-                                                        <Popover>
-                                                            <PopoverTrigger asChild>
-                                                                <Button
-                                                                    variant="outline"
-                                                                    className={cn(
-                                                                        "w-full flex items-center justify-between text-left font-normal text-xs lg:text-sm",
-                                                                        !endDate && "text-muted-foreground"
-                                                                    )}
-                                                                >
-                                                                    <div className="flex gap-2 justify-between">
-                                                                        <span className="pl-2 text-xs">
-                                                                            {endDate
-                                                                                ? format(endDate, "dd/MM/yyyy", { locale: id })
-                                                                                : "Tanggal Akhir"}
-                                                                        </span>
-                                                                        <CalendarIcon className="h-4 w-4 text-primary mr-2" />
-                                                                    </div>
-                                                                </Button>
-                                                            </PopoverTrigger>
-                                                            <PopoverContent className="w-auto p-0">
-                                                                <DatePicker
-                                                                    inline
-                                                                    selected={endDate}
-                                                                    onChange={(date: any) => setendDate(date)}
-                                                                    showYearDropdown
-                                                                    dateFormat="dd/MM/yyyy"
-                                                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                                                    yearDropdownItemNumber={15}
-                                                                    scrollableYearDropdown
-                                                                    locale={id}
-                                                                />
-                                                            </PopoverContent>
-                                                        </Popover>
-                                                    </div>
-                                                </div>
-                                            </>
-                                            {/* Filter Rentang Tanggal */}
-
                                             {/* Filter Tahun Bulan */}
                                             <>
                                                 <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun" />
                                                 <div className="flex gap-2 justify-between items-center w-full">
                                                     {/* filter tahun */}
-                                                    <div className="w-full">
-                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Tahun">
-                                                                    {tahun ? tahun : "Tahun"}
-                                                                </SelectValue>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                    const year = startYear + index;
-                                                                    return (
-                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                            {year}
-                                                                        </SelectItem>
-                                                                    );
-                                                                })}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
-                                                    {/* filter tahun */}
-                                                    {/* Filter bulan */}
-                                                    {/* <div className="w-1/2">
-                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Tahun">
-                                                                    {tahun ? tahun : "Tahun"}
-                                                                </SelectValue>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                    const year = startYear + index;
-                                                                    return (
-                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                            {year}
-                                                                        </SelectItem>
-                                                                    );
-                                                                })}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div> */}
-                                                    {/* Filter bulan */}
+                                                    <TahunSelect
+                                                        url='/kepang/master-tahun/cv-produksi'
+                                                        // semua= {true}
+                                                        value={selectedTahun}
+                                                        onChange={(value) => {
+                                                            setSelectedTahun(value);
+                                                        }}
+                                                    />
                                                 </div>
                                             </>
                                             {/* Filter Tahun Bulan */}
-
                                         </div>
                                     </div>
                                 </DropdownMenuContent>
@@ -575,8 +390,8 @@ const KoefisienVariasiProduksi = () => {
 
                             {/* unduh print */}
                             <KoefisienVariasiProduksiPrint
-                                urlApi={`/kepang/cv-produksi/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
-                                tahun={tahun}
+                                urlApi={`/kepang/cv-produksi/get?page=${currentPage}&year=${selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                                tahun={selectedTahun}
                             />
                             {/* unduh print */}
                         </div>

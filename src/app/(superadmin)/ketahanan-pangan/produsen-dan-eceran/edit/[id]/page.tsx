@@ -15,6 +15,15 @@ import { useParams, useRouter } from 'next/navigation';
 import useSWR, { mutate, SWRResponse } from 'swr';
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 
+const formatDate = (dateString?: string) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
 const formSchema = z.object({
 
     satuan: z
@@ -157,6 +166,20 @@ const EditProdusenEceran = () => {
                                 />
                             </div>
                             <div className="flex flex-col mb-2 w-full">
+                                <Label className='text-xs lg:text-sm mb-1' label="Tanggal" />
+                                <Input
+                                    type="text"
+                                    placeholder="Tahun"
+                                    disabled={true}
+                                    value={formatDate(dataKomoditas?.data?.createdAt) || ''}
+                                    className='text-xs md:text-sm block'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="">
+                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
+                            <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-xs lg:text-sm mb-1' label="Satuan" />
                                 <Input
                                     type="text"
@@ -168,10 +191,6 @@ const EditProdusenEceran = () => {
                                     <HelperError>{errors.satuan.message}</HelperError>
                                 )}
                             </div>
-                        </div>
-                    </div>
-                    <div className="">
-                        <div className="flex md:flex-row flex-col justify-between gap-2 md:lg-3 lg:gap-5">
                             <div className="flex flex-col mb-2 w-full">
                                 <Label className='text-xs lg:text-sm mb-1' label="Harga Komoditas ( Rp / Kg)" />
                                 <Input
@@ -209,7 +228,7 @@ const EditProdusenEceran = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Edit"
+                            "Simpan"
                         )}
                     </Button>
                 </div>

@@ -39,6 +39,7 @@ interface PrintProps {
     startDate?: string;
     endDate?: string;
     kecamatan?: string;
+    tahun?: string;
 }
 
 const KetahananPanganProdusenEceranPrint = (props: PrintProps) => {
@@ -157,7 +158,7 @@ const KetahananPanganProdusenEceranPrint = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepang-produsen-eceran?startDate=${props.startDate}&endDate=${props.endDate}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepang-produsen-eceran?startDate=${props.startDate}&endDate=${props.endDate}&year=${props.tahun}`;
 
         try {
             const response = await fetch(url, {

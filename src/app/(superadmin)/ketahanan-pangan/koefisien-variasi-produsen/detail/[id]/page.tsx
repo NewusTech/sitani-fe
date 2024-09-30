@@ -6,11 +6,6 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';
 
-interface LabelProps {
-    label?: string;
-    value?: string | number;
-}
-
 function formatDate(date: string): string {
     const [year, month] = date.split("-");
     // Convert the month to remove leading zeros (e.g., "06" -> "6")
@@ -18,11 +13,16 @@ function formatDate(date: string): string {
     return `${year}/${formattedMonth}`;
 }
 
+interface LabelProps {
+    label?: string;
+    value?: string | number;
+}
+
 const LabelDetail = (props: LabelProps) => {
     return (
         <div className='flex text-xs md:text-sm justify-between lg:justify-start lg:block lg:flex-none gap-5 md:gap-2'>
             <div className="label text-black">{props.label || '-'}</div>
-            <div className="name text-black/70 text-end md:text-start">{props.value || '-'}</div>
+            <div className="value text-black/70 text-end md:text-start">{props.value || '-'}</div>
         </div>
     );
 };
@@ -90,8 +90,10 @@ const DetailKoefisienVariasiProdusen = () => {
                 <div className="font-semibold mb-2 text-base md:text-lg">Koefisien Variasi Produsen</div>
                 <div className="grid grid-cols-1 md:grid-cols-2  gap-2 md:gap-3">
                     <LabelDetail label='Komoditas' value={data?.komoditas?.nama} />
-                    <LabelDetail label='Bulan' value=
-                        {formatDate(data?.kepangCvProdusen?.bulan || '')} />
+                    <LabelDetail
+                        label='Bulan'
+                        value={new Date(data?.kepangCvProdusen?.bulan).toLocaleDateString('id-ID', { year: 'numeric', month: 'long' })}
+                    />
                     <LabelDetail label='Nilai' value={data?.nilai} />
                 </div>
             </div>

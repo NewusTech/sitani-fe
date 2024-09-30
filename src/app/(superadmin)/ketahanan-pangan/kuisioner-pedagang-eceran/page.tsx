@@ -103,6 +103,7 @@ import {
 } from "lucide-react"
 import NotFoundSearch from '@/components/SearchNotFound'
 import DeletePopupTitik from '@/components/superadmin/TitikDelete'
+import TahunSelect from '@/components/superadmin/SelectComponent/SelectTahun'
 // Filter di mobile
 
 interface Komoditas {
@@ -188,18 +189,14 @@ const KuisionerPedagangEceran = () => {
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    // otomatis hitung tahun
-    const currentYear = new Date().getFullYear();
-    const startYear = currentYear - 5;
-    const endYear = currentYear + 1;
-    // const [tahun, setTahun] = React.useState("2024");
-    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
-    // otomatis hitung tahun
+    // filter tahun dinamis
+    const [selectedTahun, setSelectedTahun] = useState<string>(new Date().getFullYear().toString());
+    // filter tahun dinamis
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataProdusenEceran }: SWRResponse<Response> = useSWR(
-        `/kepang/pedagang-eceran/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`,
+        `/kepang/pedagang-eceran/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -243,7 +240,7 @@ const KuisionerPedagangEceran = () => {
             });
             // alert
             // Update the local data after successful deletion
-            mutate(`/kepang/pedagang-eceran/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`);
+            mutate(`/kepang/pedagang-eceran/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`);
         } catch (error) {
             console.error('Failed to delete:', error);
             console.log(id)
@@ -322,7 +319,8 @@ const KuisionerPedagangEceran = () => {
                         </div>
                         {/* print */}
                         <KuisionerPedagangEceranPrint
-                            urlApi={`/kepang/pedagang-eceran/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                            urlApi={`/kepang/pedagang-eceran/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                            tahun={selectedTahun}
                         />
                         {/* print */}
                     </div>
@@ -391,28 +389,15 @@ const KuisionerPedagangEceran = () => {
                                 </div>
                             </>
                             {/* filter tahun */}
-                            <div className="w-fit">
-                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Tahun">
-                                            {tahun ? tahun : "Tahun"}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
-                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                            const year = startYear + index;
-                                            return (
-                                                <SelectItem key={year} value={year.toString()}>
-                                                    {year}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                    </SelectContent>
-                                </Select>
-                            </div>
+                            <TahunSelect
+                                url='kepang/master-tahun/perbandingan-harga'
+                                semua={true}
+                                value={selectedTahun}
+                                onChange={(value) => {
+                                    setSelectedTahun(value);
+                                }}
+                            />
                             {/* filter tahun */}
-                            {/* filter tanggal */}
                             <div className="w-[40px] h-[40px]">
                                 <FilterTable
                                     columns={columns}
@@ -594,26 +579,14 @@ const KuisionerPedagangEceran = () => {
                                                 <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun" />
                                                 <div className="flex gap-2 justify-between items-center w-full">
                                                     {/* filter tahun */}
-                                                    <div className="w-full">
-                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Tahun">
-                                                                    {tahun ? tahun : "Tahun"}
-                                                                </SelectValue>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                    const year = startYear + index;
-                                                                    return (
-                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                            {year}
-                                                                        </SelectItem>
-                                                                    );
-                                                                })}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
+                                                    <TahunSelect
+                                                        url='kepang/master-tahun/perbandingan-harga'
+                                                        semua={true}
+                                                        value={selectedTahun}
+                                                        onChange={(value) => {
+                                                            setSelectedTahun(value);
+                                                        }}
+                                                    />
                                                     {/* filter tahun */}
                                                     {/* Filter bulan */}
                                                     {/* <div className="w-1/2">
@@ -657,7 +630,7 @@ const KuisionerPedagangEceran = () => {
 
                             {/* unduh print */}
                             <KuisionerPedagangEceranPrint
-                                urlApi={`/kepang/pedagang-eceran/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                                urlApi={`/kepang/pedagang-eceran/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
                             />
                             {/* unduh print */}
                         </div>

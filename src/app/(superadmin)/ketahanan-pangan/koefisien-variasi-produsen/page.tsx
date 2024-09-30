@@ -98,6 +98,7 @@ import {
 } from "@/components/ui/popover"
 import NotFoundSearch from '@/components/SearchNotFound'
 import DeletePopupTitik from '@/components/superadmin/TitikDelete'
+import TahunSelect from '@/components/superadmin/SelectComponent/SelectTahun'
 // Filter di mobile
 
 interface Komoditas {
@@ -165,18 +166,14 @@ const KoefisienVariasiProdusen = () => {
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    // otomatis hitung tahun
-    const currentYear = new Date().getFullYear();
-    const startYear = currentYear - 5;
-    const endYear = currentYear + 1;
-    // const [tahun, setTahun] = React.useState("2024");
-    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
-    // otomatis hitung tahun
+    // filter tahun dinamis
+    const [selectedTahun, setSelectedTahun] = useState<string>(new Date().getFullYear().toString());
+    // filter tahun dinamis
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data, error } = useSWR<Response>(
-        `/kepang/cv-produsen/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`,
+        `/kepang/cv-produsen/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -256,7 +253,7 @@ const KoefisienVariasiProdusen = () => {
             });
             console.error("Failed to create user:", error);
         }
-        mutate(`/kepang/cv-produsen/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`);
+        mutate(`/kepang/cv-produsen/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`);
     };
 
     return (
@@ -280,34 +277,23 @@ const KoefisienVariasiProdusen = () => {
                 </div> */}
                         {/* print */}
                         <KoefisienVariasiProdusenPrint
-                            urlApi={`/kepang/cv-produsen/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
-                            tahun={tahun}
+                            urlApi={`/kepang/cv-produsen/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                            tahun={selectedTahun}
                         />
                         {/* print */}
                     </div>
                     {/* top */}
                     <div className="flex gap-2 lg:justify-between lg:items-center w-full mt-4">
                         <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                            <div className="w-auto">
-                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Tahun">
-                                            {tahun ? tahun : "Tahun"}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
-                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                            const year = startYear + index;
-                                            return (
-                                                <SelectItem key={year} value={year.toString()}>
-                                                    {year}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                    </SelectContent>
-                                </Select>
-                            </div>
+                            {/* filter tahun */}
+                            <TahunSelect
+                                url='/kepang/master-tahun/cv-produsen'
+                                // semua= {true}
+                                value={selectedTahun}
+                                onChange={(value) => {
+                                    setSelectedTahun(value);
+                                }}
+                            />
                             {/* <div className="w-[40px] h-[40px]">
                         <Button variant="outlinePrimary" className=''>
                             <FilterIcon />
@@ -342,7 +328,7 @@ const KoefisienVariasiProdusen = () => {
                                         <Filter className="text-primary w-5 h-5" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md ml-5 w-[280px]">
+                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md ml-5 w-full">
                                     <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
                                         Menu Filter
                                     </DropdownMenuLabel>
@@ -483,29 +469,18 @@ const KoefisienVariasiProdusen = () => {
 
                                             {/* Filter Tahun Bulan */}
                                             <>
-                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
+                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun" />
                                                 <div className="flex gap-2 justify-between items-center w-full">
                                                     {/* filter tahun */}
-                                                    <div className="w-full">
-                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Tahun">
-                                                                    {tahun ? tahun : "Tahun"}
-                                                                </SelectValue>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                    const year = startYear + index;
-                                                                    return (
-                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                            {year}
-                                                                        </SelectItem>
-                                                                    );
-                                                                })}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
+                                                    {/* filter tahun */}
+                                                    <TahunSelect
+                                                        url='/kepang/master-tahun/cv-produsen'
+                                                        // semua= {true}
+                                                        value={selectedTahun}
+                                                        onChange={(value) => {
+                                                            setSelectedTahun(value);
+                                                        }}
+                                                    />
                                                     {/* filter tahun */}
                                                     {/* Filter bulan */}
                                                     {/* <div className="w-full">
@@ -558,8 +533,8 @@ const KoefisienVariasiProdusen = () => {
 
                             {/* unduh print */}
                             <KoefisienVariasiProdusenPrint
-                                urlApi={`/kepang/cv-produsen/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
-                                tahun={tahun}
+                                urlApi={`/kepang/cv-produsen/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
+                                tahun={selectedTahun}
                             />
                             {/* unduh print */}
                         </div>

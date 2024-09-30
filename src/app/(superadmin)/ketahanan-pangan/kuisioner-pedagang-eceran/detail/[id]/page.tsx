@@ -13,8 +13,8 @@ interface LabelProps {
 const LabelDetail = (props: LabelProps) => {
     return (
         <div className='flex text-xs md:text-sm justify-between lg:justify-start lg:block lg:flex-none gap-5 md:gap-2'>
-            <div className="label text-black font-semibold">{props.label || '-'}</div>
-            <div className="value text-black/70 text-end md:text-center">{props.value || '-'}</div>
+            <div className="label text-black">{props.label || '-'}</div>
+            <div className="value text-black/70">{props.value || '-'}</div>
         </div>
     );
 };
