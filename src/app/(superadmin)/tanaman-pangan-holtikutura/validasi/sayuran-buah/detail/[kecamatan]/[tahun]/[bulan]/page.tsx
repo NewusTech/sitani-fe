@@ -2,14 +2,14 @@
 
 import { Input } from '@/components/ui/input'
 import React, { useState } from 'react'
-import SearchIcon from '../../../../../../../public/icons/SearchIcon'
+import SearchIcon from '../../../../../../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
-import UnduhIcon from '../../../../../../../public/icons/UnduhIcon'
-import PrintIcon from '../../../../../../../public/icons/PrintIcon'
-import FilterIcon from '../../../../../../../public/icons/FilterIcon'
+import UnduhIcon from '../../../../../../../../../../public/icons/UnduhIcon'
+import PrintIcon from '../../../../../../../../../../public/icons/PrintIcon'
+import FilterIcon from '../../../../../../../../../../public/icons/FilterIcon'
 import Link from 'next/link'
-import EditIcon from '../../../../../../../public/icons/EditIcon'
-import EyeIcon from '../../../../../../../public/icons/EyeIcon'
+import EditIcon from '../../../../../../../../../../public/icons/EditIcon'
+import EyeIcon from '../../../../../../../../../../public/icons/EyeIcon'
 // Filter di mobile
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -107,10 +107,10 @@ import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecam
 import VerifikasiPopup from '@/components/superadmin/PopupVerifikasi';
 import TolakPopup from '@/components/superadmin/TolakVerifikasi';
 import KorluhSayuranMobile from '@/components/KorluhMobile/KorluhSayuranMobile';
-import TambahIcon from '../../../../../../../public/icons/TambahIcon';
+import TambahIcon from '../../../../../../../../../../public/icons/TambahIcon';
 import NotFoundSearch from '@/components/SearchNotFound';
 import DeletePopupTitik from '@/components/superadmin/TitikDelete';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useParams } from 'next/navigation';
 
 
 const KorluhSayuranBuah = () => {
@@ -151,13 +151,8 @@ const KorluhSayuranBuah = () => {
     // limit
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
-    const searchParams = useSearchParams();
-
-    // Ambil query parameters dari URL
-    const kecamatan = searchParams.get('kecamatan');
-    const tahun = searchParams.get('tahun');
-    const bulan = searchParams.get('bulan');
-
+    
+    const { kecamatan, tahun, bulan } = useParams(); // Menangkap parameter dinamis
 
     // GETALL
     const { data: dataSayuran }: SWRResponse<any> = useSWR(

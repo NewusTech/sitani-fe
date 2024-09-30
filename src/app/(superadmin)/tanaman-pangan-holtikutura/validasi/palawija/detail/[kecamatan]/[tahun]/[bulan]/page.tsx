@@ -2,14 +2,14 @@
 
 import { Input } from '@/components/ui/input'
 import React, { useState } from 'react'
-import SearchIcon from '../../../../../../../public/icons/SearchIcon'
+import SearchIcon from '../../../../../../../../../../public/icons/SearchIcon'
 import { Button } from '@/components/ui/button'
-import UnduhIcon from '../../../../../../../public/icons/UnduhIcon'
-import PrintIcon from '../../../../../../../public/icons/PrintIcon'
-import FilterIcon from '../../../../../../../public/icons/FilterIcon'
+import UnduhIcon from '../../../../../../../../../../public/icons/UnduhIcon'
+import PrintIcon from '../../../../../../../../../../public/icons/PrintIcon'
+import FilterIcon from '../../../../../../../../../../public/icons/FilterIcon'
 import Link from 'next/link'
-import EditIcon from '../../../../../../../public/icons/EditIcon'
-import EyeIcon from '../../../../../../../public/icons/EyeIcon'
+import EditIcon from '../../../../../../../../../../public/icons/EditIcon'
+import EyeIcon from '../../../../../../../../../../public/icons/EyeIcon'
 
 // Filter di mobile
 import DatePicker from "react-datepicker";
@@ -114,10 +114,10 @@ import { SWRResponse, mutate } from "swr";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import PaginationTable from '@/components/PaginationTable';
-import TambahIcon from '../../../../../../../public/icons/TambahIcon';
+import TambahIcon from '../../../../../../../../../../public/icons/TambahIcon';
 import NotFoundSearch from '@/components/SearchNotFound';
 import DeletePopupTitik from '@/components/superadmin/TitikDelete';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useParams } from 'next/navigation';
 
 const KorluPalawijaDetail = () => {
     const [startDate, setstartDate] = React.useState<Date>()
@@ -139,12 +139,7 @@ const KorluPalawijaDetail = () => {
     };
     // pagination
 
-    const searchParams = useSearchParams();
-
-    // Ambil query parameters dari URL
-    const kecamatan = searchParams.get('kecamatan');
-    const tahun = searchParams.get('tahun');
-    const bulan = searchParams.get('bulan');
+    const { kecamatan, tahun, bulan } = useParams(); // Menangkap parameter dinamis
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();

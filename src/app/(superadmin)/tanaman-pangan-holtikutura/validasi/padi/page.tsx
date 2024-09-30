@@ -440,7 +440,7 @@ const ValidasiPadi = () => {
                     </div>
                 </div>
                 <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
-                    <Link href={`/tanaman-pangan-holtikutura/validasi/padi/detail/?kecamatan=${selectedKecamatan}&tahun=${tahun}&bulan=${bulan}`} className='bg-blue-500 px-3 py-3 rounded-full text-white hover:bg-blue-500/80 p-2 border border-blue-500 text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
+                    <Link href={`/tanaman-pangan-holtikutura/validasi/padi/detail/${selectedKecamatan}/${tahun}/${bulan}`} className='bg-blue-500 px-3 py-3 rounded-full text-white hover:bg-blue-500/80 p-2 border border-blue-500 text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         Detail
                     </Link>
                     <Link href="/tanaman-pangan-holtikutura/validasi/padi/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>

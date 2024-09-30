@@ -2,14 +2,14 @@
 
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
-import SearchIcon from "../../../../../../../public/icons/SearchIcon";
+import SearchIcon from "../../../../../../../../../../public/icons/SearchIcon";
 import { Button } from "@/components/ui/button";
-import UnduhIcon from "../../../../../../../public/icons/UnduhIcon";
-import PrintIcon from "../../../../../../../public/icons/PrintIcon";
-import FilterIcon from "../../../../../../../public/icons/FilterIcon";
+import UnduhIcon from "../../../../../../../../../../public/icons/UnduhIcon";
+import PrintIcon from "../../../../../../../../../../public/icons/PrintIcon";
+import FilterIcon from "../../../../../../../../../../public/icons/FilterIcon";
 import Link from "next/link";
-import EditIcon from "../../../../../../../public/icons/EditIcon";
-import EyeIcon from "../../../../../../../public/icons/EyeIcon";
+import EditIcon from "../../../../../../../../../../public/icons/EditIcon";
+import EyeIcon from "../../../../../../../../../../public/icons/EyeIcon";
 
 // Filter di mobile
 import DatePicker from "react-datepicker";
@@ -95,14 +95,14 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel"
-import TambahIcon from "../../../../../../../public/icons/TambahIcon";
+import TambahIcon from "../../../../../../../../../../public/icons/TambahIcon";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/ui/accordion"
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useParams } from 'next/navigation';
 
 
 const KorlubPadiDetail = () => {
@@ -212,12 +212,7 @@ const KorlubPadiDetail = () => {
 	};
 	// pagination
 
-	const searchParams = useSearchParams();
-
-	// Ambil query parameters dari URL
-	const kecamatan = searchParams.get('kecamatan');
-	const tahun = searchParams.get('tahun');
-	const bulan = searchParams.get('bulan');
+	const { kecamatan, tahun, bulan } = useParams(); // Menangkap parameter dinamis
 
 	// GETALL
 	const { data: dataPadi }: SWRResponse<Response> = useSWR(
