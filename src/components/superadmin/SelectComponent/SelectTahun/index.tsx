@@ -55,7 +55,7 @@ const TahunSelect: React.FC<TahunSelectProps> = ({
 
     return (
         <Select value={value} onValueChange={onChange}>
-            <SelectTrigger className="w-[80%] lg:w-fit">
+            <SelectTrigger className="w-fit">
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent className="bg-white">

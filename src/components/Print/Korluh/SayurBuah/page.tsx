@@ -36,39 +36,54 @@ import Swal from 'sweetalert2';
 
 interface PrintProps {
     urlApi?: string;
-    startDate?: string;
-    endDate?: string;
     kecamatan?: string;
-    tahun?: string;
+    bulan?: string;
 }
 
-const PSPPupuk = (props: PrintProps) => {
+const KorluhSayurBuah = (props: PrintProps) => {
 
     // INTEGRASI
     // GET LIST
+    interface Desa {
+        id: string;
+        nama: string;
+        kecamatanId: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
     interface Data {
-        id?: number; // Ensure id is a number
-        jenisPupuk?: string;
-        kandunganPupuk?: string;
+        id?: string;
+        kecamatanId?: string;
+        nama?: string;
+        nip?: string;
+        pangkat?: string;
+        golongan?: string;
         keterangan?: string;
-        hargaPupuk?: number; // Change to number
+        desa?: Desa[];
+        kecamatan?: {
+            id?: string;
+            nama?: string;
+        };
     }
 
     interface Response {
-        status: number;
+        status: string;
         message: string;
         data: {
             data: Data[];
-            pagination: {
-                page: number;
-                perPage: number;
-                totalPages: number;
-                totalCount: number;
-                links: {
-                    prev: string | null;
-                    next: string | null;
-                };
-            };
+            pagination: Pagination;
+        };
+    }
+
+    interface Pagination {
+        page: number;
+        perPage: number;
+        totalPages: number;
+        totalCount: number;
+        links: {
+            prev: string | null;
+            next: string | null;
         };
     }
 
@@ -90,8 +105,8 @@ const PSPPupuk = (props: PrintProps) => {
     const [limit, setLimit] = useState(10);
     // limit
     //   
-    const { data: dataUser }: SWRResponse<Response> = useSWR(
-        // `/psp/pupuk/get`,
+    const { data: dataKecamatan }: SWRResponse<Response> = useSWR(
+        // `/penyuluh-kecamatan/get`,
         `${props.urlApi}`,
         (url: string) =>
             axiosPrivate
@@ -139,7 +154,7 @@ const PSPPupuk = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/psp-pupuk?year=${props.tahun}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/korluh-sayur-buah?&kecamatan=${props.kecamatan}&bulan=${props.bulan}`;
 
         try {
             const response = await fetch(url, {
@@ -157,7 +172,7 @@ const PSPPupuk = (props: PrintProps) => {
             const downloadUrl = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = downloadUrl;
-            link.setAttribute('download', `Data Pupuk Kabupaten Lampung Timur.xlsx`); // Nama file yang diunduh
+            link.setAttribute('download', `Penyuluhan Kecamatan ${dataFilter?.data.nama || "Semua Kecamatan"}.xlsx`); // Nama file yang diunduh
             document.body.appendChild(link);
             link.click();
             link.parentNode?.removeChild(link); // Hapus elemen setelah di-click
@@ -197,7 +212,7 @@ const PSPPupuk = (props: PrintProps) => {
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`Data Pupuk Kabupaten Lampung Timur.pdf`);
+                pdf.save(`Penyuluhan Kecamatan ${dataFilter?.data?.nama || "Semua Kecamatan"}.pdf`);
 
                 // Notifikasi Swal sukses
                 Swal.fire({
@@ -262,48 +277,80 @@ const PSPPupuk = (props: PrintProps) => {
             <div className="absolute -left-[700%] min-w-[39.7cm] w-full">
                 {/* <div className=""> */}
                 <div ref={printRef} className='p-[50px]'>
-                    {/* title */}
-                    <div className="text-xl mb-4 font-semibold text-black mx-auto uppercase flex justify-center">
-                        Data Pupuk Kabupaten Lampung Timur Tahun {currentYear}
+                    <div className="ata mb-4 text-base flex justify-end">
+                        <div className="wr w-[300px] flex gap-1">
+                            <div className="">
+                                <div className="">Lampiran</div>
+                                <div className="">Nomor</div>
+                                <div className="">Tanggal</div>
+                            </div>
+                            <div className="">
+                                <div className="">:</div>
+                                <div className="">:</div>
+                                <div className="">:</div>
+                            </div>
+                        </div>
                     </div>
                     {/* title */}
+                    <div className="text-xl mb-4 font-semibold text-black mx-auto uppercase flex justify-center">
+                        Daftar Penempatan Penyuluh Pertanian Kabupaten Lampung Timur Tahun {currentYear}
+                    </div>
+                    {/* title */}
+                    <div className="uppercase">Kecamatan : {dataFilter?.data?.nama || "Semua Kecamatan"}</div>
                     {/* table */}
                     <Table className='border border-black p-2 mt-1'>
                         <TableHeader className='bg-white text-black'>
-                            <TableRow >
+                            <TableRow>
                                 <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">No</TableHead>
-                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Jenis Pupuk</TableHead>
-                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Kandungan Pupuk</TableHead>
-                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold ">Harga Pupuk</TableHead>
-                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold ">Keterangan</TableHead>
+                                {/* Conditionally render the Kecamatan header if kecamatan prop is not provided */}
+                                {!props.kecamatan && (
+                                    <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Kecamatan</TableHead>
+                                )}
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Nama</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">NIP</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Pangkat/Gol</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Wilayah Desa Binaan</TableHead>
+                                <TableHead className="border border-black p-2 text-black uppercase text-center font-semibold">Keterangan</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
-                                dataUser.data.data.map((item, index) => (
-                                    <TableRow key={item.id}>
+                            {dataKecamatan?.data?.data && dataKecamatan?.data?.data?.length > 0 ? (
+                                dataKecamatan.data.data.map((item, index) => (
+                                    <TableRow key={index}>
                                         <TableCell className='border border-black p-2 text-black text-center'>
                                             {(currentPage - 1) * limit + (index + 1)}
                                         </TableCell>
-                                        <TableCell className='border border-black p-2 text-black text-center'>
-                                            {item.jenisPupuk}
+                                        {/* Conditionally render the Kecamatan cell if kecamatan prop is not provided */}
+                                        {!props.kecamatan && (
+                                            <TableCell className='border border-black p-2 text-black'>
+                                                {item?.kecamatan?.nama}
+                                            </TableCell>
+                                        )}
+                                        <TableCell className='border border-black p-2 text-black'>
+                                            {item.nama}
                                         </TableCell>
-                                        <TableCell className='border border-black p-2 text-black text-center'>
-                                            {item.kandunganPupuk}
+                                        <TableCell className='border border-black p-2 text-black'>
+                                            {item.nip}
                                         </TableCell>
-                                        <TableCell className='border border-black p-2 text-black text-center'>
-                                            Rp. {item?.hargaPupuk?.toLocaleString('id-ID')}
+                                        <TableCell className='border border-black p-2 text-black'>
+                                            {item.pangkat}/{item.golongan}
                                         </TableCell>
-                                        <TableCell className='border border-black p-2 text-black text-center'>
+                                        <TableCell className='border border-black p-2 text-black'>
+                                            {item?.desa?.map((desa, index) => (
+                                                <span key={desa.id}>
+                                                    {desa.nama}
+                                                    {index < (item?.desa?.length ?? 0) - 1 && ", "}
+                                                </span>
+                                            ))}
+                                        </TableCell>
+                                        <TableCell className='border border-black p-2 text-black'>
                                             {item.keterangan}
                                         </TableCell>
                                     </TableRow>
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={6} className="text-center">
-                                        Tidak ada data
-                                    </TableCell>
+                                    <TableCell colSpan={9} className='text-center'>Tidak Ada Data</TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
@@ -317,4 +364,4 @@ const PSPPupuk = (props: PrintProps) => {
     )
 }
 
-export default PSPPupuk
+export default KorluhSayurBuah

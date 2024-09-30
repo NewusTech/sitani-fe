@@ -117,7 +117,7 @@ const PerkebunanKecamatanPrint = (props: PrintProps) => {
 
     // download PDF
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/perkebunan-kecamatan`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/perkebunan-kecamatan?year=${props.tahun}&kecamatan=${props.kecamatan}`;
 
         try {
             const response = await fetch(url, {
@@ -261,7 +261,7 @@ const PerkebunanKecamatanPrint = (props: PrintProps) => {
                     {/* title */}
                     <div className="uppercase">Kabupaten</div>
                     {/* table */}
-                    
+
                     {/* table */}
                 </div>
             </div>

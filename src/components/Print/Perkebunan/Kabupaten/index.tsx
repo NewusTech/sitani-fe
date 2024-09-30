@@ -115,7 +115,7 @@ const PerkebunanKabupatenPrint = (props: PrintProps) => {
 
     // download PDF
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/perkebunan-kecamatan`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/perkebunan-kabupaten`;
 
         try {
             const response = await fetch(url, {

@@ -124,7 +124,7 @@ const KoefisienVariasiProduksiPrint = (props: PrintProps) => {
 .xlsx`); // Nama file yang diunduh
             document.body.appendChild(link);
             link.click();
-            link.parentNode?.removeChild(link); // Hapus elemen setelah di-click
+            link.parentNode?.removeChild(link);
             Swal.fire({
                 icon: "success",
                 title: "Berhasil download",

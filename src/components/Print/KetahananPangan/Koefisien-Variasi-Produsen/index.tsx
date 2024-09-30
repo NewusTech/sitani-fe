@@ -131,7 +131,7 @@ const KoefisienVariasiProdusenPrint = (props: PrintProps) => {
 
     // download Excel
     const handleDownloadExcel = async () => {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepang-cv-produsen?year==${props.tahun}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/download/kepang-cv-produsen?year=${props.tahun}`;
         try {
             const response = await fetch(url, {
                 method: 'GET',
