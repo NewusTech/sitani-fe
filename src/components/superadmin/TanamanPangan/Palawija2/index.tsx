@@ -103,6 +103,7 @@ import TPHPalawija2 from '@/components/Print/Holtilultura/Palawija2'
 import TambahIcon from '../../../../../public/icons/TambahIcon'
 import NotFoundSearch from '@/components/SearchNotFound'
 import DeletePopupTitik from '../../TitikDelete'
+import TahunSelect from '../../SelectComponent/SelectTahun'
 
 interface Kecamatan {
     id: number;
@@ -181,19 +182,16 @@ const Palawija2 = () => {
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    // otomatis hitung tahun
-    const currentYear = new Date().getFullYear();
-    const startYear = currentYear - 5;
-    const endYear = currentYear + 1;
-    // const [tahun, setTahun] = React.useState("2024");
-    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
-    // otomatis hitung tahun
+    // filter tahun dinamis
+    const [selectedTahun, setSelectedTahun] = useState<string>(new Date().getFullYear().toString());
+    // filter tahun dinamis
+
     const [bulan, setBulan] = React.useState("1");
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataPalawija2 }: SWRResponse<Response> = useSWR(
-        `/tph/realisasi-palawija-2/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`,
+        `/tph/realisasi-palawija-2/get?bulan=${selectedTahun}/${bulan}&kecamatan=${selectedKecamatan}&year=${selectedTahun === 'semua' ? '' : selectedTahun}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -252,7 +250,7 @@ const Palawija2 = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/tph/realisasi-palawija-2/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`);
+        } mutate(`/tph/realisasi-palawija-2/get?bulan=${selectedTahun}/${bulan}&kecamatan=${selectedKecamatan}&year=${selectedTahun === 'semua' ? '' : selectedTahun}`);
     };
 
     // Filter table
@@ -316,9 +314,9 @@ const Palawija2 = () => {
                     </div>
                     {/* print */}
                     <TPHPalawija2
-                        urlApi={`/tph/realisasi-palawija-2/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`}
+                        urlApi={`/tph/realisasi-palawija-2/get?bulan=${selectedTahun}/${bulan}&kecamatan=${selectedKecamatan}`}
                         kecamatan={selectedKecamatan}
-                        tahun={tahun}
+                        tahun={selectedTahun}
                         bulan={bulan}
                     />
                     {/* print */}
@@ -326,26 +324,16 @@ const Palawija2 = () => {
                 {/*  */}
                 <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                     <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                        <div className="w-[80px]">
-                            <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Tahun">
-                                        {tahun ? tahun : "Tahun"}
-                                    </SelectValue>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {/* <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem> */}
-                                    {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                        const year = startYear + index;
-                                        return (
-                                            <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                {year}
-                                            </SelectItem>
-                                        );
-                                    })}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        {/* filter tahun */}
+                        <TahunSelect
+                            url='tph/master-tahun/realisasi-palawija-2'
+                            // semua={true}
+                            value={selectedTahun}
+                            onChange={(value) => {
+                                setSelectedTahun(value);
+                            }}
+                        />
+                        {/* filter tahun */}
                         <div className="">-</div>
                         <div className="w-[130px]">
                             <Select
@@ -455,29 +443,18 @@ const Palawija2 = () => {
                                                 <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
                                                 <div className="flex gap-2 justify-between items-center w-full">
                                                     {/* filter tahun */}
-                                                    <div className="w-1/2">
-                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Tahun">
-                                                                    {tahun ? tahun : "Tahun"}
-                                                                </SelectValue>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                {/* <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem> */}
-                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                    const year = startYear + index;
-                                                                    return (
-                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                            {year}
-                                                                        </SelectItem>
-                                                                    );
-                                                                })}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
+                                                    <TahunSelect
+                                                        url='tph/master-tahun/realisasi-palawija-2'
+                                                        // semua={true}
+                                                        value={selectedTahun}
+                                                        onChange={(value) => {
+                                                            setSelectedTahun(value);
+                                                        }}
+                                                    />
                                                     {/* filter tahun */}
+                                                    -
                                                     {/* Filter bulan */}
-                                                    <div className="w-1/2">
+                                                    <div className="w-full">
                                                         <Select
                                                             onValueChange={(value) => setBulan(value)}
                                                             value={bulan}
@@ -522,9 +499,9 @@ const Palawija2 = () => {
 
                             {/* unduh print */}
                             <TPHPalawija2
-                                urlApi={`/tph/realisasi-palawija-2/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`}
+                                urlApi={`/tph/realisasi-palawija-2/get?bulan=${selectedTahun}/${bulan}&kecamatan=${selectedKecamatan}`}
                                 kecamatan={selectedKecamatan}
-                                tahun={tahun}
+                                tahun={selectedTahun}
                                 bulan={bulan}
                             />
                             {/* unduh print */}

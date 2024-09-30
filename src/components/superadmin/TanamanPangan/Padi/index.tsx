@@ -103,6 +103,7 @@ import TPHPadi from '@/components/Print/Holtilultura/Padi'
 import TambahIcon from '../../../../../public/icons/TambahIcon'
 import DeletePopupTitik from '../../TitikDelete'
 import NotFoundSearch from '@/components/SearchNotFound'
+import TahunSelect from '../../SelectComponent/SelectTahun'
 
 
 interface Kecamatan {
@@ -185,20 +186,17 @@ const Padi = () => {
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    // otomatis hitung tahun
-    const currentYear = new Date().getFullYear();
-    const startYear = currentYear - 5;
-    const endYear = currentYear + 1;
-    // const [tahun, setTahun] = React.useState("2024");
-    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
-    // otomatis hitung tahun
+    // filter tahun dinamis
+    const [selectedTahun, setSelectedTahun] = useState<string>(new Date().getFullYear().toString());
+    // filter tahun dinamis
+
     const [bulan, setBulan] = React.useState("1");
 
     // INTERGASI
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: responseData, error } = useSWR<Response>(
-        `tph/realisasi-padi/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`,
+        `tph/realisasi-padi/get?bulan=${selectedTahun}/${bulan}&kecamatan=${selectedKecamatan}&year=${selectedTahun === 'semua' ? '' : selectedTahun}`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -264,7 +262,7 @@ const Padi = () => {
             });
             console.error("Failed to create user:", error);
         }
-        mutate(`tph/realisasi-padi/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`);
+        mutate(`tph/realisasi-padi/get?bulan=${selectedTahun}/${bulan}&kecamatan=${selectedKecamatan}&year=${selectedTahun === 'semua' ? '' : selectedTahun}`);
     };
     // DELETE
 
@@ -320,35 +318,25 @@ const Padi = () => {
                 {/* top */}
                 <div className="header flex gap-2 justify-end items-center mt-4">
                     <TPHPadi
-                        urlApi={`/tph/realisasi-padi/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`}
+                        urlApi={`/tph/realisasi-padi/get?bulan=${selectedTahun}/${bulan}&kecamatan=${selectedKecamatan}`}
                         kecamatan={selectedKecamatan}
-                        tahun={tahun}
+                        tahun={selectedTahun}
                         bulan={bulan}
                     />
                 </div>
                 {/*  */}
                 <div className="lg:flex gap-2 lg:justify-between lg:items-center w-full mt-2 lg:mt-4">
                     <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
-                        <div className="w-[80px]">
-                            <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Tahun">
-                                        {tahun ? tahun : "Tahun"}
-                                    </SelectValue>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {/* <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem> */}
-                                    {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                        const year = startYear + index;
-                                        return (
-                                            <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                {year}
-                                            </SelectItem>
-                                        );
-                                    })}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        {/* filter tahun */}
+                        <TahunSelect
+                            url='tph/master-tahun/realisasi-padi'
+                            // semua={true}
+                            value={selectedTahun}
+                            onChange={(value) => {
+                                setSelectedTahun(value);
+                            }}
+                        />
+                        {/* filter tahun */}
                         <div className="">-</div>
                         <div className="w-[130px]">
                             <Select
@@ -446,29 +434,17 @@ const Padi = () => {
                                                 <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
                                                 <div className="flex gap-2 justify-between items-center w-full">
                                                     {/* filter tahun */}
-                                                    <div className="w-1/2">
-                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Tahun">
-                                                                    {tahun ? tahun : "Tahun"}
-                                                                </SelectValue>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                {/* <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem> */}
-                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                    const year = startYear + index;
-                                                                    return (
-                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                            {year}
-                                                                        </SelectItem>
-                                                                    );
-                                                                })}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
+                                                    <TahunSelect
+                                                        url='tph/master-tahun/realisasi-padi'
+                                                        // semua={true}
+                                                        value={selectedTahun}
+                                                        onChange={(value) => {
+                                                            setSelectedTahun(value);
+                                                        }}
+                                                    />
                                                     {/* filter tahun */}
                                                     {/* Filter bulan */}
-                                                    <div className="w-1/2">
+                                                    <div className="w-full">
                                                         <Select
                                                             onValueChange={(value) => setBulan(value)}
                                                             value={bulan}
@@ -513,9 +489,9 @@ const Padi = () => {
 
                             {/* unduh print */}
                             <TPHPadi
-                                urlApi={`/tph/realisasi-padi/get?bulan=${tahun}/${bulan}&kecamatan=${selectedKecamatan}`}
+                                urlApi={`/tph/realisasi-padi/get?bulan=${selectedTahun}/${bulan}&kecamatan=${selectedKecamatan}`}
                                 kecamatan={selectedKecamatan}
-                                tahun={tahun}
+                                tahun={selectedTahun}
                                 bulan={bulan}
                             />
                             {/* unduh print */}
