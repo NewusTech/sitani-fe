@@ -89,13 +89,13 @@ const ValidasiTanamanHias = () => {
     // filter tahun bulan
     const currentYear = new Date().getFullYear();
     const [tahun, setTahun] = React.useState(`${currentYear}`);
-    const [bulan, setBulan] = React.useState(`1`);
+    const [triwulan, setTriwulan] = React.useState(`1`);
     // filter tahun bulan
 
     // GETALL
     const { data: dataTanamanHias }: SWRResponse<any> = useSWR(
         // `korluh/padi/get?limit=1`,
-        `/validasi/korluh-tanaman-hias/data?kecamatan=${selectedKecamatan}&tahun=${tahun}&triwulan=${bulan}`,
+        `/validasi/korluh-tanaman-hias/data?kecamatan=${selectedKecamatan}&tahun=${tahun}&triwulan=${triwulan}`,
         // `/validasi/korluh-tanaman-hias/kec?kecamatan=1&bulan=2024/9`,
         (url) =>
             axiosPrivate
@@ -171,7 +171,7 @@ const ValidasiTanamanHias = () => {
         } finally {
             // setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/validasi/korluh-tanaman-hias/data?kecamatan=${selectedKecamatan}&tahun=${tahun}&triwulan=${bulan}`);
+        mutate(`/validasi/korluh-tanaman-hias/data?kecamatan=${selectedKecamatan}&tahun=${tahun}&triwulan=${triwulan}`);
     };
 
     // Fungsi untuk mengirim data ke API
@@ -223,7 +223,7 @@ const ValidasiTanamanHias = () => {
         } finally {
             // setLoading(false); // Set loading to false once the process is complete
         }
-        mutate(`/validasi/korluh-tanaman-hias/data?kecamatan=${selectedKecamatan}&tahun=${tahun}&triwulan=${bulan}`);
+        mutate(`/validasi/korluh-tanaman-hias/data?kecamatan=${selectedKecamatan}&tahun=${tahun}&triwulan=${triwulan}`);
     };
 
     // validasi
@@ -297,8 +297,8 @@ const ValidasiTanamanHias = () => {
                     <div className="">-</div>
                     <div className="w-[200px]">
                         <Select
-                            onValueChange={(value) => setBulan(value)}
-                            value={bulan}
+                            onValueChange={(value) => setTriwulan(value)}
+                            value={triwulan}
                         >
                             <SelectTrigger>
                                 <SelectValue placeholder="Triwulan" className='text-2xl' />
@@ -313,8 +313,6 @@ const ValidasiTanamanHias = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                </div>
-                <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
                     <div className="w-[230px]">
                         <KecamatanSelectNo
                             value={selectedKecamatan}
@@ -323,6 +321,11 @@ const ValidasiTanamanHias = () => {
                             }}
                         />
                     </div>
+                </div>
+                <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
+                    <Link href={`/tanaman-pangan-holtikutura/validasi/tanaman-hias/detail/${selectedKecamatan}/${tahun}/${triwulan}`} className='bg-blue-500 px-3 py-3 rounded-full text-white hover:bg-blue-500/80 p-2 border border-blue-500 text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
+                        Detail
+                    </Link>
                     <Link href="/tanaman-pangan-holtikutura/validasi/tanaman-hias/tambah" className='bg-primary px-3 py-3 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-[12px] lg:text-sm w-[150px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 cursor-pointer'>
                         Tambah Data
                     </Link>
