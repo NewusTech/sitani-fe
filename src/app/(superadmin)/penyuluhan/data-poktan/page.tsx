@@ -95,6 +95,7 @@ import PenyuluhKecPrint from '@/components/Print/Penyuluhan/PenyuluhanKec'
 import TambahIcon from '../../../../../public/icons/TambahIcon';
 import NotFoundSearch from '@/components/SearchNotFound';
 import DeletePopupTitik from '@/components/superadmin/TitikDelete';
+import TahunSelect from '@/components/superadmin/SelectComponent/SelectTahun';
 
 interface Kecamatan {
     id: number;
@@ -187,19 +188,14 @@ const PenyuluhDataPoktan = () => {
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    // otomatis hitung tahun
-    const currentYear = new Date().getFullYear();
-    const startYear = currentYear - 5;
-    const endYear = currentYear + 1;
-    // const [tahun, setTahun] = React.useState("2024");
-    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
-    // otomatis hitung tahun
+    // filter tahun dinamis
+    const [selectedTahun, setSelectedTahun] = useState<string>(new Date().getFullYear().toString());
+    // filter tahun dinamis
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataPoktan }: SWRResponse<Response> = useSWR(
-        // `/penyuluh-kelompok-tani/get`,
-        `/penyuluh-kelompok-tani/get?page=${currentPage}&year=${tahun}&search=${search}&tahun=${tahun}&kecamatan=${selectedKecamatan}&limit=${limit}`,
+        `/penyuluh-kelompok-tani/get?page=${currentPage}&year=${selectedTahun === 'semua' ? '' : selectedTahun}&search=${search}&tahun=${selectedTahun}&kecamatan=${selectedKecamatan}&limit=${limit}`,
         (url: string) =>
             axiosPrivate
                 .get(url, {
@@ -342,26 +338,16 @@ const PenyuluhDataPoktan = () => {
                     {/*  */}
                     <div className="wrap-filter flex justify-between items-center mt-4 ">
                         <div className="left gap-2 flex justify-start items-center">
-                            <div className="w-auto">
-                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Tahun">
-                                            {tahun ? tahun : "Tahun"}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
-                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                            const year = startYear + index;
-                                            return (
-                                                <SelectItem key={year} value={year.toString()}>
-                                                    {year}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                    </SelectContent>
-                                </Select>
-                            </div>
+                            {/* filter tahun */}
+                            <TahunSelect
+                                url='penyuluh/master-tahun/kelompok-tani'
+                                semua={true}
+                                value={selectedTahun}
+                                onChange={(value) => {
+                                    setSelectedTahun(value);
+                                }}
+                            />
+                            {/* filter tahun */}
                             <div className="fil-kect w-[185px]">
                                 <KecamatanSelect
                                     value={selectedKecamatan}
@@ -427,29 +413,14 @@ const PenyuluhDataPoktan = () => {
                                             </>
                                             {/* Filter Kecamatan */}
                                             {/* filter tahun */}
-                                            <>
-                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun" />
-                                                <div className="w-full">
-                                                    <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Tahun">
-                                                                {tahun ? tahun : "Tahun"}
-                                                            </SelectValue>
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectItem value="Semua Tahun">Semua Tahun</SelectItem>
-                                                            {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                const year = startYear + index;
-                                                                return (
-                                                                    <SelectItem key={year} value={year.toString()}>
-                                                                        {year}
-                                                                    </SelectItem>
-                                                                );
-                                                            })}
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-                                            </>
+                                            <TahunSelect
+                                                url='penyuluh/master-tahun/kelompok-tani'
+                                                semua={true}
+                                                value={selectedTahun}
+                                                onChange={(value) => {
+                                                    setSelectedTahun(value);
+                                                }}
+                                            />
                                             {/* filter tahun */}
 
                                             {/* Filter Desa */}

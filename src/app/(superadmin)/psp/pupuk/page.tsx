@@ -95,6 +95,7 @@ import TambahIcon from '../../../../../public/icons/TambahIcon';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 import NotFoundSearch from '@/components/SearchNotFound';
 import DeletePopupTitik from '@/components/superadmin/TitikDelete';
+import TahunSelect from '@/components/superadmin/SelectComponent/SelectTahun';
 
 const Pupuk = () => {
     // TES
@@ -157,18 +158,14 @@ const Pupuk = () => {
     // State untuk menyimpan id kecamatan yang dipilih
     const [selectedKecamatan, setSelectedKecamatan] = useState<string>("");
 
-    // otomatis hitung tahun
-    const currentYear = new Date().getFullYear();
-    const startYear = currentYear - 5;
-    const endYear = currentYear + 1;
-    // const [tahun, setTahun] = React.useState("2024");
-    const [tahun, setTahun] = React.useState(() => new Date().getFullYear().toString());
-    // otomatis hitung tahun
+    // filter tahun dinamis
+    const [selectedTahun, setSelectedTahun] = useState<string>(new Date().getFullYear().toString());
+    // filter tahun dinamis
 
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
     const { data: dataUser }: SWRResponse<Response> = useSWR(
-        `/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`,
+        `/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${selectedTahun === 'semua' ? '' : selectedTahun}`,
         (url) =>
             axiosPrivate
                 .get(url, {
@@ -232,7 +229,7 @@ const Pupuk = () => {
                 backdrop: 'rgba(0, 0, 0, 0.4)',
             });
             console.error("Failed to create user:", error);
-        } mutate(`/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`)
+        } mutate(`/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${selectedTahun === 'semua' ? '' : selectedTahun}`)
     };
 
     console.log(dataUser);
@@ -306,7 +303,7 @@ const Pupuk = () => {
                         </div>
                         {/* print */}
                         <PSPPupuk
-                            urlApi={`/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${tahun == 'Semua Tahun' ? "" : tahun}`}
+                            urlApi={`/psp/pupuk/get?page=${currentPage}&limit=${limit}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&year=${selectedTahun === 'semua' ? '' : selectedTahun}`}
                         />
                         {/* print */}
                     </div>
@@ -321,26 +318,14 @@ const Pupuk = () => {
                                 onFilterChange={handleFilterChange}
                             />
                             {/* filter tahun */}
-                            <div className="w-fit">
-                                <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Semua Tahun">
-                                            {tahun ? tahun : "Semua Tahun"}
-                                        </SelectValue>
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value={"Semua Tahun"}>Semua Tahun</SelectItem>
-                                        {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                            const year = startYear + index;
-                                            return (
-                                                <SelectItem key={year} value={year.toString()}>
-                                                    {year}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                    </SelectContent>
-                                </Select>
-                            </div>
+                            <TahunSelect
+                                url='psp/master-tahun/pupuk'
+                                semua={true}
+                                value={selectedTahun}
+                                onChange={(value) => {
+                                    setSelectedTahun(value);
+                                }}
+                            />
                             {/* filter tahun */}
                         </div>
                         <div className="w-full mt-2 lg:mt-0 flex justify-end gap-2">
@@ -403,26 +388,14 @@ const Pupuk = () => {
                                                 <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
                                                 <div className="flex gap-2 justify-between items-center w-full">
                                                     {/* filter tahun */}
-                                                    <div className="w-1/2">
-                                                        <Select onValueChange={(value) => setTahun(value)} value={tahun || ""}>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Tahun">
-                                                                    {tahun ? tahun : "Tahun"}
-                                                                </SelectValue>
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectItem className='text-xs' value="Semua Tahun">Semua Tahun</SelectItem>
-                                                                {Array.from({ length: endYear - startYear + 1 }, (_, index) => {
-                                                                    const year = startYear + index;
-                                                                    return (
-                                                                        <SelectItem className='text-xs' key={year} value={year.toString()}>
-                                                                            {year}
-                                                                        </SelectItem>
-                                                                    );
-                                                                })}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
+                                                    <TahunSelect
+                                                        url='psp/master-tahun/pupuk'
+                                                        semua={true}
+                                                        value={selectedTahun}
+                                                        onChange={(value) => {
+                                                            setSelectedTahun(value);
+                                                        }}
+                                                    />
                                                     {/* filter tahun */}
                                                     {/* Filter bulan */}
 
