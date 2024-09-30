@@ -1078,16 +1078,16 @@ const LuasKabPage = () => {
                                             </div>
                                             {/* <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div> */}
                                             {/* komoditas */}
-                                            {dataProduksiKab?.data?.data[1]?.ids?.map((i: number, index: any) => (
-                                                <div key={i} >
+                                            {/* {dataProduksiKab?.data?.data[1]?.ids?.map((i: number, index: any) => (
+                                                <div key={i} > */}
                                                     <div className="card-table p-2 rounded-2xl border border-primary bg-white shadow-sm mb-1 mt-1">
-                                                        <div className="flex justify-between gap-5">
+                                                        {/* <div className="flex justify-between gap-5">
                                                             <div className="label font-medium text-black">Komoditi</div>
                                                             <div className="konten text-black/80 text-end">
                                                                 {dataProduksiKab?.data?.data[1]?.list[i]?.komoditas}
                                                             </div>
-                                                        </div>
-                                                        <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+                                                        </div> */}
+                                                        {/* <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" /> */}
                                                         <div className="flex justify-center gap-5">
                                                             <div className="label font-medium text-black text-center">Atap {dataProduksiKab?.data?.yearBefore}</div>
                                                         </div>
@@ -1183,8 +1183,8 @@ const LuasKabPage = () => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            ))}
+                                                {/* </div>
+                                            ))} */}
                                         </div>
                                     </>
                                 </div>
