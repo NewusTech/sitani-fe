@@ -158,7 +158,7 @@ const StatusLaporanTanamanBiofarmaka = () => {
     return (
         <div>
             {/* title */}
-            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Status Laporan Tanaman Hias</div>
+            <div className="md:text-2xl text-xl mb-5 font-semibold text-primary">Status Laporan Tanaman Biofarmaka</div>
             {/* title */}
 
             {/*  */}

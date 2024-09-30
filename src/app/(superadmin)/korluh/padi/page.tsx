@@ -97,6 +97,7 @@ import {
 	CarouselPrevious,
 } from "@/components/ui/carousel"
 import TambahIcon from "../../../../../public/icons/TambahIcon";
+import CekStatus from "../../../../../public/icons/CekStatus";
 
 const KorlubPadi = () => {
 	const formatDate = (date?: Date): string => {
@@ -366,6 +367,12 @@ const KorlubPadi = () => {
 								]}
 							>
 								<Link
+									href="/status-laporan/padi"
+									className="bg-blue-500 px-3 md:px-8 py-2 rounded-full text-white hover:bg-blue-500/80 p-2 border border-blue-500 text-center font-medium text-base mb-3"
+								>
+									Cek Status
+								</Link>
+								<Link
 									href="/korluh/padi/tambah"
 									className="bg-primary px-3 md:px-8 py-2 rounded-full text-white hover:bg-primary/80 p-2 border border-primary text-center font-medium text-base mb-3"
 								>
@@ -510,6 +517,12 @@ const KorlubPadi = () => {
 
 						{/* Tambah Data */}
 						<div className="flex justify-end items-center w-fit">
+							<Link
+								href="/status-laporan/padi"
+								className='bg-blue-500 text-xs px-3 rounded-full text-white hover:bg-blue-500/80 border border-blue-500 text-center font-medium justify-end flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 py-2 mr-2'>
+								{/* Tambah */}
+								Cek Status
+							</Link>
 							<Link
 								href="/korluh/padi/tambah"
 								className='bg-primary text-xs px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-end flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 py-2'>
