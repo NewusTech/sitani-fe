@@ -956,6 +956,39 @@ const KorlubPadi = () => {
 
 														<hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
 													</div>
+
+													<div className="">
+														<div className="flex justify-between gap-5">
+															<div className="label font-medium text-black">
+																D. Sawah Rawa Lebak
+															</div>
+															<div className="konten text-black/80 text-end"></div>
+														</div>
+														<hr className="border border-primary transition-all ease-in-out animate-pulse mb-2 mt-2" />
+
+														<div className="flex justify-between gap-5">
+															<div className="label font-medium text-black">Lahan Sawah Panen</div>
+															<div className="konten text-black/80 text-end">
+																{item.sawah_rawa_lebak_lahan_sawah_panen ??
+																	"-"}
+															</div>
+														</div>
+														<div className="flex justify-between gap-5">
+															<div className="label font-medium text-black">Lahan Sawah Tanam</div>
+															<div className="konten text-black/80 text-end">
+																{item.sawah_rawa_lebak_lahan_sawah_tanam ??
+																	"-"}
+															</div>
+														</div>
+														<div className="flex justify-between gap-5">
+															<div className="label font-medium text-black">Lahan Sawah Puso</div>
+															<div className="konten text-black/80 text-end">			{item.sawah_rawa_lebak_lahan_sawah_puso ??
+																"-"}
+															</div>
+														</div>
+
+														<hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2 mt-2" />
+													</div>
 												</>
 											</CarouselItem>
 										</CarouselContent>

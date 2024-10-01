@@ -42,10 +42,10 @@ const DeletePopup: FC<DeletePopupProps> = ({ onDelete }) => {
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>
+                        <DialogTitle className='text-start'>
                             Apakah kamu yakin menghapus ini?
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className='text-start'>
                             Tindakan ini akan membuat data hilang permanen dan akan dihapus di server
                             <div className="wrap flex gap-3 justify-end mt-3">
                                 <Button 

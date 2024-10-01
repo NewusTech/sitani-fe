@@ -50,10 +50,10 @@ const VerifikasiPopup: FC<VerifikasiPopupProps> = ({ kecamatanId, bulan, onVerif
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>
+                        <DialogTitle className='text-start'>
                             Apakah kamu yakin ingin memverifikasi data ini?
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className='text-start'>
                             Tindakan ini akan memverifikasi data yang dikirim oleh Korluh. Pastikan data sudah sesuai.
                             <div className="wrap flex gap-3 justify-end mt-3">
                                 <Button

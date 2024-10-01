@@ -54,10 +54,10 @@ const TolakPopup: FC<VerifikasiPopupProps> = ({ kecamatanId, bulan, onTolak }) =
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>
+                        <DialogTitle className='text-start'>
                             Apakah kamu yakin ingin menolak verifikasi data ini?
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className='text-start'>
                             Mohon masukkan alasan penolakan:
                             <Textarea
                                 className='placeholder:text-gray-400 text-black h-[150px] mt-2 p-3'
