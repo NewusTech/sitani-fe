@@ -262,22 +262,25 @@ const PenyuluhDataPoktan = () => {
 
     // Filter table
     const columns = [
-        { label: "Kecamatan", key: "kecamatanData" },
-        { label: "Wilayah Desa Binaan", key: "wilayah" },
-        { label: "Nama", key: "nama" },
-        { label: "NIP", key: "nip" },
-        { label: "Pangkat", key: "pangkat" },
-        { label: "Golongan", key: "golongan" },
-        { label: "Keterangan", key: "keterangan" },
+        { label: "No", key: "no" },
+        { label: "UPTD BPP", key: "uptd" },
+        { label: "Desa", key: "desa" },
+        { label: "Kelompok Tani", key: "kelompokTani" },
+        { label: "Pengurus Kelompok Tani", key: "pengurus" },
+        { label: "Alamat Sekretariat", key: "alamat" },
+        { label: "Tahun Dibentuk", key: "tahun" },
+        { label: "Jumlah Anggota", key: "jumlah" },
+        { label: "Kelas Kelompok", key: "kelas" },
+        { label: "ID Poktan", key: "idPoktan" },
         { label: "Aksi", key: "aksi" }
     ];
 
     const getDefaultCheckedKeys = () => {
         if (typeof window !== 'undefined') {
             if (window.innerWidth <= 768) {
-                return ["kecamatanData", "wilayah", "aksi"];
+                return ["uptd", "desa", "aksi"];
             } else {
-                return ["kecamatanData", "wilayah", "nama", "nip", "pangkat", "golongan", "keterangan", "aksi"];
+                return ["no", "uptd", "desa", "kelompokTani", "pengurus", "alamat", "tahun", "jumlah", "kelas", "idPoktan", "aksi"];
             }
         }
         return [];
@@ -357,11 +360,11 @@ const PenyuluhDataPoktan = () => {
                                 />
                             </div>
                             <div className="filter-table w-[40px] h-[40px]">
-                                {/* <FilterTable
+                                <FilterTable
                                     columns={columns}
                                     defaultCheckedKeys={getDefaultCheckedKeys()}
                                     onFilterChange={handleFilterChange}
-                                /> */}
+                                />
                             </div>
                         </div>
                         <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
@@ -604,105 +607,179 @@ const PenyuluhDataPoktan = () => {
                 <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden'>
                     <TableHeader className='bg-primary-600'>
                         <TableRow >
+                        {visibleColumns.includes('no') && (
                             <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">No</TableHead>
-                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1 ">UPTD BPP</TableHead>
-                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1 ">Desa</TableHead>
-                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Kelompok Tani</TableHead>
-                            <TableHead colSpan={3} className="text-primary border border-slate-200 text-center py-1">Pengurus Kelompok Tani</TableHead>
-                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1 ">Alamat Sekretariat</TableHead>
-                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1  ">Tahun dibentuk</TableHead>
-                            <TableHead colSpan={2} className="text-primary border border-slate-200 text-center py-1  ">Jumlah Anggota</TableHead>
-                            <TableHead colSpan={4} className="text-primary border border-slate-200 text-center py-1  ">Kelas Kelompok</TableHead>
-                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1  ">ID Poktan</TableHead>
-                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Aksi</TableHead>
+                        )}
+                            {visibleColumns.includes('uptd') && (
+                                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1 ">UPTD BPP</TableHead>
+                            )}
+                            {visibleColumns.includes('desa') && (
+                                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1 ">Desa</TableHead>
+                            )}
+                            {visibleColumns.includes('kelompokTani') && (
+                                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Kelompok Tani</TableHead>
+                            )}
+                            {visibleColumns.includes('pengurus') && (
+                                <TableHead colSpan={3} className="text-primary border border-slate-200 text-center py-1">Pengurus Kelompok Tani</TableHead>
+                            )}
+                            {visibleColumns.includes('alamat') && (
+                                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1 ">Alamat Sekretariat</TableHead>
+                            )}
+                            {visibleColumns.includes('tahun') && (
+                                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1  ">Tahun dibentuk</TableHead>
+                            )}
+                            {visibleColumns.includes('jumlah') && (
+                                <TableHead colSpan={2} className="text-primary border border-slate-200 text-center py-1  ">Jumlah Anggota</TableHead>
+                            )}
+                            {visibleColumns.includes('kelas') && (
+                                <TableHead colSpan={4} className="text-primary border border-slate-200 text-center py-1  ">Kelas Kelompok</TableHead>
+                            )}
+                            {visibleColumns.includes('idPoktan') && (
+                                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1  ">ID Poktan</TableHead>
+                            )}
+                            {visibleColumns.includes('aksi') && (
+                                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Aksi</TableHead>
+                            )}
                         </TableRow>
                         <TableRow>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">Ketua</TableHead>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">Sekretaris</TableHead>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">Bendahara</TableHead>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">L</TableHead>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">P</TableHead>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">P</TableHead>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">L</TableHead>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">M</TableHead>
-                            <TableHead className="text-primary border border-slate-200 text-center py-1 ">U</TableHead>
+                            {visibleColumns.includes('pengurus') && (
+                                <TableHead className="text-primary border border-slate-200 text-center py-1 ">Ketua</TableHead>
+                            )}
+                            {visibleColumns.includes('pengurus') && (
+                                <TableHead className="text-primary border border-slate-200 text-center py-1 ">Sekretaris</TableHead>
+                            )}
+                            {visibleColumns.includes('pengurus') && (
+                                <TableHead className="text-primary border border-slate-200 text-center py-1 ">Bendahara</TableHead>
+                            )}
+                            {visibleColumns.includes('jumlah') && (
+                                <TableHead className="text-primary border border-slate-200 text-center py-1 ">L</TableHead>
+                            )}
+                            {visibleColumns.includes('jumlah') && (
+                                <TableHead className="text-primary border border-slate-200 text-center py-1 ">P</TableHead>
+                            )}
+                            {visibleColumns.includes('kelas') && (
+                                <TableHead className="text-primary border border-slate-200 text-center py-1 ">P</TableHead>
+                            )}
+                            {visibleColumns.includes('kelas') && (
+                                <TableHead className="text-primary border border-slate-200 text-center py-1 ">L</TableHead>
+                            )}
+                            {visibleColumns.includes('kelas') && (
+                                <TableHead className="text-primary border border-slate-200 text-center py-1 ">M</TableHead>
+                            )}
+                            {visibleColumns.includes('kelas') && (
+                                <TableHead className="text-primary border border-slate-200 text-center py-1 ">U</TableHead>
+                            )}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {dataPoktan?.data?.data && dataPoktan?.data?.data?.length > 0 ? (
                             dataPoktan.data.data.map((item, index) => (
                                 <TableRow key={index}>
+                                    {visibleColumns.includes('no') && (
                                     <TableCell className="border border-slate-200 text-center">
                                         {(currentPage - 1) * limit + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.kecamatan?.nama}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.desa.nama}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.nama}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.ketua}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.sekretaris}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.bendahara}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.alamat}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.dibent}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.l}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.p}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.kelas === "p" ? " ✓" : "-"}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.kelas === "l" ? " ✓" : "-"}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.kelas === "m" ? " ✓" : "-"}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.kelas === "u" ? " ✓" : "-"}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.idPoktan}
-                                    </TableCell>
-                                    <TableCell
-                                        className="border border-slate-200 font-semibold"
-                                    >
-                                        <div className="flex items-center gap-4 justify-center">
-                                            <Link
-                                                className=""
-                                                href={`/penyuluhan/data-poktan/detail/${item.id}`}
-                                            >
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link
-                                                className=""
-                                                href={`/penyuluhan/data-poktan/edit/${item.id}`}
-                                            >
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup
-                                                onDelete={() =>
-                                                    handleDelete(String(item.id) || "")
-                                                }
-                                            />
-                                        </div>
-                                    </TableCell>
+                                    )}
+                                    {visibleColumns.includes('uptd') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.kecamatan?.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('desa') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.desa.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('kelompokTani') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('pengurus') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.ketua}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('pengurus') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.sekretaris}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('pengurus') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.bendahara}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('alamat') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.alamat}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('tahun') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.dibent}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('jumlah') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.l}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('jumlah') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.p}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('kelas') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.kelas === "p" ? " ✓" : "-"}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('kelas') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.kelas === "l" ? " ✓" : "-"}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('kelas') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.kelas === "m" ? " ✓" : "-"}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('kelas') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.kelas === "u" ? " ✓" : "-"}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('idPoktan') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.idPoktan}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('aksi') && (
+                                        <TableCell
+                                            className="border border-slate-200 font-semibold"
+                                        >
+                                            <div className="flex items-center gap-4 justify-center">
+                                                <Link
+                                                    className=""
+                                                    href={`/penyuluhan/data-poktan/detail/${item.id}`}
+                                                >
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link
+                                                    className=""
+                                                    href={`/penyuluhan/data-poktan/edit/${item.id}`}
+                                                >
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup
+                                                    onDelete={() =>
+                                                        handleDelete(String(item.id) || "")
+                                                    }
+                                                />
+                                            </div>
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             ))
                         ) : (

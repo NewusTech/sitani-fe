@@ -364,11 +364,11 @@ const DataGapoktanViewAll = () => {
                                 />
                             </div>
                             <div className="filter-table w-[40px] h-[40px]">
-                                {/* <FilterTable
+                                <FilterTable
                                     columns={columns}
                                     defaultCheckedKeys={getDefaultCheckedKeys()}
                                     onFilterChange={handleFilterChange}
-                                /> */}
+                                />
                             </div>
                         </div>
                         <div className="right transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
@@ -606,40 +606,64 @@ const DataGapoktanViewAll = () => {
                 <Table className='border border-slate-200 mt-4 text-xs md:text-sm rounded-lg md:rounded-none overflow-hidden '>
                     <TableHeader className="bg-primary-600">
                         <TableRow >
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                No
-                            </TableHead>
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Nama UPTD BPP
-                            </TableHead>
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Nama Desa
-                            </TableHead>
-                            <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                Nama Gabungan Kelompok Tani
-                            </TableHead>
-                            <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                Pengurus Gabungan Kelompok Tani
-                            </TableHead>
-                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                Alamat Sekretaris
-                            </TableHead>
-                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                Luas Lahan (Ha)
-                            </TableHead>
-                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                Tahun Dibentuk
-                            </TableHead>
-                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                Jml Poktan
-                            </TableHead>
-                            <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center ">
-                                Jml Anggota
-                            </TableHead>
-                            <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
-                                Total Anggota
-                            </TableHead>
-                            <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Aksi</TableHead>
+                            {visibleColumns.includes('no') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    No
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('namaUPTD') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Nama UPTD BPP
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('namaDesa') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Nama Desa
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('namaGapoktan') && (
+                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                    Nama Gabungan Kelompok Tani
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('pengurusGapoktan') && (
+                                <TableHead colSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                    Pengurus Gabungan Kelompok Tani
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('alamatSekretaris') && (
+                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                    Alamat Sekretaris
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('luasLahan') && (
+                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                    Luas Lahan (Ha)
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('tahunDibentuk') && (
+                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                    Tahun Dibentuk
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('jumlahPoktan') && (
+                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                    Jml Poktan
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('jumlahAnggota') && (
+                                <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center ">
+                                    Jml Anggota
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('totalAnggota') && (
+                                <TableHead rowSpan={3} className="text-primary py-1 border border-slate-200 text-center ">
+                                    Total Anggota
+                                </TableHead>
+                            )}
+                            {visibleColumns.includes('aksi') && (
+                                <TableHead rowSpan={2} className="text-primary border border-slate-200 text-center py-1">Aksi</TableHead>
+                            )}
                         </TableRow>
                         <TableRow>
                             {visibleColumns.includes('pengurusGapoktan') && (
@@ -673,74 +697,104 @@ const DataGapoktanViewAll = () => {
                         {dataGapoktan?.data?.data && dataGapoktan?.data?.data?.length > 0 ? (
                             dataGapoktan.data.data.map((item, index) => (
                                 <TableRow key={index}>
+                                    {visibleColumns.includes('no') && (
                                     <TableCell className="border border-slate-200 text-center">
                                         {(currentPage - 1) * limit + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.kecamatan.nama}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.desa.nama}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.nama}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.ketua}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.sekretaris}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.bendahara}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.alamat}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.lahan}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.dibentuk}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.poktan}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.l}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.p}
-                                    </TableCell>
-                                    <TableCell className="border border-slate-200 text-center">
-                                        {item?.total}
-                                    </TableCell>
-                                    <TableCell
-                                        className="border border-slate-200 font-semibold"
-                                    >
-                                        <div className="flex items-center gap-4 justify-center">
-                                            <Link
-                                                className=""
-                                                href={`/penyuluhan/data-gapoktan/detail/${item.id}`}
-                                            >
-                                                <EyeIcon />
-                                            </Link>
-                                            <Link
-                                                className=""
-                                                href={`/penyuluhan/data-gapoktan/edit/${item.id}`}
-                                            >
-                                                <EditIcon />
-                                            </Link>
-                                            <DeletePopup
-                                                onDelete={() =>
-                                                    handleDelete(
-                                                        String(item.id) ||
-                                                        ""
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    </TableCell>
+                                    )}
+                                    {visibleColumns.includes('namaUPTD') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.kecamatan.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('namaDesa') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.desa.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('namaGapoktan') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.nama}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('pengurusGapoktan') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.ketua}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('pengurusGapoktan') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.sekretaris}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('pengurusGapoktan') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.bendahara}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('alamatSekretaris') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.alamat}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('luasLahan') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.lahan}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('tahunDibentuk') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.dibentuk}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('jumlahPoktan') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.poktan}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('jumlahAnggota') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.l}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('jumlahAnggota') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.p}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('totalAnggota') && (
+                                        <TableCell className="border border-slate-200 text-center">
+                                            {item?.total}
+                                        </TableCell>
+                                    )}
+                                    {visibleColumns.includes('aksi') && (
+                                        <TableCell
+                                            className="border border-slate-200 font-semibold"
+                                        >
+                                            <div className="flex items-center gap-4 justify-center">
+                                                <Link
+                                                    className=""
+                                                    href={`/penyuluhan/data-gapoktan/detail/${item.id}`}
+                                                >
+                                                    <EyeIcon />
+                                                </Link>
+                                                <Link
+                                                    className=""
+                                                    href={`/penyuluhan/data-gapoktan/edit/${item.id}`}
+                                                >
+                                                    <EditIcon />
+                                                </Link>
+                                                <DeletePopup
+                                                    onDelete={() =>
+                                                        handleDelete(
+                                                            String(item.id) ||
+                                                            ""
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             ))
                         ) : (

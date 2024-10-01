@@ -523,7 +523,7 @@ const DataPenerimaUppo = () => {
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Nama Ketua</div>
-                                    <div className="konten text-black/80 text-end">{item?.namaPoktan ?? "-"}</div>
+                                    <div className="konten text-black/80 text-end">{item?.ketuaPoktan ?? "-"}</div>
                                 </div>
                                 <div className="flex justify-between gap-5">
                                     <div className="label font-medium text-black">Titik Koordinat</div>
