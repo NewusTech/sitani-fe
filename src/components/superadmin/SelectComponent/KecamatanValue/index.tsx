@@ -77,7 +77,7 @@ import {
         value={value?.toString()}
         onValueChange={(val) => onChange(Number(val))}
       >
-        <SelectTrigger className="w-full text-xs md:text-sm">
+        <SelectTrigger className="w-full text-sm md:text-sm">
           <SelectValue placeholder="Pilih Kecamatan" />
         </SelectTrigger>
         <SelectContent className="pt-10 bg-white">

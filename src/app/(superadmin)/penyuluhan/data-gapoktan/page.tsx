@@ -107,6 +107,7 @@ import TypingEffect from '@/components/ui/TypingEffect';
 import NotFoundSearch from '@/components/SearchNotFound';
 import KecamatanSelect from '@/components/superadmin/SelectComponent/SelectKecamatan';
 import TahunSelect from '@/components/superadmin/SelectComponent/SelectTahun';
+import DeletePopupTitik from '@/components/superadmin/TitikDelete';
 
 interface Response {
     status: number;
@@ -514,6 +515,91 @@ const DataGapoktanViewAll = () => {
                 </>
             </div>
             {/* Mobile */}
+
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+                {dataGapoktan?.data?.data && dataGapoktan.data.data.length > 0 ? (
+                    dataGapoktan.data.data.map((item, index) => (
+                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                            <div className="wrap-konten flex flex-col gap-2">
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">UPTD BPP</div>
+                                    <div className="konten text-black/80 text-end">{item?.kecamatan.nama ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Desa</div>
+                                    <div className="konten text-black/80 text-end">{item?.desa.nama ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Tahun</div>
+                                    <div className="konten text-black/80 text-end">{item?.tahun ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Nama Kelompok Tani</div>
+                                    <div className="konten text-black/80 text-end">{item?.nama ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Ketua</div>
+                                    <div className="konten text-black/80 text-end">{item?.ketua ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Sekretaris</div>
+                                    <div className="konten text-black/80 text-end">{item?.sekretaris ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Bendahara</div>
+                                    <div className="konten text-black/80 text-end">{item?.bendahara ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Alamat Sekretariat</div>
+                                    <div className="konten text-black/80 text-end">{item?.alamat ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Tahun Dibentuk</div>
+                                    <div className="konten text-black/80 text-end">{item?.dibentuk ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Luas Lahan (Ha)</div>
+                                    <div className="konten text-black/80 text-end">{item?.lahan ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Jumlah Poktan</div>
+                                    <div className="konten text-black/80 text-end">{item?.poktan ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Jumlah Laki-laki</div>
+                                    <div className="konten text-black/80 text-end">{item?.l ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Jumlah Perempuan</div>
+                                    <div className="konten text-black/80 text-end">{item?.p ?? "-"}</div>
+                                </div>
+                                <div className="flex justify-between gap-5">
+                                    <div className="label font-medium text-black">Total Anggota</div>
+                                    <div className="konten text-black/80 text-end">{item?.total ?? "-"}</div>
+                                </div>
+                            </div>
+                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                            <div className="flex gap-3 text-white">
+                                <Link href={`/penyuluhan/data-gapoktan/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                    Detail
+                                </Link>
+                                <Link href={`/penyuluhan/data-gapoktan/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                    Edit
+                                </Link>
+                                <div className="w-full">
+                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item.id) || "")} />
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center">
+                        <NotFoundSearch />
+                    </div>
+                )}
+            </div>
+            {/* mobile table */}
 
             {/* dekstop table*/}
             <div className="hidden md:block">

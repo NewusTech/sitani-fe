@@ -89,12 +89,12 @@ const DetailGapoktanPage = () => {
         <div>
             {/* Title */}
             <div className="text-xl md:text-2xl mb-3 md:mb-5 font-semibold text-primary">
-            Data Kelompok Tani (POKTAN) Kabupaten
+            Data Gabungan Kelompok Tani (GAPOKTAN) Kabupaten
             </div>
             {/* Back Link */}
             <div className="flex justify-start gap-2 md:gap-3 mt-4">
                 <Link
-                    href="/penyuluhan/data-poktan"
+                    href="/penyuluhan/data-gapoktan"
                     className="bg-white px-4 md:text-base text-xs rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
                 >
                     Kembali
