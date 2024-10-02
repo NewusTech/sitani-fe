@@ -413,6 +413,21 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 													Bantuan
 												</span>
 											</Menu>
+											<Menu link="/psp/alsintan-prapanen">
+												<span className="text-sm">
+													Alsintan Prapanen
+												</span>
+											</Menu>
+											<Menu link="/psp/alsintan-pascapanen">
+												<span className="text-sm">
+													Alsintan Pascapanen
+												</span>
+											</Menu>
+											<Menu link="/psp/rekap-kec">
+												<span className="text-sm">
+													Rekap Kecamatan
+												</span>
+											</Menu>
 										</AccordionContent>
 									</AccordionItem>
 								</ComponentWithAccess>
