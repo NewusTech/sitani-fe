@@ -44,47 +44,47 @@ const formSchema = z.object({
     tahun: z
         .string()
         .min(1, { message: "Tahun wajib diisi" }),
-    tr_4_apbn: z.string()
+    chb_apbn: z.string()
         .optional(),
-    tr_4_tp: z.string()
+    chb_tp: z.string()
         .optional(),
-    tr_4_apbd: z.string()
+    chb_apbd: z.string()
         .optional(),
-    tr_2_apbn: z.string()
+    chk_apbn: z.string()
         .optional(),
-    tr_2_tp: z.string()
+    chk_tp: z.string()
         .optional(),
-    tr_2_apbd: z.string()
+    chk_apbd: z.string()
         .optional(),
-    rt_apbn: z.string()
+    power_thresher_apbn: z.string()
         .optional(),
-    rt_tp: z.string()
+    power_thresher_tp: z.string()
         .optional(),
-    rt_apbd: z.string()
+    power_thresher_apbd: z.string()
         .optional(),
-    cornplanter_apbn: z.string()
+    corn_sheller_apbn: z.string()
         .optional(),
-    cornplanter_tp: z.string()
+    corn_sheller_tp: z.string()
         .optional(),
-    cornplanter_apbd: z.string()
+    corn_sheller_apbd: z.string()
         .optional(),
-    cultivator_apbn: z.string()
+    ptm_apbn: z.string()
         .optional(),
-    cultivator_tp: z.string()
+    ptm_tp: z.string()
         .optional(),
-    cultivator_apbd: z.string()
+    ptm_apbd: z.string()
         .optional(),
-    hand_sprayer_apbn: z.string()
+    ptm_mobile_apbn: z.string()
         .optional(),
-    hand_sprayer_tp: z.string()
+    ptm_mobile_tp: z.string()
         .optional(),
-    hand_sprayer_apbd: z.string()
+    ptm_mobile_apbd: z.string()
         .optional(),
-    pompa_air_apbn: z.string()
+    cs_mobile_apbn: z.string()
         .optional(),
-    pompa_air_tp: z.string()
+    cs_mobile_tp: z.string()
         .optional(),
-    pompa_air_apbd: z.string()
+    cs_mobile_apbd: z.string()
         .optional(),
     keterangan: z.string()
         .optional(),
@@ -94,7 +94,7 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const PrapanenTambah = () => {
+const PascaTambah = () => {
     const [date, setDate] = React.useState<Date>()
 
     const {
@@ -125,7 +125,7 @@ const PrapanenTambah = () => {
     const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         try {
-            await axiosPrivate.post("/psp/alsintan-prapanen/create", data);
+            await axiosPrivate.post("/psp/alsintan-pascapanen/create", data);
             // alert
             Swal.fire({
                 icon: 'success',
@@ -150,7 +150,7 @@ const PrapanenTambah = () => {
             // alert
             console.log(data)
             // push
-            navigate.push('/psp/alsintan-prapanen');
+            navigate.push('/psp/alsintan-pascapanen');
             console.log("Success to create user:");
             reset()
         } catch (error: any) {
@@ -228,294 +228,294 @@ const PrapanenTambah = () => {
                     </div>
                     <Label className='font-semibold mb-1' label="Jumlah Alsintan" />
                     {/*  */}
-                    <Label className='font-semibold mb-1' label="Jumlah TR 4" />
+                    <Label className='font-semibold mb-1' label="Jumlah CHB" />
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="TR 4 APBN" />
+                            <Label className='text-sm mb-1' label="CHB APBN" />
                             <Input
                                 type="number"
-                                placeholder="TR 4 APBN"
-                                {...register('tr_4_apbn')}
-                                className={`${errors.tr_4_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CHB APBN"
+                                {...register('chb_apbn')}
+                                className={`${errors.chb_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.tr_4_apbn && (
-                                <HelperError>{errors.tr_4_apbn.message}</HelperError>
+                            {errors.chb_apbn && (
+                                <HelperError>{errors.chb_apbn.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="TR 4 TP" />
+                            <Label className='text-sm mb-1' label="CHB TP" />
                             <Input
                                 type="number"
-                                placeholder="TR 4 TP"
-                                {...register('tr_4_tp')}
-                                className={`${errors.tr_4_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CHB TP"
+                                {...register('chb_tp')}
+                                className={`${errors.chb_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.tr_4_tp && (
-                                <HelperError>{errors.tr_4_tp.message}</HelperError>
+                            {errors.chb_tp && (
+                                <HelperError>{errors.chb_tp.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="TR 4 APBD" />
+                            <Label className='text-sm mb-1' label="CHB APBD" />
                             <Input
                                 type="number"
-                                placeholder="TR 4 APBD"
-                                {...register('tr_4_apbd')}
-                                className={`${errors.tr_4_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CHB APBD"
+                                {...register('chb_apbd')}
+                                className={`${errors.chb_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.tr_4_apbd && (
-                                <HelperError>{errors.tr_4_apbd.message}</HelperError>
+                            {errors.chb_apbd && (
+                                <HelperError>{errors.chb_apbd.message}</HelperError>
                             )}
                         </div>
                     </div>
                     {/*  */}
                     {/*  */}
-                    <Label className='font-semibold mb-1' label="Jumlah TR 2" />
+                    <Label className='font-semibold mb-1' label="Jumlah CHK" />
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="TR 2 APBN" />
+                            <Label className='text-sm mb-1' label="CHK APBN" />
                             <Input
                                 type="number"
-                                placeholder="TR 2 APBN"
-                                {...register('tr_2_apbn')}
-                                className={`${errors.tr_2_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CHK APBN"
+                                {...register('chk_apbn')}
+                                className={`${errors.chk_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.tr_2_apbn && (
-                                <HelperError>{errors.tr_2_apbn.message}</HelperError>
+                            {errors.chk_apbn && (
+                                <HelperError>{errors.chk_apbn.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="TR 2 TP" />
+                            <Label className='text-sm mb-1' label="CHK TP" />
                             <Input
                                 type="number"
-                                placeholder="TR 2 TP"
-                                {...register('tr_2_tp')}
-                                className={`${errors.tr_2_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CHK TP"
+                                {...register('chk_tp')}
+                                className={`${errors.chk_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.tr_2_tp && (
-                                <HelperError>{errors.tr_2_tp.message}</HelperError>
+                            {errors.chk_tp && (
+                                <HelperError>{errors.chk_tp.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="TR 2 APBD" />
+                            <Label className='text-sm mb-1' label="CHK APBD" />
                             <Input
                                 type="number"
-                                placeholder="TR 2 APBD"
-                                {...register('tr_2_apbd')}
-                                className={`${errors.tr_2_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CHK APBD"
+                                {...register('chk_apbd')}
+                                className={`${errors.chk_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.tr_2_apbd && (
-                                <HelperError>{errors.tr_2_apbd.message}</HelperError>
+                            {errors.chk_apbd && (
+                                <HelperError>{errors.chk_apbd.message}</HelperError>
                             )}
                         </div>
                     </div>
                     {/*  */}
                     {/*  */}
-                    <Label className='font-semibold mb-1' label="Jumlah RT" />
+                    <Label className='font-semibold mb-1' label="Jumlah Power Thresher" />
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="RT APBN" />
+                            <Label className='text-sm mb-1' label="Power Thresher APBN" />
                             <Input
                                 type="number"
-                                placeholder="RT APBN"
-                                {...register('rt_apbn')}
-                                className={`${errors.rt_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="Power Thresher APBN"
+                                {...register('power_thresher_apbn')}
+                                className={`${errors.power_thresher_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.rt_apbn && (
-                                <HelperError>{errors.rt_apbn.message}</HelperError>
+                            {errors.power_thresher_apbn && (
+                                <HelperError>{errors.power_thresher_apbn.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="RT TP" />
+                            <Label className='text-sm mb-1' label="Power Thresher TP" />
                             <Input
                                 type="number"
-                                placeholder="RT TP"
-                                {...register('rt_tp')}
-                                className={`${errors.rt_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="Power Thresher TP"
+                                {...register('power_thresher_tp')}
+                                className={`${errors.power_thresher_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.rt_tp && (
-                                <HelperError>{errors.rt_tp.message}</HelperError>
+                            {errors.power_thresher_tp && (
+                                <HelperError>{errors.power_thresher_tp.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="RT APBD" />
+                            <Label className='text-sm mb-1' label="Power Thresher APBD" />
                             <Input
                                 type="number"
-                                placeholder="RT APBD"
-                                {...register('rt_apbd')}
-                                className={`${errors.rt_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="Power Thresher APBD"
+                                {...register('power_thresher_apbd')}
+                                className={`${errors.power_thresher_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.rt_apbd && (
-                                <HelperError>{errors.rt_apbd.message}</HelperError>
+                            {errors.power_thresher_apbd && (
+                                <HelperError>{errors.power_thresher_apbd.message}</HelperError>
                             )}
                         </div>
                     </div>
                     {/*  */}
                     {/*  */}
-                    <Label className='font-semibold mb-1' label="Jumlah Cornplanter" />
+                    <Label className='font-semibold mb-1' label="Jumlah Corn Sheller" />
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Cornplanter APBN" />
+                            <Label className='text-sm mb-1' label="Corn Sheller APBN" />
                             <Input
                                 type="number"
-                                placeholder="Cornplanter APBN"
-                                {...register('cornplanter_apbn')}
-                                className={`${errors.cornplanter_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="Corn Sheller APBN"
+                                {...register('corn_sheller_apbn')}
+                                className={`${errors.corn_sheller_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.cornplanter_apbn && (
-                                <HelperError>{errors.cornplanter_apbn.message}</HelperError>
+                            {errors.corn_sheller_apbn && (
+                                <HelperError>{errors.corn_sheller_apbn.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Cornplanter TP" />
+                            <Label className='text-sm mb-1' label="Corn Sheller TP" />
                             <Input
                                 type="number"
-                                placeholder="Cornplanter TP"
-                                {...register('cornplanter_tp')}
-                                className={`${errors.cornplanter_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="Corn Sheller TP"
+                                {...register('corn_sheller_tp')}
+                                className={`${errors.corn_sheller_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.cornplanter_tp && (
-                                <HelperError>{errors.cornplanter_tp.message}</HelperError>
+                            {errors.corn_sheller_tp && (
+                                <HelperError>{errors.corn_sheller_tp.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Cornplanter APBD" />
+                            <Label className='text-sm mb-1' label="Corn Sheller APBD" />
                             <Input
                                 type="number"
-                                placeholder="Cornplanter APBD"
-                                {...register('cornplanter_apbd')}
-                                className={`${errors.cornplanter_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="Corn Sheller APBD"
+                                {...register('corn_sheller_apbd')}
+                                className={`${errors.corn_sheller_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.cornplanter_apbd && (
-                                <HelperError>{errors.cornplanter_apbd.message}</HelperError>
+                            {errors.corn_sheller_apbd && (
+                                <HelperError>{errors.corn_sheller_apbd.message}</HelperError>
                             )}
                         </div>
                     </div>
                     {/*  */}
                     {/*  */}
-                    <Label className='font-semibold mb-1' label="Jumlah Cultivator" />
+                    <Label className='font-semibold mb-1' label="Jumlah PTM" />
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Cultivator APBN" />
+                            <Label className='text-sm mb-1' label="PTM APBN" />
                             <Input
                                 type="number"
-                                placeholder="Cultivator APBN"
-                                {...register('cultivator_apbn')}
-                                className={`${errors.cultivator_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="PTM APBN"
+                                {...register('ptm_apbn')}
+                                className={`${errors.ptm_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.cultivator_apbn && (
-                                <HelperError>{errors.cultivator_apbn.message}</HelperError>
+                            {errors.ptm_apbn && (
+                                <HelperError>{errors.ptm_apbn.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Cultivator TP" />
+                            <Label className='text-sm mb-1' label="PTM TP" />
                             <Input
                                 type="number"
-                                placeholder="Cultivator TP"
-                                {...register('cultivator_tp')}
-                                className={`${errors.cultivator_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="PTM TP"
+                                {...register('ptm_tp')}
+                                className={`${errors.ptm_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.cultivator_tp && (
-                                <HelperError>{errors.cultivator_tp.message}</HelperError>
+                            {errors.ptm_tp && (
+                                <HelperError>{errors.ptm_tp.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Cultivator APBD" />
+                            <Label className='text-sm mb-1' label="PTM APBD" />
                             <Input
                                 type="number"
-                                placeholder="Cultivator APBD"
-                                {...register('cultivator_apbd')}
-                                className={`${errors.cultivator_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="PTM APBD"
+                                {...register('ptm_apbd')}
+                                className={`${errors.ptm_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.cultivator_apbd && (
-                                <HelperError>{errors.cultivator_apbd.message}</HelperError>
+                            {errors.ptm_apbd && (
+                                <HelperError>{errors.ptm_apbd.message}</HelperError>
                             )}
                         </div>
                     </div>
                     {/*  */}
                     {/*  */}
-                    <Label className='font-semibold mb-1' label="Jumlah Hand Sprayer" />
+                    <Label className='font-semibold mb-1' label="Jumlah PTM Mobile" />
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Hand Sprayer APBN" />
+                            <Label className='text-sm mb-1' label="PTM Mobile APBN" />
                             <Input
                                 type="number"
-                                placeholder="Hand Sprayer APBN"
-                                {...register('hand_sprayer_apbn')}
-                                className={`${errors.hand_sprayer_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="PTM Mobile APBN"
+                                {...register('ptm_mobile_apbn')}
+                                className={`${errors.ptm_mobile_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.hand_sprayer_apbn && (
-                                <HelperError>{errors.hand_sprayer_apbn.message}</HelperError>
+                            {errors.ptm_mobile_apbn && (
+                                <HelperError>{errors.ptm_mobile_apbn.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Hand Sprayer TP" />
+                            <Label className='text-sm mb-1' label="PTM Mobile TP" />
                             <Input
                                 type="number"
-                                placeholder="Hand Sprayer TP"
-                                {...register('hand_sprayer_tp')}
-                                className={`${errors.hand_sprayer_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="PTM Mobile TP"
+                                {...register('ptm_mobile_tp')}
+                                className={`${errors.ptm_mobile_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.hand_sprayer_tp && (
-                                <HelperError>{errors.hand_sprayer_tp.message}</HelperError>
+                            {errors.ptm_mobile_tp && (
+                                <HelperError>{errors.ptm_mobile_tp.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Hand Sprayer APBD" />
+                            <Label className='text-sm mb-1' label="PTM Mobile APBD" />
                             <Input
                                 type="number"
-                                placeholder="TR 4 APBD"
-                                {...register('hand_sprayer_apbd')}
-                                className={`${errors.hand_sprayer_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CHB APBD"
+                                {...register('ptm_mobile_apbd')}
+                                className={`${errors.ptm_mobile_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.hand_sprayer_apbd && (
-                                <HelperError>{errors.hand_sprayer_apbd.message}</HelperError>
+                            {errors.ptm_mobile_apbd && (
+                                <HelperError>{errors.ptm_mobile_apbd.message}</HelperError>
                             )}
                         </div>
                     </div>
                     {/*  */}
                     {/*  */}
-                    <Label className='font-semibold mb-1' label="Jumlah Pompa Air" />
+                    <Label className='font-semibold mb-1' label="Jumlah CS Mobile" />
                     <div className="flex flex-col md:flex-row justify-between gap-2 md:lg-3 lg:gap-5">
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pompa Air APBN" />
+                            <Label className='text-sm mb-1' label="CS Mobile APBN" />
                             <Input
                                 type="number"
-                                placeholder="Pompa Air APBN"
-                                {...register('pompa_air_apbn')}
-                                className={`${errors.pompa_air_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CS Mobile APBN"
+                                {...register('cs_mobile_apbn')}
+                                className={`${errors.cs_mobile_apbn ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.pompa_air_apbn && (
-                                <HelperError>{errors.pompa_air_apbn.message}</HelperError>
+                            {errors.cs_mobile_apbn && (
+                                <HelperError>{errors.cs_mobile_apbn.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pompa Air TP" />
+                            <Label className='text-sm mb-1' label="CS Mobile TP" />
                             <Input
                                 type="number"
-                                placeholder="Pompa Air TP"
-                                {...register('pompa_air_tp')}
-                                className={`${errors.pompa_air_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CS Mobile TP"
+                                {...register('cs_mobile_tp')}
+                                className={`${errors.cs_mobile_tp ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.pompa_air_tp && (
-                                <HelperError>{errors.pompa_air_tp.message}</HelperError>
+                            {errors.cs_mobile_tp && (
+                                <HelperError>{errors.cs_mobile_tp.message}</HelperError>
                             )}
                         </div>
                         <div className="flex flex-col mb-2 w-full">
-                            <Label className='text-sm mb-1' label="Pompa Air APBD" />
+                            <Label className='text-sm mb-1' label="CS Mobile APBD" />
                             <Input
                                 type="number"
-                                placeholder="Pompa Air APBD"
-                                {...register('pompa_air_apbd')}
-                                className={`${errors.pompa_air_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
+                                placeholder="CS Mobile APBD"
+                                {...register('cs_mobile_apbd')}
+                                className={`${errors.cs_mobile_apbd ? 'border-red-500' : 'py-5 text-xs md:text-sm block'}`}
                             />
-                            {errors.pompa_air_apbd && (
-                                <HelperError>{errors.pompa_air_apbd.message}</HelperError>
+                            {errors.cs_mobile_apbd && (
+                                <HelperError>{errors.cs_mobile_apbd.message}</HelperError>
                             )}
                         </div>
                     </div>
                     {/*  */}
                     <div className="mb-10 flex justify-end gap-3">
-                        <Link href="/psp/alsintan-prapanen" className='bg-white w-[90px] text-xs md:text-sm  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                        <Link href="/psp/alsintan-pascapanen" className='bg-white w-[90px] text-xs md:text-sm  rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium flex justify-center items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                             Batal
                         </Link>
                         <Button type="submit" variant="primary" size="lg" className="w-[90px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 text-xs md:text-sm">
@@ -532,4 +532,4 @@ const PrapanenTambah = () => {
     )
 }
 
-export default PrapanenTambah
+export default PascaTambah

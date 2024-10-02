@@ -34,27 +34,27 @@ interface PspAlsintanPrapanen {
     id: number;
     kecamatanId: number;
     tahun: number;
-    tr_4_apbn: number;
-    tr_4_tp: number;
-    tr_4_apbd: number;
-    tr_2_apbn: number;
-    tr_2_tp: number;
-    tr_2_apbd: number;
-    rt_apbn: number;
-    rt_tp: number;
-    rt_apbd: number;
-    cornplanter_apbn: number;
-    cornplanter_tp: number;
-    cornplanter_apbd: number;
-    cultivator_apbn: number;
-    cultivator_tp: number;
-    cultivator_apbd: number;
-    hand_sprayer_apbn: number;
-    hand_sprayer_tp: number;
-    hand_sprayer_apbd: number;
-    pompa_air_apbn: number;
-    pompa_air_tp: number;
-    pompa_air_apbd: number;
+    chb_apbn: number;
+    chb_tp: number;
+    chb_apbd: number;
+    chk_apbn: number;
+    chk_tp: number;
+    chk_apbd: number;
+    power_thresher_apbn: number;
+    power_thresher_tp: number;
+    power_thresher_apbd: number;
+    corn_sheller_apbn: number;
+    corn_sheller_tp: number;
+    corn_sheller_apbd: number;
+    ptm_apbn: number;
+    ptm_tp: number;
+    ptm_apbd: number;
+    ptm_mobile_apbn: number;
+    ptm_mobile_tp: number;
+    ptm_mobile_apbd: number;
+    cs_mobile_apbn: number;
+    cs_mobile_tp: number;
+    cs_mobile_apbd: number;
     keterangan: string;
     createdAt: string;
     updatedAt: string;
@@ -72,7 +72,7 @@ const DetailPraPanenPage = () => {
     const { id } = useParams();
 
     const { data: dataUser, error } = useSWR<Response>(
-        `/psp/alsintan-prapanen/get/${id}`,
+        `/psp/alsintan-pascapanen/get/${id}`,
         async (url: string) => {
             try {
                 const response = await axiosPrivate.get(url);
@@ -93,12 +93,12 @@ const DetailPraPanenPage = () => {
         <div>
             {/* Title */}
             <div className="text-xl md:text-2xl mb-3 md:mb-5 font-semibold text-primary">
-                Sebaran Alsintan Prapanen
+                Sebaran Alsintan Pascapanen
             </div>
             {/* Back Link */}
             <div className="flex justify-start gap-2 md:gap-3 mt-4">
                 <Link
-                    href="/psp/alsintan-prapanen"
+                    href="/psp/alsintan-pascapanen"
                     className="bg-white px-4 md:text-base text-xs rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
                 >
                     Kembali
@@ -106,31 +106,31 @@ const DetailPraPanenPage = () => {
             </div>
             {/* Detail */}
             <div className="wrap-detail bg-slate-100 p-5 md:p-6 md:mt-5 mt-3 rounded-lg">
-                <div className="font-semibold mb-2 text-base md:text-lg">Data Alsintan Prapanen</div>
+                <div className="font-semibold mb-2 text-base md:text-lg">Data Alsintan Pascapanen</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                     <LabelDetail label="UPTD BPP" name={data.kecamatan.nama} />
                     <LabelDetail label="Tahun" name={data.tahun} />
-                    <LabelDetail label="TR 4 APBN" name={data.tr_4_apbn} />
-                    <LabelDetail label="TR 4 TP" name={data.tr_4_tp} />
-                    <LabelDetail label="TR 4 APBD" name={data.tr_4_apbd} />
-                    <LabelDetail label="TR 2 APBN" name={data.tr_2_apbn} />
-                    <LabelDetail label="TR 2 TP" name={data.tr_2_tp} />
-                    <LabelDetail label="TR 2 APBD" name={data.tr_2_apbd} />
-                    <LabelDetail label="RT APBN" name={data.rt_apbn} />
-                    <LabelDetail label="RT TP" name={data.rt_tp} />
-                    <LabelDetail label="RT APBD" name={data.rt_apbd} />
-                    <LabelDetail label="Corn Planter APBN" name={data.cornplanter_apbn} />
-                    <LabelDetail label="Corn Planter TP" name={data.cornplanter_tp} />
-                    <LabelDetail label="Corn Planter APBD" name={data.cornplanter_apbd} />
-                    <LabelDetail label="Cultivator APBN" name={data.cultivator_apbn} />
-                    <LabelDetail label="Cultivator TP" name={data.cultivator_tp} />
-                    <LabelDetail label="Cultivator APBD" name={data.cultivator_apbd} />
-                    <LabelDetail label="Hand Sprayer APBN" name={data.hand_sprayer_apbn} />
-                    <LabelDetail label="Hand Sprayer TP" name={data.hand_sprayer_tp} />
-                    <LabelDetail label="Hand Sprayer APBD" name={data.hand_sprayer_apbd} />
-                    <LabelDetail label="Pompa Air APBN" name={data.pompa_air_apbn} />
-                    <LabelDetail label="Pompa Air TP" name={data.pompa_air_tp} />
-                    <LabelDetail label="Pompa Air APBD" name={data.pompa_air_apbd} />
+                    <LabelDetail label="CHB APBN" name={data.chb_apbn} />
+                    <LabelDetail label="CHB TP" name={data.chb_tp} />
+                    <LabelDetail label="CHB APBD" name={data.chb_apbd} />
+                    <LabelDetail label="CHK APBN" name={data.chk_apbn} />
+                    <LabelDetail label="CHK TP" name={data.chk_tp} />
+                    <LabelDetail label="CHK APBD" name={data.chk_apbd} />
+                    <LabelDetail label="Power Thresher APBN" name={data.power_thresher_apbn} />
+                    <LabelDetail label="Power Thresher TP" name={data.power_thresher_tp} />
+                    <LabelDetail label="Power Thresher APBD" name={data.power_thresher_apbd} />
+                    <LabelDetail label="Corn Sheller APBN" name={data.corn_sheller_apbn} />
+                    <LabelDetail label="Corn Sheller TP" name={data.corn_sheller_tp} />
+                    <LabelDetail label="Corn Sheller APBD" name={data.corn_sheller_apbd} />
+                    <LabelDetail label="PTM APBN" name={data.ptm_apbn} />
+                    <LabelDetail label="PTM TP" name={data.ptm_tp} />
+                    <LabelDetail label="PTM APBD" name={data.ptm_apbd} />
+                    <LabelDetail label="PTM Mobile APBN" name={data.ptm_mobile_apbn} />
+                    <LabelDetail label="PTM Mobile TP" name={data.ptm_mobile_tp} />
+                    <LabelDetail label="PTM Mobile APBD" name={data.ptm_mobile_apbd} />
+                    <LabelDetail label="CS Mobile APBN" name={data.cs_mobile_apbn} />
+                    <LabelDetail label="CS Mobile TP" name={data.cs_mobile_tp} />
+                    <LabelDetail label="CS Mobile APBD" name={data.cs_mobile_apbd} />
                     <LabelDetail label="Keterangan" name={data.keterangan} />
                 </div>
             </div>
