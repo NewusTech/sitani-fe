@@ -277,7 +277,7 @@ const Prapanen = () => {
   };
   // Filter Table
 
-  
+
 
   return (
     <div>
@@ -311,26 +311,26 @@ const Prapanen = () => {
               />
               {/* filter tahun */}
               <div className="w-fit">
-              <Select
-                onValueChange={(value) => setTahun(value)}
-                value={tahun}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Tahun" className='text-2xl' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="2017">2017</SelectItem>
-                  <SelectItem value="2018">2018</SelectItem>
-                  <SelectItem value="2019">2019</SelectItem>
-                  <SelectItem value="2020">2020</SelectItem>
-                  <SelectItem value="2021">2021</SelectItem>
-                  <SelectItem value="2022">2022</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2025">2025</SelectItem>
-                  <SelectItem value="2026">2026</SelectItem>
-                </SelectContent>
-              </Select>
+                <Select
+                  onValueChange={(value) => setTahun(value)}
+                  value={tahun}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Tahun" className='text-2xl' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="2017">2017</SelectItem>
+                    <SelectItem value="2018">2018</SelectItem>
+                    <SelectItem value="2019">2019</SelectItem>
+                    <SelectItem value="2020">2020</SelectItem>
+                    <SelectItem value="2021">2021</SelectItem>
+                    <SelectItem value="2022">2022</SelectItem>
+                    <SelectItem value="2023">2023</SelectItem>
+                    <SelectItem value="2024">2024</SelectItem>
+                    <SelectItem value="2025">2025</SelectItem>
+                    <SelectItem value="2026">2026</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               {/* filter tahun */}
             </div>
@@ -404,14 +404,28 @@ const Prapanen = () => {
                         <Label className='text-xs mb-1 !text-black opacity-50' label="Tahun Bulan" />
                         <div className="flex gap-2 justify-between items-center w-full">
                           {/* filter tahun */}
-                          <TahunSelect
-                            url='psp/master-tahun/bantuan'
-                            semua={true}
-                            value={selectedTahun}
-                            onChange={(value) => {
-                              setSelectedTahun(value);
-                            }}
-                          />
+                          <div className="w-full">
+                            <Select
+                              onValueChange={(value) => setTahun(value)}
+                              value={tahun}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Tahun" className='text-2xl' />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="2017">2017</SelectItem>
+                                <SelectItem value="2018">2018</SelectItem>
+                                <SelectItem value="2019">2019</SelectItem>
+                                <SelectItem value="2020">2020</SelectItem>
+                                <SelectItem value="2021">2021</SelectItem>
+                                <SelectItem value="2022">2022</SelectItem>
+                                <SelectItem value="2023">2023</SelectItem>
+                                <SelectItem value="2024">2024</SelectItem>
+                                <SelectItem value="2025">2025</SelectItem>
+                                <SelectItem value="2026">2026</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
                           {/* filter tahun */}
                           {/* filter tahun */}
                           {/* Filter bulan */}
@@ -474,6 +488,131 @@ const Prapanen = () => {
         </>
       </div>
       {/* Mobile */}
+
+      {/* mobile table */}
+      <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+        {dataPSP?.data?.data && dataPSP.data.data.length > 0 ? (
+          dataPSP.data.data.map((item, index) => (
+            <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+              <div className="wrap-konten flex flex-col gap-2">
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Kecamatan</div>
+                  <div className="konten text-black/80 text-end">{item?.kecamatan?.nama ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Tahun</div>
+                  <div className="konten text-black/80 text-end">{item?.tahun ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Keterangan</div>
+                  <div className="konten text-black/80 text-end">{item?.keterangan ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">TR 4 APBN</div>
+                  <div className="konten text-black/80 text-end">{item?.tr_4_apbn ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">TR 4 TP</div>
+                  <div className="konten text-black/80 text-end">{item?.tr_4_tp ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">TR 4 APBD</div>
+                  <div className="konten text-black/80 text-end">{item?.tr_4_apbd ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">TR 2 APBN</div>
+                  <div className="konten text-black/80 text-end">{item?.tr_2_apbn ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">TR 2 TP</div>
+                  <div className="konten text-black/80 text-end">{item?.tr_2_tp ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">TR 2 APBD</div>
+                  <div className="konten text-black/80 text-end">{item?.tr_2_apbd ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">RT APBN</div>
+                  <div className="konten text-black/80 text-end">{item?.rt_apbn ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">RT TP</div>
+                  <div className="konten text-black/80 text-end">{item?.rt_tp ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">RT APBD</div>
+                  <div className="konten text-black/80 text-end">{item?.rt_apbd ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Cornplanter APBN</div>
+                  <div className="konten text-black/80 text-end">{item?.cornplanter_apbn ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Cornplanter TP</div>
+                  <div className="konten text-black/80 text-end">{item?.cornplanter_tp ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Cornplanter APBD</div>
+                  <div className="konten text-black/80 text-end">{item?.cornplanter_apbd ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Cultivator APBN</div>
+                  <div className="konten text-black/80 text-end">{item?.cultivator_apbn ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Cultivator TP</div>
+                  <div className="konten text-black/80 text-end">{item?.cultivator_tp ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Cultivator APBD</div>
+                  <div className="konten text-black/80 text-end">{item?.cultivator_apbd ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Hand Sprayer APBN</div>
+                  <div className="konten text-black/80 text-end">{item?.hand_sprayer_apbn ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Hand Sprayer TP</div>
+                  <div className="konten text-black/80 text-end">{item?.hand_sprayer_tp ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Hand Sprayer APBD</div>
+                  <div className="konten text-black/80 text-end">{item?.hand_sprayer_apbd ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Pompa Air APBN</div>
+                  <div className="konten text-black/80 text-end">{item?.pompa_air_apbn ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Pompa Air TP</div>
+                  <div className="konten text-black/80 text-end">{item?.pompa_air_tp ?? "-"}</div>
+                </div>
+                <div className="flex justify-between gap-5">
+                  <div className="label font-medium text-black">Pompa Air APBD</div>
+                  <div className="konten text-black/80 text-end">{item?.pompa_air_apbd ?? "-"}</div>
+                </div>
+              </div>
+              <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+              <div className="flex gap-3 text-white">
+                <Link href={`/psp/alsintan-prapanen/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                  Detail
+                </Link>
+                <Link href={`/psp/alsintan-prapanen/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                  Edit
+                </Link>
+                <div className="w-full">
+                  <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item.id) || "")} />
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-center">
+            <NotFoundSearch />
+          </div>
+        )}
+      </div>
+      {/* mobile table */}
 
       {/* table */}
       <div className="hidden md:block">

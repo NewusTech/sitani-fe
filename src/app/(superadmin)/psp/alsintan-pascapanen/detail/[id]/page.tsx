@@ -108,7 +108,7 @@ const DetailPraPanenPage = () => {
             <div className="wrap-detail bg-slate-100 p-5 md:p-6 md:mt-5 mt-3 rounded-lg">
                 <div className="font-semibold mb-2 text-base md:text-lg">Data Alsintan Pascapanen</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-                    <LabelDetail label="UPTD BPP" name={data.kecamatan.nama} />
+                    <LabelDetail label="Kecamatan" name={data.kecamatan.nama} />
                     <LabelDetail label="Tahun" name={data.tahun} />
                     <LabelDetail label="CHB APBN" name={data.chb_apbn} />
                     <LabelDetail label="CHB TP" name={data.chb_tp} />
