@@ -275,7 +275,7 @@ const ValidasiSayuranBuah = () => {
     return (
         <div>
             {/* title */}
-            <div className="text-2xl mb-5 font-semibold text-primary uppercase">Validasi Sayuran Buah</div>
+            <div className="text-xl md:text-2xl mb-3 md:mb-5 font-semibold text-primary">Validasi Sayuran Buah</div>
             {/* title */}
 
             {/* desktop */}
