@@ -500,7 +500,7 @@ const ValidasiPadi = () => {
                                 onTolak={handleTolak}
                             />
                         </div>
-                        <div className="w-[300px] max-w-[300px] text-justify">{dataPadi?.data?.keterangan ?? "-"}</div>
+                        <div className="text-justify">{dataPadi?.data?.keterangan ?? "-"}</div>
                     </div>
                 </div>
             </div>

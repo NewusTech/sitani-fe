@@ -538,7 +538,7 @@ const ValidasiPalawija = () => {
                                     onTolak={handleTolak}
                                 />
                             </div>
-                            <div className="w-[300px] max-w-[300px] text-justify">{dataPalawija?.data?.keterangan ?? "-"}</div>
+                            <div className="text-justify">{dataPalawija?.data?.keterangan ?? "-"}</div>
                         </div>
                     </div>
                 </div>
