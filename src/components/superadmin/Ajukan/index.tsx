@@ -12,12 +12,13 @@ import { Button } from '@/components/ui/button';
 import Loading from '@/components/ui/Loading'; // Loading indicator
 
 interface AjukanKembaliProps {
+    className?: string;
     id: number;
     status: string; // Status seperti 'tolak', 'terima', 'belum', 'tunggu'
     onAjukanKembali: (id: number) => Promise<void>;
 }
 
-const AjukanKembali: FC<AjukanKembaliProps> = ({ id, status, onAjukanKembali }) => {
+const AjukanKembali: FC<AjukanKembaliProps> = ({ id, status, className, onAjukanKembali }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -41,7 +42,7 @@ const AjukanKembali: FC<AjukanKembaliProps> = ({ id, status, onAjukanKembali }) 
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                     <button
-                        className={`px-4 py-2 rounded-lg text-white 
+                        className={`px-4 py-2 rounded-full md:rounded-lg text-white ${className} 
                             ${isButtonDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary hover:bg-primary-hover'}`}
                         onClick={() => !isButtonDisabled && setIsOpen(true)}
                         disabled={isButtonDisabled || loading} // Disable tombol jika status bukan 'tolak' atau sedang loading
@@ -51,10 +52,10 @@ const AjukanKembali: FC<AjukanKembaliProps> = ({ id, status, onAjukanKembali }) 
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>
+                        <DialogTitle className='text-start'>
                             Apakah kamu yakin ingin mengajukan kembali data ini?
                         </DialogTitle>
-                        <DialogDescription>
+                        <DialogDescription className='text-start'>
                             Tindakan ini akan mengajukan kembali data yang telah ditolak. Pastikan data sudah sesuai sebelum melanjutkan.
                             <div className="wrap flex gap-3 justify-end mt-3">
                                 <Button
