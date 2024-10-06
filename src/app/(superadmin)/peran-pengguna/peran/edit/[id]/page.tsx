@@ -14,6 +14,7 @@ import useSWR, { SWRResponse, mutate } from "swr";
 import useLocalStorage from '@/hooks/useLocalStorage';
 import SelectMultipleHak from '@/components/superadmin/HakMultiple';
 import Swal from 'sweetalert2';
+import Loading from '@/components/ui/Loading';
 
 
 const formSchema = z.object({
@@ -57,28 +58,28 @@ const EditPeran = () => {
     interface RolePermissions {
         role_id: number;
         permission_id: number;
-      }
-      
-      interface Permission {
+    }
+
+    interface Permission {
         id: number;
         permissionName: string;
         description: string;
         role_permissions: RolePermissions;
-      }
-      
-      interface RoleData {
+    }
+
+    interface RoleData {
         id: number;
         roleName: string;
         description: string;
         permissions: Permission[];
-      }
-      
-      interface RoleResponse {
+    }
+
+    interface RoleResponse {
         status: number;
         message: string;
         data: RoleData;
-      }
-      
+    }
+
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
     const params = useParams();
@@ -247,11 +248,15 @@ const EditPeran = () => {
                 </div>
                 {/* Button */}
                 <div className="flex justify-end gap-3">
-                    <Link href="/peran-pengguna/peran" className='bg-white w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium'>
+                    <Link href="/peran-pengguna/peran" className='bg-white text-sm md:text-base w-[90px] md:w-[120px] rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
                         Batal
                     </Link>
-                    <Button type="submit" variant="primary" size="lg" className="w-[120px]">
-                        Simpan
+                    <Button type="submit" variant="primary" size="lg" className="w-[90px] md:w-[120px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300">
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            "Simpan"
+                        )}
                     </Button>
                 </div>
             </form>

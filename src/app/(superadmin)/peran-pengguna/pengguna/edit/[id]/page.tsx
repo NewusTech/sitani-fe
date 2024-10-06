@@ -1,6 +1,6 @@
 "use client"
 import Label from '@/components/ui/label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { z } from 'zod';
@@ -13,29 +13,80 @@ import useSWR, { mutate } from "swr";
 import Swal from "sweetalert2";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import SelectPeran from '@/components/superadmin/PeranMultiple';
 import Loading from '@/components/ui/Loading';
 
+interface UserKecamatan {
+    user_id: number;
+    kecamatan_id: number;
+  }
+  
+  interface Kecamatan {
+    id: number;
+    nama: string;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+    user_kecamatan: UserKecamatan;
+  }
+  
+  interface UserRole {
+    user_id: number;
+    role_id: number;
+  }
+  
+  interface Role {
+    id: number;
+    roleName: string;
+    description: string;
+    user_roles: UserRole;
+  }
+  
+  interface UserData {
+    id: number;
+    email: string;
+    nip: number;
+    name: string;
+    pangkat: string;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+    kecamatans: Kecamatan[];
+    roles: Role[];
+  }
+  
+  interface UserResponse {
+    status: number;
+    message: string;
+    data: UserData;
+  }
+  
+
 const formSchema = z.object({
     role_id: z
-        .preprocess((val) => (val !== undefined ? Number(val) : undefined), z.number().positive({ message: "Peran wajib diisi" })),
+        .preprocess((val) => (val !== undefined ? Number(val) : undefined), z.number().positive({ message: "Peran wajib diisi" }))
+        .optional(),
     email: z
         .string()
-        .min(1, { message: "Email wajib diisi" }),
+        .min(1, { message: "Email wajib diisi" })
+        .optional(),
     password: z
         .string()
-        .min(6, { message: "Password minimal 6 karakter" }),
+        .min(6, { message: "Password minimal 6 karakter" })
+        .optional(),
     name: z
         .string()
-        .min(1, { message: "Nama wajib diisi" }),
+        .min(1, { message: "Nama wajib diisi" })
+        .optional(),
     nip: z
-        .preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" })),
+        .preprocess((val) => Number(val), z.number().min(1, { message: "NIP wajib diisi" }))
+        .optional(),
     pangkat: z
         .string()
-        .min(1, { message: "Pangkat wajib diisi" }),
+        .min(1, { message: "Pangkat wajib diisi" })
+        .optional(),
     kecamatan_id: z
-        .preprocess((val) => (val !== undefined ? Number(val) : undefined), z.number().positive({ message: "Nama Kecamatan wajib diisi" })),
+        .preprocess((val) => (val !== undefined ? Number(val) : undefined), z.number().positive({ message: "Nama Kecamatan wajib diisi" }))
+        .optional(),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -62,9 +113,7 @@ interface ResponsePeran {
     message: string;
 }
 
-
-
-const TambahPengguna = () => {
+const EditPengguna = () => {
     // Hooks for local storage, axios, and navigation
     const [accessToken] = useLocalStorage("accessToken", "");
     const axiosPrivate = useAxiosPrivate();
@@ -109,6 +158,35 @@ const TambahPengguna = () => {
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
     });
+
+    // get one
+    const params = useParams();
+    const { id } = params;
+
+    const { data: dataUser, error } = useSWR<UserResponse>(
+        `user/get/${id}`,
+        async (url: string) => {
+            try {
+                const response = await axiosPrivate.get(url);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                return null;
+            }
+        }
+    );
+
+    useEffect(() => {
+        if (dataUser && dataUser.data) {
+            setValue('email', dataUser?.data?.email || '');
+            setValue('name', dataUser?.data?.name || '');
+            setValue('nip', dataUser?.data?.nip);
+            setValue('pangkat', dataUser?.data?.pangkat || '');
+            setValue('role_id', dataUser?.data?.roles[0]?.id);
+            setValue('kecamatan_id', dataUser?.data?.kecamatans[0]?.id);
+        }
+    }, [dataUser, setValue]);
+    // get one
 
     // Transform fetched data to be used in selectors
     const kecamatanOptions: KecamatanOption[] =
@@ -299,7 +377,7 @@ const TambahPengguna = () => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            "Tambah"
+                            "Simpan"
                         )}
                     </Button>
                 </div>
@@ -308,4 +386,4 @@ const TambahPengguna = () => {
     )
 }
 
-export default TambahPengguna
+export default EditPengguna
