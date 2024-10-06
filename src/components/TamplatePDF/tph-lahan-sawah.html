@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paddy Field Usage Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 12px;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 4px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .sub-header {
+            background-color: #e6e6e6;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .footer {
+            text-align: left;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">4.2.1 DATA LUAS LAHAN SAWAH MENURUT PENGGUNAANNYA</div>
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">No</th>
+                <th rowspan="2">Kecamatan</th>
+                <th colspan="10">Luas Lahan Sawah (Ha)</th>
+                <th rowspan="2">KET</th>
+            </tr>
+            <tr class="sub-header">
+                <th>Irigasi Teknis</th>
+                <th>Irigasi 1/2 Teknis</th>
+                <th>Irigasi Sederhana</th>
+                <th>Irigasi Desa/</th>
+                <th>Non PU</th>
+                <th>Tadah Hujan</th>
+                <th>Pasang Surut</th>
+                <th>Lebak</th>
+                <th>Lainnya</th>
+                <th>Jumlah</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Metro Kibang</td>
+                <td class="error">#ERROR!</td>
+                <td>-</td>
+                <td>-</td>
+                <td></td>
+                <td>-</td>
+                <td class="error">#ERROR!</td>
+                <td class="error">#ERROR!</td>
+                <td class="error">#ERROR!</td>
+                <td>-</td>
+                <td class="error">#ERROR!</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Batanghari</td>
+                <td>3,933</td>
+                <td>-</td>
+                <td>-</td>
+                <td></td>
+                <td>-</td>
+                <td class="error">#ERROR!</td>
+                <td class="error">#ERROR!</td>
+                <td>13</td>
+                <td>-</td>
+                <td class="error">#ERROR!</td>
+                <td></td>
+            </tr>
+            <!-- Add more rows here -->
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Jumlah</td>
+                <td class="error">#ERROR!</td>
+                <td>-</td>
+                <td>-</td>
+                <td></td>
+                <td>-</td>
+                <td class="error">#ERROR!</td>
+                <td class="error">#ERROR!</td>
+                <td class="error">#ERROR!</td>
+                <td>6</td>
+                <td class="error">#ERROR!</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="footer">Dinas Tanaman Pangan, Hortikultura dan Perkebunan Kabupaten Lampung Timur / Laporan Tahun 2021
+    </div>
+</body>
+
+</html>
