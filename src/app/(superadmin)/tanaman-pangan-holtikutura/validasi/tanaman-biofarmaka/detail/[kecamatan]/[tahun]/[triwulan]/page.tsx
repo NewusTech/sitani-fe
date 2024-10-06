@@ -370,7 +370,7 @@ const KorlubTanamanBiofarmakaDetail = () => {
                     <div className="flex items-center gap-2">
                         <div className="font-semibold">Triwulan :</div>
                         <div>
-                        {getBulanForTriwulan(triwulanNumber)}
+                            {getBulanForTriwulan(triwulanNumber)}
                         </div>
                     </div>
                 </div>
@@ -397,130 +397,77 @@ const KorlubTanamanBiofarmakaDetail = () => {
             {/* Mobile */}
             <div className="md:hidden">
                 <>
-                    {/* Handle filter menu*/}
-                    <div className="flex justify-between w-full">
-                        <div className="flex justify-start w-fit gap-2">
-                            {/* More Menu */}
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="outlinePrimary"
-                                        className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300"
-                                    >
-                                        <Filter className="text-primary w-5 h-5" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="transition-all duration-300 ease-in-out opacity-1 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 bg-white border border-gray-300 shadow-2xl rounded-md w-fit ml-5">
-                                    <DropdownMenuLabel className="font-semibold text-primary text-sm w-full shadow-md">
-                                        Menu Filter
-                                    </DropdownMenuLabel>
-                                    {/* <hr className="border border-primary transition-all ease-in-out animate-pulse ml-2 mr-2" /> */}
-                                    <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
-                                    <div className="bg-white w-full h-full">
-                                        <div className="flex flex-col w-full px-2 py-2">
-                                            {/* Filter Kecamatan */}
-                                            {/* <div className="w-full mb-2">
-												
-											</div> */}
-                                            {/* Filter Kecamatan */}
-
-                                            {/* Filter Desa */}
-                                            {/* Filter Desa */}
-
-                                            {/* Filter Rentang Tanggal */}
-                                            {/* Filter Rentang Tanggal */}
-
-                                            {/* Filter Tahun Bulan */}
-                                            <>
-                                                <Label className='text-xs mb-1 !text-black opacity-50' label="Tanggal" />
-                                                <div className="flex gap-2 justify-between items-center w-full">
-                                                    {/* filter tahun */}
-                                                    <Popover>
-                                                        <PopoverTrigger
-                                                            className="lg:py-4 lg:px-4 px-2"
-                                                            asChild
-                                                        >
-                                                            <Button
-                                                                variant={"outline"}
-                                                                className={cn(
-                                                                    "w-full justify-start text-left font-normal text-xs md:text-sm",
-                                                                    !startDate && "text-muted-foreground"
-                                                                )}
-                                                            >
-                                                                <CalendarIcon className="mr-1 lg:mr-2 h-4 w-4 text-primary" />
-                                                                {startDate ? (
-                                                                    format(startDate, "PPP")
-                                                                ) : (
-                                                                    <span>Pilih Tanggal</span>
-                                                                )}
-                                                            </Button>
-                                                        </PopoverTrigger>
-                                                        <PopoverContent className="w-auto p-0">
-                                                            <Calendar
-                                                                className=""
-                                                                mode="single"
-                                                                selected={startDate}
-                                                                onSelect={setstartDate}
-                                                                initialFocus
-                                                            />
-                                                        </PopoverContent>
-                                                    </Popover>
-                                                    {/* Filter bulan */}
-                                                </div>
-                                            </>
-                                            {/* Filter Tahun Bulan */}
-
-                                        </div>
-                                    </div>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                            {/* More Menu */}
-
-                            {/* filter kolom */}
-                            {/* <FilterTable
-								columns={columns}
-								defaultCheckedKeys={getDefaultCheckedKeys()}
-								onFilterChange={handleFilterChange}
-							/> */}
-                            {/* filter kolom */}
-
-                            {/* unduh print */}
-                            {/* <KetahananPanganProdusenEceranPrint
-                                urlApi={`/kepang/produsen-eceran/get?page=${currentPage}&year=${tahun}&search=${search}&startDate=${filterStartDate}&endDate=${filterEndDate}&kecamatan=${selectedKecamatan}&limit=${limit}`}
-                            /> */}
-                            {/* unduh print */}
+                    {/* top */}
+                    <div className="flex gap-2 justify-between items-center w-full mt-2 lg:mt-4">
+                        <Link href="/tanaman-pangan-holtikutura/validasi/tanaman-biofarmaka" className='bg-white px-6 md:text-base text-sm rounded-full text-primary hover:bg-slate-50 p-2 border border-primary text-center font-medium transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300'>
+                            Kembali
+                        </Link>
+                        <div className="w-[140px]">
+                            <Select onValueChange={(value) => setBulan(value)} value={bulan}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Pilih Bulan" className='text-sm' />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {filteredBulanOptions.map(option => (
+                                        <SelectItem className='text-sm' key={option.value} value={option.value}>
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                         </div>
-
-                        {/* Tambah Data */}
-                        <div className="flex justify-end items-center w-fit">
-                            <Link
-                                href="/korluh/tanaman-biofarmaka/tambah"
-                                className='bg-primary text-xs px-3 rounded-full text-white hover:bg-primary/80 border border-primary text-center font-medium justify-end flex gap-2 items-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110duration-300 py-2'>
-                                {/* Tambah */}
-                                <TambahIcon />
-                            </Link>
+                    </div>
+                    {/* top */}
+                </>
+                <div className="card-table text-xs p-4 rounded-2xl border border-primary bg-white shadow-sm mt-4">
+                    {/* kecamatan */}
+                    <div className="wrap mt-2 flex flex-col md:gap-2 gap-1">
+                        <div className="flex items-center gap-2">
+                            <div className="font-semibold">Kecamatan :</div>
+                            <div>
+                                {dataTanamanBiofarmaka?.data?.data[0]?.kecamatan?.nama || "-"}
+                            </div>
                         </div>
-                        {/* Tambah Data */}
                     </div>
+                    {/* kecamatan */}
+                    {/* Triwulan */}
+                    <div className="wrap mt-2 flex flex-col md:gap-2 gap-1">
+                        <div className="flex items-center gap-2">
+                            <div className="font-semibold">Triwulan :</div>
+                            <div>
+                                {getBulanForTriwulan(triwulanNumber)}
+                            </div>
+                        </div>
+                    </div>
+                    {/* Triwulan */}
+                    {/* bulan */}
+                    <div className="md:mt-2 mt-1 flex items-center gap-2">
+                        <div className="font-semibold">Bulan :</div>
+                        <div>
+                            {dataTanamanBiofarmaka?.data?.data[0]?.tanggal ? (
+                                new Date(dataTanamanBiofarmaka.data.data[0].tanggal).toLocaleDateString('id-ID', {
+                                    month: 'long',
+                                    year: 'numeric'
+                                })
+                            ) : (
+                                "-"
+                            )}
+                        </div>
+                    </div>
+                    {/* bulan */}
+                </div>
+            </div>
+            {/* Mobile */}
 
-                    {/* Hendle Search */}
-                    <div className="mt-2 search w-full">
-                        {/* <Input
-							autoFocus
-							type="text"
-							placeholder="Cari"
-							value={search}
-							onChange={handleSearchChange}
-							rightIcon={<SearchIcon />}
-							className='border-primary py-2 text-xs'
-						/> */}
-                    </div>
-                    {/* Hendle Search */}
-                    <div className="card-table text-xs p-4 rounded-2xl border border-primary bg-white shadow-sm mt-4">
-                        <div className="flex items-center gap-2 justify-between">
-                            <div className="font-semibold">Tanggal:</div>
-                            {dataTanamanBiofarmaka?.data?.data.map((item: any, index: any) => (
-                                <div key={index}>
+
+
+            {/* mobile accordion */}
+            <div className="md:hidden">
+                <Accordion type="single" collapsible className="w-full">
+                    {dataTanamanBiofarmaka?.data?.data && dataTanamanBiofarmaka?.data?.data?.length > 0 ? (
+                        dataTanamanBiofarmaka.data.data.map((item: any, index: number) => (
+                            <AccordionItem className="mt-2" value={`${index}`} key={item.id || index}>
+                                <AccordionTrigger className="border border-primary p-3 rounded-lg text-sm">
                                     {item.tanggal
                                         ? new Date(item.tanggal).toLocaleDateString(
                                             "id-ID",
@@ -532,608 +479,1803 @@ const KorlubTanamanBiofarmakaDetail = () => {
                                             }
                                         )
                                         : "Tanggal tidak tersedia"}
-                                </div>
-                            ))}
-                        </div>
-                        {/* bulan */}
-                        {/* kecamatan */}
-                        <div className="wrap mt-2 flex flex-col gap-1">
-                            <div className="flex items-center gap-2 justify-between">
-                                <div className="font-semibold">Kecamatan:</div>
-                                {dataTanamanBiofarmaka?.data?.data.map((item: any, index: any) => (
-                                    <div key={index}>
-                                        {item?.kecamatan.nama || "Tidak ada data"}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </>
-            </div>
-            {/* Mobile */}
+                                </AccordionTrigger>
+                                <AccordionContent className="border border-primary p-3 rounded-lg mt-1">
+                                    <div className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                                        <div className="wrap-konten flex flex-col gap-2">
+                                            <Carousel>
+                                                <CarouselContent>
+                                                    <CarouselItem>
+                                                        {/* Jahe */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">1.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Jahe</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[1]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[1]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[1]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[1]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[1]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[1]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[1]?.rerataHarga ?? "-"}
 
-            {/* accordion */}
-            <Accordion type="single" collapsible className="w-full">
-                {dataTanamanBiofarmaka?.data?.data && dataTanamanBiofarmaka?.data?.data?.length > 0 ? (
-                    dataTanamanBiofarmaka.data.data.map((item: any, index: number) => (
-                        <AccordionItem className="mt-2" value={`${index}`} key={item.id || index}>
-                            <AccordionTrigger className="border border-primary p-3 rounded-lg">
-                                {item.tanggal
-                                    ? new Date(item.tanggal).toLocaleDateString(
-                                        "id-ID",
-                                        {
-                                            weekday: "long",
-                                            day: "numeric",
-                                            month: "long",
-                                            year: "numeric",
-                                        }
-                                    )
-                                    : "Tanggal tidak tersedia"}
-                            </AccordionTrigger>
-                            <AccordionContent className="border border-primary p-3 rounded-lg mt-1">
-                                <div className="hidden md:block">
-                                    <Table className='border border-slate-200 mt-4'>
-                                        <TableHeader className='bg-primary-600'>
-                                            <TableRow >
-                                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                                    No
-                                                </TableHead>
-                                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                                    <div className="text-center items-center">
-                                                        Nama Tanaman
-                                                    </div>
-                                                </TableHead>
-                                                <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                                    <div className="text-center items-center">
-                                                        Luas Panen (m2)
-                                                    </div>
-                                                </TableHead>
-                                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                                    <div className="w-[150px] text-center items-center">
-                                                        Luas Rusak / Tidak Berhasil / Puso (m2)
-                                                    </div>
-                                                </TableHead>
-                                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                                    <div className="w-[150px] text-center items-center">
-                                                        Luas Penanaman Baru / Tambah Tanam (m2)
-                                                    </div>
-                                                </TableHead>
-                                                <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
-                                                    Produksi (Kilogram)
-                                                </TableHead>
-                                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                                    <div className="w-[150px] text-center items-center">
-                                                        Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)
-                                                    </div>
-                                                </TableHead>
-                                                <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
-                                                    Keterangan
-                                                </TableHead>
-                                            </TableRow>
-                                            <TableRow>
-                                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                                    Habis / <br /> Dibongkar
-                                                </TableHead>
-                                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                                    Belum Habis
-                                                </TableHead>
-                                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                                    Dipanen Habis / Dibongkar
-                                                </TableHead>
-                                                <TableHead className="text-primary py-1 border border-slate-200 text-center">
-                                                    Belum Habis
-                                                </TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {/* Jahe */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    1.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Jahe
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[1]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[1]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[1]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[1]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[1]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[1]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[1]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[1]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Jeruk Nipis */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    2.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Jeruk Nipis
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[2]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[2]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[2]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[2]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[2]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[2]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[2]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[2]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Kapulaga */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    3.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Kepulaga
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[3]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[3]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[3]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[3]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[3]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[3]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[3]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[3]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Kencur */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    4.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Kencur
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[4]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[4]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[4]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[4]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[4]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[4]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[4]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[4]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Kunyit */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    5.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Kunyit
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[5]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[5]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[5]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[5]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[5]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[5]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[5]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[5]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Laos/Lengkuas */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    6.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Laos/Lengkuas
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[6]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[6]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[6]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[6]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[6]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[6]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[6]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[6]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Lempuyang */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    7.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Lempuyang
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[7]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[7]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[7]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[7]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[7]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[7]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[7]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[7]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Lidah Buaya */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    8.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Lidah Buaya
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[8]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[8]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[8]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[8]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[8]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[8]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[8]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[8]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Mahkota Dewa */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    9.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Mahkota Dewa
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[9]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[9]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[9]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[9]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[9]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[9]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[9]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[9]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Mengkudu/Pace */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    10.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Mengkudu/Pace
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[10]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[10]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[10]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[10]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[10]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[10]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[10]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[10]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Sambiloto */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    11.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Sambiloto
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[11]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[11]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[11]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[11]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[11]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[11]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[11]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[11]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Serai */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    12.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Serai
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[12]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[12]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[12]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[12]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[12]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[12]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[12]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[12]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Temuireng */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    13.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Temuireng
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[13]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[13]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[13]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[13]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[13]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[13]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[13]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[13]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Temukunci */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    14.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Temukunci
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[14]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[14]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[14]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[14]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[14]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[14]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[14]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[14]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                            {/* Temulawak */}
-                                            <TableRow >
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    15.
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200'>
-                                                    Temulawak
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[15]?.luasPanenHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[15]?.luasPanenBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[15]?.luasRusak ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[15]?.luasPenanamanBaru ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[15]?.produksiHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[15]?.produksiBelumHabis ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[15]?.rerataHarga ?? "-"}
-                                                </TableCell>
-                                                <TableCell className='border border-slate-200 text-center'>
-                                                    {item[15]?.keterangan ?? "-"}
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </div>
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))
-                ) : (
-                    <div className="text-center">
-                        <NotFoundSearch />
-                    </div>
-                )}
-            </Accordion>
-            {/* accordion */}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[1]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Jeruk Nipis */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">2.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Jeruk Nipis</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[2]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[2]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[2]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[2]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[2]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[2]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[2]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[2]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Kepulaga */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">3.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Kapulaga</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[3]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[3]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[3]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[3]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[3]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[3]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[3]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[3]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Kencur */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">4.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Kencur</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[4]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[4]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[4]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[4]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[4]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[4]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[4]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[4]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Kunyit */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">5.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Kunyit</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[5]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[5]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[5]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[5]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[5]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[5]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[5]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[5]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Laos/Lengkuas */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">6.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Laos/Lengkuas</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[6]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[6]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[6]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[6]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[6]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[6]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[6]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[6]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Lempuyang */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">7.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Jeruk Nipis</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[7]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[7]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[7]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[7]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[7]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[7]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[7]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[7]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Lidah Buaya */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">8.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Lidah Buaya</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[8]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[8]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[8]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[8]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[8]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Mahkota Dewa */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">9.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Mahkota Dewa</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[9]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[9]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[9]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[9]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[9]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Mengkudu/Pace */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">10.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Mengkudu/Pace</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[10]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[10]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[10]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[10]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[10]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[10]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[10]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[10]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Sambiloto */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">11.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Sambiloto</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[11]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[11]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[11]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[11]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[11]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[11]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[11]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[11]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Serai */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">12.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Serai</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[12]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[12]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[12]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[12]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[12]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[12]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[12]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[12]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Temuireng */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">13.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Temuireng</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[13]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[13]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[13]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[13]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[13]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[13]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[13]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[13]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+
+                                                        {/* Temukunci */}
+                                                        <>
+                                                            <div className="flex justify-between gap-5">
+                                                                <div className="label font-medium text-black">14.</div>
+                                                                <div className="konten text-black/80 text-end"></div>
+                                                            </div>
+                                                            <Accordion type="single" collapsible className="w-full">
+                                                                <AccordionItem className='' value="item-1">
+                                                                    <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Temukunci</AccordionTrigger>
+                                                                    <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Luas Panen (m2)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pl-2 pr-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[14]?.luasPanenHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[14]?.luasPanenBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Rusak / Tidak Berhasil / Puso (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[14]?.luasRusak ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Luas Penanaman Baru / Tambah Tanam  (m2)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[14]?.luasPenanamanBaru ?? "-"}
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2" />
+                                                                        <Accordion type="single" collapsible className="w-full">
+                                                                            <AccordionItem className='' value="item-1">
+                                                                                <AccordionTrigger className='hover:pl-0 text-black pl-0 pr-0 pt-2 pb-2'>Produksi (Kilogram)</AccordionTrigger>
+                                                                                <AccordionContent className='text-xs md:text-sm mb-2 pr-2 pl-2'>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Dipanen Habis / Dibongkar</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[14]?.produksiHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div className="flex justify-between gap-5">
+                                                                                        <div className="label font-medium text-black">Belum Habis</div>
+                                                                                        <div className="konten text-black/80 text-end">
+                                                                                            {item[14]?.produksiBelumHabis ?? "-"}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </AccordionContent>
+                                                                            </AccordionItem>
+                                                                        </Accordion>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[14]?.rerataHarga ?? "-"}
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr className="border border-primary-600 transition-all ease-in-out animate-pulse mt-2 mb-2" />
+                                                                        <div className="flex justify-between gap-5">
+                                                                            <div className="label font-medium text-black">Keterangan</div>
+                                                                            <div className="konten text-black/80 text-end">
+                                                                                {item[14]?.keterangan ?? "-"}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </AccordionContent>
+                                                                </AccordionItem>
+                                                            </Accordion>
+                                                            <hr className="border border-primary transition-all ease-in-out animate-pulse mb-2" />
+                                                        </>
+                                                    </CarouselItem>
+                                                </CarouselContent>
+                                            </Carousel>
+                                        </div>
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))
+                    ) : (
+                        <div className="text-center">
+                            <NotFoundSearch />
+                        </div>
+                    )}
+                </Accordion>
+            </div>
+            {/* mobile accordion */}
+
+            {/* desktop accordion */}
+            <div className="hidden md:block">
+                <Accordion type="single" collapsible className="w-full">
+                    {dataTanamanBiofarmaka?.data?.data && dataTanamanBiofarmaka?.data?.data?.length > 0 ? (
+                        dataTanamanBiofarmaka.data.data.map((item: any, index: number) => (
+                            <AccordionItem className="mt-2" value={`${index}`} key={item.id || index}>
+                                <AccordionTrigger className="border border-primary p-3 rounded-lg">
+                                    {item.tanggal
+                                        ? new Date(item.tanggal).toLocaleDateString(
+                                            "id-ID",
+                                            {
+                                                weekday: "long",
+                                                day: "numeric",
+                                                month: "long",
+                                                year: "numeric",
+                                            }
+                                        )
+                                        : "Tanggal tidak tersedia"}
+                                </AccordionTrigger>
+                                <AccordionContent className="border border-primary p-3 rounded-lg mt-1">
+                                    <div className="hidden md:block">
+                                        <Table className='border border-slate-200 mt-4'>
+                                            <TableHeader className='bg-primary-600'>
+                                                <TableRow >
+                                                    <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                                        No
+                                                    </TableHead>
+                                                    <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                                        <div className="text-center items-center">
+                                                            Nama Tanaman
+                                                        </div>
+                                                    </TableHead>
+                                                    <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                                        <div className="text-center items-center">
+                                                            Luas Panen (m2)
+                                                        </div>
+                                                    </TableHead>
+                                                    <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                                        <div className="w-[150px] text-center items-center">
+                                                            Luas Rusak / Tidak Berhasil / Puso (m2)
+                                                        </div>
+                                                    </TableHead>
+                                                    <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                                        <div className="w-[150px] text-center items-center">
+                                                            Luas Penanaman Baru / Tambah Tanam (m2)
+                                                        </div>
+                                                    </TableHead>
+                                                    <TableHead colSpan={2} className="text-primary py-1 border border-slate-200 text-center">
+                                                        Produksi (Kilogram)
+                                                    </TableHead>
+                                                    <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                                        <div className="w-[150px] text-center items-center">
+                                                            Rata-rata Harga Jual di Petani Per Kilogram (Rupiah)
+                                                        </div>
+                                                    </TableHead>
+                                                    <TableHead rowSpan={2} className="text-primary py-1 border border-slate-200">
+                                                        Keterangan
+                                                    </TableHead>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                                        Habis / <br /> Dibongkar
+                                                    </TableHead>
+                                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                                        Belum Habis
+                                                    </TableHead>
+                                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                                        Dipanen Habis / Dibongkar
+                                                    </TableHead>
+                                                    <TableHead className="text-primary py-1 border border-slate-200 text-center">
+                                                        Belum Habis
+                                                    </TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {/* Jahe */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        1.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Jahe
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[1]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[1]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[1]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[1]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[1]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[1]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[1]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[1]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Jeruk Nipis */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        2.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Jeruk Nipis
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[2]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[2]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[2]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[2]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[2]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[2]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[2]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[2]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Kapulaga */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        3.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Kepulaga
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[3]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[3]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[3]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[3]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[3]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[3]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[3]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[3]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Kencur */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        4.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Kencur
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[4]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[4]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[4]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[4]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[4]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[4]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[4]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[4]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Kunyit */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        5.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Kunyit
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[5]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[5]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[5]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[5]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[5]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[5]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[5]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[5]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Laos/Lengkuas */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        6.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Laos/Lengkuas
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[6]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[6]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[6]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[6]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[6]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[6]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[6]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[6]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Lempuyang */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        7.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Lempuyang
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[7]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[7]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[7]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[7]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[7]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[7]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[7]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[7]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Lidah Buaya */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        8.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Lidah Buaya
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[8]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[8]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[8]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[8]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[8]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[8]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[8]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[8]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Mahkota Dewa */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        9.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Mahkota Dewa
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[9]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[9]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[9]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[9]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[9]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[9]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[9]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[9]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Mengkudu/Pace */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        10.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Mengkudu/Pace
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[10]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[10]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[10]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[10]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[10]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[10]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[10]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[10]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Sambiloto */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        11.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Sambiloto
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[11]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[11]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[11]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[11]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[11]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[11]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[11]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[11]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Serai */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        12.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Serai
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[12]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[12]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[12]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[12]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[12]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[12]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[12]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[12]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Temuireng */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        13.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Temuireng
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[13]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[13]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[13]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[13]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[13]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[13]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[13]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[13]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Temukunci */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        14.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Temukunci
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[14]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[14]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[14]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[14]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[14]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[14]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[14]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[14]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {/* Temulawak */}
+                                                <TableRow >
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        15.
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200'>
+                                                        Temulawak
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[15]?.luasPanenHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[15]?.luasPanenBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[15]?.luasRusak ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[15]?.luasPenanamanBaru ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[15]?.produksiHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[15]?.produksiBelumHabis ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[15]?.rerataHarga ?? "-"}
+                                                    </TableCell>
+                                                    <TableCell className='border border-slate-200 text-center'>
+                                                        {item[15]?.keterangan ?? "-"}
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))
+                    ) : (
+                        <div className="text-center">
+                            <NotFoundSearch />
+                        </div>
+                    )}
+                </Accordion>
+            </div>
+            {/* desktop accordion */}
 
         </div>
     )
