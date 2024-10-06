@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabel Koefisien Variasi Tingkat Produksi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        p {
+            font-size: larger;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .highlight {
+            background-color: #e0f7d1;
+        }
+
+        .summary-row {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .summary-row td {
+            background-color: #e0f7d1;
+        }
+
+        caption {
+            caption-side: bottom;
+            text-align: left;
+            margin-top: 10px;
+            font-style: italic;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section>
+        <p>Coefisien Variansi (CV) Tk. Produksi</p>
+    </section>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Bulan</th>
+                <th>% Panen</th>
+                <th>GNP Tk. Petani</th>
+                <th>GNP Tk. Penggilingan</th>
+                <th>GKO Tk. Penggilingan</th>
+                <th>JPK</th>
+                <th>Cabe Merah Keriting</th>
+                <th>Beras Medium</th>
+                <th>Beras Premium</th>
+                <th>Stok GKG</th>
+                <th>Stok Beras</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Januari</td>
+                <td>0</td>
+                <td>0</td>
+                <td>5.800</td>
+                <td>6.650</td>
+                <td>3.300</td>
+                <td>0</td>
+                <td>10.250</td>
+                <td>11.400</td>
+                <td>254</td>
+                <td>41</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Februari</td>
+                <td>5</td>
+                <td>5.450</td>
+                <td>6.000</td>
+                <td>6.750</td>
+                <td>3.400</td>
+                <td>27.200</td>
+                <td>10.650</td>
+                <td>12.000</td>
+                <td>158</td>
+                <td>52</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Maret</td>
+                <td>87</td>
+                <td>4.900</td>
+                <td>5.450</td>
+                <td>6.150</td>
+                <td>0</td>
+                <td>19.950</td>
+                <td>10.350</td>
+                <td>12.000</td>
+                <td>141</td>
+                <td>53</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>April</td>
+                <td>100</td>
+                <td>5.200</td>
+                <td>5.300</td>
+                <td>6.150</td>
+                <td>0</td>
+                <td>11.400</td>
+                <td>10.400</td>
+                <td>11.500</td>
+                <td>283</td>
+                <td>69</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Mei</td>
+                <td>0</td>
+                <td>0</td>
+                <td>5.600</td>
+                <td>6.450</td>
+                <td>0</td>
+                <td>0</td>
+                <td>10.400</td>
+                <td>11.050</td>
+                <td>344</td>
+                <td>85</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Juni</td>
+                <td>0</td>
+                <td>0</td>
+                <td>5.600</td>
+                <td>6.450</td>
+                <td>0</td>
+                <td>0</td>
+                <td>10.400</td>
+                <td>11.050</td>
+                <td>313</td>
+                <td>49</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Juli</td>
+                <td>90</td>
+                <td>5.450</td>
+                <td>5.850</td>
+                <td>6.300</td>
+                <td>0</td>
+                <td>0</td>
+                <td>10.400</td>
+                <td>12.150</td>
+                <td>303</td>
+                <td>49</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Agustus</td>
+                <td>100</td>
+                <td>5.850</td>
+                <td>6.300</td>
+                <td>7.100</td>
+                <td>0</td>
+                <td>0</td>
+                <td>10.700</td>
+                <td>12.050</td>
+                <td>149</td>
+                <td>48</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>September</td>
+                <td>0</td>
+                <td>0</td>
+                <td>6.950</td>
+                <td>7.750</td>
+                <td>0</td>
+                <td>0</td>
+                <td>10.650</td>
+                <td>12.000</td>
+                <td>323</td>
+                <td>45</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Oktober</td>
+                <td>0</td>
+                <td>0</td>
+                <td>7.100</td>
+                <td>7.100</td>
+                <td>58.300</td>
+                <td>0</td>
+                <td>10.300</td>
+                <td>13.050</td>
+                <td>403</td>
+                <td>51</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>November</td>
+                <td>0</td>
+                <td>0</td>
+                <td>7.100</td>
+                <td>7.100</td>
+                <td>0</td>
+                <td>0</td>
+                <td>10.300</td>
+                <td>13.050</td>
+                <td>403</td>
+                <td>51</td>
+            </tr>
+            <tr class="summary-row">
+                <td colspan="2">Rata-rata</td>
+                <td>76</td>
+                <td>5.370</td>
+                <td>6.043</td>
+                <td>6.810</td>
+                <td>3.350</td>
+                <td>29.213</td>
+                <td>11.045</td>
+                <td>11.950</td>
+                <td>270</td>
+                <td>55</td>
+            </tr>
+            <tr class="summary-row">
+                <td colspan="2">Maksimum</td>
+                <td>100</td>
+                <td>5.850</td>
+                <td>7.100</td>
+                <td>7.850</td>
+                <td>58.300</td>
+                <td>58.300</td>
+                <td>12.400</td>
+                <td>13.300</td>
+                <td>403</td>
+                <td>85</td>
+            </tr>
+            <tr class="summary-row">
+                <td colspan="2">Minimum</td>
+                <td>5</td>
+                <td>4.900</td>
+                <td>5.300</td>
+                <td>6.150</td>
+                <td>0</td>
+                <td>0</td>
+                <td>10.250</td>
+                <td>11.000</td>
+                <td>149</td>
+                <td>41</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
