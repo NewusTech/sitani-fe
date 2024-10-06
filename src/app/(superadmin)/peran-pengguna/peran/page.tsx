@@ -19,26 +19,15 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import EyeIcon from "../../../../../public/icons/EyeIcon";
 import EditIcon from "../../../../../public/icons/EditIcon";
 import DeletePopup from "@/components/superadmin/PopupDelete";
+import Swal from 'sweetalert2';
+
 
 const PeranPage = () => {
-  // Dummy data
-  const dummyPeran = [
-    {
-      id: "1",
-      name: "Superadmin",
-      permission: ["Create", "Read", "Update", "Delete"],
-    },
-    {
-      id: "2",
-      name: "Admin",
-      permission: ["Create", "Read", "Update", "Delete"],
-    },
-  ];
 
   interface User {
     id: string;
-    name: string;
-    permission: string[];
+    roleName: string;
+    description: string;
   }
 
   interface Response {
@@ -50,30 +39,68 @@ const PeranPage = () => {
   const [accessToken] = useLocalStorage("accessToken", "");
   const axiosPrivate = useAxiosPrivate();
 
-  // Simulate API data using dummy data
-  const { data: dataUser }: SWRResponse<Response> = useSWR("/user/get", () =>
-    Promise.resolve({
-      status: "success",
-      data: dummyPeran,
-      message: "Data fetched successfully",
-    })
+  const { data: dataRole }: SWRResponse<Response> = useSWR(
+    `/role/get`,
+    (url) =>
+      axiosPrivate
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data)
   );
 
   const handleDelete = async (id: string) => {
     try {
-      await axiosPrivate.delete(`/user/delete/${id}`, {
+      await axiosPrivate.delete(`/role/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(id);
-      mutate("/user/get");
-    } catch (error) {
-      console.error("Failed to delete:", error);
-    }
+      console.log(id)
+      // alert
+      Swal.fire({
+        icon: 'success',
+        title: 'Data berhasil dihapus!',
+        text: 'Data sudah disimpan sistem!',
+        timer: 1500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown',
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp',
+        },
+        customClass: {
+          title: 'text-2xl font-semibold text-green-600',
+          icon: 'text-green-500 animate-bounce',
+          timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400', // Gradasi warna yang lembut
+        },
+        backdrop: `rgba(0, 0, 0, 0.4)`,
+      });
+      // alert
+      // Update the local data after successful deletion
+    } catch (error: any) {
+      // Extract error message from API response
+      const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal menghapus data!';
+      Swal.fire({
+        icon: 'error',
+        title: 'Terjadi kesalahan!',
+        text: errorMessage,
+        showConfirmButton: true,
+        showClass: { popup: 'animate__animated animate__fadeInDown' },
+        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+        customClass: {
+          title: 'text-2xl font-semibold text-red-600',
+          icon: 'text-red-500 animate-bounce',
+        },
+        backdrop: 'rgba(0, 0, 0, 0.4)',
+      });
+      console.error("Failed to create user:", error);
+    } mutate(`/role/get`);
   };
-
-  console.log(dataUser);
 
   return (
     <div>
@@ -105,17 +132,17 @@ const PeranPage = () => {
           <TableRow>
             <TableHead className="text-primary py-3">No</TableHead>
             <TableHead className="text-primary py-3">Nama Peran</TableHead>
-            <TableHead className="text-primary py-3">Hak Akses</TableHead>
+            <TableHead className="text-primary py-3">Deskripsi</TableHead>
             <TableHead className="text-primary py-3">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {dataUser?.data && dataUser.data.length > 0 ? (
-            dataUser.data.map((item, index) => (
+          {dataRole?.data && dataRole.data.length > 0 ? (
+            dataRole.data.map((item, index) => (
               <TableRow key={item.id}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.permission.join(", ")}</TableCell>
+                <TableCell className="capitalize">{item.roleName ?? "-"}</TableCell>
+                <TableCell>{item.description ?? "-"}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-4">
                     <Link href={`/peran-pengguna/peran/edit/${item.id}`}>

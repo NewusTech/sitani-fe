@@ -739,11 +739,11 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
 											Data Master
 										</AccordionTrigger>
 										<AccordionContent className="bg-primary-600/25 mb-2 rounded-md">
-											<Menu link="/data-master/overview">
+											{/* <Menu link="/data-master/overview">
 												<span className="text-sm">
 													Overview
 												</span>
-											</Menu>
+											</Menu> */}
 											<Menu link="/data-master/kelola-berita">
 												<span className="text-sm">
 													Kelola Berita
