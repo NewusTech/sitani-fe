@@ -314,6 +314,33 @@ const DataPenerimaUppo = () => {
     };
     // Filter Table
 
+    // Fungsi untuk mengonversi format DMS ke desimal
+    const convertDMSStringToDecimal = (dmsString: string): { lat: number; lon: number } => {
+        // Regex untuk mengambil koordinat dalam format S 5'18'1.1016'' E 105'40'56.3232''
+        const regex = /([NS])\s*(\d+)'(\d+)'(\d+(\.\d+)?)''\s*([EW])\s*(\d+)'(\d+)'(\d+(\.\d+)?)''/;
+        const match = dmsString.match(regex);
+
+        if (!match) {
+            throw new Error('Invalid DMS format: ' + dmsString);
+        }
+
+        const [, latDir, latDeg, latMin, latSec, , lonDir, lonDeg, lonMin, lonSec] = match;
+
+        // Konversi DMS ke desimal
+        const lat = parseFloat(latDeg) + parseFloat(latMin) / 60 + parseFloat(latSec) / 3600;
+        const lon = parseFloat(lonDeg) + parseFloat(lonMin) / 60 + parseFloat(lonSec) / 3600;
+
+        // Jika arah 'S' atau 'W', maka koordinat negatif
+        const latitude = latDir === 'S' ? -lat : lat;
+        const longitude = lonDir === 'W' ? -lon : lon;
+
+        return { lat: latitude, lon: longitude };
+    };
+
+
+
+
+
     return (
         <div>
             {/* title */}
@@ -506,50 +533,67 @@ const DataPenerimaUppo = () => {
             {/* mobile table */}
             <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
                 {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
-                    dataUser.data.data.map((item, index) => (
-                        <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
-                            <div className="wrap-konten flex flex-col gap-2">
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Kecamatan</div>
-                                    <div className="konten text-black/80 text-end">{item?.kecamatan?.nama ?? "-"}</div>
+                    dataUser.data.data.map((item, index) => {
+                        // Coba lakukan konversi koordinat di sini
+                        let googleMapsUrl = '';
+                        try {
+                            const { lat, lon } = convertDMSStringToDecimal(item.titikKoordinat);
+                            googleMapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+                        } catch (error) {
+                            console.error('Error converting coordinates: ', error);
+                            googleMapsUrl = '#'; // Jika terjadi error, gunakan URL kosong
+                        }
+
+                        return (
+                            <div key={index} className="card-table text-[12px] p-4 rounded-2xl border border-primary bg-white shadow-sm">
+                                <div className="wrap-konten flex flex-col gap-2">
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">Kecamatan</div>
+                                        <div className="konten text-black/80 text-end">{item?.kecamatan?.nama ?? "-"}</div>
+                                    </div>
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">Desa</div>
+                                        <div className="konten text-black/80 text-end">{item?.desa?.nama ?? "-"}</div>
+                                    </div>
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">Nama Poktan</div>
+                                        <div className="konten text-black/80 text-end">{item?.namaPoktan ?? "-"}</div>
+                                    </div>
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">Nama Ketua</div>
+                                        <div className="konten text-black/80 text-end">{item?.ketuaPoktan ?? "-"}</div>
+                                    </div>
+                                    <div className="flex justify-between gap-5">
+                                        <div className="label font-medium text-black">Titik Koordinat</div>
+                                        <div className="konten text-black/80 text-end">
+                                            <Link href={googleMapsUrl} target="_blank" rel="noopener noreferrer" className='underline'>
+                                                {item.titikKoordinat} {/* Menampilkan koordinat DMS asli */}
+                                            </Link>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Desa</div>
-                                    <div className="konten text-black/80 text-end">{item?.desa?.nama ?? "-"}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Nama Poktan</div>
-                                    <div className="konten text-black/80 text-end">{item?.namaPoktan ?? "-"}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Nama Ketua</div>
-                                    <div className="konten text-black/80 text-end">{item?.ketuaPoktan ?? "-"}</div>
-                                </div>
-                                <div className="flex justify-between gap-5">
-                                    <div className="label font-medium text-black">Titik Koordinat</div>
-                                    <div className="konten text-black/80 text-end">{item?.titikKoordinat ?? "-"}</div>
+                                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+                                <div className="flex gap-3 text-white">
+                                    <Link href={`/psp/data-penerima-uppo/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
+                                        Detail
+                                    </Link>
+                                    <Link href={`/psp/data-penerima-uppo/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                                        Edit
+                                    </Link>
+                                    <div className="w-full">
+                                        <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item.id) || "")} />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
-                            <div className="flex gap-3 text-white">
-                                <Link href={`/psp/data-penerima-uppo/detail/${item.id}`} className="bg-primary rounded-full w-full py-2 text-center">
-                                    Detail
-                                </Link>
-                                <Link href={`/psp/data-penerima-uppo/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
-                                    Edit
-                                </Link>
-                                <div className="w-full">
-                                    <DeletePopupTitik className='bg-red-500 text-white rounded-full w-full py-2' onDelete={() => handleDelete(String(item.id) || "")} />
-                                </div>
-                            </div>
-                        </div>
-                    ))
+                        );
+                    })
                 ) : (
                     <div className="text-center">
                         <NotFoundSearch />
                     </div>
                 )}
             </div>
+
             {/* mobile table */}
 
             {/* table */}
@@ -580,51 +624,65 @@ const DataPenerimaUppo = () => {
                     </TableHeader>
                     <TableBody>
                         {dataUser?.data?.data && dataUser.data.data.length > 0 ? (
-                            dataUser.data.data.map((item, index) => (
-                                <TableRow key={item.id}>
-                                    <TableCell>
-                                        {(currentPage - 1) * limit + (index + 1)}
-                                    </TableCell>
-                                    {visibleColumns.includes('kecamatan') && (
+                            dataUser.data.data.map((item, index) => {
+                                // Coba lakukan konversi koordinat di sini
+                                let googleMapsUrl = '';
+                                try {
+                                    const { lat, lon } = convertDMSStringToDecimal(item.titikKoordinat);
+                                    googleMapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+                                } catch (error) {
+                                    console.error('Error converting coordinates: ', error);
+                                    googleMapsUrl = '#'; // Jika terjadi error, gunakan URL kosong
+                                }
+
+                                return (
+                                    <TableRow key={item.id}>
                                         <TableCell>
-                                            {item.kecamatan.nama}
+                                            {(currentPage - 1) * limit + (index + 1)}
                                         </TableCell>
-                                    )}
-                                    {visibleColumns.includes('desa') && (
-                                        <TableCell>
-                                            {item.desa.nama}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('namaPoktan') && (
-                                        <TableCell>
-                                            {item.namaPoktan}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('namaKetua') && (
-                                        <TableCell className='hidden md:table-cell'>
-                                            {item.ketuaPoktan}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('titikKoordinat') && (
-                                        <TableCell className='hidden md:table-cell'>
-                                            {item.titikKoordinat}
-                                        </TableCell>
-                                    )}
-                                    {visibleColumns.includes('aksi') && (
-                                        <TableCell>
-                                            <div className="flex items-center gap-4">
-                                                <Link className='' href={`/psp/data-penerima-uppo/detail/${item.id}`}>
-                                                    <EyeIcon />
+
+                                        {visibleColumns.includes('kecamatan') && (
+                                            <TableCell>{item.kecamatan.nama}</TableCell>
+                                        )}
+
+                                        {visibleColumns.includes('desa') && (
+                                            <TableCell>{item.desa.nama}</TableCell>
+                                        )}
+
+                                        {visibleColumns.includes('namaPoktan') && (
+                                            <TableCell>{item.namaPoktan}</TableCell>
+                                        )}
+
+                                        {visibleColumns.includes('namaKetua') && (
+                                            <TableCell className="hidden md:table-cell">
+                                                {item.ketuaPoktan}
+                                            </TableCell>
+                                        )}
+
+                                        {visibleColumns.includes('titikKoordinat') && (
+                                            <TableCell className="hidden md:table-cell">
+                                                <Link href={googleMapsUrl} target="_blank" rel="noopener noreferrer" className='underline'>
+                                                    {item.titikKoordinat} {/* Menampilkan koordinat DMS asli */}
                                                 </Link>
-                                                <Link className='' href={`/psp/data-penerima-uppo/edit/${item.id}`}>
-                                                    <EditIcon />
-                                                </Link>
-                                                <DeletePopup onDelete={() => handleDelete(String(item.id) || "")} />
-                                            </div>
-                                        </TableCell>
-                                    )}
-                                </TableRow>
-                            ))
+                                            </TableCell>
+                                        )}
+
+                                        {visibleColumns.includes('aksi') && (
+                                            <TableCell>
+                                                <div className="flex items-center gap-4">
+                                                    <Link href={`/psp/data-penerima-uppo/detail/${item.id}`}>
+                                                        <EyeIcon />
+                                                    </Link>
+                                                    <Link href={`/psp/data-penerima-uppo/edit/${item.id}`}>
+                                                        <EditIcon />
+                                                    </Link>
+                                                    <DeletePopup onDelete={() => handleDelete(String(item.id))} />
+                                                </div>
+                                            </TableCell>
+                                        )}
+                                    </TableRow>
+                                );
+                            })
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={6} className="text-center">
@@ -633,6 +691,7 @@ const DataPenerimaUppo = () => {
                             </TableRow>
                         )}
                     </TableBody>
+
                 </Table>
             </div>
             {/* table */}
