@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import BeritaIcon from './BeritaIcon';
 import GaleriIcon from './GaleriIcon';
-import MoreIcon from './MoreIcon';
+import LoginIcon from './LoginIcon';
 
 interface MenuProps {
   link: string;
@@ -24,7 +24,7 @@ const MenuItem = ({ link, icon, name }: MenuProps) => {
         <div className="icon">
           {icon}
         </div>
-        <div className={`text-sm ${isActive ? 'text-primary' : 'text-black'}`}>{name}</div>
+        <div className={`text-xs mt-[2px] ${isActive ? 'text-primary' : 'text-black'}`}>{name}</div>
       </div>
     </Link>
   );
@@ -37,7 +37,7 @@ const NavMobile = () => {
           <MenuItem link="/beranda" icon={<BerandaIcon />} name="Beranda" />
           <MenuItem link="/berita" icon={<BeritaIcon />} name="Berita" />
           <MenuItem link="/galeri" icon={<GaleriIcon />} name="Galeri" />
-          <MenuItem link="#" icon={<MoreIcon />} name="Lainnya" />
+          <MenuItem link="/login" icon={<LoginIcon />} name="Login" />
         </div>
     </div>
   );

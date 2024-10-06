@@ -201,7 +201,7 @@ const Login = () => {
 			// Extract error message from API response
 			const errorMessage =
 				error.response?.data?.data?.[0]?.message ||
-				"Gagal menambahkan data!";
+				"Login gagal. Silakan coba lagi!";
 			Swal.fire({
 				icon: "error",
 				title: "Terjadi kesalahan!",
@@ -315,14 +315,14 @@ const Login = () => {
 								</div>
 							)}
 
-							<div className="text-left underline mt-2">
+							{/* <div className="text-left underline mt-2">
 								<Link
 									href="/admin/forget-password"
 									className="text-primary text-[14px]"
 								>
 									Lupa kata sandi?
 								</Link>
-							</div>
+							</div> */}
 							<div className="mt-5 text-center">
 								<Button
 									type="submit"

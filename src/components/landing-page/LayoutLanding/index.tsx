@@ -66,7 +66,7 @@ const Layout = (props: LayoutProps) => {
                     </div>
                     <div className="teks">
                         <div className="head font-bold text-xl md:text-3xl text-primary animate-pulse transition-all">SITANI</div>
-                        <div className="head text-sm md:text-base">Sistem Informasi Data Pertanian Lampung Timur</div>
+                        <div className="head text-xs md:text-base">Sistem Informasi Data Pertanian Lampung Timur</div>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@ const Layout = (props: LayoutProps) => {
                         <Menu link="/beranda">Beranda</Menu>
                         <Menu link="/berita">Berita</Menu>
                         <Menu link="/galeri">Galeri</Menu>
-                        <Menu link="#">
+                        {/* <Menu link="#">
                             <Popover
                                 onOpenChange={(open) => setIsOpen(open)} // Mengubah state berdasarkan status Popover
                             >
@@ -133,7 +133,7 @@ const Layout = (props: LayoutProps) => {
                                     </Link>
                                 </PopoverContent>
                             </Popover>
-                        </Menu>
+                        </Menu> */}
                         <Link href="/login" className='text-xl p-2 px-10 rounded-full bg-primary text-white'>Login</Link>
                     </div>
                 </div>
