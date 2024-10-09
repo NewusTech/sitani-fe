@@ -550,7 +550,7 @@ const EdithPegawaiPage = () => {
             {loading ? (
               <Loading />
             ) : (
-              "Edit"
+              "Simpan"
             )}
           </Button>
         </div>
