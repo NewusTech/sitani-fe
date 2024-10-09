@@ -304,11 +304,11 @@ const Prapanen = () => {
             <div className="wrap-filter left gap-1 lg:gap-2 flex justify-start items-center w-full">
               {/* filter tanggal */}
               {/* filter tanggal */}
-              <FilterTable
+              {/* <FilterTable
                 columns={columns}
                 defaultCheckedKeys={getDefaultCheckedKeys()}
                 onFilterChange={handleFilterChange}
-              />
+              /> */}
               {/* filter tahun */}
               <div className="w-fit">
                 <Select

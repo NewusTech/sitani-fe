@@ -101,6 +101,7 @@ import KepegawaianDataPensiunPrint from '@/components/Print/Kepegawaian/DataPens
 import FilterTable from '@/components/FilterTable';
 import Link from 'next/link';
 import NotFoundSearch from '@/components/SearchNotFound';
+import EditIcon from '../../../../../public/icons/EditIcon';
 
 interface Bidang {
   id: number;
@@ -110,6 +111,7 @@ interface Bidang {
 }
 
 interface PegawaiSudahPensiun {
+  id: number;
   nama: string;
   nip: number;
   tempat_lahir: string;
@@ -230,14 +232,15 @@ const DataPegawaiPagePensiun = () => {
     { label: "Pendidikan Umum", key: "pendidikan" },
     { label: "Usia", key: "usia" },
     { label: "Masa Kerja", key: "masaKerja" },
+    { label: "Aksi", key: "aksi" },
   ];
 
   const getDefaultCheckedKeys = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth <= 768) {
-        return ["no", "namaNip", "jabatan", "usia", "masaKerja"];
+        return ["no", "namaNip", "jabatan", "usia", "masaKerja", "aksi"];
       } else {
-        return ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja"];
+        return ["no", "namaNip", "pangkat", "jabatan", "diklat", "pendidikan", "usia", "masaKerja", "aksi"];
       }
     }
     return [];
@@ -507,8 +510,13 @@ const DataPegawaiPagePensiun = () => {
                   <div className="konten text-black/80 text-end">{item?.masa_kerja ? item?.masa_kerja : ' - '}</div>
                 </div>
               </div>
-              <div className="pt-2 pb-4">
+              <div className="pt-2 pb-2">
                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse my-3"></div>
+              </div>
+              <div className="flex gap-3 text-white">
+                <Link href={`/kepegawaian/data-pensiun/edit/${item.id}`} className="bg-yellow-400 rounded-full w-full py-2 text-center">
+                  Edit
+                </Link>
               </div>
             </div>
           ))
@@ -546,6 +554,9 @@ const DataPegawaiPagePensiun = () => {
               )}
               {visibleColumns.includes('masaKerja') && (
                 <TableHead rowSpan={2} className="text-primary py-1 ">Masa Kerja</TableHead>
+              )}
+              {visibleColumns.includes('aksi') && (
+                <TableHead rowSpan={2} className="text-primary py-1 ">Aksi</TableHead>
               )}
               {/* <TableHead rowSpan={2} className="text-primary py-1">Aksi</TableHead> */}
             </TableRow>
@@ -628,6 +639,15 @@ const DataPegawaiPagePensiun = () => {
                   )}
                   {visibleColumns.includes('masaKerja') && (
                     <TableCell className='py-2 lg:py-4 border border-slate-200'>{item.masa_kerja}</TableCell>
+                  )}
+                  {visibleColumns.includes('aksi') && (
+                    <TableCell className='py-2 lg:py-4 border border-slate-200'>
+                      <div className="flex items-center gap-4">
+                        <Link className='' href={`/kepegawaian/data-pensiun/edit/${item.id}`}>
+                          <EditIcon />
+                        </Link>
+                      </div>
+                    </TableCell>
                   )}
                 </TableRow>
               ))
